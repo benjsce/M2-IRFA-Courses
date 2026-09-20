@@ -36,24 +36,30 @@ Ces règles sont des contraintes du générateur, pas des conseils.
 5. **Divulgation progressive.** À l'ouverture d'une fiche : « Ce que c'est », « Forme »,
    « Ce qui la définit ». Les autres rubriques sont repliées, dans l'ordre, et se
    déplient d'un clic. L'état de pliage est mémorisé par navigateur (`localStorage`).
-6. **Les deux directions de dépendance sont des listes, jamais des graphes.** Le socle
+6. **Le socle est clos, et il le dit.** Lire le socle d'une fiche suffit : aucune de ses
+   notions ne renvoie à une notion absente de la liste (SPEC-MODELE §6). La page l'écrit,
+   parce que c'est ce qui autorise le lecteur à s'arrêter. Elle prévient aussi que le
+   niveau est le plus long chemin et non une chaîne, sans quoi le lecteur infère qu'un
+   niveau $n$ dépend du niveau $n-1$, ce qui est faux pour 16 arêtes sur 121.
+
+7. **Les deux directions de dépendance sont des listes, jamais des graphes.** Le socle
    ($D^{+}$, amont, transitif) et « sert ensuite à » ($D^{-1}$, aval, rayon 1) sont plats,
    ordonnés par niveau croissant, avec un état « déjà su » persistant par navigateur —
    **le même pour les deux, et partagé entre toutes les fiches** — et le compteur
    « n notions, k à voir ». L'asymétrie des deux rayons est voulue : l'amont doit être
    exhaustif parce qu'il faut tout savoir avant, l'aval ne peut pas l'être parce qu'une
    notion fondamentale débloque tout le cours.
-7. **Deux relations, deux traitements visuels**, jamais confondus : la dépendance est une
+8. **Deux relations, deux traitements visuels**, jamais confondus : la dépendance est une
    liste de pastilles ; l'abstraction est un arbre. Aucune arête d'abstraction n'apparaît
    dans une vue de dépendance et réciproquement.
-8. **Les ajouts sont distinguables et masquables.** Une notion `ajout` ou un paragraphe
+9. **Les ajouts sont distinguables et masquables.** Une notion `ajout` ou un paragraphe
    `[ajout]` porte une marque visible ; un interrupteur global les masque ; la projection
    qui reste est valide (A11). **Une rubrique obligatoire (SPEC-MODELE §2.1) dont tout le
    contenu est `[ajout]` ne disparaît jamais silencieusement** : elle reste, et dit que son
    contenu est masqué. Sans cela, masquer les ajouts retire « Cesse d'être valide quand » de
    la majorité des fiches, et le lecteur conclut que la notion n'a pas de limite.
-9. **Recherche instantanée** sur nom, alias, symbole, depuis toute page, sans rechargement.
-10. **Aucune animation** sauf celles qui répondent à un geste (ouvrir, plier, filtrer).
+10. **Recherche instantanée** sur nom, alias, symbole, depuis toute page, sans rechargement.
+11. **Aucune animation** sauf celles qui répondent à un geste (ouvrir, plier, filtrer).
 
 ## 3. Les pages
 
@@ -62,6 +68,8 @@ site/
   index.html                      sélecteur de cours + recherche globale
   <code>/index.html               carte du cours : principes, abstractions de niveau 1,
                                   composants sans généralisation, dette ; recherche
+  <code>/notions.html             toutes les notions du cours, par niveau, avec les cases
+                                  « déjà su » ; la seule page qui les contienne toutes
   <code>/n/<slug>.html            la fiche
   <code>/arbre.html               arbre d'abstraction pliable (replié > 2 niveaux)
   <code>/inventaire.html          la couverture de la source, pour l'audit hebdomadaire
@@ -104,6 +112,21 @@ et « sert ensuite à », et que 38 fiches sur 47 avaient deux voisins ou moins.
 Les pastilles sont des liens. Un lien vers une notion d'un autre cours porte le code du
 cours. Un lien vers un id `a-venir` est rendu comme texte barré avec la mention « à
 venir », jamais comme lien mort.
+
+### 3.2 bis La liste `<code>/notions.html`
+
+**C'est la seule page qui contienne toutes les notions du cours.** Ni la carte du cours,
+qui s'arrête au premier niveau d'abstraction, ni l'inventaire, dont certaines notions ne
+sont l'image d'aucun élément, ne les listent toutes ; l'arbre les a toutes mais sous forme
+de graphe.
+
+Elle les donne par niveau croissant — donc dans un ordre de lecture possible du cours
+entier — avec **les mêmes cases « déjà su » que les socles**, partagées, et un compteur
+global. Elle sert à la révision : « ai-je tout vu ? ».
+
+C'est une **destination, pas un passage** : on y accède depuis la carte du cours et depuis
+l'accueil, jamais au fil d'une lecture. La règle 1 tient donc : la personne ne voit la
+liste entière que lorsqu'elle la demande.
 
 ### 3.2 La carte du cours `<code>/index.html`
 

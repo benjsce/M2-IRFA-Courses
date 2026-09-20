@@ -812,17 +812,22 @@ def bloc_liste(m, ids, rel, cle, note):
     §2 règle 6."""
     if not ids:
         return ""
-    def item(y):
+    def item(y, avec_niveau=True):
         if y not in m["N"]:
             av = m["a_venir"].get(y, {})
             return ('<li><span style="width:1em"></span><span class="past venir" title="%s">%s à venir</span></li>'
                     % (esc(av.get("raison", "")), esc(y)))
         c, s = y.split("/", 1)
         cls = ' class="is-ajout"' if est_ajout(m, y) else ""
+        marq = []
+        if avec_niveau:
+            marq.append("niveau %d" % m["niveau"][y])
+        if est_ajout(m, y):
+            marq.append("ajout")
+        mq = ' <span class="marq">' + " · ".join(marq) + "</span>" if marq else ""
         return ('<li%s><input type="checkbox" data-su="%s" aria-label="déjà su : %s">'
-                '<a href="%s%s/n/%s.html">%s</a> <span class="marq">niveau %d%s</span></li>'
-                % (cls, esc(y), esc(nom_de(m, y)), rel, c, s, esc(nom_de(m, y)),
-                   m["niveau"][y], " · ajout" if est_ajout(m, y) else ""))
+                '<a href="%s%s/n/%s.html">%s</a>%s</li>'
+                % (cls, esc(y), esc(nom_de(m, y)), rel, c, s, esc(nom_de(m, y)), mq))
     out = ['<p class="note">' + note + "</p>", '<p class="compteur" data-cpt="' + cle + '"></p>']
     if len(ids) <= MAX_LISTE:
         out.append('<ul class="socle">' + "".join(item(y) for y in ids) + "</ul>")
@@ -833,7 +838,7 @@ def bloc_liste(m, ids, rel, cle, note):
         for nv in sorted(grp):
             out.append('<details class="grp" open><summary>niveau %d (%d)</summary>'
                        '<ul class="socle">%s</ul></details>'
-                       % (nv, len(grp[nv]), "".join(item(y) for y in grp[nv])))
+                       % (nv, len(grp[nv]), "".join(item(y, avec_niveau=False) for y in grp[nv])))
     return "".join(out)
 
 
@@ -915,11 +920,11 @@ def page_fiche(m, i):
                      cle="construite", compte=str(len(dep)) + (" prérequis direct" if len(dep) == 1 else " prérequis directs")))
     # 9. socle (amont transitif) puis 10. sert ensuite à (aval, rayon 1), de même forme
     so = bloc_liste(m, m["socle"][i], rel, "socle",
-                    "Amont transitif : tout ce qu’il faut savoir avant, ordonné par niveau "
-                    "croissant. Le niveau est le nombre de notions à traverser au plus long pour "
-                    "atteindre celle-ci : niveau 0, elle ne dépend de rien. C’est un ordre de "
-                    "lecture. Une case cochée le reste sur toutes les fiches, et sur celle-ci comme "
-                    "ailleurs.")
+                    "Tout ce qu’il faut savoir avant cette fiche, par niveau croissant — le "
+                    "niveau 0 ne dépend de rien. <strong>La liste est close</strong> : la lire suffit, "
+                    "aucune de ces notions ne renvoie à une notion absente d’ici. Le niveau est le plus "
+                    "long chemin, pas une chaîne : une notion peut dépendre directement d’une autre "
+                    "située plusieurs niveaux plus bas. Une case cochée le reste sur toutes les fiches.")
     if so:
         c.append(sec("Socle complet", so, cle="socle", classe="gen",
                      compte=str(len(m["socle"][i])) + (" prérequis" if len(m["socle"][i]) == 1 else " prérequis en tout")))
@@ -994,6 +999,7 @@ def page_cours(m, code):
          '<span class="pill">' + esc(str(cs["meta"].get("enseignant", ""))) + "</span>"
          '<span class="pill">' + esc(str(cs["meta"].get("annee", ""))) + "</span>"
          '<span class="pill">' + str(len(ids)) + " notions</span>"
+         '<a class="pill" href="' + rel + code + '/notions.html">toutes les notions</a>'
          '<a class="pill" href="' + rel + code + '/arbre.html">arbre d’abstraction</a>'
          '<a class="pill" href="' + rel + code + '/inventaire.html">inventaire de la source</a></div>']
 
@@ -1117,6 +1123,33 @@ def page_arbre(m, code):
     return page(m, titre="Arbre — " + code, rel=rel, fil=fil, corps="".join(c), js=js, mathjax=False)
 
 
+def page_notions(m, code):
+    """Toutes les notions du cours, par niveau, avec l'état « déjà su » partagé.
+    C'est une destination, pas un passage : on y va quand on veut justement tout voir."""
+    cs = m["cours"][code]
+    rel = "../"
+    ids = sorted(cs["notions"], key=lambda i: (m["niveau"][i], nom_de(m, i).lower()))
+    par_type = defaultdict(int)
+    for i in ids:
+        par_type[m["N"][i]["meta"]["type"]] += 1
+    c = ["<h1>Toutes les notions — " + esc(code) + "</h1>",
+         '<div class="meta"><span class="pill">' + str(len(ids)) + " notions</span>"
+         + "".join('<span class="pill">%d %s</span>' % (par_type[t], t)
+                   for t in ("principe", "abstraite", "notion") if par_type[t])
+         + '<a class="pill" href="' + rel + code + '/index.html">carte du cours</a>'
+         + '<a class="pill" href="' + rel + code + '/arbre.html">arbre</a></div>',
+         '<section class="sec"><div class="corps">'
+         + bloc_liste(m, ids, rel, "toutes",
+                      "La seule page qui les contienne toutes. Par niveau croissant, c’est aussi un "
+                      "ordre de lecture possible du cours entier : le niveau 0 ne dépend de rien. "
+                      "Les cases sont les mêmes que dans les socles — cocher ici coche partout.")
+         + "</div></section>"]
+    fil = ('<a href="' + rel + code + '/index.html">' + esc(cs["meta"].get("titre", code))
+           + "</a> › toutes les notions")
+    return page(m, titre="Toutes les notions — " + code, rel=rel, fil=fil,
+                corps="".join(c), js=JS_FICHE)
+
+
 def page_inventaire(m, code):
     rel = "../"
     ctx = {"m": m, "rel": rel}
@@ -1195,12 +1228,13 @@ def page_accueil(m):
         c.append('<li class="carte"><a class="tit" href="%s/index.html">%s</a>'
                  "<p>%s · %s</p><p>%d notions · %d exercices · dette : %d éléments d’inventaire, "
                  "%d gestes, %d liens%s</p>"
-                 '<p><a href="%s/arbre.html">arbre</a> · <a href="%s/inventaire.html">inventaire</a></p></li>'
+                 '<p><a href="%s/notions.html">toutes les notions</a> · <a href="%s/arbre.html">arbre</a>'
+                 ' · <a href="%s/inventaire.html">inventaire</a></p></li>'
                  % (code, esc(cs["meta"].get("titre", code)), esc(str(cs["meta"].get("enseignant", ""))),
                     esc(str(cs["meta"].get("annee", ""))), len(cs["notions"]), len(cs["exercices"]),
                     len(d["inventaire"]), len(d["gestes"]), len(d["liens"]),
                     (" · <strong>%d exemples minimaux manquants</strong> (faute de protocole)"
-                     % len(d["exemples"]) if d["exemples"] else ""), code, code))
+                     % len(d["exemples"]) if d["exemples"] else ""), code, code, code))
     c.append("</ul>")
     if m["rapports"]:
         c.append('<h2 class="ptag">Rapports d’ingestion</h2><ul class="pasts">')
@@ -1233,6 +1267,8 @@ def index_recherche(m):
     for code in sorted(m["cours"]):
         t = m["cours"][code]["meta"].get("titre", code)
         ent.append(dict(n="Carte du cours " + code, s=t, u=code + "/index.html", h=[code, t, "carte"]))
+        ent.append(dict(n="Toutes les notions " + code, s="la liste complète du cours",
+                        u=code + "/notions.html", h=[code, "toutes", "notions", "liste", "index"]))
         ent.append(dict(n="Arbre " + code, s="abstraction", u=code + "/arbre.html", h=[code, "arbre", "abstraction"]))
         ent.append(dict(n="Inventaire " + code, s="couverture de la source", u=code + "/inventaire.html",
                         h=[code, "inventaire", "couverture"]))
@@ -1347,6 +1383,7 @@ def main():
     for code in codes:
         ecrire(site / code / "index.html", page_cours(m, code), tailles)
         ecrire(site / code / "arbre.html", page_arbre(m, code), tailles)
+        ecrire(site / code / "notions.html", page_notions(m, code), tailles)
         ecrire(site / code / "inventaire.html", page_inventaire(m, code), tailles)
         for i in m["cours"][code]["notions"]:
             ecrire(site / code / "n" / (i.split("/", 1)[1] + ".html"), page_fiche(m, i), tailles)

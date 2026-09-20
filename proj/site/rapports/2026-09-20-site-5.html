@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="fr" data-rel="../../">
+<html lang="fr" data-rel="../">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Contrat à prime nulle · notions</title>
+<title>Rapport 2026-09-20-site-5 · notions</title>
 <script>
 (function(){try{var t=localStorage.getItem('notions.theme');if(t){document.documentElement.setAttribute('data-theme',t);}
 var a=localStorage.getItem('notions.ajouts');if(a==='0'){document.documentElement.classList.add('sans-ajouts');}}catch(e){}})();
@@ -172,10 +172,41 @@ footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);f
 <script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
-<header class="top"><div class="topin"><a class="brand" href="../../index.html">notions</a><span class="fil"><a href="../../fpp/index.html">Financial Products and Introduction to Pricing</a> › Contrat à prime nulle</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
-<main><div class="wrap"><h1>Contrat à prime nulle</h1><div class="meta"><span class="pill typ">abstraite</span><a class="pill" href="../../fpp/index.html">fpp</a><span class="pill" title="ordre de lecture : nombre de notions à traverser, au plus long, pour arriver jusqu’à celle-ci. Niveau 0 = ne dépend d’aucune autre.">niveau 3</span><span class="pill">§2.3</span><span class="pill">§3.1</span><span class="pill ajout">ajout de l’opérateur</span></div><div class="bandeau is-ajout">Cette notion n’est pas dans la source : elle a été ajoutée par l’opérateur. Le filtre « masquer les ajouts » la retire du site.</div><section class="sec " data-oblig="1"><h2>Ce que c'est</h2><div class="corps"><p class="is-ajout">Un échange qui ne coûte rien à la signature : forward, future, FRA, swap. <span class="marq marq-ajout" title="assertion de l'opérateur, absente de la source">ajout</span></p></div></section><section class="sec " data-oblig="1"><h2>Ce que les membres partagent</h2><div class="corps"><p class="is-ajout">La valeur du contrat est nulle en $t$, donc l’inconnue est le strike et non le prix : $0=\Pi_t(S_T-K)$ donne $K=\mathbb{E}^{\mathbb{Q}}[S_T]$. <span class="marq marq-ajout" title="assertion de l'opérateur, absente de la source">ajout</span></p></div></section><details class="sec gen" data-k="param"><summary><h2>Le paramètre qui les distingue</h2><span class="cnt">1 membres</span></summary><div class="corps"><p class="note">Paramètre : la nature du sous-jacent échangé — table générée depuis les membres (A9).</p><table><thead><tr><th>membre</th><th>valeur du paramètre</th></tr></thead><tbody><tr><td><a href="../../fpp/n/prix-a-terme.html">Prix à terme</a></td><td>un actif ou un taux, livré à une date</td></tr></tbody></table></div></details><details class="sec " data-k="pourquoi" data-oblig="1"><summary><h2>Pourquoi ce niveau existe</h2></summary><div class="corps"><p class="is-ajout">Le seul contenu réel de ce niveau est le déplacement de l’inconnue. Tout le reste est hérité du dessus ou instancié en dessous. <span class="marq marq-ajout" title="assertion de l'opérateur, absente de la source">ajout</span></p></div></details><details class="sec gen abs" data-k="casde"><summary><h2>Cas particulier de</h2><span class="cnt">autre relation</span></summary><div class="corps"><p class="note avert">Autre relation : ce n’est pas un prérequis. Le prérequis, c’est « construite à partir de ».</p><ul class="pasts"><li><a class="past ajout" href="../../fpp/n/contrat-derive.html">Contrat dérivé</a></li></ul><p class="note">valeur pour le paramètre du parent : aucun flux à la signature</p></div></details><details class="sec " data-k="construite"><summary><h2>Construite à partir de</h2><span class="cnt">1 prérequis direct</span></summary><div class="corps"><ul class="pasts"><li><a class="past" href="../../fpp/n/valeur-actuelle-nette.html">Valeur actuelle nette<span class="nv">n2</span></a></li></ul><p class="note">Dépendances directes seulement (A8). Le socle ci-dessous en est la fermeture : ces notions-ci s’y retrouvent, augmentées de tout ce dont elles dépendent à leur tour.</p></div></details><details class="sec gen" data-k="socle"><summary><h2>Socle complet</h2><span class="cnt">3 prérequis en tout</span></summary><div class="corps"><p class="note">Tout ce qu’il faut savoir avant cette fiche, par niveau croissant — le niveau 0 ne dépend de rien. <strong>La liste est close</strong> : la lire suffit, aucune de ces notions ne renvoie à une notion absente d’ici. Le niveau est le plus long chemin, pas une chaîne : une notion peut dépendre directement d’une autre située plusieurs niveaux plus bas. Une case cochée le reste sur toutes les fiches.</p><p class="compteur" data-cpt="socle"></p><ul class="socle"><li><input type="checkbox" data-su="fpp/convention-capitalisation" aria-label="déjà su : Convention de capitalisation"><a href="../../fpp/n/convention-capitalisation.html">Convention de capitalisation</a> <span class="marq">niveau 0</span></li><li><input type="checkbox" data-su="fpp/facteur-actualisation" aria-label="déjà su : Facteur d’actualisation"><a href="../../fpp/n/facteur-actualisation.html">Facteur d’actualisation</a> <span class="marq">niveau 1</span></li><li><input type="checkbox" data-su="fpp/valeur-actuelle-nette" aria-label="déjà su : Valeur actuelle nette"><a href="../../fpp/n/valeur-actuelle-nette.html">Valeur actuelle nette</a> <span class="marq">niveau 2</span></li></ul></div></details><details class="sec lim" data-k="limite" data-oblig="1"><summary><h2>Cesse d'être valide quand</h2></summary><div class="corps"><p class="is-ajout">Ne dit rien tant qu’on n’a pas dit ce qu’on échange ni comment on règle. <span class="marq marq-ajout" title="assertion de l'opérateur, absente de la source">ajout</span></p></div></details><details class="sec gen" data-k="membres"><summary><h2>Membres</h2><span class="cnt">1</span></summary><div class="corps"><ul class="pasts"><li><a class="past" href="../../fpp/n/prix-a-terme.html">Prix à terme</a></li></ul><p class="note">Généré : l’inverse de « cas de » (A9).</p></div></details></div></main>
+<header class="top"><div class="topin"><a class="brand" href="../index.html">notions</a><span class="fil">rapport d’ingestion › 2026-09-20-site-5</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><article class="rapport"><h1>Rapport d'ingestion — la liste des notions, et la cascade dite — 2026-09-20</h1><p>Neuvième session du jour. <strong>Aucune fiche, aucun inventaire, aucun registre touché.</strong>
+Deux demandes nées d'une même question de l'utilisateur : « où trouver l'ensemble des
+notions d'un cours sans passer par la recherche ? »</p><h2>Matériau traité</h2><p><code>tools/build.py</code>, <code>SPEC-SITE.md</code> dans ses deux copies, et les pages générées, mesurées.</p><h2>Ce qui a été mesuré avant de décider</h2><p>Combien de notions chaque page du site relie réellement :</p><div class="tablebloc"><table><thead><tr><th>page</th><th><code>fpp</code> (55 notions)</th><th><code>dup</code> (68 notions)</th></tr></thead><tbody><tr><td>carte du cours</td><td>30</td><td>46</td></tr><tr><td>arbre</td><td><strong>55 — complet</strong></td><td><strong>68 — complet</strong></td></tr><tr><td>inventaire</td><td>38</td><td>59</td></tr></tbody></table></div><p>Deux constats. L'arbre était <strong>la seule page complète</strong>, mais sous forme de canevas replié à
+deux niveaux : complet ne veut pas dire lisible. Et l'inventaire ne l'est pas : **17 notions
+de <code>fpp</code> et 9 de <code>dup</code> ne sont l'image d'aucun élément** — <code>Loterie</code>, <code>Acte</code> et
+<code>Fonction d'utilité</code> viennent toutes de L1 slide 2, qui n'a qu'une image ; les grecques
+sont absorbées dans <code>Sensibilité</code>. Ce n'est pas une violation d'A13, qui contraint les
+éléments et non les notions, mais cela signifie qu'aucune page ne listait les notions en
+tant que telles.</p><h2>Fiches créées · modifiées · Abstractions · Inventaire · Notations · Dette</h2><p>Aucune, dans tous les cas. Dette toujours <strong>nulle</strong>.</p><h2>Page créée : <code>&lt;code&gt;/notions.html</code></h2><p>Toutes les notions du cours, par niveau croissant, avec **les mêmes cases « déjà su » que
+les socles** — partagées — et un compteur global. Vérifié : 55 sur 55 pour <code>fpp</code>, 68 sur 68
+pour <code>dup</code>. Vérifié aussi que la navette fonctionne, cocher <em>Loterie</em> sur la liste fait
+passer le socle d'<code>ordre-concave</code> de « 4 à voir » à « 3 à voir ».</p><p>C'est une <strong>destination, pas un passage</strong> : on y accède depuis la carte du cours et depuis
+l'accueil, jamais au fil d'une lecture. La règle 1 tient donc — la personne ne voit la
+liste entière que lorsqu'elle la demande.</p><p>Un détail corrigé à la vérification : chaque ligne répétait « niveau 0 » alors que
+l'en-tête du groupe le disait déjà. Le niveau n'est plus affiché par ligne quand la liste
+est groupée par niveau.</p><h2>La cascade, dite sur la fiche</h2><p>La note du socle ne disait pas la chose la plus utile. Elle dit maintenant :</p><p>&gt; <strong>La liste est close</strong> : la lire suffit, aucune de ces notions ne renvoie à une notion
+&gt; absente d'ici. Le niveau est le plus long chemin, pas une chaîne : une notion peut
+&gt; dépendre directement d'une autre située plusieurs niveaux plus bas.</p><p>La première phrase autorise le lecteur à s'arrêter, ce qui est précisément ce qu'il veut
+savoir. La seconde désamorce l'inférence « niveau $n$ dépend du niveau $n-1$ », fausse pour
+<strong>16 arêtes sur 121</strong>.</p><h2>Modification de SPEC-SITE.md</h2><div class="tablebloc"><table><thead><tr><th>endroit</th><th>ajout</th></tr></thead><tbody><tr><td>§3</td><td><code>&lt;code&gt;/notions.html</code> entre dans la liste des pages</td></tr><tr><td>§3.2 bis</td><td>ce que la page apporte, pourquoi ni la carte ni l'inventaire ne la remplacent, et pourquoi elle ne viole pas la règle 1</td></tr><tr><td>règle 6 (nouvelle)</td><td><strong>le socle est clos, et il le dit</strong> — c'est une règle d'affichage, pas seulement une propriété du modèle ; la page prévient aussi que le niveau n'est pas une chaîne</td></tr></tbody></table></div><p>Les anciennes règles 6 à 10 deviennent 7 à 11. Appliqué aux deux copies, vérifiées
+identiques.</p><h2>Contradictions source</h2><p>Aucune nouvelle.</p><h2>Questions pour l'utilisateur</h2><p>1. <strong>26 notions ne sont l'image d'aucun élément d'inventaire.</strong> Ce n'est pas une faute
+   d'A13, mais l'inventaire est présenté comme « la couverture de la source » et on peut
+   croire qu'il liste tout. Recommandation : ne rien changer au modèle — c'est la nouvelle
+   page qui répond au besoin —, mais le mentionner sur la page d'inventaire pour éviter le
+   contresens.
+2. Les cinq décisions de fond restent ouvertes, listées dans le README.</p><h2>Validation</h2><p>```
+123 notions · 0 erreur · 4 avertissement(s), tous stylistiques
+dette : aucune
+notions.html : 55/55 pour fpp, 68/68 pour dup · état « déjà su » partagé, vérifié
+site : 145 pages · 2089 liens vérifiés, 0 mort
+file:// réel : la page « toutes les notions » se charge et son compteur est présent
+```</p></article></div></main>
 <footer><div class="wrap">Base de notions M2 IRFA · page générée par <code>tools/build.py</code> selon <code>SPEC-SITE.md</code> · les rubriques dérivées (socle, membres, sert ensuite à, niveau) sont calculées au build, jamais écrites dans les fiches (A9).</div></footer>
-<script src="../../search-index.js"></script>
+<script src="../search-index.js"></script>
 <script>
 var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
         s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
@@ -249,33 +280,6 @@ document.addEventListener('DOMContentLoaded',function(){
   document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
   document.addEventListener('keydown',function(e){
     if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
-});
-</script>
-<script>
-document.addEventListener('DOMContentLoaded',function(){
-  /* pliage mémorisé par rubrique (règle 5) */
-  document.querySelectorAll('details.sec[data-k]').forEach(function(d){
-    var k='notions.pli.'+d.getAttribute('data-k');
-    var v=LS.g(k,null);if(v!==null)d.open=(v==='1');
-    d.addEventListener('toggle',function(){LS.s(k,d.open?'1':'0')});});
-  /* amont et aval : même état « déjà su », un compteur par liste (règle 6) */
-  var su={};try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}
-  function compte(){
-    document.querySelectorAll('.sec').forEach(function(s){
-      var cpt=s.querySelector('[data-cpt]');if(!cpt)return;
-      var l=s.querySelectorAll('input[data-su]'),k=0;
-      l.forEach(function(c){if(c.checked)k++});
-      cpt.textContent=l.length+' notion'+(l.length>1?'s':'')+', '+(l.length-k)+' à voir';});}
-  document.querySelectorAll('input[data-su]').forEach(function(c){
-    var id=c.getAttribute('data-su');c.checked=!!su[id];
-    c.closest('li').classList.toggle('su',c.checked);
-    c.addEventListener('change',function(){
-      su[id]=c.checked;if(!c.checked)delete su[id];
-      try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}
-      document.querySelectorAll('input[data-su="'+id+'"]').forEach(function(o){
-        o.checked=c.checked;o.closest('li').classList.toggle('su',c.checked);});
-      compte();});});
-  compte();
 });
 </script>
 </body>
