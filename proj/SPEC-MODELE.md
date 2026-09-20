@@ -255,7 +255,8 @@ l'incrémental** : ajouter une notion avec ses seules arêtes sortantes ne peut 
 aucune notion existante, sauf A5 et A8 qui sont recalculés.
 
 **A10 — Acyclicité entre cours. [E]**
-Les arêtes de $D$ entre cours sont autorisées (id préfixé, p. ex. `cs/lemme-ito`). Le graphe
+Les arêtes de $D$ entre cours sont autorisées (id préfixé : une fiche de `fpp` pourrait
+dépendre de `dup/loterie`). Le graphe
 quotient sur $\mathcal C$ induit par $D$ est acyclique. Les arêtes de $A$ entre cours sont
 interdites : une abstraction appartient à un cours. *Empêche* : deux cours qui se
 présupposent.
