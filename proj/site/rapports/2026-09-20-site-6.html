@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="fr" data-rel="../../">
+<html lang="fr" data-rel="../">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Volatilité · notions</title>
+<title>Rapport 2026-09-20-site-6 · notions</title>
 <script>
 /* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
    localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
@@ -203,10 +203,65 @@ footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);f
 <script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
-<header class="top"><div class="topin"><a class="brand" href="../../index.html">notions</a><span class="fil"><a href="../../fpp/index.html">Financial Products and Introduction to Pricing</a> › Volatilité</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
-<main><div class="wrap"><h1>Volatilité</h1><div class="meta"><span class="pill sym">$\sigma$, $\sigma_A$</span><a class="pill typ" href="../../aide.html" data-v="types" title="un objet du cours, celui qu’on manipule">notion</a><a class="pill" href="../../fpp/index.html">fpp</a><a class="pill" href="../../aide.html" data-v="niveau" title="ordre de lecture : nombre de notions à traverser, au plus long, pour arriver jusqu’à celle-ci. Niveau 0 = ne dépend d’aucune autre.">niveau 0</a><span class="pill">Déf. 2</span></div><p class="note">aussi : volatility</p><section class="sec " data-oblig="1"><h2>Ce que c'est</h2><div class="corps"><p>L’écart type du rendement d’un actif. <span class="marq" title="référence à la source">[Déf. 2]</span></p></div></section><section class="sec " data-oblig="1"><h2>Forme</h2><div class="corps"><p>$$\sigma_E=\mathrm{stdev}(\tilde\pi_E)=l\,\sigma_A$$ <span class="marq" title="référence à la source">[§1.3]</span></p></div></section><section class="sec " data-oblig="1"><h2>Ce qui la définit</h2><div class="corps"><p>C’est la seule mesure de dispersion que le cours retient, et elle est amplifiée par le levier exactement comme la prime. <span class="marq" title="référence à la source">[Déf. 2, §1.3]</span></p></div></section><details class="sec gen" data-k="sert"><summary><h2>Sert ensuite à</h2><span class="cnt">1</span></summary><div class="corps"><p class="note">Ce que cette notion permet d’aborder juste après. Seulement l’étape suivante, pas toute la suite : une notion très en amont ouvrirait sinon la moitié du cours.</p><p class="compteur" data-cpt="aval"></p><ul class="socle"><li><input type="checkbox" data-su="fpp/echelonnement-de-la-variance" aria-label="déjà su : Échelonnement de la variance"><a href="../../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance</a> <span class="marq">niveau 1</span></li></ul></div></details><details class="sec " data-k="exemple" data-oblig="1"><summary><h2>Exemple minimal</h2></summary><div class="corps"><p class="is-ajout">Une volatilité d’actif de 6 % avec un levier de 3,33 donne 20 % sur les capitaux propres. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div></details><details class="sec " data-k="geste" data-oblig="1"><summary><h2>Geste de calcul type</h2></summary><div class="corps"><p>En temps continu, la volatilité porte une dimension $T^{-1/2}$ : une volatilité annuelle de 20 % vaut $20/\sqrt{12}=5{,}8\,\%$ par mois. <span class="marq" title="référence à la source">[§5.3]</span></p></div></details><details class="sec lim" data-k="limite" data-oblig="1"><summary><h2>Cesse d'être valide quand</h2></summary><div class="corps"><p class="is-ajout">Elle ne décrit complètement le risque que si le rendement est gaussien ; sinon elle ignore l’asymétrie et les queues. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div></details></div></main>
-<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../../aide.html">comment lire ce site</a> · <a href="../../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
-<script src="../../search-index.js"></script>
+<header class="top"><div class="topin"><a class="brand" href="../index.html">notions</a><span class="fil">rapport d’ingestion › 2026-09-20-site-6</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><article class="rapport"><h1>Rapport — site — 2026-09-20 (6)</h1><p>Deux demandes de l'utilisateur, avant l'arrivée de la suite du cours fpp :</p><p>1. le thème ne se propage pas d'une page à l'autre ;
+2. le site est incompréhensible pour quelqu'un qui n'a pas construit la base.</p><p>Aucune fiche n'a été touchée. Aucune donnée de <code>courses/</code> n'a été modifiée. Tout le
+travail est dans <code>tools/build.py</code> et dans <code>SPEC-SITE.md</code>.</p><h2>Matériau traité</h2><p>Aucun. Séance de site.</p><h2>1. Le thème — cause mesurée, et ce qu'elle révèle de pire</h2><p>Le code du thème était correct : <code>localStorage</code>, écriture au clic, lecture avant le
+rendu. La cause est ailleurs.</p><p><strong>Mesure.</strong> Le navigateur par défaut de la machine est Firefox
+(<code>LSHandlerRoleAll = org.mozilla.firefox</code>). Dans son profil :</p><p>```
+storage/default/file++++Users+…+site+dup+n+accroissement-de-risque.html/ls/data.sqlite
+storage/default/file++++Users+…+site+dup+n+aversion-au-risque.html/ls/data.sqlite
+… 18 dossiers, un par fiche visitée
+```</p><p>Ouvert en <code>file://</code>, <strong>Firefox donne à chaque document son propre <code>localStorage</code>.</strong> Le
+thème ne pouvait pas traverser. Le pliage non plus. Et les cases « déjà su » non plus —
+ce qui rend fausse la phrase que j'avais écrite sur 123 pages :</p><p>&gt; Une case cochée le reste sur toutes les fiches.</p><p>Ainsi que la règle 7 de SPEC-SITE (« le même pour les deux, et partagé entre toutes les
+fiches ») et §3.2 bis (« cocher ici coche partout »). Trois affirmations du site et deux
+de la spécification étaient démenties par le navigateur de l'utilisateur.</p><p><strong>Correction.</strong> L'état voyage dans le fragment de l'URL, le seul canal qui traverse en
+<code>file://</code> sans serveur. Chaque lien interne de chaque page le porte :</p><p>```
+#t:d~a:0~p:1-0--1----------~s:10a5.AAAAAAAAAAAAAAQ~v:socle
+```</p><ul><li><code>t</code> thème, <code>a</code> ajouts, <code>p</code> pliage (un caractère par clé de <code>CLES_PLI</code>, par position),</li><li><code>s</code> déjà su (un bit par notion, six bits par caractère), <code>v</code> ancre.</li><li><strong>Le tampon <code>10a5</code></strong> est calculé sur la liste des identifiants. Dès qu'une notion entre</li><li>au dépôt, il change ; un lien copié la semaine d'avant <strong>perd</strong> ses cases au lieu d'en</li><li>cocher de mauvaises. Perdre est récupérable, mentir ne l'est pas.</li><li><code>localStorage</code> reste, en secours, pour une page rouverte sans fragment.</li><li><code>history.replaceState</code> garde l'adresse à jour (recharger et copier le lien conservent</li><li>l'état). Il peut échouer en <code>file://</code> : c'est rattrapé, les liens suffisent.</li></ul><p><strong>Garde-fou.</strong> <code>sec()</code> refuse au build une clé de pliage absente de <code>CLES_PLI</code> : sans
+cela, une rubrique nouvelle cesserait silencieusement de transmettre son état. Le
+garde-fou a immédiatement servi : <code>page_exercice</code> fabriquait ses clés avec
+<code>titre[:6].lower()</code> (<code>soluti</code>, <code>contra</code>). Elles sont désormais explicites
+(<code>soluoff</code>, <code>revele</code>, <code>contra</code>), donc stables si un titre change.</p><p><strong>Vérification.</strong> Sur <code>portage</code> : bascule du thème, ouverture de « Sert ensuite à »,
+case cochée sur <code>fpp/forward-action</code> ; navigation vers <code>forward-action</code> ; à l'arrivée
+<code>data-theme = dark</code>, <code>ETAT.pli('sert') = true</code>, <code>ETAT.su('fpp/forward-action') = true</code>.
+Les liens des cartes de l'arbre, créés en JavaScript après le premier passage, reçoivent
+l'état par un <code>ETAT.propager()</code> posé à la fin de <code>creerCartes()</code>.</p><h2>2. Le site pour quelqu'un qui arrive</h2><p><strong>Mesure, avant.</strong> Texte visible des 151 pages produites, scripts et styles retirés :</p><div class="tablebloc"><table><thead><tr><th>terme</th><th>occurrences</th><th>pages</th></tr></thead><tbody><tr><td>axiome A1–A13</td><td>405</td><td><strong>151 / 151</strong></td></tr><tr><td><code>SPEC-…</code></td><td>183</td><td><strong>151 / 151</strong></td></tr><tr><td>« au build »</td><td>153</td><td><strong>151 / 151</strong></td></tr><tr><td>« généré », « calculé au »</td><td>255</td><td><strong>151 / 151</strong></td></tr><tr><td>transitif / fermeture</td><td>167</td><td>114</td></tr><tr><td>« rayon 1 »</td><td>55</td><td>54</td></tr><tr><td>« l'opérateur »</td><td>27</td><td>14</td></tr></tbody></table></div><p><strong>151 pages sur 151</strong> portaient au moins un mot qui ne veut rien dire pour qui n'a pas
+construit cette base. Le pied de page à lui seul en mettait trois sur chacune.</p><h3>Ce qui a été fait</h3><p><strong>a. Une page <code>aide.html</code>,</strong> atteignable depuis l'en-tête et le pied de page de toutes
+les pages. Elle définit, une fois : le niveau (avec le piège de la chaîne), le socle et
+pourquoi il est clos, « cas particulier de » et pourquoi ce n'est pas un prérequis
+(tableau comparatif des deux relations), les trois types de fiches, les ajouts et le
+filtre, ce que le site retient du lecteur, et — dernière section — comment la base est
+faite. Ses ancres sont figées : d'autres pages pointent dessus.</p><p><strong>b. Les notes générées ne citent plus le modèle.</strong> Exemples :</p><div class="tablebloc"><table><thead><tr><th>avant</th><th>après</th></tr></thead><tbody><tr><td>« Aval à rayon 1 : ce que cette notion ouvre immédiatement. Généré, l'inverse de « construite à partir de » (A9). Jamais transitif : une notion fondamentale débloquerait tout le cours. »</td><td>« Ce que cette notion permet d'aborder juste après. Seulement l'étape suivante, pas toute la suite : une notion très en amont ouvrirait sinon la moitié du cours. »</td></tr><tr><td>« Dépendances directes seulement (A8). Le socle ci-dessous en est la fermeture… »</td><td>« Seulement ce dont cette fiche dépend directement. Le socle, juste en dessous, reprend ces notions-ci et y ajoute tout ce dont elles dépendent à leur tour. »</td></tr><tr><td>« Paramètre : X — table générée depuis les membres (A9). »</td><td>« Ce qui change d'un cas à l'autre : X. »</td></tr><tr><td>« Généré : l'inverse de « cas de » (A9). »</td><td>« Les notions qui sont des cas particuliers de celle-ci. »</td></tr><tr><td>« Un principe n'est pas une généralisation : cette arête se lit « découle directement de » (A4). »</td><td>« Un principe n'est pas une famille : cette notion en découle directement. »</td></tr><tr><td>« Notions sans généralisation : ce n'est pas un oubli, c'est une information (règle 2 de SPEC-SITE §3.3). »</td><td>« Celles que le cours ne range sous aucune famille plus générale. Ce n'est pas un oubli, c'est une information sur le cours. »</td></tr><tr><td>pied de page : « page générée par <code>tools/build.py</code> selon <code>SPEC-SITE.md</code> · les rubriques dérivées … sont calculées au build, jamais écrites dans les fiches (A9). »</td><td>« une notion par page · comment lire ce site · comment il est fait »</td></tr></tbody></table></div><p>Les <strong>intitulés de rubriques sont inchangés</strong> (règle 3 : mêmes intitulés partout).</p><p><strong>c. Les pastilles deviennent des portes.</strong> Le type, le niveau et la marque « ajout »
+d'une fiche sont maintenant des liens vers la section correspondante de <code>aide.html</code>.</p><p><strong>d. Un bloc d'entrée</strong> en tête de l'accueil et de chaque carte de cours : ce qu'est le
+site en une phrase, puis quatre chemins selon ce que la personne cherche (découvrir,
+tout voir, commencer à lire, chercher un terme). La carte du cours annonce combien de
+notions ne dépendent d'aucune autre.</p><p><strong>e. La fabrication est séparée de la lecture.</strong> Dette, fautes de protocole, inventaire
+et rapports quittent le corps de l'accueil et des cartes de cours pour un bloc replié,
+en bas, intitulé « Suivi de la rédaction — … rien ici ne concerne la lecture du cours ».
+Rien n'est supprimé : l'inventaire reste une page entière, et il dit désormais en
+première ligne qu'il ne sert pas à apprendre.</p><p><strong>Mesure, après.</strong> 24 pages sur 147 portent encore un de ces termes : 11 rapports
+d'ingestion (documents d'opérateur par nature), <code>aide.html</code> (qui les nomme exprès dans
+sa section « fabrication »), et <strong>12 fiches où le mot est du contenu de cours</strong> — la
+<em>dette</em> d'un bilan, l'<em>opérateur</em> de prix, une relation <em>transitive</em>. Zéro texte de
+générateur.</p><h2>Fiches créées</h2><p>Aucune.</p><h2>Fiches modifiées</h2><p>Aucune. Aucun fichier de <code>courses/</code> n'a été lu autrement qu'en lecture.</p><h2>Abstractions créées / insérées</h2><p>Aucune.</p><h2>Dette</h2><p>Inchangée : 0 lien à venir, 0 geste à venir, 0 élément d'inventaire à venir, 0 exemple
+minimal manquant.</p><h2>Contradictions source</h2><p>Aucune nouvelle. Les neuf déjà documentées restent non arbitrées.</p><h2>Incident</h2><p>En appliquant un correctif, un <code>Path.write_text(..., newline="\n")</code> mal échappé dans un
+script jetable a levé <code>ValueError: illegal newline value</code> — mais <code>io.open(mode="w")</code>
+tronque le fichier <strong>avant</strong> de valider l'argument. <code>tools/build.py</code> s'est retrouvé à
+zéro octet. Reconstruit depuis <code>git show HEAD:proj/tools/build.py</code>, puis toutes les
+modifications réappliquées en une passe par un script qui compile le résultat avant de
+l'écrire, et qui l'écrit par <code>os.replace</code> sur un fichier temporaire. Aucune perte : le
+dernier commit était à jour. Tous les scripts d'édition de ce dépôt devraient écrire
+ainsi.</p><h2>Questions pour l'utilisateur</h2><ul><li>Le fragment d'URL est visible dans la barre d'adresse (<code>…portage.html#t:d~p:…~s:10a5.AAAQ</code>),</li><li>une cinquantaine de caractères. C'est le prix de l'état partagé en <code>file://</code>. Si cela</li><li>gêne, la seule alternative sans serveur est de renoncer au partage des cases cochées</li><li>entre pages ; je recommande de garder le fragment.</li><li><code>aide.html</code> fait une page longue. Faut-il en détacher « comment cette base est faite »</li><li>dans une page séparée ? Je recommande de la laisser : elle est en dernier, et qui ne</li><li>la cherche pas ne la rencontre pas.</li><li>Les quatre documents qui font loi existent toujours en double (racine et <code>proj/</code>) et</li><li>sont synchronisés à la main. <strong>Troisième fois que je le signale.</strong> Je recommande soit</li><li>une seule copie, soit une vérification d'identité dans <code>validate.py</code>.</li></ul><h2>Validation</h2><p>```
+123 notions · 0 erreur · 4 avertissement(s) · dette : aucune
+test_layout.py : 4 arbres × 1000 configurations × 3 jeux de hauteurs, ok
+148 fichiers · la plus lourde : site/dup/inventaire.html (47 ko) · limite 300 ko
+2611 liens internes · 0 mort
+```</p><p>Les 4 avertissements sont ceux d'avant la séance (A8 sur <code>fpp/feynman-kac</code>, trois
+« Ce que c'est » en plusieurs phrases).</p></article></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../aide.html">comment lire ce site</a> · <a href="../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../search-index.js"></script>
 <script>
 var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
         s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
@@ -349,31 +404,6 @@ document.addEventListener('DOMContentLoaded',function(){
   document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
   document.addEventListener('keydown',function(e){
     if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
-});
-</script>
-<script>
-document.addEventListener('DOMContentLoaded',function(){
-  /* pliage mémorisé par rubrique (règle 5), et transporté d'une page à l'autre */
-  document.querySelectorAll('details.sec[data-k]').forEach(function(d){
-    var k=d.getAttribute('data-k'),v=ETAT.pli(k);
-    if(v!==null)d.open=v;
-    d.addEventListener('toggle',function(){ETAT.setPli(k,d.open)});});
-  /* amont et aval : même état « déjà su », un compteur par liste (règle 7) */
-  function compte(){
-    document.querySelectorAll('.sec').forEach(function(s){
-      var cpt=s.querySelector('[data-cpt]');if(!cpt)return;
-      var l=s.querySelectorAll('input[data-su]'),k=0;
-      l.forEach(function(c){if(c.checked)k++});
-      cpt.textContent=l.length+' notion'+(l.length>1?'s':'')+', '+(l.length-k)+' à voir';});}
-  document.querySelectorAll('input[data-su]').forEach(function(c){
-    var id=c.getAttribute('data-su');c.checked=ETAT.su(id);
-    c.closest('li').classList.toggle('su',c.checked);
-    c.addEventListener('change',function(){
-      ETAT.setSu(id,c.checked);
-      document.querySelectorAll('input[data-su="'+id+'"]').forEach(function(o){
-        o.checked=c.checked;o.closest('li').classList.toggle('su',c.checked);});
-      compte();});});
-  compte();
 });
 </script>
 </body>

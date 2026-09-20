@@ -5,8 +5,22 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Aversion absolue décroissante · notions</title>
 <script>
-(function(){try{var t=localStorage.getItem('notions.theme');if(t){document.documentElement.setAttribute('data-theme',t);}
-var a=localStorage.getItem('notions.ajouts');if(a==='0'){document.documentElement.classList.add('sans-ajouts');}}catch(e){}})();
+/* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
+   localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
+   cases « déjà su » ne peuvent donc pas traverser les pages par là. Ils voyagent dans
+   le fragment de l'URL, que tous les liens internes portent ; localStorage ne sert plus
+   que de mémoire locale, pour la page qu'on rouvre sans fragment.
+   Ce script s'exécute avant le rendu : sinon le thème clignote à chaque page. */
+(function(){
+var H={},h=(location.hash||'').replace(/^#/,'');
+h.split('~').forEach(function(p){var i=p.indexOf(':');if(i>0)H[p.slice(0,i)]=p.slice(i+1)});
+window.ETAT_URL=H;
+function loc(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+var t=H.t?(H.t==='d'?'dark':'light'):loc('notions.theme','');
+if(t)document.documentElement.setAttribute('data-theme',t);
+var a=(H.a!==undefined)?H.a:loc('notions.ajouts','1');
+if(a==='0')document.documentElement.classList.add('sans-ajouts');
+})();
 </script>
 <style>
 :root{
@@ -46,6 +60,7 @@ header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
 .btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
   border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
 .btn:hover{border-color:var(--acc)}
+a.btn{text-decoration:none}
 .btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
 .rech{position:relative;flex:0 1 16rem;min-width:9rem}
 .rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
@@ -140,6 +155,22 @@ hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
 .carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
 .carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
 .dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.vise{animation:vise 1.6s ease}
+@keyframes vise{from{background:var(--acc2)}to{background:transparent}}
+
+/* ---- orientation : ce qui s'adresse au lecteur qui arrive ---- */
+.entree{border:1px solid var(--li2);border-left:3px solid var(--acc);border-radius:var(--r);
+  padding:.7rem .9rem;margin:.8rem 0 1.4rem;background:var(--card)}
+.entree p{margin:.3rem 0;font-size:.92rem}
+.entree .quoi{font-size:1.02rem}
+.entree ul{margin:.5rem 0 .2rem;padding-left:1.1rem;font-family:var(--sans);font-size:.88rem}
+.entree li{margin:.2rem 0}
+.chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
+.chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
+.aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
+/* l'en-tête est collant : une ancre visée ne doit pas passer dessous */
+[id]{scroll-margin-top:4.2rem}
+.aide p,.aide ul,.aide table{max-width:42rem}
 .dette ul{margin:.3rem 0 0}
 footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
 
@@ -172,13 +203,76 @@ footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);f
 <script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
-<header class="top"><div class="topin"><a class="brand" href="../../index.html">notions</a><span class="fil"><a href="../../dup/index.html">Decision under Uncertainty and Portfolio Analysis</a> › Aversion absolue décroissante</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
-<main><div class="wrap"><h1>Aversion absolue décroissante</h1><div class="meta"><span class="pill typ">notion</span><a class="pill" href="../../dup/index.html">dup</a><span class="pill" title="ordre de lecture : nombre de notions à traverser, au plus long, pour arriver jusqu’à celle-ci. Niveau 0 = ne dépend d’aucune autre.">niveau 2</span><span class="pill">L1 slide 34</span></div><p class="note">aussi : DARA, decreasing absolute risk aversion</p><section class="sec " data-oblig="1"><h2>Ce que c'est</h2><div class="corps"><p>L’hypothèse, largement acceptée, que l’on devient moins averse au risque à mesure qu’on s’enrichit. <span class="marq" title="référence à la source">[L1 slide 34]</span></p></div></section><section class="sec " data-oblig="1"><h2>Forme</h2><div class="corps"><p>$$-\dfrac{u'''(z)}{u''(z)}\ \ge\ -\dfrac{u''(z)}{u'(z)}\qquad\text{pour tout }z$$ <span class="marq" title="référence à la source">[L1 slide 34]</span></p></div></section><section class="sec " data-oblig="1"><h2>Ce qui la définit</h2><div class="corps"><p>C’est exactement l’équivalent de « la prime de risque décroît avec la richesse initiale », et donc de « $A(w_0)$ décroît avec $w_0$ ». <span class="marq" title="référence à la source">[L1 slide 34]</span></p><p class="is-ajout">La condition fait apparaître la dérivée troisième : la décroissance de l’aversion exige de la prudence. <span class="marq marq-ajout" title="assertion de l'opérateur, absente de la source">ajout</span></p></div></section><details class="sec " data-k="construite"><summary><h2>Construite à partir de</h2><span class="cnt">1 prérequis direct</span></summary><div class="corps"><ul class="pasts"><li><a class="past" href="../../dup/n/aversion-absolue-arrow-pratt.html">Aversion absolue d’Arrow-Pratt<span class="nv">n1</span></a></li></ul><p class="note">Dépendances directes seulement (A8). Le socle ci-dessous en est la fermeture : ces notions-ci s’y retrouvent, augmentées de tout ce dont elles dépendent à leur tour.</p></div></details><details class="sec gen" data-k="socle"><summary><h2>Socle complet</h2><span class="cnt">2 prérequis en tout</span></summary><div class="corps"><p class="note">Tout ce qu’il faut savoir avant cette fiche, par niveau croissant — le niveau 0 ne dépend de rien. <strong>La liste est close</strong> : la lire suffit, aucune de ces notions ne renvoie à une notion absente d’ici. Une case cochée le reste sur toutes les fiches.</p><p class="compteur" data-cpt="socle"></p><ul class="socle"><li><input type="checkbox" data-su="dup/fonction-utilite" aria-label="déjà su : Fonction d’utilité"><a href="../../dup/n/fonction-utilite.html">Fonction d’utilité</a> <span class="marq">niveau 0</span></li><li><input type="checkbox" data-su="dup/aversion-absolue-arrow-pratt" aria-label="déjà su : Aversion absolue d’Arrow-Pratt"><a href="../../dup/n/aversion-absolue-arrow-pratt.html">Aversion absolue d’Arrow-Pratt</a> <span class="marq">niveau 1</span></li></ul></div></details><details class="sec " data-k="exemple" data-oblig="1"><summary><h2>Exemple minimal</h2></summary><div class="corps"><p>L’utilité logarithmique est DARA : $A(z)=1/z$ passe de $0{,}01$ à 100 à $0{,}001$ à 1000. <span class="marq" title="référence à la source">[L1 slide 35]</span></p></div></details><details class="sec " data-k="geste" data-oblig="1"><summary><h2>Geste de calcul type</h2></summary><div class="corps"><p>Vérifier le signe de $A'(z)$. Si l’utilité est CRRA, la propriété est acquise : $A(z)=\gamma/z$ décroît toujours. <span class="marq" title="référence à la source">[L1 slide 35]</span></p></div></details><details class="sec lim" data-k="limite" data-oblig="1"><summary><h2>Cesse d'être valide quand</h2></summary><div class="corps"><p>L’utilité quadratique la viole : son aversion absolue $A(z)=(c-z)^{-1}$ croît avec la richesse. <span class="marq" title="référence à la source">[L1 slide 35, L1 slide 15]</span></p></div></details></div></main>
-<footer><div class="wrap">Base de notions M2 IRFA · page générée par <code>tools/build.py</code> selon <code>SPEC-SITE.md</code> · les rubriques dérivées (socle, membres, sert ensuite à, niveau) sont calculées au build, jamais écrites dans les fiches (A9).</div></footer>
+<header class="top"><div class="topin"><a class="brand" href="../../index.html">notions</a><span class="fil"><a href="../../dup/index.html">Decision under Uncertainty and Portfolio Analysis</a> › Aversion absolue décroissante</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><h1>Aversion absolue décroissante</h1><div class="meta"><a class="pill typ" href="../../aide.html" data-v="types" title="un objet du cours, celui qu’on manipule">notion</a><a class="pill" href="../../dup/index.html">dup</a><a class="pill" href="../../aide.html" data-v="niveau" title="ordre de lecture : nombre de notions à traverser, au plus long, pour arriver jusqu’à celle-ci. Niveau 0 = ne dépend d’aucune autre.">niveau 2</a><span class="pill">L1 slide 34</span></div><p class="note">aussi : DARA, decreasing absolute risk aversion</p><section class="sec " data-oblig="1"><h2>Ce que c'est</h2><div class="corps"><p>L’hypothèse, largement acceptée, que l’on devient moins averse au risque à mesure qu’on s’enrichit. <span class="marq" title="référence à la source">[L1 slide 34]</span></p></div></section><section class="sec " data-oblig="1"><h2>Forme</h2><div class="corps"><p>$$-\dfrac{u'''(z)}{u''(z)}\ \ge\ -\dfrac{u''(z)}{u'(z)}\qquad\text{pour tout }z$$ <span class="marq" title="référence à la source">[L1 slide 34]</span></p></div></section><section class="sec " data-oblig="1"><h2>Ce qui la définit</h2><div class="corps"><p>C’est exactement l’équivalent de « la prime de risque décroît avec la richesse initiale », et donc de « $A(w_0)$ décroît avec $w_0$ ». <span class="marq" title="référence à la source">[L1 slide 34]</span></p><p class="is-ajout">La condition fait apparaître la dérivée troisième : la décroissance de l’aversion exige de la prudence. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div></section><details class="sec " data-k="construite"><summary><h2>Construite à partir de</h2><span class="cnt">1 prérequis direct</span></summary><div class="corps"><ul class="pasts"><li><a class="past" href="../../dup/n/aversion-absolue-arrow-pratt.html">Aversion absolue d’Arrow-Pratt<span class="nv">n1</span></a></li></ul><p class="note">Seulement ce dont cette fiche dépend directement. Le socle, juste en dessous, reprend ces notions-ci et y ajoute tout ce dont elles dépendent à leur tour.</p></div></details><details class="sec gen" data-k="socle"><summary><h2>Socle complet</h2><span class="cnt">2 prérequis en tout</span></summary><div class="corps"><p class="note">Tout ce qu’il faut avoir lu avant cette fiche, du plus élémentaire au plus construit. <strong>La liste est complète</strong> : la lire suffit, aucune de ces notions n’en appelle une autre qui manquerait ici. Cocher une case la barre sur toutes les pages. (<a href="../../aide.html" data-v="socle">en savoir plus</a>)</p><p class="compteur" data-cpt="socle"></p><ul class="socle"><li><input type="checkbox" data-su="dup/fonction-utilite" aria-label="déjà su : Fonction d’utilité"><a href="../../dup/n/fonction-utilite.html">Fonction d’utilité</a> <span class="marq">niveau 0</span></li><li><input type="checkbox" data-su="dup/aversion-absolue-arrow-pratt" aria-label="déjà su : Aversion absolue d’Arrow-Pratt"><a href="../../dup/n/aversion-absolue-arrow-pratt.html">Aversion absolue d’Arrow-Pratt</a> <span class="marq">niveau 1</span></li></ul></div></details><details class="sec " data-k="exemple" data-oblig="1"><summary><h2>Exemple minimal</h2></summary><div class="corps"><p>L’utilité logarithmique est DARA : $A(z)=1/z$ passe de $0{,}01$ à 100 à $0{,}001$ à 1000. <span class="marq" title="référence à la source">[L1 slide 35]</span></p></div></details><details class="sec " data-k="geste" data-oblig="1"><summary><h2>Geste de calcul type</h2></summary><div class="corps"><p>Vérifier le signe de $A'(z)$. Si l’utilité est CRRA, la propriété est acquise : $A(z)=\gamma/z$ décroît toujours. <span class="marq" title="référence à la source">[L1 slide 35]</span></p></div></details><details class="sec lim" data-k="limite" data-oblig="1"><summary><h2>Cesse d'être valide quand</h2></summary><div class="corps"><p>L’utilité quadratique la viole : son aversion absolue $A(z)=(c-z)^{-1}$ croît avec la richesse. <span class="marq" title="référence à la source">[L1 slide 35, L1 slide 15]</span></p></div></details></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../../aide.html">comment lire ce site</a> · <a href="../../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
 <script src="../../search-index.js"></script>
 <script>
 var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
         s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- l'état qui traverse les pages ----------------------------------------
+   Voir le commentaire de l'en-tête : en file://, seul le fragment traverse.
+   Forme du fragment :  #t:d~a:0~p:1-0--1...~s:<tampon>.<bits>~v:<ancre>
+     t  thème      d | l            (absent : celui du système)
+     a  ajouts     0                (absent : montrés)
+     p  pliage     un caractère par clé de CLES_PLI : 1 ouvert, 0 fermé, - inconnu
+     s  déjà su    un bit par notion, six bits par caractère, précédé d'un tampon
+     v  ancre      l'élément vers lequel défiler à l'arrivée
+   Le tampon est calculé sur la liste des identifiants : dès qu'une notion entre dans
+   le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
+   cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
+var ETAT=(function(){
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees"],TAMPON='10a5',
+    A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
+var pli={},su={};
+if(typeof H.p==='string'){
+  for(var i=0;i<CLES.length&&i<H.p.length;i++){var c=H.p.charAt(i);
+    if(c==='0'||c==='1')pli[CLES[i]]=(c==='1');}
+}else{
+  CLES.forEach(function(k){var v=LS.g('notions.pli.'+k,null);if(v!==null)pli[k]=(v==='1')});
+}
+function decode(t){var o={},q=t.indexOf('.');
+  if(q<0||t.slice(0,q)!==TAMPON)return o;
+  var b=t.slice(q+1);
+  for(var i=0;i<b.length;i++){var v=A64.indexOf(b.charAt(i));if(v<0)continue;
+    for(var j=0;j<6;j++){if(v&(1<<j)){var k=i*6+j;if(k<IDS.length)o[IDS[k]]=1}}}
+  return o;}
+function encode(){var o='';
+  for(var i=0;i<IDS.length;i+=6){var v=0;
+    for(var j=0;j<6;j++){if(su[IDS[i+j]])v|=1<<j}
+    o+=A64.charAt(v);}
+  return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
+if(typeof H.s==='string'){su=decode(H.s)}
+else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
+function frag(ancre){var p=[];
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t)p.push('t:'+(t==='dark'?'d':'l'));
+  if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
+  var q='';CLES.forEach(function(k){q+=(pli[k]===undefined?'-':(pli[k]?'1':'0'))});
+  if(/[01]/.test(q))p.push('p:'+q);
+  var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
+  if(ancre)p.push('v:'+ancre);
+  return p.length?'#'+p.join('~'):'';}
+function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
+function propager(){var f=frag();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';if(!interne(h))return;
+    var v=a.getAttribute('data-v');
+    a.setAttribute('href',h.split('#')[0]+(v?frag(v):f));});
+  /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
+     Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
+  try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
+  try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}}
+return{pli:function(k){return pli[k]===undefined?null:pli[k]},
+       setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
+       su:function(id){return !!su[id]},
+       setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
+       lien:function(u,v){return u+frag(v)},
+       ancre:function(){return H.v||''},
+       propager:propager};
+})();
 function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
   var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
   b.textContent=on?'masquer les ajouts':'ajouts masqués';}
@@ -194,7 +288,7 @@ function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-a
     var msg=c.querySelector('.masq');
     if(vide&&oblig){
       if(!msg){msg=document.createElement('p');msg.className='masq';
-        msg.textContent='Rubrique obligatoire dont tout le contenu est un ajout de l’opérateur : masquée par le filtre, mais elle existe dans la fiche.';
+        msg.textContent='Cette rubrique existe, mais tout son contenu est un ajout : le filtre le masque. Elle reste visible pour que vous ne concluiez pas qu’elle est vide.';
         c.appendChild(msg);}
       s.classList.add('estmasq');
     } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
@@ -206,11 +300,17 @@ document.addEventListener('DOMContentLoaded',function(){
     var cur=document.documentElement.getAttribute('data-theme');
     var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
     var nx=(cur||sys)==='dark'?'light':'dark';
-    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);});
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);
+    ETAT.propager();});
   var ba=document.getElementById('bajout');
   if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
-    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);});
-  majAjouts(LS.g('notions.ajouts','1')!=='0');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);ETAT.propager();});
+  majAjouts(!document.documentElement.classList.contains('sans-ajouts'));
+  /* les liens de la page portent l'état ; une ancre demandée est ouverte et visée */
+  ETAT.propager();
+  var an=ETAT.ancre();
+  if(an){var el=document.getElementById(an);
+    if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView();el.classList.add('vise')}}
   /* --- recherche instantanée (règle 9) --- */
   var inp=document.getElementById('q'),res=document.getElementById('qres');
   if(!inp||!res||!window.SEARCH_INDEX)return;
@@ -233,7 +333,7 @@ document.addEventListener('DOMContentLoaded',function(){
     if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
     items.forEach(function(e,i){
       var li=document.createElement('li');
-      var a=document.createElement('a');a.href=REL+e.u;a.id='qr'+i;
+      var a=document.createElement('a');a.href=ETAT.lien(REL+e.u);a.id='qr'+i;
       a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
       li.appendChild(a);res.appendChild(li);});
     res.classList.add('on');}
@@ -253,13 +353,12 @@ document.addEventListener('DOMContentLoaded',function(){
 </script>
 <script>
 document.addEventListener('DOMContentLoaded',function(){
-  /* pliage mémorisé par rubrique (règle 5) */
+  /* pliage mémorisé par rubrique (règle 5), et transporté d'une page à l'autre */
   document.querySelectorAll('details.sec[data-k]').forEach(function(d){
-    var k='notions.pli.'+d.getAttribute('data-k');
-    var v=LS.g(k,null);if(v!==null)d.open=(v==='1');
-    d.addEventListener('toggle',function(){LS.s(k,d.open?'1':'0')});});
-  /* amont et aval : même état « déjà su », un compteur par liste (règle 6) */
-  var su={};try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}
+    var k=d.getAttribute('data-k'),v=ETAT.pli(k);
+    if(v!==null)d.open=v;
+    d.addEventListener('toggle',function(){ETAT.setPli(k,d.open)});});
+  /* amont et aval : même état « déjà su », un compteur par liste (règle 7) */
   function compte(){
     document.querySelectorAll('.sec').forEach(function(s){
       var cpt=s.querySelector('[data-cpt]');if(!cpt)return;
@@ -267,11 +366,10 @@ document.addEventListener('DOMContentLoaded',function(){
       l.forEach(function(c){if(c.checked)k++});
       cpt.textContent=l.length+' notion'+(l.length>1?'s':'')+', '+(l.length-k)+' à voir';});}
   document.querySelectorAll('input[data-su]').forEach(function(c){
-    var id=c.getAttribute('data-su');c.checked=!!su[id];
+    var id=c.getAttribute('data-su');c.checked=ETAT.su(id);
     c.closest('li').classList.toggle('su',c.checked);
     c.addEventListener('change',function(){
-      su[id]=c.checked;if(!c.checked)delete su[id];
-      try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}
+      ETAT.setSu(id,c.checked);
       document.querySelectorAll('input[data-su="'+id+'"]').forEach(function(o){
         o.checked=c.checked;o.closest('li').classList.toggle('su',c.checked);});
       compte();});});

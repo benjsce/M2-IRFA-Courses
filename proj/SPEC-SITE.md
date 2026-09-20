@@ -38,9 +38,9 @@ Ces règles sont des contraintes du générateur, pas des conseils.
    déplient d'un clic. L'état de pliage est mémorisé par navigateur (`localStorage`).
 6. **Le socle est clos, et il le dit.** Lire le socle d'une fiche suffit : aucune de ses
    notions ne renvoie à une notion absente de la liste (SPEC-MODELE §6). La page l'écrit,
-   parce que c'est ce qui autorise le lecteur à s'arrêter. Elle prévient aussi que le
-   niveau est le plus long chemin et non une chaîne, sans quoi le lecteur infère qu'un
-   niveau $n$ dépend du niveau $n-1$, ce qui est faux pour 16 arêtes sur 121.
+   parce que c'est ce qui autorise le lecteur à s'arrêter. Le fait que le niveau soit le
+   plus long chemin et non une chaîne se dit là où les niveaux s'expliquent — la carte du
+   cours et `aide.html` — et non dans le socle : c'est explicatif, pas actionnable.
 
 7. **Les deux directions de dépendance sont des listes, jamais des graphes.** Le socle
    ($D^{+}$, amont, transitif) et « sert ensuite à » ($D^{-1}$, aval, rayon 1) sont plats,
@@ -60,12 +60,31 @@ Ces règles sont des contraintes du générateur, pas des conseils.
    la majorité des fiches, et le lecteur conclut que la notion n'a pas de limite.
 10. **Recherche instantanée** sur nom, alias, symbole, depuis toute page, sans rechargement.
 11. **Aucune animation** sauf celles qui répondent à un geste (ouvrir, plier, filtrer).
+12. **Aucune page de lecture ne parle du modèle.** Un numéro d'axiome, un nom de fichier
+    de spécification, « généré », « au build », « transitif », « rayon 1 », « projection
+    stricte », « l'opérateur » : ces mots ne veulent rien dire pour qui n'a pas construit
+    cette base, et ils occupent la place de la phrase qui aiderait. Une note générée dit
+    **ce que le lecteur doit en faire**, jamais d'où elle vient. Le vocabulaire propre au
+    site — niveau, socle, cas particulier de, ajout — n'est défini qu'en un seul endroit,
+    `aide.html`, et les pages y renvoient au lieu de se réexpliquer.
+    *Mesure du 2026-09-20, avant la règle* : sur les 151 pages produites, **151**
+    portaient au moins un de ces termes dans leur texte visible, dont 405 références
+    d'axiome et, dans le pied de page de chacune, « généré par `tools/build.py` selon
+    `SPEC-SITE.md` … calculées au build (A9) ». Après : 24 pages, dont 11 rapports
+    d'ingestion, `aide.html` elle-même, et 12 fiches où le mot est du contenu de cours
+    (la *dette* d'un bilan, un *opérateur* de prix, une relation *transitive*).
+13. **Ce qui regarde la fabrication est séparé de ce qui regarde la lecture.** Dette,
+    fautes de protocole, inventaire, rapports : ces informations restent — elles sont ce
+    qui rend la base auditable — mais elles vivent dans un bloc replié, en bas de page,
+    qui annonce qu'il ne concerne pas la lecture du cours. Elles ne sont jamais mêlées
+    aux notions.
 
 ## 3. Les pages
 
 ```
 site/
   index.html                      sélecteur de cours + recherche globale
+  aide.html                       comment lire ce site : le vocabulaire, en un seul endroit
   <code>/index.html               carte du cours : principes, abstractions de niveau 1,
                                   composants sans généralisation, dette ; recherche
   <code>/notions.html             toutes les notions du cours, par niveau, avec les cases
@@ -128,6 +147,21 @@ C'est une **destination, pas un passage** : on y accède depuis la carte du cour
 l'accueil, jamais au fil d'une lecture. La règle 1 tient donc : la personne ne voit la
 liste entière que lorsqu'elle la demande.
 
+### 3.2 ter La page `aide.html`
+
+Une page, atteignable depuis l'en-tête et le pied de page de **toutes** les pages. Elle
+apprend le site à quelqu'un qui n'a pas construit la base. Son plan est figé, parce que
+d'autres pages pointent sur ses ancres : `niveau`, `socle`, `abstraction`, `types`,
+`ajouts`, `memoire`, `fabrication`.
+
+Elle est le seul endroit où le site s'explique. Tout ce que les pages de lecture ont
+cessé de dire — pourquoi une liste est close, pourquoi « cas particulier de » n'est pas
+un prérequis, ce que le filtre des ajouts retire, ce que le site retient du lecteur —
+s'y trouve, une fois, en français, avec la comparaison des deux relations en tableau.
+La dernière section, `fabrication`, garde ce que le pied de page disait jadis sur toutes
+les pages : le schéma, les rubriques recalculées, le validateur, les documents. Qui veut
+le savoir le trouve ; les autres ne le lisent plus 151 fois.
+
 ### 3.2 La carte du cours `<code>/index.html`
 
 Tout regroupement par niveau, ici comme dans le socle, **explique ce qu'est un niveau** :
@@ -135,10 +169,16 @@ le nombre de notions à traverser au plus long pour atteindre celle-ci, donc un 
 lecture, ni un degré de difficulté ni un degré d'importance. Sans cette phrase, « niveau 2 »
 ne veut rien dire pour le lecteur.
 
-Ce qu'on voit : les principes (en tête), puis pour chaque principe ses abstractions
-directes avec leur nombre de membres, puis « Composants » (notions sans `cas_de` et sans
-type principe), puis un bandeau « Dette » (liens à venir, gestes à venir, inventaire à
-venir). Rien d'autre. Le détail est à un clic.
+Ce qu'on voit, dans l'ordre : un **bloc d'entrée** qui dit combien de notions compte le
+cours et donne quatre chemins selon ce que la personne cherche (découvrir, tout voir,
+commencer à lire, chercher un terme précis) ; les principes, glosés en une ligne ; pour
+chaque principe ses abstractions directes avec leur nombre de membres ; « les autres
+notions » (sans `cas_de` et sans type principe) ; enfin, replié et annoncé comme tel, le
+suivi de la rédaction (règle 13). Rien d'autre. Le détail est à un clic.
+
+Le bloc d'entrée existe parce que la page ne peut pas se deviner : quatre destinations y
+sont accessibles sans qu'aucune soit désignée, et la bonne dépend de ce que la personne
+sait déjà du cours.
 
 ### 3.3 L'arbre `<code>/arbre.html`
 
@@ -159,7 +199,23 @@ information et non un oubli.
   `--offline` qui copie MathJax dans `site/vendor/` pour un usage sans réseau. Les fontes
   du texte sont des fontes système ; aucune dépendance externe autre que MathJax.
 - **Une page = un fichier autonome** (CSS et JS inclus), ≤ 300 ko hors MathJax.
-- **Thème clair / sombre** suivant le système, commutable, mémorisé.
+- **L'état de lecture traverse les pages par l'URL.** Thème, pliage des rubriques et
+  cases « déjà su » suivent la personne d'une page à l'autre. `localStorage` ne peut pas
+  le garantir : **mesuré le 2026-09-20**, ouvert en `file://`, Firefox donne à chaque
+  document son propre stockage — le profil de l'utilisateur contenait 18 dossiers
+  `storage/default/file++++…+site+dup+n+<fiche>.html`, un par fiche visitée. Le thème
+  devait donc être rebasculé sur chaque page, et l'affirmation « une case cochée le reste
+  sur toutes les fiches », écrite sur 123 pages, était fausse.
+  Le générateur écrit donc l'état dans le **fragment** de l'URL et le recopie dans chaque
+  lien interne de la page : `#t:d~a:0~p:1-0…~s:<tampon>.<bits>~v:<ancre>`. Un bit par
+  notion, six bits par caractère ; l'ordre des bits est celui de `window.ETAT_IDS`, et le
+  tampon est calculé dessus — dès qu'une notion entre au dépôt il change, et un lien
+  copié la semaine précédente **perd** ses cases au lieu d'en cocher de mauvaises.
+  `localStorage` reste, en secours, pour une page rouverte sans fragment.
+  Les clés de pliage voyagent par position dans `CLES_PLI` : `sec()` refuse au build une
+  clé absente de cette liste, faute de quoi le pliage d'une rubrique nouvelle cesserait
+  silencieusement de traverser.
+- **Thème clair / sombre** suivant le système, commutable.
 - **Responsive** : lisible sur un téléphone en portrait. L'arbre y est utilisable au doigt.
 - **Accessibilité minimale** : navigation au clavier, focus visible, contrastes
   suffisants, animations désactivées si `prefers-reduced-motion`.

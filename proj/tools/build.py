@@ -33,6 +33,14 @@ for _f in (sys.stdout, sys.stderr):
 RACINE = Path(__file__).resolve().parent.parent
 MATHJAX_CDN = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"
 MAX_LISTE = 7          # SPEC-SITE §2 règle 4
+
+# Les clés de pliage, dans un ordre FIXE et définitif. L'état de pliage traverse les
+# pages sous forme d'une chaîne d'un caractère par clé, dans cet ordre exactement.
+# On ajoute une clé à la fin ; on n'en retire jamais une du milieu (le nom resterait,
+# inemployé), sinon un lien déjà copié rouvrirait les mauvaises rubriques.
+CLES_PLI = ["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple",
+            "geste", "libre", "limite", "membres", "origine",
+            "soluoff", "revele", "contra", "touchees"]
 TAILLE_MAX = 300_000   # SPEC-SITE §4 : une page ≤ 300 ko hors MathJax
 
 # l'algorithme de l'arbre vit dans le test ; on en importe les constantes (SPEC-SITE §5)
@@ -217,7 +225,7 @@ def _lien_id(ident, ctx):
 def _marqueur_html(marq):
     toks = [t.strip() for t in marq.split(",")]
     if all(t == "ajout" for t in toks):
-        return '<span class="marq marq-ajout" title="assertion de l\'opérateur, absente de la source">ajout</span>', True
+        return '<span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span>', True
     return '<span class="marq" title="référence à la source">' + esc("[" + ", ".join(toks) + "]") + "</span>", False
 
 
@@ -350,6 +358,7 @@ header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
 .btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
   border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
 .btn:hover{border-color:var(--acc)}
+a.btn{text-decoration:none}
 .btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
 .rech{position:relative;flex:0 1 16rem;min-width:9rem}
 .rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
@@ -444,6 +453,22 @@ hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
 .carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
 .carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
 .dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.vise{animation:vise 1.6s ease}
+@keyframes vise{from{background:var(--acc2)}to{background:transparent}}
+
+/* ---- orientation : ce qui s'adresse au lecteur qui arrive ---- */
+.entree{border:1px solid var(--li2);border-left:3px solid var(--acc);border-radius:var(--r);
+  padding:.7rem .9rem;margin:.8rem 0 1.4rem;background:var(--card)}
+.entree p{margin:.3rem 0;font-size:.92rem}
+.entree .quoi{font-size:1.02rem}
+.entree ul{margin:.5rem 0 .2rem;padding-left:1.1rem;font-family:var(--sans);font-size:.88rem}
+.entree li{margin:.2rem 0}
+.chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
+.chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
+.aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
+/* l'en-tête est collant : une ancre visée ne doit pas passer dessous */
+[id]{scroll-margin-top:4.2rem}
+.aide p,.aide ul,.aide table{max-width:42rem}
 .dette ul{margin:.3rem 0 0}
 footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
 
@@ -475,13 +500,90 @@ footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);f
 """
 
 JS_TETE = """
-(function(){try{var t=localStorage.getItem('notions.theme');if(t){document.documentElement.setAttribute('data-theme',t);}
-var a=localStorage.getItem('notions.ajouts');if(a==='0'){document.documentElement.classList.add('sans-ajouts');}}catch(e){}})();
+/* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
+   localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
+   cases « déjà su » ne peuvent donc pas traverser les pages par là. Ils voyagent dans
+   le fragment de l'URL, que tous les liens internes portent ; localStorage ne sert plus
+   que de mémoire locale, pour la page qu'on rouvre sans fragment.
+   Ce script s'exécute avant le rendu : sinon le thème clignote à chaque page. */
+(function(){
+var H={},h=(location.hash||'').replace(/^#/,'');
+h.split('~').forEach(function(p){var i=p.indexOf(':');if(i>0)H[p.slice(0,i)]=p.slice(i+1)});
+window.ETAT_URL=H;
+function loc(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+var t=H.t?(H.t==='d'?'dark':'light'):loc('notions.theme','');
+if(t)document.documentElement.setAttribute('data-theme',t);
+var a=(H.a!==undefined)?H.a:loc('notions.ajouts','1');
+if(a==='0')document.documentElement.classList.add('sans-ajouts');
+})();
 """
 
 JS_COMMUN = """
 var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
         s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- l'état qui traverse les pages ----------------------------------------
+   Voir le commentaire de l'en-tête : en file://, seul le fragment traverse.
+   Forme du fragment :  #t:d~a:0~p:1-0--1...~s:<tampon>.<bits>~v:<ancre>
+     t  thème      d | l            (absent : celui du système)
+     a  ajouts     0                (absent : montrés)
+     p  pliage     un caractère par clé de CLES_PLI : 1 ouvert, 0 fermé, - inconnu
+     s  déjà su    un bit par notion, six bits par caractère, précédé d'un tampon
+     v  ancre      l'élément vers lequel défiler à l'arrivée
+   Le tampon est calculé sur la liste des identifiants : dès qu'une notion entre dans
+   le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
+   cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
+var ETAT=(function(){
+var CLES=__CLES__,TAMPON='__TAMPON__',
+    A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
+var pli={},su={};
+if(typeof H.p==='string'){
+  for(var i=0;i<CLES.length&&i<H.p.length;i++){var c=H.p.charAt(i);
+    if(c==='0'||c==='1')pli[CLES[i]]=(c==='1');}
+}else{
+  CLES.forEach(function(k){var v=LS.g('notions.pli.'+k,null);if(v!==null)pli[k]=(v==='1')});
+}
+function decode(t){var o={},q=t.indexOf('.');
+  if(q<0||t.slice(0,q)!==TAMPON)return o;
+  var b=t.slice(q+1);
+  for(var i=0;i<b.length;i++){var v=A64.indexOf(b.charAt(i));if(v<0)continue;
+    for(var j=0;j<6;j++){if(v&(1<<j)){var k=i*6+j;if(k<IDS.length)o[IDS[k]]=1}}}
+  return o;}
+function encode(){var o='';
+  for(var i=0;i<IDS.length;i+=6){var v=0;
+    for(var j=0;j<6;j++){if(su[IDS[i+j]])v|=1<<j}
+    o+=A64.charAt(v);}
+  return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
+if(typeof H.s==='string'){su=decode(H.s)}
+else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
+function frag(ancre){var p=[];
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t)p.push('t:'+(t==='dark'?'d':'l'));
+  if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
+  var q='';CLES.forEach(function(k){q+=(pli[k]===undefined?'-':(pli[k]?'1':'0'))});
+  if(/[01]/.test(q))p.push('p:'+q);
+  var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
+  if(ancre)p.push('v:'+ancre);
+  return p.length?'#'+p.join('~'):'';}
+function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
+function propager(){var f=frag();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';if(!interne(h))return;
+    var v=a.getAttribute('data-v');
+    a.setAttribute('href',h.split('#')[0]+(v?frag(v):f));});
+  /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
+     Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
+  try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
+  try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}}
+return{pli:function(k){return pli[k]===undefined?null:pli[k]},
+       setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
+       su:function(id){return !!su[id]},
+       setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
+       lien:function(u,v){return u+frag(v)},
+       ancre:function(){return H.v||''},
+       propager:propager};
+})();
 function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
   var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
   b.textContent=on?'masquer les ajouts':'ajouts masqués';}
@@ -497,7 +599,7 @@ function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-a
     var msg=c.querySelector('.masq');
     if(vide&&oblig){
       if(!msg){msg=document.createElement('p');msg.className='masq';
-        msg.textContent='Rubrique obligatoire dont tout le contenu est un ajout de l’opérateur : masquée par le filtre, mais elle existe dans la fiche.';
+        msg.textContent='Cette rubrique existe, mais tout son contenu est un ajout : le filtre le masque. Elle reste visible pour que vous ne concluiez pas qu’elle est vide.';
         c.appendChild(msg);}
       s.classList.add('estmasq');
     } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
@@ -509,11 +611,17 @@ document.addEventListener('DOMContentLoaded',function(){
     var cur=document.documentElement.getAttribute('data-theme');
     var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
     var nx=(cur||sys)==='dark'?'light':'dark';
-    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);});
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);
+    ETAT.propager();});
   var ba=document.getElementById('bajout');
   if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
-    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);});
-  majAjouts(LS.g('notions.ajouts','1')!=='0');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);ETAT.propager();});
+  majAjouts(!document.documentElement.classList.contains('sans-ajouts'));
+  /* les liens de la page portent l'état ; une ancre demandée est ouverte et visée */
+  ETAT.propager();
+  var an=ETAT.ancre();
+  if(an){var el=document.getElementById(an);
+    if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView();el.classList.add('vise')}}
   /* --- recherche instantanée (règle 9) --- */
   var inp=document.getElementById('q'),res=document.getElementById('qres');
   if(!inp||!res||!window.SEARCH_INDEX)return;
@@ -536,7 +644,7 @@ document.addEventListener('DOMContentLoaded',function(){
     if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
     items.forEach(function(e,i){
       var li=document.createElement('li');
-      var a=document.createElement('a');a.href=REL+e.u;a.id='qr'+i;
+      var a=document.createElement('a');a.href=ETAT.lien(REL+e.u);a.id='qr'+i;
       a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
       li.appendChild(a);res.appendChild(li);});
     res.classList.add('on');}
@@ -557,13 +665,12 @@ document.addEventListener('DOMContentLoaded',function(){
 
 JS_FICHE = """
 document.addEventListener('DOMContentLoaded',function(){
-  /* pliage mémorisé par rubrique (règle 5) */
+  /* pliage mémorisé par rubrique (règle 5), et transporté d'une page à l'autre */
   document.querySelectorAll('details.sec[data-k]').forEach(function(d){
-    var k='notions.pli.'+d.getAttribute('data-k');
-    var v=LS.g(k,null);if(v!==null)d.open=(v==='1');
-    d.addEventListener('toggle',function(){LS.s(k,d.open?'1':'0')});});
-  /* amont et aval : même état « déjà su », un compteur par liste (règle 6) */
-  var su={};try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}
+    var k=d.getAttribute('data-k'),v=ETAT.pli(k);
+    if(v!==null)d.open=v;
+    d.addEventListener('toggle',function(){ETAT.setPli(k,d.open)});});
+  /* amont et aval : même état « déjà su », un compteur par liste (règle 7) */
   function compte(){
     document.querySelectorAll('.sec').forEach(function(s){
       var cpt=s.querySelector('[data-cpt]');if(!cpt)return;
@@ -571,11 +678,10 @@ document.addEventListener('DOMContentLoaded',function(){
       l.forEach(function(c){if(c.checked)k++});
       cpt.textContent=l.length+' notion'+(l.length>1?'s':'')+', '+(l.length-k)+' à voir';});}
   document.querySelectorAll('input[data-su]').forEach(function(c){
-    var id=c.getAttribute('data-su');c.checked=!!su[id];
+    var id=c.getAttribute('data-su');c.checked=ETAT.su(id);
     c.closest('li').classList.toggle('su',c.checked);
     c.addEventListener('change',function(){
-      su[id]=c.checked;if(!c.checked)delete su[id];
-      try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}
+      ETAT.setSu(id,c.checked);
       document.querySelectorAll('input[data-su="'+id+'"]').forEach(function(o){
         o.checked=c.checked;o.closest('li').classList.toggle('su',c.checked);});
       compte();});});
@@ -659,6 +765,9 @@ function creerCartes(){
                 (n.pa2?'<span class="pa">'+n.pa2+'</span>':'');
     plan.appendChild(d);});
   noeuds.forEach(function(n){H[n.id]=document.getElementById('nd-'+n.k).offsetHeight});
+  /* les cartes sont créées après le premier passage d'ETAT : leurs liens doivent
+     porter l'état eux aussi, sinon quitter l'arbre perd le thème et les cases. */
+  if(window.ETAT)ETAT.propager();
 }
 
 function redessiner(){
@@ -736,20 +845,28 @@ def page(m, *, titre, rel, fil, corps, js="", mathjax=True, index=True):
         '<div class="rech"><label class="sr" for="q" hidden>chercher</label>'
         '<input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" '
         'aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div>'
+        '<a class="btn" href="' + rel + 'aide.html">comment lire</a>'
         '<button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button>'
         '<button class="btn" id="btheme" title="thème clair / sombre">thème</button>'
         "</div></header>\n<main><div class=\"wrap\">" + corps + "</div></main>\n"
-        '<footer><div class="wrap">Base de notions M2 IRFA · page générée par <code>tools/build.py</code> '
-        "selon <code>SPEC-SITE.md</code> · les rubriques dérivées (socle, membres, sert ensuite à, niveau) "
-        "sont calculées au build, jamais écrites dans les fiches (A9).</div></footer>\n"
+        '<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · '
+        '<a href="' + rel + 'aide.html">comment lire ce site</a> · '
+        '<a href="' + rel + 'aide.html" data-v="fabrication">comment il est fait</a>'
+        "</div></footer>\n"
         + ('<script src="' + rel + 'search-index.js"></script>\n' if index else "")
-        + "<script>" + JS_COMMUN + "</script>\n"
+        + "<script>" + m["js_commun"] + "</script>\n"
         + ("<script>" + js + "</script>\n" if js else "")
         + "</body>\n</html>\n"
     )
 
 
 # ---------------------------------------------------------------- pastilles et listes
+
+def aide(rel, ancre, texte):
+    """Un mot du vocabulaire du site, lié à l'endroit où aide.html le définit.
+    Sans JavaScript le lien mène en haut de la page d'aide : dégradation acceptable."""
+    return '<a href="%saide.html" data-v="%s">%s</a>' % (rel, ancre, texte)
+
 
 def pastille(m, ident, rel, cours=None, niveau=False):
     if ident in m["N"]:
@@ -798,6 +915,8 @@ def sec(titre, corps, *, cle=None, ouvert=False, classe="", compte=""):
     if cle is None:
         return ('<section class="sec ' + classe + '"' + ob + "><h2>" + esc(titre) + "</h2>"
                 '<div class="corps">' + corps + "</div></section>")
+    assert cle in CLES_PLI, ("clé de pliage « %s » absente de CLES_PLI : son état ne "
+                            "traverserait pas les pages" % cle)
     c = '<span class="cnt">' + esc(compte) + "</span>" if compte else ""
     return ('<details class="sec ' + classe + '" data-k="' + cle + '"' + ob + (" open" if ouvert else "") + ">"
             "<summary><h2>" + esc(titre) + "</h2>" + c + "</summary>"
@@ -855,23 +974,31 @@ def page_fiche(m, i):
     typ = meta.get("type")
 
     # 1. en-tête
-    pills = ['<span class="pill typ">' + esc(typ) + "</span>",
+    TYPES = {"principe": "une idée qui organise tout un pan du cours",
+             "abstraite": "une famille : elle existe parce que plusieurs notions en sont des cas",
+             "notion": "un objet du cours, celui qu’on manipule"}
+    pills = ['<a class="pill typ" href="' + rel + 'aide.html" data-v="types" title="'
+             + esc(TYPES.get(typ, "")) + '">' + esc(typ) + "</a>",
              '<a class="pill" href="' + rel + code + '/index.html">' + esc(code) + "</a>",
-             '<span class="pill" title="ordre de lecture : nombre de notions à traverser, au plus '
-             'long, pour arriver jusqu’à celle-ci. Niveau 0 = ne dépend d’aucune autre.">'
-             "niveau " + str(m["niveau"][i]) + "</span>"]
+             '<a class="pill" href="' + rel + 'aide.html" data-v="niveau" '
+             'title="ordre de lecture : nombre de notions à traverser, au plus long, pour arriver '
+             'jusqu’à celle-ci. Niveau 0 = ne dépend d’aucune autre.">'
+             "niveau " + str(m["niveau"][i]) + "</a>"]
     if meta.get("symbole"):
         pills.insert(0, '<span class="pill sym">' + esc(str(meta["symbole"])) + "</span>")
     for r in meta.get("refs") or []:
         pills.append('<span class="pill">' + esc(str(r)) + "</span>")
     if ajout:
-        pills.append('<span class="pill ajout">ajout de l’opérateur</span>')
+        pills.append('<a class="pill ajout" href="' + rel + 'aide.html" data-v="ajouts">'
+                     "ne vient pas du cours</a>")
     ent = ["<h1>" + esc(meta.get("nom", i)) + "</h1>", '<div class="meta">' + "".join(pills) + "</div>"]
     if meta.get("alias"):
         ent.append('<p class="note">aussi : ' + esc(", ".join(str(a) for a in meta["alias"])) + "</p>")
     if ajout:
-        ent.append('<div class="bandeau is-ajout">Cette notion n’est pas dans la source : elle a été '
-                   "ajoutée par l’opérateur. Le filtre « masquer les ajouts » la retire du site.</div>")
+        ent.append('<div class="bandeau is-ajout">Cette notion ne vient pas du cours : elle a été '
+                   "ajoutée pour que le reste tienne debout. Le bouton « masquer les ajouts », en "
+                   "haut, la retire — et ce qui reste est exactement le cours. "
+                   '(<a href="' + rel + 'aide.html" data-v="ajouts">pourquoi</a>)</div>')
 
     c = list(ent)
     # 2–4
@@ -889,8 +1016,8 @@ def page_fiche(m, i):
                       % (' class="is-ajout"' if est_ajout(m, x) else "", rel, cx, sx,
                          esc(nom_de(m, x)), enligne(str(m["N"][x]["meta"].get("valeur", "—")), ctx)))
         li.append("</tbody></table>")
-        corps = ('<p class="note">Paramètre : ' + enligne(str(meta.get("parametre", "")), ctx)
-                 + " — table générée depuis les membres (A9).</p>" + "".join(li))
+        corps = ('<p class="note">Ce qui change d’un cas à l’autre : '
+                 + enligne(str(meta.get("parametre", "")), ctx) + ".</p>" + "".join(li))
         c.append(sec("Le paramètre qui les distingue", corps, cle="param", classe="gen",
                      compte=str(len(membres)) + " membres"))
     # 6.
@@ -900,9 +1027,10 @@ def page_fiche(m, i):
     if parent:
         pp = m["N"].get(parent, {}).get("meta", {})
         titre = "Découle de" if pp.get("type") == "principe" else "Cas particulier de"
-        note = ("Un principe n’est pas une généralisation : cette arête se lit « découle directement de » (A4)."
+        note = ("Un principe n’est pas une famille : cette notion en découle directement."
                 if pp.get("type") == "principe" else
-                "Autre relation : ce n’est pas un prérequis. Le prérequis, c’est « construite à partir de ».")
+                "Ce n’est pas un prérequis : on peut lire ce cas particulier sans avoir lu le cas "
+                "général. Les prérequis, c’est « construite à partir de ».")
         corps = '<p class="note avert">' + note + "</p>"
         corps += '<ul class="pasts">' + pastille(m, parent, rel, code) + "</ul>"
         if meta.get("valeur"):
@@ -914,16 +1042,16 @@ def page_fiche(m, i):
         c.append(sec("Construite à partir de",
                      liste_pastilles(m, dep, rel, code, niveau=True,
                                      cle=lambda y: "niveau %d" % m["niveau"].get(y, 0))
-                     + '<p class="note">Dépendances directes seulement (A8). Le socle ci-dessous '
-                       "en est la fermeture : ces notions-ci s’y retrouvent, augmentées de tout ce dont "
+                     + '<p class="note">Seulement ce dont cette fiche dépend directement. '
+                       "Le socle, juste en dessous, reprend ces notions-ci et y ajoute tout ce dont "
                        "elles dépendent à leur tour.</p>",
                      cle="construite", compte=str(len(dep)) + (" prérequis direct" if len(dep) == 1 else " prérequis directs")))
     # 9. socle (amont transitif) puis 10. sert ensuite à (aval, rayon 1), de même forme
     so = bloc_liste(m, m["socle"][i], rel, "socle",
-                    "Tout ce qu’il faut savoir avant cette fiche, par niveau croissant — le "
-                    "niveau 0 ne dépend de rien. <strong>La liste est close</strong> : la lire suffit, "
-                    "aucune de ces notions ne renvoie à une notion absente d’ici. Une case cochée le "
-                    "reste sur toutes les fiches.")
+                    "Tout ce qu’il faut avoir lu avant cette fiche, du plus élémentaire au plus "
+                    "construit. <strong>La liste est complète</strong> : la lire suffit, aucune de "
+                    "ces notions n’en appelle une autre qui manquerait ici. Cocher une case la barre "
+                    "sur toutes les pages. (" + aide(rel, "socle", "en savoir plus") + ")")
     if so:
         c.append(sec("Socle complet", so, cle="socle", classe="gen",
                      compte=str(len(m["socle"][i])) + (" prérequis" if len(m["socle"][i]) == 1 else " prérequis en tout")))
@@ -932,9 +1060,9 @@ def page_fiche(m, i):
         av = sorted(srt, key=lambda y: (m["niveau"].get(y, 0), nom_de(m, y).lower()))
         c.append(sec("Sert ensuite à",
                      bloc_liste(m, av, rel, "aval",
-                                "Aval à rayon 1 : ce que cette notion ouvre immédiatement. "
-                                "Généré, l’inverse de « construite à partir de » (A9). Jamais "
-                                "transitif : une notion fondamentale débloquerait tout le cours."),
+                                "Ce que cette notion permet d’aborder juste après. Seulement l’étape "
+                                "suivante, pas toute la suite : une notion très en amont ouvrirait "
+                                "sinon la moitié du cours."),
                      cle="sert", classe="gen", compte=str(len(av))))
     # 10–12
     for t, k in (("Exemple minimal", "exemple"), ("Geste de calcul type", "geste"), ("Ce qui reste libre", "libre")):
@@ -945,9 +1073,8 @@ def page_fiche(m, i):
             # SPEC-INGESTION étape 3 : un exemple minimal ne dépend d'aucun exercice.
             # Le laisser en dette n'est pas de la dette, c'est une faute de protocole.
             cl, cpt = "faute", "faute de protocole"
-            corps += ('<p class="note">SPEC-INGESTION étape 3 : « Elle ne dépend d’aucun exercice '
-                      "et s’écrit dès la création de la fiche ; la laisser en dette est une faute de "
-                      "protocole. » À écrire depuis la source, sans attendre un exercice.</p>")
+            corps += ('<p class="note">Cette fiche devrait porter un exemple chiffré et n’en a '
+                      "pas encore. C’est un manque du côté de la rédaction, pas du cours.</p>")
         c.append(sec(t, corps, cle=k, classe=cl, compte=cpt))
     # 13. limite
     if "Cesse d'être valide quand" in S:
@@ -956,8 +1083,8 @@ def page_fiche(m, i):
     # 15. membres (généré)
     if membres:
         titre = "Membres" if typ == "abstraite" else "Premières constructions"
-        note = ("Généré : l’inverse de « cas de » (A9)." if typ == "abstraite"
-                else "Généré : les notions qui découlent directement de ce principe (A4, A9).")
+        note = ("Les notions qui sont des cas particuliers de celle-ci." if typ == "abstraite"
+                else "Les notions qui découlent directement de ce principe.")
         c.append(sec(titre, liste_pastilles(m, membres, rel, code, cle=lambda y: m["N"][y]["meta"]["type"])
                      + '<p class="note">' + note + "</p>",
                      cle="membres", classe="gen", compte=str(len(membres))))
@@ -993,16 +1120,31 @@ def page_cours(m, code):
     ids = cs["notions"]
     principes = [i for i in ids if m["N"][i]["meta"].get("type") == "principe"]
     principes.sort(key=lambda i: nom_de(m, i).lower())
+    nv0 = [i for i in ids if m["niveau"][i] == 0]
     c = ["<h1>" + esc(cs["meta"].get("titre", code)) + "</h1>",
          '<div class="meta"><span class="pill">' + esc(code) + "</span>"
          '<span class="pill">' + esc(str(cs["meta"].get("enseignant", ""))) + "</span>"
          '<span class="pill">' + esc(str(cs["meta"].get("annee", ""))) + "</span>"
-         '<span class="pill">' + str(len(ids)) + " notions</span>"
-         '<a class="pill" href="' + rel + code + '/notions.html">toutes les notions</a>'
-         '<a class="pill" href="' + rel + code + '/arbre.html">arbre d’abstraction</a>'
-         '<a class="pill" href="' + rel + code + '/inventaire.html">inventaire de la source</a></div>']
+         '<span class="pill">' + str(len(ids)) + " notions</span></div>",
+         '<div class="entree"><p class="quoi">Ce cours est découpé en <strong>'
+         + str(len(ids)) + " notions</strong>, une par page. Cette page-ci en donne la "
+         "structure ; elle ne les contient pas toutes.</p>"
+         "<ul><li><strong>Vous découvrez le cours</strong> — lisez cette page de haut en bas : "
+         "les grandes idées d’abord, ce qui en découle ensuite.</li>"
+         '<li><strong>Vous voulez tout voir</strong> — <a href="' + rel + code
+         + '/notions.html">la liste des ' + str(len(ids)) + " notions</a>, rangée dans un ordre "
+         "où on peut la lire de haut en bas.</li>"
+         "<li><strong>Vous voulez commencer à lire</strong> — les " + str(len(nv0))
+         + " notions qui ne dépendent d’aucune autre sont plus bas, au niveau 0.</li>"
+         "<li><strong>Vous cherchez quelque chose de précis</strong> — touche <code>/</code>, "
+         "sur un nom ou un symbole.</li></ul>"
+         '<p class="note">Première visite ? <a href="' + rel + 'aide.html">Comment lire ce '
+         "site</a> définit en une page les quatre mots qui reviennent partout : niveau, socle, "
+         "cas particulier de, ajout.</p></div>"]
 
-    c.append('<h2 class="ptag">Principes</h2>')
+    c.append('<h2 class="ptag">Principes</h2>'
+             '<p class="note">Les idées qui organisent le cours. Tout le reste en découle, '
+             "directement ou de loin.</p>")
     li = []
     for p in principes:
         S = dict(m["N"][p]["sections"])
@@ -1031,9 +1173,9 @@ def page_cours(m, code):
     comp = sorted([i for i in ids if not m["A"].get(i) and m["N"][i]["meta"].get("type") != "principe"],
                   key=lambda i: (m["niveau"][i], nom_de(m, i).lower()))
     if comp:
-        c.append('<h2 class="ptag">Composants</h2>'
-                 '<p class="note">Notions sans généralisation : ce n’est pas un oubli, '
-                 "c’est une information (règle 2 de SPEC-SITE §3.3).</p>"
+        c.append('<h2 class="ptag">Les autres notions</h2>'
+                 '<p class="note">Celles que le cours ne range sous aucune famille plus '
+                 "générale. Ce n’est pas un oubli, c’est une information sur le cours.</p>"
                  '<p class="note">Les groupes sont des <strong>niveaux de dépendance</strong> : '
                  "le niveau d’une notion est le nombre de notions qu’il faut traverser, au plus "
                  "long, pour arriver jusqu’à elle. <strong>Niveau 0</strong> : elle ne dépend "
@@ -1044,18 +1186,21 @@ def page_cours(m, code):
         c.append(liste_pastilles(m, comp, rel, code, niveau=True, cle=lambda y: "niveau %d" % m["niveau"][y]))
 
     d = dette_du_cours(m, code)
+    ch = ['<details class="chantier"><summary>Suivi de la rédaction — ce qui reste à faire sur '
+          "cette base ; rien ici ne concerne la lecture du cours</summary>"]
     if d["exemples"]:
         items = "".join('<li><a href="%s%s/n/%s.html">%s</a></li>'
                         % (rel, code, i.split("/", 1)[1], esc(nom_de(m, i))) for i in d["exemples"])
         liste = ("<ul>" + items + "</ul>" if len(d["exemples"]) <= MAX_LISTE else
                  '<details class="grp"><summary>les %d fiches</summary><ul>%s</ul></details>'
                  % (len(d["exemples"]), items))
-        c.append('<h2 class="ptag">Faute de protocole</h2><div class="faute-b">'
-                 "<strong>%d exemples minimaux manquants.</strong> Ce n’est pas de la dette : "
-                 "SPEC-INGESTION étape 3 exige qu’un exemple minimal s’écrive dès la création de la "
-                 "fiche, sans dépendre d’un exercice.%s</div>" % (len(d["exemples"]), liste))
-    c.append('<h2 class="ptag">Dette</h2><div class="dette"><ul>')
-    c.append("<li>liens à venir : <strong>" + str(len(d["liens"])) + "</strong>"
+        ch.append('<div class="faute-b">'
+                  "<strong>%d fiches sans exemple chiffré.</strong> Un exemple minimal ne dépend "
+                  "d’aucun exercice : il devrait s’écrire dès la création de la fiche. Le laisser "
+                  "manquer est une faute de protocole, pas de la dette.%s</div>"
+                  % (len(d["exemples"]), liste))
+    ch.append('<div class="dette"><ul>')
+    ch.append("<li>liens à venir : <strong>" + str(len(d["liens"])) + "</strong>"
              + (" — " + ", ".join(esc(y) + " (depuis " + esc(nom_de(m, x)) + ")" for x, y in d["liens"][:MAX_LISTE])
                 if d["liens"] else "") + "</li>")
     for lab, k in (("gestes de calcul à venir", "gestes"),):
@@ -1068,10 +1213,14 @@ def page_cours(m, code):
         else:
             detail = ('<details class="grp"><summary>les %d fiches</summary><ul>%s</ul></details>'
                       % (len(d[k]), items))
-        c.append("<li>" + lab + " : <strong>" + str(len(d[k])) + "</strong>" + detail + "</li>")
-    c.append('<li>éléments d’inventaire à venir : <strong>' + str(len(d["inventaire"]))
-             + '</strong> — <a href="' + rel + code + '/inventaire.html">voir l’inventaire</a></li>')
-    c.append("</ul></div>")
+        ch.append("<li>" + lab + " : <strong>" + str(len(d[k])) + "</strong>" + detail + "</li>")
+    ch.append('<li>éléments d’inventaire à venir : <strong>' + str(len(d["inventaire"]))
+              + '</strong> — <a href="' + rel + code + '/inventaire.html">l’inventaire de la '
+              "source</a>, qui dit ce que chaque élément du poly est devenu ici</li>")
+    ch.append('<li><a href="' + rel + 'aide.html" data-v="fabrication">comment cette base est '
+              "faite</a></li>")
+    ch.append("</ul></div></details>")
+    c += ch
     return page(m, titre=cs["meta"].get("titre", code), rel=rel,
                 fil=esc(cs["meta"].get("titre", code)), corps="".join(c))
 
@@ -1102,9 +1251,11 @@ def page_arbre(m, code):
                     and m["N"][i]["meta"].get("type") != "principe"],
                    key=lambda i: nom_de(m, i).lower())
     c = ["<h1>Arbre d’abstraction — " + esc(code) + "</h1>",
-         '<p class="note">Une seule relation ici : « cas de » (et « découle de » sous un principe). '
-         "Aucune arête de dépendance (règle 7). Replié au-delà de deux niveaux ; le canevas se déplace "
-         "au glisser ou aux flèches.</p>",
+         '<p class="note">Un seul lien est dessiné ici : « est un cas particulier de » — et, sous '
+         "un principe, « en découle ». <strong>Les prérequis n’y figurent pas</strong> : pour savoir "
+         "quoi lire avant une notion, c’est le socle de sa fiche. Replié au-delà de deux niveaux ; "
+         'le canevas se déplace au glisser ou aux flèches. ('
+         + aide(rel, "abstraction", "la différence entre les deux liens") + ")</p>",
          '<div class="barre">'
          '<button class="btn" id="tout">tout déplier</button>'
          '<button class="btn" id="rien">tout replier</button>'
@@ -1114,10 +1265,12 @@ def page_arbre(m, code):
          '<span class="compteur" id="nbvis"></span></div>',
          '<div id="scene" tabindex="0" aria-label="arbre d’abstraction, déplaçable aux flèches">'
          '<div id="pan"><svg id="aretes"></svg></div></div>',
-         '<p class="note">Avec « masquer les ajouts », une abstraction ajoutée disparaît et ses membres '
-         "remontent en racine : c’est exactement la projection stricte d’A11.</p>"]
+         '<p class="note">Avec « masquer les ajouts », une famille qui a été ajoutée disparaît et '
+         "ses membres remontent à la racine : ce qui reste est exactement l’arbre du cours.</p>"]
     if seuls:
-        c.append("<h3>Notions sans généralisation (" + str(len(seuls)) + ")</h3>")
+        c.append("<h3>Notions qui n’appartiennent à aucune famille (" + str(len(seuls)) + ")</h3>"
+                 '<p class="note">Ce n’est pas un oubli : le cours ne les range sous rien de plus '
+                 "général. Elles ont une fiche comme les autres.</p>")
         c.append(liste_pastilles(m, seuls, rel, code, niveau=True, cle=lambda y: "niveau %d" % m["niveau"][y]))
     fil = ('<a href="' + rel + code + '/index.html">' + esc(m["cours"][code]["meta"].get("titre", code)) + "</a> › arbre")
     return page(m, titre="Arbre — " + code, rel=rel, fil=fil, corps="".join(c), js=js, mathjax=False)
@@ -1137,12 +1290,13 @@ def page_notions(m, code):
          + "".join('<span class="pill">%d %s</span>' % (par_type[t], t)
                    for t in ("principe", "abstraite", "notion") if par_type[t])
          + '<a class="pill" href="' + rel + code + '/index.html">carte du cours</a>'
-         + '<a class="pill" href="' + rel + code + '/arbre.html">arbre</a></div>',
+         + '<a class="pill" href="' + rel + code + '/arbre.html">arbre des familles</a></div>',
          '<section class="sec"><div class="corps">'
          + bloc_liste(m, ids, rel, "toutes",
-                      "La seule page qui les contienne toutes. Par niveau croissant, c’est aussi un "
-                      "ordre de lecture possible du cours entier : le niveau 0 ne dépend de rien. "
-                      "Les cases sont les mêmes que dans les socles — cocher ici coche partout.")
+                      "La seule page qui les contienne toutes, rangées de la plus élémentaire à "
+                      "la plus construite. Lue de haut en bas, elle ne vous fera jamais rencontrer "
+                      "une notion dont les prérequis ne sont pas déjà passés. Les cases sont les "
+                      "mêmes que dans les socles : cocher ici coche partout.")
          + "</div></section>"]
     fil = ('<a href="' + rel + code + '/index.html">' + esc(cs["meta"].get("titre", code))
            + "</a> › toutes les notions")
@@ -1157,9 +1311,11 @@ def page_inventaire(m, code):
     groupes = [("notion", "Élément qui est une notion"), ("absorbe", "Élément absorbé dans une notion"),
                ("exclu", "Élément exclu, avec sa raison"), ("a_venir", "Élément pas encore traité (dette)")]
     c = ["<h1>Inventaire de la source — " + esc(code) + "</h1>",
-         '<p class="note">A13 : chaque élément indexable de la source a exactement une image. '
-         "C’est la liste que l’utilisateur audite — A13 garantit que rien d’inventorié n’est perdu, "
-         "pas que l’inventaire est complet.</p>",
+         '<p class="note"><strong>Cette page ne sert pas à apprendre.</strong> Elle sert à '
+         "vérifier que rien du poly n’a été oublié en route : chaque définition, théorème, équation "
+         "numérotée et section de la source y figure, avec ce qu’elle est devenue ici. Elle garantit "
+         "que rien d’inventorié n’est perdu — pas que l’inventaire lui-même est complet, ce que "
+         "seule une relecture du poly peut dire.</p>",
          '<div class="meta"><span class="pill">' + str(len(els)) + " éléments</span>"
          + "".join('<span class="pill">%s : %d</span>' % (k, sum(1 for e in els if k in e)) for k, _ in groupes)
          + "</div>"]
@@ -1196,11 +1352,13 @@ def page_exercice(m, xid):
          '<div class="meta"><span class="pill">exercice</span><a class="pill" href="'
          + rel + code + '/index.html">' + esc(code) + "</a>"
          '<span class="pill">' + esc(str(x["meta"].get("source", ""))) + "</span></div>"]
-    for t in ("Énoncé", "Solution officielle", "Résolution", "Ce que l'exercice a révélé",
-              "Contradiction avec la source"):
+    # Les clés sont explicites, pas dérivées du titre : elles voyagent d'une page à
+    # l'autre (CLES_PLI), donc renommer une rubrique ne doit pas les changer.
+    for t, k in (("Énoncé", None), ("Solution officielle", "soluoff"), ("Résolution", None),
+                 ("Ce que l'exercice a révélé", "revele"), ("Contradiction avec la source", "contra")):
         if t in S and S[t].strip():
-            c.append(sec(t, rendre(S[t], ctx), cle=None if t in ("Énoncé", "Résolution") else t[:6].lower(),
-                         ouvert=True, classe="lim" if t.startswith("Contradiction") else ""))
+            c.append(sec(t, rendre(S[t], ctx), cle=k, ouvert=True,
+                         classe="lim" if t.startswith("Contradiction") else ""))
     nts = [i for i in (x["meta"].get("notions") or []) if isinstance(i, str)]
     if nts:
         c.append(sec("Fiches touchées", liste_pastilles(m, nts, rel, code, niveau=True), cle="touchees", ouvert=True))
@@ -1217,35 +1375,167 @@ def page_rapport(m, r):
                 corps='<article class="rapport">' + rendre(r["texte"], ctx, niveau_titre=1) + "</article>")
 
 
+def page_aide(m):
+    """La page qui apprend le site à quelqu'un qui arrive. Tout le vocabulaire propre à
+    cette base — niveau, socle, cas particulier de, ajout — n'est défini qu'ici ; partout
+    ailleurs on y renvoie. C'est la contrepartie de la règle nouvelle : les autres pages
+    ne s'expliquent plus elles-mêmes, elles se lisent."""
+    rel = ""
+    e = []
+    for code, cs in sorted(m["cours"].items()):
+        e.append("<li><strong>%s</strong> — <a href=\'%s/index.html\'>la carte</a> · "
+                 "<a href=\'%s/notions.html\'>toutes les notions</a> · "
+                 "<a href=\'%s/arbre.html\'>l’arbre des familles</a></li>"
+                 % (esc(cs["meta"].get("titre", code)), code, code, code))
+    c = ["<h1>Comment lire ce site</h1>",
+         '<div class="entree"><p class="quoi"><strong>Un cours découpé en notions : une '
+         "notion, une page.</strong> Chaque page dit ce qu’est la notion, ce qu’il faut savoir "
+         "avant de la lire, et ce qu’elle permet de lire ensuite.</p>"
+         "<p>C’est tout ce qu’il faut pour s’en servir. La suite définit les quatre mots qui "
+         "reviennent, et rien de plus.</p></div>",
+
+         '<div class="aide">',
+         "<h2>Par où commencer</h2>",
+         "<p>Trois entrées, selon ce que vous avez en tête.</p>",
+         "<ul><li><strong>La carte du cours</strong> — la structure : les grandes idées "
+         "d’abord, puis ce qui en découle. À prendre quand on ne connaît pas encore le cours."
+         "</li><li><strong>Toutes les notions</strong> — la liste complète, rangée dans un "
+         "ordre où l’on peut la lire de haut en bas sans jamais manquer un prérequis."
+         "</li><li><strong>La recherche</strong> — touche <code>/</code> depuis n’importe "
+         "quelle page, sur un nom, un autre nom de la même chose, ou un symbole.</li></ul>",
+         "<ul>" + "".join(e) + "</ul>",
+
+         '<h2 id="niveau">Le niveau</h2>',
+         "<p>Un chiffre attaché à chaque notion : <strong>le nombre de notions qu’il faut "
+         "traverser, au plus long, pour arriver jusqu’à elle</strong>. Niveau 0, elle ne dépend "
+         "d’aucune autre : on peut la lire tout de suite. Niveau 3, le plus long chemin qui y "
+         "mène passe par trois notions.</p>",
+         "<p>C’est un <strong>ordre de lecture, pas une difficulté</strong> : une notion de "
+         "niveau 6 peut être plus simple qu’une notion de niveau 1.</p>",
+         "<p>Un piège, parce que le mot « niveau » fait penser à un escalier : une notion de "
+         "niveau 3 <strong>ne dépend pas forcément</strong> d’une notion de niveau 2. Elle peut "
+         "dépendre directement d’une notion de niveau 0. Le niveau est le plus long chemin, pas "
+         "une chaîne.</p>",
+
+         '<h2 id="socle">Le socle</h2>',
+         "<p>Sur chaque fiche, la liste de <strong>tout</strong> ce qu’il faut avoir lu avant : "
+         "pas seulement ce dont elle dépend directement, mais aussi ce dont ces notions-là "
+         "dépendent, et ainsi de suite jusqu’aux notions de niveau 0.</p>",
+         "<p>C’est donc un <strong>plan de lecture fini</strong>. Si le socle d’une fiche compte "
+         "quatre notions, ces quatre-là suffisent : aucune ne vous renverra à une cinquième qui "
+         "ne serait pas déjà dans la liste. C’est ce qui vous autorise à vous engager sur une "
+         "lecture et à en voir le bout.</p>",
+         "<p>Les cases à cocher servent à cela. Cocher une notion la barre <strong>partout sur "
+         "le site</strong>, et le compteur de chaque liste dit combien il vous en reste.</p>",
+
+         '<h2 id="abstraction">« Cas particulier de », qui n’est pas un prérequis</h2>',
+         "<p>Deux notions peuvent être deux versions d’une même chose. « Cas particulier de » dit "
+         "laquelle est la version générale. Ce lien-là <strong>ne se lit pas avant</strong> : on "
+         "comprend très bien un cas particulier sans avoir lu le cas général, et c’est même "
+         "souvent dans ce sens qu’on apprend.</p>",
+         "<p>Voilà pourquoi les deux liens ne sont jamais mélangés.</p>",
+         "<table><thead><tr><th></th><th>Construite à partir de</th>"
+         "<th>Cas particulier de</th></tr></thead><tbody>"
+         "<tr><td>ce que ça dit</td><td>il faut l’avoir lu avant</td>"
+         "<td>c’est la même idée, en plus général</td></tr>"
+         "<tr><td>faut-il le lire d’abord ?</td><td><strong>oui</strong></td>"
+         "<td><strong>non</strong></td></tr>"
+         "<tr><td>où on le voit en entier</td><td>le socle, sur la fiche</td>"
+         "<td>l’arbre des familles, sur sa propre page</td></tr></tbody></table>",
+
+         '<h2 id="types">Les trois sortes de fiches</h2>',
+         "<ul><li><strong>principe</strong> — une idée qui organise tout un pan du cours. Les "
+         "autres fiches en découlent.</li>"
+         "<li><strong>abstraite</strong> — une famille. Elle n’existe que parce que plusieurs "
+         "notions en sont des cas ; elle n’est jamais créée pour faire joli.</li>"
+         "<li><strong>notion</strong> — l’objet concret, celui qu’on manipule et qu’on calcule."
+         "</li></ul>",
+
+         '<h2 id="ajouts">Ce qui vient du cours, et ce qui a été ajouté</h2>',
+         "<p>Chaque phrase tirée du cours porte sa référence, « §3.2 ». Ce qui n’y est pas mais a "
+         "été ajouté pour que la fiche tienne debout porte la marque <em>ajout</em>.</p>",
+         "<p>Le bouton <strong>« masquer les ajouts »</strong>, en haut de chaque page, retire "
+         "tout cela d’un coup : ce qui reste est exactement le cours, sans une phrase de plus. "
+         "Utile avant un examen, quand on veut savoir ce qu’on peut citer.</p>",
+         "<p>Une rubrique dont <em>tout</em> le contenu est un ajout ne disparaît pas pour "
+         "autant : elle reste, et le dit. Sinon vous concluriez qu’une notion n’a pas de limite "
+         "de validité, alors que c’est seulement le filtre qui l’a masquée.</p>",
+
+         '<h2 id="memoire">Ce que le site retient de vous</h2>',
+         "<p>Le thème, les rubriques que vous laissez ouvertes et les cases cochées vous suivent "
+         "d’une page à l’autre. Rien ne quitte votre navigateur.</p>",
+         "<p>Quand le site est ouvert en double-cliquant un fichier, le navigateur donne à chaque "
+         "page un stockage séparé : l’état ne peut alors voyager que dans l’adresse. C’est ce "
+         "<code>#t:d~…</code> qui apparaît au bout de l’URL. Copier l’adresse copie donc aussi "
+         "vos cases cochées.</p>",
+
+         '<h2 id="fabrication">Comment cette base est faite</h2>',
+         "<p>Chaque notion est un fichier texte sous schéma strict, qui ne contient que ses liens "
+         "<em>sortants</em> : ce dont elle dépend, et de quoi elle est un cas. Tout le reste — le "
+         "socle, le niveau, les membres d’une famille, « sert ensuite à » — est "
+         "<strong>recalculé à chaque construction du site</strong>, jamais écrit à la main. C’est "
+         "ce qui garantit qu’une notion ajoutée cette semaine ne laisse pas une liste fausse "
+         "ailleurs.</p>",
+         "<p>Un validateur refuse de construire le site sur un graphe incohérent : cycle de "
+         "dépendances, famille sans membres, symbole non déclaré, élément du poly sans image. Les "
+         "documents qui fixent ces règles (<code>SPEC-MODELE.md</code>, "
+         "<code>SPEC-INGESTION.md</code>, <code>SPEC-SITE.md</code>) vivent dans le dépôt, à côté "
+         "des fiches.</p>",
+         "<p>L’<strong>inventaire</strong> d’un cours et les <strong>rapports d’ingestion</strong> "
+         "sont les pages de ce travail-là. Elles ne servent pas à apprendre : elles servent à "
+         "vérifier que rien du poly n’a été perdu en route.</p>",
+         "</div>"]
+    return page(m, titre="Comment lire ce site", rel=rel, fil="comment lire",
+                corps="".join(c), mathjax=False)
+
+
 def page_accueil(m):
     rel = ""
+    tot = len(m["N"])
     c = ["<h1>Base de notions — M2 IRFA</h1>",
-         '<p class="note">Une fiche par notion, deux relations, un validateur, un site généré. '
-         "Les rubriques dérivées sont calculées au build et ne sont jamais écrites dans les fiches (A9).</p>",
+         '<div class="entree"><p class="quoi"><strong>Des cours découpés en notions : une '
+         "notion, une page.</strong> Chaque page dit ce qu’est la notion, ce qu’il faut savoir "
+         "avant de la lire, et ce qu’elle permet de lire ensuite.</p>"
+         "<p>" + str(tot) + " notions pour l’instant, sur " + str(len(m["cours"]))
+         + " cours. Choisissez un cours ci-dessous, ou cherchez directement un nom ou un "
+         "symbole avec la touche <code>/</code>.</p>"
+         '<p class="note"><a href="aide.html">Comment lire ce site</a> — une page, les quatre '
+         "mots qui reviennent partout : niveau, socle, cas particulier de, ajout.</p></div>",
          '<h2 class="ptag">Cours</h2><ul class="cartes">']
     for code, cs in sorted(m["cours"].items()):
-        d = dette_du_cours(m, code)
+        nv0 = sum(1 for i in cs["notions"] if m["niveau"][i] == 0)
         c.append('<li class="carte"><a class="tit" href="%s/index.html">%s</a>'
-                 "<p>%s · %s</p><p>%d notions · %d exercices · dette : %d éléments d’inventaire, "
-                 "%d gestes, %d liens%s</p>"
-                 '<p><a href="%s/notions.html">toutes les notions</a> · <a href="%s/arbre.html">arbre</a>'
-                 ' · <a href="%s/inventaire.html">inventaire</a></p></li>'
-                 % (code, esc(cs["meta"].get("titre", code)), esc(str(cs["meta"].get("enseignant", ""))),
-                    esc(str(cs["meta"].get("annee", ""))), len(cs["notions"]), len(cs["exercices"]),
-                    len(d["inventaire"]), len(d["gestes"]), len(d["liens"]),
-                    (" · <strong>%d exemples minimaux manquants</strong> (faute de protocole)"
-                     % len(d["exemples"]) if d["exemples"] else ""), code, code, code))
+                 "<p>%s · %s</p>"
+                 "<p>%d notions, dont %d qui ne dépendent d’aucune autre · %d exercices</p>"
+                 '<p><a href="%s/notions.html">toutes les notions</a> · '
+                 '<a href="%s/arbre.html">l’arbre des familles</a></p></li>'
+                 % (code, esc(cs["meta"].get("titre", code)),
+                    esc(str(cs["meta"].get("enseignant", ""))),
+                    esc(str(cs["meta"].get("annee", ""))),
+                    len(cs["notions"]), nv0, len(cs["exercices"]), code, code))
     c.append("</ul>")
+
+    # Ce qui suit regarde la fabrication de la base, pas la lecture des cours : replié,
+    # et annoncé comme tel. Même séparation que sur la carte d'un cours.
+    d = {k: sum(len(dette_du_cours(m, x)[k]) for x in m["cours"])
+         for k in ("liens", "gestes", "exemples", "inventaire")}
+    ch = ['<details class="chantier"><summary>Suivi de la rédaction — comment cette base est '
+          "faite, et ce qui reste à y faire</summary>",
+          '<div class="dette"><ul>'
+          "<li>%d notions réparties sur %d cours</li>" % (tot, len(m["cours"])),
+          "<li>reste à écrire : %d liens vers des notions à venir, %d gestes de calcul, "
+          "%d éléments d’inventaire%s</li>"
+          % (d["liens"], d["gestes"], d["inventaire"],
+             ", et <strong>%d exemples minimaux manquants</strong> (faute de protocole)"
+             % d["exemples"] if d["exemples"] else ""),
+          '<li><a href="aide.html" data-v="fabrication">comment cette base est faite</a> : le '
+          "schéma des fiches, ce qui est recalculé à chaque construction, le validateur</li>"]
     if m["rapports"]:
-        c.append('<h2 class="ptag">Rapports d’ingestion</h2><ul class="pasts">')
-        for r in reversed(m["rapports"]):
-            c.append('<li><a class="past" href="rapports/%s.html">%s</a></li>' % (r["slug"], esc(r["slug"])))
-        c.append("</ul>")
-    tot = len(m["N"])
-    c.append('<h2 class="ptag">État</h2><div class="dette"><ul>'
-             "<li>%d notions, %d cours</li>"
-             "<li>recherche : touche <code>/</code> depuis n’importe quelle page</li>"
-             "<li>« masquer les ajouts » donne la projection stricte du cours (A11)</li></ul></div>" % (tot, len(m["cours"])))
+        ch.append("<li>rapports d’ingestion, un par séance de travail : "
+                  + " · ".join('<a href="rapports/%s.html">%s</a>' % (r["slug"], esc(r["slug"]))
+                               for r in reversed(m["rapports"])) + "</li>")
+    ch.append("</ul></div></details>")
+    c += ch
     return page(m, titre="Base de notions", rel=rel, fil="accueil", corps="".join(c), mathjax=False)
 
 
@@ -1264,6 +1554,9 @@ def index_recherche(m):
         c, s = i.split("/", 1)
         ent.append(dict(n=i, s=c + " · exercice", u=c + "/exercices/" + s + ".html",
                         h=[i, str(x["meta"].get("source", ""))]))
+    ent.append(dict(n="Comment lire ce site", s="niveau, socle, cas particulier de, ajouts",
+                    u="aide.html", h=["aide", "comment lire", "niveau", "socle", "abstraction",
+                                      "ajout", "vocabulaire", "commencer"]))
     for code in sorted(m["cours"]):
         t = m["cours"][code]["meta"].get("titre", code)
         ent.append(dict(n="Carte du cours " + code, s=t, u=code + "/index.html", h=[code, t, "carte"]))
@@ -1272,7 +1565,21 @@ def index_recherche(m):
         ent.append(dict(n="Arbre " + code, s="abstraction", u=code + "/arbre.html", h=[code, "arbre", "abstraction"]))
         ent.append(dict(n="Inventaire " + code, s="couverture de la source", u=code + "/inventaire.html",
                         h=[code, "inventaire", "couverture"]))
-    return "window.SEARCH_INDEX=" + json.dumps(ent, ensure_ascii=False) + ";\n"
+    # L'ordre de ETAT_IDS fixe la position de chaque bit de l'état « déjà su ».
+    # Le tampon est calculé dessus : il change dès qu'une notion entre ou sort.
+    return ("window.SEARCH_INDEX=" + json.dumps(ent, ensure_ascii=False) + ";\n"
+            + "window.ETAT_IDS=" + json.dumps(etat_ids(m), ensure_ascii=False) + ";\n")
+
+
+def etat_ids(m):
+    return sorted(m["N"])
+
+
+def tampon(m):
+    """Quatre caractères sur la liste des identifiants : un lien fabriqué avant un
+    ajout de notion perd ses cases « déjà su » au lieu d'en cocher de mauvaises."""
+    import hashlib
+    return hashlib.sha1("\n".join(etat_ids(m)).encode("utf-8")).hexdigest()[:4]
 
 
 # ================================================================ 8. écriture
@@ -1375,9 +1682,13 @@ def main():
     else:
         m["mathjax_src"] = lambda rel: MATHJAX_CDN
 
+    m["js_commun"] = (JS_COMMUN.replace("__CLES__", json.dumps(CLES_PLI))
+                                .replace("__TAMPON__", tampon(m)))
+
     tailles = []
     ecrire(site / "search-index.js", index_recherche(m), tailles)
     ecrire(site / "index.html", page_accueil(m), tailles)
+    ecrire(site / "aide.html", page_aide(m), tailles)
     for r_ in m["rapports"]:
         ecrire(site / "rapports" / (r_["slug"] + ".html"), page_rapport(m, r_), tailles)
     for code in codes:
