@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="fr" data-rel="">
+<html lang="fr" data-rel="../">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Base de notions · notions</title>
+<title>Rapport 2026-09-20-site-4 · notions</title>
 <script>
 (function(){try{var t=localStorage.getItem('notions.theme');if(t){document.documentElement.setAttribute('data-theme',t);}
 var a=localStorage.getItem('notions.ajouts');if(a==='0'){document.documentElement.classList.add('sans-ajouts');}}catch(e){}})();
@@ -169,13 +169,41 @@ footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);f
 }
 @media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
 </style>
-
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
-<header class="top"><div class="topin"><a class="brand" href="index.html">notions</a><span class="fil">accueil</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
-<main><div class="wrap"><h1>Base de notions — M2 IRFA</h1><p class="note">Une fiche par notion, deux relations, un validateur, un site généré. Les rubriques dérivées sont calculées au build et ne sont jamais écrites dans les fiches (A9).</p><h2 class="ptag">Cours</h2><ul class="cartes"><li class="carte"><a class="tit" href="dup/index.html">Decision under Uncertainty and Portfolio Analysis</a><p>Xiangyu Qu · 2025-2026</p><p>68 notions · 0 exercices · dette : 0 éléments d’inventaire, 0 gestes, 0 liens</p><p><a href="dup/arbre.html">arbre</a> · <a href="dup/inventaire.html">inventaire</a></p></li><li class="carte"><a class="tit" href="fpp/index.html">Financial Products and Introduction to Pricing</a><p>Nicolas Gaussel · 2025-2026</p><p>55 notions · 3 exercices · dette : 0 éléments d’inventaire, 0 gestes, 0 liens</p><p><a href="fpp/arbre.html">arbre</a> · <a href="fpp/inventaire.html">inventaire</a></p></li></ul><h2 class="ptag">Rapports d’ingestion</h2><ul class="pasts"><li><a class="past" href="rapports/2026-09-20-spec-ingestion.html">2026-09-20-spec-ingestion</a></li><li><a class="past" href="rapports/2026-09-20-site.html">2026-09-20-site</a></li><li><a class="past" href="rapports/2026-09-20-site-4.html">2026-09-20-site-4</a></li><li><a class="past" href="rapports/2026-09-20-site-3.html">2026-09-20-site-3</a></li><li><a class="past" href="rapports/2026-09-20-site-2.html">2026-09-20-site-2</a></li><li><a class="past" href="rapports/2026-09-20-fpp.html">2026-09-20-fpp</a></li><li><a class="past" href="rapports/2026-09-20-fpp-3.html">2026-09-20-fpp-3</a></li><li><a class="past" href="rapports/2026-09-20-fpp-2.html">2026-09-20-fpp-2</a></li><li><a class="past" href="rapports/2026-09-20-dup.html">2026-09-20-dup</a></li></ul><h2 class="ptag">État</h2><div class="dette"><ul><li>123 notions, 2 cours</li><li>recherche : touche <code>/</code> depuis n’importe quelle page</li><li>« masquer les ajouts » donne la projection stricte du cours (A11)</li></ul></div></div></main>
+<header class="top"><div class="topin"><a class="brand" href="../index.html">notions</a><span class="fil">rapport d’ingestion › 2026-09-20-site-4</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><article class="rapport"><h1>Rapport d'ingestion — validateur et README — 2026-09-20</h1><p>Septième session du jour. <strong>Aucune fiche, aucun inventaire, aucun registre touché.</strong>
+Deux demandes de l'utilisateur, toutes deux en attente depuis trois rapports.</p><h2>Matériau traité</h2><p><code>tools/validate.py</code> et <code>README.md</code>.</p><h2>Fiches créées · modifiées · Abstractions · Inventaire · Notations</h2><p>Aucune, dans tous les cas.</p><h2>Modification de tools/validate.py</h2><p>C'est la première fois que le validateur est touché depuis l'amorçage, et c'est un
+durcissement, pas un contournement.</p><div class="tablebloc"><table><thead><tr><th>endroit</th><th>ancien</th><th>nouveau</th><th>raison</th></tr></thead><tbody><tr><td>contrôle des rubriques, branche <code>« à venir »</code></td><td><code>Exemple minimal</code> et <code>Geste de calcul type</code> traités à l'identique : <strong>W</strong> et comptés en dette</td><td><code>Exemple minimal</code> à venir devient une <strong>E</strong> ; <code>Geste de calcul type</code> reste <strong>W</strong></td><td>SPEC-INGESTION étape 3 : « Elle ne dépend d'aucun exercice et s'écrit dès la création de la fiche ; la laisser en dette est une faute de protocole. » Le validateur était plus laxiste que les trois documents de loi</td></tr></tbody></table></div><p><strong>Vérifié dans les deux sens.</strong> Sur le dépôt : 123 notions, 0 erreur — le changement ne
+casse rien, parce que le compteur était à zéro. Sur une copie où un exemple minimal est
+remis en dette : <code>E A1 fpp/facteur-actualisation: « Exemple minimal » à venir…</code>, code de
+retour 1, et <code>build.py</code> refuse de construire.</p><p>Le moment était le bon, et c'est pourquoi le rapport le réclamait depuis trois sessions :
+c'est le seul où la promotion est gratuite. Dès la prochaine ingestion, une fiche nouvelle
+sans exemple minimal bloquera le build — ce qui est exactement l'effet recherché.</p><h2>Modification de README.md</h2><p>Le document annonçait encore <code>build.py</code> « à implémenter » et un « premier travail »
+entièrement accompli. Structure et ordre des sections conservés.</p><div class="tablebloc"><table><thead><tr><th>section</th><th>ancien</th><th>nouveau</th></tr></thead><tbody><tr><td>Démarrage</td><td><code>python tools/build.py  # à implémenter par Claude Code</code></td><td>la commande fonctionne ; ajout d'un paragraphe sur <code>--offline</code>, <code>--course</code>, et sur le fait que le build exécute lui-même validateur et test de disposition</td></tr><tr><td>Arborescence</td><td><code>validate.py (fait) · build.py (à faire) · tests/test_layout.py (à faire)</code></td><td><code>validate.py · build.py · tests/test_layout.py</code></td></tr><tr><td>« État de l'amorçage (2026-09-20) »</td><td>25 fiches, un cours, deux réserves ouvertes</td><td>renommée <strong>« État (2026-09-20) »</strong> : tableau des deux cours, 123 fiches, dette nulle ; les deux réserves sont déclarées levées, avec le rapport qui les a traitées</td></tr><tr><td>« Premier travail pour Claude Code »</td><td>quatre points, tous faits</td><td>renommée <strong>« Ce qui reste ouvert »</strong> : les cinq décisions en attente de l'utilisateur, chacune renvoyant à son rapport</td></tr></tbody></table></div><p>Deux titres de section ont donc changé. Ils décrivaient un état révolu ; les laisser
+aurait été plus trompeur que les corriger.</p><h2>Dette</h2><p>Inchangée : <strong>nulle</strong> sur les deux cours.</p><h2>Contradictions source</h2><p>Aucune nouvelle. Les neuf déjà relevées restent non arbitrées.</p><h2>Questions pour l'utilisateur</h2><p>1. <strong>Fermeture du socle, vérifiée à la demande.</strong> Pour les 123 fiches, et sans exception :
+   si <code>y</code> est dans le socle de <code>x</code>, alors tout le socle de <code>y</code> est déjà dans celui de <code>x</code>.
+   C'est la fermeture transitive, garantie par construction. Lire le socle d'une fiche
+   suffit donc, et ne renvoie jamais à une notion extérieure. Aucune action requise, c'est
+   noté ici parce que la propriété mérite d'être écrite quelque part.
+2. <strong>Nuance sur les niveaux</strong>, née de la même question : le niveau est le plus <strong>long</strong>
+   chemin, pas le seul. <strong>16 arêtes sur 121 sautent plus d'un niveau</strong> — par exemple
+   <code>Approximation d'Arrow-Pratt</code> (niveau 4) dépend directement de
+   <code>Aversion absolue d'Arrow-Pratt</code> (niveau 1). Recommandation : ne rien changer, la
+   propriété utile — lire par niveaux croissants ne fait jamais rencontrer une notion non
+   encore vue — reste vraie.
+3. Restent ouvertes, inchangées : les trois principes créés à confirmer, les neuf
+   contradictions de source, le parent unique d'<code>ordre-concave</code>, le recouvrement L1/L2, et
+   les deux abstractions en attente. Toutes sont listées dans le README, section « Ce qui
+   reste ouvert ».</p><h2>Validation</h2><p>```
+123 notions · 0 erreur · 4 avertissement(s), tous stylistiques
+dette : aucune
+« Exemple minimal à venir » est désormais une E, vérifiée sur copie : code de retour 1
+site : 142 fichiers
+```</p></article></div></main>
 <footer><div class="wrap">Base de notions M2 IRFA · page générée par <code>tools/build.py</code> selon <code>SPEC-SITE.md</code> · les rubriques dérivées (socle, membres, sert ensuite à, niveau) sont calculées au build, jamais écrites dans les fiches (A9).</div></footer>
-<script src="search-index.js"></script>
+<script src="../search-index.js"></script>
 <script>
 var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
         s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};

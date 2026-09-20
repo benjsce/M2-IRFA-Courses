@@ -295,7 +295,15 @@ def valider(root: Path, rap: Rapport):
                 if r not in S:
                     rap.e("A1", nid, f"« {r} » obligatoire quand « Forme » est présente")
                 elif "à venir" in S[r]:
-                    rap.w("A1", nid, f"« {r} » à venir"); rap.dette[f"{r} à venir"] += 1
+                    if r == "Exemple minimal":
+                        # SPEC-INGESTION étape 3 : « Elle ne dépend d'aucun exercice et s'écrit
+                        # dès la création de la fiche ; la laisser en dette est une faute de
+                        # protocole. » Ce n'est donc pas de la dette, c'est une erreur.
+                        rap.e("A1", nid, "« Exemple minimal » à venir : il ne dépend d'aucun "
+                                         "exercice et s'écrit dès la création de la fiche "
+                                         "(SPEC-INGESTION étape 3)")
+                    else:
+                        rap.w("A1", nid, f"« {r} » à venir"); rap.dette[f"{r} à venir"] += 1
         # marqueurs par bloc
         pat = courses[n["course"]].get("refs_pattern")
         rx = re.compile(pat) if pat else None
