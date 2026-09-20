@@ -33,7 +33,7 @@ La représentation est implicite : la contribution d’un résultat peut dépend
 Trois modèles que le cours présente l’un après l’autre, que sa table du §17 range explicitement ensemble, et qui ne diffèrent que par la façon dont la probabilité compensatrice est autorisée à varier. Les séparer ferait manquer la progression : $\rho=\lambda$, puis $\rho$ indépendant de $R$, puis $\rho(R)$. [L3 slide 17]
 
 ## Le chemin jusqu'ici
-dup/loterie et dup/fonction-utilite donnent dup/utilite-esperee — les trois notions que presque tout ce cours suppose acquises. [ajout]
+dup/loterie et dup/fonction-utilite donnent dup/utilite-esperee — les notions que presque tout ce cours suppose acquises. [ajout]
 
 La famille se définit par ce qu'elle **garde** de l'utilité espérée — l'intermédiarité — et par ce qu'elle abandonne, l'indépendance. On ne peut donc pas la poser avant elle : c'est un affaiblissement, et un affaiblissement se définit par rapport à ce qu'il affaiblit. [ajout]
 

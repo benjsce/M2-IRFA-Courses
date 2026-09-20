@@ -27,7 +27,7 @@ Par l’inégalité de Jensen, l’aversion vaut pour tout pari si et seulement 
 ## Le chemin jusqu'ici
 Une fois dup/utilite-esperee posée — donc une fois dup/loterie et dup/fonction-utilite disponibles —, on peut comparer deux choses qui n'étaient pas comparables : la **moyenne des utilités** et l'**utilité de la moyenne**. [ajout]
 
-L'aversion au risque n'est rien d'autre que le sens de cet écart. Elle ne demande aucun objet nouveau : elle est une propriété de la courbure de $U$, lue à travers la loterie. C'est pourquoi son socle s'arrête à trois notions. [ajout]
+L'aversion au risque n'est rien d'autre que le sens de cet écart. Elle ne demande aucun objet nouveau : elle est une propriété de la courbure de $U$, lue à travers la loterie. C'est pourquoi son socle s'arrête là. [ajout]
 
 ## Exemple minimal
 Avec $u(x)=\sqrt{x}$ et le pari $(0,\tfrac12;100,\tfrac12)$ : la moyenne certaine vaut $u(50)=7{,}07$ contre $5$ pour le pari. [ajout]

@@ -40,6 +40,15 @@ DERIVEES = {"Sert ensuite à", "Membres", "Socle", "Socle complet", "Niveau",
 
 MARKER = re.compile(r"\[([^\[\]]+)\]\s*$")
 
+# Un nombre écrit en toutes lettres devant une quantité que le générateur calcule :
+# « treize notions au socle », « quatre membres ». Vrai le jour où on l'écrit, faux la
+# semaine d'après, et rien ne le signale. CLAUDE.md, interdictions absolues.
+# « un/une » et « niveaux » sont hors du motif : ce sont presque toujours des articles
+# ou des tournures ordinaires (« deux niveaux de richesse », « pas une notion »).
+NOMBRE_DERIVE = re.compile(
+    r"\b(deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze"
+    r"|\d+)\s+(notions?|membres?|prérequis|fiches?)\b", re.I)
+
 
 class Rapport:
     def __init__(self):
@@ -286,6 +295,14 @@ def valider(root: Path, rap: Rapport):
             rap.w("A1", nid, "« Le chemin jusqu'ici » ne nomme pas %d notion(s) de son socle : %s"
                   % (len(oublie), ", ".join(oublie[:4]) + (" …" if len(oublie) > 4 else "")))
             rap.dette["chemin jusqu'ici incomplet"] += 1
+
+    # ---- nombres dérivés écrits en dur dans la prose
+    for nid, n in N.items():
+        for t, v in n["sections"]:
+            for x in NOMBRE_DERIVE.finditer(v):
+                rap.w("A1", nid, "[%s] nombre calculé écrit en dur : « %s » — le générateur "
+                                 "l'affiche déjà, et la prose deviendra fausse" % (t, x.group(0)))
+                rap.dette["nombre calculé en dur"] += 1
 
     # ---- A9 sections interdites ; rubriques, ordre, obligations, marqueurs (A11)
     for nid, n in N.items():

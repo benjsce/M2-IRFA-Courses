@@ -30,7 +30,7 @@ Les variations infinitésimales de probabilité s’évaluent comme sous utilit�
 C’est une approximation, jamais une indépendance exacte pour des mélanges finis : les courbes d’indifférence peuvent se courber. [L3 slide 13]
 
 ## Le chemin jusqu'ici
-dup/loterie et dup/fonction-utilite donnent dup/utilite-esperee — les trois notions que presque tout ce cours suppose acquises. [ajout]
+dup/loterie et dup/fonction-utilite donnent dup/utilite-esperee — les notions que presque tout ce cours suppose acquises. [ajout]
 
 Même logique d'affaiblissement : on renonce à l'indépendance globale et on ne garde que la dérivabilité en les probabilités. L'utilité espérée reste au socle non comme hypothèse mais comme **point de comparaison** — localement, la fonctionnelle se comporte comme elle. [ajout]
 

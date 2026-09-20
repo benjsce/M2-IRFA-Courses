@@ -27,7 +27,7 @@ Le bruit n’a pas besoin d’être indépendant de $\tilde x$ : sa variance con
 L’inégalité de Jensen conditionnelle donne alors $\mathbb{E}[U(\tilde y)\mid\tilde x]\le U(\tilde x)$ pour $U$ concave, donc $\mathbb{E}U(\tilde y)\le\mathbb{E}U(\tilde x)$. [L1 slide 20]
 
 ## Le chemin jusqu'ici
-dup/loterie et dup/fonction-utilite donnent dup/utilite-esperee — les trois notions que presque tout ce cours suppose acquises. [ajout]
+dup/loterie et dup/fonction-utilite donnent dup/utilite-esperee — les notions que presque tout ce cours suppose acquises. [ajout]
 
 Ajouter un bruit de moyenne nulle est une opération sur les loteries ; qu'elle corresponde à « plus risqué » est un énoncé sur les agents. Le socle contient les deux parce que la fiche relie les deux — c'est l'une des caractérisations équivalentes de l'accroissement de risque, et la plus intuitive. [ajout]
 

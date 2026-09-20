@@ -23,7 +23,7 @@ Les deux problèmes sont le même mélange à un facteur près : si $B\succ A$, 
 Ce qui disparaît en passant du premier au second problème est la certitude de $B$ : c’est encore l’effet de certitude. [L1 slide 47, L1 slide 43]
 
 ## Le chemin jusqu'ici
-dup/loterie et dup/fonction-utilite donnent dup/utilite-esperee — les trois notions que presque tout ce cours suppose acquises, pour la même raison que l'effet de conséquence commune : on mesure un écart à une prédiction. [ajout]
+dup/loterie et dup/fonction-utilite donnent dup/utilite-esperee — les notions que presque tout ce cours suppose acquises, pour la même raison que l'effet de conséquence commune : on mesure un écart à une prédiction. [ajout]
 
 Ce qui est propre à celui-ci, c'est l'opération appliquée : diviser toutes les probabilités par un même facteur, ce que l'indépendance déclare sans effet. Le renversement observé attaque donc le même axiome, par l'autre côté. [ajout]
 

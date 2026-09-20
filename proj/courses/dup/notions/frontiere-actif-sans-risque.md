@@ -24,7 +24,7 @@ L’écart type est proportionnel à la part risquée : la frontière est une dr
 ## Le chemin jusqu'ici
 dup/loterie puis dup/moyenne-variance. [ajout]
 
-Même socle que la diversification, et c'est cohérent : les deux sont de la géométrie dans le plan écart type–moyenne. Ajouter un actif sans risque y trace une droite, parce qu'un actif de variance nulle ne peut pas courber le mélange. [ajout]
+dup/loterie et dup/moyenne-variance suffisent parce que tout se passe dans le plan écart type–moyenne : c'est de la géométrie, pas de la théorie de la décision. La fiche *Diversification* a le même socle, pour la même raison. Ajouter un actif sans risque y trace une droite, parce qu'un actif de variance nulle ne peut pas courber le mélange. [ajout]
 
 ## Exemple minimal
 Avec $r_0=2\%$, $\mu_r=8\%$, $\sigma_r=20\%$ et $a=\tfrac12$ : $\mu_p=5\%$ et $\sigma_p=10\%$. [ajout]

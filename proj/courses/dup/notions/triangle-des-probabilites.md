@@ -22,7 +22,7 @@ Les probabilités entrant linéairement, les courbes d’indifférence de l’ut
 Les choix de type Allais imposent des pentes qui changent : le motif empirique le plus courant est l’éventail qui s’ouvre. [L1 slide 44]
 
 ## Le chemin jusqu'ici
-dup/loterie et dup/fonction-utilite donnent dup/utilite-esperee — les trois notions que presque tout ce cours suppose acquises. [ajout]
+dup/loterie et dup/fonction-utilite donnent dup/utilite-esperee — les notions que presque tout ce cours suppose acquises. [ajout]
 
 Le triangle est un outil de lecture, pas une théorie : trois résultats, deux degrés de liberté, donc un plan. Son intérêt tient entièrement à ce qu'il rend visible — sous utilité espérée les courbes d'indifférence y sont des **droites parallèles**. Sans l'utilité espérée au socle, la figure ne dirait rien. [ajout]
 
