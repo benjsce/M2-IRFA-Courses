@@ -922,9 +922,8 @@ def page_fiche(m, i):
     so = bloc_liste(m, m["socle"][i], rel, "socle",
                     "Tout ce qu’il faut savoir avant cette fiche, par niveau croissant — le "
                     "niveau 0 ne dépend de rien. <strong>La liste est close</strong> : la lire suffit, "
-                    "aucune de ces notions ne renvoie à une notion absente d’ici. Le niveau est le plus "
-                    "long chemin, pas une chaîne : une notion peut dépendre directement d’une autre "
-                    "située plusieurs niveaux plus bas. Une case cochée le reste sur toutes les fiches.")
+                    "aucune de ces notions ne renvoie à une notion absente d’ici. Une case cochée le "
+                    "reste sur toutes les fiches.")
     if so:
         c.append(sec("Socle complet", so, cle="socle", classe="gen",
                      compte=str(len(m["socle"][i])) + (" prérequis" if len(m["socle"][i]) == 1 else " prérequis en tout")))
@@ -1038,9 +1037,10 @@ def page_cours(m, code):
                  '<p class="note">Les groupes sont des <strong>niveaux de dépendance</strong> : '
                  "le niveau d’une notion est le nombre de notions qu’il faut traverser, au plus "
                  "long, pour arriver jusqu’à elle. <strong>Niveau 0</strong> : elle ne dépend "
-                 "d’aucune autre, on peut la lire en premier. <strong>Niveau 1</strong> : elle "
-                 "dépend uniquement de notions de niveau 0. Et ainsi de suite : le niveau est "
-                 "donc un ordre de lecture, pas un degré de difficulté ni d’importance.</p>")
+                 "d’aucune autre, on peut la lire en premier. <strong>Niveau n</strong> : sa "
+                 "dépendance la plus profonde est de niveau n−1 — mais elle peut aussi dépendre "
+                 "directement de notions bien plus basses, les niveaux ne forment pas une chaîne. "
+                 "C’est un ordre de lecture, pas un degré de difficulté ni d’importance.</p>")
         c.append(liste_pastilles(m, comp, rel, code, niveau=True, cle=lambda y: "niveau %d" % m["niveau"][y]))
 
     d = dette_du_cours(m, code)
