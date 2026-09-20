@@ -25,10 +25,12 @@ $$\mathrm{NPV}(t)=\sum_i P(t,t_i)X_i$$ [Déf. 4]
 Transportable à n’importe quelle date par division : $\mathrm{NPV}(t_k)=\mathrm{NPV}(t)/P(t,t_k)$. [Déf. 4]
 
 ## Exemple minimal
-à venir [ajout]
+Trois flux de 100 en 1, 2 et 3 ans, courbe plate à 4 % : $\mathrm{NPV}(0)=277{,}08$. [ajout]
 
 ## Geste de calcul type
 à venir [ajout]
 
 ## Cesse d'être valide quand
-Flux certains uniquement. Dès qu’ils sont aléatoires, il faut passer sous $\mathbb{Q}$. [Déf. 4]
+Flux certains uniquement. [Déf. 4]
+
+Dès qu’ils sont aléatoires, il faut passer sous $\mathbb{Q}$. [§5.1]

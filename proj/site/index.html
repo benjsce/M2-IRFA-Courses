@@ -99,6 +99,8 @@ details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fa
 .marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
 .marqligne{margin:.15rem 0 0}
 html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
 .bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
   color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
 
@@ -175,7 +177,7 @@ footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);f
 </head>
 <body>
 <header class="top"><div class="topin"><a class="brand" href="index.html">notions</a><span class="fil">accueil</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
-<main><div class="wrap"><h1>Base de notions — M2 IRFA</h1><p class="note">Une fiche par notion, deux relations, un validateur, un site généré. Les rubriques dérivées sont calculées au build et ne sont jamais écrites dans les fiches (A9).</p><h2 class="ptag">Cours</h2><ul class="cartes"><li class="carte"><a class="tit" href="fpp/index.html">Financial Products and Introduction to Pricing</a><p>Nicolas Gaussel · 2025-2026</p><p>25 notions · 3 exercices · dette : 55 éléments d’inventaire, 15 gestes, 0 liens · <strong>15 exemples minimaux manquants</strong> (faute de protocole)</p><p><a href="fpp/arbre.html">arbre</a> · <a href="fpp/inventaire.html">inventaire</a></p></li></ul><h2 class="ptag">Rapports d’ingestion</h2><ul class="pasts"><li><a class="past" href="rapports/2026-09-20-spec-ingestion.html">2026-09-20-spec-ingestion</a></li><li><a class="past" href="rapports/2026-09-20-site.html">2026-09-20-site</a></li><li><a class="past" href="rapports/2026-09-20-fpp.html">2026-09-20-fpp</a></li></ul><h2 class="ptag">État</h2><div class="dette"><ul><li>25 notions, 1 cours</li><li>recherche : touche <code>/</code> depuis n’importe quelle page</li><li>« masquer les ajouts » donne la projection stricte du cours (A11)</li></ul></div></div></main>
+<main><div class="wrap"><h1>Base de notions — M2 IRFA</h1><p class="note">Une fiche par notion, deux relations, un validateur, un site généré. Les rubriques dérivées sont calculées au build et ne sont jamais écrites dans les fiches (A9).</p><h2 class="ptag">Cours</h2><ul class="cartes"><li class="carte"><a class="tit" href="fpp/index.html">Financial Products and Introduction to Pricing</a><p>Nicolas Gaussel · 2025-2026</p><p>25 notions · 3 exercices · dette : 58 éléments d’inventaire, 15 gestes, 0 liens</p><p><a href="fpp/arbre.html">arbre</a> · <a href="fpp/inventaire.html">inventaire</a></p></li></ul><h2 class="ptag">Rapports d’ingestion</h2><ul class="pasts"><li><a class="past" href="rapports/2026-09-20-spec-ingestion.html">2026-09-20-spec-ingestion</a></li><li><a class="past" href="rapports/2026-09-20-site.html">2026-09-20-site</a></li><li><a class="past" href="rapports/2026-09-20-fpp.html">2026-09-20-fpp</a></li><li><a class="past" href="rapports/2026-09-20-fpp-2.html">2026-09-20-fpp-2</a></li></ul><h2 class="ptag">État</h2><div class="dette"><ul><li>25 notions, 1 cours</li><li>recherche : touche <code>/</code> depuis n’importe quelle page</li><li>« masquer les ajouts » donne la projection stricte du cours (A11)</li></ul></div></div></main>
 <footer><div class="wrap">Base de notions M2 IRFA · page générée par <code>tools/build.py</code> selon <code>SPEC-SITE.md</code> · les rubriques dérivées (socle, membres, sert ensuite à, niveau) sont calculées au build, jamais écrites dans les fiches (A9).</div></footer>
 <script src="search-index.js"></script>
 <script>
@@ -188,9 +190,18 @@ function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-a
     var c=s.querySelector('.corps');if(!c)return;var n=0;
     c.querySelectorAll(':scope>*').forEach(function(el){
       if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
       if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
       n++;});
-    s.classList.toggle('vide',!on&&n===0);});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='Rubrique obligatoire dont tout le contenu est un ajout de l’opérateur : masquée par le filtre, mais elle existe dans la fiche.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
   if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
 }
 document.addEventListener('DOMContentLoaded',function(){

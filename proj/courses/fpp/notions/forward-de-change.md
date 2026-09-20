@@ -22,10 +22,12 @@ Le taux de change convenu aujourd’hui pour un échange de devises futur. [§2.
 $$K(t,T)=X_t\dfrac{P(t,T)}{P^f(t,T)}=X_te^{(R^f-R)\tau}$$ [§2.4]
 
 ## Ce qui la définit
-Le seul endroit où les deux principes se rejoignent : c’est la composition du facteur temporel et du facteur de change. La parité des taux d’intérêt n’est pas un résultat de plus, c’est le portage avec le bon $\Phi$. [§2.4]
+La devise locale s’apprécie à terme si le taux étranger est supérieur au taux local. [§2.4]
+
+C’est le seul endroit où les deux principes se rejoignent : la composition du facteur temporel et du facteur de change. La parité des taux d’intérêt n’est pas un résultat de plus, c’est le portage avec le bon $\Phi$. [ajout]
 
 ## Exemple minimal
-à venir [ajout]
+$X_t=1{,}10$ USD par EUR, $P(0,1)=0{,}9608$ (EUR à 4 %), $P^f(0,1)=0{,}9802$ (USD à 2 %) : $K(0,1)=1{,}0782$. [ajout]
 
 ## Geste de calcul type
 à venir [ajout]

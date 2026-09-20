@@ -34,7 +34,7 @@ Tous sont le prix comptant d’un même objet : le payoff $S_T/D$. Le prix à te
 Quatre contrats que le cours présente séparément, sur quatre sections, alors qu’ils ne diffèrent que par deux paramètres qui commutent. C’est l’abstraction la plus rentable de la branche. [ajout]
 
 ## Exemple minimal
-à venir [ajout]
+$S_t=100$, $\Phi=1$, $D=P(0,1)=0{,}9608$ : $K=104{,}08$. [ajout]
 
 ## Geste de calcul type
 à venir [ajout]
@@ -49,7 +49,7 @@ Quatre contrats que le cours présente séparément, sur quatre sections, alors 
 | facteur $D$ | règlement unique, devise locale | $P(t,T)$ |
 | facteur $D$ | règlement unique, devise étrangère | $P^f(t,T)$ |
 | facteur $D$ | appels de marge | $B(t,T)$ |
-[Prop. 2, Prop. 3, Déf. 8]
+[Prop. 2, Prop. 3, Déf. 8, §2.4, §3.2]
 
 ## Cesse d'être valide quand
 Deux ruptures : refinancement aléatoire (le future perd la forme fermée) ; sous-jacent et règlement dans deux devises différentes (quanto — la corrélation manque aux deux paramètres). La base $F-S$ n’est lisible comme coût de portage que hors de ces deux cas. [ajout]

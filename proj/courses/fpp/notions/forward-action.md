@@ -21,10 +21,10 @@ Le prix convenu aujourd’hui pour acheter une action à une date future. [§3.1
 $$F(t,T)=\dfrac{S_t\,\Phi}{P(t,T)}$$ [§3.1, §3.2]
 
 ## Ce qui la définit
-Cas le plus simple du prix à terme : règlement unique, devise du sous-jacent. Tout le contenu propre tient dans $\Phi$. [§3.1, §3.2]
+Cas le plus simple du prix à terme : règlement unique, devise du sous-jacent. Tout le contenu propre tient dans $\Phi$. [ajout]
 
 ## Exemple minimal
-à venir [ajout]
+Action à 100, dividende proportionnel de 2 % avant l’échéance, $P(0,1)=0{,}9608$ : $F(0,1)=102{,}00$. [ajout]
 
 ## Geste de calcul type
 à venir [ajout]

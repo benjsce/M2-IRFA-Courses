@@ -5,6 +5,15 @@ elements:
 - ref: §1.1
   intitule: Quick introduction about financial markets
   a_venir: 2026-10
+- ref: §1.1.1
+  intitule: Those who need money
+  a_venir: 2026-10
+- ref: §1.1.2
+  intitule: Those who save money
+  a_venir: 2026-10
+- ref: §1.1.3
+  intitule: Intermediaries
+  a_venir: 2026-10
 - ref: §1.2
   intitule: Double entry accounting system
   a_venir: 2026-10

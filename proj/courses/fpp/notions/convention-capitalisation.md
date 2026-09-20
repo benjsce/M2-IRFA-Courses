@@ -18,7 +18,7 @@ $$\left(1+\frac{rt}{n}\right)^{n}\xrightarrow[n\to\infty]{}e^{rt}$$ [§2.1]
 Quatre écritures bijectives du même objet. Aucun contenu économique. [§2.1]
 
 ## Exemple minimal
-à venir [ajout]
+$r=5\%$ sur deux ans : facteur linéaire $1{,}10$, trimestriel $1{,}1038$, continu $1{,}1052$, actuariel $1{,}1052$. [ajout]
 
 ## Geste de calcul type
 à venir [ajout]

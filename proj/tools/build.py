@@ -403,6 +403,8 @@ details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fa
 .marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
 .marqligne{margin:.15rem 0 0}
 html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
 .bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
   color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
 
@@ -491,9 +493,18 @@ function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-a
     var c=s.querySelector('.corps');if(!c)return;var n=0;
     c.querySelectorAll(':scope>*').forEach(function(el){
       if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
       if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
       n++;});
-    s.classList.toggle('vide',!on&&n===0);});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='Rubrique obligatoire dont tout le contenu est un ajout de l’opérateur : masquée par le filtre, mais elle existe dans la fiche.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
   if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
 }
 document.addEventListener('DOMContentLoaded',function(){
@@ -772,15 +783,24 @@ def liste_pastilles(m, ids, rel, cours=None, niveau=False, cle=None):
     return "".join(out)
 
 
+# Rubriques obligatoires de SPEC-MODELE §2.1 : si le filtre « masquer les ajouts »
+# les vide entièrement, elles ne disparaissent pas — elles le disent. Une fiche sans
+# « Cesse d'être valide quand » se lirait comme une fiche sans limite de validité.
+OBLIGATOIRES = {"Ce que c'est", "Forme", "Ce qui la définit", "Ce que les membres partagent",
+                "Pourquoi ce niveau existe", "Exemple minimal", "Geste de calcul type",
+                "Cesse d'être valide quand"}
+
+
 def sec(titre, corps, *, cle=None, ouvert=False, classe="", compte=""):
     """Une rubrique. Sans clé : toujours visible (règle 5, les trois premières)."""
     if not corps:
         return ""
+    ob = ' data-oblig="1"' if titre in OBLIGATOIRES else ""
     if cle is None:
-        return ('<section class="sec ' + classe + '"><h2>' + esc(titre) + "</h2>"
+        return ('<section class="sec ' + classe + '"' + ob + "><h2>" + esc(titre) + "</h2>"
                 '<div class="corps">' + corps + "</div></section>")
     c = '<span class="cnt">' + esc(compte) + "</span>" if compte else ""
-    return ('<details class="sec ' + classe + '" data-k="' + cle + '"' + (" open" if ouvert else "") + ">"
+    return ('<details class="sec ' + classe + '" data-k="' + cle + '"' + ob + (" open" if ouvert else "") + ">"
             "<summary><h2>" + esc(titre) + "</h2>" + c + "</summary>"
             '<div class="corps">' + corps + "</div></details>")
 

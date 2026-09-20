@@ -22,10 +22,12 @@ Un contrat qui fixe aujourd’hui le taux d’un emprunt futur entre $T$ et $S$.
 $$P(t,T)=P(t,S)e^{K(S-T)}$$ [§2.3, Déf. 7]
 
 ## Ce qui la définit
-C’est un prix à terme dont le sous-jacent est le zéro-coupon $P(\cdot,S)$. Son prix à terme vaut $F_{\mathrm{ZC}}=P(t,S)/P(t,T)$ — mais le strike d’un FRA n’est pas ce prix : c’est son écriture en taux, $K=\frac{1}{S-T}\ln\frac{P(t,T)}{P(t,S)}$. Les deux disent la même chose dans deux coordonnées, reliées par $F_{\mathrm{ZC}}=e^{-K(S-T)}$ ; attention, les rapports sont inversés d’une écriture à l’autre. [§2.3, Déf. 7]
+Le strike d’un FRA s’écrit en taux : $K=\frac{1}{S-T}\ln\frac{P(t,T)}{P(t,S)}$. [§2.3, Déf. 7]
+
+C’est un prix à terme dont le sous-jacent est le zéro-coupon $P(\cdot,S)$ : ce prix à terme vaut $F_{\mathrm{ZC}}=P(t,S)/P(t,T)$, relié au strike par $F_{\mathrm{ZC}}=e^{-K(S-T)}$ ; attention, les rapports sont inversés d’une écriture à l’autre. [ajout]
 
 ## Exemple minimal
-à venir [ajout]
+$P(0,1)=0{,}9608$ et $P(0,2)=0{,}9048$ : le FRA $1\times2$ se traite à $K=6\%$. [ajout]
 
 ## Geste de calcul type
 à venir [ajout]

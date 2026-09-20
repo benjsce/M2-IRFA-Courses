@@ -23,7 +23,7 @@ $$F(t,T,S)=\dfrac{1}{S-T}\ln\dfrac{P(t,T)}{P(t,S)}$$ [§2.3]
 Un taux long est une moyenne pondérée de forwards : $R(t,S)(S-t)=R(t,T)(T-t)+F(t,T,S)(S-T)$. À la limite, $f(t,T)=-\partial\ln P/\partial T$ et $P(t,T)=\exp\left(-\int_t^T f(t,u)du\right)$ — la courbe entière est l’accumulation de ses forwards. [§2.3]
 
 ## Exemple minimal
-à venir [ajout]
+$P(0,1)=0{,}9608$ et $P(0,2)=0{,}9048$ : $F(0,1,2)=6\%$. [ajout]
 
 ## Geste de calcul type
 à venir [ajout]

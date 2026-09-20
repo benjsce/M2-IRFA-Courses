@@ -24,7 +24,7 @@ détenir $1/B(t_0,t_i)$ contrats en $t_i$ [§4.2.2]
 On ne connaît plus le coût de portage à l’avance : on le suit. La position est ajustée à chaque date pour que la valeur terminale reste celle visée. [§4.2.2]
 
 ## Exemple minimal
-à venir [ajout]
+Trois pas à $P=0{,}99$ chacun : on détient successivement $1{,}0101$, $1{,}0203$ puis $1{,}0306$ contrats. [ajout]
 
 ## Geste de calcul type
 à venir [ajout]

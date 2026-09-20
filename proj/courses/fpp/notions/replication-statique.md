@@ -23,7 +23,7 @@ $$(S_T-K)-\left(S_T-\dfrac{S_t}{P(t,T)}\right)=\dfrac{S_t}{P(t,T)}-K$$ [§3.1]
 Le P&L est non aléatoire et le portefeuille coûte zéro : il vaut donc zéro, ce qui détermine $K$. [§3.1]
 
 ## Exemple minimal
-à venir [ajout]
+Action à 100, $P(0,1)=0{,}9608$ : acheter l’action à crédit et la livrer dans un an donne $K=104{,}08$. [ajout]
 
 ## Geste de calcul type
 à venir [ajout]
