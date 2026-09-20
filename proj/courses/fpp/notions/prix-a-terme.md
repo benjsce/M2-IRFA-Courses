@@ -33,6 +33,13 @@ Tous sont le prix comptant d’un même objet : le payoff $S_T/D$. Le prix à te
 ## Pourquoi ce niveau existe
 Quatre contrats que le cours présente séparément, sur quatre sections, alors qu’ils ne diffèrent que par deux paramètres qui commutent. C’est l’abstraction la plus rentable de la branche. [ajout]
 
+## Le chemin jusqu'ici
+Trois briques indépendantes se rejoignent ici. fpp/replication-statique donne la méthode — acheter aujourd'hui, porter, livrer — et c'est elle qui fait du prix à terme un prix démontré et non un pari sur l'avenir. [ajout]
+
+Les deux autres chiffrent les deux jambes de cette réplication : fpp/facteur-actualisation (lui-même construit sur fpp/convention-capitalisation) dit ce que coûte l'argent qu'on immobilise, et fpp/portage ce que rapporte ou coûte la détention du sous-jacent pendant ce temps. [ajout]
+
+$K=S_t\Phi/D$ n'est donc que la mise en équation du raisonnement : le prix à terme est le comptant, corrigé du financement et du portage. [ajout]
+
 ## Exemple minimal
 $S_t=100$, $\Phi=1$, $D=P(0,1)=0{,}9608$ : $K=104{,}08$. [ajout]
 

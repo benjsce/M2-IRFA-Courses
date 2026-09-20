@@ -397,6 +397,11 @@ details.sec[open]>summary::before{transform:rotate(90deg)}
 details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fai);font-weight:400}
 .corps{padding-top:.25rem}
 .gen{border-left:2px solid var(--li2);padding-left:.7rem}
+.chemin{border-left:3px solid var(--acc);background:var(--bg2);border-radius:0 var(--r) var(--r) 0;
+  padding:.5rem .8rem;margin:.2rem 0 .7rem}
+.chemin p{margin:.35rem 0;font-size:.95rem}
+.chemin p:first-child{margin-top:0}
+.chemin p:last-child{margin-bottom:0}
 .note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
 .sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
 .sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
@@ -1113,7 +1118,11 @@ def page_fiche(m, i):
                        "elles dépendent à leur tour.</p>",
                      cle="construite", compte=str(len(dep)) + (" prérequis direct" if len(dep) == 1 else " prérequis directs")))
     # 9. socle (amont transitif) puis 10. sert ensuite à (aval, rayon 1), de même forme
-    so = bloc_liste(m, m["socle"][i], rel, "socle",
+    # Le chemin : la prose écrite dans la fiche, posée en tête du socle — c'est là que
+    # la question « pourquoi ces notions-là ? » se pose.
+    chemin = ('<div class="chemin">' + rendre(S["Le chemin jusqu'ici"], ctx, fiche=True) + "</div>"
+              if "Le chemin jusqu'ici" in S else "")
+    so = chemin + bloc_liste(m, m["socle"][i], rel, "socle",
                     "Tout ce qu’il faut avoir lu avant cette fiche, du plus élémentaire au plus "
                     "construit. <strong>La liste est complète</strong> : la lire suffit, aucune de "
                     "ces notions n’en appelle une autre qui manquerait ici. Cocher une case la barre "

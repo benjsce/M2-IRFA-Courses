@@ -27,6 +27,7 @@ RUBRIQUES = [  # (titre, obligatoire pour quels types, condition)
     "Ce qui la définit",
     "Ce que les membres partagent",
     "Pourquoi ce niveau existe",
+    "Le chemin jusqu'ici",
     "Exemple minimal",
     "Geste de calcul type",
     "Ce qui reste libre",
@@ -255,6 +256,29 @@ def valider(root: Path, rap: Rapport):
         for y in D[nid]:
             if any(g != y and y in reach_of(g) for g in D[nid]):
                 rap.w("A8", nid, f"dépendance redondante : {y} est déjà atteinte via une autre dépendance ; à retirer")
+
+    # ---- « Le chemin jusqu'ici » : la prose qui raconte le socle
+    # Le socle est dérivé, ce paragraphe est écrit : les deux peuvent diverger en
+    # silence dès qu'une dépendance change en amont. Deux garde-fous : la rubrique est
+    # exigée dès que le socle existe, et toute notion qu'elle nomme doit y être.
+    for nid, n in N.items():
+        S = dict(n["sections"])
+        socle = reach_of(nid)
+        txt = S.get("Le chemin jusqu'ici")
+        if txt is None:
+            if socle:
+                rap.w("A1", nid, f"« Le chemin jusqu'ici » à écrire ({len(socle)} notions au socle)")
+                rap.dette["chemin jusqu'ici à écrire"] += 1
+            continue
+        if not socle:
+            rap.e("A1", nid, "« Le chemin jusqu'ici » sur une fiche sans socle : rien à raconter")
+            continue
+        cites = set(re.findall(r"\b([a-z][a-z0-9-]*/[a-z0-9-]+)\b", txt))
+        for y in sorted(cites - socle - {nid}):
+            if y in N:
+                rap.e("A1", nid, f"« Le chemin jusqu'ici » cite {y}, qui n'est pas dans son socle")
+        if not (cites & socle):
+            rap.w("A1", nid, "« Le chemin jusqu'ici » ne cite aucune notion du socle")
 
     # ---- A9 sections interdites ; rubriques, ordre, obligations, marqueurs (A11)
     for nid, n in N.items():

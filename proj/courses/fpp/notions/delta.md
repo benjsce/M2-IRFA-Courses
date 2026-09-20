@@ -23,6 +23,17 @@ $$\delta=\dfrac{\partial P}{\partial S}=N(d_1)$$ [§8.2]
 ## Ce qui la définit
 C’est exactement la quantité de sous-jacent à détenir en sens inverse pour annuler le risque au premier ordre : le delta *est* la couverture, c’est le $\delta$ du §7.1. [§7.1, §8.2]
 
+## Le chemin jusqu'ici
+Le socle est long, mais il ne raconte qu'une seule histoire, en trois temps. [ajout]
+
+**Poser le prix.** fpp/replication-statique, fpp/portage et fpp/facteur-actualisation (sur fpp/convention-capitalisation) donnent fpp/prix-a-terme, qui donne fpp/mesure-risque-neutre : à ce stade un prix est une espérance actualisée. [ajout]
+
+**Poser l'aléa.** fpp/volatilite puis fpp/echelonnement-de-la-variance disent de combien le sous-jacent bouge et comment cela grandit avec le temps ; avec fpp/transformee-de-laplace-gaussienne, on obtient fpp/modele-black-scholes. [ajout]
+
+**Poser le contrat.** fpp/payoff puis fpp/option disent ce qu'on évalue. Les trois fils se nouent dans fpp/formule-black-scholes — et le delta en est simplement la dérivée par rapport au comptant. [ajout]
+
+C'est pourquoi ce socle est long sans être difficile : presque tout sert à écrire la formule, et le delta n'en est que la dérivée. [ajout]
+
 ## Exemple minimal
 Pour le call à la monnaie de l’exemple courant : $\delta=N(0{,}3)=0{,}618$, soit 0,618 action à vendre par call acheté. [ajout]
 

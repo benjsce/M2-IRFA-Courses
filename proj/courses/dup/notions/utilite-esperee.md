@@ -29,6 +29,11 @@ Les probabilités entrent linéairement et l’utilité ne dépend que du résul
 
 Une relation de préférence sur $\Delta(X)$ admet cette représentation si et seulement si elle est complète, transitive, continue en mélange et indépendante. [L1 slide 4]
 
+## Le chemin jusqu'ici
+Deux objets suffisent, et ils ne se parlent pas encore. dup/loterie décrit **ce qui peut arriver** : des gains, et les probabilités qu'on leur associe. dup/fonction-utilite décrit **ce que l'agent en pense** : une valeur attachée à chaque gain. [ajout]
+
+L'utilité espérée est la façon la plus simple de les faire se rencontrer — appliquer $U$ à chaque issue, puis pondérer par les probabilités. Tout le cours consiste ensuite à demander si cette façon-là est la bonne. [ajout]
+
 ## Exemple minimal
 Avec $u(x)=\sqrt{x}$ et $P=(0,\tfrac12;100,\tfrac12)$ : $V_{\mathrm{EU}}(P)=5$. [ajout]
 
