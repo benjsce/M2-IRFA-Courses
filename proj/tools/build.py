@@ -934,8 +934,13 @@ def pastille(m, ident, rel, cours=None, niveau=False):
             + esc(ident) + ' <span class="nv">à venir</span></span></li>')
 
 
-def liste_pastilles(m, ids, rel, cours=None, niveau=False, cle=None):
-    """Règle 4 : au-delà de sept éléments, on regroupe et on replie les groupes."""
+def liste_pastilles(m, ids, rel, cours=None, niveau=False, cle=None, portee=""):
+    """Règle 4 : au-delà de sept éléments, on regroupe et on replie les groupes.
+
+    `portee` qualifie le contenu des groupes. Sans elle, trois listes du site groupent
+    « par niveau » avec trois périmètres différents et le même intitulé « niveau 0 (1) » :
+    on lit « niveau 0 (1) » sur une liste filtrée et on en conclut que le cours n'a
+    qu'une notion de niveau 0, alors qu'il en a dix (constaté sur dup, 2026-09-20)."""
     if not ids:
         return ""
     if len(ids) <= MAX_LISTE or cle is None:
@@ -945,7 +950,8 @@ def liste_pastilles(m, ids, rel, cours=None, niveau=False, cle=None):
         groupes[cle(i)].append(i)
     out = []
     for k in sorted(groupes):
-        out.append('<details class="grp"><summary>' + esc(str(k)) + " (" + str(len(groupes[k])) + ")</summary>"
+        out.append('<details class="grp"><summary>' + esc(str(k)) + " (" + str(len(groupes[k]))
+                   + (" " + esc(portee) if portee else "") + ")</summary>"
                    + '<ul class="pasts">' + "".join(pastille(m, i, rel, cours, niveau) for i in groupes[k])
                    + "</ul></details>")
     return "".join(out)
@@ -1240,9 +1246,15 @@ def page_cours(m, code):
     comp = sorted([i for i in ids if not m["A"].get(i) and m["N"][i]["meta"].get("type") != "principe"],
                   key=lambda i: (m["niveau"][i], nom_de(m, i).lower()))
     if comp:
-        c.append('<h2 class="ptag">Les autres notions</h2>'
-                 '<p class="note">Celles que le cours ne range sous aucune famille plus '
-                 "générale. Ce n’est pas un oubli, c’est une information sur le cours.</p>"
+        c.append('<h2 class="ptag">Notions qui n’appartiennent à aucune famille</h2>'
+                 '<p class="note">Celles que le cours ne range sous rien de plus général. '
+                 "Ce n’est pas un oubli, c’est une information sur le cours.</p>"
+                 '<p class="note"><strong>Ce n’est pas la liste des notions du cours.</strong> '
+                 "Il y en a " + str(len(ids)) + " ; les " + str(len(ids) - len(comp))
+                 + " autres ont une famille et se voient dans "
+                 + '<a href="' + rel + code + '/arbre.html">l’arbre</a>. Pour les voir toutes '
+                 'par niveau : <a href="' + rel + code + '/notions.html">toutes les notions</a>.'
+                 "</p>"
                  '<p class="note">Les groupes sont des <strong>niveaux de dépendance</strong> : '
                  "le niveau d’une notion est le nombre de notions qu’il faut traverser, au plus "
                  "long, pour arriver jusqu’à elle. <strong>Niveau 0</strong> : elle ne dépend "
@@ -1250,7 +1262,8 @@ def page_cours(m, code):
                  "dépendance la plus profonde est de niveau n−1 — mais elle peut aussi dépendre "
                  "directement de notions bien plus basses, les niveaux ne forment pas une chaîne. "
                  "C’est un ordre de lecture, pas un degré de difficulté ni d’importance.</p>")
-        c.append(liste_pastilles(m, comp, rel, code, niveau=True, cle=lambda y: "niveau %d" % m["niveau"][y]))
+        c.append(liste_pastilles(m, comp, rel, code, niveau=True, portee="sans famille",
+                                 cle=lambda y: "niveau %d" % m["niveau"][y]))
 
     d = dette_du_cours(m, code)
     ch = ['<details class="chantier"><summary>Suivi de la rédaction — ce qui reste à faire sur '
@@ -1344,9 +1357,13 @@ def page_arbre(m, code):
     if seuls:
         c.append("<h3>Notions qui n’appartiennent à aucune famille (" + str(len(seuls)) + ")</h3>"
                  '<p class="note">Ce n’est pas un oubli : le cours ne les range sous rien de plus '
-                 "général. Elles ont une fiche comme les autres.</p>")
+                 "général. Elles ont une fiche comme les autres.</p>"
+                 '<p class="note"><strong>Ce n’est pas la liste des notions du cours.</strong> '
+                 "Il y en a " + str(len(ids)) + " ; les " + str(len(ids) - len(seuls))
+                 + " autres sont dessinées dans l’arbre ci-dessus. Pour les voir toutes par "
+                 'niveau : <a href="' + rel + code + '/notions.html">toutes les notions</a>.</p>')
         c.append('<div id="seuls">'
-                 + liste_pastilles(m, seuls, rel, code, niveau=True,
+                 + liste_pastilles(m, seuls, rel, code, niveau=True, portee="sans famille",
                                    cle=lambda y: "niveau %d" % m["niveau"][y]) + "</div>")
     fil = ('<a href="' + rel + code + '/index.html">' + esc(m["cours"][code]["meta"].get("titre", code)) + "</a> › arbre")
     return page(m, titre="Arbre — " + code, rel=rel, fil=fil, corps="".join(c), js=js, mathjax=False)

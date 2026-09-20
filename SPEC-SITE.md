@@ -32,7 +32,13 @@ Ces règles sont des contraintes du générateur, pas des conseils.
    dépendances directes. Cela recopiait la section voisine à l'intérieur du socle, et sur
    19 fiches sur 97 toutes les lignes portaient la marque.
 4. **Sept éléments par liste au plus.** Au-delà, regrouper (par niveau, par cours, par
-   type) et replier les groupes.
+   type) et replier les groupes. **L'intitulé d'un groupe porte le périmètre de la liste,
+   pas seulement la clé de regroupement.** Trois listes groupent par niveau — « toutes les
+   notions », les notions sans famille de la carte du cours, la même liste sous l'arbre —
+   et elles écrivaient toutes « niveau 0 (1) ». Un lecteur a lu cela sur une liste filtrée
+   et en a conclu que `dup` n'avait qu'une notion de niveau 0 ; il en a dix. Les groupes
+   d'une liste filtrée écrivent donc « niveau 0 (1 sans famille) », et la liste dit au-dessus
+   combien le cours compte de notions en tout, avec le lien pour les voir toutes.
 5. **Divulgation progressive.** À l'ouverture d'une fiche : « Ce que c'est », « Forme »,
    « Ce qui la définit ». Les autres rubriques sont repliées, dans l'ordre, et se
    déplient d'un clic. L'état de pliage est mémorisé par navigateur (`localStorage`).
