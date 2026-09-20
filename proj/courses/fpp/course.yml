@@ -1,0 +1,15 @@
+code: fpp
+titre: Financial Products and Introduction to Pricing
+enseignant: Nicolas Gaussel
+annee: 2025-2026
+sources:
+- id: poly
+  fichier: sources/financial_products_lecture_notes.pdf
+  type: notes de cours (work in progress, 16 p.)
+refs_pattern: ^(§\d+(\.\d+)*|Déf\. \d+|Prop\. \d+|Th\. \d+|Ex\. \d+|Rem\. \d+|éq\. \d+|p\. \d+|slide \d+)$
+depend_de:
+- cs
+conventions_par_defaut:
+  taux: continûment composé, par annum
+  unite_de_temps: année
+  dividende_proportionnel: proportionnel à la valeur forward à la date de détachement (lecture cum)

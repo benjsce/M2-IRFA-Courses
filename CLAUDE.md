@@ -1,0 +1,83 @@
+# CLAUDE.md — contrat d'exploitation
+
+Ce dépôt est une **base de notions sous schéma strict**, couvrant plusieurs cours
+(M2 IRFA, Paris 1). Le site de consultation s'en déduit par génération. Le dépôt est
+alimenté chaque semaine à partir des supports de cours (polys, notes, slides, exercices).
+
+Tu interviens comme opérateur de cette base. Ta valeur n'est pas de rédiger vite,
+c'est de **ne rien casser et de ne rien inventer**. Lis ce fichier en entier avant toute
+action, à chaque session.
+
+## Les trois documents qui font loi
+
+1. `SPEC-MODELE.md` — le modèle de données et ses axiomes (A1–A13). C'est la référence.
+   Toute décision de structure se justifie par un axiome ; sinon elle n'est pas prise.
+2. `SPEC-INGESTION.md` — le protocole hebdomadaire d'alimentation. Tu le suis dans l'ordre,
+   sans sauter d'étape, et tu produis le rapport à la fin.
+3. `SPEC-SITE.md` — l'architecture d'information du site et les contraintes du générateur.
+
+Un exemple réel et validé vit dans `courses/fpp/`. Quand tu hésites sur la forme, regarde-le.
+Quand tu hésites sur le fond, tu demandes — tu n'improvises pas.
+
+## Déroulé de toute session
+
+```
+1. python tools/validate.py            # état du graphe avant de toucher quoi que ce soit
+2. lire le dernier rapport dans rapports/  # ce qui était en dette, ce qui était proposé
+3. travailler selon SPEC-INGESTION.md
+4. python tools/validate.py            # doit passer ; sinon corriger, jamais contourner
+5. python tools/build.py               # régénère site/
+6. écrire rapports/AAAA-MM-JJ-<cours>.md  # obligatoire, format dans SPEC-INGESTION.md
+```
+
+Si le validateur échoue à l'étape 1 sur un état que tu n'as pas produit, tu le signales
+et tu t'arrêtes. Tu ne construis rien sur un graphe invalide.
+
+## Interdictions absolues
+
+Ces règles ne souffrent aucune exception, quelle que soit la demande.
+
+- **Ne jamais écrire une relation inverse.** « Sert ensuite à », les membres d'une
+  abstraction, le socle, le niveau : tout cela est calculé au build (A9). Si tu les
+  écris, ils seront faux la semaine suivante.
+- **Ne jamais modifier une fiche existante sans le déclarer** dans le rapport, ligne par
+  ligne (ancien texte → nouveau texte, raison). La modification silencieuse est la
+  seule faute irrécupérable de ce projet : elle se découvre deux mois plus tard.
+- **Ne jamais créer une notion abstraite qui n'a pas au moins deux membres** ou qui n'est
+  pas l'un d'au moins deux enfants (A5). Une abstraction pressentie mais non justifiée
+  va dans le rapport, section « abstractions en attente », pas dans le graphe.
+- **Ne jamais inventer une référence.** Toute assertion porte une référence vers la
+  source ou le marqueur `[ajout]` (A11). Si tu n'es pas certain de l'endroit, c'est
+  `[ajout]`. Une référence fausse est pire qu'un `[ajout]`.
+- **Ne jamais renommer un symbole défini par le cours** (A12). Le registre
+  `courses/<code>/notation.yml` fait foi. Ton confort de notation ne compte pas ; la
+  capacité de l'étudiant à retrouver le symbole dans son poly compte.
+- **Ne jamais renommer un identifiant** (A1). Un identifiant est définitif. Renommer,
+  c'est ajouter un alias.
+- **Ne jamais laisser un élément de l'inventaire sans image** (A13). Chaque définition,
+  proposition, équation numérotée ou section de la source est soit une notion, soit
+  absorbée dans une notion nommée, soit exclue avec une raison écrite.
+- **Ne jamais tricher avec le validateur.** Un axiome n'est pas une suggestion. Si un
+  axiome semble empêcher quelque chose de nécessaire, c'est le modèle qu'il faut
+  discuter avec l'utilisateur — pas le validateur qu'il faut contourner.
+
+## Ce que tu fais quand tu doutes
+
+Tu poses la question, en une ligne, avec ta recommandation. Exemples de doutes légitimes :
+une notion qui semble être un cas de deux abstractions à la fois (symptôme d'un paramètre
+non identifié, A4) ; deux fiches qui se définissent l'une par l'autre (A3, elles sont
+probablement une seule notion) ; un symbole du cours qui entre en collision avec un autre
+cours (A12, à déclarer, pas à résoudre seul).
+
+## Ce que tu ne fais pas
+
+Tu ne réorganises pas, tu ne « nettoies » pas, tu ne fusionnes pas de fiches de ta propre
+initiative. Tu ne changes pas l'ordre des rubriques. Tu ne modernises pas les scripts. Tu
+ne remplaces pas une formulation par une meilleure. Le dépôt est un instrument de travail
+hebdomadaire ; sa stabilité vaut plus que son élégance.
+
+## Environnement
+
+L'utilisateur travaille sur macOS et sur Windows 11 (PowerShell). Tout doit tourner à
+l'identique sur les deux : Python 3.10+, dépendances minimales (`pyyaml`), aucun outil
+système. Chemins relatifs, jamais absolus. Fins de ligne LF.

@@ -1,0 +1,11 @@
+code: <code>
+titre: <Titre du cours>
+enseignant: <Nom>
+annee: 2026-2027
+sources:
+- id: poly
+  fichier: sources/<fichier>.pdf
+  type: notes de cours
+refs_pattern: '^(§\d+(\.\d+)*|Déf\. \d+|Prop\. \d+|Th\. \d+|Lem\. \d+|Cor\. \d+|Ex\. \d+|Rem\. \d+|éq\. \d+|p\. \d+|slide \d+)$'
+depend_de: []
+conventions_par_defaut: {}

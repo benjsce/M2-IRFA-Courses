@@ -1,0 +1,13 @@
+elements:
+- ref: "§1"
+  intitule: <titre>
+  a_venir: "AAAA-MM"
+- ref: "Déf. 1"
+  intitule: <intitulé>
+  notion: <code>/<slug>
+- ref: "Ex. 1"
+  intitule: <intitulé>
+  absorbe: <code>/<slug>
+- ref: "§9.3"
+  intitule: <intitulé>
+  exclu: "<raison>"

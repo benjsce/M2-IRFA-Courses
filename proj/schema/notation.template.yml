@@ -1,0 +1,13 @@
+symboles:
+- symbole: "$...$"
+  notion: <code>/<slug>
+  ref: "§x.y"
+  sens: <une ligne>
+- symbole: "$...$"
+  notion: <code>/<slug>
+  ajout: true
+  sens: <symbole introduit par l'opérateur>
+collisions:
+- symbole: "$...$"
+  ici: <sens dans ce cours>
+  ailleurs: { <autre-code>: <sens là-bas> }
