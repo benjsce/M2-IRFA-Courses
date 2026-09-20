@@ -118,6 +118,12 @@ marqueur entre crochets :
 La grammaire des références est fixée par cours dans `course.yml` (clé `refs_pattern`).
 Le validateur refuse un paragraphe sans marqueur.
 
+**Plusieurs sources dans un même cours.** Si `course.yml` déclare plus d'une source, toute
+référence est préfixée de l'identifiant de la source, sans quoi `slide 12` est ambigu.
+`courses/dup/` le fait : `L1 slide 12`, `L2 éq. 1`. Le numéro retenu est celui que
+l'étudiant lit sur le document — le numéro imprimé sur la slide, pas la page du PDF, les
+deux divergeant dès qu'une slide est en plusieurs temps.
+
 ## 3. Les axiomes de structure
 
 Chaque axiome dit ce qu'il interdit et la sévérité : **E** (erreur, build refusé),
@@ -149,6 +155,17 @@ particulier de deux choses — symptôme d'un paramètre non identifié.
 un paramètre ; c'est un axiome. Ses enfants dans $A$ sont ses premières constructions
 (« découle directement de »), et A6 ne s'applique pas à lui. Le générateur affiche
 « découle de » et non « cas de » pour ces arêtes.
+
+*Créer un principe.* A4 a une conséquence qu'il faut nommer : une abstraction justifiée par
+ses membres reste **interdite** tant qu'aucun principe ne la surplombe. Quand le cas se
+présente — des membres réels, un paramètre réel, pas de racine — la réponse n'est pas de
+renoncer à l'abstraction, c'est de chercher le principe dans la source. Il y est presque
+toujours, énoncé sans être nommé : « Risk is what all risk averters hate », « Curvature of
+u captures attitude toward outcome risk », une section intitulée « Hedging ». Le principe
+prend alors `statut: source` avec la référence de la phrase qui le porte, ou `ajout` si
+rien ne l'énonce. Dans les deux cas il est **déclaré au rapport** comme la décision de
+structure de la session, parce qu'il engage tout un pan de l'arbre. Ce qui reste interdit :
+inventer un principe pour faire tenir une abstraction dont les membres ne sont pas là.
 
 **A5 — Règle des frères. [E]**
 Pour toute $y$ abstraite : $|A^{-1}(y)| \geq 2$, ou bien $y$ est elle-même l'un d'au moins
@@ -241,6 +258,13 @@ cinq fiches sous une abstraite `sensibilite`, dont le paramètre est « la varia
 
 - Le socle de toute notion est fini, calculable, et son ordre de lecture (par niveau
   croissant) est bien défini. (A3, A8)
+- **Le socle est clos** : si $y$ est dans le socle de $x$, tout le socle de $y$ y est déjà.
+  Lire le socle d'une fiche suffit donc, et ne renvoie jamais à une notion extérieure.
+  C'est la fermeture transitive, la propriété est vraie par construction. (A3)
+- **Le niveau est le plus long chemin, pas le seul.** Une notion de niveau $n$ peut dépendre
+  directement d'une notion de niveau $n-3$ : les niveaux ne forment pas une chaîne. Ce qui
+  reste vrai, et qui est l'usage recherché : lire par niveaux croissants ne fait jamais
+  rencontrer une notion qu'on n'a pas déjà vue. (A3)
 - Toute notion a un unique chemin d'abstraction jusqu'à un principe. (A4)
 - Toute navigation termine. (A3, A7)
 - Ajouter une notion avec ses seules arêtes sortantes ne peut invalider aucune notion

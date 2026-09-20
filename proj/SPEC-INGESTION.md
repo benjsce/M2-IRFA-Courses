@@ -67,7 +67,14 @@ Une fiche par notion nouvelle, au format de SPEC-MODELE §2. Règles de rédacti
   information — et ouvrir une question dans le rapport.
 - **« Exemple minimal »** : une instance chiffrée, une ligne, sans calcul. Elle ne dépend
   d'aucun exercice et s'écrit dès la création de la fiche ; la laisser en dette est une
-  faute de protocole.
+  faute de protocole. Le validateur la refuse : c'est une **E**, pas un avertissement.
+  Deux règles de rédaction :
+  - **toute valeur écrite est recalculée avant d'être écrite**, et le calcul est refait à la
+    fin de la session sur l'ensemble des exemples. Un exemple faux est pire que pas
+    d'exemple : il se recopie dans une copie d'examen ;
+  - **un seul monde numérique par cours**, réutilisé d'une fiche à l'autre, pour que
+    l'étudiant reconnaisse les mêmes nombres. `fpp` : courbe à 4 % et 5 %, action à 100.
+    `dup` : $u(x)=\sqrt{x}$, le pari $(0,\tfrac12;100,\tfrac12)$.
 - **« Geste de calcul type »** : comment on s'en sert, sur un cas, trois lignes. S'il n'y a
   pas encore d'exercice pour l'alimenter, `à venir [ajout]` : c'est de la dette, elle est
   comptée.
@@ -134,7 +141,15 @@ python tools/validate.py      # E → corriger ; W → traiter ou déclarer en d
 python tools/build.py         # régénère site/
 ```
 
-Le rapport `rapports/AAAA-MM-JJ-<code>.md` est obligatoire et suit ce plan :
+Puis, l'arbre de travail étant propre, **un commit**, dont le message renvoie au rapport.
+Le dépôt ne conserve que l'état final : découper après coup en commits reconstitués
+donnerait un historique faux, et une session vaut donc un commit.
+
+Le rapport `rapports/AAAA-MM-JJ-<code>.md` est obligatoire et suit ce plan. Quand une
+session ne porte sur aucun cours — le générateur, une spec, le validateur — `<code>` est
+remplacé par le sujet : `2026-09-20-site.md`. Deux sessions le même jour sur le même sujet
+reçoivent un suffixe numérique : `2026-09-20-fpp-2.md`. L'écart à la convention est signalé
+en tête du rapport.
 
 ```markdown
 # Rapport d'ingestion — <cours> — <date>

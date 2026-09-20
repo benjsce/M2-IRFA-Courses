@@ -22,6 +22,15 @@ Ces règles sont des contraintes du générateur, pas des conseils.
 3. **Les rubriques dans le même ordre partout**, avec les mêmes intitulés, y compris
    quand elles sont vides (omises, mais jamais réordonnées). La prévisibilité supprime le
    coût de repérage.
+   **Deux rubriques générées voisines ne doivent jamais se ressembler si elles portent des
+   relations différentes.** La fiche en affiche trois : « cas particulier de » ($A$),
+   « construite à partir de » ($D$) et le socle ($D^{+}$). Leur intitulé replié porte la
+   distinction — « autre relation », « n prérequis directs », « n prérequis en tout » — et
+   l'arête d'abstraction se distingue aussi visuellement des deux autres. Le lien entre les
+   deux dernières est énoncé une fois, en français, dans « construite à partir de ».
+   *N'a pas marché, et a été retiré* : marquer dans le socle les lignes qui sont des
+   dépendances directes. Cela recopiait la section voisine à l'intérieur du socle, et sur
+   19 fiches sur 97 toutes les lignes portaient la marque.
 4. **Sept éléments par liste au plus.** Au-delà, regrouper (par niveau, par cours, par
    type) et replier les groupes.
 5. **Divulgation progressive.** À l'ouverture d'une fiche : « Ce que c'est », « Forme »,
@@ -39,7 +48,10 @@ Ces règles sont des contraintes du générateur, pas des conseils.
    dans une vue de dépendance et réciproquement.
 8. **Les ajouts sont distinguables et masquables.** Une notion `ajout` ou un paragraphe
    `[ajout]` porte une marque visible ; un interrupteur global les masque ; la projection
-   qui reste est valide (A11).
+   qui reste est valide (A11). **Une rubrique obligatoire (SPEC-MODELE §2.1) dont tout le
+   contenu est `[ajout]` ne disparaît jamais silencieusement** : elle reste, et dit que son
+   contenu est masqué. Sans cela, masquer les ajouts retire « Cesse d'être valide quand » de
+   la majorité des fiches, et le lecteur conclut que la notion n'a pas de limite.
 9. **Recherche instantanée** sur nom, alias, symbole, depuis toute page, sans rechargement.
 10. **Aucune animation** sauf celles qui répondent à un geste (ouvrir, plier, filtrer).
 
@@ -94,6 +106,11 @@ cours. Un lien vers un id `a-venir` est rendu comme texte barré avec la mention
 venir », jamais comme lien mort.
 
 ### 3.2 La carte du cours `<code>/index.html`
+
+Tout regroupement par niveau, ici comme dans le socle, **explique ce qu'est un niveau** :
+le nombre de notions à traverser au plus long pour atteindre celle-ci, donc un ordre de
+lecture, ni un degré de difficulté ni un degré d'importance. Sans cette phrase, « niveau 2 »
+ne veut rien dire pour le lecteur.
 
 Ce qu'on voit : les principes (en tête), puis pour chaque principe ses abstractions
 directes avec leur nombre de membres, puis « Composants » (notions sans `cas_de` et sans

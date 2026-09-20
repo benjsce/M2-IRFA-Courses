@@ -28,6 +28,7 @@ Quand tu hésites sur le fond, tu demandes — tu n'improvises pas.
 4. python tools/validate.py            # doit passer ; sinon corriger, jamais contourner
 5. python tools/build.py               # régénère site/
 6. écrire rapports/AAAA-MM-JJ-<cours>.md  # obligatoire, format dans SPEC-INGESTION.md
+7. git commit                          # une session = un commit, message renvoyant au rapport
 ```
 
 Si le validateur échoue à l'étape 1 sur un état que tu n'as pas produit, tu le signales
@@ -62,6 +63,13 @@ Ces règles ne souffrent aucune exception, quelle que soit la demande.
   discuter avec l'utilisateur — pas le validateur qu'il faut contourner.
 
 ## Ce que tu fais quand tu doutes
+
+**Tu mesures avant de recommander.** Sur ce dépôt, presque toute question de conception se
+tranche sur un chiffre qu'on peut calculer en dix lignes : combien de fiches ont deux
+voisins ou moins, quelle part d'un socle est héritée, combien d'arêtes sautent un niveau,
+sur combien de fiches une marque ne distingue rien. Une recommandation appuyée sur une
+mesure se discute ; une recommandation appuyée sur une intuition se subit. Et quand la
+mesure te donne tort, tu le dis et tu retires ce que tu venais de faire.
 
 Tu poses la question, en une ligne, avec ta recommandation. Exemples de doutes légitimes :
 une notion qui semble être un cas de deux abstractions à la fois (symptôme d'un paramètre
