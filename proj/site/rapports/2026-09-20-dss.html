@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="fr" data-rel="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rapport 2026-09-20-dss · notions</title>
+<script>
+/* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
+   localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
+   cases « déjà su » ne peuvent donc pas traverser les pages par là. Ils voyagent dans
+   le fragment de l'URL, que tous les liens internes portent ; localStorage ne sert plus
+   que de mémoire locale, pour la page qu'on rouvre sans fragment.
+   Ce script s'exécute avant le rendu : sinon le thème clignote à chaque page. */
+(function(){
+var H={},h=(location.hash||'').replace(/^#/,'');
+h.split('~').forEach(function(p){var i=p.indexOf(':');if(i>0)H[p.slice(0,i)]=p.slice(i+1)});
+window.ETAT_URL=H;
+function loc(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+var t=H.t?(H.t==='d'?'dark':'light'):loc('notions.theme','');
+if(t)document.documentElement.setAttribute('data-theme',t);
+var a=(H.a!==undefined)?H.a:loc('notions.ajouts','1');
+if(a==='0')document.documentElement.classList.add('sans-ajouts');
+})();
+</script>
+<style>
+:root{
+  --bg:#fbfaf7; --bg2:#f3f0ea; --fg:#1b1a17; --mut:#6c675d; --fai:#8e887c;
+  --li:#e0dbd1; --li2:#cdc6b8; --card:#ffffff; --acc:#8a4f23; --acc2:#f3e7dc;
+  --ajo:#6d5a8c; --ajo2:#efe9f5; --lim:#9a3a2e; --ok:#3f6b46; --faute:#a8631a;
+  --r:8px; --w:min(72rem,100%);
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}}
+:root[data-theme="dark"]{
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
+  font-size:17px;line-height:1.62;overflow-wrap:break-word}
+a{color:var(--acc);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-style:dotted}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+.wrap{width:var(--w);margin:0 auto;padding:0 1rem}
+
+/* ---- barre du haut ---- */
+header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
+  border-bottom:1px solid var(--li);font-family:var(--sans)}
+.topin{width:var(--w);margin:0 auto;padding:.45rem 1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.brand{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--fg);letter-spacing:.02em}
+.fil{color:var(--mut);font-size:.82rem;flex:1 1 8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fil a{color:var(--mut)}
+.btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
+  border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+a.btn{text-decoration:none}
+.btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
+.rech{position:relative;flex:0 1 16rem;min-width:9rem}
+.rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
+  border:1px solid var(--li2);border-radius:var(--r);background:var(--card);color:var(--fg)}
+.res{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--li2);
+  border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.14);max-height:60vh;overflow:auto;padding:.2rem;margin:0;
+  list-style:none;display:none;z-index:50;min-width:18rem}
+.res.on{display:block}
+.res li a{display:block;padding:.3rem .45rem;border-radius:6px;text-decoration:none;color:var(--fg);font-size:.86rem}
+.res li a:hover,.res li.sel a{background:var(--acc2)}
+.res .sub{color:var(--mut);font-size:.76rem;font-family:var(--sans)}
+.res .vide{padding:.4rem .5rem;color:var(--mut);font-size:.84rem}
+
+main{padding:1.4rem 0 4rem}
+h1{font-size:1.75rem;line-height:1.24;margin:.2rem 0 .3rem}
+h2{font-size:1.06rem;font-family:var(--sans);font-weight:600;letter-spacing:.01em;margin:0}
+h3{font-size:.95rem;font-family:var(--sans);margin:1.2rem 0 .3rem}
+p{margin:.55rem 0}
+.ptag{font-family:var(--sans);font-size:.74rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .5rem}
+
+/* ---- métadonnées de fiche ---- */
+.meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;font-family:var(--sans);font-size:.75rem;color:var(--mut);margin:.4rem 0 1.1rem}
+.pill{border:1px solid var(--li2);border-radius:99px;padding:.06rem .5rem;background:var(--card);white-space:nowrap}
+.pill.ajout{color:var(--ajo);border-color:var(--ajo);background:var(--ajo2)}
+.pill.typ{background:var(--acc2);border-color:var(--acc)}
+.sym{font-family:var(--serif);font-size:1rem;color:var(--fg)}
+
+/* ---- sections ---- */
+.sec{border-top:1px solid var(--li);padding:.85rem 0}
+.sec.vide{display:none}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.45rem;padding:.1rem 0}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"›";color:var(--fai);font-family:var(--sans);display:inline-block;
+  transition:transform .12s ease;transform:rotate(0deg);width:.7em}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fai);font-weight:400}
+.corps{padding-top:.25rem}
+.gen{border-left:2px solid var(--li2);padding-left:.7rem}
+.chemin{border-left:3px solid var(--acc);background:var(--bg2);border-radius:0 var(--r) var(--r) 0;
+  padding:.5rem .8rem;margin:.2rem 0 .7rem}
+.chemin p{margin:.35rem 0;font-size:.95rem}
+.chemin p:first-child{margin-top:0}
+.chemin p:last-child{margin-bottom:0}
+.note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
+.sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
+.sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
+.sec.faute>summary h2{color:var(--faute)}
+.faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
+  margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.faute-b strong{color:var(--faute)}
+.sec.lim>summary h2{color:var(--lim)}
+.sec.lim>h2{color:var(--lim)}
+
+/* ---- marqueurs de traçabilité ---- */
+.marq{font-family:var(--sans);font-size:.7rem;color:var(--fai);white-space:nowrap;vertical-align:.12em}
+.marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
+.marqligne{margin:.15rem 0 0}
+html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
+.bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
+  color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
+
+/* ---- pastilles ---- */
+.pasts{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0;padding:0;list-style:none}
+.past{display:inline-block;font-family:var(--sans);font-size:.82rem;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--li2);border-radius:99px;padding:.12rem .6rem}
+.past:hover{border-color:var(--acc);color:var(--acc)}
+.past .cc{color:var(--fai);font-size:.74rem}
+.past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
+.past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
+.past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
+
+/* ---- socle ---- */
+.socle{list-style:none;padding:0;margin:.3rem 0}
+.socle li{display:flex;gap:.5rem;align-items:baseline;padding:.12rem 0;font-size:.92rem}
+.socle input{margin:0;accent-color:var(--ok)}
+.socle li.su a{color:var(--fai);text-decoration:line-through}
+.compteur{font-family:var(--sans);font-size:.78rem;color:var(--mut)}
+.grp{margin:.5rem 0}
+.grp>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--mut)}
+
+table{border-collapse:collapse;margin:.5rem 0;font-size:.9rem;display:block;overflow-x:auto;max-width:100%}
+th,td{border:1px solid var(--li);padding:.25rem .55rem;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-family:var(--sans);font-size:.78rem;font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+  background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
+ul{padding-left:1.1rem}
+hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
+
+/* ---- cartes d'accueil / carte du cours ---- */
+.cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
+.carte{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.65rem .8rem}
+.carte h3{margin:0 0 .2rem}
+.carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
+.carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
+.dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.vise{animation:vise 1.6s ease}
+@keyframes vise{from{background:var(--acc2)}to{background:transparent}}
+
+/* ---- orientation : ce qui s'adresse au lecteur qui arrive ---- */
+.entree{border:1px solid var(--li2);border-left:3px solid var(--acc);border-radius:var(--r);
+  padding:.7rem .9rem;margin:.8rem 0 1.4rem;background:var(--card)}
+.entree p{margin:.3rem 0;font-size:.92rem}
+.entree .quoi{font-size:1.02rem}
+.entree ul{margin:.5rem 0 .2rem;padding-left:1.1rem;font-family:var(--sans);font-size:.88rem}
+.entree li{margin:.2rem 0}
+.chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
+.chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
+.aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
+/* L'en-tête est collant : une ancre visée ne doit pas passer dessous. Mesuré :
+   il fait 48 px sur une ligne, 85 px quand il se replie en deux (écran étroit). */
+[id]{scroll-margin-top:6rem}
+.aide p,.aide ul,.aide table{max-width:42rem}
+.dette ul{margin:.3rem 0 0}
+footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
+
+/* ---- arbre ---- */
+.barre{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+#scene{position:relative;border:1px solid var(--li);border-radius:var(--r);background:var(--bg2);
+  height:min(74vh,720px);overflow:hidden;touch-action:none;cursor:grab}
+#scene.drag{cursor:grabbing}
+#pan{position:absolute;transform-origin:0 0;top:0;left:0}
+#aretes{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+#aretes path{fill:none;stroke:var(--li2);stroke-width:1.5}
+.noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
+  padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
+.noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
+.noeud .nm{font-weight:600}
+.noeud .nm a{text-decoration:none;color:var(--fg)}
+.noeud .nm a:hover{color:var(--acc)}
+.noeud .pa{color:var(--mut);font-size:.72rem;display:block;margin-top:.1rem}
+.noeud .pli{font:inherit;font-size:.72rem;background:none;border:1px solid var(--li2);border-radius:4px;
+  color:var(--mut);cursor:pointer;padding:0 .3rem;margin-right:.25rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.4rem}
+  .rech{flex:1 1 100%;order:9}
+  #scene{height:66vh}
+}
+@media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="brand" href="../index.html">notions</a><span class="fil">rapport d’ingestion › 2026-09-20-dss</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><article class="rapport"><h1>Rapport d'ingestion — dss — 2026-09-20</h1><h2>Matériau traité</h2><p><code>courses/dss/sources/2022_CombinedML.pdf</code>, 237 slides, lu en entier avant toute écriture.
+Six ensembles assemblés dans un seul jeu : introduction et applications (slides 1–22),
+régression linéaire, lasso et ridge (23–95), apprentissage par arbres (96–127), réseaux de
+neurones (128–202), un article comparant des modèles de risque de crédit (203–214), un
+article sur les biais sociétaux (215–237).</p><p>Le texte a été extrait pour la lecture intégrale ; les 47 slides dont le contenu est en
+image — toutes les formules — ont été relues une à une comme images. C'est la seule façon
+d'obtenir $C_p$, l'AIC, le BIC, le $R^2$ ajusté, les deux pénalités, la décomposition en
+valeurs singulières, l'algorithme des moindres carrés partiels, la variance d'une moyenne
+corrélée, l'algorithme de boosting, la règle delta, les formules de rétropropagation et la
+borne PAC.</p><h2>Inventaire ajouté (à auditer par l'utilisateur)</h2><p>237 éléments, un par slide, dans l'ordre du document.
+Répartition : <strong>70 notions</strong>, <strong>141 absorptions</strong>, <strong>26 exclusions</strong>, aucune dette.</p><div class="tablebloc"><table><thead><tr><th>réf</th><th>intitulé</th><th>image</th></tr></thead><tbody><tr><td>slide 1</td><td>Title slide and disclaimer</td><td>exclu <code>page de garde et avertissement de diffusion</code></td></tr><tr><td>slide 2</td><td>Introduction</td><td>exclu <code>intertitre de section, sans contenu</code></td></tr><tr><td>slide 3</td><td>Fun Facts and Poll</td><td>exclu <code>brise-glace mathématique sans rapport avec le cours</code></td></tr><tr><td>slide 4</td><td>Bullshit is around the corner!</td><td><strong>notion</strong> <code>dss/correlation-fallacieuse</code></td></tr><tr><td>slide 5</td><td>If you think you are right, you are wrong… My little butterfly</td><td>exclu <code>illustration de sensibilité aux conditions initiales, jamais reprise ensuite</code></td></tr><tr><td>slide 6</td><td>Data Science – Let's try to structure it</td><td><strong>notion</strong> <code>dss/science-des-donnees</code></td></tr><tr><td>slide 7</td><td>Quick Details – Machine Learning Types</td><td><strong>notion</strong> <code>dss/apprentissage-automatique</code></td></tr><tr><td>slide 8</td><td>Deep Learning – Deep What?</td><td><strong>notion</strong> <code>dss/apprentissage-profond</code></td></tr><tr><td>slide 9</td><td>Reinforcement Learning – Humans call it experience</td><td><strong>notion</strong> <code>dss/apprentissage-par-renforcement</code></td></tr><tr><td>slide 10</td><td>Performance Indicators (1/3)</td><td><strong>notion</strong> <code>dss/matrice-de-confusion</code></td></tr><tr><td>slide 11</td><td>Performance Indicators (2/3)</td><td>absorbe <code>dss/matrice-de-confusion</code></td></tr><tr><td>slide 12</td><td>Performance Indicators (3/3)</td><td><strong>notion</strong> <code>dss/courbe-roc</code></td></tr><tr><td>slide 13</td><td>Model Interpretability … Towards Actionability</td><td><strong>notion</strong> <code>dss/interpretabilite</code></td></tr><tr><td>slide 14</td><td>Parsing, Text Mining, NLP – Watson's Dead?</td><td>absorbe <code>dss/domaine-d-application</code></td></tr><tr><td>slide 15</td><td>Image Recognition</td><td>absorbe <code>dss/domaine-d-application</code></td></tr><tr><td>slide 16</td><td>AI for Controls – « How did we let that happen? »</td><td>absorbe <code>dss/domaine-d-application</code></td></tr><tr><td>slide 17</td><td>AI or more for Credit Scoring</td><td><strong>notion</strong> <code>dss/scoring-de-credit</code></td></tr><tr><td>slide 18</td><td>Cyber Security</td><td>absorbe <code>dss/domaine-d-application</code></td></tr><tr><td>slide 19</td><td>Predictive Maintenance</td><td>absorbe <code>dss/domaine-d-application</code></td></tr><tr><td>slide 20</td><td>Pharmaceutical</td><td>absorbe <code>dss/domaine-d-application</code></td></tr><tr><td>slide 21</td><td>Logistics</td><td>absorbe <code>dss/domaine-d-application</code></td></tr><tr><td>slide 22</td><td>Mobility</td><td>absorbe <code>dss/domaine-d-application</code></td></tr><tr><td>slide 23</td><td>Linear Regression, Lasso and Ridge</td><td>exclu <code>intertitre de section, sans contenu</code></td></tr><tr><td>slide 24</td><td>Lesson Goals</td><td>exclu <code>plan ou résumé de section, sans énoncé propre</code></td></tr><tr><td>slide 25</td><td>Improving the Linear Model</td><td><strong>notion</strong> <code>dss/moindres-carres-ordinaires</code></td></tr><tr><td>slide 26</td><td>Prediction Accuracy</td><td>absorbe <code>dss/moindres-carres-ordinaires</code></td></tr><tr><td>slide 27</td><td>Feature/Variable Selection</td><td><strong>notion</strong> <code>dss/surapprentissage</code></td></tr><tr><td>slide 28</td><td>Feature/Variable Selection (cont.)</td><td><strong>notion</strong> <code>dss/selection-de-variables</code></td></tr><tr><td>slide 29</td><td>Best Subset Selection</td><td><strong>notion</strong> <code>dss/meilleur-sous-ensemble</code></td></tr><tr><td>slide 30</td><td>Best Subset Selection (cont.)</td><td>absorbe <code>dss/meilleur-sous-ensemble</code></td></tr><tr><td>slide 31</td><td>Best Subset Selection (cont.)</td><td>absorbe <code>dss/meilleur-sous-ensemble</code></td></tr><tr><td>slide 32</td><td>Stepwise Selection</td><td>absorbe <code>dss/selection-pas-a-pas</code></td></tr><tr><td>slide 33</td><td>Stepwise Selection (cont.)</td><td><strong>notion</strong> <code>dss/selection-pas-a-pas</code></td></tr><tr><td>slide 34</td><td>Forward Stepwise Selection</td><td><strong>notion</strong> <code>dss/selection-ascendante</code></td></tr><tr><td>slide 35</td><td>Backward Stepwise Selection</td><td><strong>notion</strong> <code>dss/selection-descendante</code></td></tr><tr><td>slide 36</td><td>Stepwise Selection (cont.)</td><td>absorbe <code>dss/selection-pas-a-pas</code></td></tr><tr><td>slide 37</td><td>Choosing the Optimal Model</td><td><strong>notion</strong> <code>dss/erreur-de-test</code></td></tr><tr><td>slide 38</td><td>Estimating Test Error</td><td>absorbe <code>dss/erreur-de-test</code></td></tr><tr><td>slide 39</td><td>Other Measures of Comparison</td><td><strong>notion</strong> <code>dss/critere-penalise</code></td></tr><tr><td>slide 40</td><td>Credit Data: Cp, BIC, and Adjusted R2</td><td>absorbe <code>dss/critere-penalise</code></td></tr><tr><td>slide 41</td><td>Mallow's Cp</td><td><strong>notion</strong> <code>dss/cp-de-mallows</code></td></tr><tr><td>slide 42</td><td>Akaike Information Criterion (AIC)</td><td><strong>notion</strong> <code>dss/aic</code></td></tr><tr><td>slide 43</td><td>Bayesian Information Criterion (BIC)</td><td><strong>notion</strong> <code>dss/bic</code></td></tr><tr><td>slide 44</td><td>Adjusted R2</td><td><strong>notion</strong> <code>dss/r2-ajuste</code></td></tr><tr><td>slide 45</td><td>Validation and Cross-Validation</td><td><strong>notion</strong> <code>dss/validation-croisee</code></td></tr><tr><td>slide 46</td><td>Shrinkage (Regularization) Methods</td><td><strong>notion</strong> <code>dss/regularisation</code></td></tr><tr><td>slide 47</td><td>Shrinkage (Regularization) Methods (cont.)</td><td>absorbe <code>dss/regularisation</code></td></tr><tr><td>slide 48</td><td>Ridge Regression</td><td><strong>notion</strong> <code>dss/regression-ridge</code></td></tr><tr><td>slide 49</td><td>Ridge Regression (cont.)</td><td>absorbe <code>dss/regression-ridge</code></td></tr><tr><td>slide 50</td><td>Ridge Regression (cont.)</td><td>absorbe <code>dss/regression-ridge</code></td></tr><tr><td>slide 51</td><td>Ridge Regression (cont.)</td><td>absorbe <code>dss/regression-ridge</code></td></tr><tr><td>slide 52</td><td>Ridge Regression (cont.) – standardization</td><td>absorbe <code>dss/regression-ridge</code></td></tr><tr><td>slide 53</td><td>Ridge Regression (cont.) – bias/variance trade-off</td><td><strong>notion</strong> <code>dss/compromis-biais-variance</code></td></tr><tr><td>slide 54</td><td>Ridge Regression (cont.)</td><td>absorbe <code>dss/compromis-biais-variance</code></td></tr><tr><td>slide 55</td><td>Ridge Regression (cont.)</td><td>absorbe <code>dss/regression-ridge</code></td></tr><tr><td>slide 56</td><td>Ridge Regression (cont.)</td><td>absorbe <code>dss/regression-ridge</code></td></tr><tr><td>slide 57</td><td>Ridge Regression (cont.) – matrix form</td><td>absorbe <code>dss/regression-ridge</code></td></tr><tr><td>slide 58</td><td>Ridge Regression (cont.) – SVD</td><td><strong>notion</strong> <code>dss/decomposition-en-valeurs-singulieres</code></td></tr><tr><td>slide 59</td><td>Ridge Regression (cont.)</td><td>absorbe <code>dss/regression-ridge</code></td></tr><tr><td>slide 60</td><td>Ridge Regression (cont.)</td><td>absorbe <code>dss/regression-ridge</code></td></tr><tr><td>slide 61</td><td>Ridge Regression (cont.) – principal component directions</td><td><strong>notion</strong> <code>dss/composante-principale</code></td></tr><tr><td>slide 62</td><td>The Lasso</td><td><strong>notion</strong> <code>dss/lasso</code></td></tr><tr><td>slide 63</td><td>The Lasso (cont.)</td><td>absorbe <code>dss/lasso</code></td></tr><tr><td>slide 64</td><td>The Lasso (cont.)</td><td>absorbe <code>dss/lasso</code></td></tr><tr><td>slide 65</td><td>The Lasso (cont.)</td><td>absorbe <code>dss/lasso</code></td></tr><tr><td>slide 66</td><td>The Lasso (cont.)</td><td>absorbe <code>dss/lasso</code></td></tr><tr><td>slide 67</td><td>Lasso vs. Ridge Regression</td><td>absorbe <code>dss/lasso</code></td></tr><tr><td>slide 68</td><td>Selecting the Tuning Parameter λ</td><td><strong>notion</strong> <code>dss/choix-du-parametre-de-reglage</code></td></tr><tr><td>slide 69</td><td>Selecting the Tuning Parameter λ: Credit Data Example</td><td>absorbe <code>dss/choix-du-parametre-de-reglage</code></td></tr><tr><td>slide 70</td><td>Selecting the Tuning Parameter λ: Simulated Data Example</td><td>absorbe <code>dss/choix-du-parametre-de-reglage</code></td></tr><tr><td>slide 71</td><td>Dimension Reduction</td><td><strong>notion</strong> <code>dss/reduction-de-dimension</code></td></tr><tr><td>slide 72</td><td>Dimension Reduction (cont.)</td><td>absorbe <code>dss/reduction-de-dimension</code></td></tr><tr><td>slide 73</td><td>Dimension Reduction (cont.)</td><td>absorbe <code>dss/reduction-de-dimension</code></td></tr><tr><td>slide 74</td><td>Principal Components Regression</td><td>absorbe <code>dss/composante-principale</code></td></tr><tr><td>slide 75</td><td>Principal Components Regression (cont.)</td><td><strong>notion</strong> <code>dss/regression-composantes-principales</code></td></tr><tr><td>slide 76</td><td>Principal Components Regression (cont.)</td><td>absorbe <code>dss/regression-composantes-principales</code></td></tr><tr><td>slide 77</td><td>Principal Components Regression (cont.)</td><td>absorbe <code>dss/regression-composantes-principales</code></td></tr><tr><td>slide 78</td><td>Principal Components Regression (cont.)</td><td>absorbe <code>dss/regression-composantes-principales</code></td></tr><tr><td>slide 79</td><td>Principal Components Regression (cont.)</td><td>absorbe <code>dss/regression-composantes-principales</code></td></tr><tr><td>slide 80</td><td>Principal Components Regression (cont.)</td><td>absorbe <code>dss/regression-composantes-principales</code></td></tr><tr><td>slide 81</td><td>Principal Components Regression (cont.)</td><td>absorbe <code>dss/regression-composantes-principales</code></td></tr><tr><td>slide 82</td><td>Principal Components Regression (cont.)</td><td>absorbe <code>dss/regression-composantes-principales</code></td></tr><tr><td>slide 83</td><td>Principal Components Regression (cont.)</td><td>absorbe <code>dss/regression-composantes-principales</code></td></tr><tr><td>slide 84</td><td>Principal Components Regression (cont.)</td><td>absorbe <code>dss/regression-composantes-principales</code></td></tr><tr><td>slide 85</td><td>Principal Components Regression (cont.)</td><td>absorbe <code>dss/regression-composantes-principales</code></td></tr><tr><td>slide 86</td><td>Partial Least Squares</td><td><strong>notion</strong> <code>dss/moindres-carres-partiels</code></td></tr><tr><td>slide 87</td><td>Partial Least Squares (cont.)</td><td>absorbe <code>dss/moindres-carres-partiels</code></td></tr><tr><td>slide 88</td><td>Partial Least Squares (cont.)</td><td>absorbe <code>dss/moindres-carres-partiels</code></td></tr><tr><td>slide 89</td><td>Partial Least Squares (cont.)</td><td>absorbe <code>dss/moindres-carres-partiels</code></td></tr><tr><td>slide 90</td><td>Partial Least Squares (cont.)</td><td>absorbe <code>dss/moindres-carres-partiels</code></td></tr><tr><td>slide 91</td><td>Considerations in High Dimensions</td><td><strong>notion</strong> <code>dss/haute-dimension</code></td></tr><tr><td>slide 92</td><td>Considerations in High Dimensions (cont.) – curse of dimensionality</td><td><strong>notion</strong> <code>dss/malediction-de-la-dimension</code></td></tr><tr><td>slide 93</td><td>Considerations in High Dimensions (cont.)</td><td>absorbe <code>dss/malediction-de-la-dimension</code></td></tr><tr><td>slide 94</td><td>Considerations in High Dimensions (cont.)</td><td>absorbe <code>dss/haute-dimension</code></td></tr><tr><td>slide 95</td><td>Summary</td><td>exclu <code>plan ou résumé de section, sans énoncé propre</code></td></tr><tr><td>slide 96</td><td>Tree Learning: Random Forest</td><td>exclu <code>intertitre de section, sans contenu</code></td></tr><tr><td>slide 97</td><td>Ensemble methods</td><td><strong>notion</strong> <code>dss/methode-d-ensemble</code></td></tr><tr><td>slide 98</td><td>Bagging</td><td><strong>notion</strong> <code>dss/bagging</code></td></tr><tr><td>slide 99</td><td>Bagging – bootstrap</td><td><strong>notion</strong> <code>dss/bootstrap</code></td></tr><tr><td>slide 100</td><td>Bagging for classification: Majority vote</td><td>absorbe <code>dss/bagging</code></td></tr><tr><td>slide 101</td><td>Bagging decision trees</td><td>absorbe <code>dss/bagging</code></td></tr><tr><td>slide 102</td><td>Out-of-Bag Error Estimation</td><td><strong>notion</strong> <code>dss/erreur-out-of-bag</code></td></tr><tr><td>slide 103</td><td>Bagging</td><td>absorbe <code>dss/bagging</code></td></tr><tr><td>slide 104</td><td>Variable Importance Measures</td><td><strong>notion</strong> <code>dss/importance-des-variables</code></td></tr><tr><td>slide 105</td><td>Using Gini index on heart data</td><td><strong>notion</strong> <code>dss/importance-par-impurete</code></td></tr><tr><td>slide 106</td><td>RF: Variable Importance Measures</td><td><strong>notion</strong> <code>dss/importance-par-permutation</code></td></tr><tr><td>slide 107</td><td>(slide vide)</td><td>exclu <code>slide sans contenu</code></td></tr><tr><td>slide 108</td><td>Bagging - issues – i.d. and not i.i.d.</td><td>absorbe <code>dss/variance-d-une-moyenne-correlee</code></td></tr><tr><td>slide 109</td><td>Bagging - issues – variance of a correlated average</td><td><strong>notion</strong> <code>dss/variance-d-une-moyenne-correlee</code></td></tr><tr><td>slide 110</td><td>Bagging - issues</td><td>absorbe <code>dss/foret-aleatoire</code></td></tr><tr><td>slide 111</td><td>Bagging - issues</td><td>absorbe <code>dss/foret-aleatoire</code></td></tr><tr><td>slide 112</td><td>Bagging - issues</td><td>absorbe <code>dss/foret-aleatoire</code></td></tr><tr><td>slide 113</td><td>Random Forests</td><td><strong>notion</strong> <code>dss/foret-aleatoire</code></td></tr><tr><td>slide 114</td><td>Random Forests – Breiman's website</td><td>exclu <code>lien vers le site de Breiman, hors contenu</code></td></tr><tr><td>slide 115</td><td>Random Forests Algorithm</td><td>absorbe <code>dss/foret-aleatoire</code></td></tr><tr><td>slide 116</td><td>Random Forests Tuning</td><td>absorbe <code>dss/foret-aleatoire</code></td></tr><tr><td>slide 117</td><td>Example – gene expression</td><td>absorbe <code>dss/foret-aleatoire</code></td></tr><tr><td>slide 118</td><td>Null choice (Normal)</td><td>absorbe <code>dss/foret-aleatoire</code></td></tr><tr><td>slide 119</td><td>Random Forests Issues</td><td>absorbe <code>dss/foret-aleatoire</code></td></tr><tr><td>slide 120</td><td>Probability of being selected</td><td>absorbe <code>dss/foret-aleatoire</code></td></tr><tr><td>slide 121</td><td>Can RF overfit?</td><td>absorbe <code>dss/foret-aleatoire</code></td></tr><tr><td>slide 122</td><td>Boosting</td><td><strong>notion</strong> <code>dss/boosting</code></td></tr><tr><td>slide 123</td><td>Boosting</td><td>absorbe <code>dss/boosting</code></td></tr><tr><td>slide 124</td><td>Sequential fitting</td><td>absorbe <code>dss/boosting</code></td></tr><tr><td>slide 125</td><td>Boosting for regression</td><td>absorbe <code>dss/boosting</code></td></tr><tr><td>slide 126</td><td>Boosting tuning parameters</td><td>absorbe <code>dss/boosting</code></td></tr><tr><td>slide 127</td><td>(slide vide)</td><td>exclu <code>slide sans contenu</code></td></tr><tr><td>slide 128</td><td>Neural Networks</td><td>exclu <code>intertitre de section, sans contenu</code></td></tr><tr><td>slide 129</td><td>Background and Motivation</td><td>absorbe <code>dss/reseau-de-neurones-artificiel</code></td></tr><tr><td>slide 130</td><td>Background and Motivation – inherent advantages of the brain</td><td><strong>notion</strong> <code>dss/reseau-de-neurones-artificiel</code></td></tr><tr><td>slide 131</td><td>Background and Motivation – history of ANNs</td><td>absorbe <code>dss/reseau-de-neurones-artificiel</code></td></tr><tr><td>slide 132</td><td>Background and Motivation – ANN application areas</td><td>absorbe <code>dss/domaine-d-application</code></td></tr><tr><td>slide 133</td><td>Classification Systems and Inductive Learning – basic framework</td><td><strong>notion</strong> <code>dss/apprentissage-inductif</code></td></tr><tr><td>slide 134</td><td>Classification Systems and Inductive Learning – vector representation</td><td>absorbe <code>dss/fonction-discriminante-lineaire</code></td></tr><tr><td>slide 135</td><td>Classification Systems and Inductive Learning – linear discriminate function</td><td><strong>notion</strong> <code>dss/fonction-discriminante-lineaire</code></td></tr><tr><td>slide 136</td><td>Classification Systems and Inductive Learning – unknown weights</td><td>absorbe <code>dss/fonction-discriminante-lineaire</code></td></tr><tr><td>slide 137</td><td>Classification Systems and Inductive Learning – family considered</td><td>absorbe <code>dss/apprentissage-inductif</code></td></tr><tr><td>slide 138</td><td>From Biological to Artificial Neurons – the biological neuron</td><td>absorbe <code>dss/perceptron</code></td></tr><tr><td>slide 139</td><td>From Biological to Artificial Neurons – the perceptron</td><td><strong>notion</strong> <code>dss/perceptron</code></td></tr><tr><td>slide 140</td><td>From Biological to Artificial Neurons – node output</td><td>absorbe <code>dss/perceptron</code></td></tr><tr><td>slide 141</td><td>From Biological to Artificial Neurons – 3-layer network</td><td>absorbe <code>dss/reseau-multicouche</code></td></tr><tr><td>slide 142</td><td>From Biological to Artificial Neurons – what behaviour depends upon</td><td>absorbe <code>dss/reseau-de-neurones-artificiel</code></td></tr><tr><td>slide 143</td><td>Learning in a Simple Neuron – Full Meal Deal</td><td>absorbe <code>dss/perceptron</code></td></tr><tr><td>slide 144</td><td>Learning in a Simple Neuron – Perceptron Learning Algorithm</td><td>absorbe <code>dss/regle-delta</code></td></tr><tr><td>slide 145</td><td>Learning in a Simple Neuron – Widrow-Hoff or Delta Rule</td><td><strong>notion</strong> <code>dss/regle-delta</code></td></tr><tr><td>slide 146</td><td>Limitations of Simple Neural Networks – what a perceptron does when it learns</td><td>absorbe <code>dss/fonction-discriminante-lineaire</code></td></tr><tr><td>slide 147</td><td>EXAMPLE – logical OR</td><td>absorbe <code>dss/perceptron</code></td></tr><tr><td>slide 148</td><td>Limitations of Simple Neural Networks – Minsky and Papert</td><td><strong>notion</strong> <code>dss/limite-du-perceptron</code></td></tr><tr><td>slide 149</td><td>EXAMPLE – logical XOR</td><td>absorbe <code>dss/limite-du-perceptron</code></td></tr><tr><td>slide 150</td><td>EXAMPLE – more complex networks</td><td>absorbe <code>dss/limite-du-perceptron</code></td></tr><tr><td>slide 151</td><td>Multi-layer Feed-forward ANNs</td><td><strong>notion</strong> <code>dss/reseau-multicouche</code></td></tr><tr><td>slide 152</td><td>Multi-layer Feed-forward ANNs – no learning algorithm</td><td>absorbe <code>dss/reseau-multicouche</code></td></tr><tr><td>slide 153</td><td>Visualizing Network Behaviour</td><td>absorbe <code>dss/retropropagation</code></td></tr><tr><td>slide 154</td><td>The Back-propagation Algorithm</td><td><strong>notion</strong> <code>dss/retropropagation</code></td></tr><tr><td>slide 155</td><td>The Back-propagation Algorithm – error and generalized delta rule</td><td>absorbe <code>dss/retropropagation</code></td></tr><tr><td>slide 156</td><td>The Back-propagation Algorithm – definitions</td><td>absorbe <code>dss/retropropagation</code></td></tr><tr><td>slide 157</td><td>The Back-propagation Algorithm – four step process</td><td>absorbe <code>dss/retropropagation</code></td></tr><tr><td>slide 158</td><td>The Back-propagation Algorithm – on-line algorithm</td><td>absorbe <code>dss/retropropagation</code></td></tr><tr><td>slide 159</td><td>The Back-propagation Algorithm – output and hidden nodes</td><td>absorbe <code>dss/retropropagation</code></td></tr><tr><td>slide 160</td><td>The Back-propagation Algorithm – gradient descent</td><td><strong>notion</strong> <code>dss/descente-de-gradient</code></td></tr><tr><td>slide 161</td><td>The Back-propagation Algorithm – momentum descent</td><td><strong>notion</strong> <code>dss/descente-avec-inertie</code></td></tr><tr><td>slide 162</td><td>The Back-propagation Algorithm – line search techniques</td><td>absorbe <code>dss/descente-de-gradient</code></td></tr><tr><td>slide 163</td><td>The Back-propagation Algorithm – on-line vs. batch</td><td><strong>notion</strong> <code>dss/apprentissage-en-ligne-ou-par-lot</code></td></tr><tr><td>slide 164</td><td>The Back-propagation Algorithm – several interesting questions</td><td>exclu <code>liste de questions ouvertes, sans énoncé</code></td></tr><tr><td>slide 165</td><td>Generalization</td><td><strong>notion</strong> <code>dss/generalisation</code></td></tr><tr><td>slide 166</td><td>Generalization – computing parity</td><td>absorbe <code>dss/generalisation</code></td></tr><tr><td>slide 167</td><td>Generalization – 10-bit parity test</td><td>absorbe <code>dss/generalisation</code></td></tr><tr><td>slide 168</td><td>Generalization – a probabilistic guarantee</td><td><strong>notion</strong> <code>dss/garantie-pac</code></td></tr><tr><td>slide 169</td><td>Generalization – 20-bit parity problem</td><td>absorbe <code>dss/garantie-pac</code></td></tr><tr><td>slide 170</td><td>Generalization – training sample and network complexity</td><td>absorbe <code>dss/garantie-pac</code></td></tr><tr><td>slide 171</td><td>Generalization – controlling effective weights</td><td>absorbe <code>dss/generalisation</code></td></tr><tr><td>slide 172</td><td>Generalization – over-training and Occam's razor</td><td>absorbe <code>dss/surapprentissage</code></td></tr><tr><td>slide 173</td><td>Generalization – preventing over-training</td><td><strong>notion</strong> <code>dss/arret-precoce</code></td></tr><tr><td>slide 174</td><td>Generalization – weight decay</td><td><strong>notion</strong> <code>dss/decroissance-des-poids</code></td></tr><tr><td>slide 175</td><td>Network Design &amp; Training Issues</td><td>exclu <code>plan ou résumé de section, sans énoncé propre</code></td></tr><tr><td>slide 176</td><td>Network Design – architecture: how many nodes</td><td><strong>notion</strong> <code>dss/architecture-du-reseau</code></td></tr><tr><td>slide 177</td><td>Network Design – connectivity</td><td>absorbe <code>dss/architecture-du-reseau</code></td></tr><tr><td>slide 178</td><td>Network Design – structure of artificial neuron nodes</td><td><strong>notion</strong> <code>dss/fonction-d-activation</code></td></tr><tr><td>slide 179</td><td>Network Design – selecting a learning rule</td><td>absorbe <code>dss/retropropagation</code></td></tr><tr><td>slide 180</td><td>Network Training – ensuring a well-trained network</td><td><strong>notion</strong> <code>dss/protocole-d-entrainement</code></td></tr><tr><td>slide 181</td><td>Network Training – approach #1, large sample</td><td>absorbe <code>dss/protocole-d-entrainement</code></td></tr><tr><td>slide 182</td><td>Network Training – approach #2, cross-validation</td><td>absorbe <code>dss/protocole-d-entrainement</code></td></tr><tr><td>slide 183</td><td>Network Training – selecting between two designs</td><td>absorbe <code>dss/protocole-d-entrainement</code></td></tr><tr><td>slide 184</td><td>Network Training – mastering ANN parameters</td><td>absorbe <code>dss/protocole-d-entrainement</code></td></tr><tr><td>slide 185</td><td>Network Training – weight initialization</td><td>absorbe <code>dss/protocole-d-entrainement</code></td></tr><tr><td>slide 186</td><td>Network Training – typical problems during training</td><td>absorbe <code>dss/protocole-d-entrainement</code></td></tr><tr><td>slide 187</td><td>Data Preparation – garbage in, garbage out</td><td><strong>notion</strong> <code>dss/preparation-des-donnees</code></td></tr><tr><td>slide 188</td><td>Data Preparation – data types and ANNs</td><td><strong>notion</strong> <code>dss/type-de-donnee</code></td></tr><tr><td>slide 189</td><td>Data Preparation – consolidation and cleaning</td><td>absorbe <code>dss/preparation-des-donnees</code></td></tr><tr><td>slide 190</td><td>Data Preparation – selection and preprocessing</td><td>absorbe <code>dss/preparation-des-donnees</code></td></tr><tr><td>slide 191</td><td>Data Preparation – transformation and encoding, nominal or ordinal</td><td><strong>notion</strong> <code>dss/codage-des-variables</code></td></tr><tr><td>slide 192</td><td>Data Preparation – transformation and encoding, normalization</td><td>absorbe <code>dss/codage-des-variables</code></td></tr><tr><td>slide 193</td><td>Data Preparation – transformation and encoding, continuous values</td><td>absorbe <code>dss/codage-des-variables</code></td></tr><tr><td>slide 194</td><td>Post-Training Analysis</td><td><strong>notion</strong> <code>dss/analyse-post-entrainement</code></td></tr><tr><td>slide 195</td><td>Post-Training Analysis – visualizing the constructed model</td><td>absorbe <code>dss/analyse-post-entrainement</code></td></tr><tr><td>slide 196</td><td>Post-Training Analysis – detailed network analysis</td><td>absorbe <code>dss/analyse-post-entrainement</code></td></tr><tr><td>slide 197</td><td>Post-Training Analysis – sensitivity analysis</td><td>absorbe <code>dss/analyse-post-entrainement</code></td></tr><tr><td>slide 198</td><td>The ANN Application Development Process</td><td>absorbe <code>dss/protocole-d-entrainement</code></td></tr><tr><td>slide 199</td><td>Example Applications</td><td>absorbe <code>dss/domaine-d-application</code></td></tr><tr><td>slide 200</td><td>Pros and Cons of Back-Prop – cons</td><td>absorbe <code>dss/retropropagation</code></td></tr><tr><td>slide 201</td><td>Pros and Cons of Back-Prop – pros</td><td>absorbe <code>dss/retropropagation</code></td></tr><tr><td>slide 202</td><td>Other Networks and Advanced Issues</td><td>exclu <code>ouverture vers des architectures que le cours ne traite pas</code></td></tr><tr><td>slide 203</td><td>Papers</td><td>exclu <code>intertitre de section, sans contenu</code></td></tr><tr><td>slide 204</td><td>Objectives</td><td>absorbe <code>dss/comparaison-de-modeles</code></td></tr><tr><td>slide 205</td><td>Data Used</td><td>absorbe <code>dss/comparaison-de-modeles</code></td></tr><tr><td>slide 206</td><td>Models Applied</td><td>absorbe <code>dss/comparaison-de-modeles</code></td></tr><tr><td>slide 207</td><td>Logistic Regression (ROC Evolution)</td><td>absorbe <code>dss/comparaison-de-modeles</code></td></tr><tr><td>slide 208</td><td>LASSO (ROC)</td><td>absorbe <code>dss/comparaison-de-modeles</code></td></tr><tr><td>slide 209</td><td>Random Forest (Extraction and ROC)</td><td>absorbe <code>dss/comparaison-de-modeles</code></td></tr><tr><td>slide 210</td><td>Gradient Boosting (ROC comparison)</td><td>absorbe <code>dss/comparaison-de-modeles</code></td></tr><tr><td>slide 211</td><td>SVM (Representation and ROC)</td><td>absorbe <code>dss/comparaison-de-modeles</code></td></tr><tr><td>slide 212</td><td>Neural Network (ROC)</td><td>absorbe <code>dss/comparaison-de-modeles</code></td></tr><tr><td>slide 213</td><td>Comparison</td><td><strong>notion</strong> <code>dss/comparaison-de-modeles</code></td></tr><tr><td>slide 214</td><td>Conclusion</td><td>absorbe <code>dss/comparaison-de-modeles</code></td></tr><tr><td>slide 215</td><td>Societal biases reinforcement through Machine Learning – A credit scoring perspective</td><td>exclu <code>intertitre de section, sans contenu</code></td></tr><tr><td>slide 216</td><td>Summary</td><td>exclu <code>plan ou résumé de section, sans énoncé propre</code></td></tr><tr><td>slide 217</td><td>Societal Biases Evidence</td><td>exclu <code>intertitre de section, sans contenu</code></td></tr><tr><td>slide 218</td><td>Social and Societal Biases</td><td><strong>notion</strong> <code>dss/biais-societal</code></td></tr><tr><td>slide 219</td><td>Data Sets</td><td>exclu <code>intertitre de section, sans contenu</code></td></tr><tr><td>slide 220</td><td>Data Sets: Gender</td><td>absorbe <code>dss/biais-societal</code></td></tr><tr><td>slide 221</td><td>Data Sets: Ethnicity</td><td>absorbe <code>dss/biais-societal</code></td></tr><tr><td>slide 222</td><td>Data Sets: Gender</td><td>absorbe <code>dss/biais-societal</code></td></tr><tr><td>slide 223</td><td>Data Sets: Ethnicity (Initial)</td><td>absorbe <code>dss/biais-societal</code></td></tr><tr><td>slide 224</td><td>Data Sets: Ethnicity (2 Categories)</td><td>absorbe <code>dss/biais-societal</code></td></tr><tr><td>slide 225</td><td>Data Sets: Ethnicity (Modified)</td><td>absorbe <code>dss/biais-societal</code></td></tr><tr><td>slide 226</td><td>Methodology</td><td>exclu <code>intertitre de section, sans contenu</code></td></tr><tr><td>slide 227</td><td>Experimentation</td><td>absorbe <code>dss/biais-societal</code></td></tr><tr><td>slide 228</td><td>Random Forest and SVM</td><td>exclu <code>rappel illustré de méthodes déjà fichées, sans énoncé nouveau</code></td></tr><tr><td>slide 229</td><td>SMOTE: Synthetic Minority Over-sampling Technique</td><td><strong>notion</strong> <code>dss/smote</code></td></tr><tr><td>slide 230</td><td>Results</td><td>exclu <code>intertitre de section, sans contenu</code></td></tr><tr><td>slide 231</td><td>Validity of the data sets from a credit scoring point of view</td><td>absorbe <code>dss/biais-societal</code></td></tr><tr><td>slide 232</td><td>Variable Importance</td><td>absorbe <code>dss/biais-societal</code></td></tr><tr><td>slide 233</td><td>Validity of the data sets from an Ethnicity background and Gender prediction point of view</td><td>absorbe <code>dss/biais-societal</code></td></tr><tr><td>slide 234</td><td>Conclusions</td><td>exclu <code>intertitre de section, sans contenu</code></td></tr><tr><td>slide 235</td><td>Conclusion</td><td>absorbe <code>dss/biais-societal</code></td></tr><tr><td>slide 236</td><td>Bibliography</td><td>exclu <code>bibliographie, hors contenu</code></td></tr><tr><td>slide 237</td><td>Bibliography</td><td>exclu <code>bibliographie, hors contenu</code></td></tr></tbody></table></div><h2>Notations ajoutées ou en collision</h2><p>31 symboles enregistrés dans <code>courses/dss/notation.yml</code>.</p><p><strong>Trois collisions internes au cours, qu'il ne signale jamais.</strong></p><div class="tablebloc"><table><thead><tr><th>symbole</th><th>emplois</th><th>où</th></tr></thead><tbody><tr><td>$\lambda$</td><td>pénalité de ridge et du lasso · taux d'apprentissage du boosting · coût des poids</td><td>slide 50 · slide 126 · slide 174</td></tr><tr><td>$d$</td><td>nombre de prédicteurs · nombre de coupures par arbre · signal d'erreur de la règle delta</td><td>slide 41 · slide 126 · slide 145</td></tr><tr><td>$m$</td><td>prédicteurs tirés par coupure · nombre d'exemples d'apprentissage · indice de direction</td><td>slide 113 · slide 168 · slide 72</td></tr><tr><td>$\sigma^2$</td><td>variance de l'erreur du modèle · variance d'un arbre</td><td>slide 41 · slide 109</td></tr></tbody></table></div><p>Celle de $\lambda$ est la plus gênante : les trois valeurs typiques diffèrent d'un ordre de
+grandeur, et la fiche « décroissance des poids » est précisément celle où deux des trois
+emplois se rencontrent.</p><p><strong>Cinq collisions avec les autres cours</strong>, déclarées et non résolues : $\lambda$ contre
+<code>dup/aversion-aux-pertes</code>, $\rho$ contre <code>dup/aversion-second-ordre</code>, $\eta$ contre
+<code>dup/famille-hara</code>, $\alpha$ contre <code>dup/aversion-a-la-deception</code>, $B$ contre
+<code>fpp/compte-capitalise</code>.</p><h2>Fiches créées</h2><p>76 fiches. Niveau maximal 8, socle médian 3, dépendances directes médiane 1.</p><div class="tablebloc"><table><thead><tr><th>id</th><th>nom</th><th>type</th><th>cas_de</th><th>construite_a_partir_de</th></tr></thead><tbody><tr><td><code>dss/aic</code></td><td>Critère d'information d'Akaike</td><td>notion</td><td><a href="../dss/n/critere-penalise.html">Critère pénalisé</a></td><td><code>dss/moindres-carres-ordinaires</code></td></tr><tr><td><code>dss/analyse-post-entrainement</code></td><td>Analyse post-entraînement</td><td>notion</td><td>—</td><td><code>dss/retropropagation</code>, <code>dss/interpretabilite</code></td></tr><tr><td><code>dss/apprentissage-automatique</code></td><td>Apprentissage automatique</td><td>abstraite</td><td><a href="../dss/n/science-des-donnees.html">Science des données</a></td><td>—</td></tr><tr><td><code>dss/apprentissage-en-ligne-ou-par-lot</code></td><td>Apprentissage en ligne ou par lot</td><td>notion</td><td>—</td><td><code>dss/retropropagation</code></td></tr><tr><td><code>dss/apprentissage-inductif</code></td><td>Apprentissage inductif</td><td>notion</td><td>—</td><td><code>dss/apprentissage-supervise</code></td></tr><tr><td><code>dss/apprentissage-non-supervise</code></td><td>Apprentissage non supervisé</td><td>notion</td><td><a href="../dss/n/apprentissage-automatique.html">Apprentissage automatique</a></td><td>—</td></tr><tr><td><code>dss/apprentissage-par-renforcement</code></td><td>Apprentissage par renforcement</td><td>notion</td><td><a href="../dss/n/apprentissage-automatique.html">Apprentissage automatique</a></td><td>—</td></tr><tr><td><code>dss/apprentissage-profond</code></td><td>Apprentissage profond</td><td>notion</td><td>—</td><td><code>dss/reseau-multicouche</code></td></tr><tr><td><code>dss/apprentissage-supervise</code></td><td>Apprentissage supervisé</td><td>notion</td><td><a href="../dss/n/apprentissage-automatique.html">Apprentissage automatique</a></td><td>—</td></tr><tr><td><code>dss/architecture-du-reseau</code></td><td>Architecture du réseau</td><td>notion</td><td>—</td><td><code>dss/garantie-pac</code></td></tr><tr><td><code>dss/arret-precoce</code></td><td>Arrêt précoce</td><td>notion</td><td>—</td><td><code>dss/generalisation</code>, <code>dss/surapprentissage</code></td></tr><tr><td><code>dss/bagging</code></td><td>Bagging</td><td>notion</td><td><a href="../dss/n/methode-d-ensemble.html">Méthode d'ensemble</a></td><td><code>dss/bootstrap</code>, <code>dss/compromis-biais-variance</code></td></tr><tr><td><code>dss/biais-societal</code></td><td>Biais sociétal</td><td>notion</td><td>—</td><td><code>dss/comparaison-de-modeles</code>, <code>dss/importance-des-variables</code>, <code>dss/smote</code></td></tr><tr><td><code>dss/bic</code></td><td>Critère d'information bayésien</td><td>notion</td><td><a href="../dss/n/critere-penalise.html">Critère pénalisé</a></td><td><code>dss/moindres-carres-ordinaires</code></td></tr><tr><td><code>dss/boosting</code></td><td>Boosting</td><td>notion</td><td><a href="../dss/n/methode-d-ensemble.html">Méthode d'ensemble</a></td><td><code>dss/bagging</code>, <code>dss/surapprentissage</code></td></tr><tr><td><code>dss/bootstrap</code></td><td>Bootstrap</td><td>notion</td><td>—</td><td>—</td></tr><tr><td><code>dss/choix-du-parametre-de-reglage</code></td><td>Choix du paramètre de réglage</td><td>notion</td><td>—</td><td><code>dss/regularisation</code>, <code>dss/validation-croisee</code></td></tr><tr><td><code>dss/codage-des-variables</code></td><td>Codage des variables</td><td>notion</td><td>—</td><td><code>dss/type-de-donnee</code></td></tr><tr><td><code>dss/comparaison-de-modeles</code></td><td>Comparaison de modèles de risque de crédit</td><td>notion</td><td>—</td><td><code>dss/scoring-de-credit</code>, <code>dss/courbe-roc</code>, <code>dss/lasso</code>, <code>dss/foret-aleatoire</code>, <code>dss/boosting</code>, <code>dss/retropropagation</code></td></tr><tr><td><code>dss/composante-principale</code></td><td>Composante principale</td><td>notion</td><td>—</td><td><code>dss/decomposition-en-valeurs-singulieres</code></td></tr><tr><td><code>dss/compromis-biais-variance</code></td><td>Compromis biais-variance</td><td>notion</td><td>—</td><td><code>dss/erreur-de-test</code></td></tr><tr><td><code>dss/correlation-fallacieuse</code></td><td>Corrélation fallacieuse</td><td>notion</td><td>—</td><td>—</td></tr><tr><td><code>dss/courbe-roc</code></td><td>Courbe ROC</td><td>notion</td><td>—</td><td><code>dss/matrice-de-confusion</code></td></tr><tr><td><code>dss/cp-de-mallows</code></td><td>Cp de Mallows</td><td>notion</td><td><a href="../dss/n/critere-penalise.html">Critère pénalisé</a></td><td><code>dss/moindres-carres-ordinaires</code></td></tr><tr><td><code>dss/critere-penalise</code></td><td>Critère pénalisé</td><td>principe</td><td>—</td><td><code>dss/moindres-carres-ordinaires</code>, <code>dss/erreur-de-test</code></td></tr><tr><td><code>dss/decomposition-en-valeurs-singulieres</code></td><td>Décomposition en valeurs singulières</td><td>notion</td><td>—</td><td><code>dss/moindres-carres-ordinaires</code></td></tr><tr><td><code>dss/decroissance-des-poids</code></td><td>Décroissance des poids</td><td>notion</td><td>—</td><td><code>dss/retropropagation</code>, <code>dss/regularisation</code></td></tr><tr><td><code>dss/descente-avec-inertie</code></td><td>Descente avec inertie</td><td>notion</td><td>—</td><td><code>dss/retropropagation</code></td></tr><tr><td><code>dss/descente-de-gradient</code></td><td>Descente de gradient</td><td>notion</td><td>—</td><td><code>dss/regle-delta</code></td></tr><tr><td><code>dss/domaine-d-application</code></td><td>Domaine d'application</td><td>notion</td><td>—</td><td><code>dss/apprentissage-automatique</code></td></tr><tr><td><code>dss/erreur-de-test</code></td><td>Erreur de test</td><td>notion</td><td>—</td><td><code>dss/apprentissage-supervise</code></td></tr><tr><td><code>dss/erreur-out-of-bag</code></td><td>Erreur out-of-bag</td><td>notion</td><td>—</td><td><code>dss/bagging</code>, <code>dss/validation-croisee</code></td></tr><tr><td><code>dss/fonction-d-activation</code></td><td>Fonction d'activation</td><td>notion</td><td>—</td><td><code>dss/perceptron</code></td></tr><tr><td><code>dss/fonction-discriminante-lineaire</code></td><td>Fonction discriminante linéaire</td><td>notion</td><td>—</td><td><code>dss/apprentissage-inductif</code></td></tr><tr><td><code>dss/foret-aleatoire</code></td><td>Forêt aléatoire</td><td>notion</td><td><a href="../dss/n/methode-d-ensemble.html">Méthode d'ensemble</a></td><td><code>dss/variance-d-une-moyenne-correlee</code></td></tr><tr><td><code>dss/fouille-de-donnees</code></td><td>Fouille de données</td><td>notion</td><td><a href="../dss/n/science-des-donnees.html">Science des données</a></td><td>—</td></tr><tr><td><code>dss/garantie-pac</code></td><td>Garantie probabiliste de généralisation</td><td>notion</td><td>—</td><td><code>dss/generalisation</code></td></tr><tr><td><code>dss/generalisation</code></td><td>Généralisation</td><td>notion</td><td>—</td><td><code>dss/erreur-de-test</code>, <code>dss/reseau-multicouche</code></td></tr><tr><td><code>dss/haute-dimension</code></td><td>Haute dimension</td><td>notion</td><td>—</td><td><code>dss/moindres-carres-ordinaires</code></td></tr><tr><td><code>dss/importance-des-variables</code></td><td>Importance des variables</td><td>principe</td><td>—</td><td><code>dss/bagging</code>, <code>dss/interpretabilite</code></td></tr><tr><td><code>dss/importance-par-impurete</code></td><td>Importance par impureté</td><td>notion</td><td><a href="../dss/n/importance-des-variables.html">Importance des variables</a></td><td><code>dss/bagging</code></td></tr><tr><td><code>dss/importance-par-permutation</code></td><td>Importance par permutation</td><td>notion</td><td><a href="../dss/n/importance-des-variables.html">Importance des variables</a></td><td><code>dss/erreur-out-of-bag</code></td></tr><tr><td><code>dss/intelligence-artificielle</code></td><td>Intelligence artificielle</td><td>notion</td><td><a href="../dss/n/science-des-donnees.html">Science des données</a></td><td>—</td></tr><tr><td><code>dss/interpretabilite</code></td><td>Interprétabilité</td><td>notion</td><td>—</td><td>—</td></tr><tr><td><code>dss/lasso</code></td><td>Lasso</td><td>notion</td><td><a href="../dss/n/regularisation.html">Régularisation</a></td><td><code>dss/regression-ridge</code></td></tr><tr><td><code>dss/limite-du-perceptron</code></td><td>Limite du perceptron</td><td>notion</td><td>—</td><td><code>dss/perceptron</code></td></tr><tr><td><code>dss/malediction-de-la-dimension</code></td><td>Malédiction de la dimension</td><td>notion</td><td>—</td><td><code>dss/haute-dimension</code>, <code>dss/surapprentissage</code></td></tr><tr><td><code>dss/matrice-de-confusion</code></td><td>Matrice de confusion</td><td>notion</td><td>—</td><td><code>dss/apprentissage-supervise</code></td></tr><tr><td><code>dss/meilleur-sous-ensemble</code></td><td>Meilleur sous-ensemble</td><td>notion</td><td><a href="../dss/n/selection-de-sous-ensemble.html">Sélection de sous-ensemble</a></td><td><code>dss/critere-penalise</code></td></tr><tr><td><code>dss/methode-d-ensemble</code></td><td>Méthode d'ensemble</td><td>principe</td><td>—</td><td><code>dss/compromis-biais-variance</code></td></tr><tr><td><code>dss/moindres-carres-ordinaires</code></td><td>Moindres carrés ordinaires</td><td>notion</td><td>—</td><td><code>dss/apprentissage-supervise</code></td></tr><tr><td><code>dss/moindres-carres-partiels</code></td><td>Moindres carrés partiels</td><td>notion</td><td><a href="../dss/n/reduction-de-dimension.html">Réduction de dimension</a></td><td><code>dss/regression-composantes-principales</code></td></tr><tr><td><code>dss/perceptron</code></td><td>Perceptron</td><td>notion</td><td>—</td><td><code>dss/reseau-de-neurones-artificiel</code>, <code>dss/fonction-discriminante-lineaire</code></td></tr><tr><td><code>dss/preparation-des-donnees</code></td><td>Préparation des données</td><td>notion</td><td>—</td><td><code>dss/reseau-de-neurones-artificiel</code></td></tr><tr><td><code>dss/protocole-d-entrainement</code></td><td>Protocole d'entraînement</td><td>notion</td><td>—</td><td><code>dss/retropropagation</code>, <code>dss/validation-croisee</code></td></tr><tr><td><code>dss/r2-ajuste</code></td><td>R2 ajusté</td><td>notion</td><td><a href="../dss/n/critere-penalise.html">Critère pénalisé</a></td><td><code>dss/moindres-carres-ordinaires</code></td></tr><tr><td><code>dss/reduction-de-dimension</code></td><td>Réduction de dimension</td><td>abstraite</td><td><a href="../dss/n/selection-de-variables.html">Sélection de variables</a></td><td><code>dss/moindres-carres-ordinaires</code></td></tr><tr><td><code>dss/regle-delta</code></td><td>Règle delta</td><td>notion</td><td>—</td><td><code>dss/perceptron</code></td></tr><tr><td><code>dss/regression-composantes-principales</code></td><td>Régression sur composantes principales</td><td>notion</td><td><a href="../dss/n/reduction-de-dimension.html">Réduction de dimension</a></td><td><code>dss/composante-principale</code></td></tr><tr><td><code>dss/regression-ridge</code></td><td>Régression ridge</td><td>notion</td><td><a href="../dss/n/regularisation.html">Régularisation</a></td><td><code>dss/moindres-carres-ordinaires</code>, <code>dss/compromis-biais-variance</code></td></tr><tr><td><code>dss/regularisation</code></td><td>Régularisation</td><td>abstraite</td><td><a href="../dss/n/selection-de-variables.html">Sélection de variables</a></td><td><code>dss/moindres-carres-ordinaires</code>, <code>dss/compromis-biais-variance</code></td></tr><tr><td><code>dss/reseau-de-neurones-artificiel</code></td><td>Réseau de neurones artificiel</td><td>notion</td><td>—</td><td><code>dss/apprentissage-supervise</code></td></tr><tr><td><code>dss/reseau-multicouche</code></td><td>Réseau multicouche à propagation avant</td><td>notion</td><td>—</td><td><code>dss/limite-du-perceptron</code>, <code>dss/fonction-d-activation</code></td></tr><tr><td><code>dss/retropropagation</code></td><td>Rétropropagation</td><td>notion</td><td>—</td><td><code>dss/reseau-multicouche</code>, <code>dss/descente-de-gradient</code></td></tr><tr><td><code>dss/science-des-donnees</code></td><td>Science des données</td><td>principe</td><td>—</td><td>—</td></tr><tr><td><code>dss/scoring-de-credit</code></td><td>Scoring de crédit</td><td>notion</td><td>—</td><td><code>dss/apprentissage-supervise</code></td></tr><tr><td><code>dss/selection-ascendante</code></td><td>Sélection ascendante</td><td>notion</td><td><a href="../dss/n/selection-pas-a-pas.html">Sélection pas à pas</a></td><td><code>dss/moindres-carres-ordinaires</code></td></tr><tr><td><code>dss/selection-de-sous-ensemble</code></td><td>Sélection de sous-ensemble</td><td>abstraite</td><td><a href="../dss/n/selection-de-variables.html">Sélection de variables</a></td><td><code>dss/moindres-carres-ordinaires</code></td></tr><tr><td><code>dss/selection-de-variables</code></td><td>Sélection de variables</td><td>principe</td><td>—</td><td><code>dss/moindres-carres-ordinaires</code>, <code>dss/interpretabilite</code></td></tr><tr><td><code>dss/selection-descendante</code></td><td>Sélection descendante</td><td>notion</td><td><a href="../dss/n/selection-pas-a-pas.html">Sélection pas à pas</a></td><td><code>dss/moindres-carres-ordinaires</code></td></tr><tr><td><code>dss/selection-pas-a-pas</code></td><td>Sélection pas à pas</td><td>abstraite</td><td><a href="../dss/n/selection-de-sous-ensemble.html">Sélection de sous-ensemble</a></td><td><code>dss/meilleur-sous-ensemble</code></td></tr><tr><td><code>dss/smote</code></td><td>SMOTE</td><td>notion</td><td>—</td><td><code>dss/preparation-des-donnees</code></td></tr><tr><td><code>dss/surapprentissage</code></td><td>Surapprentissage</td><td>notion</td><td>—</td><td><code>dss/erreur-de-test</code></td></tr><tr><td><code>dss/type-de-donnee</code></td><td>Type de donnée</td><td>notion</td><td>—</td><td><code>dss/preparation-des-donnees</code></td></tr><tr><td><code>dss/validation-croisee</code></td><td>Validation croisée</td><td>notion</td><td>—</td><td><code>dss/erreur-de-test</code></td></tr><tr><td><code>dss/variance-d-une-moyenne-correlee</code></td><td>Variance d'une moyenne corrélée</td><td>notion</td><td>—</td><td><code>dss/bagging</code></td></tr></tbody></table></div><h2>Fiches modifiées</h2><p>Aucune. Aucun fichier des cours <code>dup</code> et <code>fpp</code> n'a été touché.</p><h2>Abstractions créées</h2><p>Dix nœuds d'abstraction, cinq principes en racine et cinq abstraites.</p><p><strong><code>dss/apprentissage-automatique</code> — Apprentissage automatique</strong> (abstraite)
+Paramètre : <em>ce que l'environnement renvoie à l'algorithme</em></p><ul><li><code>dss/apprentissage-non-supervise</code> — rien d'autre que les entrées</li><li><code>dss/apprentissage-par-renforcement</code> — une récompense, après action sur l'environnement</li><li><code>dss/apprentissage-supervise</code> — une sortie désirée pour chaque entrée</li></ul><p><strong><code>dss/critere-penalise</code> — Critère pénalisé</strong> (principe)</p><ul><li><code>dss/aic</code> — $2d$ ajouté à moins deux fois la log-vraisemblance</li><li><code>dss/bic</code> — $\log(n)\,d\hat\sigma^2$ ajouté à la RSS</li><li><code>dss/cp-de-mallows</code> — $2d\hat\sigma^2$ ajouté à la RSS</li><li><code>dss/r2-ajuste</code> — un degré de liberté retiré au numérateur et au dénominateur</li></ul><p><strong><code>dss/importance-des-variables</code> — Importance des variables</strong> (principe)</p><ul><li><code>dss/importance-par-impurete</code> — la baisse de RSS ou d'indice de Gini aux coupures</li><li><code>dss/importance-par-permutation</code> — la perte d'exactitude quand on permute la colonne</li></ul><p><strong><code>dss/methode-d-ensemble</code> — Méthode d'ensemble</strong> (principe)</p><ul><li><code>dss/bagging</code> — des arbres tirés en parallèle, puis moyennés</li><li><code>dss/boosting</code> — des arbres ajustés en séquence sur les résidus</li><li><code>dss/foret-aleatoire</code> — des arbres décorrélés par un tirage de prédicteurs à chaque coupure</li></ul><p><strong><code>dss/reduction-de-dimension</code> — Réduction de dimension</strong> (abstraite)
+Paramètre : <em>la réponse sert-elle à choisir les directions</em></p><ul><li><code>dss/moindres-carres-partiels</code> — oui : chaque direction est pondérée par sa liaison à la réponse</li><li><code>dss/regression-composantes-principales</code> — non : les directions ne dépendent que des prédicteurs</li></ul><p><strong><code>dss/regularisation</code> — Régularisation</strong> (abstraite)
+Paramètre : <em>la norme des coefficients que l'on pénalise</em></p><ul><li><code>dss/lasso</code> — la norme $\ell_1$, somme des valeurs absolues des coefficients</li><li><code>dss/regression-ridge</code> — la norme $\ell_2$, somme des carrés des coefficients</li></ul><p><strong><code>dss/science-des-donnees</code> — Science des données</strong> (principe)</p><ul><li><code>dss/apprentissage-automatique</code> — apprendre à ordonner dans un environnement fermé</li><li><code>dss/fouille-de-donnees</code> — analyser et ordonner un jeu de données donné</li><li><code>dss/intelligence-artificielle</code> — apprendre en environnement ouvert et s'adapter sans intervention humaine</li></ul><p><strong><code>dss/selection-de-sous-ensemble</code> — Sélection de sous-ensemble</strong> (abstraite)
+Paramètre : <em>la façon dont l'espace des sous-ensembles est parcouru</em></p><ul><li><code>dss/meilleur-sous-ensemble</code> — tous les sous-ensembles, exhaustivement</li><li><code>dss/selection-pas-a-pas</code> — un seul chemin glouton, une variable à la fois</li></ul><p><strong><code>dss/selection-de-variables</code> — Sélection de variables</strong> (principe)</p><ul><li><code>dss/reduction-de-dimension</code> — projeter les prédicteurs, puis ajuster sur les projections</li><li><code>dss/regularisation</code> — contraindre tous les coefficients au lieu d'en retirer</li><li><code>dss/selection-de-sous-ensemble</code> — retirer des prédicteurs, puis ajuster par moindres carrés sur ceux qui restent</li></ul><p><strong><code>dss/selection-pas-a-pas</code> — Sélection pas à pas</strong> (abstraite)
+Paramètre : <em>le sens dans lequel le chemin est parcouru</em></p><ul><li><code>dss/selection-ascendante</code> — du modèle nul vers le modèle complet</li><li><code>dss/selection-descendante</code> — du modèle complet vers le modèle nul</li></ul><p>Chacune est appuyée sur une slide où la source regroupe elle-même ses membres : le tableau
+de la slide 6 pour la science des données, la slide 7 pour les régimes d'apprentissage, la
+slide 28 pour les trois familles de sélection, la slide 39 pour les critères pénalisés, la
+slide 97 pour les méthodes d'ensemble, la slide 104 pour les mesures d'importance.</p><h2>Abstractions en attente</h2><ul><li><strong>Fonction d'activation</strong> — la slide 178 en énumère cinq (sigmoïde, tangente hyperbolique,</li><li>gaussienne, linéaire, soft-max). Le cours n'en développe qu'une. Traitées en table</li><li>« Ce qui reste libre » plutôt qu'en membres, faute de contenu propre à chacune.</li><li><strong>Indicateur de matrice de confusion</strong> — les slides 10 et 11 donnent une trentaine de</li><li>rapports. Traités de même, en table : en faire des fiches créerait trente notions dont le</li><li>cours ne dit rien de plus que la formule.</li></ul><h2>Dette</h2><p>Aucune dette nouvelle. Aucun lien <code>a-venir</code>, aucun geste de calcul à venir, aucun élément
+d'inventaire en attente. La dette du dépôt reste celle de <code>fpp</code> : un élément, la fiche
+« modèle de Merton », toujours en attente de votre décision.</p><h2>Contradictions source</h2><ul><li><strong>Aucune définition de l'arbre de décision.</strong> Le chapitre sur les arbres commence slide 97</li><li>par « un arbre de décision seul ne prédit pas bien » et n'en donne jamais la définition.</li><li>Le graphe ne contient donc pas de fiche « arbre de décision » : en écrire une serait</li><li>inventer. Les fiches de la famille reposent sur le bootstrap et sur le compromis</li><li>biais-variance, qui sont, eux, dans la source.</li><li><strong>Le séparateur à vaste marge est comparé sans être défini.</strong> Il figure dans la liste des</li><li>modèles appliqués (slide 206), obtient le plus mauvais GINI de l'étude (28,38, slide 17) et</li><li>apparaît en vignette slide 228 — mais le cours ne l'enseigne pas. Aucune fiche.</li><li><strong>La régression logistique est le modèle de référence de l'étude</strong> (slides 17, 206, 207)</li><li>et n'est définie nulle part dans le deck. Aucune fiche, pour la même raison.</li><li><strong>Slide 5, la figure « Irrational coordinates »</strong> ne porte aucun énoncé et n'est reprise</li><li>nulle part ; exclue avec raison.</li><li><strong>La slide 12 écrit « Gini coefficient = 2 × AUC − 1 »</strong> et la slide 17 donne des GINI</li><li>exprimés en points (51,36). Les deux échelles coexistent dans le cours sans que la</li><li>conversion soit dite. Les fiches retiennent les deux et l'indiquent.</li></ul><h2>Questions pour l'utilisateur</h2><ul><li><strong>Les trois emplois de $\lambda$</strong> sont-ils bien tels quels dans le cours magistral, ou</li><li>l'enseignant distingue-t-il les notations à l'oral ? C'est la seule chose qui puisse rendre</li><li>la lecture des trois chapitres cohérente. Recommandation : lui poser la question.</li><li>**Faut-il des fiches pour l'arbre de décision, la régression logistique et le séparateur à</li><li>vaste marge ?** Elles seraient utiles et elles ne sont pas dans la source. Recommandation :</li><li>attendre un support complémentaire plutôt que de les écrire en <code>ajout</code>.</li><li><strong><code>fpp/course.yml</code> déclare <code>depend_de: [cs]</code></strong>, un cours de calcul stochastique qui n'existe</li><li>pas dans <code>courses/</code>. Préexistant à cette session. Recommandation : le créer ou retirer la</li><li>déclaration.</li><li><strong>La fiche <code>fpp/modele-de-merton</code></strong> reste la seule dette volontaire du dépôt.</li></ul><h2>Validation</h2><p>```
+199 notions · 0 erreur(s) · 2 avertissement(s)
+dette : inventaire à venir = 1
+```</p><p>Les deux avertissements sont ceux de <code>fpp</code> et préexistent à cette session.</p></article></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../aide.html">comment lire ce site</a> · <a href="../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../search-index.js"></script>
+<script>
+var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+        s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- l'état qui traverse les pages ----------------------------------------
+   Voir le commentaire de l'en-tête : en file://, seul le fragment traverse.
+   Forme du fragment :  #t:d~a:0~p:1-0--1...~s:<tampon>.<bits>~v:<ancre>
+     t  thème      d | l            (absent : celui du système)
+     a  ajouts     0                (absent : montrés)
+     p  pliage     un caractère par clé de CLES_PLI : 1 ouvert, 0 fermé, - inconnu
+     s  déjà su    un bit par notion, six bits par caractère, précédé d'un tampon
+     v  ancre      l'élément vers lequel défiler à l'arrivée
+   Le tampon est calculé sur la liste des identifiants : dès qu'une notion entre dans
+   le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
+   cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
+var ETAT=(function(){
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees"],TAMPON='734c',
+    A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
+var pli={},su={};
+if(typeof H.p==='string'){
+  for(var i=0;i<CLES.length&&i<H.p.length;i++){var c=H.p.charAt(i);
+    if(c==='0'||c==='1')pli[CLES[i]]=(c==='1');}
+}else{
+  CLES.forEach(function(k){var v=LS.g('notions.pli.'+k,null);if(v!==null)pli[k]=(v==='1')});
+}
+function decode(t){var o={},q=t.indexOf('.');
+  if(q<0||t.slice(0,q)!==TAMPON)return o;
+  var b=t.slice(q+1);
+  for(var i=0;i<b.length;i++){var v=A64.indexOf(b.charAt(i));if(v<0)continue;
+    for(var j=0;j<6;j++){if(v&(1<<j)){var k=i*6+j;if(k<IDS.length)o[IDS[k]]=1}}}
+  return o;}
+function encode(){var o='';
+  for(var i=0;i<IDS.length;i+=6){var v=0;
+    for(var j=0;j<6;j++){if(su[IDS[i+j]])v|=1<<j}
+    o+=A64.charAt(v);}
+  return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
+if(typeof H.s==='string'){su=decode(H.s)}
+else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
+function frag(ancre,noeud){var p=[];
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t)p.push('t:'+(t==='dark'?'d':'l'));
+  if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
+  var q='';CLES.forEach(function(k){q+=(pli[k]===undefined?'-':(pli[k]?'1':'0'))});
+  if(/[01]/.test(q))p.push('p:'+q);
+  var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
+  if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
+  return p.length?'#'+p.join('~'):'';}
+function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
+function propager(){var f=frag();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';if(!interne(h))return;
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
+  /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
+     Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
+  try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
+  try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}}
+return{pli:function(k){return pli[k]===undefined?null:pli[k]},
+       setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
+       su:function(id){return !!su[id]},
+       setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
+       lien:function(u,v,n){return u+frag(v,n)},
+       ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
+       propager:propager};
+})();
+function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
+  var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
+  b.textContent=on?'masquer les ajouts':'ajouts masqués';}
+  document.querySelectorAll('.sec').forEach(function(s){
+    var c=s.querySelector('.corps');if(!c)return;var n=0;
+    c.querySelectorAll(':scope>*').forEach(function(el){
+      if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
+      if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
+      n++;});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='Cette rubrique existe, mais tout son contenu est un ajout : le filtre le masque. Elle reste visible pour que vous ne concluiez pas qu’elle est vide.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
+  if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var bt=document.getElementById('btheme');
+  if(bt)bt.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    var nx=(cur||sys)==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);
+    ETAT.propager();});
+  var ba=document.getElementById('bajout');
+  if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);ETAT.propager();});
+  majAjouts(!document.documentElement.classList.contains('sans-ajouts'));
+  /* les liens de la page portent l'état ; une ancre demandée est ouverte et visée */
+  ETAT.propager();
+  var an=ETAT.ancre();
+  if(an){var el=document.getElementById(an);
+    if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView();el.classList.add('vise')}}
+  /* --- recherche instantanée (règle 9) --- */
+  var inp=document.getElementById('q'),res=document.getElementById('qres');
+  if(!inp||!res||!window.SEARCH_INDEX)return;
+  var REL=document.documentElement.getAttribute('data-rel')||'';
+  var sel=-1,items=[];
+  function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+  function cherche(q){
+    var n=norm(q);if(!n)return [];
+    var out=[];
+    SEARCH_INDEX.forEach(function(e){
+      var sc=-1,ch=e.h||[];
+      for(var i=0;i<ch.length;i++){var p=norm(ch[i]).indexOf(n);
+        if(p===0){sc=Math.max(sc,3-(i>0?1:0))}else if(p>0){sc=Math.max(sc,1)}}
+      if(sc>=0)out.push([sc,e]);});
+    out.sort(function(a,b){return b[0]-a[0]||a[1].n.localeCompare(b[1].n)});
+    return out.slice(0,9).map(function(x){return x[1]});}
+  function rendre(){
+    items=cherche(inp.value);sel=-1;res.innerHTML='';
+    if(!inp.value){res.classList.remove('on');return}
+    if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
+    items.forEach(function(e,i){
+      var li=document.createElement('li');
+      var a=document.createElement('a');a.href=ETAT.lien(REL+e.u);a.id='qr'+i;
+      a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
+      li.appendChild(a);res.appendChild(li);});
+    res.classList.add('on');}
+  function bouge(d){if(!items.length)return;sel=(sel+d+items.length)%items.length;
+    Array.prototype.forEach.call(res.children,function(li,i){li.classList.toggle('sel',i===sel)});
+    inp.setAttribute('aria-activedescendant','qr'+sel);}
+  inp.addEventListener('input',rendre);
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();bouge(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();bouge(-1)}
+    else if(e.key==='Enter'){var a=res.querySelector(sel>=0?'li.sel a':'li a');if(a){e.preventDefault();location.href=a.href}}
+    else if(e.key==='Escape'){inp.value='';res.classList.remove('on')}});
+  document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
+  document.addEventListener('keydown',function(e){
+    if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
+});
+</script>
+</body>
+</html>

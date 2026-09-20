@@ -1,0 +1,170 @@
+symboles:
+- symbole: $\lambda$
+  notion: dss/regression-ridge
+  ref: slide 50
+  sens: paramètre de réglage de la pénalité, ridge et lasso
+- symbole: $\ell_1$
+  notion: dss/lasso
+  ref: slide 63
+  sens: norme des valeurs absolues, pénalité du lasso
+- symbole: $\ell_2$
+  notion: dss/regression-ridge
+  ref: slide 63
+  sens: norme des carrés, pénalité de ridge
+- symbole: $p$
+  notion: dss/moindres-carres-ordinaires
+  ref: slide 26
+  sens: nombre de prédicteurs
+- symbole: $n$
+  notion: dss/moindres-carres-ordinaires
+  ref: slide 26
+  sens: nombre d'observations
+- symbole: $d$
+  notion: dss/cp-de-mallows
+  ref: slide 41
+  sens: nombre de prédicteurs du modèle ajusté
+- symbole: RSS
+  notion: dss/moindres-carres-ordinaires
+  ref: slide 48
+  sens: somme des carrés des résidus
+- symbole: TSS
+  notion: dss/r2-ajuste
+  ref: slide 44
+  sens: somme totale des carrés
+- symbole: $C_p$
+  notion: dss/cp-de-mallows
+  ref: slide 41
+  sens: critère de Mallows
+- symbole: AIC
+  notion: dss/aic
+  ref: slide 42
+  sens: critère d'information d'Akaike
+- symbole: BIC
+  notion: dss/bic
+  ref: slide 43
+  sens: critère d'information bayésien
+- symbole: $\hat\sigma^2$
+  notion: dss/cp-de-mallows
+  ref: slide 41
+  sens: estimateur de la variance de l'erreur
+- symbole: $L$
+  notion: dss/aic
+  ref: slide 42
+  sens: valeur maximisée de la vraisemblance
+- symbole: $\mathbf{X}=\mathbf{U}\mathbf{D}\mathbf{V}^T$
+  notion: dss/decomposition-en-valeurs-singulieres
+  ref: slide 58
+  sens: décomposition en valeurs singulières de la matrice centrée des prédicteurs
+- symbole: $d_j$
+  notion: dss/decomposition-en-valeurs-singulieres
+  ref: slide 59
+  sens: valeur singulière de rang j
+- symbole: $Z_m$
+  notion: dss/reduction-de-dimension
+  ref: slide 72
+  sens: m-ième combinaison linéaire des prédicteurs
+- symbole: $\phi_{mj}$
+  notion: dss/reduction-de-dimension
+  ref: slide 72
+  sens: poids du prédicteur j dans la direction m
+- symbole: $\theta_m$
+  notion: dss/reduction-de-dimension
+  ref: slide 72
+  sens: coefficient de régression sur la direction m
+- symbole: $M$
+  notion: dss/reduction-de-dimension
+  ref: slide 72
+  sens: nombre de directions retenues
+- symbole: $B$
+  notion: dss/bagging
+  ref: slide 99
+  sens: nombre d'arbres de l'ensemble
+- symbole: $\rho$
+  notion: dss/variance-d-une-moyenne-correlee
+  ref: slide 109
+  sens: corrélation de paire entre deux arbres
+- symbole: $m$
+  notion: dss/foret-aleatoire
+  ref: slide 113
+  sens: nombre de prédicteurs tirés à chaque coupure
+- symbole: $\eta$
+  notion: dss/regle-delta
+  ref: slide 145
+  sens: taux d'apprentissage
+- symbole: $\alpha$
+  notion: dss/descente-avec-inertie
+  ref: slide 161
+  sens: coefficient d'inertie
+- symbole: $W$
+  notion: dss/garantie-pac
+  ref: slide 168
+  sens: nombre de poids du réseau
+- symbole: $\varepsilon$
+  notion: dss/garantie-pac
+  ref: slide 168
+  sens: tolérance d'erreur
+- symbole: $w_{ij}$
+  notion: dss/retropropagation
+  ref: slide 156
+  sens: poids de la connexion du nœud i vers le nœud j
+- symbole: $o_j$
+  notion: dss/retropropagation
+  ref: slide 156
+  sens: sortie du nœud j
+- symbole: $t_j$
+  notion: dss/retropropagation
+  ref: slide 155
+  sens: sortie désirée du nœud j
+- symbole: $E$
+  notion: dss/retropropagation
+  ref: slide 155
+  sens: erreur sur un motif, sommée sur les nœuds de sortie
+- symbole: AUC
+  notion: dss/courbe-roc
+  ref: slide 12
+  sens: aire sous la courbe ROC
+collisions:
+- symbole: $\lambda$
+  ou: dss/regression-ridge (slide 50) · dss/boosting (slide 126) · dss/decroissance-des-poids (slide 174)
+  sens: >-
+    trois emplois dans le même cours. Pénalité de ridge et du lasso ; taux
+    d'apprentissage du boosting ; coût des poids de la décroissance. Le cours ne le
+    signale jamais. Les trois valeurs typiques diffèrent d'un ordre de grandeur.
+- symbole: $\lambda$
+  ou: dss/regression-ridge · dup/aversion-aux-pertes
+  sens: >-
+    collision avec l'autre cours : ici un paramètre de pénalité, là le rapport
+    d'aversion aux pertes
+- symbole: $d$
+  ou: dss/cp-de-mallows (slide 41) · dss/boosting (slide 126) · dss/regle-delta (slide 145)
+  sens: >-
+    trois emplois dans le même cours. Nombre de prédicteurs ; nombre de coupures par
+    arbre ; signal d'erreur de la règle delta
+- symbole: $m$
+  ou: dss/foret-aleatoire (slide 113) · dss/garantie-pac (slide 168) · dss/reduction-de-dimension (slide 72)
+  sens: >-
+    prédicteurs tirés par coupure ; nombre d'exemples d'apprentissage ; indice de
+    direction
+- symbole: $\rho$
+  ou: dss/variance-d-une-moyenne-correlee · dup/aversion-second-ordre
+  sens: >-
+    collision avec l'autre cours : ici une corrélation entre arbres, là l'aversion
+    absolue au risque
+- symbole: $\eta$
+  ou: dss/regle-delta · dup/famille-hara
+  sens: >-
+    collision avec l'autre cours : ici le taux d'apprentissage, là un paramètre de la
+    famille HARA
+- symbole: $\alpha$
+  ou: dss/descente-avec-inertie · dup/aversion-a-la-deception
+  sens: >-
+    collision avec l'autre cours : ici l'inertie, là l'intensité de la pénalité de
+    déception
+- symbole: $B$
+  ou: dss/bagging · fpp/compte-capitalise
+  sens: >-
+    collision avec l'autre cours : ici le nombre d'arbres, là le compte capitalisé
+    $B(t,T)$
+- symbole: $\sigma^2$
+  ou: dss/cp-de-mallows (slide 41) · dss/variance-d-une-moyenne-correlee (slide 109)
+  sens: variance de l'erreur du modèle ; variance d'un arbre

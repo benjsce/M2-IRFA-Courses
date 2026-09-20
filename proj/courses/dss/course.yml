@@ -1,0 +1,20 @@
+code: dss
+titre: Data Science Software
+enseignant: Bertrand K. Hassani
+annee: 2025-2026
+sources:
+- id: slides
+  fichier: sources/2022_CombinedML.pdf
+  type: slides (237 slides, jeu combiné ; daté 2022 par le nom de fichier)
+# Une seule source : la référence est nue, sans préfixe de source (SPEC-MODELE §2.3).
+# Le numéro est celui de la page du PDF, qui est aussi le numéro de slide — le deck ne
+# porte pas de numérotation imprimée sauf sur les deux dernières sections.
+refs_pattern: ^slide \d+$
+depend_de: []
+conventions_par_defaut:
+  numerotation: >-
+    le deck est un assemblage de plusieurs jeux (introduction, régression, arbres,
+    réseaux de neurones, deux articles) ; il n'a ni sections numérotées ni définitions
+    numérotées, donc la slide est la seule unité de référence
+  langue_source: >-
+    anglais ; les noms de fiches sont en français, le terme anglais est porté en alias
