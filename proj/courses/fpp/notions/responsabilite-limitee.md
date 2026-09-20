@@ -28,3 +28,6 @@ Le seuil de faillite est l’inverse du levier : $\pi_A=-1/l$. Plus le levier es
 
 ## Cesse d'être valide quand
 Ce plancher est exactement une option de vente détenue par l’actionnaire sur l’actif de la firme ; le §1.4 ne le dit pas, mais toute la section 6 le permet. [ajout]
+
+## Origine
+- exercice fpp/ex-16 : ce que cette fiche avançait en `[ajout]` — « ce plancher est exactement une option de vente détenue par l'actionnaire » — est dit et nommé par la source : c'est le **modèle de Merton**. Les fonds propres sont un call sur la valeur de la firme, de strike la dette [exo. 16]

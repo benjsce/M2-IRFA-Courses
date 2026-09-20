@@ -36,3 +36,8 @@ Vérifier d’abord si les taux sont déterministes : si oui, $B=P$ et le future
 Pas de forme fermée : $H$ ne s’exprime pas en quantités observables en $t$, il faut un modèle de taux. [§4.2, §4.2.2]
 
 Égale le forward si les taux sont déterministes. [Prop. 4]
+
+## Origine
+- exercice fpp/ex-07 : une option sur future se price avec la formule du cours en posant $q=r$, sans rien redémontrer [exo. 7]
+- exercice fpp/ex-14 : le prix forward est une martingale sous $\mathbb{Q}$ — c'est pourquoi la formule de Black n'a pas de terme de dérive [exo. 14]
+- exercice fpp/ex-20 : à taux nuls, future = comptant, et deux stratégies distinctes deviennent indiscernables (Prop. 4 sur un cas réel) [exo. 20]

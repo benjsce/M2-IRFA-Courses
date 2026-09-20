@@ -30,3 +30,8 @@ Action à 100, $P(0,1)=0{,}9608$ : acheter l’action à crédit et la livrer da
 
 ## Cesse d'être valide quand
 Exige un payoff linéaire *et* un refinancement connu dès $t$. La première condition tombe avec les options, la seconde avec les futures. [§3.1, §4.2.2]
+
+## Origine
+- exercice fpp/ex-06 : emprunter, changer, porter, livrer — le seul cas du cours où l'écart résiduel se mesure et se rattache à l'arrondi du prix affiché [exo. 6]
+- exercice fpp/ex-12 : la réplication ne demande aucun geste entre-temps, donc aucune hypothèse de modèle : l'arbitrage tient sans Black et Scholes [ajout]
+- exercice fpp/ex-20 : quatre montages sur le Nikkei en 2013, trois identiques au dollar près ; l'identité se vérifie numériquement sur un cas historique [exo. 20]

@@ -19,3 +19,6 @@ $X$ monte $\Rightarrow$ la devise locale s’apprécie. Facteur atomique : rien 
 
 ## Cesse d'être valide quand
 rien dans le périmètre du cours [ajout]
+
+## Origine
+- exercices fpp/ex-09, fpp/ex-13, fpp/ex-18 : **le livre d'exercices emploie $X_t$ en sens inverse du poly.** Le §2.4 pose le nombre d'unités étrangères pour une unité locale ; le livre pose la valeur d'une unité étrangère en monnaie locale. Les deux formules de forward sont justes chacune dans sa convention et opposées terme à terme [exo. 9, exo. 13, exo. 18]

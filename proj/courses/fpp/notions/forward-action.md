@@ -31,3 +31,7 @@ Repérer d’abord la nature du dividende : proportionnel donne $\Phi=1-\sum_i d
 
 ## Cesse d'être valide quand
 Suppose le sous-jacent détenable et vendable à découvert sans coût. [ajout]
+
+## Origine
+- exercice fpp/ex-02 : la formule se lit dans le sens direct, alors que fpp/ex-01 la lit à l'envers pour retrouver le comptant. Même formule, deux gestes [ajout]
+- exercice fpp/ex-05 : geste manquant — lire la formule comme une équation en $D$ pour extraire le **dividende implicite** d'un forward coté. C'est l'usage le plus courant sur le marché [ajout]

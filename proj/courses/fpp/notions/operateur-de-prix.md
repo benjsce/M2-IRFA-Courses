@@ -21,3 +21,6 @@ Le cours ne fait jamais le rapprochement, et c’est dommage : la NPV est le cas
 
 ## Cesse d'être valide quand
 rien dans le périmètre du cours [ajout]
+
+## Origine
+- exercice fpp/ex-14 : c'est la **linéarité** qui autorise à évaluer une somme de payoffs terme à terme ; sans elle, la démonstration de la parité s'arrête à la première ligne [exo. 14]

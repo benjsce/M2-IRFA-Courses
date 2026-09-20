@@ -48,3 +48,4 @@ Suppose aussi des taux déterministes : dès qu’ils ne le sont plus, c’est $
 
 ## Origine
 - exercice fpp/ex-03 : « le taux à six mois est de 4 % » ne dit ni l'unité ni la convention ; le défaut du cours est continu, annuel [ajout]
+- exercice fpp/ex-10 : taux nul ne veut pas dire « pas d'actualisation à écrire », mais $P(0,T)=1$ ; la formule ne change pas de forme [ajout]

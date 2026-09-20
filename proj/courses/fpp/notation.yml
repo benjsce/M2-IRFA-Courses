@@ -191,6 +191,45 @@ symboles:
   notion: fpp/rho
   ref: §8.2
   sens: sensibilité du prix au taux d'intérêt
+# ── livre d'exercices (exercises_book_v2.pdf) ────────────────────────────────
+- symbole: $s$
+  ref: exo. 16
+  sens: spread de crédit de la firme, elle emprunte à r+s
+- symbole: $l$
+  ref: exo. 16
+  sens: >-
+    ratio dette sur actif D/F_T du modèle de Merton, dans [0,1] ; à ne pas confondre
+    avec le levier $l_t=A_t/E_t$ du poly (Déf. 1), voir collisions
+- symbole: $D^r$
+  ref: exo. 16
+  sens: valeur de marché de la dette risquée
+- symbole: $F_T$
+  ref: exo. 16
+  sens: valeur forward de la firme en T
+- symbole: $V_0$
+  ref: exo. 17
+  sens: valeur initiale d'un produit structuré
+- symbole: $D_0$
+  ref: exo. 17
+  sens: part de V_0 placée en zéro-coupon pour garantir le capital
+- symbole: $C_0$
+  ref: exo. 17
+  sens: coussin, V_0 moins D_0
+- symbole: $k$
+  ref: exo. 17
+  sens: taux de participation à la hausse du sous-jacent
+- symbole: $Z(t)$
+  ref: exo. 19
+  sens: valeur d'un yen en euros
+- symbole: $r^{eur}(T)$
+  ref: exo. 19
+  sens: taux zéro-coupon euro continu entre aujourd'hui et T ; le poly écrit R(t,T)
+- symbole: $f^{eur}(0,t,T)$
+  ref: exo. 19
+  sens: taux forward euro entre t et T ; le poly écrit F(t,T,S)
+- symbole: $P^{eur}(0,T)$
+  ref: exo. 19
+  sens: facteur d'actualisation euro ; le poly écrit P(t,T) et P^f pour l'étranger
 collisions:
 - symbole: $P$
   ici: zéro-coupon P(t,T)
@@ -212,3 +251,32 @@ collisions:
   note: >-
     collision interne à la source, non signalée par le poly : $P$ sans argument est un
     prix d'option, $P(t,T)$ avec deux arguments est un zéro-coupon
+- symbole: $l$
+  ici: levier $l_t=A_t/E_t$, dans $[1,\infty)$ (Déf. 1, §1.3)
+  ailleurs:
+    fpp: >-
+      ratio dette sur actif $l=D/F_T$, dans $[0,1]$, dans le livre d'exercices (exo. 16)
+  note: >-
+    collision entre les deux documents du même cours, non signalée par eux. Même lettre,
+    même mot « levier », et les deux quantités varient en sens inverse : le levier du poly
+    croît quand la firme s'endette, celui du livre aussi, mais le premier part de 1 et n'a
+    pas de borne, le second va de 0 à 1. La table de l'exercice 16 donne l = 2 et l = 4,
+    hors du domaine que l'exercice lui-même définit ; voir fpp/ex-16.
+- symbole: $X_t$
+  ici: nombre d'unités de devise étrangère pour une unité de devise locale (§2.4)
+  ailleurs:
+    fpp: >-
+      valeur d'une unité de devise étrangère en monnaie locale, dans le livre d'exercices
+      (exo. 9, exo. 13, exo. 18)
+  note: >-
+    conventions inverses l'une de l'autre entre le poly et le livre d'exercices. Le poly
+    écrit le forward $X_te^{(R^f-R)\tau}$, le livre $X_te^{(r_l-r_f)\tau}$ : chacun est
+    juste dans sa convention. C'est la collision la plus dangereuse du cours, parce que
+    les deux formules se ressemblent.
+- symbole: $F(t,T)$
+  ici: prix forward d'une action (Déf. 8)
+  ailleurs:
+    fpp: >-
+      taux de change à terme dans le livre d'exercices (exo. 9, exo. 13, exo. 19), que le
+      poly note $K(t,T)$ (§2.4)
+

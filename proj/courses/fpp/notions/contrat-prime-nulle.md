@@ -24,3 +24,6 @@ Le seul contenu réel de ce niveau est le déplacement de l’inconnue. Tout le 
 
 ## Cesse d'être valide quand
 Ne dit rien tant qu’on n’a pas dit ce qu’on échange ni comment on règle. [ajout]
+
+## Origine
+- exercice fpp/ex-11 : le strike qui annule la prime **est** le prix forward. Un forward est un call-put à strike bien choisi ; c'est la définition, lue depuis la parité [exo. 11]

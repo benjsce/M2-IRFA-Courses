@@ -29,3 +29,6 @@ Pour changer d’horizon, multiplier la volatilité par la racine du rapport des
 
 ## Cesse d'être valide quand
 L’indépendance est l’hypothèse fragile : avec un retour à la moyenne ou de l’autocorrélation, l’écart type croît moins vite que $\sqrt{T}$. [ajout]
+
+## Origine
+- exercice fpp/ex-18 : passer d'une volatilité annuelle de 10 % à une volatilité trimestrielle de 5 % en divisant par deux, et l'employer aussitôt pour chiffrer une exposition — la fiche donnait $\sigma\sqrt T$ sans l'usage [exo. 18]

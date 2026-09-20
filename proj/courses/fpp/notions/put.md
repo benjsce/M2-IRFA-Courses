@@ -33,3 +33,6 @@ Plutôt que de refaire le calcul, déduire le put du call par la parité : $P=C-
 
 ## Cesse d'être valide quand
 Le symbole $P$ sans argument est un prix de put, $P(t,T)$ avec deux arguments est un zéro-coupon — la source emploie les deux sans le signaler. [§6.4]
+
+## Origine
+- exercice fpp/ex-18 : le put est l'instrument naturel d'un exportateur exposé à la baisse d'une devise ; le §9 ne traite que les stratégies sur actions [exo. 18]

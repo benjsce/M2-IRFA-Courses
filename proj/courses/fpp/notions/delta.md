@@ -31,3 +31,6 @@ Lire $N(d_1)$. Il tend vers 0 très en dehors de la monnaie et vers 1 très en d
 
 ## Cesse d'être valide quand
 Ne vaut qu’au premier ordre et qu’à l’instant présent ; le gamma dit à quelle vitesse il se périme. [§8.2]
+
+## Origine
+- exercice fpp/ex-08 : un dividende de 0,988 au comptant ne coûte que 0,654 au call. La lecture « dividende × delta » donne 0,652 : le delta est l'outil de première approximation [exo. 8]

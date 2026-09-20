@@ -29,3 +29,6 @@ Retrancher la valeur intrinsèque du prix. Ce qui reste mesure ce que le marché
 
 ## Cesse d'être valide quand
 La décomposition est une identité, mais le signe « positive si convexe » suppose que la seule source d’écart est Jensen — vrai pour un payoff de la valeur terminale seule. [Déf. 13]
+
+## Origine
+- exercice fpp/ex-15 : acheter un straddle à la monnaie, c'est acheter de la valeur temps pure — la valeur intrinsèque est nulle des deux côtés [ajout]

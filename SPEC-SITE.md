@@ -93,6 +93,7 @@ site/
   <code>/n/<slug>.html            la fiche
   <code>/arbre.html               arbre d'abstraction pliable (replié > 2 niveaux)
   <code>/inventaire.html          la couverture de la source, pour l'audit hebdomadaire
+  <code>/exercices.html           les exercices du cours, groupés par section de la source
   <code>/exercices/<slug>.html    énoncé, solution officielle, résolution, fiches touchées
   rapports/<date>.html            les rapports d'ingestion
 ```
@@ -151,6 +152,19 @@ C'est une **destination, pas un passage** : on y accède depuis la carte du cour
 l'accueil, jamais au fil d'une lecture. La règle 1 tient donc : la personne ne voit la
 liste entière que lorsqu'elle la demande.
 
+### 3.2 quater La liste `<code>/exercices.html`
+
+Elle n'existe que si le cours a des exercices. Les exercices y sont groupés par section
+de la source, dans l'ordre du document, chacun avec sa référence et les pastilles des
+notions qu'il met en jeu.
+
+Elle a été ajoutée le 2026-09-20 sur un constat : `courses/fpp/` est passé de 3 à 20
+exercices, et **aucune page n'y menait**. On n'y arrivait que depuis la rubrique
+« Origine » d'une des 30 fiches qui les citent, ou par la recherche. Un exercice est un
+matériau que l'on veut parcourir pour lui-même, pas seulement rencontrer en chemin :
+c'est donc une destination, comme `notions.html` (§3.2 bis), et elle est annoncée dans le
+bloc d'entrée de la carte du cours.
+
 ### 3.2 ter La page `aide.html`
 
 Une page, atteignable depuis l'en-tête et le pied de page de **toutes** les pages. Elle
@@ -175,7 +189,8 @@ ne veut rien dire pour le lecteur.
 
 Ce qu'on voit, dans l'ordre : un **bloc d'entrée** qui dit combien de notions compte le
 cours et donne quatre chemins selon ce que la personne cherche (découvrir, tout voir,
-commencer à lire, chercher un terme précis) ; les principes, glosés en une ligne ; pour
+commencer à lire, voir les familles, s'entraîner sur les exercices, chercher un terme
+précis) ; les principes, glosés en une ligne ; pour
 chaque principe ses abstractions directes avec leur nombre de membres ; « les autres
 notions » (sans `cas_de` et sans type principe) ; enfin, replié et annoncé comme tel, le
 suivi de la rédaction (règle 13). Rien d'autre. Le détail est à un clic.

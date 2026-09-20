@@ -41,3 +41,8 @@ Calculer $d_1$, en déduire $d_2=d_1-\sigma\sqrt T$, lire $N(d_1)$ et $N(d_2)$, 
 
 ## Cesse d'être valide quand
 Volatilité constante, taux déterministe, exercice européen, pas de friction. La volatilité implicite du marché varie avec le strike — le smile — ce qui contredit directement la première hypothèse. [ajout]
+
+## Origine
+- exercice fpp/ex-07 : la limite gênante n'est pas « taux constant » mais l'égalité prix future = prix forward, qui suppose la corrélation taux–sous-jacent nulle [ajout]
+- exercice fpp/ex-09 : le taux étranger entre comme un rendement de dividende continu ; une seule formule sert aux actions à dividende, aux futures et au change [exo. 9]
+- exercice fpp/ex-17 : le rendement continu $q$ du §5.2 représente aussi le détachement d'un indice — troisième emploi du même paramètre [exo. 17]

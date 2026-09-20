@@ -1199,7 +1199,11 @@ def page_cours(m, code):
          '<li><strong>Vous voulez voir les familles</strong> — <a href="' + rel + code
          + '/arbre.html">l’arbre</a> montre quelles notions sont des cas particuliers de '
          "quelles autres. Ce ne sont pas des prérequis.</li>"
-         "<li><strong>Vous cherchez quelque chose de précis</strong> — touche <code>/</code>, "
+         + ('<li><strong>Vous voulez vous entraîner</strong> — <a href="' + rel + code
+            + '/exercices.html">les ' + str(len(cs["exercices"])) + " exercices</a>, avec "
+            "énoncé, corrigé officiel, résolution refaite ici, et ce qu’ils révèlent sur les "
+            "fiches.</li>" if cs["exercices"] else "")
+         + "<li><strong>Vous cherchez quelque chose de précis</strong> — touche <code>/</code>, "
          "sur un nom ou un symbole.</li></ul>"
          '<p class="note">Première visite ? <a href="' + rel + 'aide.html">Comment lire ce '
          "site</a> définit en une page les quatre mots qui reviennent partout : niveau, socle, "
@@ -1362,7 +1366,9 @@ def page_notions(m, code):
          + "".join('<span class="pill">%d %s</span>' % (par_type[t], t)
                    for t in ("principe", "abstraite", "notion") if par_type[t])
          + '<a class="pill" href="' + rel + code + '/index.html">carte du cours</a>'
-         + '<a class="pill" href="' + rel + code + '/arbre.html">arbre des familles</a></div>',
+         + '<a class="pill" href="' + rel + code + '/arbre.html">arbre des familles</a>'
+         + ('<a class="pill" href="' + rel + code + '/exercices.html">exercices</a>'
+            if cs["exercices"] else "") + "</div>",
          '<section class="sec"><div class="corps">'
          + bloc_liste(m, ids, rel, "toutes",
                       "La seule page qui les contienne toutes, rangées de la plus élémentaire à "
@@ -1374,6 +1380,47 @@ def page_notions(m, code):
            + "</a> › toutes les notions")
     return page(m, titre="Toutes les notions — " + code, rel=rel, fil=fil,
                 corps="".join(c), js=JS_FICHE)
+
+
+def page_exercices(m, code):
+    """Les exercices du cours, groupés par section de la source. Sans cette page ils
+    n'étaient atteignables que depuis la rubrique « Origine » des fiches qu'ils exercent :
+    vingt pages, trente fiches, et aucune porte d'entrée."""
+    rel = "../"
+    cs = m["cours"][code]
+    xs = sorted(cs["exercices"])
+    if not xs:
+        return None
+    grp = defaultdict(list)
+    for x in xs:
+        src = str(m["exercices"][x]["meta"].get("source", ""))
+        g = re.search(r"\((§[\d.]+), « (.*) »\)", src)
+        grp[(g.group(1), g.group(2)) if g else ("", "sans section")].append(x)
+    c = ["<h1>Exercices — " + esc(code) + "</h1>",
+         '<div class="meta"><span class="pill">' + str(len(xs)) + " exercices</span>"
+         '<a class="pill" href="' + rel + code + '/index.html">carte du cours</a>'
+         '<a class="pill" href="' + rel + code + '/notions.html">toutes les notions</a></div>',
+         '<p class="note">Chaque exercice porte son énoncé, la solution officielle quand elle '
+         "existe, la résolution refaite ici, ce qu’il a révélé sur les fiches, et les écarts "
+         "relevés avec le cours. Les notions listées sous chaque exercice sont celles qu’il "
+         "met en jeu.</p>"]
+    for cle in sorted(grp):
+        sec, tit = cle
+        li = []
+        for x in grp[cle]:
+            xm = m["exercices"][x]
+            nts = [i for i in (xm["meta"].get("notions") or []) if isinstance(i, str)]
+            li.append('<li class="carte"><a class="tit" href="%s%s/exercices/%s.html">%s</a>'
+                      "<p>%s</p>%s</li>"
+                      % (rel, code, xm["slug"], esc(x),
+                         esc(re.sub(r" \(§.*", "", str(xm["meta"].get("source", "")))),
+                         liste_pastilles(m, nts, rel, code)))
+        c.append('<h2 class="ptag">' + esc((sec + "  " + tit) if sec else tit)
+                 + " (" + str(len(grp[cle])) + ")</h2>")
+        c.append('<ul class="cartes">' + "".join(li) + "</ul>")
+    fil = ('<a href="' + rel + code + '/index.html">' + esc(cs["meta"].get("titre", code))
+           + "</a> › exercices")
+    return page(m, titre="Exercices — " + code, rel=rel, fil=fil, corps="".join(c))
 
 
 def page_inventaire(m, code):
@@ -1427,8 +1474,8 @@ def page_exercice(m, xid):
          '<div class="meta"><span class="pill">exercice</span><a class="pill" href="'
          + rel + code + '/index.html">' + esc(code) + "</a>"
          '<span class="pill">' + esc(str(x["meta"].get("source", ""))) + "</span>"
-         '<a class="pill" href="' + rel + code + '/notions.html">toutes les notions</a>'
-         '<a class="pill" href="' + rel + code + '/arbre.html">arbre des familles</a></div>']
+         '<a class="pill" href="' + rel + code + '/exercices.html">tous les exercices</a>'
+         '<a class="pill" href="' + rel + code + '/notions.html">toutes les notions</a></div>']
     # Les clés sont explicites, pas dérivées du titre : elles voyagent d'une page à
     # l'autre (CLES_PLI), donc renommer une rubrique ne doit pas les changer.
     for t, k in (("Énoncé", None), ("Solution officielle", "soluoff"), ("Résolution", None),
@@ -1585,11 +1632,13 @@ def page_accueil(m):
                  "<p>%s · %s</p>"
                  "<p>%d notions, dont %d qui ne dépendent d’aucune autre · %d exercices</p>"
                  '<p><a href="%s/notions.html">toutes les notions</a> · '
-                 '<a href="%s/arbre.html">l’arbre des familles</a></p></li>'
+                 '<a href="%s/arbre.html">l’arbre des familles</a>%s</p></li>'
                  % (code, esc(cs["meta"].get("titre", code)),
                     esc(str(cs["meta"].get("enseignant", ""))),
                     esc(str(cs["meta"].get("annee", ""))),
-                    len(cs["notions"]), nv0, len(cs["exercices"]), code, code))
+                    len(cs["notions"]), nv0, len(cs["exercices"]), code, code,
+                    ' · <a href="%s/exercices.html">les exercices</a>' % code
+                    if cs["exercices"] else ""))
     c.append("</ul>")
 
     # Ce qui suit regarde la fabrication de la base, pas la lecture des cours : replié,
@@ -1640,6 +1689,10 @@ def index_recherche(m):
         ent.append(dict(n="Toutes les notions " + code, s="la liste complète du cours",
                         u=code + "/notions.html", h=[code, "toutes", "notions", "liste", "index"]))
         ent.append(dict(n="Arbre " + code, s="abstraction", u=code + "/arbre.html", h=[code, "arbre", "abstraction"]))
+        if m["cours"][code]["exercices"]:
+            ent.append(dict(n="Exercices " + code, s="énoncés, corrigés, résolutions",
+                            u=code + "/exercices.html",
+                            h=[code, "exercices", "exos", "entraînement", "corrigés"]))
         ent.append(dict(n="Inventaire " + code, s="couverture de la source", u=code + "/inventaire.html",
                         h=[code, "inventaire", "couverture"]))
     # L'ordre de ETAT_IDS fixe la position de chaque bit de l'état « déjà su ».
@@ -1772,6 +1825,9 @@ def main():
         ecrire(site / code / "index.html", page_cours(m, code), tailles)
         ecrire(site / code / "arbre.html", page_arbre(m, code), tailles)
         ecrire(site / code / "notions.html", page_notions(m, code), tailles)
+        px = page_exercices(m, code)
+        if px:
+            ecrire(site / code / "exercices.html", px, tailles)
         ecrire(site / code / "inventaire.html", page_inventaire(m, code), tailles)
         for i in m["cours"][code]["notions"]:
             ecrire(site / code / "n" / (i.split("/", 1)[1] + ".html"), page_fiche(m, i), tailles)

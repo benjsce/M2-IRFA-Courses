@@ -25,3 +25,6 @@ Avant tout calcul, fixer la convention : le même « 5 % sur deux ans » donne u
 
 ## Cesse d'être valide quand
 Aucune — mais oublier de la fixer rend toute formule inévaluable, et le choix borne la fréquence d’actualisation possible. Le continu est la seule convention sans plancher. [§2.1]
+
+## Origine
+- exercice fpp/ex-11 : sur un an à 5 %, l'escompte $1-r$, le linéaire $1/(1+r)$ et le continu $e^{-r}$ séparent les réponses de plus de 10 % (26,25 · 23,81 · 24,99). La convention y décide de la réponse [exo. 11]

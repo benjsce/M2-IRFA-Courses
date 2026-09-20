@@ -29,3 +29,6 @@ Différencier l’identité pour obtenir la contrainte de variation : $\Delta A_
 
 ## Cesse d'être valide quand
 C’est une identité comptable, jamais fausse — mais elle ne dit rien de la valeur de marché des trois termes, seulement de leur somme. [ajout]
+
+## Origine
+- exercice fpp/ex-16 : « actif égale passif » n'est pas qu'une identité comptable — c'est elle qui force le payoff des créanciers à être le complément de celui des actionnaires, et donne la dette risquée par la parité [exo. 16]

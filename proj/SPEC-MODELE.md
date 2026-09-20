@@ -118,11 +118,26 @@ marqueur entre crochets :
 La grammaire des références est fixée par cours dans `course.yml` (clé `refs_pattern`).
 Le validateur refuse un paragraphe sans marqueur.
 
-**Plusieurs sources dans un même cours.** Si `course.yml` déclare plus d'une source, toute
-référence est préfixée de l'identifiant de la source, sans quoi `slide 12` est ambigu.
-`courses/dup/` le fait : `L1 slide 12`, `L2 éq. 1`. Le numéro retenu est celui que
-l'étudiant lit sur le document — le numéro imprimé sur la slide, pas la page du PDF, les
-deux divergeant dès qu'une slide est en plusieurs temps.
+**Plusieurs sources dans un même cours.** Si `course.yml` déclare plus d'une source,
+**toute référence dont la forme existe dans plus d'une source** est préfixée de
+l'identifiant de la source, sans quoi `slide 12` est ambigu. Le numéro retenu est celui
+que l'étudiant lit sur le document — le numéro imprimé sur la slide, pas la page du PDF,
+les deux divergeant dès qu'une slide est en plusieurs temps.
+
+`courses/dup/` préfixe tout : ses trois sources sont trois jeux de slides, donc toutes
+leurs formes se recouvrent — `L1 slide 12`, `L2 éq. 1`.
+
+`courses/fpp/` ne préfixe que ce qui se recouvre. Ses deux sources sont un poly et un
+livre d'exercices ; la seule forme commune est `§x`. Une référence à une section du livre
+s'écrit donc `exos §2.1`, un exercice `exo. 5`, et les formes propres au poly
+(`§3.2`, `Déf. 8`, `Prop. 2`, `Th. 1`, `Rem. 1`, `Ex. 2`, `éq. 16`) restent nues.
+
+Le choix se mesure : préfixer les 300 références déjà écrites au poly aurait touché
+presque chaque fiche pour lever une ambiguïté qui n'existe sur aucune d'elles, et le
+protocole tient la réécriture en masse pour le danger principal du dépôt. La règle porte
+donc sur la forme, pas sur le nombre de sources. Elle a une conséquence à accepter : le
+jour où une troisième source emploie `exo. n`, il faudra préfixer — et cela se verra,
+parce que `refs_pattern` refusera la forme nue.
 
 ## 3. Les axiomes de structure
 

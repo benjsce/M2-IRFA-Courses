@@ -33,3 +33,4 @@ Verrouillable seulement si l’on peut prêter et emprunter aux deux maturités.
 
 ## Origine
 - exercice fpp/ex-04 : un rapport de deux prix à terme de change est un rapport de facteurs d'actualisation forward [ajout]
+- exercice fpp/ex-19 : la matrice complète des forwards se remplit avec une seule formule, $\big(r(T)T-r(t)t\big)/(T-t)$, et se lit comme le taux qu'il faudra réaliser pour qu'un refinancement soit neutre [exo. 19]

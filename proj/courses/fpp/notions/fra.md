@@ -34,3 +34,6 @@ Le strike du FRA est le taux forward, 6 % sur $[1,2]$. Contrôler qu’il ne co�
 
 ## Cesse d'être valide quand
 L’écriture en taux masque qu’il s’agit d’un forward ordinaire ; elle n’ajoute rien. [ajout]
+
+## Origine
+- exercice fpp/ex-19 : verrouiller aujourd'hui le taux d'un emprunt futur, ce que décrit la question (b), est un FRA — le mot n'apparaît pas dans l'exercice [ajout]

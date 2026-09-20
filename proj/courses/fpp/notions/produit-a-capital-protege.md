@@ -32,3 +32,7 @@ Placer $KP(0,T)$ pour garantir $K$, puis dépenser le solde en calls : le nombre
 
 ## Cesse d'être valide quand
 La protection vaut à l’échéance seulement, et elle coûte exactement la prime du put : il n’y a pas de protection gratuite. [ajout]
+
+## Origine
+- exercice fpp/ex-17 : le taux de participation est un rapport, coussin sur prime du call à la monnaie. Il monte avec le taux et la maturité, il descend avec la volatilité [exo. 17]
+- exercice fpp/ex-17 : le jeu de paramètres du corrigé ($r=4\,\%$, $T=4$, $\sigma=15\,\%$, $d=1{,}88\,\%$) est calibré pour donner exactement 100 % de participation. C'est un calibrage, pas une loi [ajout]

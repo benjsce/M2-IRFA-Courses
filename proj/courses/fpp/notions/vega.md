@@ -33,3 +33,6 @@ Multiplier le vega par la variation de volatilité exprimée en points : c’est
 
 ## Cesse d'être valide quand
 Le paramètre dérivé est justement celui que le modèle suppose constant : dériver par rapport à lui, c’est déjà sortir du modèle. [ajout]
+
+## Origine
+- exercice fpp/ex-15 : pour choisir une stratégie de volatilité, on ne regarde pas le profil de gain mais le signe du véga — le profil ne distingue pas l'achat de straddle de la vente de butterfly [ajout]

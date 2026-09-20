@@ -37,3 +37,6 @@ Valable parce que le sous-jacent *est* la devise de règlement. Dès qu’ils di
 
 ## Origine
 - exercice fpp/ex-03 : la formule à exposants exige de décider quelle devise est « locale », ce que l'énoncé ne dit jamais ; refaire la réplication en une ligne [ajout]
+- exercice fpp/ex-06 : les deux couvertures, forward et marché monétaire, diffèrent de 1,8 pour cent mille — exactement l'arrondi de la cotation à 1,112 au lieu de 1,112019 [exo. 6]
+- exercice fpp/ex-13 : le sens des variations se retrouve sans la formule — la devise qui rapporte le plus se déprécie à terme [exo. 13]
+- exercice fpp/ex-19 : le change forward et le taux forward sont la même construction dans deux coordonnées ; la condition de gain a la même forme, $Z(T)<F(0,T)$ contre $r(t,T)<f(t,T)$ [exo. 19]

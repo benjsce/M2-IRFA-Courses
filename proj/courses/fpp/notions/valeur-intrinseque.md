@@ -31,3 +31,6 @@ Calculer d’abord le forward, y appliquer le payoff, puis actualiser — trois 
 
 ## Cesse d'être valide quand
 Ce n’est un prix que dans un modèle sans aléa ; dès qu’il y a de la volatilité, il manque la valeur temps. [Déf. 13]
+
+## Origine
+- exercice fpp/ex-09 : la convexité donne prix ≥ valeur intrinsèque, mais l'écart n'est pas toujours strictement positif une fois le portage retiré — c'est la porte de l'exercice anticipé sur le change [exo. 9]

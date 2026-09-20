@@ -34,3 +34,6 @@ Actualiser flux par flux, puis sommer : trois flux de 100 à un, deux et trois a
 Flux certains uniquement. [Déf. 4]
 
 Dès qu’ils sont aléatoires, il faut passer sous $\mathbb{Q}$. [§5.1]
+
+## Origine
+- exercice fpp/ex-19 : la NPV d'une stratégie de refinancement ne dépend que du rapport $P(0,T)/\big(P(0,t)P(t,T)\big)$ ; les notionnels disparaissent [exo. 19]

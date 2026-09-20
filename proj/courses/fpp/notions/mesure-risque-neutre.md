@@ -35,3 +35,6 @@ Ne pas chercher $\mathbb{Q}$, la lire sur le marché à terme : $\mathbb{E}^{\ma
 
 ## Cesse d'être valide quand
 Unique seulement en marché complet. Et elle ne dit rien de la probabilité historique $\mathbb{P}$ : les deux ne diffèrent que par la dérive. [ajout]
+
+## Origine
+- exercice fpp/ex-13 : geste manquant — identifier le drift risque-neutre en écrivant « forward = espérance » et en résolvant, sans changement de mesure explicite [ajout]

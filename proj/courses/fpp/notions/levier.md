@@ -30,3 +30,6 @@ Pour lire l’effet du levier, écrire l’excès de rendement des capitaux prop
 
 ## Cesse d'être valide quand
 L’amplification est symétrique : elle joue autant à la baisse, et c’est la responsabilité limitée qui en borne l’effet. [§1.4]
+
+## Origine
+- exercice fpp/ex-16 : **collision de symbole entre les deux documents du cours.** Le poly pose $l_t=A_t/E_t\in[1,\infty)$ (Déf. 1) ; le livre d'exercices pose $l=D/F_T\in[0,1]$. Même lettre, même mot. Voir `notation.yml`, section collisions [exo. 16]

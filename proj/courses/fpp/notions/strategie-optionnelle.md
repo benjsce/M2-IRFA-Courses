@@ -26,3 +26,7 @@ Le §9 présente deux usages qui ne diffèrent que par le sens de la position : 
 
 ## Cesse d'être valide quand
 L’addition de prix suppose qu’on peut traiter chaque jambe séparément, sans coût de transaction ni contrainte de marge. [ajout]
+
+## Origine
+- exercice fpp/ex-11 : « acheter le call, vendre le put » n'est pas une stratégie optionnelle — c'est un forward déguisé, le profil n'est pas coudé [ajout]
+- exercice fpp/ex-15 : le butterfly est écarté non parce qu'il a le mauvais signe, mais parce que son véga change de signe selon l'endroit où se trouve le sous-jacent [ajout]

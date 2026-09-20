@@ -6,7 +6,13 @@ sources:
 - id: poly
   fichier: sources/financial_products_lecture_notes.pdf
   type: notes de cours (work in progress, 16 p.)
-refs_pattern: ^(§\d+(\.\d+)*|Déf\. \d+|Prop\. \d+|Th\. \d+|Ex\. \d+|Rem\. \d+|éq\. \d+|p\. \d+|slide \d+)$
+- id: exos
+  fichier: sources/exercises_book_v2.pdf
+  type: livre d'exercices (preliminary version, 28 p., 5 novembre 2025)
+# Deux sources, mais une seule numérotation ambiguë : « §x » existe dans les deux.
+# Les références au livre portent donc « exo. n » pour un exercice et « exos §x » pour
+# une section ; les formes du poly restent nues (SPEC-MODELE §2.3).
+refs_pattern: ^(§\d+(\.\d+)*|Déf\. \d+|Prop\. \d+|Th\. \d+|Ex\. \d+|Rem\. \d+|éq\. \d+|p\. \d+|slide \d+|exo\. \d+|exos §\d+(\.\d+)*|exos éq\. \d+\.\d+|exos avant-propos|exos ch\. \d+)$
 depend_de:
 - cs
 conventions_par_defaut:

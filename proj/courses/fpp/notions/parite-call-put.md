@@ -31,3 +31,9 @@ Connaissant l’un des deux prix, en déduire l’autre sans modèle. Si les deu
 
 ## Cesse d'être valide quand
 Énoncée sans dividende dans la source. Avec un dividende, $S_0$ est remplacé par $S_0\Phi$, et l’identité de payoff reste mais l’identité de prix change. [ajout]
+
+## Origine
+- exercice fpp/ex-10 : quatre inconnues, une équation ; on l'emploie dans les quatre sens, ici pour extraire le strike [ajout]
+- exercice fpp/ex-12 : elle ne sert pas qu'à calculer un prix manquant, elle sert à **tester une table de prix** — trois strikes, trois valeurs de $C-P+K$ [exo. 12]
+- exercice fpp/ex-14 : la démonstration ne demande ni modèle ni Black et Scholes, seulement une identité de payoff, la loi du prix unique et la linéarité [exo. 14]
+- exercice fpp/ex-16 : emploi le plus inattendu — séparer la dette risquée en dette sans risque **moins un put** vendu aux actionnaires [exo. 16]

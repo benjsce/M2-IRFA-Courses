@@ -278,3 +278,106 @@ elements:
 - ref: éq. 21
   intitule: (sections 6–7)
   absorbe: 'fpp/equation-de-la-chaleur'
+
+# ── livre d'exercices (exercises_book_v2.pdf, N. Gaussel, 5 novembre 2025) ──
+# Les références de ce second document portent le préfixe « exos » ou « exo. » pour
+# ne pas se confondre avec « Ex. n », qui désigne un exemple du poly.
+- ref: exos avant-propos
+  intitule: Foreword
+  exclu: 'note d''intention du livre, aucun contenu de cours'
+- ref: exos ch. 1
+  intitule: 'Exercises — préambule : taux continus et annuels sauf mention, facteur d''actualisation $e^{-rT}$'
+  absorbe: 'fpp/convention-capitalisation'
+- ref: exos §1.1
+  intitule: Forward contracts
+  absorbe: 'fpp/prix-a-terme'
+- ref: exo. 1
+  intitule: 'Forward 9 mois sur action à 80, dividende à 6 mois : nul, 3 USD, 4 %'
+  absorbe: 'fpp/forward-action'
+- ref: exo. 2
+  intitule: Comptant implicite d'un forward 6 mois à 58, quatre régimes de dividende
+  absorbe: 'fpp/prix-a-terme'
+- ref: exo. 3
+  intitule: Taux américain déduit d'un forward SEK/USD
+  absorbe: 'fpp/forward-de-change'
+- ref: exo. 4
+  intitule: Taux américain déduit de deux forwards EUR/USD
+  absorbe: 'fpp/forward-de-change'
+- ref: exo. 5
+  intitule: Dividende implicite d'un forward sur S&P, et arbitrage associé
+  absorbe: 'fpp/forward-action'
+- ref: exo. 6
+  intitule: 'Boeing / Air France : couvrir 300 M USD, forward contre marché monétaire'
+  absorbe: 'fpp/forward-de-change'
+- ref: exos §1.2
+  intitule: Options
+  absorbe: 'fpp/option'
+- ref: exo. 7
+  intitule: Call sur future de pétrole par la formule de Black
+  absorbe: 'fpp/prix-future'
+- ref: exo. 8
+  intitule: Call Black-Scholes, sans puis avec dividende en montant
+  absorbe: 'fpp/formule-black-scholes'
+- ref: exo. 9
+  intitule: 'Call sur change : forward, formule, exercice anticipé'
+  absorbe: 'fpp/forward-de-change'
+- ref: exo. 10
+  intitule: Strike déduit de la parité call-put à taux nul
+  absorbe: 'fpp/parite-call-put'
+- ref: exo. 11
+  intitule: Achat à terme synthétique sur l'indice PS, et strike à coût nul
+  absorbe: 'fpp/parite-call-put'
+- ref: exo. 12
+  intitule: 'Table de prix incohérente : construire l''arbitrage'
+  absorbe: 'fpp/parite-call-put'
+- ref: exo. 13
+  intitule: Forward de change, coût de portage, drift risque-neutre
+  absorbe: 'fpp/forward-de-change'
+- ref: exo. 14
+  intitule: Démonstration de la parité call-put, du drift nul du forward, de la parité sur future
+  absorbe: 'fpp/parite-call-put'
+- ref: exos éq. 1.1
+  intitule: $\tilde S_T+(K-\tilde S_T)^+=K+(\tilde S_T-K)^+$
+  absorbe: 'fpp/parite-call-put'
+- ref: exos éq. 1.2
+  intitule: $\mathbb{E}(K-\tilde S_T)^+=KN(-d_2)-FN(-d_1)$
+  absorbe: 'fpp/parite-call-put'
+- ref: exos éq. 1.3
+  intitule: $d_1=\big(\ln(F/K)+\tfrac{\sigma^2T}{2}\big)/(\sigma\sqrt T)$
+  absorbe: 'fpp/formule-black-scholes'
+- ref: exo. 15
+  intitule: 'Spéculer sur une volatilité sous-évaluée : quelle stratégie ?'
+  absorbe: 'fpp/strategie-optionnelle'
+- ref: exos ch. 2
+  intitule: Problems
+  exclu: 'titre de chapitre, aucun contenu propre'
+- ref: exos §2.1
+  intitule: The Merton model of the firm
+  a_venir: '2026-09-27 — le modèle est nommé et développé par la source ; création d''une fiche « modèle de Merton » proposée au rapport du 2026-09-20'
+- ref: exo. 16
+  intitule: Fonds propres comme call sur la firme, spread de crédit, effet d'un dividende
+  absorbe: 'fpp/responsabilite-limitee'
+- ref: exos §2.2
+  intitule: Structured Products
+  absorbe: 'fpp/produit-a-capital-protege'
+- ref: exo. 17
+  intitule: Coussin, taux de participation, et pourquoi ce n'est pas un arbitrage
+  absorbe: 'fpp/produit-a-capital-protege'
+- ref: exos §2.3
+  intitule: Hedging a Corporate FX Exposure
+  absorbe: 'fpp/couverture'
+- ref: exo. 18
+  intitule: 'Couvrir 100 M USD à trois mois : forward, put, couverture partielle'
+  absorbe: 'fpp/couverture'
+- ref: exos §2.4
+  intitule: Multi-period / multi-currency financing
+  absorbe: 'fpp/taux-forward'
+- ref: exo. 19
+  intitule: Trois stratégies de refinancement, matrice des forwards, emprunt en yen
+  absorbe: 'fpp/taux-forward'
+- ref: exos §2.5
+  intitule: Benefiting from the Abenomics
+  absorbe: 'fpp/forward-de-change'
+- ref: exo. 20
+  intitule: Quatre montages Nikkei / yen en 2013, et leur combinaison
+  absorbe: 'fpp/replication-statique'
