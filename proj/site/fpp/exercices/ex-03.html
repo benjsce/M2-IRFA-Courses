@@ -128,6 +128,7 @@ html.sans-ajouts .is-ajout{display:none!important}
 .past:hover{border-color:var(--acc);color:var(--acc)}
 .past .cc{color:var(--fai);font-size:.74rem}
 .past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
 .past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
 .past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
 
@@ -185,6 +186,7 @@ footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);f
 .noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
   padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
 .noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
 .noeud .nm{font-weight:600}
 .noeud .nm a{text-decoration:none;color:var(--fg)}
 .noeud .nm a:hover{color:var(--acc)}
@@ -204,7 +206,7 @@ footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);f
 </head>
 <body>
 <header class="top"><div class="topin"><a class="brand" href="../../index.html">notions</a><span class="fil"><a href="../../fpp/index.html">Financial Products and Introduction to Pricing</a> › fpp/ex-03</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
-<main><div class="wrap"><h1>fpp/ex-03</h1><div class="meta"><span class="pill">exercice</span><a class="pill" href="../../fpp/index.html">fpp</a><span class="pill">feuille d'exercices, exercice 3</span></div><section class="sec "><h2>Énoncé</h2><div class="corps"><p>Spot 8,50 SEK par USD. Forward six mois 8,40 SEK. Taux suédois six mois 4 %. Taux américain six mois ?</p></div></section><details class="sec " data-k="soluoff" open><summary><h2>Solution officielle</h2></summary><div class="corps"><p>6,37 %</p></div></details><section class="sec "><h2>Résolution</h2><div class="corps"><p>$K = X_t\,P^{\mathrm{USD}}/P^{\mathrm{SEK}}$ : le portage du dollar est son propre zéro-coupon, le strike est payé en couronnes.
+<main><div class="wrap"><h1>fpp/ex-03</h1><div class="meta"><span class="pill">exercice</span><a class="pill" href="../../fpp/index.html">fpp</a><span class="pill">feuille d'exercices, exercice 3</span><a class="pill" href="../../fpp/notions.html">toutes les notions</a><a class="pill" href="../../fpp/arbre.html">arbre des familles</a></div><section class="sec "><h2>Énoncé</h2><div class="corps"><p>Spot 8,50 SEK par USD. Forward six mois 8,40 SEK. Taux suédois six mois 4 %. Taux américain six mois ?</p></div></section><details class="sec " data-k="soluoff" open><summary><h2>Solution officielle</h2></summary><div class="corps"><p>6,37 %</p></div></details><section class="sec "><h2>Résolution</h2><div class="corps"><p>$K = X_t\,P^{\mathrm{USD}}/P^{\mathrm{SEK}}$ : le portage du dollar est son propre zéro-coupon, le strike est payé en couronnes.
 $r_{\mathrm{USD}} = r_{\mathrm{SEK}} - \frac{1}{\tau}\ln\frac{K}{X_t} = 0{,}04 + 0{,}011834/0{,}5 = 6{,}37\,\%$.
 Contrôle de signe : le dollar se déprécie à terme, donc son taux est le plus haut. $6{,}37 &gt; 4$.</p></div></section><details class="sec " data-k="revele" open><summary><h2>Ce que l'exercice a révélé</h2></summary><div class="corps"><ul><li><a href="../../fpp/n/forward-de-change.html">Forward de change</a> : la formule $X_te^{(R^f-R)\tau}$ exige de décider quelle devise est « locale » ; l'énoncé ne le dit pas. Refaire la réplication en une ligne est plus sûr que la formule.</li><li><a href="../../fpp/n/facteur-actualisation.html">Facteur d’actualisation</a> : « taux six mois 4 % » ne dit ni l'unité ni la convention. Continu annuel : 6,37 ; linéaire : 6,43 ; actuariel : 6,49 ; 4 % de période : 5,18.</li></ul></div></details><details class="sec lim" data-k="contra" open><summary><h2>Contradiction avec la source</h2></summary><div class="corps"><p>Aucune. Le corrigé suit le défaut du cours (continu, annuel).</p></div></details><details class="sec " data-k="touchees" open><summary><h2>Fiches touchées</h2></summary><div class="corps"><ul class="pasts"><li><a class="past" href="../../fpp/n/forward-de-change.html">Forward de change<span class="nv">n2</span></a></li><li><a class="past" href="../../fpp/n/facteur-actualisation.html">Facteur d’actualisation<span class="nv">n1</span></a></li><li><a class="past" href="../../fpp/n/convention-capitalisation.html">Convention de capitalisation<span class="nv">n0</span></a></li></ul></div></details></div></main>
 <footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../../aide.html">comment lire ce site</a> · <a href="../../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
@@ -248,7 +250,7 @@ function encode(){var o='';
   return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
 if(typeof H.s==='string'){su=decode(H.s)}
 else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
-function frag(ancre){var p=[];
+function frag(ancre,noeud){var p=[];
   var t=document.documentElement.getAttribute('data-theme');
   if(t)p.push('t:'+(t==='dark'?'d':'l'));
   if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
@@ -256,13 +258,14 @@ function frag(ancre){var p=[];
   if(/[01]/.test(q))p.push('p:'+q);
   var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
   if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
   return p.length?'#'+p.join('~'):'';}
 function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
 function propager(){var f=frag();
   document.querySelectorAll('a[href]').forEach(function(a){
     var h=a.getAttribute('href')||'';if(!interne(h))return;
-    var v=a.getAttribute('data-v');
-    a.setAttribute('href',h.split('#')[0]+(v?frag(v):f));});
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
   /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
      Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
   try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
@@ -271,8 +274,9 @@ return{pli:function(k){return pli[k]===undefined?null:pli[k]},
        setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
        su:function(id){return !!su[id]},
        setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
-       lien:function(u,v){return u+frag(v)},
+       lien:function(u,v,n){return u+frag(v,n)},
        ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
        propager:propager};
 })();
 function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);

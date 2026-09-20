@@ -426,6 +426,7 @@ html.sans-ajouts .is-ajout{display:none!important}
 .past:hover{border-color:var(--acc);color:var(--acc)}
 .past .cc{color:var(--fai);font-size:.74rem}
 .past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
 .past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
 .past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
 
@@ -483,6 +484,7 @@ footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);f
 .noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
   padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
 .noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
 .noeud .nm{font-weight:600}
 .noeud .nm a{text-decoration:none;color:var(--fg)}
 .noeud .nm a:hover{color:var(--acc)}
@@ -557,7 +559,7 @@ function encode(){var o='';
   return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
 if(typeof H.s==='string'){su=decode(H.s)}
 else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
-function frag(ancre){var p=[];
+function frag(ancre,noeud){var p=[];
   var t=document.documentElement.getAttribute('data-theme');
   if(t)p.push('t:'+(t==='dark'?'d':'l'));
   if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
@@ -565,13 +567,14 @@ function frag(ancre){var p=[];
   if(/[01]/.test(q))p.push('p:'+q);
   var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
   if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
   return p.length?'#'+p.join('~'):'';}
 function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
 function propager(){var f=frag();
   document.querySelectorAll('a[href]').forEach(function(a){
     var h=a.getAttribute('href')||'';if(!interne(h))return;
-    var v=a.getAttribute('data-v');
-    a.setAttribute('href',h.split('#')[0]+(v?frag(v):f));});
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
   /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
      Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
   try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
@@ -580,8 +583,9 @@ return{pli:function(k){return pli[k]===undefined?null:pli[k]},
        setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
        su:function(id){return !!su[id]},
        setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
-       lien:function(u,v){return u+frag(v)},
+       lien:function(u,v,n){return u+frag(v,n)},
        ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
        propager:propager};
 })();
 function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
@@ -711,7 +715,7 @@ function structure(){
     parent[i]=(p&&gardes[p])?p:null;
     if(parent[i])enfants[parent[i]].push(i);});
   var racines=ordre.filter(function(i){return !parent[i]&&(enfants[i].length||gardes[i].pr)});
-  return {gardes:gardes,enfants:enfants,racines:racines};
+  return {gardes:gardes,enfants:enfants,racines:racines,parent:parent};
 }
 
 /* --- SPEC-SITE §5 : miroir exact de test_layout.disposer --- */
@@ -770,9 +774,10 @@ function creerCartes(){
   if(window.ETAT)ETAT.propager();
 }
 
+var dispo=null;
 function redessiner(){
   var st=structure(),vis=visibles(st.racines,st.enfants,deplies);
-  var r=disposer(st.racines,st.enfants,deplies,H);
+  var r=disposer(st.racines,st.enfants,deplies,H);dispo=r;
   var visSet=new Set(vis),maxx=0,maxy=0;
   noeuds.forEach(function(n){
     var el=document.getElementById('nd-'+n.k);
@@ -795,10 +800,49 @@ function redessiner(){
 }
 function transformer(){plan.style.transform='translate('+pan.x+'px,'+pan.y+'px) scale('+pan.s+')'}
 
+/* Arriver depuis une fiche : on déplie toute la chaîne de ses parents, on centre la
+   carte et on la marque. Si la notion n'est dans aucune famille elle n'a pas de nœud —
+   39 % des fiches sont dans ce cas — et on le dit au lieu de laisser chercher. */
+function viser(id){
+  var msg=document.getElementById('cible'),st=structure();
+  var n=null;noeuds.forEach(function(x){if(x.id===id)n=x});
+  if(!n||!st.gardes[id]){
+    var nom=n?n.nom:(window.ARBRE_HORS&&ARBRE_HORS[id]);
+    var li=document.querySelector('#seuls a[href*="/'+id.split('/')[1]+'.html"]');
+    msg.innerHTML=(nom?'<strong>'+nom+'</strong>':'Cette notion')
+      +' n’a pas de carte dans cet arbre : le cours ne la range sous aucune famille, et '
+      +'n’en fait pas non plus une famille. Ce n’est pas un oubli — c’est une information '
+      +'sur le cours.'+(li?' Elle est marquée ci-dessous.':'');
+    msg.hidden=false;
+    if(li){li.classList.add('cible');
+      var g=li.closest('details');if(g)g.open=true;      /* la liste est repliée par groupes */
+      /* le message va se poser au-dessus de la liste, là où le regard arrive */
+      var s2=document.getElementById('seuls');s2.parentNode.insertBefore(msg,s2);
+      li.scrollIntoView({block:'center'});}
+    return;}
+  var p=st.parent[id];while(p){deplies.add(p);p=st.parent[p]}
+  redessiner();
+  var el=document.getElementById('nd-'+n.k);el.classList.add('cible');
+  /* On veut voir la carte ET la chaîne de ses parents : arriver sur la carte seule
+     cacherait précisément ce qu'on vient voir. On réduit donc l'échelle juste assez
+     pour que la racine tienne dans le cadre, sans descendre sous 0,5 (illisible),
+     puis on centre verticalement sur la carte. */
+  var large=dispo.prof[id]*C+W;
+  pan.s=Math.max(0.5,Math.min(1,(scene.clientWidth-80)/large));
+  pan.x=Math.max(40,(scene.clientWidth-large*pan.s)/2);
+  pan.y=Math.min(24,scene.clientHeight/2-(dispo.tops[id]+H[id]/2)*pan.s);
+  transformer();
+  msg.innerHTML='Arrivé depuis <strong>'+n.nom+'</strong> : sa carte est encadrée, et '
+    +'toute la suite de familles qui la contient est dépliée.';
+  msg.hidden=false;
+  scene.scrollIntoView({block:'start'});
+}
+
 document.addEventListener('DOMContentLoaded',function(){
   creerCartes();
   noeuds.forEach(function(n){if(n.en&&n.en.length&&n.pf<1)deplies.add(n.id)});  /* replié > 2 niveaux */
   redessiner();transformer();
+  if(window.ETAT&&ETAT.noeud())viser(ETAT.noeud());
   plan.addEventListener('click',function(e){
     var b=e.target.closest('.pli');if(!b)return;e.preventDefault();
     var i=b.getAttribute('data-n');if(deplies.has(i))deplies.delete(i);else deplies.add(i);redessiner();});
@@ -984,6 +1028,14 @@ def page_fiche(m, i):
              'title="ordre de lecture : nombre de notions à traverser, au plus long, pour arriver '
              'jusqu’à celle-ci. Niveau 0 = ne dépend d’aucune autre.">'
              "niveau " + str(m["niveau"][i]) + "</a>"]
+    # Un chemin vers l'arbre depuis chaque fiche, visant sa propre carte. 39 % des
+    # notions n'ont pas de carte (ni parent, ni membres, ni principe) : l'intitulé le dit
+    # avant le clic, et la page de l'arbre l'explique après.
+    dans_arbre = bool(parent or membres or typ == "principe")
+    pills.append('<a class="pill" href="' + rel + code + '/arbre.html" data-noeud="' + i + '" '
+                 'title="' + ("ouvrir l’arbre des familles sur cette notion" if dans_arbre
+                              else "cette notion n’est rangée sous aucune famille") + '">'
+                 + ("voir dans l’arbre" if dans_arbre else "arbre du cours") + "</a>")
     if meta.get("symbole"):
         pills.insert(0, '<span class="pill sym">' + esc(str(meta["symbole"])) + "</span>")
     for r in meta.get("refs") or []:
@@ -1136,6 +1188,9 @@ def page_cours(m, code):
          "où on peut la lire de haut en bas.</li>"
          "<li><strong>Vous voulez commencer à lire</strong> — les " + str(len(nv0))
          + " notions qui ne dépendent d’aucune autre sont plus bas, au niveau 0.</li>"
+         '<li><strong>Vous voulez voir les familles</strong> — <a href="' + rel + code
+         + '/arbre.html">l’arbre</a> montre quelles notions sont des cas particuliers de '
+         "quelles autres. Ce ne sont pas des prérequis.</li>"
          "<li><strong>Vous cherchez quelque chose de précis</strong> — touche <code>/</code>, "
          "sur un nom ou un symbole.</li></ul>"
          '<p class="note">Première visite ? <a href="' + rel + 'aide.html">Comment lire ce '
@@ -1245,7 +1300,13 @@ def page_arbre(m, code):
                            pa=m["A"].get(i), pa2=meta.get("type"), pf=p_of(i),
                            pr=meta.get("type") == "principe", en=enf,
                            u=rel + i.split("/", 1)[0] + "/n/" + i.split("/", 1)[1] + ".html"))
-    data = "var ARBRE_DATA=" + json.dumps(dict(noeuds=noeuds), ensure_ascii=False) + ";"
+    # Les notions absentes de l'arbre y arrivent quand même par le bouton d'une fiche :
+    # la page doit pouvoir les nommer pour dire pourquoi elles n'y sont pas.
+    hors = {i: nom_de(m, i) for i in ids
+            if not m["A"].get(i) and not m["A_inv"].get(i)
+            and m["N"][i]["meta"].get("type") != "principe"}
+    data = ("var ARBRE_DATA=" + json.dumps(dict(noeuds=noeuds), ensure_ascii=False) + ";"
+            + "var ARBRE_HORS=" + json.dumps(hors, ensure_ascii=False) + ";")
     js = data + JS_ARBRE.replace("__W__", repr(CARTE_W)).replace("__C__", repr(COL_C)).replace("__G__", repr(ECART_G))
     seuls = sorted([i for i in ids if not m["A"].get(i) and not m["A_inv"].get(i)
                     and m["N"][i]["meta"].get("type") != "principe"],
@@ -1263,6 +1324,7 @@ def page_arbre(m, code):
          '<button class="btn" id="zm">zoom −</button>'
          '<button class="btn" id="zr">recentrer</button>'
          '<span class="compteur" id="nbvis"></span></div>',
+         '<p class="note" id="cible" hidden></p>',
          '<div id="scene" tabindex="0" aria-label="arbre d’abstraction, déplaçable aux flèches">'
          '<div id="pan"><svg id="aretes"></svg></div></div>',
          '<p class="note">Avec « masquer les ajouts », une famille qui a été ajoutée disparaît et '
@@ -1271,7 +1333,9 @@ def page_arbre(m, code):
         c.append("<h3>Notions qui n’appartiennent à aucune famille (" + str(len(seuls)) + ")</h3>"
                  '<p class="note">Ce n’est pas un oubli : le cours ne les range sous rien de plus '
                  "général. Elles ont une fiche comme les autres.</p>")
-        c.append(liste_pastilles(m, seuls, rel, code, niveau=True, cle=lambda y: "niveau %d" % m["niveau"][y]))
+        c.append('<div id="seuls">'
+                 + liste_pastilles(m, seuls, rel, code, niveau=True,
+                                   cle=lambda y: "niveau %d" % m["niveau"][y]) + "</div>")
     fil = ('<a href="' + rel + code + '/index.html">' + esc(m["cours"][code]["meta"].get("titre", code)) + "</a> › arbre")
     return page(m, titre="Arbre — " + code, rel=rel, fil=fil, corps="".join(c), js=js, mathjax=False)
 
@@ -1318,6 +1382,9 @@ def page_inventaire(m, code):
          "seule une relecture du poly peut dire.</p>",
          '<div class="meta"><span class="pill">' + str(len(els)) + " éléments</span>"
          + "".join('<span class="pill">%s : %d</span>' % (k, sum(1 for e in els if k in e)) for k, _ in groupes)
+         + '<a class="pill" href="' + rel + code + '/index.html">carte du cours</a>'
+         + '<a class="pill" href="' + rel + code + '/notions.html">toutes les notions</a>'
+         + '<a class="pill" href="' + rel + code + '/arbre.html">arbre des familles</a>'
          + "</div>"]
     for k, lab in groupes:
         sel = [e for e in els if k in e]
@@ -1351,7 +1418,9 @@ def page_exercice(m, xid):
     c = ["<h1>" + esc(xid) + "</h1>",
          '<div class="meta"><span class="pill">exercice</span><a class="pill" href="'
          + rel + code + '/index.html">' + esc(code) + "</a>"
-         '<span class="pill">' + esc(str(x["meta"].get("source", ""))) + "</span></div>"]
+         '<span class="pill">' + esc(str(x["meta"].get("source", ""))) + "</span>"
+         '<a class="pill" href="' + rel + code + '/notions.html">toutes les notions</a>'
+         '<a class="pill" href="' + rel + code + '/arbre.html">arbre des familles</a></div>']
     # Les clés sont explicites, pas dérivées du titre : elles voyagent d'une page à
     # l'autre (CLES_PLI), donc renommer une rubrique ne doit pas les changer.
     for t, k in (("Énoncé", None), ("Solution officielle", "soluoff"), ("Résolution", None),

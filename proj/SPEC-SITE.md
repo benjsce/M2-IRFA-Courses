@@ -51,7 +51,8 @@ Ces règles sont des contraintes du générateur, pas des conseils.
    notion fondamentale débloque tout le cours.
 8. **Deux relations, deux traitements visuels**, jamais confondus : la dépendance est une
    liste de pastilles ; l'abstraction est un arbre. Aucune arête d'abstraction n'apparaît
-   dans une vue de dépendance et réciproquement.
+   dans une vue de dépendance et réciproquement. Une fiche **mène** à l'arbre, sur sa
+   propre carte ; elle n'en dessine jamais un morceau.
 9. **Les ajouts sont distinguables et masquables.** Une notion `ajout` ou un paragraphe
    `[ajout]` porte une marque visible ; un interrupteur global les masque ; la projection
    qui reste est valide (A11). **Une rubrique obligatoire (SPEC-MODELE §2.1) dont tout le
@@ -100,7 +101,10 @@ site/
 
 Dans cet ordre, sans exception :
 
-1. En-tête : nom, symbole, type, cours, niveau, références principales, marque `ajout`.
+1. En-tête : nom, symbole, type, cours, niveau, références principales, marque `ajout`,
+   et un lien vers l'arbre du cours **visant la carte de cette notion**. Le type, le
+   niveau et la marque `ajout` sont eux-mêmes des liens vers la section d'`aide.html`
+   qui les définit.
 2. Ce que c'est.
 3. Forme.
 4. Ce qui la définit / Ce que les membres partagent.
@@ -185,8 +189,28 @@ sait déjà du cours.
 Voir §5 pour l'algorithme. Un seul type d'arête. Replié au-delà de deux niveaux à
 l'ouverture. Cliquer un nœud ouvre la fiche. Boutons : tout déplier, tout replier, zoom,
 masquer les ajouts. Le canevas se déplace au glisser (souris et tactile). Les nœuds
-`ajout` sont marqués. Sous l'arbre : la liste « notions sans généralisation », qui est une
-information et non un oubli.
+`ajout` sont marqués. Sous l'arbre : la liste « notions qui n'appartiennent à aucune
+famille », qui est une information et non un oubli.
+
+**L'arbre est atteignable depuis toutes les pages d'un cours** : la carte, la liste des
+notions, l'inventaire, un exercice, et chaque fiche. Il est un chemin de lecture, pas un
+outil de fabrication : il ne va jamais dans le bloc replié de la règle 13.
+
+**Arrivée depuis une fiche.** Le lien porte l'identifiant de la notion (clé `n` du
+fragment, §4). À l'ouverture, la page déplie toute la chaîne des parents de cette notion,
+encadre sa carte, ajuste l'échelle pour que la racine tienne dans le cadre — sans
+descendre sous 0,5, illisible — et l'annonce en une ligne au-dessus du canevas. Centrer
+la carte seule ne suffisait pas : cela poussait hors cadre précisément la lignée qu'on
+vient voir.
+
+**Et quand la notion n'a pas de carte.** Un nœud n'existe que pour une notion qui a un
+parent, des membres, ou le type principe : **48 notions sur 123 — 39 % — n'en ont pas**
+(mesure du 2026-09-20). Le lien existe quand même, parce que l'arbre doit être
+atteignable de partout, mais il s'intitule alors « arbre du cours » et non « voir dans
+l'arbre », et la page d'arrivée nomme la notion, dit pourquoi elle n'y figure pas, ouvre
+le groupe replié qui la contient dans la liste du bas et l'y marque. Une notion qui
+n'appartient à aucune famille est un fait sur le cours ; le site le dit deux fois plutôt
+que de laisser chercher.
 
 ## 4. Contraintes du générateur
 

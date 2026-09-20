@@ -128,6 +128,7 @@ html.sans-ajouts .is-ajout{display:none!important}
 .past:hover{border-color:var(--acc);color:var(--acc)}
 .past .cc{color:var(--fai);font-size:.74rem}
 .past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
 .past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
 .past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
 
@@ -185,6 +186,7 @@ footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);f
 .noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
   padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
 .noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
 .noeud .nm{font-weight:600}
 .noeud .nm a{text-decoration:none;color:var(--fg)}
 .noeud .nm a:hover{color:var(--acc)}
@@ -259,7 +261,28 @@ test_layout.py : 4 arbres × 1000 configurations × 3 jeux de hauteurs, ok
 148 fichiers · la plus lourde : site/dup/inventaire.html (47 ko) · limite 300 ko
 2611 liens internes · 0 mort
 ```</p><p>Les 4 avertissements sont ceux d'avant la séance (A8 sur <code>fpp/feynman-kac</code>, trois
-« Ce que c'est » en plusieurs phrases).</p></article></div></main>
+« Ce que c'est » en plusieurs phrases).</p><p>---</p><h1>Suite — l'arbre atteignable de partout, et visant la fiche</h1><p>Demande de l'utilisateur, dans la foulée : que l'arbre soit accessible partout, y compris
+à l'intérieur d'un cours, et — si possible — qu'un bouton sur une fiche ouvre l'arbre
+<strong>sur la carte de cette fiche</strong>.</p><h2>Une régression d'abord, corrigée</h2><p>En déplaçant la dette dans le bloc replié (règle 13), j'avais emporté avec elle le lien
+vers l'arbre : la carte d'un cours n'y menait plus du tout. L'arbre est un chemin de
+lecture, pas un outil de fabrication. Il est revenu dans le bloc d'entrée de la carte,
+comme cinquième chemin.</p><h2>Accès</h2><p>L'arbre du cours est maintenant atteignable depuis <strong>toutes</strong> les pages du cours : la
+carte (bloc d'entrée), la liste des notions, l'inventaire, chaque exercice, chaque fiche.</p><h2>Le bouton qui vise</h2><p>Chaque fiche porte dans son en-tête un lien vers l'arbre de son cours, portant son propre
+identifiant dans le fragment (clé <code>n</code>, qui rejoint <code>t</code>, <code>a</code>, <code>p</code>, <code>s</code>, <code>v</code>). À l'arrivée,
+la page :</p><p>1. déplie toute la chaîne des parents de la notion ;
+2. encadre sa carte ;
+3. <strong>ajuste l'échelle</strong> pour que la racine tienne dans le cadre, plancher à 0,5 ;
+4. l'annonce en une ligne au-dessus du canevas.</p><p>Le point 3 est venu d'un essai raté. J'avais d'abord centré la carte visée dans le
+canevas : à la profondeur 2, cela poussait la racine et le parent hors cadre — soit
+exactement la lignée qu'on venait voir. Deuxième essai, poser le bord droit aux trois
+quarts : encore tronqué. L'échelle ajustée à la largeur de la chaîne
+(<code>(largeur_du_cadre − 80) / (profondeur × 320 + 220)</code>) montre la lignée entière.</p><p>Vérifié sur <code>dup/utilite-quadratique</code> : <em>Toute l'attitude est dans la courbure</em> (principe)
+→ <em>Famille HARA</em> (abstraite) → <em>Utilité quadratique</em> (encadrée), les trois visibles d'un
+coup.</p><h2>Les 39 % de notions qui n'ont pas de carte</h2><p><strong>Mesure.</strong> Un nœud n'existe que pour une notion qui a un parent, des membres, ou le type
+principe :</p><div class="tablebloc"><table><thead><tr><th>cours</th><th>dans l'arbre</th><th>hors arbre</th></tr></thead><tbody><tr><td>dup</td><td>42 / 68</td><td>26 (38 %)</td></tr><tr><td>fpp</td><td>33 / 55</td><td>22 (40 %)</td></tr><tr><td><strong>total</strong></td><td><strong>75 / 123</strong></td><td><strong>48 (39 %)</strong></td></tr></tbody></table></div><p>Un bouton « voir dans l'arbre » sur ces 48 fiches aurait menti. Deux fois plutôt qu'une :</p><ul><li><strong>avant le clic</strong>, le lien s'intitule « arbre du cours » et non « voir dans l'arbre »,</li><li>et son infobulle dit « cette notion n'est rangée sous aucune famille » ;</li><li><strong>après</strong>, la page nomme la notion, explique que ce n'est pas un oubli, **ouvre le</li><li>groupe replié** qui la contient dans la liste du bas — sans quoi la pastille marquée</li><li>restait invisible, ce que le premier essai faisait — et l'y encadre.</li></ul><p>Vérifié sur <code>fpp/portage</code>.</p><h2>Fiches modifiées</h2><p>Aucune.</p><h2>Validation</h2><p>```
+123 notions · 0 erreur · 4 avertissement(s) · dette : aucune
+149 fichiers · 2751 liens internes · 0 mort
+```</p><h2>SPEC-SITE</h2><ul><li>règle 8 : « une fiche <strong>mène</strong> à l'arbre, sur sa propre carte ; elle n'en dessine jamais</li><li>un morceau » — la séparation des deux traitements visuels tient.</li><li>§3.1 item 1 : l'en-tête d'une fiche porte le lien visant l'arbre ; type, niveau et</li><li>marque <code>ajout</code> sont des liens vers <code>aide.html</code>.</li><li>§3.3 : l'accès depuis toutes les pages, l'arrivée visée, et le cas des 39 %.</li></ul></article></div></main>
 <footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../aide.html">comment lire ce site</a> · <a href="../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
 <script src="../search-index.js"></script>
 <script>
@@ -301,7 +324,7 @@ function encode(){var o='';
   return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
 if(typeof H.s==='string'){su=decode(H.s)}
 else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
-function frag(ancre){var p=[];
+function frag(ancre,noeud){var p=[];
   var t=document.documentElement.getAttribute('data-theme');
   if(t)p.push('t:'+(t==='dark'?'d':'l'));
   if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
@@ -309,13 +332,14 @@ function frag(ancre){var p=[];
   if(/[01]/.test(q))p.push('p:'+q);
   var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
   if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
   return p.length?'#'+p.join('~'):'';}
 function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
 function propager(){var f=frag();
   document.querySelectorAll('a[href]').forEach(function(a){
     var h=a.getAttribute('href')||'';if(!interne(h))return;
-    var v=a.getAttribute('data-v');
-    a.setAttribute('href',h.split('#')[0]+(v?frag(v):f));});
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
   /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
      Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
   try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
@@ -324,8 +348,9 @@ return{pli:function(k){return pli[k]===undefined?null:pli[k]},
        setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
        su:function(id){return !!su[id]},
        setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
-       lien:function(u,v){return u+frag(v)},
+       lien:function(u,v,n){return u+frag(v,n)},
        ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
        propager:propager};
 })();
 function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);

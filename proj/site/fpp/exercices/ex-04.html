@@ -128,6 +128,7 @@ html.sans-ajouts .is-ajout{display:none!important}
 .past:hover{border-color:var(--acc);color:var(--acc)}
 .past .cc{color:var(--fai);font-size:.74rem}
 .past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
 .past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
 .past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
 
@@ -185,6 +186,7 @@ footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);f
 .noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
   padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
 .noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
 .noeud .nm{font-weight:600}
 .noeud .nm a{text-decoration:none;color:var(--fg)}
 .noeud .nm a:hover{color:var(--acc)}
@@ -204,7 +206,7 @@ footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);f
 </head>
 <body>
 <header class="top"><div class="topin"><a class="brand" href="../../index.html">notions</a><span class="fil"><a href="../../fpp/index.html">Financial Products and Introduction to Pricing</a> › fpp/ex-04</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
-<main><div class="wrap"><h1>fpp/ex-04</h1><div class="meta"><span class="pill">exercice</span><a class="pill" href="../../fpp/index.html">fpp</a><span class="pill">feuille d'exercices, exercice 4</span></div><section class="sec "><h2>Énoncé</h2><div class="corps"><p>Le 1er août. Forward USD/EUR au 31 décembre : 0,94630. Au 30 juin suivant : 0,95152. Structures plates, taux euro 4 %. Taux US ?</p></div></section><details class="sec " data-k="soluoff" open><summary><h2>Solution officielle</h2></summary><div class="corps"><p>2,90 %</p></div></details><section class="sec "><h2>Résolution</h2><div class="corps"><p>Deux équations, deux inconnues ($X_t$ et $r_{\mathrm{USD}}$) : le spot doit s'éliminer. En log, $\ln F(t,T_i)=\ln X_t+(r_{\mathrm{EUR}}-r_{\mathrm{USD}})\tau_i$ — une droite dont on demande la pente. Soustraire : $\ln(0{,}95152/0{,}94630)=0{,}005501=(0{,}04-r_{\mathrm{USD}})\times0{,}5$, d'où $r_{\mathrm{USD}}=2{,}90\,\%$. Le 1er août et les cinq mois jusqu'au 31 décembre disparaissent avec le spot.</p></div></section><details class="sec " data-k="revele" open><summary><h2>Ce que l'exercice a révélé</h2></summary><div class="corps"><ul><li><a href="../../fpp/n/prix-a-terme.html">Prix à terme</a> : geste manquant — « le spot se simplifie dans tout rapport de deux forwards ; il reste un forward de taux ».</li><li><a href="../../fpp/n/taux-forward.html">Taux forward</a> : un rapport de deux prix à terme de change est un rapport de facteurs d'actualisation forward.</li></ul></div></details><details class="sec lim" data-k="contra" open><summary><h2>Contradiction avec la source</h2></summary><div class="corps"><p>Aucune. Décompte en mois ronds (181/365 donnerait 2,89).</p></div></details><details class="sec " data-k="touchees" open><summary><h2>Fiches touchées</h2></summary><div class="corps"><ul class="pasts"><li><a class="past" href="../../fpp/n/forward-de-change.html">Forward de change<span class="nv">n2</span></a></li><li><a class="past" href="../../fpp/n/taux-forward.html">Taux forward<span class="nv">n3</span></a></li><li><a class="past" href="../../fpp/n/prix-a-terme.html">Prix à terme<span class="nv">n2</span></a></li></ul></div></details></div></main>
+<main><div class="wrap"><h1>fpp/ex-04</h1><div class="meta"><span class="pill">exercice</span><a class="pill" href="../../fpp/index.html">fpp</a><span class="pill">feuille d'exercices, exercice 4</span><a class="pill" href="../../fpp/notions.html">toutes les notions</a><a class="pill" href="../../fpp/arbre.html">arbre des familles</a></div><section class="sec "><h2>Énoncé</h2><div class="corps"><p>Le 1er août. Forward USD/EUR au 31 décembre : 0,94630. Au 30 juin suivant : 0,95152. Structures plates, taux euro 4 %. Taux US ?</p></div></section><details class="sec " data-k="soluoff" open><summary><h2>Solution officielle</h2></summary><div class="corps"><p>2,90 %</p></div></details><section class="sec "><h2>Résolution</h2><div class="corps"><p>Deux équations, deux inconnues ($X_t$ et $r_{\mathrm{USD}}$) : le spot doit s'éliminer. En log, $\ln F(t,T_i)=\ln X_t+(r_{\mathrm{EUR}}-r_{\mathrm{USD}})\tau_i$ — une droite dont on demande la pente. Soustraire : $\ln(0{,}95152/0{,}94630)=0{,}005501=(0{,}04-r_{\mathrm{USD}})\times0{,}5$, d'où $r_{\mathrm{USD}}=2{,}90\,\%$. Le 1er août et les cinq mois jusqu'au 31 décembre disparaissent avec le spot.</p></div></section><details class="sec " data-k="revele" open><summary><h2>Ce que l'exercice a révélé</h2></summary><div class="corps"><ul><li><a href="../../fpp/n/prix-a-terme.html">Prix à terme</a> : geste manquant — « le spot se simplifie dans tout rapport de deux forwards ; il reste un forward de taux ».</li><li><a href="../../fpp/n/taux-forward.html">Taux forward</a> : un rapport de deux prix à terme de change est un rapport de facteurs d'actualisation forward.</li></ul></div></details><details class="sec lim" data-k="contra" open><summary><h2>Contradiction avec la source</h2></summary><div class="corps"><p>Aucune. Décompte en mois ronds (181/365 donnerait 2,89).</p></div></details><details class="sec " data-k="touchees" open><summary><h2>Fiches touchées</h2></summary><div class="corps"><ul class="pasts"><li><a class="past" href="../../fpp/n/forward-de-change.html">Forward de change<span class="nv">n2</span></a></li><li><a class="past" href="../../fpp/n/taux-forward.html">Taux forward<span class="nv">n3</span></a></li><li><a class="past" href="../../fpp/n/prix-a-terme.html">Prix à terme<span class="nv">n2</span></a></li></ul></div></details></div></main>
 <footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../../aide.html">comment lire ce site</a> · <a href="../../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
 <script src="../../search-index.js"></script>
 <script>
@@ -246,7 +248,7 @@ function encode(){var o='';
   return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
 if(typeof H.s==='string'){su=decode(H.s)}
 else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
-function frag(ancre){var p=[];
+function frag(ancre,noeud){var p=[];
   var t=document.documentElement.getAttribute('data-theme');
   if(t)p.push('t:'+(t==='dark'?'d':'l'));
   if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
@@ -254,13 +256,14 @@ function frag(ancre){var p=[];
   if(/[01]/.test(q))p.push('p:'+q);
   var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
   if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
   return p.length?'#'+p.join('~'):'';}
 function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
 function propager(){var f=frag();
   document.querySelectorAll('a[href]').forEach(function(a){
     var h=a.getAttribute('href')||'';if(!interne(h))return;
-    var v=a.getAttribute('data-v');
-    a.setAttribute('href',h.split('#')[0]+(v?frag(v):f));});
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
   /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
      Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
   try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
@@ -269,8 +272,9 @@ return{pli:function(k){return pli[k]===undefined?null:pli[k]},
        setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
        su:function(id){return !!su[id]},
        setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
-       lien:function(u,v){return u+frag(v)},
+       lien:function(u,v,n){return u+frag(v,n)},
        ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
        propager:propager};
 })();
 function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);

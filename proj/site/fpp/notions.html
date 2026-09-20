@@ -128,6 +128,7 @@ html.sans-ajouts .is-ajout{display:none!important}
 .past:hover{border-color:var(--acc);color:var(--acc)}
 .past .cc{color:var(--fai);font-size:.74rem}
 .past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
 .past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
 .past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
 
@@ -185,6 +186,7 @@ footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);f
 .noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
   padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
 .noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
 .noeud .nm{font-weight:600}
 .noeud .nm a{text-decoration:none;color:var(--fg)}
 .noeud .nm a:hover{color:var(--acc)}
@@ -246,7 +248,7 @@ function encode(){var o='';
   return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
 if(typeof H.s==='string'){su=decode(H.s)}
 else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
-function frag(ancre){var p=[];
+function frag(ancre,noeud){var p=[];
   var t=document.documentElement.getAttribute('data-theme');
   if(t)p.push('t:'+(t==='dark'?'d':'l'));
   if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
@@ -254,13 +256,14 @@ function frag(ancre){var p=[];
   if(/[01]/.test(q))p.push('p:'+q);
   var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
   if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
   return p.length?'#'+p.join('~'):'';}
 function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
 function propager(){var f=frag();
   document.querySelectorAll('a[href]').forEach(function(a){
     var h=a.getAttribute('href')||'';if(!interne(h))return;
-    var v=a.getAttribute('data-v');
-    a.setAttribute('href',h.split('#')[0]+(v?frag(v):f));});
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
   /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
      Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
   try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
@@ -269,8 +272,9 @@ return{pli:function(k){return pli[k]===undefined?null:pli[k]},
        setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
        su:function(id){return !!su[id]},
        setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
-       lien:function(u,v){return u+frag(v)},
+       lien:function(u,v,n){return u+frag(v,n)},
        ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
        propager:propager};
 })();
 function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
