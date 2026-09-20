@@ -9,7 +9,7 @@ refs:
 ---
 
 ## Ce que c'est
-Un flux est un triplet : un montant, une devise, une date. Deux flux ne se comparent jamais directement. [§2.1]
+Un flux est un triplet — un montant, une devise, une date —, de sorte que deux flux ne se comparent jamais directement. [§2.1]
 
 ## Ce qui la définit
 Comparer exige un facteur de conversion, et lequel dépend de la coordonnée qui sépare les deux flux. [§2.1]

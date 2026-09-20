@@ -18,16 +18,16 @@ refs:
 ---
 
 ## Ce que c'est
-Prix aujourd’hui d’un euro payé en $T$. Un titre qui paie 1 à une date et rien d’autre : le zéro-coupon. [§2.1, Déf. 3]
+Le prix aujourd’hui d’un euro payé en $T$, c’est-à-dire le prix d’un zéro-coupon : un titre qui paie 1 à une date et rien d’autre. [§2.1, Déf. 3]
 
 ## Forme
 $$P(t,T)=e^{-R(t,T)(T-t)}=C_t^{-1}$$ [§2.1, Déf. 3, §2.3]
 
 ## Ce qui la définit
-Capitalisation en avançant dans le temps, actualisation en reculant. Le facteur est le taux de change entre deux dates. [§2.1, Déf. 3]
+On capitalise en avançant dans le temps et l’on actualise en reculant : le facteur est le taux de change entre deux dates. [§2.1, Déf. 3]
 
 ## Le chemin jusqu'ici
-Une seule brique : fpp/convention-capitalisation, qui dit dans quelles coordonnées un taux s'écrit. [ajout]
+Tout part de fpp/convention-capitalisation, qui dit dans quelles coordonnées un taux s'écrit. [ajout]
 
 Le facteur d'actualisation est ce qu'on obtient en refusant de choisir : plutôt qu'un taux dans une convention, un prix — celui d'un euro payé plus tard. C'est l'objet que les conventions décrivent toutes, chacune à sa façon. [ajout]
 

@@ -26,11 +26,11 @@ Le geste est en trois temps : écrire $dC$ par la formule d’Itô, former le po
 Le portefeuille ne porte alors plus de risque entre $t$ et $t+dt$ : son rendement instantané doit valoir $r\,dt$, sinon il y a arbitrage. La dérive $\mu$ disparaît de l’équation — c’est le résultat central du chapitre. [§7.1]
 
 ## Le chemin jusqu'ici
-Le chemin du modèle, puis une brique de plus. [ajout]
+Le chemin est celui du modèle, plus une brique. [ajout]
 
-**Le modèle.** fpp/replication-statique donne la méthode, fpp/portage et fpp/facteur-actualisation (sur fpp/convention-capitalisation) en chiffrent les deux jambes, d'où fpp/prix-a-terme puis fpp/mesure-risque-neutre ; fpp/volatilite puis fpp/echelonnement-de-la-variance disent comment l'incertitude grandit avec le temps ; avec fpp/transformee-de-laplace-gaussienne, on obtient fpp/modele-black-scholes. [ajout]
+**Le modèle.** fpp/replication-statique donne la méthode, fpp/portage et fpp/facteur-actualisation (bâti sur fpp/convention-capitalisation) en chiffrent les deux jambes, d'où fpp/prix-a-terme puis fpp/mesure-risque-neutre ; fpp/volatilite puis fpp/echelonnement-de-la-variance disent comment l'incertitude grandit avec le temps ; avec fpp/transformee-de-laplace-gaussienne, on obtient fpp/modele-black-scholes. [ajout]
 
-**La couverture.** fpp/compte-capitalise donne fpp/replication-dynamique : on peut rééquilibrer à chaque pas. [ajout]
+**La couverture.** fpp/compte-capitalise ouvre fpp/replication-dynamique : on peut rééquilibrer à chaque pas. [ajout]
 
 Cette addition est toute l'idée. Le modèle dit comment le sous-jacent bouge ; la réplication dynamique dit qu'on peut annuler ce mouvement. Un portefeuille sans risque doit rapporter le taux sans risque : l'équation aux dérivées partielles n'est rien d'autre que cette phrase, écrite en différentiel. [ajout]
 

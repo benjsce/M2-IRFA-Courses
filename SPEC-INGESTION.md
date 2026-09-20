@@ -67,6 +67,12 @@ Une fiche par notion nouvelle, au format de SPEC-MODELE §2. Règles de rédacti
 - **Une phrase pour « Ce que c'est ».** Si ça ne tient pas en une phrase, le grain est
   mauvais : scinder.
 - **Chaque paragraphe tracé** (A11). En cas de doute sur l'endroit exact : `[ajout]`.
+- **Des phrases, pas des étiquettes.** Toute prose de fiche s'écrit en phrases complètes :
+  un sujet, un verbe conjugué. « Deux fils. », « Quatre écritures bijectives du même objet. »,
+  « Une seule brique : X. » sont des étiquettes ; elles se lisent vite et ne s'expliquent
+  pas. La contrainte mord surtout quand on rédige en série, où la même tournure revient
+  d'une fiche à l'autre sans qu'on s'en aperçoive. Relire une fiche au hasard, à froid,
+  comme si c'était la seule page ouverte.
 - **« Cesse d'être valide quand » est obligatoire**, et c'est la rubrique la plus utile.
   Si la source ne dit rien, écrire « la source ne fixe pas de limite [§x] » — c'est une
   information — et ouvrir une question dans le rapport.

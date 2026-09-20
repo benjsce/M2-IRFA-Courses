@@ -28,7 +28,7 @@ La table du cours range les trois degrés : $\rho=\lambda$ pour l’indépendanc
 Le même résultat peut recevoir un poids différent dans une bonne et dans une mauvaise loterie ; il faut résoudre la valeur conjointement avec les poids, ce qui exige des conditions assurant qu’elle est bien définie. [L3 slide 8]
 
 ## Le chemin jusqu'ici
-dup/loterie et dup/fonction-utilite donnent dup/utilite-esperee, d'où dup/utilite-ponderee. [ajout]
+dup/loterie et dup/fonction-utilite se combinent en dup/utilite-esperee, que dup/utilite-ponderee généralise une première fois. [ajout]
 
 L'utilité implicite est l'étape où les poids cessent d'être attachés aux seuls résultats pour dépendre de la loterie entière. On ne peut donc la poser qu'après la version à poids fixes : c'est une généralisation, et une généralisation se définit par ce qu'elle relâche. [ajout]
 

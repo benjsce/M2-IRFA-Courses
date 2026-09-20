@@ -24,7 +24,7 @@ détenir $1/B(t_0,t_i)$ contrats en $t_i$ [§4.2.2]
 On ne connaît plus le coût de portage à l’avance : on le suit. La position est ajustée à chaque date pour que la valeur terminale reste celle visée. [§4.2.2]
 
 ## Le chemin jusqu'ici
-fpp/convention-capitalisation, fpp/facteur-actualisation puis fpp/compte-capitalise, qui est la brique décisive. [ajout]
+Il faut fpp/convention-capitalisation, puis fpp/facteur-actualisation, puis fpp/compte-capitalise, qui est la brique décisive. [ajout]
 
 C'est le compte capitalisé qui rend la réplication *dynamique* possible : il donne le prix de l'argent réinvesti au jour le jour, donc la quantité à détenir à chaque pas. Sans lui on ne sait répliquer qu'en une fois, à l'achat, et c'est la réplication statique. [ajout]
 

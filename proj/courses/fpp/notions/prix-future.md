@@ -27,7 +27,7 @@ $$H_t=\Pi_t\!\left[\dfrac{S_T}{B(t,T)}\right]$$ [§4.2, Prop. 3, Prop. 4]
 Chaque variation est encaissée le jour même et doit être replacée à un taux inconnu : le facteur d’actualisation devient $B(t,T)$. [§4.2, Prop. 3, Prop. 4]
 
 ## Le chemin jusqu'ici
-fpp/convention-capitalisation et fpp/facteur-actualisation donnent le prix du temps ; fpp/compte-capitalise donne celui de l'argent réinvesti au jour le jour ; fpp/replication-dynamique dit comment le répliquer. [ajout]
+fpp/convention-capitalisation et fpp/facteur-actualisation fixent le prix du temps ; fpp/compte-capitalise donne celui de l'argent réinvesti au jour le jour ; fpp/replication-dynamique dit comment le répliquer. [ajout]
 
 Le future se distingue du forward par une seule chose : les appels de marge quotidiens, donc un réglage à chaque pas. C'est pourquoi son socle passe par le compte capitalisé alors que celui du forward n'en a pas besoin. Les deux prix coïncident quand les taux sont déterministes — et le socle montre exactement où cette hypothèse entre. [ajout]
 

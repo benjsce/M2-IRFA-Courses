@@ -24,7 +24,7 @@ Les modèles conséquentialistes prédisent l’invariance de description : seul
 Le cadre crée un point de référence ; gains et pertes se codent relativement à lui, et les pertes pèsent plus que les gains comparables. [L1 slide 66]
 
 ## Le chemin jusqu'ici
-dup/loterie et dup/fonction-utilite donnent dup/utilite-esperee — les notions que presque tout ce cours suppose acquises. [ajout]
+dup/loterie et dup/fonction-utilite sont les deux ingrédients de dup/utilite-esperee, et c'est contre elle que le cadrage se lit. [ajout]
 
 Le cadrage va plus loin que les effets d'Allais : il ne conteste pas un axiome, il conteste qu'on puisse identifier un problème de choix à sa description mathématique. Deux énoncés qui donnent la même loterie donnent des choix opposés. L'utilité espérée est au socle parce que c'est elle qui postule que seule la loterie compte. [ajout]
 

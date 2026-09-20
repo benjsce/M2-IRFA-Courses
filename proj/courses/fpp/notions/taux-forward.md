@@ -23,7 +23,7 @@ $$F(t,T,S)=\dfrac{1}{S-T}\ln\dfrac{P(t,T)}{P(t,S)}$$ [§2.3]
 Un taux long est une moyenne pondérée de forwards : $R(t,S)(S-t)=R(t,T)(T-t)+F(t,T,S)(S-T)$. À la limite, $f(t,T)=-\partial\ln P/\partial T$ et $P(t,T)=\exp\left(-\int_t^T f(t,u)du\right)$ — la courbe entière est l’accumulation de ses forwards. [§2.3]
 
 ## Le chemin jusqu'ici
-fpp/convention-capitalisation, fpp/facteur-actualisation, puis fpp/taux-zero-coupon qui met les maturités dans une coordonnée comparable. [ajout]
+Il faut fpp/convention-capitalisation et fpp/facteur-actualisation, puis fpp/taux-zero-coupon qui met les maturités dans une coordonnée comparable. [ajout]
 
 Le taux forward est ce que la courbe implique pour une période future : il se lit dans le rapport de deux zéro-coupons, sans aucune hypothèse sur l'avenir. C'est une conséquence de l'absence d'arbitrage, pas une prévision — distinction que l'exercice 19 rend très concrète. [ajout]
 

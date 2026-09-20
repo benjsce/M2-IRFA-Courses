@@ -24,7 +24,7 @@ Elle apparaît dès que la fonction de valeur présente un coude en zéro, ou qu
 C’est ce qui permet d’expliquer le refus de petits paris favorables, que l’utilité espérée dérivable interdit. [L2 slide 21]
 
 ## Le chemin jusqu'ici
-Même chemin que le paradoxe de Rabin, et pour cause — c'en est la sortie. dup/fonction-utilite donne dup/aversion-absolue-arrow-pratt ; dup/loterie donne dup/utilite-esperee, puis dup/equivalent-certain et dup/prime-de-risque ; dup/approximation-arrow-pratt les réunit et donne dup/aversion-second-ordre. [ajout]
+Le socle est celui du paradoxe de Rabin, et pour cause : cette fiche en est la sortie. La courbure de dup/fonction-utilite se mesure par dup/aversion-absolue-arrow-pratt ; dup/loterie, évaluée par cette utilité, porte dup/utilite-esperee, puis dup/equivalent-certain et dup/prime-de-risque ; dup/approximation-arrow-pratt réunit les deux branches et permet de nommer dup/aversion-second-ordre. [ajout]
 
 Le premier ordre se définit **par contraste** : une prime proportionnelle à l'écart type et non à la variance. Il faut donc avoir établi le second ordre, sans quoi « premier ordre » ne désigne rien. Et pour l'obtenir, il faut quitter l'utilité espérée dérivable. [ajout]
 

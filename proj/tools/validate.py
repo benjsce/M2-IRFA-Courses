@@ -304,6 +304,31 @@ def valider(root: Path, rap: Rapport):
                                  "l'affiche déjà, et la prose deviendra fausse" % (t, x.group(0)))
                 rap.dette["nombre calculé en dur"] += 1
 
+    # ---- ouvertures identiques du « chemin jusqu'ici »
+    # Rédigées en série, ces proses convergent vers un gabarit : la même phrase
+    # d'ouverture se retrouvait sur douze fiches le 2026-09-20, signalé par
+    # l'utilisateur. Une phrase identique ne se justifie que par un socle identique ;
+    # c'est le cas des grecques, qui partagent le socle de la formule.
+    ouvertures = defaultdict(list)
+    for nid, n in N.items():
+        txt = dict(n["sections"]).get("Le chemin jusqu'ici")
+        if not txt:
+            continue
+        tete = re.split(r"(?<=[.!?])\s", txt.strip().split("\n")[0])[0]
+        cle = re.sub(r"\b[a-z][a-z0-9-]*/[a-z0-9-]+\b", "X", tete).strip()
+        if len(cle) > 20:
+            ouvertures[cle].append(nid)
+    for cle, ids in sorted(ouvertures.items()):
+        if len(ids) < 2:
+            continue
+        socles = {frozenset(reach_of(i)) for i in ids}
+        if len(socles) == 1:
+            continue          # même socle : la même phrase est honnête
+        for nid in sorted(ids):
+            rap.w("A1", nid, "« Le chemin jusqu'ici » ouvre comme %d autre(s) fiche(s) "
+                             "de socle différent : « %s »" % (len(ids) - 1, cle[:60]))
+            rap.dette["chemin sur gabarit"] += 1
+
     # ---- A9 sections interdites ; rubriques, ordre, obligations, marqueurs (A11)
     for nid, n in N.items():
         m, secs = n["meta"], n["sections"]

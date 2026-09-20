@@ -29,15 +29,15 @@ Markowitz le premier propose de définir l’utilité sur les écarts à la rich
 L’aversion aux paris symétriques impose $v(x)<-v(-x)$ : la courbe est plus raide du côté des pertes. Une concavité marquée autour de zéro — un coude — explique les paradoxes d’échelle. [L3 slide 22]
 
 ## Le chemin jusqu'ici
-dup/loterie et dup/fonction-utilite donnent dup/utilite-esperee, d'où dup/cadrage. [ajout]
+dup/loterie et dup/fonction-utilite se combinent en dup/utilite-esperee, dont dup/cadrage montre les limites. [ajout]
 
 La dépendance au cadrage n'est pas anodine : la théorie des perspectives est la première du cours à faire du point de référence une **variable du modèle** plutôt qu'un artefact à éliminer. Elle transforme donc le cadrage d'anomalie en ingrédient. C'est pourquoi elle en dépend au lieu de le contredire. [ajout]
 
 ## Exemple minimal
-Le point de référence est pris comme donné : c’est le cadre qui le fixe, et le modèle ne l’explique pas. [L3 slide 20]
+Après avoir reçu 1 000, gagner 1 500 se code comme un gain de 500 ; après avoir reçu 2 000, la même richesse finale se code comme une perte de 500. [ajout]
 
 ## Geste de calcul type
 Coder d’abord les résultats en écarts au point de référence, puis appliquer $v$ et $\pi$ séparément à chaque branche. [L3 slide 21]
 
 ## Cesse d'être valide quand
-Appliquer $\pi$ branche par branche viole la dominance stochastique : $V(x,p;x-\epsilon,p;0,1-2p)>V(x,2p;0,1-2p)$ pour $\epsilon$ petit. La phase d’édition, censée y remédier, ne suffit pas. [L3 slide 26]
+Appliquer $\pi$ branche par branche viole la dominance stochastique : $V(x,p;x-\epsilon,p;0,1-2p)>V(x,2p;0,1-2p)$ pour $\epsilon$ petit. La phase d’édition, censée y remédier, ne suffit pas. [L3 slide 26] Le point de référence, lui, est pris comme donné : c’est le cadre qui le fixe, et le modèle ne l’explique pas. [L3 slide 20]

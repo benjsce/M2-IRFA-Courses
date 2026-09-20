@@ -15,7 +15,7 @@ refs:
 Nombre d’unités de devise étrangère pour une unité de devise locale. [§2.4]
 
 ## Ce qui la définit
-$X$ monte $\Rightarrow$ la devise locale s’apprécie. Facteur atomique : rien ne s’en décline. [§2.4]
+Quand $X$ monte, la devise locale s’apprécie. C’est un facteur atomique : rien ne s’en décline. [§2.4]
 
 ## Cesse d'être valide quand
 rien dans le périmètre du cours [ajout]

@@ -31,10 +31,10 @@ $$K=\dfrac{S_t\,\Phi}{D}$$ [ajout]
 Tous sont le prix comptant d’un même objet : le payoff $S_T/D$. Le prix à terme n’est jamais une formule nouvelle, c’est un prix comptant amplifié par le coût de portage. [ajout]
 
 ## Pourquoi ce niveau existe
-Quatre contrats que le cours présente séparément, sur quatre sections, alors qu’ils ne diffèrent que par deux paramètres qui commutent. C’est l’abstraction la plus rentable de la branche. [ajout]
+Le cours présente ces contrats séparément, sur autant de sections, alors qu’ils ne diffèrent que par deux paramètres qui commutent. C’est l’abstraction la plus rentable de la branche. [ajout]
 
 ## Le chemin jusqu'ici
-Trois briques indépendantes se rejoignent ici. fpp/replication-statique donne la méthode — acheter aujourd'hui, porter, livrer — et c'est elle qui fait du prix à terme un prix démontré et non un pari sur l'avenir. [ajout]
+Plusieurs briques indépendantes se rejoignent ici. fpp/replication-statique donne la méthode — acheter aujourd'hui, porter, livrer — et c'est elle qui fait du prix à terme un prix démontré et non un pari sur l'avenir. [ajout]
 
 Les deux autres chiffrent les deux jambes de cette réplication : fpp/facteur-actualisation (lui-même construit sur fpp/convention-capitalisation) dit ce que coûte l'argent qu'on immobilise, et fpp/portage ce que rapporte ou coûte la détention du sous-jacent pendant ce temps. [ajout]
 
@@ -59,7 +59,7 @@ Identifier les deux paramètres avant de calculer : le portage $\Phi$ et le fact
 [Prop. 2, Prop. 3, Déf. 8, §2.4, §3.2]
 
 ## Cesse d'être valide quand
-Deux ruptures : refinancement aléatoire (le future perd la forme fermée) ; sous-jacent et règlement dans deux devises différentes (quanto — la corrélation manque aux deux paramètres). La base $F-S$ n’est lisible comme coût de portage que hors de ces deux cas. [ajout]
+Il y a deux ruptures : refinancement aléatoire (le future perd la forme fermée) ; sous-jacent et règlement dans deux devises différentes (quanto — la corrélation manque aux deux paramètres). La base $F-S$ n’est lisible comme coût de portage que hors de ces deux cas. [ajout]
 
 ## Origine
 - exercice fpp/ex-01 : la fiche se lit à l'envers, $S_t=FD/\Phi$ [ajout]

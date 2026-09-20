@@ -24,7 +24,7 @@ $$(S_T-K)^+-(K-S_T)^+=S_T-K\ \implies\ C(S_0,K,T)-P(S_0,K,T)=S_0-KP(0,T)$$ [Prop
 C’est une identité de payoff, vraie état par état, donc une identité de prix par absence d’arbitrage. Aucun modèle n’y entre : ni volatilité, ni loi du sous-jacent. [Prop. 7]
 
 ## Le chemin jusqu'ici
-Deux fils qui se rejoignent. fpp/payoff donne fpp/call et fpp/put ; fpp/convention-capitalisation donne fpp/facteur-actualisation. [ajout]
+Deux fils se rejoignent ici. Le premier part de fpp/payoff, dont fpp/call et fpp/put sont deux cas ; le second part de fpp/convention-capitalisation et aboutit à fpp/facteur-actualisation. [ajout]
 
 La parité se démontre en deux temps, et le socle le montre : d'abord une identité entre payoffs, vraie état par état ; ensuite seulement l'actualisation, pour passer des payoffs aux prix. C'est pourquoi elle ne demande aucun modèle — elle tient là où Black et Scholes ne tient plus. [ajout]
 

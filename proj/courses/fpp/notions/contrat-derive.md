@@ -21,7 +21,7 @@ Le même moteur de valorisation : espérance du payoff sous $\mathbb{Q}$, actual
 C’est le niveau qui répond à la question « $\mathrm{NPV}=0$, est-ce propre au forward ? ». Non : c’est l’invariant d’une des deux branches, et il n’existe que parce que l’autre existe. [ajout]
 
 ## Le chemin jusqu'ici
-Toute la chaîne du prix : fpp/replication-statique, fpp/portage et fpp/facteur-actualisation (sur fpp/convention-capitalisation) donnent fpp/prix-a-terme, qui donne fpp/mesure-risque-neutre. [ajout]
+Il faut toute la chaîne du prix : fpp/replication-statique, fpp/portage et fpp/facteur-actualisation (bâti sur fpp/convention-capitalisation) se combinent en fpp/prix-a-terme, d'où sort fpp/mesure-risque-neutre. [ajout]
 
 La définition d'un contrat dérivé ne vient qu'après, et c'est volontaire : on ne sait dire « un engagement dont la valeur dépend d'un sous-jacent » que lorsqu'on sait ce qu'est *la valeur* d'un tel engagement. Nommer d'abord et évaluer ensuite aurait inversé la dépendance. [ajout]
 

@@ -27,7 +27,7 @@ La démonstration est en deux temps. L’indépendance donne l’indifférence e
 $$\mathbb{E}[u(P)]-\mathbb{E}[u(M)]=(1-\pi)\Big[u\Big(w-\tfrac{y}{2}\Big)-\tfrac{u(w-y)+u(w)}{2}\Big]\ \ge\ 0$$ [L2 slide 13]
 
 ## Le chemin jusqu'ici
-dup/loterie et dup/fonction-utilite donnent dup/utilite-esperee, d'où dup/aversion-au-risque. [ajout]
+dup/loterie fournit l'objet du choix et dup/fonction-utilite l'évaluation d'un montant certain ; ensemble elles définissent dup/utilite-esperee, dont la concavité est ce qu'on appelle dup/aversion-au-risque. [ajout]
 
 L'expérience oppose une prédiction et une observation, et les deux ont besoin de ces notions : la théorie prédit qu'un agent averse accepte la demi-couverture à demi-prix, 80 % des sujets la refusent. Sans la prédiction chiffrée, il n'y aurait qu'une curiosité ; avec elle, c'est une réfutation. [ajout]
 

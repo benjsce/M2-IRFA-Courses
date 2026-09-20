@@ -25,10 +25,10 @@ Le cours décompose le modèle de référence en trois ingrédients séparables 
 Tous surpondèrent les petites probabilités, et c’est ce qui leur permet de rendre compte à la fois de l’assurance et du billet de loterie. [L3 slide 25, L3 slide 38]
 
 ## Pourquoi ce niveau existe
-Trois modèles successifs — perspectives, dépendance au rang, perspectives cumulatives — dont chacun corrige un défaut du précédent sur ce seul point. Les lire séparément ferait manquer que c’est une seule correction, faite trois fois. [L3 slide 26, L3 slide 38]
+Le cours enchaîne ces modèles — perspectives, dépendance au rang, perspectives cumulatives — et chacun corrige un défaut du précédent sur ce seul point. Les lire séparément ferait manquer que c’est une seule correction, reprise d’un modèle à l’autre. [L3 slide 26, L3 slide 38]
 
 ## Le chemin jusqu'ici
-dup/loterie et dup/fonction-utilite donnent dup/utilite-esperee — les notions que presque tout ce cours suppose acquises. [ajout]
+Il faut dup/loterie et dup/fonction-utilite, puis dup/utilite-esperee qui les combine. [ajout]
 
 C'est la branche des généralisations qui laisse $U$ tranquille et déforme les probabilités. Nommer ce qu'on déforme suppose d'avoir la forme non déformée : l'utilité espérée est ici le point de départ dont on s'écarte, pas un ingrédient du calcul. [ajout]
 

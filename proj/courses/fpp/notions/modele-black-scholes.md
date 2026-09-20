@@ -29,7 +29,7 @@ $$S_t=S_0e^{(\mu-\frac{\sigma^2}{2})t+\sigma W_t^{\mathbb{P}}},\qquad \mathbb{E}
 ## Le chemin jusqu'ici
 Trois fils entrent ici, et c'est le nœud du cours. [ajout]
 
-**Le prix.** fpp/replication-statique, fpp/portage et fpp/facteur-actualisation (sur fpp/convention-capitalisation) donnent fpp/prix-a-terme, puis fpp/mesure-risque-neutre : un prix est une espérance actualisée. [ajout]
+**Le prix.** fpp/replication-statique, fpp/portage et fpp/facteur-actualisation (bâti sur fpp/convention-capitalisation) se combinent en fpp/prix-a-terme, puis fpp/mesure-risque-neutre : un prix est une espérance actualisée. [ajout]
 
 **L'aléa.** fpp/volatilite puis fpp/echelonnement-de-la-variance disent comment l'incertitude grandit avec le temps. [ajout]
 

@@ -14,7 +14,7 @@ refs:
 ---
 
 ## Ce que c'est
-Acheter le sous-jacent, le porter, le livrer. Aucun geste entre-temps. [§3.1]
+Acheter le sous-jacent, le porter et le livrer, sans aucun geste entre-temps. [§3.1]
 
 ## Forme
 $$(S_T-K)-\left(S_T-\dfrac{S_t}{P(t,T)}\right)=\dfrac{S_t}{P(t,T)}-K$$ [§3.1]

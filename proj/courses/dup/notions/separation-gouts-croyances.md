@@ -15,7 +15,7 @@ refs:
 La théorie de référence sépare ce qu’on aime — les goûts sur les résultats — de ce qu’on croit — les probabilités sur les états. [L1 slide 2]
 
 ## Ce qui la définit
-Deux primitives distinctes : un ensemble de résultats $X$ sur lequel portent les goûts, et un espace d’états $S$ sur lequel portent les croyances. [L1 slide 2]
+Le modèle repose sur deux primitives distinctes : un ensemble de résultats $X$ sur lequel portent les goûts, et un espace d’états $S$ sur lequel portent les croyances. [L1 slide 2]
 
 Ce qui distingue les deux régimes est l’endroit où les probabilités apparaissent : données avec l’objet, ou à inférer des choix. [L1 slide 2]
 

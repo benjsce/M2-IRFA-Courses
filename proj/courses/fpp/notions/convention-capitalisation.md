@@ -15,7 +15,7 @@ La coordonnée dans laquelle on écrit un facteur d’actualisation : linéaire,
 $$\left(1+\frac{rt}{n}\right)^{n}\xrightarrow[n\to\infty]{}e^{rt}$$ [§2.1]
 
 ## Ce qui la définit
-Quatre écritures bijectives du même objet. Aucun contenu économique. [§2.1]
+Ce sont quatre écritures bijectives du même objet, sans aucun contenu économique. [§2.1]
 
 ## Exemple minimal
 $r=5\%$ sur deux ans : facteur linéaire $1{,}10$, trimestriel $1{,}1038$, continu $1{,}1052$, actuariel $1{,}1052$. [ajout]

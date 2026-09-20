@@ -28,7 +28,7 @@ $$\Pi\big(g(S_T)\big)=P(0,T)\,\mathbb{E}^{\mathbb{Q}}\big[g(S_T)\big]$$ [Prop. 5
 $\mathbb{Q}$ n’est pas choisie, elle est contrainte : $\mathbb{E}^{\mathbb{Q}}[S_T]=F(t,T)$. Le marché à terme la calibre. La positivité des prix d’états en fait une mesure positive, et le prix du flux certain 1 en fixe la constante à $P(0,T)$. [§5.1, Prop. 5, Prop. 6]
 
 ## Le chemin jusqu'ici
-Le socle est en réalité une seule ligne. fpp/replication-statique donne la méthode, fpp/portage et fpp/facteur-actualisation (sur fpp/convention-capitalisation) en chiffrent les deux jambes, et le tout donne fpp/prix-a-terme. [ajout]
+Le socle est en réalité une seule ligne. fpp/replication-statique donne la méthode, fpp/portage et fpp/facteur-actualisation (bâti sur fpp/convention-capitalisation) en chiffrent les deux jambes, et l'ensemble aboutit à fpp/prix-a-terme. [ajout]
 
 La mesure risque-neutre est ce qu'on obtient en relisant ce prix à l'envers : si le prix à terme est le comptant capitalisé, alors il existe une probabilité sous laquelle tout prix est simplement l'espérance actualisée du flux. Aucune probabilité n'apparaît dans le socle — c'est la réplication qui l'engendre, pas une hypothèse. [ajout]
 

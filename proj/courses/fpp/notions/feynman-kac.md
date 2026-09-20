@@ -29,9 +29,9 @@ C’est ce qui réconcilie les deux voies du cours : valoriser par espérance so
 ## Le chemin jusqu'ici
 Deux routes mènent au prix, et elles sont toutes les deux dans le socle. [ajout]
 
-**Par l'espérance.** fpp/replication-statique donne la méthode, fpp/portage et fpp/facteur-actualisation (sur fpp/convention-capitalisation) en chiffrent les deux jambes, d'où fpp/prix-a-terme puis fpp/mesure-risque-neutre. [ajout]
+**Par l'espérance.** fpp/replication-statique donne la méthode, fpp/portage et fpp/facteur-actualisation (bâti sur fpp/convention-capitalisation) en chiffrent les deux jambes, d'où fpp/prix-a-terme puis fpp/mesure-risque-neutre. [ajout]
 
-**Par l'équation.** fpp/volatilite puis fpp/echelonnement-de-la-variance disent comment l'incertitude grandit avec le temps ; avec fpp/transformee-de-laplace-gaussienne, on obtient fpp/modele-black-scholes ; fpp/compte-capitalise donne fpp/replication-dynamique, et avec le modèle, fpp/edp-black-scholes. [ajout]
+**Par l'équation.** fpp/volatilite puis fpp/echelonnement-de-la-variance disent comment l'incertitude grandit avec le temps ; avec fpp/transformee-de-laplace-gaussienne, on obtient fpp/modele-black-scholes ; fpp/compte-capitalise ouvre fpp/replication-dynamique, qui avec le modèle produit fpp/edp-black-scholes. [ajout]
 
 Feynman-Kac est le théorème qui dit que ce sont les mêmes. Son socle contient nécessairement les deux routes : on ne peut pas énoncer l'équivalence de deux choses avant de disposer des deux. [ajout]
 

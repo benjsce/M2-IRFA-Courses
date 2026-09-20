@@ -23,7 +23,7 @@ $$U(c)=\mathbb{E}[U(\tilde x)]$$ [L1 slide 9]
 Il traduit une distribution entière en un seul nombre, exprimé dans l’unité des résultats et non dans celle des utilités. [L1 slide 9]
 
 ## Le chemin jusqu'ici
-dup/loterie et dup/fonction-utilite donnent dup/utilite-esperee, donc un nombre attaché à chaque pari. [ajout]
+dup/loterie et dup/fonction-utilite se combinent en dup/utilite-esperee, qui attache un nombre à chaque pari. [ajout]
 
 L'équivalent certain fait le chemin inverse : il retraduit ce nombre en montant. C'est une inversion de $U$, et c'est ce qui rend l'utilité espérée comparable à une somme d'argent — sans quoi elle resterait une échelle sans unité. Presque tout ce que le cours mesure ensuite passera par là. [ajout]
 

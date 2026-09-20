@@ -25,14 +25,14 @@ La fonction est croissante, convexe pour les pertes, concave pour les gains, et 
 ## Le chemin jusqu'ici
 Le socle est long parce que deux histoires distinctes s'y rejoignent, et c'est la fin du cours. [ajout]
 
-**Le fil du risque.** dup/fonction-utilite donne dup/aversion-absolue-arrow-pratt ; dup/loterie et la même utilité donnent dup/utilite-esperee, puis dup/equivalent-certain et dup/prime-de-risque ; dup/approximation-arrow-pratt les réunit, d'où dup/aversion-second-ordre puis dup/aversion-premier-ordre. Ce fil dit ce qu'il **faut** : une prime proportionnelle à l'écart type. [ajout]
+**Le fil du risque.** La courbure de dup/fonction-utilite se mesure par dup/aversion-absolue-arrow-pratt ; cette même utilité, appliquée à dup/loterie, définit dup/utilite-esperee, puis dup/equivalent-certain et dup/prime-de-risque ; dup/approximation-arrow-pratt réunit les deux branches, ce qui permet de nommer dup/aversion-second-ordre, à quoi s'oppose dup/aversion-premier-ordre. Ce fil dit ce qu'il **faut** : une prime proportionnelle à l'écart type. [ajout]
 
-**Le fil du comportement.** dup/cadrage donne dup/theorie-des-perspectives, et avec elle un point de référence. Ce fil dit ce qu'on **observe** : un coude dans la fonction de valeur. [ajout]
+**Le fil du comportement.** dup/cadrage conduit à dup/theorie-des-perspectives, et avec elle à un point de référence. Ce fil dit ce qu'on **observe** : un coude dans la fonction de valeur. [ajout]
 
 L'aversion aux pertes est exactement le point où les deux se referment : un coude au point de référence produit une prime du premier ordre. C'est pourquoi elle est au niveau le plus profond du cours — non parce qu'elle est difficile, mais parce qu'elle est la conclusion. [ajout]
 
 ## Exemple minimal
-Avec $\beta=1$ et $\lambda=2$, perdre 100 coûte autant que gagner 200 rapporte. [ajout]
+Avec $\beta=1$ et $\lambda=2$ : gagner 100 vaut $+100$, perdre 100 vaut $-200$. La perte pèse deux fois le gain de même taille. [ajout]
 
 ## Geste de calcul type
 Chercher la limite du rapport $-u(-x)/u(x)$ quand $x\to0^+$ : si elle dépasse un, il y a un coude, donc aversion du premier ordre. [L3 slide 39]

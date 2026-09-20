@@ -22,7 +22,7 @@ C’est le trait commun à l’effet de conséquence commune et à l’effet de 
 Il survit dans les modèles récents sous forme d’axiome : l’indépendance de certitude négative n’impose le mélange que dans un sens, celui qui part d’une préférence pour le risqué. [L3 slide 15]
 
 ## Le chemin jusqu'ici
-dup/loterie et dup/fonction-utilite donnent dup/utilite-esperee, d'où dup/effet-consequence-commune. [ajout]
+dup/loterie et dup/fonction-utilite se combinent en dup/utilite-esperee, dont dup/effet-consequence-commune est la première violation observée. [ajout]
 
 L'effet de certitude en est la lecture resserrée : parmi tous les renversements que l'effet d'Allais produit, ceux qui touchent au passage de la certitude à la quasi-certitude sont les plus massifs. On part donc du phénomène général pour isoler le cas frappant, et non l'inverse. [ajout]
 

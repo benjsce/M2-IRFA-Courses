@@ -26,7 +26,7 @@ C’est exactement la quantité de sous-jacent à détenir en sens inverse pour 
 ## Le chemin jusqu'ici
 Le socle est long, mais il ne raconte qu'une seule histoire, en trois temps. [ajout]
 
-**Poser le prix.** fpp/replication-statique, fpp/portage et fpp/facteur-actualisation (sur fpp/convention-capitalisation) donnent fpp/prix-a-terme, qui donne fpp/mesure-risque-neutre : à ce stade un prix est une espérance actualisée. [ajout]
+**Poser le prix.** fpp/replication-statique, fpp/portage et fpp/facteur-actualisation (bâti sur fpp/convention-capitalisation) se combinent en fpp/prix-a-terme, d'où sort fpp/mesure-risque-neutre : à ce stade, un prix est une espérance actualisée. [ajout]
 
 **Poser l'aléa.** fpp/volatilite puis fpp/echelonnement-de-la-variance disent de combien le sous-jacent bouge et comment cela grandit avec le temps ; avec fpp/transformee-de-laplace-gaussienne, on obtient fpp/modele-black-scholes. [ajout]
 

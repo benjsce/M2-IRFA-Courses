@@ -27,7 +27,7 @@ L’axiome affaibli est l’indépendance faible : si $P\sim Q$, il existe pour 
 La probabilité effective d’un résultat devient $p_i^w=p_iw(x_i)/\sum_j p_jw(x_j)$ : un prix est conservé avec probabilité $w(x_i)$, sinon la loterie est retirée. [L3 slide 6]
 
 ## Le chemin jusqu'ici
-dup/loterie et dup/fonction-utilite donnent dup/utilite-esperee — les notions que presque tout ce cours suppose acquises. [ajout]
+dup/loterie et dup/fonction-utilite définissent dup/utilite-esperee, dont cette fiche déforme la formule. [ajout]
 
 Un poids propre attaché à chaque résultat : c'est la déformation la plus simple qu'on puisse faire subir à la formule de l'utilité espérée, en gardant sa structure de moyenne. D'où la dépendance directe — la fiche modifie une formule, il faut donc l'avoir. [ajout]
 

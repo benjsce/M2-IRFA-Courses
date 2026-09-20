@@ -24,7 +24,7 @@ La condition nécessaire et suffisante est l’existence d’une transformation 
 La démonstration tient en quatre lignes : définition de $\phi$, inégalité de Jensen, indifférence de $u_2$, définition de $\phi$ à nouveau. [L1 slide 30]
 
 ## Le chemin jusqu'ici
-dup/fonction-utilite puis dup/aversion-absolue-arrow-pratt, qui donne la mesure ponctuelle. [ajout]
+Il faut dup/fonction-utilite, puis dup/aversion-absolue-arrow-pratt qui en tire une mesure ponctuelle de la courbure. [ajout]
 
 La comparaison entre deux agents ne peut venir qu'après : il faut une grandeur avant de pouvoir dire que l'un l'a plus grande que l'autre. Le résultat, lui, est fort — comparer les $A(z)$ en tout point équivaut à comparer les comportements. [ajout]
 

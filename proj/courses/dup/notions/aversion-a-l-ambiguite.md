@@ -18,7 +18,7 @@ Préférer un risque de probabilité connue à un risque de probabilité mal sp�
 Elle est distincte de l’aversion au risque ordinaire, qui porte sur les résultats : ici c’est l’imprécision de la croyance qui est fuie, pas la dispersion du paiement. [L1 slide 63]
 
 ## Le chemin jusqu'ici
-Toute la construction de Savage : dup/acte et dup/fonction-utilite donnent dup/utilite-esperee-subjective, que dup/principe-de-la-chose-sure rend possible et que dup/paradoxe-d-ellsberg met en défaut. [ajout]
+Il faut d'abord toute la construction de Savage : dup/acte et dup/fonction-utilite s'y combinent en dup/utilite-esperee-subjective, que dup/principe-de-la-chose-sure rend possible et que dup/paradoxe-d-ellsberg met en défaut. [ajout]
 
 L'aversion à l'ambiguïté est le nom donné au comportement qu'Ellsberg exhibe : préférer la probabilité connue. Elle vient après le paradoxe parce qu'elle n'est pas une observation nouvelle, c'est une **interprétation** de celle-là — et c'est elle qui ouvre les deux réparations que le cours propose ensuite. [ajout]
 

@@ -33,7 +33,7 @@ Pour une matière première ce serait le convenience yield : la source ne le tra
 [§3.2, §5.2.1, §2.4]
 
 ## Cesse d'être valide quand
-Cesse d’être un scalaire si les dividendes sont en montant fixe : $F=\frac{S_t-\sum_i D_iP(t,T_i)}{P(t,T)}$, et les dates de détachement réapparaissent. [ajout]
+Le portage cesse d’être un scalaire si les dividendes sont en montant fixe : $F=\frac{S_t-\sum_i D_iP(t,T_i)}{P(t,T)}$, et les dates de détachement réapparaissent. [ajout]
 
 ## Origine
 - exercice fpp/ex-01 (c)(d) : « 8 % de la valeur de l'action » ne fixe pas la convention cum/ex ; $\Phi=1-d$ (cours) donne 59,97, $\Phi=1/(1+d)$ (corrigé) donne 59,59 [ajout]

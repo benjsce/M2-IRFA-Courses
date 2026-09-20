@@ -21,7 +21,7 @@ Remplacer la probabilité additive par une capacité, qui pondère les événeme
 Les poids de décision peuvent alors refléter la non-additivité des croyances et l’ambiguïté d’un événement, ce qu’une probabilité interdit par construction. [L1 slide 64]
 
 ## Le chemin jusqu'ici
-Même chemin que l'autre réponse à l'ambiguïté : dup/acte et dup/fonction-utilite donnent dup/utilite-esperee-subjective, que dup/principe-de-la-chose-sure rend possible et que dup/paradoxe-d-ellsberg met en défaut, d'où dup/aversion-a-l-ambiguite. [ajout]
+Le socle est celui de l'autre réponse à l'ambiguïté : dup/acte et dup/fonction-utilite se combinent en dup/utilite-esperee-subjective, que dup/principe-de-la-chose-sure rend possible et que dup/paradoxe-d-ellsberg met en défaut, d'où dup/aversion-a-l-ambiguite. [ajout]
 
 Ce qui est propre à celle-ci : on garde une seule mesure mais on lui retire l'additivité. Une capacité peut attribuer aux deux moitiés d'un événement moins que le tout, et c'est exactement ce défaut d'additivité qui encode l'aversion à l'ambiguïté. [ajout]
 

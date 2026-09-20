@@ -24,7 +24,7 @@ Toutes répondent à la même question posée sur une variable différente : de 
 La table du §8.2 les donne ensemble, avec pour chacune le sens de variation du prix, de la valeur intrinsèque et de la valeur temps. [§8.2]
 
 ## Pourquoi ce niveau existe
-Six dérivées que le cours présente dans une seule table, qui ne diffèrent que par la variable dérivée et se couvrent toutes de la même façon. Les séparer sans les réunir ferait perdre que couvrir est toujours le même geste. [§8.2]
+Le cours présente ces dérivées dans une seule table ; elles ne diffèrent que par la variable dérivée et se couvrent toutes de la même façon. Les séparer sans les réunir ferait perdre que couvrir est toujours le même geste. [§8.2]
 
 ## Cesse d'être valide quand
 Une sensibilité est locale : elle vaut au point où elle est calculée et se périme dès que le paramètre bouge. Le gamma mesure précisément cette péremption pour le delta. [ajout]

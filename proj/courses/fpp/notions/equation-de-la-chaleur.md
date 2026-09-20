@@ -27,11 +27,11 @@ Le passage au forward est possible parce que les dérivées en espace de $F$ et 
 ## Le chemin jusqu'ici
 C'est le socle le plus long du cours, et il n'est long que parce que cette fiche est la dernière. [ajout]
 
-**Le prix.** fpp/replication-statique donne la méthode, fpp/portage et fpp/facteur-actualisation (sur fpp/convention-capitalisation) en chiffrent les deux jambes, d'où fpp/prix-a-terme puis fpp/mesure-risque-neutre. [ajout]
+**Le prix.** fpp/replication-statique donne la méthode, fpp/portage et fpp/facteur-actualisation (bâti sur fpp/convention-capitalisation) en chiffrent les deux jambes, d'où fpp/prix-a-terme puis fpp/mesure-risque-neutre. [ajout]
 
 **L'aléa.** fpp/volatilite puis fpp/echelonnement-de-la-variance disent comment l'incertitude grandit avec le temps ; avec fpp/transformee-de-laplace-gaussienne, on obtient fpp/modele-black-scholes. [ajout]
 
-**L'équation.** fpp/compte-capitalise donne fpp/replication-dynamique, d'où fpp/edp-black-scholes, dont fpp/feynman-kac donne la lecture probabiliste. [ajout]
+**L'équation.** fpp/compte-capitalise ouvre fpp/replication-dynamique, d'où fpp/edp-black-scholes, dont fpp/feynman-kac fournit la lecture probabiliste. [ajout]
 
 Rien n'est ajouté ici sur le plan financier : deux changements de variables, et l'équation devient l'équation de la chaleur. Il a fallu tout construire pour y arriver ; cette fiche, elle, ne fait que la réécrire. C'est la seule étape purement mathématique. [ajout]
 

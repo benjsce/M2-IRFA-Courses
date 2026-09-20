@@ -27,7 +27,7 @@ Elle remplace l’équivalence de l’indépendance par une implication à sens 
 Graphiquement, elle impose que les courbes d’indifférence s’ouvrent en éventail. D’autres auteurs défendent un éventail mixte, où le motif s’inverse dans l’autre sens. [L2 slide 18]
 
 ## Le chemin jusqu'ici
-dup/loterie et dup/fonction-utilite donnent dup/utilite-esperee, d'où partent deux fils : dup/effet-consequence-commune, le phénomène à expliquer, et dup/triangle-des-probabilites, l'endroit où on le lit. [ajout]
+dup/loterie et dup/fonction-utilite définissent dup/utilite-esperee, et de là deux choses sont nécessaires : dup/effet-consequence-commune, le phénomène à expliquer, et dup/triangle-des-probabilites, l'endroit où on le lit. [ajout]
 
 L'hypothèse II est une contrainte géométrique sur les courbes d'indifférence dans le triangle — elles s'évasent au lieu de rester parallèles. Elle a donc besoin du triangle pour être formulée et de l'effet d'Allais pour avoir une raison d'être : elle autorise les renversements observés et interdit les autres. [ajout]
 

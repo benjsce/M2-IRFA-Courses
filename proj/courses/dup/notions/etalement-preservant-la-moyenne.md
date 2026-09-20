@@ -23,7 +23,7 @@ Déplacer de la probabilité du centre vers les queues en laissant la moyenne in
 $F^*$ est plus risquée que $F$ si elle s’obtient à partir de $F$ par une suite de tels étalements. [L1 slide 21]
 
 ## Le chemin jusqu'ici
-Une seule brique : dup/loterie. [ajout]
+Le socle se limite à dup/loterie. [ajout]
 
 Déplacer de la probabilité vers les queues à moyenne constante est une opération sur la distribution, pas sur les préférences. Le socle s'arrête donc là. Que cela corresponde à « plus risqué » est un théorème, qui viendra quand l'utilité sera disponible. [ajout]
 

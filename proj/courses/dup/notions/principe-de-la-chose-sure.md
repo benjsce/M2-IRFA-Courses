@@ -21,7 +21,7 @@ Les conséquences communes hors de l’événement s’annulent : c’est l’an
 Trois idées le soutiennent : des classements de conséquences stables d’un événement non nul à l’autre, des événements assez riches pour calibrer la vraisemblance, et la cohérence entre comparaison d’événements et préférence sur les actes. [L1 slide 60]
 
 ## Le chemin jusqu'ici
-dup/acte et dup/fonction-utilite donnent dup/utilite-esperee-subjective — la construction de Savage, où la probabilité n'est pas donnée mais déduite. [ajout]
+dup/acte et dup/fonction-utilite se combinent en dup/utilite-esperee-subjective — la construction de Savage, où la probabilité n'est pas donnée mais déduite. [ajout]
 
 Le principe de la chose sûre est l'axiome qui rend cette déduction possible : sans lui, les choix de l'agent ne définissent aucune probabilité. Il apparaît après la représentation parce que le cours part du résultat pour remonter à ce qui le rend vrai. [ajout]
 

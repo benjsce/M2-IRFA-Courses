@@ -22,7 +22,7 @@ $$\dfrac{\partial P(t,r)}{P(t,r)\,\partial r}=-t$$ [Déf. 5]
 Une variation instantanée du taux agit sur toute la vie du titre : la sensibilité relative est la maturité elle-même. [Déf. 5]
 
 ## Le chemin jusqu'ici
-Même chaîne : fpp/convention-capitalisation, fpp/facteur-actualisation, fpp/valeur-actuelle-nette. [ajout]
+La chaîne est la même que pour un contrat à prime nulle : fpp/convention-capitalisation, puis fpp/facteur-actualisation, puis fpp/valeur-actuelle-nette qui somme l'échéancier. [ajout]
 
 Une fois le prix d'un échéancier écrit comme fonction du taux, la sensibilité n'est qu'une dérivée. C'est la première fois du cours qu'on dérive un prix ; la même opération reviendra pour les grecques, sur une autre variable. [ajout]
 

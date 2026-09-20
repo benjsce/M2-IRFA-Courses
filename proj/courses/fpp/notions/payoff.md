@@ -20,7 +20,7 @@ La fonction qui dit combien le contrat paie, en fonction de ce qu’on a observ�
 $$\mathrm{Call}(S_T,K)=(S_T-K)^+,\qquad \mathrm{Put}(S_T,K)=(K-S_T)^+,\qquad x^+=\max(x,0)$$ [Déf. 11]
 
 ## Ce qui la définit
-Une fonction de plusieurs observables : valeur finale, maximum, minimum, moyenne, franchissement d’une barrière. Le payoff est le contrat ; tout le reste est valorisation. [Déf. 11]
+C’est une fonction de plusieurs observables : valeur finale, maximum, minimum, moyenne, franchissement d’une barrière. Le payoff est le contrat ; tout le reste est valorisation. [Déf. 11]
 
 Les payoffs élémentaires se combinent : call spread, option digitale, straddle s’obtiennent par sommes et différences de calls et de puts. [§9.1]
 

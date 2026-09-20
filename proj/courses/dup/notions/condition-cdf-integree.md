@@ -20,10 +20,10 @@ Le critère analytique de l’accroissement de risque : l’aire sous la fonctio
 $$\int_0^x\big[F^*(t)-F(t)\big]\,dt\ \ge\ 0\quad\forall x\in[0,M],\qquad\text{avec égalité en }x=M$$ [L1 slide 22]
 
 ## Ce qui la définit
-C’est la seule des quatre formulations qui survive à une suite quelconque d’étalements, quel que soit le nombre de croisements des répartitions. [L1 slide 22]
+C’est la seule des formulations équivalentes qui survive à une suite quelconque d’étalements, quel que soit le nombre de croisements des répartitions. [L1 slide 22]
 
 ## Le chemin jusqu'ici
-Une seule brique : dup/loterie. [ajout]
+Tout part de dup/loterie, et de rien d'autre. [ajout]
 
 Le critère est purement analytique : il compare des aires sous des fonctions de répartition. Aucune utilité, aucun agent n'intervient — et c'est tout l'intérêt, puisqu'on cherche précisément un critère sur lequel tous les agents averses s'accorderont. [ajout]
 

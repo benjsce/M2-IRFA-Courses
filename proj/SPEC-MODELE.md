@@ -125,7 +125,17 @@ Ce qu'il ne fait pas :
 - **il n'écrit aucun nombre dérivé en dur.** « Treize notions » devient faux la semaine où
   une dépendance change, et rien ne le signale. Le nombre est déjà affiché par le
   générateur, à côté du titre de la rubrique ;
-- **il ne nomme aucune notion absente du socle.** Le validateur le refuse.
+- **il ne nomme aucune notion absente du socle.** Le validateur le refuse ;
+- **il n'écrit pas une arête du graphe à la place d'une phrase.** « X et Y donnent Z » n'est
+  pas du français : « donner » y sert de flèche, pas de verbe. Une notion *fournit* un objet,
+  *évalue*, *se combine en*, *se déduit de*. La liste des dépendances est déjà affichée sous
+  le paragraphe ; celui-ci doit dire ce qu'aucune flèche ne dit. *Relevé le 2026-09-20 :
+  « donne » ou « donnent » servait de verbe d'arête 109 fois dans 97 chemins* ;
+- **il ne reprend pas l'ouverture d'une autre fiche**, sauf si les deux fiches ont
+  exactement le même socle — c'est le cas des grecques, qui partagent celui de la formule.
+  Une phrase identique sur deux socles différents signale une rédaction au gabarit, pas une
+  parenté. Le validateur compare les ouvertures et les socles, et compte les récidives.
+  *Relevé le 2026-09-20 : douze fiches ouvraient sur la même phrase au mot près.*
 
 **Pourquoi cette rubrique est écrite et non dérivée.** Le socle, lui, est calculé (A9). La
 raison pour laquelle ces notions-là y figurent ne l'est pas : c'est du contenu. Le risque,

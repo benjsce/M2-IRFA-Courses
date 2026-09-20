@@ -23,7 +23,7 @@ $$\pi(\tilde x)=\mathbb{E}[\tilde x]-c,\qquad \mathbb{E}u(w_0+X)=u(w_0-\pi)$$ [L
 Sous aversion au risque, $c\le\mathbb{E}[\tilde x]$ et donc $\pi\ge0$ ; plus d’aversion implique une prime plus grande. [L1 slide 9, L1 slide 31]
 
 ## Le chemin jusqu'ici
-dup/loterie et dup/fonction-utilite donnent dup/utilite-esperee, d'où dup/equivalent-certain. [ajout]
+dup/loterie et dup/fonction-utilite se combinent en dup/utilite-esperee, dont on tire dup/equivalent-certain. [ajout]
 
 La prime de risque en est la simple différence à la moyenne. Elle n'ajoute aucun concept — mais elle change l'unité de mesure : on passe d'un montant équivalent à un **coût**, ce qui la rend comparable d'une loterie à l'autre et ouvre tout le chapitre des approximations. [ajout]
 

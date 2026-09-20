@@ -24,7 +24,7 @@ $$u(z)=\dfrac{z^{1-\gamma}}{1-\gamma}\ \implies\ A(z)=\dfrac{\gamma}{z}$$ [L1 sl
 C’est la forme que le cours retient pour toutes ses calibrations, parce que la prime y est proportionnelle à la richesse et donc exprimable en pourcentage. [L1 slide 35, L1 slide 36]
 
 ## Le chemin jusqu'ici
-Une seule brique : dup/fonction-utilite. [ajout]
+Rien d'autre au socle que dup/fonction-utilite. [ajout]
 
 Comme CARA, c'est une contrainte sur la forme de $U$, posée avant toute loterie. La différence tient au fait qu'on normalise par la richesse au lieu de la laisser hors du calcul : c'est ce qui rend CRRA naturelle dès qu'on raisonne en rendements plutôt qu'en montants. [ajout]
 

@@ -22,7 +22,7 @@ $$\sigma^2(t_1+t_2)=\sigma^2(t_1)+\sigma^2(t_2)\ \implies\ \sigma^2(T)=\sigma^2T
 Deux hypothèses seulement : les accroissements sont tirés de la même loi, et ils sont indépendants. L’additivité de la variance suit, et la racine du temps avec elle. [§5.3]
 
 ## Le chemin jusqu'ici
-Une seule brique : fpp/volatilite, qui donne l'écart type du rendement sur une période. [ajout]
+Le socle se réduit à fpp/volatilite, qui donne l'écart type du rendement sur une période. [ajout]
 
 Le pas suivant est une hypothèse, pas un calcul : si les accroissements sont indépendants et stationnaires, les variances s'additionnent. D'où $\sigma(T)=\sigma\sqrt T$, la racine carrée qui traversera tout le reste du cours. [ajout]
 

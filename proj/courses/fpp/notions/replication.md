@@ -18,7 +18,7 @@ Démontrer un prix en construisant un portefeuille qui reproduit le flux et dont
 Le même schéma : si un portefeuille reproduit le payoff dans tous les états, son coût est le prix du payoff — sinon, arbitrage. [ajout]
 
 ## Pourquoi ce niveau existe
-Deux méthodes, et le passage de l’une à l’autre est l’événement majeur du cours. Il survient deux fois, pour deux raisons distinctes. [ajout]
+Le passage d’une méthode à l’autre est l’événement majeur du cours, et il survient deux fois, pour deux raisons distinctes. [ajout]
 
 ## Cesse d'être valide quand
 rien dans le périmètre du cours [ajout]

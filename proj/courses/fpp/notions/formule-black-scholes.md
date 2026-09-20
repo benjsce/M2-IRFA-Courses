@@ -23,12 +23,12 @@ $$C=S_0N(d_1)-Ke^{-rT}N(d_2),\qquad P=Ke^{-rT}N(-d_2)-S_0N(-d_1)$$
 $$d_1=\dfrac{\ln(S_0/K)+\big(r+\tfrac{\sigma^2}{2}\big)T}{\sigma\sqrt{T}},\qquad d_2=d_1-\sigma\sqrt{T}$$ [éq. 3, éq. 4, éq. 5, éq. 6]
 
 ## Ce qui la définit
-Une seule formule, trois jeux d’entrées. La version en forward et zéro-coupon — la formule de Black — est la plus générale : les deux autres s’en déduisent en remplaçant $F$ par $S_0$ ou $S_0e^{-qT}$. [§6.4, §6.5]
+C’est une seule formule avec trois jeux d’entrées possibles. La version en forward et zéro-coupon — la formule de Black — est la plus générale : les deux autres s’en déduisent en remplaçant $F$ par $S_0$ ou $S_0e^{-qT}$. [§6.4, §6.5]
 
 ## Le chemin jusqu'ici
 Trois fils se nouent ici, et c'est l'aboutissement du cours. [ajout]
 
-**Le prix.** fpp/replication-statique donne la méthode, fpp/portage et fpp/facteur-actualisation (sur fpp/convention-capitalisation) en chiffrent les deux jambes, d'où fpp/prix-a-terme puis fpp/mesure-risque-neutre : un prix est une espérance actualisée. [ajout]
+**Le prix.** fpp/replication-statique donne la méthode, fpp/portage et fpp/facteur-actualisation (bâti sur fpp/convention-capitalisation) en chiffrent les deux jambes, d'où fpp/prix-a-terme puis fpp/mesure-risque-neutre : un prix est une espérance actualisée. [ajout]
 
 **L'aléa.** fpp/volatilite puis fpp/echelonnement-de-la-variance disent comment l'incertitude grandit avec le temps ; avec fpp/transformee-de-laplace-gaussienne, on obtient fpp/modele-black-scholes. [ajout]
 
@@ -51,7 +51,7 @@ Calculer $d_1$, en déduire $d_2=d_1-\sigma\sqrt T$, lire $N(d_1)$ et $N(d_2)$, 
 [éq. 7, éq. 8, éq. 9, éq. 10, éq. 11, éq. 12, éq. 13, éq. 14]
 
 ## Cesse d'être valide quand
-Volatilité constante, taux déterministe, exercice européen, pas de friction. La volatilité implicite du marché varie avec le strike — le smile — ce qui contredit directement la première hypothèse. [ajout]
+La formule suppose une volatilité constante, un taux déterministe, un exercice européen et l’absence de friction. La volatilité implicite du marché varie avec le strike — le smile — ce qui contredit directement la première hypothèse. [ajout]
 
 ## Origine
 - exercice fpp/ex-07 : la limite gênante n'est pas « taux constant » mais l'égalité prix future = prix forward, qui suppose la corrélation taux–sous-jacent nulle [ajout]

@@ -21,10 +21,10 @@ Le prix convenu aujourd’hui pour acheter une action à une date future. [§3.1
 $$F(t,T)=\dfrac{S_t\,\Phi}{P(t,T)}$$ [§3.1, §3.2]
 
 ## Ce qui la définit
-Cas le plus simple du prix à terme : règlement unique, devise du sous-jacent. Tout le contenu propre tient dans $\Phi$. [ajout]
+C’est le cas le plus simple du prix à terme : règlement unique, dans la devise du sous-jacent. Tout le contenu propre tient dans $\Phi$. [ajout]
 
 ## Le chemin jusqu'ici
-Trois briques indépendantes. fpp/portage dit ce que coûte ou rapporte la détention du sous-jacent jusqu'à l'échéance. fpp/facteur-actualisation, construit sur fpp/convention-capitalisation, dit ce que coûte l'argent immobilisé. [ajout]
+Le socle réunit des briques indépendantes. fpp/portage dit ce que coûte ou rapporte la détention du sous-jacent jusqu'à l'échéance ; fpp/facteur-actualisation, construit sur fpp/convention-capitalisation, dit ce que coûte l'argent immobilisé. [ajout]
 
 Le prix forward est le comptant corrigé de ces deux termes, et de rien d'autre. Remarquez ce qui n'est pas dans le socle : aucune probabilité, aucune prévision. Le prix forward n'est pas une anticipation du cours futur. [ajout]
 

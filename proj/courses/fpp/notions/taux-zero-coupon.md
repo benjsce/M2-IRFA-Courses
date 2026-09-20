@@ -18,7 +18,7 @@ Le facteur d’actualisation réécrit en rendement annualisé, pour être compa
 $$R(t,T)=-\dfrac{\ln P(t,T)}{T-t}$$ [§2.3]
 
 ## Ce qui la définit
-Court terme en taux linéaire $L$, long terme en taux continu $R$ : pure convention d’affichage de la courbe. [Déf. 6]
+La courbe s’affiche en taux linéaire $L$ sur le court terme et en taux continu $R$ sur le long terme : c’est une pure convention d’affichage. [Déf. 6]
 
 ## Le chemin jusqu'ici
 fpp/convention-capitalisation puis fpp/facteur-actualisation donnent un prix, $P(t,T)$. [ajout]
