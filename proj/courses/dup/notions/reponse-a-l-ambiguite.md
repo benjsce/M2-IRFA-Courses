@@ -23,7 +23,7 @@ Toutes deux renoncent à la probabilité additive unique, et toutes deux rationa
 Le cours les présente côte à côte, sur une seule slide, en concluant qu’elles « impliquent des attitudes et des statiques comparatives différentes ». C’est le seul endroit où cette comparaison a une place. [L1 slide 64]
 
 ## Le chemin jusqu'ici
-Toute la chaîne de Savage, jusqu'à dup/aversion-a-l-ambiguite. [ajout]
+Toute la construction de Savage : dup/acte et dup/fonction-utilite donnent dup/utilite-esperee-subjective, que dup/principe-de-la-chose-sure rend possible et que dup/paradoxe-d-ellsberg met en défaut, d'où dup/aversion-a-l-ambiguite. [ajout]
 
 Cette fiche ne propose pas une théorie : elle nomme le fait qu'il y en a **deux**, et ce qu'elles ont en commun. Son socle est donc celui du problème, pas celui des solutions — on ne peut regrouper deux réponses qu'une fois la question posée. [ajout]
 

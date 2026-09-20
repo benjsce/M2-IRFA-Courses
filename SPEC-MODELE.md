@@ -107,11 +107,21 @@ donne la raison. Il nomme les notions par leur identifiant, ce qui les rend cliq
 vérifiables. Il se rend en tête de la rubrique générée « Socle complet », pas à sa place
 dans le fichier : c'est là que la question se pose.
 
+**Il nomme chaque notion du socle, sans exception.** Le validateur compte celles qu'il
+oublie et les signale. La règle a un coût — sur un socle de quatorze notions, il faut les
+faire tenir dans un récit — mais l'alternative est pire : nommer trois notions sur quatre
+laisse le lecteur devant la question même que la rubrique existe pour éviter. *Constaté le
+2026-09-20 par l'utilisateur, sur `dup/assurance-probabiliste`, qui n'en nommait qu'une sur
+quatre ; 35 fiches sur 97 étaient dans ce cas et ont été réécrites.*
+
 Ce qu'il ne fait pas :
 
-- **il ne recopie pas la liste.** Une énumération dans l'ordre des niveaux n'apprend rien
-  que la liste ne montre déjà. Sur un socle long, il faut une ligne narrative — le socle de
-  `fpp/delta` compte treize notions et une seule histoire, en trois temps ;
+- **il ne recopie pas la liste.** Les nommer toutes n'est pas les énumérer : une liste dans
+  l'ordre des niveaux n'apprend rien que la liste générée ne montre déjà. Il faut une ligne
+  narrative — le socle de `fpp/delta` a une seule histoire, en trois temps ;
+- **il n'emploie aucun raccourci qui ne se comprenne pas sur cette page seule.** « Le socle
+  commun », « toute la chaîne de Savage », « même socle que X » : ces formules économisent
+  l'écriture et coûtent la lecture. Elles sont apparues sur 21 fiches et ont été retirées ;
 - **il n'écrit aucun nombre dérivé en dur.** « Treize notions » devient faux la semaine où
   une dépendance change, et rien ne le signale. Le nombre est déjà affiché par le
   générateur, à côté du titre de la rubrique ;

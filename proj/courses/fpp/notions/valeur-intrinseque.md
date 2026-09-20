@@ -24,7 +24,7 @@ $$\mathrm{IV}=e^{-rT}\,g\big(\mathbb{E}(S_T)\big)$$ [Déf. 12]
 On échange l’ordre de $g$ et de l’espérance : c’est exactement le terme que l’inégalité de Jensen sépare du vrai prix. [Déf. 12]
 
 ## Le chemin jusqu'ici
-Deux fils. L'un va de fpp/replication-statique, fpp/portage et fpp/facteur-actualisation à fpp/prix-a-terme puis fpp/mesure-risque-neutre : de quoi évaluer. L'autre est fpp/payoff : quoi évaluer. [ajout]
+Deux fils. L'un va de fpp/replication-statique, fpp/portage et fpp/facteur-actualisation (sur fpp/convention-capitalisation) à fpp/prix-a-terme puis fpp/mesure-risque-neutre : de quoi évaluer. L'autre est fpp/payoff : quoi évaluer. [ajout]
 
 La valeur intrinsèque est ce qu'on obtient en intervertissant les deux : évaluer le payoff *en la moyenne* au lieu de prendre la moyenne des évaluations. Il fallait donc disposer des deux opérations pour pouvoir les échanger, et c'est l'écart entre elles qui portera un nom à la fiche suivante. [ajout]
 

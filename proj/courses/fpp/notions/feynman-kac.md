@@ -27,7 +27,11 @@ Pour que $f(t,X_t)$ soit une martingale, sa partie à variation finie doit être
 C’est ce qui réconcilie les deux voies du cours : valoriser par espérance sous $\mathbb{Q}$, ou valoriser en résolvant une équation. [§7.2]
 
 ## Le chemin jusqu'ici
-Le socle est celui de fpp/edp-black-scholes, plus elle. Deux routes y mènent, et elles sont déjà toutes les deux dans le socle : fpp/mesure-risque-neutre, qui donne les prix comme espérances, et fpp/edp-black-scholes, qui les donne comme solutions d'une équation. [ajout]
+Deux routes mènent au prix, et elles sont toutes les deux dans le socle. [ajout]
+
+**Par l'espérance.** fpp/replication-statique donne la méthode, fpp/portage et fpp/facteur-actualisation (sur fpp/convention-capitalisation) en chiffrent les deux jambes, d'où fpp/prix-a-terme puis fpp/mesure-risque-neutre. [ajout]
+
+**Par l'équation.** fpp/volatilite puis fpp/echelonnement-de-la-variance disent comment l'incertitude grandit avec le temps ; avec fpp/transformee-de-laplace-gaussienne, on obtient fpp/modele-black-scholes ; fpp/compte-capitalise donne fpp/replication-dynamique, et avec le modèle, fpp/edp-black-scholes. [ajout]
 
 Feynman-Kac est le théorème qui dit que ce sont les mêmes. Son socle contient nécessairement les deux routes : on ne peut pas énoncer l'équivalence de deux choses avant de disposer des deux. [ajout]
 

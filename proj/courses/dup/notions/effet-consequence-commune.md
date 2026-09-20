@@ -30,7 +30,7 @@ Les deux inégalités finales se contredisent exactement : le même terme appara
 Le trait qui déclenche la violation est le passage de la certitude à une petite chance de ne rien avoir : c’est l’effet de certitude. [L1 slide 43]
 
 ## Le chemin jusqu'ici
-Le socle commun : dup/loterie, dup/fonction-utilite, dup/utilite-esperee. [ajout]
+dup/loterie et dup/fonction-utilite donnent dup/utilite-esperee — les trois notions que presque tout ce cours suppose acquises. [ajout]
 
 Ici se joue quelque chose qui vaut pour toute la série des paradoxes : **une violation a besoin de la théorie qu'elle viole.** L'effet de conséquence commune n'est pas un fait brut sur des choix ; c'est un écart, et un écart se mesure par rapport à une prédiction. L'utilité espérée est au socle comme la règle graduée est au socle d'une mesure d'erreur. [ajout]
 

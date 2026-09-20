@@ -29,7 +29,7 @@ La dérivation passe par un développement de Taylor à l’ordre deux de l’é
 $$f(t)\approx w+t\mu-\tfrac12t^2\sigma^2A(w)$$ [L2 éq. 1]
 
 ## Le chemin jusqu'ici
-Deux fils. dup/fonction-utilite donne dup/aversion-absolue-arrow-pratt, la courbure. dup/utilite-esperee donne dup/equivalent-certain puis dup/prime-de-risque, le coût. [ajout]
+Deux fils. dup/fonction-utilite donne dup/aversion-absolue-arrow-pratt, la courbure. dup/loterie, avec la même fonction d'utilité, donne dup/utilite-esperee puis dup/equivalent-certain et dup/prime-de-risque, le coût. [ajout]
 
 L'approximation est le pont entre les deux : pour un petit risque de moyenne nulle, la prime vaut la moitié de la variance fois la courbure. C'est le résultat qui donne son sens à $A(z)$ — sans lui, la courbure ne serait qu'une formule. Et c'est un développement limité, donc valable seulement en petit : toute la suite du cours exploitera cette restriction. [ajout]
 

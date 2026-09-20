@@ -25,7 +25,7 @@ Le jeu en deux étapes — 0,75 de finir sans rien, puis un choix — produit ex
 Les sujets isolent la seconde étape et raisonnent comme si la première n’existait pas : ils retrouvent alors la certitude apparente de 3 000. [L2 slide 8]
 
 ## Le chemin jusqu'ici
-Le socle commun : dup/loterie, dup/fonction-utilite, dup/utilite-esperee. [ajout]
+dup/loterie et dup/fonction-utilite donnent dup/utilite-esperee — les trois notions que presque tout ce cours suppose acquises. [ajout]
 
 La particularité est ailleurs : ce que cet effet attaque n'est pas un axiome de préférence mais une hypothèse de **description** — qu'une loterie en deux étapes soit la même chose que sa réduction en une. L'utilité espérée la suppose sans la dire ; c'est la raison de la dépendance. [ajout]
 

@@ -26,11 +26,15 @@ Il mesure la courbure du prix en le sous-jacent, donc la fréquence à laquelle 
 La table écrit $n(d_1)$ ; l’expression complète est $n(d_1)/(S\sigma\sqrt{\tau})$, la table ne donnant que le facteur qui dépend de $d_1$. [ajout]
 
 ## Le chemin jusqu'ici
-Le socle est exactement celui de fpp/formule-black-scholes, augmenté d'elle. Tout y sert à écrire la formule ; cette fiche ne fait que la dériver. [ajout]
+Le socle est exactement celui de fpp/formule-black-scholes, augmentée d'elle : tout y sert à écrire la formule, cette fiche ne fait que la dériver. Trois fils y mènent. [ajout]
 
-Ce qui distingue les cinq grecques, c'est la variable, pas le chemin : le gamma est la dérivée seconde par rapport au comptant. Le socle est donc le même pour toutes, et il ne vaut la peine d'être lu qu'une fois. [ajout]
+**Le prix.** fpp/replication-statique donne la méthode, fpp/portage et fpp/facteur-actualisation (sur fpp/convention-capitalisation) en chiffrent les deux jambes, d'où fpp/prix-a-terme puis fpp/mesure-risque-neutre : à ce stade, un prix est une espérance actualisée. [ajout]
 
-Le gamma mesure donc à quelle vitesse la couverture se périme : c'est lui qui dit à quelle fréquence rééquilibrer. [ajout]
+**L'aléa.** fpp/volatilite puis fpp/echelonnement-de-la-variance disent comment l'incertitude grandit avec le temps ; avec fpp/transformee-de-laplace-gaussienne, on obtient fpp/modele-black-scholes. [ajout]
+
+**Le contrat.** fpp/payoff puis fpp/option disent ce qu'on évalue, et les trois se nouent dans fpp/formule-black-scholes. [ajout]
+
+Ce qui distingue les cinq grecques, c'est la variable dérivée, pas le chemin — celui-ci est le même pour toutes et ne vaut la peine d'être lu qu'une fois. Le gamma est la dérivée **seconde** par rapport au comptant : il mesure à quelle vitesse la couverture se périme, donc à quelle fréquence rééquilibrer. [ajout]
 
 ## Exemple minimal
 Passer le sous-jacent de 100 à 101 fait passer le delta de 0,618 à 0,637 : le gamma vaut environ 0,019. [ajout]

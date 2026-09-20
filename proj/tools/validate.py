@@ -277,8 +277,15 @@ def valider(root: Path, rap: Rapport):
         for y in sorted(cites - socle - {nid}):
             if y in N:
                 rap.e("A1", nid, f"« Le chemin jusqu'ici » cite {y}, qui n'est pas dans son socle")
-        if not (cites & socle):
-            rap.w("A1", nid, "« Le chemin jusqu'ici » ne cite aucune notion du socle")
+        # Le paragraphe doit nommer CHAQUE notion du socle : sinon il explique une partie
+        # du chemin et laisse le reste sans raison, ce qui est exactement la question que
+        # la rubrique existe pour éviter. Signalé par l'utilisateur le 2026-09-20, sur
+        # dup/assurance-probabiliste : 1 notion nommée sur 4.
+        oublie = sorted(socle - cites)
+        if oublie:
+            rap.w("A1", nid, "« Le chemin jusqu'ici » ne nomme pas %d notion(s) de son socle : %s"
+                  % (len(oublie), ", ".join(oublie[:4]) + (" …" if len(oublie) > 4 else "")))
+            rap.dette["chemin jusqu'ici incomplet"] += 1
 
     # ---- A9 sections interdites ; rubriques, ordre, obligations, marqueurs (A11)
     for nid, n in N.items():

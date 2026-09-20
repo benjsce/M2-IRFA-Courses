@@ -26,9 +26,9 @@ L’hypothèse forte n’est pas le refus, c’est le « à **tout** niveau de r
 Si $(g/l)^m<2$, l’agent refuse le pari de perte $L=mg$ et de gain $G=ng$ dès que $n<\log\!\big(2-(g/l)^m\big)/\log(l/g)$. Si $(g/l)^m>2$, il refuse quel que soit le gain. [L2 slide 27]
 
 ## Le chemin jusqu'ici
-Le socle est celui de dup/aversion-second-ordre, plus elle. [ajout]
+Le chemin est celui de dup/aversion-second-ordre : dup/fonction-utilite donne dup/aversion-absolue-arrow-pratt, dup/loterie donne dup/utilite-esperee puis dup/equivalent-certain et dup/prime-de-risque, et dup/approximation-arrow-pratt les réunit. [ajout]
 
-Le paradoxe est une conséquence arithmétique, pas une expérience : si la prime est d'ordre deux, refuser un petit pari favorable à **tout** niveau de richesse force, par recollement, à refuser des paris énormes. Il fallait donc l'ordre de grandeur de la prime avant de pouvoir le pousser à l'absurde. [ajout]
+Le paradoxe est ensuite une conséquence arithmétique, pas une expérience : si la prime est d'ordre deux, refuser un petit pari favorable à **tout** niveau de richesse force, par recollement, à refuser des paris énormes. Il fallait donc l'ordre de grandeur de la prime avant de pouvoir le pousser à l'absurde. [ajout]
 
 ## Exemple minimal
 Avec $l=100$ et $g=105$ : l’agent refuse un pari de perte 945 et de gain 1 680, et refuse toute perte supérieure à 1 575 quel que soit le gain. [L2 slide 27]

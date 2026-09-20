@@ -25,7 +25,7 @@ La conséquence est forte : la moyenne agit au premier ordre et l’écart type 
 C’est ce qui rend difficile d’expliquer qu’on renonce à des investissements favorables, ou qu’on s’assure complètement à prime défavorable. [L2 slide 21]
 
 ## Le chemin jusqu'ici
-Le chemin complet de l'approximation : dup/aversion-absolue-arrow-pratt d'un côté, dup/equivalent-certain et dup/prime-de-risque de l'autre, réunis par dup/approximation-arrow-pratt. [ajout]
+Deux fils déjà parcourus se rejoignent. dup/fonction-utilite donne dup/aversion-absolue-arrow-pratt ; dup/loterie et la même utilité donnent dup/utilite-esperee, puis dup/equivalent-certain et dup/prime-de-risque. Les deux se referment dans dup/approximation-arrow-pratt. [ajout]
 
 L'aversion du second ordre n'est que le nom de ce que l'approximation énonce : la prime est proportionnelle à la **variance**, donc au carré de l'échelle du pari. Nommer ce comportement sert à pouvoir lui en opposer un autre — et c'est ce que fera la fiche suivante. [ajout]
 

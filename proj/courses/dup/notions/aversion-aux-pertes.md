@@ -25,7 +25,7 @@ La fonction est croissante, convexe pour les pertes, concave pour les gains, et 
 ## Le chemin jusqu'ici
 Le socle est long parce que deux histoires distinctes s'y rejoignent, et c'est la fin du cours. [ajout]
 
-**Le fil du risque.** dup/aversion-absolue-arrow-pratt, dup/equivalent-certain et dup/prime-de-risque donnent dup/approximation-arrow-pratt, puis dup/aversion-second-ordre, puis dup/aversion-premier-ordre. Ce fil dit ce qu'il **faut** : une prime proportionnelle à l'écart type. [ajout]
+**Le fil du risque.** dup/fonction-utilite donne dup/aversion-absolue-arrow-pratt ; dup/loterie et la même utilité donnent dup/utilite-esperee, puis dup/equivalent-certain et dup/prime-de-risque ; dup/approximation-arrow-pratt les réunit, d'où dup/aversion-second-ordre puis dup/aversion-premier-ordre. Ce fil dit ce qu'il **faut** : une prime proportionnelle à l'écart type. [ajout]
 
 **Le fil du comportement.** dup/cadrage donne dup/theorie-des-perspectives, et avec elle un point de référence. Ce fil dit ce qu'on **observe** : un coude dans la fonction de valeur. [ajout]
 

@@ -22,7 +22,7 @@ $$\mathrm{Prix}=\mathrm{IV}+\mathrm{TV}$$ [Déf. 13]
 Son signe est celui de la convexité de $g$ : positive quand $g$ est convexe, négative quand elle est concave. C’est Jensen, lu comme une décomposition de prix. [Déf. 13]
 
 ## Le chemin jusqu'ici
-Le socle est celui de fpp/valeur-intrinseque, augmenté d'elle. [ajout]
+Le socle est celui de fpp/valeur-intrinseque, augmentée d'elle. Deux fils y mènent : fpp/replication-statique donne la méthode, fpp/portage et fpp/facteur-actualisation (sur fpp/convention-capitalisation) en chiffrent les deux jambes, d'où fpp/prix-a-terme puis fpp/mesure-risque-neutre d'un côté, fpp/payoff de l'autre — de quoi évaluer, et quoi évaluer. [ajout]
 
 C'est un socle de définition par différence : la valeur temps est ce qui reste quand on retire la valeur intrinsèque au prix. Elle n'ajoute aucun objet nouveau, seulement une soustraction — et c'est cette soustraction qui rend lisible ce que l'optionalité coûte. [ajout]
 

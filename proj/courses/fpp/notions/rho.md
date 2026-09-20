@@ -24,11 +24,15 @@ $$\rho=\dfrac{\partial P}{\partial r}$$ [§8.2]
 Positif pour un call, négatif pour un put : monter le taux abaisse la valeur actualisée du strike, donc renchérit le droit d’acheter. [§8.2]
 
 ## Le chemin jusqu'ici
-Le socle est exactement celui de fpp/formule-black-scholes, augmenté d'elle. Tout y sert à écrire la formule ; cette fiche ne fait que la dériver. [ajout]
+Le socle est exactement celui de fpp/formule-black-scholes, augmentée d'elle : tout y sert à écrire la formule, cette fiche ne fait que la dériver. Trois fils y mènent. [ajout]
 
-Ce qui distingue les cinq grecques, c'est la variable, pas le chemin : le rhô est la dérivée par rapport au taux. Le socle est donc le même pour toutes, et il ne vaut la peine d'être lu qu'une fois. [ajout]
+**Le prix.** fpp/replication-statique donne la méthode, fpp/portage et fpp/facteur-actualisation (sur fpp/convention-capitalisation) en chiffrent les deux jambes, d'où fpp/prix-a-terme puis fpp/mesure-risque-neutre : à ce stade, un prix est une espérance actualisée. [ajout]
 
-Le rhô est la plus faible des cinq sur des maturités courtes, et c'est une information : le taux entre dans la formule par l'actualisation, pas par l'aléa. [ajout]
+**L'aléa.** fpp/volatilite puis fpp/echelonnement-de-la-variance disent comment l'incertitude grandit avec le temps ; avec fpp/transformee-de-laplace-gaussienne, on obtient fpp/modele-black-scholes. [ajout]
+
+**Le contrat.** fpp/payoff puis fpp/option disent ce qu'on évalue, et les trois se nouent dans fpp/formule-black-scholes. [ajout]
+
+Ce qui distingue les cinq grecques, c'est la variable dérivée, pas le chemin — celui-ci est le même pour toutes et ne vaut la peine d'être lu qu'une fois. Le rhô est la dérivée par rapport au **taux**. C'est la plus faible des cinq sur des maturités courtes, et c'est une information : le taux entre dans la formule par l'actualisation, pas par l'aléa. [ajout]
 
 ## Exemple minimal
 Si le taux tombe de 4 % à 3 %, le strike actualisé passe de 96,08 à 97,04 : le call perd et le put gagne. [ajout]

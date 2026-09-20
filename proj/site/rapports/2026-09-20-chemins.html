@@ -243,7 +243,19 @@ au rapport <code>2026-09-20-fpp-4.md</code> et non exécutée.</p><h2>Validation
 123 notions · 0 erreur(s) · 5 avertissement(s)
 168 fichiers · 3 505 liens internes · 0 mort
 ```</p><p>Les cinq avertissements sont les quatre stylistiques d'avant la séance, plus la dette
-volontaire.</p></article></div></main>
+volontaire.</p><p>---</p><h2>Correction, après relecture de l'utilisateur</h2><p>L'utilisateur, lisant <code>dup/assurance-probabiliste</code>, a demandé pourquoi *Fonction
+d'utilité*, <em>Loterie</em> et <em>Utilité espérée</em> n'y apparaissaient pas alors qu'elles sont dans
+son socle. Elles y étaient — sous la formule « le socle commun ». Deux défauts, tous deux
+mesurés.</p><p><strong>1. Un raccourci qui ne se comprend pas seul.</strong> « Le socle commun », employé sur **21
+fiches**. C'est une commodité d'écriture née d'avoir rédigé 56 fiches à la suite : sur la
+page, la formule ne renvoie à rien. Retirée partout — les trois notions sont nommées.</p><p><strong>2. Un paragraphe sur trois ne nommait pas tout son socle.</strong></p><div class="tablebloc"><table><thead><tr><th></th><th>avant</th><th>après</th></tr></thead><tbody><tr><td>nomment tout leur socle</td><td>62 / 97</td><td><strong>97 / 97</strong></td></tr><tr><td>en nomment moins de la moitié</td><td>26</td><td>0</td></tr><tr><td>en nomment moins d'un tiers</td><td>24</td><td>0</td></tr></tbody></table></div><p>Les pires étaient les fiches où j'avais écrit « même socle que X, plus elle » : les quatre
+grecques nommaient 1 notion sur 13, <code>fpp/equation-de-la-chaleur</code> 2 sur 14,
+<code>dup/aversion-premier-ordre</code> 1 sur 8. Le raisonnement était juste et l'économie réelle —
+mais elle se faisait sur le dos du lecteur, qui n'a pas la page voisine sous les yeux.
+<strong>35 fiches réécrites.</strong></p><p><strong>La règle devient vérifiable.</strong> <code>validate.py</code> compte désormais les notions du socle que le
+paragraphe oublie et les signale, avec sa ligne de dette. Ce qui n'était qu'une consigne
+de rédaction est maintenant mesuré à chaque build.</p><p>SPEC-MODELE §2.1 porte les deux règles : nommer chaque notion du socle sans exception, et
+n'employer aucun raccourci qui ne se comprenne pas sur cette page seule.</p></article></div></main>
 <footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../aide.html">comment lire ce site</a> · <a href="../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
 <script src="../search-index.js"></script>
 <script>

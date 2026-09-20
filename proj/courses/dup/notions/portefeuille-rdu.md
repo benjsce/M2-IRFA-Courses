@@ -27,7 +27,7 @@ La contrainte de monotonie $x_s\le x_{s+1}$ n’est pas décorative : elle vient
 La condition du premier ordre s’inverse en $x_s^*=u'^{-1}\big((\eta q_s+\kappa_s-\kappa_{s-1})/\pi_s\big)$, et sur les plages où la contrainte n’est pas active elle se réduit à $u'^{-1}(\eta q_s/\pi_s)$. [L3 éq. 3]
 
 ## Le chemin jusqu'ici
-Le socle commun mène à dup/rdu. [ajout]
+dup/loterie et dup/fonction-utilite donnent dup/utilite-esperee, d'où dup/rdu. [ajout]
 
 La fiche applique la pondération par rang à un problème de portefeuille. Elle dépend donc de RDU et non l'inverse : le critère d'abord, le programme d'optimisation ensuite. Ce qui change par rapport au cas classique, c'est que les états sont pondérés par leur rang, donc que la première condition d'ordre ne se lit plus comme une espérance. [ajout]
 

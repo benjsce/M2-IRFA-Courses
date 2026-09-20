@@ -24,11 +24,15 @@ $$\Theta=\dfrac{\partial P}{\partial t}$$ [§8.2]
 Négatif pour l’acheteur d’option dans presque tous les cas : la valeur temps s’érode à mesure que l’échéance approche. [§8.2]
 
 ## Le chemin jusqu'ici
-Le socle est exactement celui de fpp/formule-black-scholes, augmenté d'elle. Tout y sert à écrire la formule ; cette fiche ne fait que la dériver. [ajout]
+Le socle est exactement celui de fpp/formule-black-scholes, augmentée d'elle : tout y sert à écrire la formule, cette fiche ne fait que la dériver. Trois fils y mènent. [ajout]
 
-Ce qui distingue les cinq grecques, c'est la variable, pas le chemin : le thêta est la dérivée par rapport au temps. Le socle est donc le même pour toutes, et il ne vaut la peine d'être lu qu'une fois. [ajout]
+**Le prix.** fpp/replication-statique donne la méthode, fpp/portage et fpp/facteur-actualisation (sur fpp/convention-capitalisation) en chiffrent les deux jambes, d'où fpp/prix-a-terme puis fpp/mesure-risque-neutre : à ce stade, un prix est une espérance actualisée. [ajout]
 
-Le thêta est ce que coûte l'attente ; il est le pendant du gamma, l'équation de Black et Scholes les liant terme à terme. [ajout]
+**L'aléa.** fpp/volatilite puis fpp/echelonnement-de-la-variance disent comment l'incertitude grandit avec le temps ; avec fpp/transformee-de-laplace-gaussienne, on obtient fpp/modele-black-scholes. [ajout]
+
+**Le contrat.** fpp/payoff puis fpp/option disent ce qu'on évalue, et les trois se nouent dans fpp/formule-black-scholes. [ajout]
+
+Ce qui distingue les cinq grecques, c'est la variable dérivée, pas le chemin — celui-ci est le même pour toutes et ne vaut la peine d'être lu qu'une fois. Le thêta est la dérivée par rapport au **temps** : ce que coûte l'attente. Il est le pendant du gamma, l'équation de Black et Scholes les liant terme à terme. [ajout]
 
 ## Exemple minimal
 Le call à la monnaie de l’exemple courant porte 6,00 de valeur temps, qui s’annule entièrement à l’échéance. [ajout]
