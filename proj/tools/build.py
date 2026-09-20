@@ -391,6 +391,8 @@ details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fa
 .note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
 .sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
 .sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
 .sec.faute>summary h2{color:var(--faute)}
 .faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
   margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
@@ -434,12 +436,6 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
   background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
 ul{padding-left:1.1rem}
 hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
-.vois{width:100%;height:auto;margin:.4rem 0}
-.vois .nd{fill:var(--card);stroke:var(--li2)}
-.vois .nd.c{fill:var(--acc2);stroke:var(--acc)}
-.vois text{font-family:var(--sans);font-size:11px;fill:var(--fg)}
-.vois .ed{stroke:var(--li2);fill:none}
-.vois a:hover .nd{stroke:var(--acc)}
 
 /* ---- cartes d'accueil / carte du cours ---- */
 .cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
@@ -566,20 +562,23 @@ document.addEventListener('DOMContentLoaded',function(){
     var k='notions.pli.'+d.getAttribute('data-k');
     var v=LS.g(k,null);if(v!==null)d.open=(v==='1');
     d.addEventListener('toggle',function(){LS.s(k,d.open?'1':'0')});});
-  /* socle : « déjà su » persistant + compteur (règle 6) */
+  /* amont et aval : même état « déjà su », un compteur par liste (règle 6) */
   var su={};try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}
   function compte(){
-    var l=document.querySelectorAll('.socle input[data-su]');if(!l.length)return;
-    var k=0;l.forEach(function(c){if(c.checked)k++});
-    var el=document.getElementById('cpt');
-    if(el)el.textContent=l.length+' notion'+(l.length>1?'s':'')+', '+(l.length-k)+' à voir';}
-  document.querySelectorAll('.socle input[data-su]').forEach(function(c){
+    document.querySelectorAll('.sec').forEach(function(s){
+      var cpt=s.querySelector('[data-cpt]');if(!cpt)return;
+      var l=s.querySelectorAll('input[data-su]'),k=0;
+      l.forEach(function(c){if(c.checked)k++});
+      cpt.textContent=l.length+' notion'+(l.length>1?'s':'')+', '+(l.length-k)+' à voir';});}
+  document.querySelectorAll('input[data-su]').forEach(function(c){
     var id=c.getAttribute('data-su');c.checked=!!su[id];
     c.closest('li').classList.toggle('su',c.checked);
     c.addEventListener('change',function(){
       su[id]=c.checked;if(!c.checked)delete su[id];
       try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}
-      c.closest('li').classList.toggle('su',c.checked);compte();});});
+      document.querySelectorAll('input[data-su="'+id+'"]').forEach(function(o){
+        o.checked=c.checked;o.closest('li').classList.toggle('su',c.checked);});
+      compte();});});
   compte();
 });
 """
@@ -807,60 +806,10 @@ def sec(titre, corps, *, cle=None, ouvert=False, classe="", compte=""):
 
 # ================================================================ 6. la fiche (§3.1)
 
-def voisinage_svg(m, i, rel):
-    """Rayon 1, jamais plus : dépendances directes à gauche, dépendants directs à droite."""
-    g = (m["D"].get(i) or [])[:MAX_LISTE]
-    d = (m["D_inv"].get(i) or [])[:MAX_LISTE]
-    if not g and not d:
-        return ""
-    bw, bh, vg, gap = 176, 30, 8, 58
-    cols = [g, [i], d]
-    n = max(len(c) for c in cols)
-    Ht = n * (bh + vg) + 10
-    Wt = 3 * bw + 2 * gap
-    def y(k, tot):
-        h = tot * (bh + vg) - vg
-        return (Ht - h) / 2 + k * (bh + vg)
-    out = ['<svg class="vois" viewBox="0 0 %d %d" role="img" aria-label="voisinage de dépendance à rayon 1">' % (Wt, Ht)]
-    pos = {}
-    for ci, col in enumerate(cols):
-        for k, ident in enumerate(col):
-            pos[(ci, k)] = (ci * (bw + gap), y(k, len(col)))
-    for k in range(len(g)):
-        x0, y0 = pos[(0, k)]
-        x1, y1 = pos[(1, 0)]
-        xm = (x0 + bw + x1) / 2
-        out.append('<path class="ed" d="M%.1f,%.1f C%.1f,%.1f %.1f,%.1f %.1f,%.1f"/>'
-                   % (x0 + bw, y0 + bh / 2, xm, y0 + bh / 2, xm, y1 + bh / 2, x1, y1 + bh / 2))
-    for k in range(len(d)):
-        x0, y0 = pos[(1, 0)]
-        x1, y1 = pos[(2, k)]
-        xm = (x0 + bw + x1) / 2
-        out.append('<path class="ed" d="M%.1f,%.1f C%.1f,%.1f %.1f,%.1f %.1f,%.1f"/>'
-                   % (x0 + bw, y0 + bh / 2, xm, y0 + bh / 2, xm, y1 + bh / 2, x1, y1 + bh / 2))
-    for ci, col in enumerate(cols):
-        for k, ident in enumerate(col):
-            x, yy = pos[(ci, k)]
-            lib = nom_de(m, ident)
-            court = lib if len(lib) <= 24 else lib[:23] + "…"
-            box = ('<rect class="nd%s" x="%.1f" y="%.1f" width="%d" height="%d" rx="6"/>'
-                   '<text x="%.1f" y="%.1f">%s</text><title>%s</title>'
-                   % (" c" if ci == 1 else "", x, yy, bw, bh, x + 10, yy + bh / 2 + 4, esc(court), esc(lib)))
-            if ident in m["N"] and ci != 1:
-                c, s = ident.split("/", 1)
-                out.append('<a href="%s%s/n/%s.html">%s</a>' % (rel, c, s, box))
-            else:
-                out.append(box)
-    out.append("</svg>")
-    reste = len(m["D"].get(i) or []) - len(g), len(m["D_inv"].get(i) or []) - len(d)
-    if reste[0] or reste[1]:
-        out.append('<p class="note">%d dépendance(s) et %d dépendant(s) non dessinés : '
-                   "le voisinage reste à rayon 1 et à sept éléments.</p>" % reste)
-    return "".join(out)
-
-
-def bloc_socle(m, i, rel):
-    ids = m["socle"][i]
+def bloc_liste(m, ids, rel, cle, note):
+    """Liste de notions ordonnée par niveau, cases « déjà su » partagées, compteur.
+    Même forme pour l'amont (socle, transitif) et pour l'aval (rayon 1) — SPEC-SITE
+    §2 règle 6."""
     if not ids:
         return ""
     def item(y):
@@ -874,7 +823,7 @@ def bloc_socle(m, i, rel):
                 '<a href="%s%s/n/%s.html">%s</a> <span class="marq">niveau %d%s</span></li>'
                 % (cls, esc(y), esc(nom_de(m, y)), rel, c, s, esc(nom_de(m, y)),
                    m["niveau"][y], " · ajout" if est_ajout(m, y) else ""))
-    out = ['<p class="compteur" id="cpt"></p>']
+    out = ['<p class="note">' + note + "</p>", '<p class="compteur" data-cpt="' + cle + '"></p>']
     if len(ids) <= MAX_LISTE:
         out.append('<ul class="socle">' + "".join(item(y) for y in ids) + "</ul>")
     else:
@@ -885,8 +834,6 @@ def bloc_socle(m, i, rel):
             out.append('<details class="grp" open><summary>niveau %d (%d)</summary>'
                        '<ul class="socle">%s</ul></details>'
                        % (nv, len(grp[nv]), "".join(item(y) for y in grp[nv])))
-    out.append('<p class="note">Ordonné par niveau croissant : le niveau 0 ne dépend de rien. '
-               "Liste, jamais graphe (règle 6).</p>")
     return "".join(out)
 
 
@@ -905,7 +852,8 @@ def page_fiche(m, i):
     # 1. en-tête
     pills = ['<span class="pill typ">' + esc(typ) + "</span>",
              '<a class="pill" href="' + rel + code + '/index.html">' + esc(code) + "</a>",
-             '<span class="pill" title="longueur du plus long chemin vers une notion sans dépendance">'
+             '<span class="pill" title="ordre de lecture : nombre de notions à traverser, au plus '
+             'long, pour arriver jusqu’à celle-ci. Niveau 0 = ne dépend d’aucune autre.">'
              "niveau " + str(m["niveau"][i]) + "</span>"]
     if meta.get("symbole"):
         pills.insert(0, '<span class="pill sym">' + esc(str(meta["symbole"])) + "</span>")
@@ -950,23 +898,40 @@ def page_fiche(m, i):
         note = ("Un principe n’est pas une généralisation : cette arête se lit « découle directement de » (A4)."
                 if pp.get("type") == "principe" else
                 "Autre relation : ce n’est pas un prérequis. Le prérequis, c’est « construite à partir de ».")
-        corps = '<ul class="pasts">' + pastille(m, parent, rel, code) + "</ul>"
+        corps = '<p class="note avert">' + note + "</p>"
+        corps += '<ul class="pasts">' + pastille(m, parent, rel, code) + "</ul>"
         if meta.get("valeur"):
             corps += '<p class="note">valeur pour le paramètre du parent : ' + enligne(str(meta["valeur"]), ctx) + "</p>"
-        corps += '<p class="note">' + note + "</p>"
-        c.append(sec(titre, corps, cle="casde", classe="gen"))
+        c.append(sec(titre, corps, cle="casde", classe="gen abs", compte="autre relation"))
     # 8. construite à partir de
     dep = m["D"].get(i) or []
     if dep:
         c.append(sec("Construite à partir de",
                      liste_pastilles(m, dep, rel, code, niveau=True,
                                      cle=lambda y: "niveau %d" % m["niveau"].get(y, 0))
-                     + '<p class="note">Dépendances directes seulement (A8).</p>',
-                     cle="construite", compte=str(len(dep))))
-    # 9. socle
-    so = bloc_socle(m, i, rel)
+                     + '<p class="note">Dépendances directes seulement (A8). Le socle ci-dessous '
+                       "en est la fermeture : ces notions-ci s’y retrouvent, augmentées de tout ce dont "
+                       "elles dépendent à leur tour.</p>",
+                     cle="construite", compte=str(len(dep)) + (" prérequis direct" if len(dep) == 1 else " prérequis directs")))
+    # 9. socle (amont transitif) puis 10. sert ensuite à (aval, rayon 1), de même forme
+    so = bloc_liste(m, m["socle"][i], rel, "socle",
+                    "Amont transitif : tout ce qu’il faut savoir avant, ordonné par niveau "
+                    "croissant. Le niveau est le nombre de notions à traverser au plus long pour "
+                    "atteindre celle-ci : niveau 0, elle ne dépend de rien. C’est un ordre de "
+                    "lecture. Une case cochée le reste sur toutes les fiches, et sur celle-ci comme "
+                    "ailleurs.")
     if so:
-        c.append(sec("Socle complet", so, cle="socle", classe="gen", compte=str(len(m["socle"][i]))))
+        c.append(sec("Socle complet", so, cle="socle", classe="gen",
+                     compte=str(len(m["socle"][i])) + (" prérequis" if len(m["socle"][i]) == 1 else " prérequis en tout")))
+    srt = m["D_inv"].get(i) or []
+    if srt:
+        av = sorted(srt, key=lambda y: (m["niveau"].get(y, 0), nom_de(m, y).lower()))
+        c.append(sec("Sert ensuite à",
+                     bloc_liste(m, av, rel, "aval",
+                                "Aval à rayon 1 : ce que cette notion ouvre immédiatement. "
+                                "Généré, l’inverse de « construite à partir de » (A9). Jamais "
+                                "transitif : une notion fondamentale débloquerait tout le cours."),
+                     cle="sert", classe="gen", compte=str(len(av))))
     # 10–12
     for t, k in (("Exemple minimal", "exemple"), ("Geste de calcul type", "geste"), ("Ce qui reste libre", "libre")):
         if t not in S:
@@ -984,13 +949,6 @@ def page_fiche(m, i):
     if "Cesse d'être valide quand" in S:
         c.append(sec("Cesse d'être valide quand", rendre(S["Cesse d'être valide quand"], ctx, fiche=True),
                      cle="limite", classe="lim"))
-    # 14. sert ensuite à (généré)
-    srt = m["D_inv"].get(i) or []
-    if srt:
-        c.append(sec("Sert ensuite à",
-                     liste_pastilles(m, srt, rel, code, cle=lambda y: m["N"][y]["cours"])
-                     + '<p class="note">Généré : l’inverse de « construite à partir de » (A9).</p>',
-                     cle="sert", classe="gen", compte=str(len(srt))))
     # 15. membres (généré)
     if membres:
         titre = "Membres" if typ == "abstraite" else "Premières constructions"
@@ -1002,12 +960,6 @@ def page_fiche(m, i):
     # 16–17
     if "Origine" in S:
         c.append(sec("Origine", rendre(S["Origine"], ctx, fiche=True), cle="origine"))
-    v = voisinage_svg(m, i, rel)
-    if v:
-        c.append(sec("Voisinage", v + '<p class="note">Rayon 1 : dépendances directes à gauche, '
-                     "dépendants directs à droite. Aucune arête d’abstraction ici (règle 7).</p>",
-                     cle="voisinage", classe="gen"))
-
     fil = ('<a href="' + rel + code + '/index.html">' + esc(m["cours"][code]["meta"].get("titre", code))
            + "</a> › " + esc(meta.get("nom", i)))
     return page(m, titre=meta.get("nom", i), rel=rel, fil=fil, corps="".join(c), js=JS_FICHE)
@@ -1076,7 +1028,13 @@ def page_cours(m, code):
     if comp:
         c.append('<h2 class="ptag">Composants</h2>'
                  '<p class="note">Notions sans généralisation : ce n’est pas un oubli, '
-                 "c’est une information (règle 2 de SPEC-SITE §3.3).</p>")
+                 "c’est une information (règle 2 de SPEC-SITE §3.3).</p>"
+                 '<p class="note">Les groupes sont des <strong>niveaux de dépendance</strong> : '
+                 "le niveau d’une notion est le nombre de notions qu’il faut traverser, au plus "
+                 "long, pour arriver jusqu’à elle. <strong>Niveau 0</strong> : elle ne dépend "
+                 "d’aucune autre, on peut la lire en premier. <strong>Niveau 1</strong> : elle "
+                 "dépend uniquement de notions de niveau 0. Et ainsi de suite : le niveau est "
+                 "donc un ordre de lecture, pas un degré de difficulté ni d’importance.</p>")
         c.append(liste_pastilles(m, comp, rel, code, niveau=True, cle=lambda y: "niveau %d" % m["niveau"][y]))
 
     d = dette_du_cours(m, code)

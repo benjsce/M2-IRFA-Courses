@@ -1,0 +1,39 @@
+---
+id: dup/utilite-esperee
+nom: Utilité espérée
+symbole: $V_{EU}$
+type: notion
+statut: source
+cas_de: dup/axiome-independance
+construite_a_partir_de:
+- dup/loterie
+- dup/fonction-utilite
+alias:
+- expected utility
+- EU
+- von Neumann-Morgenstern
+refs:
+- L1 slide 3
+- L1 slide 4
+- L1 slide 6
+---
+
+## Ce que c'est
+La valeur d’une loterie est la moyenne des utilités de ses résultats, pondérée par leurs probabilités. [L1 slide 3]
+
+## Forme
+$$V_{\mathrm{EU}}(P)=\sum_{i=1}^{n}p_i\,u(x_i),\qquad V(F)=\mathbb{E}[U(\tilde x)]=\int U(x)\,dF(x)$$ [L1 slide 3, L1 slide 6]
+
+## Ce qui la définit
+Les probabilités entrent linéairement et l’utilité ne dépend que du résultat : c’est cette double séparation qui donne au modèle ses prédictions tranchées. [L1 slide 3]
+
+Une relation de préférence sur $\Delta(X)$ admet cette représentation si et seulement si elle est complète, transitive, continue en mélange et indépendante. [L1 slide 4]
+
+## Exemple minimal
+Avec $u(x)=\sqrt{x}$ et $P=(0,\tfrac12;100,\tfrac12)$ : $V_{\mathrm{EU}}(P)=5$. [ajout]
+
+## Geste de calcul type
+Calculer $\sum_i p_i u(x_i)$ pour chaque loterie et comparer les nombres obtenus ; c’est l’espérance des utilités qui classe, jamais l’espérance des gains. [ajout]
+
+## Cesse d'être valide quand
+Elle échoue là où l’indépendance échoue : effet de conséquence commune, effet de rapport commun, effet d’isolement. [L1 slide 45, L1 slide 47, L1 slide 48]

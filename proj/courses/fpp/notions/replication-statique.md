@@ -26,7 +26,7 @@ Le P&L est non aléatoire et le portefeuille coûte zéro : il vaut donc zéro, 
 Action à 100, $P(0,1)=0{,}9608$ : acheter l’action à crédit et la livrer dans un an donne $K=104{,}08$. [ajout]
 
 ## Geste de calcul type
-à venir [ajout]
+Écrire le portefeuille qui reproduit le payoff, en compter le coût, l’égaler à zéro : acheter l’action à 100 en s’endettant et la livrer donne $K=100/0{,}9608=104{,}08$. [§3.1]
 
 ## Cesse d'être valide quand
 Exige un payoff linéaire *et* un refinancement connu dès $t$. La première condition tombe avec les options, la seconde avec les futures. [§3.1, §4.2.2]

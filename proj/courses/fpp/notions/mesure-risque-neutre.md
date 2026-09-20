@@ -31,7 +31,7 @@ $\mathbb{Q}$ n’est pas choisie, elle est contrainte : $\mathbb{E}^{\mathbb{Q}}
 Action à 100 sans dividende, $P(0,1)=0{,}9608$ : $\mathbb{E}^{\mathbb{Q}}[S_1]=104{,}08$, quelle que soit la dérive historique. [ajout]
 
 ## Geste de calcul type
-à venir [ajout]
+Ne pas chercher $\mathbb{Q}$, la lire sur le marché à terme : $\mathbb{E}^{\mathbb{Q}}[S_T]=F(t,T)$. Puis actualiser l’espérance du payoff par $P(0,T)$, jamais par un taux ajusté du risque. [Prop. 6]
 
 ## Cesse d'être valide quand
 Unique seulement en marché complet. Et elle ne dit rien de la probabilité historique $\mathbb{P}$ : les deux ne diffèrent que par la dérive. [ajout]

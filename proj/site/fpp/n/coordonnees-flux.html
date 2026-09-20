@@ -87,6 +87,8 @@ details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fa
 .note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
 .sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
 .sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
 .sec.faute>summary h2{color:var(--faute)}
 .faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
   margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
@@ -130,12 +132,6 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
   background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
 ul{padding-left:1.1rem}
 hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
-.vois{width:100%;height:auto;margin:.4rem 0}
-.vois .nd{fill:var(--card);stroke:var(--li2)}
-.vois .nd.c{fill:var(--acc2);stroke:var(--acc)}
-.vois text{font-family:var(--sans);font-size:11px;fill:var(--fg)}
-.vois .ed{stroke:var(--li2);fill:none}
-.vois a:hover .nd{stroke:var(--acc)}
 
 /* ---- cartes d'accueil / carte du cours ---- */
 .cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
@@ -177,7 +173,7 @@ footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);f
 </head>
 <body>
 <header class="top"><div class="topin"><a class="brand" href="../../index.html">notions</a><span class="fil"><a href="../../fpp/index.html">Financial Products and Introduction to Pricing</a> › Coordonnées d’un flux</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
-<main><div class="wrap"><h1>Coordonnées d’un flux</h1><div class="meta"><span class="pill typ">principe</span><a class="pill" href="../../fpp/index.html">fpp</a><span class="pill" title="longueur du plus long chemin vers une notion sans dépendance">niveau 0</span><span class="pill">§2.1</span></div><section class="sec " data-oblig="1"><h2>Ce que c'est</h2><div class="corps"><p>Un flux est un triplet : un montant, une devise, une date. Deux flux ne se comparent jamais directement. <span class="marq" title="référence à la source">[§2.1]</span></p></div></section><section class="sec " data-oblig="1"><h2>Ce qui la définit</h2><div class="corps"><p>Comparer exige un facteur de conversion, et lequel dépend de la coordonnée qui sépare les deux flux. <span class="marq" title="référence à la source">[§2.1]</span></p></div></section><details class="sec lim" data-k="limite" data-oblig="1"><summary><h2>Cesse d'être valide quand</h2></summary><div class="corps"><p class="is-ajout">rien dans le périmètre du cours <span class="marq marq-ajout" title="assertion de l'opérateur, absente de la source">ajout</span></p></div></details><details class="sec gen" data-k="membres"><summary><h2>Premières constructions</h2><span class="cnt">1</span></summary><div class="corps"><ul class="pasts"><li><a class="past ajout" href="../../fpp/n/facteur-conversion.html">Facteur de conversion</a></li></ul><p class="note">Généré : les notions qui découlent directement de ce principe (A4, A9).</p></div></details></div></main>
+<main><div class="wrap"><h1>Coordonnées d’un flux</h1><div class="meta"><span class="pill typ">principe</span><a class="pill" href="../../fpp/index.html">fpp</a><span class="pill" title="ordre de lecture : nombre de notions à traverser, au plus long, pour arriver jusqu’à celle-ci. Niveau 0 = ne dépend d’aucune autre.">niveau 0</span><span class="pill">§2.1</span></div><section class="sec " data-oblig="1"><h2>Ce que c'est</h2><div class="corps"><p>Un flux est un triplet : un montant, une devise, une date. Deux flux ne se comparent jamais directement. <span class="marq" title="référence à la source">[§2.1]</span></p></div></section><section class="sec " data-oblig="1"><h2>Ce qui la définit</h2><div class="corps"><p>Comparer exige un facteur de conversion, et lequel dépend de la coordonnée qui sépare les deux flux. <span class="marq" title="référence à la source">[§2.1]</span></p></div></section><details class="sec lim" data-k="limite" data-oblig="1"><summary><h2>Cesse d'être valide quand</h2></summary><div class="corps"><p class="is-ajout">rien dans le périmètre du cours <span class="marq marq-ajout" title="assertion de l'opérateur, absente de la source">ajout</span></p></div></details><details class="sec gen" data-k="membres"><summary><h2>Premières constructions</h2><span class="cnt">1</span></summary><div class="corps"><ul class="pasts"><li><a class="past ajout" href="../../fpp/n/facteur-conversion.html">Facteur de conversion</a></li></ul><p class="note">Généré : les notions qui découlent directement de ce principe (A4, A9).</p></div></details></div></main>
 <footer><div class="wrap">Base de notions M2 IRFA · page générée par <code>tools/build.py</code> selon <code>SPEC-SITE.md</code> · les rubriques dérivées (socle, membres, sert ensuite à, niveau) sont calculées au build, jamais écrites dans les fiches (A9).</div></footer>
 <script src="../../search-index.js"></script>
 <script>
@@ -262,20 +258,23 @@ document.addEventListener('DOMContentLoaded',function(){
     var k='notions.pli.'+d.getAttribute('data-k');
     var v=LS.g(k,null);if(v!==null)d.open=(v==='1');
     d.addEventListener('toggle',function(){LS.s(k,d.open?'1':'0')});});
-  /* socle : « déjà su » persistant + compteur (règle 6) */
+  /* amont et aval : même état « déjà su », un compteur par liste (règle 6) */
   var su={};try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}
   function compte(){
-    var l=document.querySelectorAll('.socle input[data-su]');if(!l.length)return;
-    var k=0;l.forEach(function(c){if(c.checked)k++});
-    var el=document.getElementById('cpt');
-    if(el)el.textContent=l.length+' notion'+(l.length>1?'s':'')+', '+(l.length-k)+' à voir';}
-  document.querySelectorAll('.socle input[data-su]').forEach(function(c){
+    document.querySelectorAll('.sec').forEach(function(s){
+      var cpt=s.querySelector('[data-cpt]');if(!cpt)return;
+      var l=s.querySelectorAll('input[data-su]'),k=0;
+      l.forEach(function(c){if(c.checked)k++});
+      cpt.textContent=l.length+' notion'+(l.length>1?'s':'')+', '+(l.length-k)+' à voir';});}
+  document.querySelectorAll('input[data-su]').forEach(function(c){
     var id=c.getAttribute('data-su');c.checked=!!su[id];
     c.closest('li').classList.toggle('su',c.checked);
     c.addEventListener('change',function(){
       su[id]=c.checked;if(!c.checked)delete su[id];
       try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}
-      c.closest('li').classList.toggle('su',c.checked);compte();});});
+      document.querySelectorAll('input[data-su="'+id+'"]').forEach(function(o){
+        o.checked=c.checked;o.closest('li').classList.toggle('su',c.checked);});
+      compte();});});
   compte();
 });
 </script>

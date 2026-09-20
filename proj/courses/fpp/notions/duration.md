@@ -3,6 +3,8 @@ id: fpp/duration
 nom: Sensibilité, duration
 type: notion
 statut: source
+cas_de: fpp/sensibilite
+valeur: le taux, sur un zéro-coupon
 construite_a_partir_de:
 - fpp/valeur-actuelle-nette
 refs:
@@ -23,7 +25,7 @@ Une variation instantanée du taux agit sur toute la vie du titre : la sensibili
 Un zéro-coupon à 5 ans perd 5 % de sa valeur quand le taux monte de 100 points de base. [ajout]
 
 ## Geste de calcul type
-à venir [ajout]
+Multiplier la maturité par la variation de taux : un zéro-coupon à cinq ans perd 5 % pour cent points de base. Sur un titre à flux multiples, le calcul se fait flux par flux, comme dans l’exemple du bullet bond. [Déf. 5, Ex. 1]
 
 ## Cesse d'être valide quand
 Premier ordre seulement, et déplacement parallèle de la courbe. [ajout]

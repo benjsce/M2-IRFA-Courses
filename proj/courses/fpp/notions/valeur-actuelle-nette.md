@@ -28,7 +28,7 @@ Transportable à n’importe quelle date par division : $\mathrm{NPV}(t_k)=\math
 Trois flux de 100 en 1, 2 et 3 ans, courbe plate à 4 % : $\mathrm{NPV}(0)=277{,}08$. [ajout]
 
 ## Geste de calcul type
-à venir [ajout]
+Actualiser flux par flux, puis sommer : trois flux de 100 à un, deux et trois ans sur une courbe plate à 4 % valent 277,08. Pour transporter la valeur en $t_k$, diviser par $P(t,t_k)$. [Déf. 4]
 
 ## Cesse d'être valide quand
 Flux certains uniquement. [Déf. 4]

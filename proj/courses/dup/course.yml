@@ -1,0 +1,23 @@
+code: dup
+titre: Decision under Uncertainty and Portfolio Analysis
+enseignant: Xiangyu Qu
+annee: 2025-2026
+sources:
+- id: lec1
+  fichier: sources/lec1.pdf
+  type: slides, cours 1 (71 slides)
+- id: lec2
+  fichier: sources/lec2.pdf
+  type: slides, cours 2 (35 slides)
+- id: lec3
+  fichier: sources/lec3.pdf
+  type: slides, cours 3 (47 slides)
+refs_pattern: ^(L[123] slide \d+|L[123] éq\. \d+)$
+depend_de: []
+conventions_par_defaut:
+  reference: >-
+    trois sources de slides : toute référence est préfixée du cours (L1, L2, L3) et
+    porte le numéro imprimé sur la slide, pas le numéro de page du PDF
+  recouvrement: >-
+    L2 slides 2 à 15 reprennent L1 slides 42 à 54 ; la référence retenue est celle de
+    la source qui traite le point le plus complètement

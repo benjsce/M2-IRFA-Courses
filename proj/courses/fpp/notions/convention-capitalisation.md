@@ -21,7 +21,7 @@ Quatre écritures bijectives du même objet. Aucun contenu économique. [§2.1]
 $r=5\%$ sur deux ans : facteur linéaire $1{,}10$, trimestriel $1{,}1038$, continu $1{,}1052$, actuariel $1{,}1052$. [ajout]
 
 ## Geste de calcul type
-à venir [ajout]
+Avant tout calcul, fixer la convention : le même « 5 % sur deux ans » donne un facteur de 1,10 en linéaire et de 1,1052 en continu, soit 52 points de base d’écart. L’erreur est silencieuse et se propage à tout le reste. [§2.1]
 
 ## Cesse d'être valide quand
 Aucune — mais oublier de la fixer rend toute formule inévaluable, et le choix borne la fréquence d’actualisation possible. Le continu est la seule convention sans plancher. [§2.1]

@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="fr" data-rel="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rapport 2026-09-20-dup · notions</title>
+<script>
+(function(){try{var t=localStorage.getItem('notions.theme');if(t){document.documentElement.setAttribute('data-theme',t);}
+var a=localStorage.getItem('notions.ajouts');if(a==='0'){document.documentElement.classList.add('sans-ajouts');}}catch(e){}})();
+</script>
+<style>
+:root{
+  --bg:#fbfaf7; --bg2:#f3f0ea; --fg:#1b1a17; --mut:#6c675d; --fai:#8e887c;
+  --li:#e0dbd1; --li2:#cdc6b8; --card:#ffffff; --acc:#8a4f23; --acc2:#f3e7dc;
+  --ajo:#6d5a8c; --ajo2:#efe9f5; --lim:#9a3a2e; --ok:#3f6b46; --faute:#a8631a;
+  --r:8px; --w:min(72rem,100%);
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}}
+:root[data-theme="dark"]{
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
+  font-size:17px;line-height:1.62;overflow-wrap:break-word}
+a{color:var(--acc);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-style:dotted}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+.wrap{width:var(--w);margin:0 auto;padding:0 1rem}
+
+/* ---- barre du haut ---- */
+header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
+  border-bottom:1px solid var(--li);font-family:var(--sans)}
+.topin{width:var(--w);margin:0 auto;padding:.45rem 1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.brand{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--fg);letter-spacing:.02em}
+.fil{color:var(--mut);font-size:.82rem;flex:1 1 8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fil a{color:var(--mut)}
+.btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
+  border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+.btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
+.rech{position:relative;flex:0 1 16rem;min-width:9rem}
+.rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
+  border:1px solid var(--li2);border-radius:var(--r);background:var(--card);color:var(--fg)}
+.res{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--li2);
+  border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.14);max-height:60vh;overflow:auto;padding:.2rem;margin:0;
+  list-style:none;display:none;z-index:50;min-width:18rem}
+.res.on{display:block}
+.res li a{display:block;padding:.3rem .45rem;border-radius:6px;text-decoration:none;color:var(--fg);font-size:.86rem}
+.res li a:hover,.res li.sel a{background:var(--acc2)}
+.res .sub{color:var(--mut);font-size:.76rem;font-family:var(--sans)}
+.res .vide{padding:.4rem .5rem;color:var(--mut);font-size:.84rem}
+
+main{padding:1.4rem 0 4rem}
+h1{font-size:1.75rem;line-height:1.24;margin:.2rem 0 .3rem}
+h2{font-size:1.06rem;font-family:var(--sans);font-weight:600;letter-spacing:.01em;margin:0}
+h3{font-size:.95rem;font-family:var(--sans);margin:1.2rem 0 .3rem}
+p{margin:.55rem 0}
+.ptag{font-family:var(--sans);font-size:.74rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .5rem}
+
+/* ---- métadonnées de fiche ---- */
+.meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;font-family:var(--sans);font-size:.75rem;color:var(--mut);margin:.4rem 0 1.1rem}
+.pill{border:1px solid var(--li2);border-radius:99px;padding:.06rem .5rem;background:var(--card);white-space:nowrap}
+.pill.ajout{color:var(--ajo);border-color:var(--ajo);background:var(--ajo2)}
+.pill.typ{background:var(--acc2);border-color:var(--acc)}
+.sym{font-family:var(--serif);font-size:1rem;color:var(--fg)}
+
+/* ---- sections ---- */
+.sec{border-top:1px solid var(--li);padding:.85rem 0}
+.sec.vide{display:none}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.45rem;padding:.1rem 0}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"›";color:var(--fai);font-family:var(--sans);display:inline-block;
+  transition:transform .12s ease;transform:rotate(0deg);width:.7em}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fai);font-weight:400}
+.corps{padding-top:.25rem}
+.gen{border-left:2px solid var(--li2);padding-left:.7rem}
+.note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
+.sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
+.sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
+.sec.faute>summary h2{color:var(--faute)}
+.faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
+  margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.faute-b strong{color:var(--faute)}
+.sec.lim>summary h2{color:var(--lim)}
+.sec.lim>h2{color:var(--lim)}
+
+/* ---- marqueurs de traçabilité ---- */
+.marq{font-family:var(--sans);font-size:.7rem;color:var(--fai);white-space:nowrap;vertical-align:.12em}
+.marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
+.marqligne{margin:.15rem 0 0}
+html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
+.bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
+  color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
+
+/* ---- pastilles ---- */
+.pasts{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0;padding:0;list-style:none}
+.past{display:inline-block;font-family:var(--sans);font-size:.82rem;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--li2);border-radius:99px;padding:.12rem .6rem}
+.past:hover{border-color:var(--acc);color:var(--acc)}
+.past .cc{color:var(--fai);font-size:.74rem}
+.past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
+.past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
+
+/* ---- socle ---- */
+.socle{list-style:none;padding:0;margin:.3rem 0}
+.socle li{display:flex;gap:.5rem;align-items:baseline;padding:.12rem 0;font-size:.92rem}
+.socle input{margin:0;accent-color:var(--ok)}
+.socle li.su a{color:var(--fai);text-decoration:line-through}
+.compteur{font-family:var(--sans);font-size:.78rem;color:var(--mut)}
+.grp{margin:.5rem 0}
+.grp>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--mut)}
+
+table{border-collapse:collapse;margin:.5rem 0;font-size:.9rem;display:block;overflow-x:auto;max-width:100%}
+th,td{border:1px solid var(--li);padding:.25rem .55rem;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-family:var(--sans);font-size:.78rem;font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+  background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
+ul{padding-left:1.1rem}
+hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
+
+/* ---- cartes d'accueil / carte du cours ---- */
+.cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
+.carte{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.65rem .8rem}
+.carte h3{margin:0 0 .2rem}
+.carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
+.carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
+.dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.dette ul{margin:.3rem 0 0}
+footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
+
+/* ---- arbre ---- */
+.barre{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+#scene{position:relative;border:1px solid var(--li);border-radius:var(--r);background:var(--bg2);
+  height:min(74vh,720px);overflow:hidden;touch-action:none;cursor:grab}
+#scene.drag{cursor:grabbing}
+#pan{position:absolute;transform-origin:0 0;top:0;left:0}
+#aretes{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+#aretes path{fill:none;stroke:var(--li2);stroke-width:1.5}
+.noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
+  padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
+.noeud.aj{border-color:var(--ajo)}
+.noeud .nm{font-weight:600}
+.noeud .nm a{text-decoration:none;color:var(--fg)}
+.noeud .nm a:hover{color:var(--acc)}
+.noeud .pa{color:var(--mut);font-size:.72rem;display:block;margin-top:.1rem}
+.noeud .pli{font:inherit;font-size:.72rem;background:none;border:1px solid var(--li2);border-radius:4px;
+  color:var(--mut);cursor:pointer;padding:0 .3rem;margin-right:.25rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.4rem}
+  .rech{flex:1 1 100%;order:9}
+  #scene{height:66vh}
+}
+@media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="brand" href="../index.html">notions</a><span class="fil">rapport d’ingestion › 2026-09-20-dup</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><article class="rapport"><h1>Rapport d'ingestion — dup — 2026-09-20 (amorçage)</h1><p>Amorçage d'un second cours : <em>Decision under Uncertainty and Portfolio Analysis</em>
+(Xiangyu QU, 2025-2026), code <code>dup</code>.</p><h2>Matériau traité</h2><p>Trois jeux de slides, <strong>lus en entier avant toute écriture</strong> (protocole, étape 1) :</p><div class="tablebloc"><table><thead><tr><th>source</th><th>fichier</th><th>slides</th></tr></thead><tbody><tr><td>L1</td><td><code>courses/dup/sources/lec1.pdf</code></td><td>71</td></tr><tr><td>L2</td><td><code>courses/dup/sources/lec2.pdf</code></td><td>35</td></tr><tr><td>L3</td><td><code>courses/dup/sources/lec3.pdf</code></td><td>47</td></tr></tbody></table></div><p><strong>Grammaire de référence.</strong> Trois sources, donc <code>slide 12</code> serait ambigu : toute référence
+est préfixée du cours. <code>refs_pattern</code> vaut <code>^(L[123] slide \d+|L[123] éq\. \d+)$</code>. Le
+numéro retenu est celui <strong>imprimé sur la slide</strong>, pas la page du PDF : les deux divergent
+d'une unité après L1 page 52, à cause d'une slide en deux temps.</p><h2>Inventaire ajouté (à auditer par l'utilisateur)</h2><p><strong>158 éléments</strong> : un par slide (le titre de slide tient lieu de titre de section), plus
+les cinq équations numérotées. Le fichier complet est <code>courses/dup/inventaire.yml</code>, et la
+page <code>site/dup/inventaire.html</code> le présente groupé. Ci-dessous, **les 37 décisions
+d'image** ; les 121 autres éléments sont tous <code>a_venir: 2026-10</code>.</p><div class="tablebloc"><table><thead><tr><th>réf</th><th>intitulé</th><th>image</th></tr></thead><tbody><tr><td>L1 slide 2</td><td>Risk and uncertainty</td><td>notion <code>separation-gouts-croyances</code></td></tr><tr><td>L1 slide 3</td><td>From expected value to expected utility</td><td>notion <code>utilite-esperee</code></td></tr><tr><td>L1 slide 4</td><td>Preferences over lotteries</td><td>absorbe <code>utilite-esperee</code></td></tr><tr><td>L1 slide 5</td><td>The independence axiom</td><td>notion <code>axiome-independance</code></td></tr><tr><td>L1 slide 6</td><td>Expected utility over wealth</td><td>notion <code>dominance-stochastique-ordre-1</code></td></tr><tr><td>L1 slide 7</td><td>Risk aversion</td><td>notion <code>aversion-au-risque</code></td></tr><tr><td>L1 slide 8</td><td>The geometry of concavity</td><td>absorbe <code>aversion-au-risque</code></td></tr><tr><td>L1 slide 9</td><td>Certainty equivalent and risk premium</td><td>notion <code>equivalent-certain</code></td></tr><tr><td>L1 slide 10</td><td>Risk attitudes</td><td>absorbe <code>aversion-au-risque</code></td></tr><tr><td>L1 slide 11</td><td>Standard deviation as a measure of risk</td><td>notion <code>moyenne-variance</code></td></tr><tr><td>L1 slide 12</td><td>A riskless and a risky asset</td><td>notion <code>frontiere-actif-sans-risque</code></td></tr><tr><td>L1 slide 13</td><td>Two risky assets and diversification</td><td>notion <code>diversification</code></td></tr><tr><td>L1 slide 14</td><td>When two moments are sufficient</td><td>notion <code>utilite-quadratique</code></td></tr><tr><td>L1 slide 15</td><td>Problems with quadratic utility</td><td>absorbe <code>utilite-quadratique</code></td></tr><tr><td>L1 slide 16</td><td>Borch's critique</td><td>notion <code>critique-de-borch</code></td></tr><tr><td>L1 slide 17</td><td>Entropy and payoff risk</td><td>notion <code>entropie</code></td></tr><tr><td>L1 slide 18</td><td>Risk as a partial order</td><td>notion <code>accroissement-de-risque</code></td></tr><tr><td>L1 slide 19</td><td>Definition A</td><td>notion <code>ordre-concave</code></td></tr><tr><td>L1 slide 20</td><td>Definition B</td><td>notion <code>bruit-equitable</code></td></tr><tr><td>L1 slide 21</td><td>Definition C</td><td>notion <code>etalement-preservant-la-moyenne</code></td></tr><tr><td>L1 slide 22</td><td>The integrated-CDF condition</td><td>notion <code>condition-cdf-integree</code></td></tr><tr><td>L1 slide 23</td><td>Rothschild-Stiglitz equivalence</td><td>absorbe <code>accroissement-de-risque</code></td></tr><tr><td>L1 slide 24</td><td>A discrete example</td><td>absorbe <code>etalement-preservant-la-moyenne</code></td></tr><tr><td>L1 slide 25</td><td>Variance versus increasing risk</td><td>absorbe <code>accroissement-de-risque</code></td></tr><tr><td>L1 slide 26</td><td>Comparative statics under increasing risk</td><td>notion <code>statique-comparative-risque-accru</code></td></tr><tr><td>L1 slide 27</td><td>The cross-derivative condition</td><td>absorbe <code>statique-comparative-risque-accru</code></td></tr><tr><td>L1 slide 28</td><td>Comparison of the concepts</td><td>absorbe <code>accroissement-de-risque</code></td></tr><tr><td>L1 slide 31</td><td>Risk premium</td><td>notion <code>prime-de-risque</code></td></tr><tr><td>L1 slides 1, 29, 41, 71 · L2 slides 1, 34, 35 · L3 slides 1, 19</td><td>pages de titre et bibliographies</td><td>exclu, hors contenu</td></tr></tbody></table></div><p><strong>Point à vérifier par vous en priorité.</strong> L1 slide 2 définit à elle seule quatre objets
+($X$, $\Delta(X)$, $S$, $F$, $\succsim$) et porte la phrase de séparation. A13 n'autorise
+qu'une image par élément : je lui ai donné <code>separation-gouts-croyances</code>. Les fiches
+<code>loterie</code>, <code>acte</code> et <code>fonction-utilite</code> la référencent sans en être l'image. Voir
+question 2.</p><h2>Notations ajoutées ou en collision</h2><p>24 symboles enregistrés. <strong>Quatre collisions sont internes à la source</strong> — c'est beaucoup,
+et c'est le point le plus dangereux de ce cours :</p><div class="tablebloc"><table><thead><tr><th>symbole</th><th>ici</th><th>ailleurs</th></tr></thead><tbody><tr><td>$F$</td><td>ensemble des actes (L1 slide 2)</td><td>fonction de répartition (L1 slide 6, L1 slide 19) — <strong>quatre slides d'écart</strong></td></tr><tr><td>$\pi$</td><td>prime de risque (L1 slide 9)</td><td>croyance subjective (L1 slide 59), poids de décision (L3 slide 21)</td></tr><tr><td>$a$</td><td>part investie dans l'actif sans risque (L1 slide 12)</td><td>actes $a_1,\dots,a_4$ d'Allais (L1 slide 42), variable de choix (L1 slide 26)</td></tr><tr><td>$\alpha$</td><td>coefficient de l'utilité quadratique (L1 slide 14)</td><td>poids de mélange (L1 slide 5), pénalité de déception (L3 slide 10)</td></tr></tbody></table></div><p>Collision entre cours : $P$ est ici une loterie, c'est un prix de zéro-coupon en <code>fpp</code>.</p><p>A12 m'interdit de renommer : la fiche <code>acte</code> écrit donc $F=\{f:S\to X\}$ comme la source,
+malgré la collision, et celle-ci est déclarée plutôt que résolue.</p><h2>Fiches créées</h2><p><strong>22 fiches</strong>, couvrant L1 slides 2 à 28 plus slide 31 — le socle théorique du cours. Le
+choix de tranche suit celui de l'amorçage <code>fpp</code> : un bloc cohérent, le reste en dette.</p><div class="tablebloc"><table><thead><tr><th>id</th><th>type</th><th>cas_de</th><th>construite à partir de</th></tr></thead><tbody><tr><td><code>separation-gouts-croyances</code></td><td>principe</td><td>—</td><td>—</td></tr><tr><td><code>axiome-independance</code></td><td>principe</td><td>—</td><td>—</td></tr><tr><td><code>loterie</code></td><td>notion</td><td>separation-gouts-croyances</td><td>—</td></tr><tr><td><code>acte</code></td><td>notion</td><td>separation-gouts-croyances</td><td>—</td></tr><tr><td><code>fonction-utilite</code></td><td>notion</td><td>—</td><td>—</td></tr><tr><td><code>utilite-esperee</code></td><td>notion</td><td>axiome-independance</td><td>loterie, fonction-utilite</td></tr><tr><td><code>dominance-stochastique-ordre-1</code></td><td>notion</td><td>—</td><td>utilite-esperee</td></tr><tr><td><code>aversion-au-risque</code></td><td>notion</td><td>—</td><td>utilite-esperee</td></tr><tr><td><code>equivalent-certain</code></td><td>notion</td><td>—</td><td>utilite-esperee</td></tr><tr><td><code>prime-de-risque</code></td><td>notion</td><td>—</td><td>equivalent-certain</td></tr><tr><td><code>moyenne-variance</code></td><td>notion</td><td>—</td><td>loterie</td></tr><tr><td><code>frontiere-actif-sans-risque</code></td><td>notion</td><td>—</td><td>moyenne-variance</td></tr><tr><td><code>diversification</code></td><td>notion</td><td>—</td><td>moyenne-variance</td></tr><tr><td><code>utilite-quadratique</code></td><td>notion</td><td>—</td><td>fonction-utilite, moyenne-variance</td></tr><tr><td><code>critique-de-borch</code></td><td>notion</td><td>—</td><td>moyenne-variance, dominance-stochastique-ordre-1</td></tr><tr><td><code>entropie</code></td><td>notion</td><td>—</td><td>loterie</td></tr><tr><td><code>ordre-concave</code></td><td>notion</td><td>—</td><td>aversion-au-risque</td></tr><tr><td><code>bruit-equitable</code></td><td>notion</td><td>—</td><td>utilite-esperee</td></tr><tr><td><code>etalement-preservant-la-moyenne</code></td><td>notion</td><td>—</td><td>loterie</td></tr><tr><td><code>condition-cdf-integree</code></td><td>notion</td><td>—</td><td>loterie</td></tr><tr><td><code>accroissement-de-risque</code></td><td>notion</td><td>—</td><td>ordre-concave, bruit-equitable, etalement-preservant-la-moyenne, condition-cdf-integree</td></tr><tr><td><code>statique-comparative-risque-accru</code></td><td>notion</td><td>—</td><td>accroissement-de-risque</td></tr></tbody></table></div><p>Les 22 sont de statut <code>source</code> : aucune notion inventée. **Aucun exemple minimal n'est en
+dette** — la règle de SPEC-INGESTION étape 3 est respectée dès l'écriture, et les 17
+valeurs numériques ont été recalculées avant d'être écrites. Elles vivent dans un monde
+unique : $u(x)=\sqrt{x}$, le pari $(0,\tfrac12;100,\tfrac12)$, et la paire
+$\{40,60\}\to\{20,40,60,80\}$ de L1 slide 24 qui sert aux quatre définitions du risque
+accru.</p><h2>Fiches modifiées</h2><p><strong>Aucune.</strong> Aucun fichier de <code>courses/fpp/</code> n'a été ouvert en écriture.</p><h2>Abstractions créées / insérées</h2><p><strong>Aucune, et c'est le point de structure de cette session.</strong></p><p>A4 exige que la racine d'un arbre d'abstraction soit un <code>principe</code>. Les quatre
+abstractions que le matériau appelle (ci-dessous) devraient toutes se rattacher à un
+principe qui gouvernerait la mesure du risque — et <strong>la source n'en nomme aucun</strong>. Le
+cours a bien deux principes (la séparation goûts/croyances, l'indépendance), mais aucun
+des deux ne parente naturellement « comment mesurer un risque ».</p><p>Plutôt que d'inventer un principe le premier jour, j'ai modélisé ces liens par des arêtes
+de dépendance : <code>accroissement-de-risque</code> est une notion construite à partir de ses quatre
+caractérisations. C'est exact et sans risque, mais cela perd l'information « ce sont
+quatre portes sur la même pièce ». Voir question 1.</p><h2>Abstractions en attente</h2><div class="tablebloc"><table><thead><tr><th>abstraction pressentie</th><th>membres</th><th>paramètre envisagé</th><th>ce qui manque</th></tr></thead><tbody><tr><td><code>accroissement-de-risque</code> comme abstraite</td><td>ordre-concave, bruit-equitable, etalement-preservant-la-moyenne, condition-cdf-integree</td><td>la caractérisation retenue</td><td>un principe au-dessus (A4)</td></tr><tr><td><code>mesure-de-risque</code></td><td>aversion-au-risque, moyenne-variance, accroissement-de-risque</td><td>la question à laquelle la mesure répond (table de L1 slide 28)</td><td>un principe au-dessus (A4)</td></tr><tr><td><code>portefeuille-a-deux-actifs</code></td><td>frontiere-actif-sans-risque, diversification</td><td>la nature des deux actifs combinés</td><td>un principe au-dessus (A4)</td></tr><tr><td><code>dominance-stochastique</code></td><td>dominance-stochastique-ordre-1, ordre-concave</td><td>la classe d'utilités qui doit être d'accord</td><td>un principe, <strong>et</strong> un arbitrage : <code>ordre-concave</code> serait membre de deux abstractions à la fois (A4 l'interdit)</td></tr></tbody></table></div><p>La dernière ligne est le symptôme que CLAUDE.md décrit : une notion candidate à deux
+abstractions révèle un paramètre non identifié. Elle se tranche avec vous, pas seule.</p><h2>Dette</h2><div class="tablebloc"><table><thead><tr><th>poste</th><th>fpp</th><th>dup</th><th>total</th></tr></thead><tbody><tr><td>liens à venir</td><td>0</td><td>0</td><td>0</td></tr><tr><td>exemples minimaux à venir</td><td>0</td><td>0</td><td>0</td></tr><tr><td>gestes de calcul à venir</td><td>15</td><td>13</td><td>28</td></tr><tr><td>éléments d'inventaire à venir</td><td>58</td><td>121</td><td>179</td></tr></tbody></table></div><p>Avertissements du validateur : 76 → 210. La hausse est entièrement due à l'inventaire de
+<code>dup</code>, c'est-à-dire à du travail désormais <em>visible</em> plutôt qu'inexistant.</p><h2>Contradictions source</h2><p>Relevées à la lecture, aucune arbitrée :</p><p>1. <strong>$F$ désigne deux objets</strong> à quatre slides d'écart (L1 slide 2, L1 slide 6). Ce n'est
+   pas une coquille : les deux usages sont délibérés et standards dans leurs littératures
+   respectives. Le risque est pour l'étudiant, pas pour la théorie.
+2. <strong>L2 slides 2 à 15 reprennent L1 slides 42 à 54</strong> presque à l'identique. L2 est plus
+   complet : L2 slide 13 démontre pourquoi l'assurance probabiliste domine le mélange au
+   second ordre, démonstration absente de L1. Les fiches à venir sur ce bloc devront
+   référencer L2, pas L1.
+3. <strong>L3 slide 23</strong> écrit « 6,000 with probability 0258 » ; le contexte impose 0.25.
+   Coquille.
+4. <strong>L3 slide 1</strong> est datée « September 15, 2006 » quand L1 et L2 portent 2026. Coquille.
+5. <strong>L1 slide 47</strong> titre « Common Ration Effect » ; L2 slide 7 écrit correctement
+   « Common Ratio Effect ». Coquille.</p><h2>Questions pour l'utilisateur</h2><p>1. <strong>Quel principe au-dessus de la mesure du risque ?</strong> C'est la question qui débloque les
+   quatre abstractions en attente. Recommandation : créer un principe <code>ajout</code> du type
+   « un risque se juge par ce qu'en pense un agent à utilité espérée » — c'est ce que la
+   source fait partout (L1 slide 19 « Risk is what all risk averters hate », L1 slide 16,
+   L1 slide 28) sans jamais le nommer. À défaut, le cours restera plat sur cette branche.
+2. <strong>L1 slide 2 porte quatre objets pour une seule image A13.</strong> Recommandation : accepter,
+   et retenir que l'image désigne le contenu principal d'un élément, pas l'ensemble des
+   notions qu'il alimente. Sinon il faudra scinder les slides en sous-éléments, ce qui
+   alourdirait l'inventaire de tout le cours.
+3. <strong>Recouvrement L1/L2 :</strong> je propose de traiter le bloc paradoxes à partir de L2 (plus
+   complet) et de marquer L1 slides 42 à 54 en <code>absorbe</code> vers les mêmes fiches. Confirmez
+   avant que je l'ingère.
+4. <strong>Tranche suivante ?</strong> Ma recommandation : L1 slides 30 à 41 (aversion relative,
+   approximation d'Arrow-Pratt, DARA, CARA/CRRA/HARA, calibration du coût du risque
+   macro), parce qu'elle prolonge directement <code>prime-de-risque</code>, déjà écrite, et que L2
+   slides 22 à 24 en donnent la dérivation complète.
+5. Restent ouvertes des sessions précédentes : promouvoir « Exemple minimal à venir » en
+   <strong>E</strong> dans <code>validate.py</code> (toujours gratuit : le compteur est à zéro sur les deux
+   cours) ; README à mettre à jour ; <code>sens</code> de $B(t,T)$ dans le registre <code>fpp</code>.</p><h2>Validation</h2><p>```
+47 notions · 0 erreur · 210 avertissement(s)
+dette : Geste de calcul type à venir = 28, inventaire à venir = 179
+dup : 22 fiches · 24 symboles · 158 éléments d'inventaire · 0 exemple en dette
+test_layout : ok dup (complet) 5 nœuds · ok dup (ajouts masqués) 5 nœuds
+              ok fpp (complet) 19 nœuds · ok fpp (ajouts masqués) 13 nœuds
+site : 62 fichiers, la plus lourde 34 ko
+17 valeurs numériques des exemples recalculées et vérifiées
+```</p></article></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · page générée par <code>tools/build.py</code> selon <code>SPEC-SITE.md</code> · les rubriques dérivées (socle, membres, sert ensuite à, niveau) sont calculées au build, jamais écrites dans les fiches (A9).</div></footer>
+<script src="../search-index.js"></script>
+<script>
+var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+        s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
+  var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
+  b.textContent=on?'masquer les ajouts':'ajouts masqués';}
+  document.querySelectorAll('.sec').forEach(function(s){
+    var c=s.querySelector('.corps');if(!c)return;var n=0;
+    c.querySelectorAll(':scope>*').forEach(function(el){
+      if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
+      if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
+      n++;});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='Rubrique obligatoire dont tout le contenu est un ajout de l’opérateur : masquée par le filtre, mais elle existe dans la fiche.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
+  if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var bt=document.getElementById('btheme');
+  if(bt)bt.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    var nx=(cur||sys)==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);});
+  var ba=document.getElementById('bajout');
+  if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);});
+  majAjouts(LS.g('notions.ajouts','1')!=='0');
+  /* --- recherche instantanée (règle 9) --- */
+  var inp=document.getElementById('q'),res=document.getElementById('qres');
+  if(!inp||!res||!window.SEARCH_INDEX)return;
+  var REL=document.documentElement.getAttribute('data-rel')||'';
+  var sel=-1,items=[];
+  function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+  function cherche(q){
+    var n=norm(q);if(!n)return [];
+    var out=[];
+    SEARCH_INDEX.forEach(function(e){
+      var sc=-1,ch=e.h||[];
+      for(var i=0;i<ch.length;i++){var p=norm(ch[i]).indexOf(n);
+        if(p===0){sc=Math.max(sc,3-(i>0?1:0))}else if(p>0){sc=Math.max(sc,1)}}
+      if(sc>=0)out.push([sc,e]);});
+    out.sort(function(a,b){return b[0]-a[0]||a[1].n.localeCompare(b[1].n)});
+    return out.slice(0,9).map(function(x){return x[1]});}
+  function rendre(){
+    items=cherche(inp.value);sel=-1;res.innerHTML='';
+    if(!inp.value){res.classList.remove('on');return}
+    if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
+    items.forEach(function(e,i){
+      var li=document.createElement('li');
+      var a=document.createElement('a');a.href=REL+e.u;a.id='qr'+i;
+      a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
+      li.appendChild(a);res.appendChild(li);});
+    res.classList.add('on');}
+  function bouge(d){if(!items.length)return;sel=(sel+d+items.length)%items.length;
+    Array.prototype.forEach.call(res.children,function(li,i){li.classList.toggle('sel',i===sel)});
+    inp.setAttribute('aria-activedescendant','qr'+sel);}
+  inp.addEventListener('input',rendre);
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();bouge(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();bouge(-1)}
+    else if(e.key==='Enter'){var a=res.querySelector(sel>=0?'li.sel a':'li a');if(a){e.preventDefault();location.href=a.href}}
+    else if(e.key==='Escape'){inp.value='';res.classList.remove('on')}});
+  document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
+  document.addEventListener('keydown',function(e){
+    if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
+});
+</script>
+</body>
+</html>

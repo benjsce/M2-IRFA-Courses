@@ -27,8 +27,13 @@ Ces règles sont des contraintes du générateur, pas des conseils.
 5. **Divulgation progressive.** À l'ouverture d'une fiche : « Ce que c'est », « Forme »,
    « Ce qui la définit ». Les autres rubriques sont repliées, dans l'ordre, et se
    déplient d'un clic. L'état de pliage est mémorisé par navigateur (`localStorage`).
-6. **Le socle est une liste, jamais un graphe.** Plat, ordonné par niveau croissant, avec
-   un état « déjà su » persistant par navigateur, et le compteur « n notions, k à voir ».
+6. **Les deux directions de dépendance sont des listes, jamais des graphes.** Le socle
+   ($D^{+}$, amont, transitif) et « sert ensuite à » ($D^{-1}$, aval, rayon 1) sont plats,
+   ordonnés par niveau croissant, avec un état « déjà su » persistant par navigateur —
+   **le même pour les deux, et partagé entre toutes les fiches** — et le compteur
+   « n notions, k à voir ». L'asymétrie des deux rayons est voulue : l'amont doit être
+   exhaustif parce qu'il faut tout savoir avant, l'aval ne peut pas l'être parce qu'une
+   notion fondamentale débloque tout le cours.
 7. **Deux relations, deux traitements visuels**, jamais confondus : la dépendance est une
    liste de pastilles ; l'abstraction est un arbre. Aucune arête d'abstraction n'apparaît
    dans une vue de dépendance et réciproquement.
@@ -66,16 +71,23 @@ Dans cet ordre, sans exception :
    ce n'est pas un prérequis ».
 8. Construite à partir de — pastilles, depuis le front matter.
 9. Socle complet — liste **générée**, ordonnée par niveau, cases « déjà su », compteur.
-10. Exemple minimal.
-11. Geste de calcul type.
-12. Ce qui reste libre.
-13. Cesse d'être valide quand — visuellement distinguée (bordure), c'est la rubrique
+    Amont **transitif** ($D^{+}$) : un plan de lecture, donc exhaustif.
+10. Sert ensuite à — liste **générée** ($D^{-1}$), de même forme que le socle : ordonnée
+    par niveau, mêmes cases « déjà su », même compteur. Aval à **rayon 1**, jamais
+    transitif. Les deux rubriques se suivent : « ce qu'il faut avant » et « ce que ça
+    ouvre après » se lisent d'un seul tenant.
+11. Exemple minimal.
+12. Geste de calcul type.
+13. Ce qui reste libre.
+14. Cesse d'être valide quand — visuellement distinguée (bordure), c'est la rubrique
     la plus lue.
-14. Sert ensuite à — pastilles, **générée** ($D^{-1}$).
 15. Membres — *(abstraite)* pastilles, **générée** ($A^{-1}$).
 16. Origine.
-17. Voisinage — petit schéma **généré** : la notion au centre, ses dépendances directes
-    à gauche, ses dépendants directs à droite. Rayon 1, jamais plus.
+
+Aucune vue de la fiche ne dessine de graphe : la règle 2 en réserve le droit à l'arbre
+d'abstraction, qui a sa page. Un schéma de voisinage à rayon 1 a existé jusqu'au
+2026-09-20 ; il a été retiré parce qu'il redessinait exactement « construite à partir de »
+et « sert ensuite à », et que 38 fiches sur 47 avaient deux voisins ou moins.
 
 Les pastilles sont des liens. Un lien vers une notion d'un autre cours porte le code du
 cours. Un lien vers un id `a-venir` est rendu comme texte barré avec la mention « à

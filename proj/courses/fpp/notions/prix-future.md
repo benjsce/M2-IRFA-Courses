@@ -30,7 +30,7 @@ Chaque variation est encaissée le jour même et doit être replacée à un taux
 Sous-jacent à 100, taux déterministes, $B(0,1)=P(0,1)=0{,}9608$ : $H_0=104{,}08$, égal au forward. [ajout]
 
 ## Geste de calcul type
-à venir [ajout]
+Vérifier d’abord si les taux sont déterministes : si oui, $B=P$ et le future vaut le forward, 104,08. Sinon il n’y a pas de forme fermée et il faut un modèle de taux. [Prop. 4]
 
 ## Cesse d'être valide quand
 Pas de forme fermée : $H$ ne s’exprime pas en quantités observables en $t$, il faut un modèle de taux. [§4.2, §4.2.2]

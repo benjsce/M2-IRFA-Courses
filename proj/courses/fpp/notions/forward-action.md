@@ -27,7 +27,7 @@ Cas le plus simple du prix à terme : règlement unique, devise du sous-jacent. 
 Action à 100, dividende proportionnel de 2 % avant l’échéance, $P(0,1)=0{,}9608$ : $F(0,1)=102{,}00$. [ajout]
 
 ## Geste de calcul type
-à venir [ajout]
+Repérer d’abord la nature du dividende : proportionnel donne $\Phi=1-\sum_i d_i$. Avec 2 % de dividende et $P(0,1)=0{,}9608$, $F=100\times0{,}98/0{,}9608=102{,}00$. [§3.2]
 
 ## Cesse d'être valide quand
 Suppose le sous-jacent détenable et vendable à découvert sans coût. [ajout]

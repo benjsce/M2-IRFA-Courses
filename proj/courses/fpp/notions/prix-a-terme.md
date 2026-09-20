@@ -37,7 +37,7 @@ Quatre contrats que le cours présente séparément, sur quatre sections, alors 
 $S_t=100$, $\Phi=1$, $D=P(0,1)=0{,}9608$ : $K=104{,}08$. [ajout]
 
 ## Geste de calcul type
-à venir [ajout]
+Identifier les deux paramètres avant de calculer : le portage $\Phi$ et le facteur $D$. Avec $\Phi=1$ et $D=0{,}9608$, $K=104{,}08$. La formule se lit dans les deux sens : $S_t=KD/\Phi$. [Prop. 2, Prop. 3]
 
 ## Ce qui reste libre
 | paramètre | cas | valeur |

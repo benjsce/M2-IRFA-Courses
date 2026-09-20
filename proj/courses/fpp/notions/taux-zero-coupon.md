@@ -24,7 +24,7 @@ Court terme en taux linéaire $L$, long terme en taux continu $R$ : pure convent
 $P(0,2)=0{,}9048$ : $R(0,2)=5\%$. [ajout]
 
 ## Geste de calcul type
-à venir [ajout]
+Pour comparer deux maturités, passer des prix aux taux : $P(0,1)=0{,}9608$ et $P(0,2)=0{,}9048$ donnent 4 % et 5 %. La courbe monte, ce qui se lira dans le forward. [§2.3]
 
 ## Cesse d'être valide quand
 Ne contient rien de plus que $P$ : c’est une coordonnée, pas une notion nouvelle. [ajout]

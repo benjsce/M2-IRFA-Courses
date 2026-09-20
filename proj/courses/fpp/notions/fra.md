@@ -30,7 +30,7 @@ C’est un prix à terme dont le sous-jacent est le zéro-coupon $P(\cdot,S)$ : 
 $P(0,1)=0{,}9608$ et $P(0,2)=0{,}9048$ : le FRA $1\times2$ se traite à $K=6\%$. [ajout]
 
 ## Geste de calcul type
-à venir [ajout]
+Le strike du FRA est le taux forward, 6 % sur $[1,2]$. Contrôler qu’il ne coûte rien à la signature en vérifiant $P(t,T)=P(t,S)e^{K(S-T)}$ : $0{,}9048\times e^{0{,}06}=0{,}9608$. [Déf. 7]
 
 ## Cesse d'être valide quand
 L’écriture en taux masque qu’il s’agit d’un forward ordinaire ; elle n’ajoute rien. [ajout]

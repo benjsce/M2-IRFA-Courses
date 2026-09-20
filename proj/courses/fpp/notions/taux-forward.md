@@ -26,7 +26,7 @@ Un taux long est une moyenne pondérée de forwards : $R(t,S)(S-t)=R(t,T)(T-t)+F
 $P(0,1)=0{,}9608$ et $P(0,2)=0{,}9048$ : $F(0,1,2)=6\%$. [ajout]
 
 ## Geste de calcul type
-à venir [ajout]
+Le forward est un rapport de zéro-coupons : $\ln(0{,}9608/0{,}9048)=6\,\%$ sur $[1,2]$. Vérifier par la moyenne pondérée du cours : $5\%\times2=4\%\times1+6\%\times1$. [§2.3]
 
 ## Cesse d'être valide quand
 Verrouillable seulement si l’on peut prêter et emprunter aux deux maturités. [ajout]

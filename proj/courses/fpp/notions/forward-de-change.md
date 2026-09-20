@@ -30,7 +30,7 @@ C’est le seul endroit où les deux principes se rejoignent : la composition du
 $X_t=1{,}10$ USD par EUR, $P(0,1)=0{,}9608$ (EUR à 4 %), $P^f(0,1)=0{,}9802$ (USD à 2 %) : $K(0,1)=1{,}0782$. [ajout]
 
 ## Geste de calcul type
-à venir [ajout]
+Poser quelle devise est locale, puis appliquer $K=X_tP/P^f$ : avec $X_t=1{,}10$, $P=0{,}9608$ et $P^f=0{,}9802$, on obtient 1,0782. Contrôler le sens par les taux — le taux étranger plus bas fait baisser le forward. [§2.4]
 
 ## Cesse d'être valide quand
 Valable parce que le sous-jacent *est* la devise de règlement. Dès qu’ils diffèrent, la corrélation entre $S$ et $X$ entre en jeu et la formule ne tient plus. [ajout]

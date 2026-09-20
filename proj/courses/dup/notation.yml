@@ -1,0 +1,182 @@
+symboles:
+- symbole: $X$
+  notion: dup/loterie
+  ref: L1 slide 2
+  sens: ensemble des résultats
+- symbole: $\Delta(X)$
+  notion: dup/loterie
+  ref: L1 slide 2
+  sens: ensemble des loteries sur $X$
+- symbole: $P$
+  notion: dup/loterie
+  ref: L1 slide 2
+  sens: une loterie
+- symbole: $S$
+  notion: dup/acte
+  ref: L1 slide 2
+  sens: espace des états du monde
+- symbole: $f$
+  notion: dup/acte
+  ref: L1 slide 2
+  sens: un acte, application des états vers les résultats
+- symbole: $F$
+  notion: dup/acte
+  ref: L1 slide 2
+  sens: ensemble des actes — voir la collision avec la fonction de répartition
+- symbole: $\succsim$
+  notion: dup/axiome-independance
+  ref: L1 slide 2
+  sens: relation de préférence faible
+- symbole: $u$
+  notion: dup/fonction-utilite
+  ref: L1 slide 3
+  sens: utilité d'un résultat
+- symbole: $U$
+  notion: dup/fonction-utilite
+  ref: L1 slide 6
+  sens: utilité de la richesse, même objet que $u$ dans la source
+- symbole: $V_{EU}$
+  notion: dup/utilite-esperee
+  ref: L1 slide 3
+  sens: fonctionnelle d'utilité espérée
+- symbole: $\tilde x$
+  notion: dup/moyenne-variance
+  ref: L1 slide 6
+  sens: richesse aléatoire
+- symbole: $\succ_{FSD}$
+  notion: dup/dominance-stochastique-ordre-1
+  ref: L1 slide 16
+  sens: domine au premier ordre
+- symbole: $c$
+  notion: dup/equivalent-certain
+  ref: L1 slide 9
+  sens: équivalent certain
+- symbole: $\pi$
+  notion: dup/prime-de-risque
+  ref: L1 slide 9
+  sens: prime de risque — voir la collision
+- symbole: $\mu$
+  notion: dup/moyenne-variance
+  ref: L1 slide 11
+  sens: espérance d'une perspective
+- symbole: $\sigma$
+  notion: dup/moyenne-variance
+  ref: L1 slide 11
+  sens: écart type d'une perspective
+- symbole: $a$
+  notion: dup/frontiere-actif-sans-risque
+  ref: L1 slide 12
+  sens: part investie dans l'actif sans risque — voir la collision
+- symbole: $r_0$
+  notion: dup/frontiere-actif-sans-risque
+  ref: L1 slide 12
+  sens: rendement de l'actif sans risque
+- symbole: $\sigma_p$
+  notion: dup/diversification
+  ref: L1 slide 13
+  sens: écart type du portefeuille
+- symbole: $H(P)$
+  notion: dup/entropie
+  ref: L1 slide 17
+  sens: entropie de Shannon de la loterie $P$
+- symbole: $F^*$
+  notion: dup/ordre-concave
+  ref: L1 slide 19
+  sens: répartition plus risquée, à moyenne égale
+- symbole: $\tilde\varepsilon$
+  notion: dup/bruit-equitable
+  ref: L1 slide 20
+  sens: bruit de moyenne nulle conditionnellement
+- symbole: $\alpha$
+  notion: dup/utilite-quadratique
+  ref: L1 slide 14
+  sens: coefficient linéaire de l'utilité quadratique — voir la collision
+- symbole: $\beta$
+  notion: dup/utilite-quadratique
+  ref: L1 slide 14
+  sens: coefficient quadratique de l'utilité quadratique
+- symbole: $A(x)$
+  notion: dup/aversion-absolue-arrow-pratt
+  ref: L1 slide 33
+  sens: coefficient d'aversion absolue d'Arrow-Pratt
+- symbole: $A$
+  notion: dup/cara
+  ref: L1 slide 35
+  sens: aversion absolue constante de CARA
+- symbole: $\gamma$
+  notion: dup/crra
+  ref: L1 slide 35
+  sens: aversion relative constante de CRRA
+- symbole: $w_0$
+  notion: dup/prime-de-risque
+  ref: L1 slide 31
+  sens: richesse initiale
+- symbole: $\eta$
+  notion: dup/famille-hara
+  ref: L1 slide 35
+  sens: paramètre de translation de la famille HARA
+- symbole: $\delta_x$
+  notion: dup/effet-certitude
+  ref: L2 slide 15
+  sens: loterie de Dirac, qui donne $x$ avec certitude
+- symbole: $\varphi$
+  notion: dup/rdu
+  ref: L3 slide 27
+  sens: fonction de distorsion des probabilités
+- symbole: $\Upsilon$
+  notion: dup/eu-locale
+  ref: L3 slide 13
+  sens: utilité locale au voisinage d'une loterie
+- symbole: $\Gamma$
+  notion: dup/famille-chew-dekel
+  ref: L3 slide 4
+  sens: contribution implicite d'un résultat à la valeur de la loterie
+- symbole: $v(x)$
+  notion: dup/theorie-des-perspectives
+  ref: L3 slide 21
+  sens: fonction de valeur, définie sur les écarts au point de référence
+- symbole: $\lambda$
+  notion: dup/aversion-aux-pertes
+  ref: L3 slide 39
+  sens: coefficient d'aversion aux pertes
+- symbole: $\mathcal{U}$
+  notion: dup/eu-prudente
+  ref: L3 slide 16
+  sens: ensemble des fonctions d'utilité envisagées
+- symbole: $\Pi$
+  notion: dup/maxmin-eu
+  ref: L1 slide 64
+  sens: ensemble des probabilités a priori jugées plausibles
+- symbole: $q_s$
+  notion: dup/portefeuille-rdu
+  ref: L3 slide 42
+  sens: prix de l'état $s$
+collisions:
+- symbole: $F$
+  ici: ensemble des actes (L1 slide 2)
+  ailleurs:
+    dup: fonction de répartition de la richesse aléatoire (L1 slide 6, L1 slide 19)
+    fpp: prix forward
+  note: >-
+    collision interne à la source, la plus dangereuse du cours : le même $F$ désigne
+    l'ensemble des actes puis une fonction de répartition, à quatre slides d'intervalle
+- symbole: $\pi$
+  ici: prime de risque (L1 slide 9)
+  ailleurs:
+    dup: croyance subjective (L1 slide 59), poids de décision (L3 slide 21)
+  note: collision interne à la source, à surveiller dès l'ingestion des slides 59 et suivantes
+- symbole: $a$
+  ici: part investie dans l'actif sans risque (L1 slide 12)
+  ailleurs:
+    dup: acte $a_1,\dots,a_4$ des choix d'Allais (L1 slide 42), variable de choix (L1 slide 26)
+  note: collision interne à la source
+- symbole: $\alpha$
+  ici: coefficient de l'utilité quadratique (L1 slide 14)
+  ailleurs:
+    dup: poids de mélange des loteries (L1 slide 5), pénalité de déception (L3 slide 10)
+  note: collision interne à la source
+- symbole: $P$
+  ici: une loterie (L1 slide 2)
+  ailleurs:
+    fpp: prix d'un zéro-coupon $P(t,T)$
+  note: collision entre cours

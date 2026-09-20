@@ -87,6 +87,8 @@ details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fa
 .note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
 .sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
 .sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
 .sec.faute>summary h2{color:var(--faute)}
 .faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
   margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
@@ -130,12 +132,6 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
   background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
 ul{padding-left:1.1rem}
 hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
-.vois{width:100%;height:auto;margin:.4rem 0}
-.vois .nd{fill:var(--card);stroke:var(--li2)}
-.vois .nd.c{fill:var(--acc2);stroke:var(--acc)}
-.vois text{font-family:var(--sans);font-size:11px;fill:var(--fg)}
-.vois .ed{stroke:var(--li2);fill:none}
-.vois a:hover .nd{stroke:var(--acc)}
 
 /* ---- cartes d'accueil / carte du cours ---- */
 .cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}

@@ -27,7 +27,7 @@ On ne connaît plus le coût de portage à l’avance : on le suit. La position 
 Trois pas à $P=0{,}99$ chacun : on détient successivement $1{,}0101$, $1{,}0203$ puis $1{,}0306$ contrats. [ajout]
 
 ## Geste de calcul type
-à venir [ajout]
+Suivre la position au lieu de la figer : détenir $1/B(t_0,t_i)$ contrats en $t_i$, soit 1,0101 puis 1,0203 puis 1,0306 pour trois pas à 0,99. La position se recalcule à chaque date. [§4.2.2]
 
 ## Cesse d'être valide quand
 Suppose des marchés sans friction et un rééquilibrage continu — l’hypothèse la plus fragile de tout l’édifice. [ajout]

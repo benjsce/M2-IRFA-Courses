@@ -1,37 +1,37 @@
 elements:
 - ref: §1
   intitule: General concepts of finance and accounting
-  a_venir: 2026-10
+  absorbe: 'fpp/marche-financier'
 - ref: §1.1
   intitule: Quick introduction about financial markets
-  a_venir: 2026-10
+  notion: 'fpp/marche-financier'
 - ref: §1.1.1
   intitule: Those who need money
-  a_venir: 2026-10
+  absorbe: 'fpp/marche-financier'
 - ref: §1.1.2
   intitule: Those who save money
-  a_venir: 2026-10
+  absorbe: 'fpp/marche-financier'
 - ref: §1.1.3
   intitule: Intermediaries
-  a_venir: 2026-10
+  absorbe: 'fpp/marche-financier'
 - ref: §1.2
   intitule: Double entry accounting system
-  a_venir: 2026-10
+  absorbe: 'fpp/bilan'
 - ref: §1.3
   intitule: Joint dynamics of Assets, Equity and Debts
-  a_venir: 2026-10
+  absorbe: 'fpp/prime-de-risque'
 - ref: §1.4
   intitule: Limited liabilities
-  a_venir: 2026-10
+  notion: 'fpp/responsabilite-limitee'
 - ref: Déf. 1
   intitule: Leverage
-  a_venir: 2026-10
+  notion: 'fpp/levier'
 - ref: Déf. 2
   intitule: Risk premium, volatility
-  a_venir: 2026-10
+  notion: 'fpp/prime-de-risque'
 - ref: Prop. 1
   intitule: Assets = Liabilities
-  a_venir: 2026-10
+  notion: 'fpp/bilan'
 - ref: Rem. 1
   intitule: Dimension T^-1 des taux, unité de temps
   absorbe: fpp/facteur-actualisation
@@ -139,142 +139,142 @@ elements:
   absorbe: fpp/forward-de-change
 - ref: §5.3
   intitule: The scaling of variance
-  a_venir: 2026-10
+  notion: 'fpp/echelonnement-de-la-variance'
 - ref: §5.4
   intitule: The Black and Scholes model
-  a_venir: 2026-10
+  notion: 'fpp/modele-black-scholes'
 - ref: Th. 1
   intitule: Gaussian Laplace Transform
-  a_venir: 2026-10
+  notion: 'fpp/transformee-de-laplace-gaussienne'
 - ref: §6
   intitule: Option pricing as discounting expected cash flows
-  a_venir: 2026-10
+  absorbe: 'fpp/valeur-intrinseque'
 - ref: §6.1
   intitule: Definitions and properties
-  a_venir: 2026-10
+  notion: 'fpp/call'
 - ref: Déf. 9
   intitule: Call, put, strike, maturity
-  a_venir: 2026-10
+  notion: 'fpp/option'
 - ref: Déf. 10
   intitule: European vs American option
-  a_venir: 2026-10
+  absorbe: 'fpp/option'
 - ref: Déf. 11
   intitule: Payoff
-  a_venir: 2026-10
+  notion: 'fpp/payoff'
 - ref: Prop. 7
   intitule: Call put parity
-  a_venir: 2026-10
+  notion: 'fpp/parite-call-put'
 - ref: §6.2
   intitule: Factors affecting option prices
-  a_venir: 2026-10
+  absorbe: 'fpp/valeur-temps'
 - ref: Déf. 12
   intitule: Intrinsic value
-  a_venir: 2026-10
+  notion: 'fpp/valeur-intrinseque'
 - ref: Déf. 13
   intitule: Time value
-  a_venir: 2026-10
+  notion: 'fpp/valeur-temps'
 - ref: §6.3
   intitule: Example of strategies involving options
-  a_venir: 2026-10
+  exclu: 'renvoi vers un document externe, sans contenu propre dans le poly'
 - ref: §6.4
   intitule: B&S formulas
-  a_venir: 2026-10
+  notion: 'fpp/formule-black-scholes'
 - ref: §6.5
   intitule: Options on different underlyings
-  a_venir: 2026-10
+  absorbe: 'fpp/formule-black-scholes'
 - ref: §7
   intitule: Option pricing from hedging
-  a_venir: 2026-10
+  absorbe: 'fpp/edp-black-scholes'
 - ref: §7.1
   intitule: A PDE for option prices
-  a_venir: 2026-10
+  notion: 'fpp/edp-black-scholes'
 - ref: §7.2
   intitule: Solving the PDE
-  a_venir: 2026-10
+  absorbe: 'fpp/feynman-kac'
 - ref: §7.2.1
   intitule: The Feynman-Kac equivalence
-  a_venir: 2026-10
+  notion: 'fpp/feynman-kac'
 - ref: §7.2.2
   intitule: Application to the B&S PDE
-  a_venir: 2026-10
+  notion: 'fpp/equation-de-la-chaleur'
 - ref: §8
   intitule: Hedging and the greeks
-  a_venir: 2026-10
+  notion: 'fpp/couverture'
 - ref: §8.1
   intitule: Definition and representation
-  a_venir: 2026-10
+  notion: 'fpp/sensibilite'
 - ref: §8.2
   intitule: Synthetic summary
-  a_venir: 2026-10
+  absorbe: 'fpp/sensibilite'
 - ref: §8.3
   intitule: Different approaches
-  a_venir: 2026-10
+  exclu: 'section réduite à une liste de titres, sans contenu développé'
 - ref: §9
   intitule: Options Use Cases
-  a_venir: 2026-10
+  absorbe: 'fpp/strategie-optionnelle'
 - ref: §9.1
   intitule: Building different payoffs
-  a_venir: 2026-10
+  absorbe: 'fpp/payoff'
 - ref: §9.2
   intitule: Principal Protected Products
-  a_venir: 2026-10
+  notion: 'fpp/produit-a-capital-protege'
 - ref: §9.3
   intitule: Return enhancement
-  a_venir: 2026-10
+  notion: 'fpp/amelioration-de-rendement'
 - ref: éq. 3
   intitule: (sections 6–7)
-  a_venir: 2026-10
+  absorbe: 'fpp/formule-black-scholes'
 - ref: éq. 4
   intitule: (sections 6–7)
-  a_venir: 2026-10
+  absorbe: 'fpp/formule-black-scholes'
 - ref: éq. 5
   intitule: (sections 6–7)
-  a_venir: 2026-10
+  absorbe: 'fpp/formule-black-scholes'
 - ref: éq. 6
   intitule: (sections 6–7)
-  a_venir: 2026-10
+  absorbe: 'fpp/formule-black-scholes'
 - ref: éq. 7
   intitule: (sections 6–7)
-  a_venir: 2026-10
+  absorbe: 'fpp/formule-black-scholes'
 - ref: éq. 8
   intitule: (sections 6–7)
-  a_venir: 2026-10
+  absorbe: 'fpp/formule-black-scholes'
 - ref: éq. 9
   intitule: (sections 6–7)
-  a_venir: 2026-10
+  absorbe: 'fpp/formule-black-scholes'
 - ref: éq. 10
   intitule: (sections 6–7)
-  a_venir: 2026-10
+  absorbe: 'fpp/formule-black-scholes'
 - ref: éq. 11
   intitule: (sections 6–7)
-  a_venir: 2026-10
+  absorbe: 'fpp/formule-black-scholes'
 - ref: éq. 12
   intitule: (sections 6–7)
-  a_venir: 2026-10
+  absorbe: 'fpp/formule-black-scholes'
 - ref: éq. 13
   intitule: (sections 6–7)
-  a_venir: 2026-10
+  absorbe: 'fpp/formule-black-scholes'
 - ref: éq. 14
   intitule: (sections 6–7)
-  a_venir: 2026-10
+  absorbe: 'fpp/formule-black-scholes'
 - ref: éq. 15
   intitule: (sections 6–7)
-  a_venir: 2026-10
+  absorbe: 'fpp/modele-black-scholes'
 - ref: éq. 16
   intitule: (sections 6–7)
-  a_venir: 2026-10
+  notion: 'fpp/edp-black-scholes'
 - ref: éq. 17
   intitule: (sections 6–7)
-  a_venir: 2026-10
+  absorbe: 'fpp/feynman-kac'
 - ref: éq. 18
   intitule: (sections 6–7)
-  a_venir: 2026-10
+  absorbe: 'fpp/feynman-kac'
 - ref: éq. 19
   intitule: (sections 6–7)
-  a_venir: 2026-10
+  absorbe: 'fpp/feynman-kac'
 - ref: éq. 20
   intitule: (sections 6–7)
-  a_venir: 2026-10
+  absorbe: 'fpp/equation-de-la-chaleur'
 - ref: éq. 21
   intitule: (sections 6–7)
-  a_venir: 2026-10
+  absorbe: 'fpp/equation-de-la-chaleur'
