@@ -18,5 +18,10 @@ Un classement fondé sur le seul couple moyenne-écart type peut déclarer indif
 ## Ce qui la définit
 La moyenne et l’écart type jettent de l’information distributionnelle que tout agent monotone à utilité espérée, lui, valorise. [L1 slide 16]
 
+## Le chemin jusqu'ici
+Deux fils. dup/loterie donne dup/moyenne-variance, le critère attaqué ; dup/fonction-utilite et dup/utilite-esperee donnent dup/dominance-stochastique-ordre-1, l'arme de l'attaque. [ajout]
+
+La critique consiste exactement à faire se heurter les deux : une paire de distributions que moyenne-variance déclare indifférentes alors que l'une domine l'autre au premier ordre. Il fallait donc les deux critères au socle — une critique a besoin de deux règles qui se contredisent. [ajout]
+
 ## Cesse d'être valide quand
 La critique ne mord ni sous utilité quadratique, ni sur les familles de distributions où deux moments suffisent. [L1 slide 14]

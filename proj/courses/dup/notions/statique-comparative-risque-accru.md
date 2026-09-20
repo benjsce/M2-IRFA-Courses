@@ -23,6 +23,11 @@ Ce n’est pas la concavité de $U$ en $x$ qui décide, mais celle du paiement m
 
 Le signe s’inverse quand $U_{xxa}>0$. [L1 slide 27]
 
+## Le chemin jusqu'ici
+Une seule brique : dup/accroissement-de-risque, la famille des façons de dire qu'une loterie est plus risquée qu'une autre. [ajout]
+
+Une fois cet ordre partiel disponible, la question devient celle d'un déplacement : où va l'optimum quand le risque augmente ? Il fallait donc l'ordre avant le déplacement, et c'est le seul prérequis. [ajout]
+
 ## Exemple minimal
 Pour $U(x,a)=\ln(1+ax)$ on a $U_{xxa}<0$ : passer de $x$ uniforme sur $\{40,60\}$ à $x$ uniforme sur $\{20,40,60,80\}$, de même moyenne 50, fait baisser le $a$ optimal. [ajout]
 

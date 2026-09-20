@@ -21,6 +21,11 @@ $$\sigma^2(t_1+t_2)=\sigma^2(t_1)+\sigma^2(t_2)\ \implies\ \sigma^2(T)=\sigma^2T
 ## Ce qui la définit
 Deux hypothèses seulement : les accroissements sont tirés de la même loi, et ils sont indépendants. L’additivité de la variance suit, et la racine du temps avec elle. [§5.3]
 
+## Le chemin jusqu'ici
+Une seule brique : fpp/volatilite, qui donne l'écart type du rendement sur une période. [ajout]
+
+Le pas suivant est une hypothèse, pas un calcul : si les accroissements sont indépendants et stationnaires, les variances s'additionnent. D'où $\sigma(T)=\sigma\sqrt T$, la racine carrée qui traversera tout le reste du cours. [ajout]
+
 ## Exemple minimal
 Une volatilité annuelle de 20 % donne $20\sqrt{0{,}25}=10\,\%$ à trois mois. [ajout]
 

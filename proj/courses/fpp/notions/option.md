@@ -27,6 +27,11 @@ L’asymétrie du droit rend le payoff non linéaire, et c’est cette non-liné
 ## Pourquoi ce niveau existe
 Deux contrats que le cours définit dans la même phrase et qui ne diffèrent que par le sens de l’échange, avec une relation exacte entre eux — la parité call-put. Les séparer sans les réunir ferait perdre cette relation. [Déf. 9, Prop. 7]
 
+## Le chemin jusqu'ici
+Une seule brique : fpp/payoff. Une option, c'est la possibilité de ne pas exercer — donc un payoff qui se coupe à zéro, ce que la partie positive $(\cdot)^+$ écrit. [ajout]
+
+C'est le seul prérequis parce qu'à ce stade rien n'est encore évalué : on décrit un contrat, on ne le price pas. [ajout]
+
 ## Ce qui reste libre
 | paramètre | cas | valeur |
 |---|---|---|

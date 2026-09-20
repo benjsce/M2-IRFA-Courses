@@ -26,6 +26,11 @@ $$P(t,T)=e^{-R(t,T)(T-t)}=C_t^{-1}$$ [§2.1, Déf. 3, §2.3]
 ## Ce qui la définit
 Capitalisation en avançant dans le temps, actualisation en reculant. Le facteur est le taux de change entre deux dates. [§2.1, Déf. 3]
 
+## Le chemin jusqu'ici
+Une seule brique : fpp/convention-capitalisation, qui dit dans quelles coordonnées un taux s'écrit. [ajout]
+
+Le facteur d'actualisation est ce qu'on obtient en refusant de choisir : plutôt qu'un taux dans une convention, un prix — celui d'un euro payé plus tard. C'est l'objet que les conventions décrivent toutes, chacune à sa façon. [ajout]
+
 ## Exemple minimal
 Taux continu de 4 % sur un an : $P(0,1)=0{,}9608$. [ajout]
 

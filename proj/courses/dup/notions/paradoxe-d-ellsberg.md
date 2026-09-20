@@ -22,6 +22,11 @@ $$f_1\succ f_2\Rightarrow\pi(R)>\pi(B),\qquad f_4\succ f_3\Rightarrow\pi(B)+\pi(
 ## Ce qui la définit
 Les deux implications se contredisent, et la colonne jaune — commune aux deux actes de chaque paire — s’annule dans les deux cas. C’est donc bien le principe de la chose sûre qui casse. [L1 slide 63]
 
+## Le chemin jusqu'ici
+Le chemin passe par dup/acte et dup/fonction-utilite, puis dup/utilite-esperee-subjective, puis dup/principe-de-la-chose-sure. [ajout]
+
+Le paradoxe frappe le dernier maillon, et c'est pour cela qu'il faut les précédents : les choix courants sur l'urne à composition inconnue violent le principe de la chose sûre, donc aucune probabilité subjective ne peut les représenter. Ce n'est pas l'utilité qui est en cause, c'est la croyance. [ajout]
+
 ## Exemple minimal
 Une urne de 30 boules rouges et 60 noires ou jaunes en proportion inconnue : la plupart préfèrent parier sur rouge, puis sur noir-ou-jaune. [L1 slide 62]
 

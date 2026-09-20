@@ -24,6 +24,11 @@ $$\mathrm{NPV}(t)=\sum_i P(t,t_i)X_i$$ [Déf. 4]
 ## Ce qui la définit
 Transportable à n’importe quelle date par division : $\mathrm{NPV}(t_k)=\mathrm{NPV}(t)/P(t,t_k)$. [Déf. 4]
 
+## Le chemin jusqu'ici
+fpp/convention-capitalisation puis fpp/facteur-actualisation donnent le prix d'un flux unique. [ajout]
+
+La valeur actuelle nette est l'étape où l'on passe d'un flux à un échéancier, et elle ne demande qu'une chose de plus : que les prix s'additionnent. C'est cette linéarité, et non une hypothèse nouvelle, qui autorise à sommer. [ajout]
+
 ## Exemple minimal
 Trois flux de 100 en 1, 2 et 3 ans, courbe plate à 4 % : $\mathrm{NPV}(0)=277{,}08$. [ajout]
 

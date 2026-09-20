@@ -26,6 +26,11 @@ Deux objets sont inférés en même temps et à partir de la même donnée : $U$
 
 C’est l’aboutissement de la séparation : Savage construit les probabilités à partir de préférences cohérentes sur les actes, au lieu de les postuler. [L1 slide 59]
 
+## Le chemin jusqu'ici
+dup/acte donne l'objet — une conséquence par état du monde — et dup/fonction-utilite donne l'évaluation des conséquences. [ajout]
+
+Remarquez ce qui **n'est pas** dans le socle : la probabilité. C'est tout le point de Savage. Elle n'est pas donnée avec le problème, elle se **déduit** des choix de l'agent. La loterie, elle, l'aurait fournie d'emblée — d'où deux fiches distinctes pour deux constructions qui aboutissent à la même formule. [ajout]
+
 ## Exemple minimal
 Un acte qui paie 100 si la boule est rouge et 0 sinon vaut $\pi(R)\,U(100)+(1-\pi(R))\,U(0)$. [ajout]
 

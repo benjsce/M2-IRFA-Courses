@@ -20,6 +20,11 @@ $$R(t,T)=-\dfrac{\ln P(t,T)}{T-t}$$ [§2.3]
 ## Ce qui la définit
 Court terme en taux linéaire $L$, long terme en taux continu $R$ : pure convention d’affichage de la courbe. [Déf. 6]
 
+## Le chemin jusqu'ici
+fpp/convention-capitalisation puis fpp/facteur-actualisation donnent un prix, $P(t,T)$. [ajout]
+
+Un prix ne se compare pas d'une maturité à l'autre — 0,95 à un an et 0,90 à deux ans ne se lisent pas. Le taux zéro-coupon est ce prix réécrit en rendement annualisé, c'est-à-dire ramené dans une coordonnée où la comparaison a un sens. Aucune information nouvelle, un changement de repère. [ajout]
+
 ## Exemple minimal
 $P(0,2)=0{,}9048$ : $R(0,2)=5\%$. [ajout]
 

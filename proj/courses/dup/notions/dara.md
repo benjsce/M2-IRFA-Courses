@@ -23,6 +23,11 @@ C’est exactement l’équivalent de « la prime de risque décroît avec la ri
 
 La condition fait apparaître la dérivée troisième : la décroissance de l’aversion exige de la prudence. [ajout]
 
+## Le chemin jusqu'ici
+dup/fonction-utilite puis dup/aversion-absolue-arrow-pratt. [ajout]
+
+DARA est une hypothèse sur la façon dont $A(z)$ varie avec la richesse ; elle suppose donc que $A$ existe et soit définie en tout point. C'est une hypothèse empirique, pas un théorème, et le socle court le montre : rien dans le cours ne l'impose. [ajout]
+
 ## Exemple minimal
 L’utilité logarithmique est DARA : $A(z)=1/z$ passe de $0{,}01$ à 100 à $0{,}001$ à 1000. [L1 slide 35]
 

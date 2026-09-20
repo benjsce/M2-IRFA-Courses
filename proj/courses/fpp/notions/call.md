@@ -25,6 +25,11 @@ $$\mathrm{Call}(S_T,K)=(S_T-K)^+$$ [Déf. 11]
 ## Ce qui la définit
 Le détenteur n’exerce que si $S_T>K$ : le payoff est nul en dessous, linéaire de pente 1 au-dessus. [Déf. 11]
 
+## Le chemin jusqu'ici
+Une seule brique : fpp/payoff, qui dit comment se calcule ce que paie un contrat en fonction de ce qu'on aura observé. [ajout]
+
+Le call n'est qu'un payoff particulier, $(S_T-K)^+$. Tout ce qui viendra ensuite — son prix, ses grecques — en découle ; à ce stade on n'a fait que décrire le contrat. [ajout]
+
 ## Exemple minimal
 Strike 100, sous-jacent à 104,08 à l’échéance : le call paie 4,08. [ajout]
 

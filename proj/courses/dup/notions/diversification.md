@@ -22,6 +22,11 @@ $$\sigma_p^2=a^2\sigma_1^2+(1-a)^2\sigma_2^2+2a(1-a)\,\mathrm{Cov}(\tilde r_1,\t
 ## Ce qui la définit
 C’est la covariance, et non les variances, qui décide de la forme de l’ensemble atteignable dans le plan écart type-moyenne. [L1 slide 13]
 
+## Le chemin jusqu'ici
+dup/loterie puis dup/moyenne-variance. [ajout]
+
+La diversification est un fait sur les deux nombres du résumé, pas sur les préférences : l'écart type d'un mélange peut tomber sous celui de ses composants dès que la corrélation est inférieure à un. Aucune utilité n'apparaît dans le socle, et c'est ce qui rend le résultat si général. [ajout]
+
 ## Exemple minimal
 Deux actifs à $\sigma=20\%$, de covariance nulle, à parts égales : $\sigma_p=14{,}1\%$. [ajout]
 

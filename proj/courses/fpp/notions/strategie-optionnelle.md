@@ -24,6 +24,11 @@ Toutes se construisent par somme et différence de calls, de puts et de zéro-co
 ## Pourquoi ce niveau existe
 Le §9 présente deux usages qui ne diffèrent que par le sens de la position : on achète l’optionalité pour se protéger, on la vend pour encaisser la prime. Les séparer sans les réunir ferait manquer que c’est la même mécanique lue à l’envers. [ajout]
 
+## Le chemin jusqu'ici
+Une seule brique : fpp/payoff. Assembler des options revient à additionner des payoffs, et c'est l'additivité qui rend les profils coudés accessibles. [ajout]
+
+On n'a pas besoin des prix pour cela : le profil de gain se dessine avant qu'on sache ce qu'il coûte. C'est pourquoi le socle s'arrête si tôt. [ajout]
+
 ## Cesse d'être valide quand
 L’addition de prix suppose qu’on peut traiter chaque jambe séparément, sans coût de transaction ni contrainte de marge. [ajout]
 

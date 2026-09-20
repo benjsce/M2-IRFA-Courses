@@ -25,6 +25,11 @@ $$\mathrm{Put}(S_T,K)=(K-S_T)^+$$ [Déf. 11]
 ## Ce qui la définit
 Symétrique du call par rapport au strike : le détenteur n’exerce que si $S_T<K$, et le payoff est borné par $K$. [Déf. 11]
 
+## Le chemin jusqu'ici
+Une seule brique : fpp/payoff. Le put est le payoff $(K-S_T)^+$, le symétrique du call. [ajout]
+
+Il n'est pas *construit* sur le call : les deux sont deux payoffs élémentaires, définis en parallèle. Ce qui les relie viendra plus tard, avec la parité call-put, et c'est un résultat, pas une définition. [ajout]
+
 ## Exemple minimal
 Strike 100, sous-jacent à 96 à l’échéance : le put paie 4. [ajout]
 

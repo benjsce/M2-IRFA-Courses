@@ -21,6 +21,11 @@ $$\tilde r_p=ar_0+(1-a)\tilde r,\qquad \mu_p=ar_0+(1-a)\mu_r,\qquad \sigma_p=|1-
 ## Ce qui la définit
 L’écart type est proportionnel à la part risquée : la frontière est une droite, et emprunter au taux $r_0$ la prolonge au-delà du portefeuille tout risqué. [L1 slide 12]
 
+## Le chemin jusqu'ici
+dup/loterie puis dup/moyenne-variance. [ajout]
+
+Même socle que la diversification, et c'est cohérent : les deux sont de la géométrie dans le plan écart type–moyenne. Ajouter un actif sans risque y trace une droite, parce qu'un actif de variance nulle ne peut pas courber le mélange. [ajout]
+
 ## Exemple minimal
 Avec $r_0=2\%$, $\mu_r=8\%$, $\sigma_r=20\%$ et $a=\tfrac12$ : $\mu_p=5\%$ et $\sigma_p=10\%$. [ajout]
 

@@ -26,6 +26,11 @@ Le strike d’un FRA s’écrit en taux : $K=\frac{1}{S-T}\ln\frac{P(t,T)}{P(t,S
 
 C’est un prix à terme dont le sous-jacent est le zéro-coupon $P(\cdot,S)$ : ce prix à terme vaut $F_{\mathrm{ZC}}=P(t,S)/P(t,T)$, relié au strike par $F_{\mathrm{ZC}}=e^{-K(S-T)}$ ; attention, les rapports sont inversés d’une écriture à l’autre. [ajout]
 
+## Le chemin jusqu'ici
+La chaîne complète du taux : fpp/convention-capitalisation, fpp/facteur-actualisation, fpp/taux-zero-coupon, fpp/taux-forward. [ajout]
+
+Le FRA est le contrat qui matérialise le taux forward : ce que la courbe impliquait devient un engagement signé. Le socle est une chaîne parce que chaque étape est un changement de coordonnée sur le même objet, le prix du temps. [ajout]
+
 ## Exemple minimal
 $P(0,1)=0{,}9608$ et $P(0,2)=0{,}9048$ : le FRA $1\times2$ se traite à $K=6\%$. [ajout]
 

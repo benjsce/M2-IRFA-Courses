@@ -22,6 +22,11 @@ $$B(t,T)=\prod_k P(t_k,t_{k+1})$$ [§4.2.2]
 ## Ce qui la définit
 Même rôle que $P(t,T)$ — transporter de la valeur jusqu’à $T$ — mais reconstitué pas à pas, donc aléatoire. [§4.2.2]
 
+## Le chemin jusqu'ici
+fpp/facteur-actualisation, construit sur fpp/convention-capitalisation, donne le prix d'un euro payé à une date fixée d'avance. [ajout]
+
+Le compte capitalisé répond à une autre question : combien vaut un euro qu'on réinvestit au jour le jour sans connaître les taux futurs ? D'où le produit de zéro-coupons courts, et une quantité qui n'est plus connue aujourd'hui. Cette différence-là est ce qui séparera plus tard un forward d'un future. [ajout]
+
 ## Exemple minimal
 Un an à 4 % puis un an à 6 % : $B(0,2)=0{,}9048$, soit exactement $P(0,2)$ — les taux sont ici déterministes. [ajout]
 

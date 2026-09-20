@@ -22,6 +22,11 @@ $$u(z)=\ln z\ \implies\ A(z)=\dfrac{1}{z}$$ [L1 slide 35]
 ## Ce qui la définit
 Elle sert de référence dans tout le cours : DARA, aversion relative égale à un, et une prime qui se calcule à la main. [L1 slide 35, ajout]
 
+## Le chemin jusqu'ici
+Une seule brique : dup/fonction-utilite. [ajout]
+
+Elle se définit directement, sans passer par CRRA — c'est un choix de grain, pas un oubli : le logarithme est le cas limite quand l'aversion relative vaut un, et un cas limite s'obtient par passage à la limite, non par instanciation. Le lien avec CRRA est une propriété, pas une dépendance. [ajout]
+
 ## Exemple minimal
 À une richesse de 100 : $A=0{,}01$, et la prime d’un pari de $\pm10\,\%$ vaut $0{,}5\,\%$. [L1 slide 37]
 

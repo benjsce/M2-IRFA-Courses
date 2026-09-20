@@ -22,6 +22,11 @@ $$v(x,y)\quad\text{où }y\text{ est le résultat de l’option abandonnée dans 
 ## Ce qui la définit
 Regret quand le résultat choisi est le moins bon, satisfaction quand il est le meilleur. Le choix dépend donc de la comparaison état par état, et non de la seule distribution marginale de chaque acte. [L1 slide 58]
 
+## Le chemin jusqu'ici
+Une seule brique : dup/acte, qui attache une conséquence à chaque état du monde. [ajout]
+
+C'est précisément ce qu'il faut : le regret compare, dans un même état, ce qu'on a obtenu et ce qu'on aurait obtenu autrement. Une loterie ne suffirait pas — elle brasse les états, et le contrefactuel disparaît. [ajout]
+
 ## Exemple minimal
 Deux loteries statistiquement identiques peuvent être évaluées différemment selon l’option à laquelle on les oppose. [L1 slide 58]
 

@@ -23,6 +23,11 @@ Le motif est régulier : le choix direct favorise le pari à forte probabilité 
 
 Le mécanisme avancé est attentionnel : choisir attire l’attention sur les probabilités, évaluer la porte sur les montants. [L1 slide 67]
 
+## Le chemin jusqu'ici
+Le socle commun mène à dup/cadrage. [ajout]
+
+L'inversion des préférences est le cas du cadrage où ce qui change n'est pas la description du problème mais la **question posée** — choisir ou évaluer. C'est une variante particulièrement gênante : elle survit à des sujets expérimentés et à des enjeux réels. [ajout]
+
 ## Exemple minimal
 Le pari-$p$ est choisi, mais le pari-$\$$ reçoit un prix plus élevé. [L1 slide 67]
 

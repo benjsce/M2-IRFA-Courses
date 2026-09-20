@@ -24,6 +24,11 @@ $$U(x)=\alpha x+\beta x^2\ \implies\ \mathbb{E}[U(\tilde x)]=\alpha\mu+\beta(\mu
 ## Ce qui la définit
 Sur des distributions non restreintes, un agent à utilité espérée classe tous les risques par leur seule moyenne et leur seule variance si et seulement si son utilité est quadratique. [L1 slide 14]
 
+## Le chemin jusqu'ici
+Deux fils. dup/fonction-utilite donne la forme, dup/loterie puis dup/moyenne-variance donnent le résumé à deux nombres. [ajout]
+
+Cette fiche est le point où les deux se rencontrent exactement : l'utilité quadratique est la **seule** forme pour laquelle l'utilité espérée ne dépend que de la moyenne et de la variance. Le socle dit donc pourquoi la fiche existe — c'est une justification de l'analyse moyenne-variance, et la seule que le cours donne dans le cadre de l'utilité espérée. [ajout]
+
 ## Exemple minimal
 Avec $\alpha=1$ et $\beta=-0{,}005$, le pari $(0,\tfrac12;100,\tfrac12)$ vaut $25$. [ajout]
 

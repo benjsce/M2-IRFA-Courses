@@ -25,6 +25,11 @@ $$d_1=\dfrac{\ln(S_0/K)+\big(r+\tfrac{\sigma^2}{2}\big)T}{\sigma\sqrt{T}},\qquad
 ## Ce qui la définit
 Une seule formule, trois jeux d’entrées. La version en forward et zéro-coupon — la formule de Black — est la plus générale : les deux autres s’en déduisent en remplaçant $F$ par $S_0$ ou $S_0e^{-qT}$. [§6.4, §6.5]
 
+## Le chemin jusqu'ici
+Le socle est celui de fpp/modele-black-scholes, plus le fil qui va de fpp/payoff à fpp/option. [ajout]
+
+Autrement dit : tout était prêt pour calculer, il ne manquait que de dire *quoi*. L'espérance risque-neutre du payoff d'une option, sous la diffusion log-normale, se mène jusqu'au bout grâce à fpp/transformee-de-laplace-gaussienne — et c'est pourquoi la formule a une forme fermée alors que la plupart des payoffs n'en ont pas. [ajout]
+
 ## Exemple minimal
 $S_0=100$, $K=100$, $r=4\%$, $\sigma=20\%$, $T=1$ : le call vaut 9,925 et le put 6,005. [ajout]
 

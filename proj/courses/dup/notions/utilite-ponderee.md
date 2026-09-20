@@ -26,6 +26,11 @@ L’axiome affaibli est l’indépendance faible : si $P\sim Q$, il existe pour 
 
 La probabilité effective d’un résultat devient $p_i^w=p_iw(x_i)/\sum_j p_jw(x_j)$ : un prix est conservé avec probabilité $w(x_i)$, sinon la loterie est retirée. [L3 slide 6]
 
+## Le chemin jusqu'ici
+Le socle commun : dup/loterie, dup/fonction-utilite, dup/utilite-esperee. [ajout]
+
+Un poids propre attaché à chaque résultat : c'est la déformation la plus simple qu'on puisse faire subir à la formule de l'utilité espérée, en gardant sa structure de moyenne. D'où la dépendance directe — la fiche modifie une formule, il faut donc l'avoir. [ajout]
+
 ## Exemple minimal
 Un poids $w$ constant redonne exactement l’utilité espérée ; un poids décroissant ajoute de l’aversion locale. [L3 slide 5, L3 slide 6]
 

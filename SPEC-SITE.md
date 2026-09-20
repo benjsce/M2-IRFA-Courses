@@ -120,8 +120,11 @@ Dans cet ordre, sans exception :
 7. Cas particulier de — une pastille, **générée**, avec la mention « autre relation :
    ce n'est pas un prérequis ».
 8. Construite à partir de — pastilles, depuis le front matter.
-9. Socle complet — liste **générée**, ordonnée par niveau, cases « déjà su », compteur.
-    Amont **transitif** ($D^{+}$) : un plan de lecture, donc exhaustif.
+9. Socle complet — en tête, « Le chemin jusqu'ici », **écrit dans la fiche** : pourquoi
+    ces notions-là mènent à celle-ci. Puis la liste **générée**, ordonnée par niveau, cases
+    « déjà su », compteur. Amont **transitif** ($D^{+}$) : un plan de lecture, donc
+    exhaustif. La prose est au-dessus de la liste parce que c'est en voyant la liste qu'on
+    se demande pourquoi elle contient cela ; la réponse doit arriver avant la question.
 10. Sert ensuite à — liste **générée** ($D^{-1}$), de même forme que le socle : ordonnée
     par niveau, mêmes cases « déjà su », même compteur. Aval à **rayon 1**, jamais
     transitif. Les deux rubriques se suivent : « ce qu'il faut avant » et « ce que ça

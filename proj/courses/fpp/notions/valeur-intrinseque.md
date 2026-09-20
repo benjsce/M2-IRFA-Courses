@@ -23,6 +23,11 @@ $$\mathrm{IV}=e^{-rT}\,g\big(\mathbb{E}(S_T)\big)$$ [Déf. 12]
 ## Ce qui la définit
 On échange l’ordre de $g$ et de l’espérance : c’est exactement le terme que l’inégalité de Jensen sépare du vrai prix. [Déf. 12]
 
+## Le chemin jusqu'ici
+Deux fils. L'un va de fpp/replication-statique, fpp/portage et fpp/facteur-actualisation à fpp/prix-a-terme puis fpp/mesure-risque-neutre : de quoi évaluer. L'autre est fpp/payoff : quoi évaluer. [ajout]
+
+La valeur intrinsèque est ce qu'on obtient en intervertissant les deux : évaluer le payoff *en la moyenne* au lieu de prendre la moyenne des évaluations. Il fallait donc disposer des deux opérations pour pouvoir les échanger, et c'est l'écart entre elles qui portera un nom à la fiche suivante. [ajout]
+
 ## Exemple minimal
 Call de strike 100, $\mathbb{E}^{\mathbb{Q}}(S_1)=104{,}08$, $P(0,1)=0{,}9608$ : $\mathrm{IV}=3{,}92$. [ajout]
 

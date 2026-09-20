@@ -24,6 +24,11 @@ $$\text{ZC}+\text{Call},\qquad \text{ou de façon équivalente}\qquad \text{Spot
 ## Ce qui la définit
 Les deux écritures sont la même par la parité call-put : protéger le capital, c’est acheter une option de vente, que l’on écrive la protection du côté du zéro-coupon ou du côté du comptant. [§9.2, Prop. 7]
 
+## Le chemin jusqu'ici
+Deux fils. Le premier va de fpp/payoff à fpp/call : ce qui donne la hausse. Le second va de fpp/convention-capitalisation à fpp/facteur-actualisation : ce qui rend la mise. [ajout]
+
+Le produit est exactement la somme des deux, et c'est tout le montage : un zéro-coupon garantit le capital, le solde achète l'optionalité. La fiche n'a besoin d'aucun modèle de prix, seulement de savoir que ces deux objets existent et s'additionnent. [ajout]
+
 ## Exemple minimal
 96,08 placés en zéro-coupon à un an rendent 100 ; les 3,92 restants achètent une fraction de call. [ajout]
 

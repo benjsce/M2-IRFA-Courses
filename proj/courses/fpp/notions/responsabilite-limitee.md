@@ -20,6 +20,11 @@ $$\pi_E\le-100\%\iff l\,\pi_A\le-1\iff \pi_A\le-\dfrac{1}{l}$$ [§1.4]
 ## Ce qui la définit
 Quand l’actif passe sous la dette, les capitaux propres sont plancherisés à zéro et c’est la dette qui encaisse la perte : la faillite. [§1.4]
 
+## Le chemin jusqu'ici
+fpp/bilan puis fpp/levier donnent l'amplification, et elle joue dans les deux sens. [ajout]
+
+La responsabilité limitée est ce qui l'arrête en bas : les capitaux propres ne passent pas sous zéro. Le seuil se lit directement sur le levier, $\pi_A=-1/l$. On n'a pas besoin de plus : c'est une contrainte juridique posée sur une identité comptable. [ajout]
+
 ## Exemple minimal
 Avec un levier de 3,33, une chute de l’actif de 30 % suffit à effacer les capitaux propres. [ajout]
 

@@ -37,6 +37,11 @@ symbole qui entre en collision avec un autre cours.
 
 ## Étape 2 — Confrontation à l'existant
 
+**Attention particulière** : une notion nouvelle qui entre dans le socle d'une fiche
+existante rend le « chemin jusqu'ici » de cette fiche incomplet, sans que rien ne le
+signale. Le validateur ne voit pas ce cas. Il est à vérifier à la main, et la liste des
+fiches concernées se calcule : ce sont les descendants de la notion nouvelle par $D^{-1}$.
+
 Pour chaque élément inventorié, chercher s'il correspond à une notion existante — par
 `nom`, par `alias`, par `symbole`, et par le sens. Trois issues :
 
@@ -65,6 +70,11 @@ Une fiche par notion nouvelle, au format de SPEC-MODELE §2. Règles de rédacti
 - **« Cesse d'être valide quand » est obligatoire**, et c'est la rubrique la plus utile.
   Si la source ne dit rien, écrire « la source ne fixe pas de limite [§x] » — c'est une
   information — et ouvrir une question dans le rapport.
+- **« Le chemin jusqu'ici »** : dès que la fiche a un socle, deux à quatre paragraphes
+  courts disant *en quoi ces notions-là mènent à celle-ci*. Il s'écrit **après** avoir
+  posé les dépendances, puisqu'il les raconte, et il se relit dès qu'une dépendance change
+  en amont — le socle se recalcule tout seul, la prose non. Format et interdits :
+  SPEC-MODELE §2.1.
 - **« Exemple minimal »** : une instance chiffrée, une ligne, sans calcul. Elle ne dépend
   d'aucun exercice et s'écrit dès la création de la fiche ; la laisser en dette est une
   faute de protocole. Le validateur la refuse : c'est une **E**, pas un avertissement.

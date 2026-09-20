@@ -22,6 +22,11 @@ $$l_t\equiv\dfrac{A_t}{E_t}$$ [Déf. 1]
 ## Ce qui la définit
 Il amplifie exactement, et linéairement, l’écart de rendement entre l’actif et la dette : $\frac{\Delta E_t}{E_t}-\frac{\Delta D_t}{D_t}=l_t\big(\frac{\Delta A_t}{A_t}-\frac{\Delta D_t}{D_t}\big)$. [§1.3]
 
+## Le chemin jusqu'ici
+Une seule brique : fpp/bilan, et son identité actif = capitaux propres + dette. [ajout]
+
+Le levier n'ajoute aucune hypothèse : c'est un rapport entre deux termes de cette identité. Tout ce qu'il dira ensuite — amplification de la prime, de la volatilité, seuil de faillite — se déduit de l'identité comptable, pas d'un modèle. [ajout]
+
 ## Exemple minimal
 Un actif de 100 sur 30 de capitaux propres : $l=3{,}33$. [ajout]
 

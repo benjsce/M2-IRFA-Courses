@@ -26,6 +26,11 @@ Pour que $f(t,X_t)$ soit une martingale, sa partie à variation finie doit être
 
 C’est ce qui réconcilie les deux voies du cours : valoriser par espérance sous $\mathbb{Q}$, ou valoriser en résolvant une équation. [§7.2]
 
+## Le chemin jusqu'ici
+Le socle est celui de fpp/edp-black-scholes, plus elle. Deux routes y mènent, et elles sont déjà toutes les deux dans le socle : fpp/mesure-risque-neutre, qui donne les prix comme espérances, et fpp/edp-black-scholes, qui les donne comme solutions d'une équation. [ajout]
+
+Feynman-Kac est le théorème qui dit que ce sont les mêmes. Son socle contient nécessairement les deux routes : on ne peut pas énoncer l'équivalence de deux choses avant de disposer des deux. [ajout]
+
 ## Exemple minimal
 Pour une diffusion sans dérive et $F(x)=x$, la fonction $f(t,x)=x$ résout $\mathcal{L}f=0$ : le prix d’un actif sans dérive est sa valeur courante. [ajout]
 

@@ -23,6 +23,11 @@ Les modèles conséquentialistes prédisent l’invariance de description : seul
 
 Le cadre crée un point de référence ; gains et pertes se codent relativement à lui, et les pertes pèsent plus que les gains comparables. [L1 slide 66]
 
+## Le chemin jusqu'ici
+Le socle commun : dup/loterie, dup/fonction-utilite, dup/utilite-esperee. [ajout]
+
+Le cadrage va plus loin que les effets d'Allais : il ne conteste pas un axiome, il conteste qu'on puisse identifier un problème de choix à sa description mathématique. Deux énoncés qui donnent la même loterie donnent des choix opposés. L'utilité espérée est au socle parce que c'est elle qui postule que seule la loterie compte. [ajout]
+
 ## Exemple minimal
 Recevoir 1 000 puis choisir entre gagner 1 000 ou 0 à pile ou face et gagner 500 sûrs, contre recevoir 2 000 puis choisir entre perdre 1 000 ou 0 et perdre 500 sûrs : mêmes richesses finales, choix majoritaires inverses. [L1 slide 65]
 

@@ -55,6 +55,10 @@ Ces règles ne souffrent aucune exception, quelle que soit la demande.
   capacité de l'étudiant à retrouver le symbole dans son poly compte.
 - **Ne jamais renommer un identifiant** (A1). Un identifiant est définitif. Renommer,
   c'est ajouter un alias.
+- **Ne jamais écrire en dur, dans une prose, un nombre que le générateur calcule.**
+  « Treize notions au socle », « les quatre membres de cette famille » : c'est vrai le jour
+  où on l'écrit et faux la semaine d'après, sans que rien ne le signale. Le nombre est déjà
+  affiché à côté du titre de la rubrique. Écrire « le socle est long », pas « il fait 13 ».
 - **Ne jamais laisser un élément de l'inventaire sans image** (A13). Chaque définition,
   proposition, équation numérotée ou section de la source est soit une notion, soit
   absorbée dans une notion nommée, soit exclue avec une raison écrite.

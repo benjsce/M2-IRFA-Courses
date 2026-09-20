@@ -27,6 +27,11 @@ La loterie est décomposée en gains et en pertes, et la formule dépendante du 
 
 La forme concave puis convexe surpondère à la fois les mauvais résultats peu probables — l’effet de certitude — et les bons résultats peu probables — l’effet de possibilité. [L3 slide 38]
 
+## Le chemin jusqu'ici
+Deux fils se rejoignent. dup/cadrage donne dup/theorie-des-perspectives — le point de référence, les gains et les pertes ; dup/utilite-esperee donne dup/rdu — la pondération par rang. [ajout]
+
+CPT est littéralement leur composition : la théorie des perspectives refaite avec la pondération par rang, appliquée séparément aux gains et aux pertes. Elle ne peut donc exister qu'après les deux, et c'est ce qui en fait l'aboutissement de cette branche du cours. [ajout]
+
 ## Exemple minimal
 Avec $\beta=0{,}7$ et $p=0{,}2$ : $\varphi(0{,}2)=0{,}2560$, soit une surpondération de plus d’un quart. [L3 slide 46]
 

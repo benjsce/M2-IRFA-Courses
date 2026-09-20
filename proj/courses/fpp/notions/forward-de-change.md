@@ -26,6 +26,11 @@ La devise locale s’apprécie à terme si le taux étranger est supérieur au t
 
 C’est le seul endroit où les deux principes se rejoignent : la composition du facteur temporel et du facteur de change. La parité des taux d’intérêt n’est pas un résultat de plus, c’est le portage avec le bon $\Phi$. [ajout]
 
+## Le chemin jusqu'ici
+fpp/taux-de-change donne l'objet, fpp/facteur-actualisation — sur fpp/convention-capitalisation — donne le coût du temps. [ajout]
+
+La seule idée propre à cette fiche est qu'il y a **deux** facteurs d'actualisation, un par devise, et que le forward est leur rapport. La devise étrangère se porte comme un actif qui verse un rendement : son taux joue le rôle du portage. [ajout]
+
 ## Exemple minimal
 $X_t=1{,}10$ USD par EUR, $P(0,1)=0{,}9608$ (EUR à 4 %), $P^f(0,1)=0{,}9802$ (USD à 2 %) : $K(0,1)=1{,}0782$. [ajout]
 

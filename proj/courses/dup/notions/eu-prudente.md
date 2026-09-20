@@ -29,6 +29,11 @@ L’axiome est l’indépendance de certitude négative : si un risqué bat un s
 
 Pour un résultat sûr, toutes les évaluations coïncident : $c(\delta_x,u)=x$. Élargir $\mathcal{U}$ ne peut qu’abaisser $V(P)$ et laisse les résultats sûrs inchangés — d’où l’effet de certitude. [L3 slide 16]
 
+## Le chemin jusqu'ici
+Deux fils. dup/equivalent-certain donne de quoi comparer ; dup/effet-consequence-commune puis dup/effet-certitude donnent ce qu'il faut expliquer. [ajout]
+
+L'agent prudent envisage plusieurs utilités et retient le plus bas équivalent certain. La construction est donc un minimum sur une famille — exactement la même forme que l'utilité espérée maxmin, mais sur les goûts au lieu des croyances. Le socle le montre : cette fiche vient du côté du risque, l'autre du côté de l'ambiguïté. [ajout]
+
 ## Exemple minimal
 $\mathcal{U}$ réduit à un singleton redonne exactement l’utilité espérée. [L3 slide 16]
 

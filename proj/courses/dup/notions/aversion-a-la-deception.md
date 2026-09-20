@@ -27,6 +27,11 @@ Le seuil de déception est endogène : c’est la valeur de la loterie choisie, 
 
 Une conséquence commune peut changer quels résultats déçoivent ; l’indépendance n’a alors plus lieu d’être, ce qui autorise une attirance particulière pour la certitude. [L3 slide 9]
 
+## Le chemin jusqu'ici
+Le socle commun mène à dup/equivalent-certain, et le choix de cette dépendance est tout le contenu de la fiche. [ajout]
+
+La déception se définit par rapport à l'équivalent certain **de la loterie elle-même**. Le point de référence est donc endogène : il dépend de ce qu'on évalue. C'est ce qui rend la fonctionnelle implicite, et ce qui la distingue d'une simple pondération. [ajout]
+
 ## Exemple minimal
 Avec $u(x)=x$ et $\alpha=1$, les quatre loteries d’Allais valent 2 385,15, 2 400, 494,01 et 491,57 : $B\succ A$ et $C\succ D$, exactement le motif observé. [L3 slide 11]
 

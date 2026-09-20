@@ -21,6 +21,11 @@ Les probabilités entrant linéairement, les courbes d’indifférence de l’ut
 
 Les choix de type Allais imposent des pentes qui changent : le motif empirique le plus courant est l’éventail qui s’ouvre. [L1 slide 44]
 
+## Le chemin jusqu'ici
+Le socle commun : dup/loterie, dup/fonction-utilite, dup/utilite-esperee. [ajout]
+
+Le triangle est un outil de lecture, pas une théorie : trois résultats, deux degrés de liberté, donc un plan. Son intérêt tient entièrement à ce qu'il rend visible — sous utilité espérée les courbes d'indifférence y sont des **droites parallèles**. Sans l'utilité espérée au socle, la figure ne dirait rien. [ajout]
+
 ## Exemple minimal
 Les quatre loteries d’Allais se placent avec $x=2400$, $\alpha=0{,}34$ et $P=\tfrac{33}{34}\delta_{2500}+\tfrac{1}{34}\delta_0$. [L2 slide 16]
 

@@ -23,6 +23,11 @@ Deux paramètres séparent ce que le modèle de Gul confondait : $\theta$ dit la
 
 Avec $\delta<1$, seuls les résultats suffisamment mauvais déclenchent la pénalité : l’aversion se concentre sur la queue basse. [L3 slide 12]
 
+## Le chemin jusqu'ici
+Le chemin du socle commun passe par dup/equivalent-certain puis dup/aversion-a-la-deception. [ajout]
+
+La généralisation tient en un paramètre : le seuil de déception n'est plus l'équivalent certain lui-même mais une fraction de celui-ci. Il fallait donc la version à seuil fixe avant de pouvoir le faire glisser. C'est ce paramètre libre qui permettra d'accommoder l'aversion du premier ordre. [ajout]
+
 ## Exemple minimal
 $\delta=1$ redonne le modèle de Gul, $\theta=0$ redonne l’utilité espérée. [L3 slide 12]
 

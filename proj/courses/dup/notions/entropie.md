@@ -22,6 +22,11 @@ $$H(P)=-\sum_i p_i\log p_i$$ [L1 slide 17]
 ## Ce qui la définit
 Elle ne dépend pas de la distance entre les résultats, ce qui la rend inapte à mesurer le coût économique du risque de paiement. [L1 slide 17]
 
+## Le chemin jusqu'ici
+Une seule brique : dup/loterie. [ajout]
+
+L'entropie ne regarde que les probabilités et ignore les montants : deux loteries aux mêmes probabilités ont la même entropie, qu'on y gagne un euro ou un million. C'est ce qui la sépare de tout ce que le cours appellera « risque » — et la raison pour laquelle son socle se réduit à la loterie, sans aucune fonction d'utilité. [ajout]
+
 ## Exemple minimal
 $(49,\tfrac12;51,\tfrac12)$ et $(0,\tfrac12;100,\tfrac12)$ ont la même entropie, alors que la seconde est bien plus dispersée. [L1 slide 17]
 

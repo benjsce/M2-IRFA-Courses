@@ -23,6 +23,11 @@ Elle apparaît dès que la fonction de valeur présente un coude en zéro, ou qu
 
 C’est ce qui permet d’expliquer le refus de petits paris favorables, que l’utilité espérée dérivable interdit. [L2 slide 21]
 
+## Le chemin jusqu'ici
+Le socle est celui de dup/aversion-second-ordre, plus elle. [ajout]
+
+Le premier ordre se définit **par contraste** : une prime proportionnelle à l'écart type et non à la variance. Il faut donc avoir établi le second ordre, sans quoi « premier ordre » ne désigne rien. C'est la sortie du paradoxe de Rabin, et elle exige de quitter l'utilité espérée dérivable. [ajout]
+
 ## Exemple minimal
 Avec $\lambda=2$ et $\gamma=0$ : $k=1/3$, donc un pari de $\pm10$ coûte une prime de $3{,}33$, contre $0{,}5$ au second ordre. [ajout]
 

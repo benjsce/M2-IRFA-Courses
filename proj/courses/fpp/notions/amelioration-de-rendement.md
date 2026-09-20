@@ -21,6 +21,11 @@ Vendre des calls ou des puts pour encaisser la prime, en échange d’un profil 
 ## Ce qui la définit
 Exactement l’inverse du produit à capital protégé : on est cette fois du côté qui reçoit la prime, et qui porte donc le risque que l’acheteur a cédé. [§9.3, ajout]
 
+## Le chemin jusqu'ici
+fpp/payoff donne la forme d'un contrat, fpp/call et fpp/put les deux briques élémentaires. [ajout]
+
+L'amélioration de rendement est la première stratégie du cours où l'on est *vendeur* : on encaisse la prime et on accepte de tronquer le gain. Le socle s'arrête aux payoffs parce que le profil se dessine sans prix ; ce que la prime vaut viendra plus tard. [ajout]
+
 ## Exemple minimal
 Vendre le call à la monnaie de l’exemple courant encaisse 9,93, au prix de toute la hausse au-delà de 100. [ajout]
 

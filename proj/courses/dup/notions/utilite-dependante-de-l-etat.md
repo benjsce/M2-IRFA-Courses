@@ -20,6 +20,11 @@ $$V(f)=\sum_s\pi(s)\,U_s\big(f(s)\big)$$ [L1 slide 61]
 ## Ce qui la définit
 Les choix observés confondent alors deux choses : un état jugé plus probable, et un état où les conséquences valent plus. Le produit $\pi(s)U_s$ est identifié, ses deux facteurs ne le sont pas. [L1 slide 61]
 
+## Le chemin jusqu'ici
+Même chemin : dup/acte, dup/fonction-utilite, dup/utilite-esperee-subjective. [ajout]
+
+C'est la première fissure de l'édifice de Savage, et elle est interne : si la même conséquence ne vaut pas la même chose selon l'état, on ne peut plus séparer les goûts des croyances, et la « probabilité » déduite n'en est plus une. Il fallait donc la construction complète pour montrer ce qu'elle perd. [ajout]
+
 ## Exemple minimal
 Mille euros ne valent pas la même chose selon qu’on est en bonne santé ou hospitalisé, alors que la somme est la même. [ajout]
 

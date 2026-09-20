@@ -22,6 +22,11 @@ $$\sigma^2=\mathrm{Var}(\tilde x)=\mathbb{E}\big[(\tilde x-\mathbb{E}\tilde x)^2
 ## Ce qui la définit
 Deux avantages et un coût : les moments d’un portefeuille se calculent facilement, mais la réduction jette de l’information que l’utilité espérée, elle, utilise. [L1 slide 11]
 
+## Le chemin jusqu'ici
+Une seule brique : dup/loterie. [ajout]
+
+Résumer une distribution à deux nombres est une réduction faite sur la loterie elle-même, avant toute préférence. C'est pourquoi le socle est si court — et aussi pourquoi la critique viendra de loin : la question n'est pas de savoir si le résumé est calculable, mais si un agent peut légitimement s'y fier. [ajout]
+
 ## Exemple minimal
 Le pari $(0,\tfrac12;100,\tfrac12)$ a $\mu=50$ et $\sigma=50$. [ajout]
 

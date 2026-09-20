@@ -21,6 +21,11 @@ $$\dfrac{\partial P(t,r)}{P(t,r)\,\partial r}=-t$$ [Déf. 5]
 ## Ce qui la définit
 Une variation instantanée du taux agit sur toute la vie du titre : la sensibilité relative est la maturité elle-même. [Déf. 5]
 
+## Le chemin jusqu'ici
+Même chaîne : fpp/convention-capitalisation, fpp/facteur-actualisation, fpp/valeur-actuelle-nette. [ajout]
+
+Une fois le prix d'un échéancier écrit comme fonction du taux, la sensibilité n'est qu'une dérivée. C'est la première fois du cours qu'on dérive un prix ; la même opération reviendra pour les grecques, sur une autre variable. [ajout]
+
 ## Exemple minimal
 Un zéro-coupon à 5 ans perd 5 % de sa valeur quand le taux monte de 100 points de base. [ajout]
 

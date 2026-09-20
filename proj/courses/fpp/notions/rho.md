@@ -23,6 +23,13 @@ $$\rho=\dfrac{\partial P}{\partial r}$$ [§8.2]
 ## Ce qui la définit
 Positif pour un call, négatif pour un put : monter le taux abaisse la valeur actualisée du strike, donc renchérit le droit d’acheter. [§8.2]
 
+## Le chemin jusqu'ici
+Le socle est exactement celui de fpp/formule-black-scholes, augmenté d'elle. Tout y sert à écrire la formule ; cette fiche ne fait que la dériver. [ajout]
+
+Ce qui distingue les cinq grecques, c'est la variable, pas le chemin : le rhô est la dérivée par rapport au taux. Le socle est donc le même pour toutes, et il ne vaut la peine d'être lu qu'une fois. [ajout]
+
+Le rhô est la plus faible des cinq sur des maturités courtes, et c'est une information : le taux entre dans la formule par l'actualisation, pas par l'aléa. [ajout]
+
 ## Exemple minimal
 Si le taux tombe de 4 % à 3 %, le strike actualisé passe de 96,08 à 97,04 : le call perd et le put gagne. [ajout]
 

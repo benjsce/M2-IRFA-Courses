@@ -25,6 +25,11 @@ Le geste est en trois temps : écrire $dC$ par la formule d’Itô, former le po
 
 Le portefeuille ne porte alors plus de risque entre $t$ et $t+dt$ : son rendement instantané doit valoir $r\,dt$, sinon il y a arbitrage. La dérive $\mu$ disparaît de l’équation — c’est le résultat central du chapitre. [§7.1]
 
+## Le chemin jusqu'ici
+Le socle est celui de fpp/modele-black-scholes, plus fpp/replication-dynamique (qui vient de fpp/compte-capitalise). [ajout]
+
+Cette addition est toute l'idée. Le modèle dit comment le sous-jacent bouge ; la réplication dynamique dit qu'on peut annuler ce mouvement en rééquilibrant. Un portefeuille sans risque doit rapporter le taux sans risque : l'équation aux dérivées partielles n'est rien d'autre que cette phrase, écrite en différentiel. [ajout]
+
 ## Exemple minimal
 Pour $C(t,S)=S$, l’équation se réduit à $rS=rS$ : une action est bien son propre prix. [ajout]
 

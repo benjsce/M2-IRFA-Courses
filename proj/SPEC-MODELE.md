@@ -91,14 +91,38 @@ $$K = \dfrac{S_t\,\Phi}{D}$$ [ajout]
 | 2 | Forme | tous | si la notion a une formule |
 | 3 | Ce qui la définit / Ce que les membres partagent | tous | obligatoire |
 | 4 | Pourquoi ce niveau existe | abstraite | obligatoire |
-| 5 | Exemple minimal | tous | obligatoire si Forme ; une instance concrète chiffrée, sans calcul |
-| 6 | Geste de calcul type | tous | obligatoire si Forme ; peut être `à venir [ajout]` → dette |
-| 7 | Ce qui reste libre | tous | facultatif ; table |
-| 8 | Cesse d'être valide quand | tous | obligatoire ; peut être « rien dans le périmètre du cours [réf] » |
-| 9 | Origine | tous | facultatif ; liste d'exercices |
+| 5 | Le chemin jusqu'ici | tous | **obligatoire dès que le socle n'est pas vide** ; interdite s'il l'est |
+| 6 | Exemple minimal | tous | obligatoire si Forme ; une instance concrète chiffrée, sans calcul |
+| 7 | Geste de calcul type | tous | obligatoire si Forme ; peut être `à venir [ajout]` → dette |
+| 8 | Ce qui reste libre | tous | facultatif ; table |
+| 9 | Cesse d'être valide quand | tous | obligatoire ; peut être « rien dans le périmètre du cours [réf] » |
+| 10 | Origine | tous | facultatif ; liste d'exercices |
 
 Une rubrique absente qui n'est pas obligatoire est simplement omise. Une rubrique hors de
 cette liste est une erreur. L'ordre est une erreur s'il n'est pas respecté.
+
+**« Le chemin jusqu'ici », en détail.** Deux à quatre paragraphes courts qui disent *en quoi
+les notions du socle mènent à celle-ci*. Le socle donne l'ordre de lecture ; ce paragraphe
+donne la raison. Il nomme les notions par leur identifiant, ce qui les rend cliquables et
+vérifiables. Il se rend en tête de la rubrique générée « Socle complet », pas à sa place
+dans le fichier : c'est là que la question se pose.
+
+Ce qu'il ne fait pas :
+
+- **il ne recopie pas la liste.** Une énumération dans l'ordre des niveaux n'apprend rien
+  que la liste ne montre déjà. Sur un socle long, il faut une ligne narrative — le socle de
+  `fpp/delta` compte treize notions et une seule histoire, en trois temps ;
+- **il n'écrit aucun nombre dérivé en dur.** « Treize notions » devient faux la semaine où
+  une dépendance change, et rien ne le signale. Le nombre est déjà affiché par le
+  générateur, à côté du titre de la rubrique ;
+- **il ne nomme aucune notion absente du socle.** Le validateur le refuse.
+
+**Pourquoi cette rubrique est écrite et non dérivée.** Le socle, lui, est calculé (A9). La
+raison pour laquelle ces notions-là y figurent ne l'est pas : c'est du contenu. Le risque,
+assumé, est que les deux divergent — le validateur exige donc la rubrique dès que le socle
+existe et refuse toute notion citée hors du socle, mais il ne peut pas voir qu'un socle a
+grandi sans que la prose suive. C'est la même limite qu'A13 : la machine ne se vérifie pas
+entièrement elle-même, et c'est le rapport hebdomadaire qui l'attrape.
 
 ### 2.2 Ce qui n'est jamais dans une fiche (dérivé, A9)
 

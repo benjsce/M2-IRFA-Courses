@@ -32,6 +32,11 @@ La représentation est implicite : la contribution d’un résultat peut dépend
 ## Pourquoi ce niveau existe
 Trois modèles que le cours présente l’un après l’autre, que sa table du §17 range explicitement ensemble, et qui ne diffèrent que par la façon dont la probabilité compensatrice est autorisée à varier. Les séparer ferait manquer la progression : $\rho=\lambda$, puis $\rho$ indépendant de $R$, puis $\rho(R)$. [L3 slide 17]
 
+## Le chemin jusqu'ici
+Le socle commun : dup/loterie, dup/fonction-utilite, dup/utilite-esperee. [ajout]
+
+La famille se définit par ce qu'elle **garde** de l'utilité espérée — l'intermédiarité — et par ce qu'elle abandonne, l'indépendance. On ne peut donc pas la poser avant elle : c'est un affaiblissement, et un affaiblissement se définit par rapport à ce qu'il affaiblit. [ajout]
+
 ## Exemple minimal
 Sur les quatre loteries d’Allais, le membre « aversion à la déception » avec $u(x)=x$ et $\alpha=1$ donne 2 385,15, 2 400, 494,01 et 491,57. [L3 slide 11]
 

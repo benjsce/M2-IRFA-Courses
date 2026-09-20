@@ -22,6 +22,11 @@ $$\pi(\tilde x)=\mathbb{E}[\tilde x]-c,\qquad \mathbb{E}u(w_0+X)=u(w_0-\pi)$$ [L
 ## Ce qui la définit
 Sous aversion au risque, $c\le\mathbb{E}[\tilde x]$ et donc $\pi\ge0$ ; plus d’aversion implique une prime plus grande. [L1 slide 9, L1 slide 31]
 
+## Le chemin jusqu'ici
+Le socle commun mène à dup/equivalent-certain. [ajout]
+
+La prime de risque en est la simple différence à la moyenne. Elle n'ajoute aucun concept — mais elle change l'unité de mesure : on passe d'un montant équivalent à un **coût**, ce qui la rend comparable d'une loterie à l'autre et ouvre tout le chapitre des approximations. [ajout]
+
 ## Exemple minimal
 Avec $u(x)=\sqrt{x}$ et le pari $(0,\tfrac12;100,\tfrac12)$ : $\pi=50-25=25$. [ajout]
 

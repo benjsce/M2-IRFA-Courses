@@ -26,6 +26,11 @@ La démonstration est en deux temps. L’indépendance donne l’indifférence e
 
 $$\mathbb{E}[u(P)]-\mathbb{E}[u(M)]=(1-\pi)\Big[u\Big(w-\tfrac{y}{2}\Big)-\tfrac{u(w-y)+u(w)}{2}\Big]\ \ge\ 0$$ [L2 slide 13]
 
+## Le chemin jusqu'ici
+Le socle commun mène à dup/aversion-au-risque. [ajout]
+
+L'expérience oppose une prédiction et une observation, et les deux ont besoin de l'aversion au risque : la théorie prédit qu'un agent averse accepte la demi-couverture à demi-prix, 80 % des sujets la refusent. Sans la prédiction chiffrée, il n'y aurait qu'une curiosité ; avec elle, c'est une réfutation. [ajout]
+
 ## Exemple minimal
 Un assuré indifférent entre payer la prime $y$ et rester exposé devrait préférer strictement payer $y/2$ pour une couverture une fois sur deux. [L2 slide 12]
 

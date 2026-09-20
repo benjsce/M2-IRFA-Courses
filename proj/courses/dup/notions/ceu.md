@@ -20,6 +20,11 @@ Remplacer la probabilité additive par une capacité, qui pondère les événeme
 ## Ce qui la définit
 Les poids de décision peuvent alors refléter la non-additivité des croyances et l’ambiguïté d’un événement, ce qu’une probabilité interdit par construction. [L1 slide 64]
 
+## Le chemin jusqu'ici
+Même chemin que l'autre réponse à l'ambiguïté : toute la chaîne de Savage jusqu'à dup/aversion-a-l-ambiguite. [ajout]
+
+Ce qui est propre à celle-ci : on garde une seule mesure mais on lui retire l'additivité. Une capacité peut attribuer aux deux moitiés d'un événement moins que le tout, et c'est exactement ce défaut d'additivité qui encode l'aversion à l'ambiguïté. [ajout]
+
 ## Exemple minimal
 Une capacité qui donne $1/3$ au rouge et moins de $1/3$ au noir, alors que leurs complémentaires ne somment pas à un. [ajout]
 

@@ -30,6 +30,11 @@ Deux cas limites : $\varphi$ identité redonne l’utilité espérée, $u$ liné
 
 $$U(F)=\int u(x)\,d\big(\varphi\circ F\big)(x)$$ [L3 slide 33]
 
+## Le chemin jusqu'ici
+Le socle commun : dup/loterie, dup/fonction-utilite, dup/utilite-esperee. [ajout]
+
+RDU déforme la fonction de répartition et non chaque probabilité prise isolément. Cette différence-là est la raison d'être de la fiche : c'est ce qui lui permet de préserver la dominance stochastique, que la pondération naïve viole. Il fallait donc l'utilité espérée pour dire par rapport à quoi on déforme. [ajout]
+
 ## Exemple minimal
 Avec $u(x)=x$ et $\varphi(p_1)>p_1$ : $U(x_1,p_1;x_2,p_2)<U(p_1x_1+p_2x_2,1)$, donc l’agent est averse par la seule déformation. [L3 slide 32]
 

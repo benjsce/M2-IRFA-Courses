@@ -26,6 +26,17 @@ Le passage de $\mathbb{P}$ à $\mathbb{Q}$ ne change que la dérive, jamais la v
 
 $$S_t=S_0e^{(\mu-\frac{\sigma^2}{2})t+\sigma W_t^{\mathbb{P}}},\qquad \mathbb{E}^{\mathbb{Q}}(S_t)=S_0e^{rt}$$ [§5.4]
 
+## Le chemin jusqu'ici
+Trois fils entrent ici, et c'est le nœud du cours. [ajout]
+
+**Le prix.** fpp/replication-statique, fpp/portage et fpp/facteur-actualisation donnent fpp/prix-a-terme, puis fpp/mesure-risque-neutre : un prix est une espérance actualisée. [ajout]
+
+**L'aléa.** fpp/volatilite puis fpp/echelonnement-de-la-variance disent comment l'incertitude grandit avec le temps. [ajout]
+
+**Le calcul.** fpp/transformee-de-laplace-gaussienne donne la seule identité dont on aura besoin pour mener l'espérance jusqu'au bout. [ajout]
+
+Le modèle est le choix minimal qui referme les trois : une diffusion log-normale et un taux constant. Rien de plus n'est dans le socle, et c'est ce qui rend ses limites faciles à nommer. [ajout]
+
 ## Exemple minimal
 Avec $S_0=100$, $r=4\%$ et un an : $\mathbb{E}^{\mathbb{Q}}(S_1)=104{,}08$, quelle que soit $\sigma$. [ajout]
 

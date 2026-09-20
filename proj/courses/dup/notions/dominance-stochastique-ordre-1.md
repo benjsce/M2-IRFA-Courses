@@ -25,6 +25,11 @@ $$\tilde x_2\succ_{FSD}\tilde x_1\ \implies\ \mathbb{E}[U(\tilde x_2)]>\mathbb{E
 ## Ce qui la définit
 Le critère ne demande rien de plus que la croissance de $U$ : c’est le plus large accord qu’on puisse obtenir entre agents. [L1 slide 6]
 
+## Le chemin jusqu'ici
+Le socle commun du cours : dup/loterie, dup/fonction-utilite, dup/utilite-esperee. [ajout]
+
+La dominance d'ordre 1 est le premier critère sur lequel **tous** les agents s'accordent, à condition seulement que $U$ soit croissante. C'est pourquoi l'utilité espérée doit être là : le critère porte sur les loteries, mais son sens est « tout agent la préfère ». [ajout]
+
 ## Exemple minimal
 $(0,\tfrac12;100,\tfrac12)$ domine au premier ordre $(0,\tfrac34;100,\tfrac14)$ : même support, plus de poids sur le bon résultat. [ajout]
 

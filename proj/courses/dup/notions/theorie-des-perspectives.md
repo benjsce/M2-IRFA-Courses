@@ -28,6 +28,11 @@ Markowitz le premier propose de définir l’utilité sur les écarts à la rich
 
 L’aversion aux paris symétriques impose $v(x)<-v(-x)$ : la courbe est plus raide du côté des pertes. Une concavité marquée autour de zéro — un coude — explique les paradoxes d’échelle. [L3 slide 22]
 
+## Le chemin jusqu'ici
+Le socle commun mène à dup/cadrage. [ajout]
+
+La dépendance n'est pas anodine : la théorie des perspectives est la première du cours à faire du point de référence une **variable du modèle** plutôt qu'un artefact à éliminer. Elle transforme donc le cadrage d'anomalie en ingrédient. C'est pourquoi elle en dépend au lieu de le contredire. [ajout]
+
 ## Exemple minimal
 Le point de référence est pris comme donné : c’est le cadre qui le fixe, et le modèle ne l’explique pas. [L3 slide 20]
 

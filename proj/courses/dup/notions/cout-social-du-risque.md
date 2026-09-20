@@ -22,6 +22,11 @@ $$\mathbb{E}u\big(c_t(1+X)\big)=u\big(c_t(1+\mathbb{E}X-\pi)\big)$$ [L1 slide 38
 ## Ce qui la définit
 Le partage équitable du PIB fait de la consommation par tête la seule variable, et la prime se lit alors directement en points de taux de croissance. [L1 slide 38]
 
+## Le chemin jusqu'ici
+dup/fonction-utilite puis dup/crra. [ajout]
+
+Le passage par CRRA n'est pas décoratif : c'est parce que l'aversion relative est constante qu'on peut exprimer le coût du risque en **points de croissance**, une grandeur sans unité de richesse. Avec une autre forme d'utilité, le chiffre dépendrait du niveau de richesse et ne serait plus comparable entre pays. [ajout]
+
 ## Exemple minimal
 Sur la croissance américaine de 1963 à 1992, $\mathbb{E}X=1{,}86\,\%$ et $\sigma_X=2{,}41\,\%$ : sous CRRA, $\gamma=1$ donne $\pi=0{,}03\,\%$ et $\gamma=4$ donne $\pi=0{,}12\,\%$. [L1 slide 39, L1 slide 40]
 

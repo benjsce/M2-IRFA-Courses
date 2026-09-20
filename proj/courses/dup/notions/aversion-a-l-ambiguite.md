@@ -17,6 +17,11 @@ Préférer un risque de probabilité connue à un risque de probabilité mal sp�
 ## Ce qui la définit
 Elle est distincte de l’aversion au risque ordinaire, qui porte sur les résultats : ici c’est l’imprécision de la croyance qui est fuie, pas la dispersion du paiement. [L1 slide 63]
 
+## Le chemin jusqu'ici
+Toute la chaîne de Savage, jusqu'à dup/paradoxe-d-ellsberg. [ajout]
+
+L'aversion à l'ambiguïté est le nom donné au comportement qu'Ellsberg exhibe : préférer la probabilité connue. Elle vient après le paradoxe parce qu'elle n'est pas une observation nouvelle, c'est une **interprétation** de celle-là — et c'est elle qui ouvre les deux réparations que le cours propose ensuite. [ajout]
+
 ## Exemple minimal
 Parier sur 30 boules rouges connues plutôt que sur 60 boules noires ou jaunes en proportion inconnue. [L1 slide 62]
 

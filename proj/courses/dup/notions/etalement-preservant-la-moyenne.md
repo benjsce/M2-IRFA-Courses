@@ -22,6 +22,11 @@ Déplacer de la probabilité du centre vers les queues en laissant la moyenne in
 ## Ce qui la définit
 $F^*$ est plus risquée que $F$ si elle s’obtient à partir de $F$ par une suite de tels étalements. [L1 slide 21]
 
+## Le chemin jusqu'ici
+Une seule brique : dup/loterie. [ajout]
+
+Déplacer de la probabilité vers les queues à moyenne constante est une opération sur la distribution, pas sur les préférences. Le socle s'arrête donc là. Que cela corresponde à « plus risqué » est un théorème, qui viendra quand l'utilité sera disponible. [ajout]
+
 ## Exemple minimal
 De $\{40,60\}$ uniforme vers $\{20,40,60,80\}$ uniforme : la moyenne reste 50, la probabilité est partie vers les extrêmes. [L1 slide 24]
 

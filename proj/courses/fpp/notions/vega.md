@@ -25,6 +25,13 @@ Positif pour le call comme pour le put : plus d’incertitude vaut plus cher des
 
 La table écrit $SN(d_1)\sqrt{\tau}$ avec la fonction de répartition ; c’est la densité qu’il faut, $S\,n(d_1)\sqrt{\tau}$. Sur l’exemple courant la première donnerait 61,79, la seconde 38,14, et l’effet mesuré est 38,17 par unité de volatilité. [ajout]
 
+## Le chemin jusqu'ici
+Le socle est exactement celui de fpp/formule-black-scholes, augmenté d'elle. Tout y sert à écrire la formule ; cette fiche ne fait que la dériver. [ajout]
+
+Ce qui distingue les cinq grecques, c'est la variable, pas le chemin : le véga est la dérivée par rapport à la volatilité. Le socle est donc le même pour toutes, et il ne vaut la peine d'être lu qu'une fois. [ajout]
+
+Le véga est la seule grecque qui dérive par rapport à un paramètre que le modèle suppose constant — et c'est ce paradoxe qui en fait la plus employée. [ajout]
+
 ## Exemple minimal
 Passer la volatilité de 20 % à 21 % fait passer le call de 9,93 à 10,30 : le vega vaut 0,38 par point de volatilité. [ajout]
 

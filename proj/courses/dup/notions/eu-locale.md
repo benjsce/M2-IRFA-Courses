@@ -29,6 +29,11 @@ Les variations infinitésimales de probabilité s’évaluent comme sous utilit�
 
 C’est une approximation, jamais une indépendance exacte pour des mélanges finis : les courbes d’indifférence peuvent se courber. [L3 slide 13]
 
+## Le chemin jusqu'ici
+Le socle commun : dup/loterie, dup/fonction-utilite, dup/utilite-esperee. [ajout]
+
+Même logique d'affaiblissement : on renonce à l'indépendance globale et on ne garde que la dérivabilité en les probabilités. L'utilité espérée reste au socle non comme hypothèse mais comme **point de comparaison** — localement, la fonctionnelle se comporte comme elle. [ajout]
+
 ## Exemple minimal
 Pour $V(P)=\sum p_iu(x_i)+\tfrac{\eta}{2}\big(\sum p_iv(x_i)\big)^2$, l’utilité locale vaut $u(x_i)+\eta\big(\sum_j p_jv(x_j)\big)v(x_i)$, et $\eta=0$ redonne EU. [L3 slide 14]
 

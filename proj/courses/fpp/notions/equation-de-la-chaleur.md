@@ -24,6 +24,11 @@ Trois gestes successifs : multiplier par $e^{r(T-t)}$ pour passer au prix forwar
 
 Le passage au forward est possible parce que les dérivées en espace de $F$ et de $C$ sont proportionnelles, alors que les dérivées en temps diffèrent exactement du terme d’actualisation. [§7.2.2]
 
+## Le chemin jusqu'ici
+Le socle est celui de fpp/feynman-kac, plus elle — c'est-à-dire toute la chaîne du cours. [ajout]
+
+Mais rien n'est ajouté ici sur le plan financier : deux changements de variables, et l'équation de fpp/edp-black-scholes devient l'équation de la chaleur. Le socle est long parce qu'il a fallu tout construire pour arriver à cette équation ; cette fiche, elle, ne fait que la réécrire. C'est la dernière étape, et la seule purement mathématique. [ajout]
+
 ## Exemple minimal
 Le facteur du changement de variable est $e^{r(T-t)}$ : à un an et 4 %, il vaut 1,0408. [ajout]
 

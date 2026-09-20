@@ -27,5 +27,10 @@ Tous surpondèrent les petites probabilités, et c’est ce qui leur permet de r
 ## Pourquoi ce niveau existe
 Trois modèles successifs — perspectives, dépendance au rang, perspectives cumulatives — dont chacun corrige un défaut du précédent sur ce seul point. Les lire séparément ferait manquer que c’est une seule correction, faite trois fois. [L3 slide 26, L3 slide 38]
 
+## Le chemin jusqu'ici
+Le socle commun : dup/loterie, dup/fonction-utilite, dup/utilite-esperee. [ajout]
+
+C'est la branche des généralisations qui laisse $U$ tranquille et déforme les probabilités. Nommer ce qu'on déforme suppose d'avoir la forme non déformée : l'utilité espérée est ici le point de départ dont on s'écarte, pas un ingrédient du calcul. [ajout]
+
 ## Cesse d'être valide quand
 Déformer les probabilités sans précaution viole la dominance stochastique : c’est exactement ce que la dépendance au rang répare. [L3 slide 26]

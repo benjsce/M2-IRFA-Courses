@@ -27,6 +27,11 @@ La normalisation par $U'$ est ce qui rend la mesure invariante par transformatio
 
 Trois énoncés équivalents pour « l’agent 1 est partout plus averse que l’agent 2 » : $A_1\ge A_2$ partout ; $U_1$ est une transformée croissante concave de $U_2$ ; l’agent 1 refuse tout pari que l’agent 2 refuse à la même richesse. [L1 slide 33]
 
+## Le chemin jusqu'ici
+Une seule brique : dup/fonction-utilite. [ajout]
+
+Tout se joue dans la courbure de $U$. Le rapport $-U''/U'$ normalise cette courbure par la pente, ce qui la rend insensible au changement d'échelle de l'utilité — c'est ce qui en fait une mesure de l'agent et non de la façon dont on a écrit son utilité. Aucune loterie n'est nécessaire pour la définir. [ajout]
+
 ## Exemple minimal
 Pour $u(z)=\ln z$ : $A(z)=1/z$, soit $0{,}01$ à une richesse de 100. [L1 slide 35]
 

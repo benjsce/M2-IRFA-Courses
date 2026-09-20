@@ -22,6 +22,11 @@ La valeur du contrat est nulle en $t$, donc l’inconnue est le strike et non le
 ## Pourquoi ce niveau existe
 Le seul contenu réel de ce niveau est le déplacement de l’inconnue. Tout le reste est hérité du dessus ou instancié en dessous. [ajout]
 
+## Le chemin jusqu'ici
+La chaîne est courte et droite : fpp/convention-capitalisation, fpp/facteur-actualisation, fpp/valeur-actuelle-nette. [ajout]
+
+Un contrat à prime nulle est un échéancier dont la valeur actuelle nette est nulle à la signature. Il fallait donc savoir sommer des flux datés avant de pouvoir dire « cet échange ne coûte rien » — sinon la phrase n'a pas de sens. [ajout]
+
 ## Cesse d'être valide quand
 Ne dit rien tant qu’on n’a pas dit ce qu’on échange ni comment on règle. [ajout]
 
