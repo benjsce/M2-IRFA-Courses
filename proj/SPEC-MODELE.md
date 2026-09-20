@@ -13,8 +13,8 @@ calculée. C'est ce qui rend l'alimentation hebdomadaire sûre.
 
 ## 1. Les objets
 
-- Un ensemble de cours $\mathcal C$. Un cours a un code court en minuscules (`fpp`, `cs`,
-  `dup`, `ml`), un dossier `courses/<code>/`, un fichier `course.yml`.
+- Un ensemble de cours $\mathcal C$. Un cours a un code court en minuscules (`fpp`,
+  `dup`, `dss`), un dossier `courses/<code>/`, un fichier `course.yml`.
 - Pour chaque cours, un ensemble fini de notions $N_c$ ; $N = \bigsqcup_c N_c$.
 - Chaque notion $n$ porte :
   - un identifiant $\mathrm{id}(n)$ de la forme `<code>/<slug>` (slug en minuscules,
@@ -280,10 +280,19 @@ associée, référence de première occurrence, sens en une ligne. Règles :
 - un symbole introduit par l'opérateur est marqué `ajout: true` dans le registre et ne
   peut pas coïncider avec un symbole `source` du même cours ;
 - deux cours peuvent donner deux sens au même symbole ; la collision est déclarée dans
-  `notation.yml` (clé `collisions`) et le site affiche le contexte de cours.
+  `notation.yml` (clé `collisions`) et le site affiche le contexte de cours. Une entrée
+  `collisions` nomme **tous** les cours concernés, pas seulement l'un d'eux : le lecteur
+  doit trouver l'histoire entière au même endroit. Les clés de `ailleurs` sont des codes
+  de cours existants ;
+- deux cours peuvent aussi donner le même *nom*, ou le même alias, à deux notions
+  distinctes. C'est une homonymie, déclarée dans `notation.yml` (clé `homonymes`), avec
+  les identifiants concernés sous `entre`. **Dans un même cours, c'est une faute** : un
+  cours ne nomme pas deux notions de la même façon.
 Le validateur vérifie que le champ `symbole` de chaque fiche est dans le registre du cours
-(source ou ajout déclaré). *Empêche* : le renommage silencieux qui fait perdre l'étudiant
-entre la fiche et son poly.
+(source ou ajout déclaré), que toute collision entre registres est déclarée (**W**), et
+que toute homonymie entre cours l'est aussi (**W**) — dans un même cours, **E**.
+*Empêche* : le renommage silencieux qui fait perdre l'étudiant entre la fiche et son poly,
+et la notion réécrite sous un autre code parce qu'on ne l'a pas reconnue.
 
 **A13 — Couverture. [E]**
 `courses/<code>/inventaire.yml` liste tout élément indexable de la source : chaque
@@ -344,7 +353,7 @@ sources:
     fichier: sources/financial_products_lecture_notes.pdf
     type: notes de cours
 refs_pattern: '^(§\d+(\.\d+)*|Déf\. \d+|Prop\. \d+|Th\. \d+|Ex\. \d+|éq\. \d+|p\. \d+|Rem\. \d+|slide \d+)$'
-depend_de: [cs]          # cours prérequis (A10) ; vide si aucun
+depend_de: []            # cours prérequis (A10) ; vide si aucun
 ```
 
 `notation.yml`
@@ -361,7 +370,11 @@ symboles:
 collisions:
   - symbole: "$P$"
     ici: zéro-coupon
-    ailleurs: { cs: probabilité historique }
+    ailleurs: { dup: une loterie }
+homonymes:
+  - nom: Prime de risque
+    entre: [dup/prime-de-risque, fpp/prime-de-risque]
+    note: deux grandeurs distinctes sous le même mot, et sous le même $\pi$
 ```
 
 `inventaire.yml`

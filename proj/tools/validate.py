@@ -8,7 +8,7 @@ Sortie : liste des erreurs (E) et avertissements (W), dette, code de retour 1 si
 Dépendance : pyyaml.
 """
 from __future__ import annotations
-import argparse, json, re, sys
+import argparse, json, re, sys, unicodedata
 from pathlib import Path
 from collections import defaultdict
 
@@ -104,6 +104,8 @@ def valider(root: Path, rap: Rapport):
     notations = {}    # code -> set(symboles)
     a_venir = {}      # id -> raison
     inventaires = {}  # code -> liste
+    declarees = []    # (code, entrée collisions) — déclarations de collision de symbole
+    homonymes = []    # (code, entrée homonymes) — déclarations d'homonymie de nom
 
     for cdir in sorted(p for p in courses_dir.iterdir() if p.is_dir()):
         code = cdir.name
@@ -121,6 +123,10 @@ def valider(root: Path, rap: Rapport):
             nd = yaml.safe_load(nf.read_text(encoding="utf-8")) or {}
             for s in nd.get("symboles", []) or []:
                 syms.add(s.get("symbole", "").strip())
+            for c in nd.get("collisions", []) or []:
+                declarees.append((code, c))
+            for h in nd.get("homonymes", []) or []:
+                homonymes.append((code, h))
         notations[code] = syms
 
         # a-venir
@@ -419,6 +425,107 @@ def valider(root: Path, rap: Rapport):
         for p in parts:
             if p and p not in reg:
                 rap.e("A12", nid, f"symbole « {p} » absent du registre notation.yml")
+
+    # ---- A12 collisions entre cours : déclarées, ou signalées
+    # « deux cours peuvent donner deux sens au même symbole ; la collision est déclarée
+    # dans notation.yml » (SPEC-MODELE A12). La règle était énoncée, rien ne la vérifiait :
+    # cinq collisions inter-registres n'étaient pas déclarées le 2026-09-20.
+    # Une déclaration couvre la collision quand elle nomme TOUS les cours concernés :
+    # le lecteur doit trouver l'histoire entière au même endroit, pas un morceau par cours.
+    couvert = defaultdict(set)     # symbole -> cours nommés par la déclaration la plus large
+    for code, c in declarees:
+        sym = str(c.get("symbole", "")).strip()
+        ail = c.get("ailleurs") or {}
+        if not isinstance(ail, dict):
+            rap.e("A12", f"{code} notation.yml", f"collision « {sym} » : « ailleurs » doit être "
+                                                 "une table <code de cours> : <sens>")
+            continue
+        for autre in ail:
+            if autre not in courses:
+                rap.e("A12", f"{code} notation.yml", f"collision « {sym} » : « ailleurs » nomme "
+                                                     f"le cours « {autre} », qui n'existe pas")
+        nommes = {code} | {a for a in ail if a in courses}
+        if len(nommes) > len(couvert[sym]):
+            couvert[sym] = nommes
+
+    par_symbole = defaultdict(set)
+    for code, syms in notations.items():
+        for sym in syms:
+            if sym:
+                par_symbole[sym].add(code)
+    for sym, cs_ in sorted(par_symbole.items()):
+        if len(cs_) < 2:
+            continue
+        manque = cs_ - couvert.get(sym, set())
+        if not manque:
+            continue
+        rap.w("A12", " ↔ ".join(sorted(cs_)),
+              f"symbole « {sym} » dans plusieurs registres, collision non déclarée pour "
+              f"{', '.join(sorted(manque))} : une entrée « collisions » doit nommer tous "
+              "les cours concernés")
+        rap.dette["collision de symbole non déclarée"] += 1
+
+    # ---- A12 homonymie : deux fiches que le même mot désigne
+    # SPEC-INGESTION étape 2 interdisait le nom ou l'alias en double et affirmait que le
+    # validateur le refusait ; il ne le regardait pas. Et l'interdiction est trop forte :
+    # « prime de risque » désigne deux grandeurs distinctes dans dup et dans fpp, et les
+    # deux fiches doivent exister. Dans un même cours en revanche, c'est une faute.
+    declares_hom = set()
+    for code, h in homonymes:
+        ids = [x for x in (h.get("entre") or []) if isinstance(x, str)]
+        if len(ids) < 2:
+            rap.e("A12", f"{code} notation.yml", f"homonymie « {h.get('nom')} » : « entre » doit "
+                                                 "nommer au moins deux identifiants")
+            continue
+        for i in ids:
+            if i not in N:
+                rap.e("A12", f"{code} notation.yml", f"homonymie « {h.get('nom')} » : identifiant "
+                                                     f"inconnu {i}")
+        for a in ids:
+            for b in ids:
+                if a < b:
+                    declares_hom.add(frozenset({a, b}))
+
+    def aplat(x):
+        """Nom comparable : sans accent, sans casse, sans ponctuation."""
+        x = unicodedata.normalize("NFD", str(x).lower().replace("\u2019", "'"))
+        x = "".join(ch for ch in x if unicodedata.category(ch) != "Mn")
+        return re.sub(r"\s+", " ", re.sub(r"[^a-z0-9]", " ", x)).strip()
+
+    appellations = defaultdict(set)
+    for nid, n in N.items():
+        m = n["meta"]
+        for mot in [m.get("nom")] + list(m.get("alias") or []):
+            if isinstance(mot, str) and aplat(mot):
+                appellations[aplat(mot)].add(nid)
+    vus = set()
+    for mot, ids in sorted(appellations.items()):
+        if len(ids) < 2:
+            continue
+        for a, b in ((x, y) for x in sorted(ids) for y in sorted(ids) if x < y):
+            if N[a]["course"] == N[b]["course"]:
+                rap.e("A12", a, f"« {mot} » désigne aussi {b} dans le même cours : "
+                                "un cours ne nomme pas deux notions de la même façon")
+            elif frozenset({a, b}) not in declares_hom and frozenset({a, b}) not in vus:
+                vus.add(frozenset({a, b}))
+                rap.w("A12", f"{a} ↔ {b}", f"« {mot} » désigne les deux, homonymie non déclarée : "
+                                           "l'ajouter aux « homonymes » de l'un des deux registres")
+                rap.dette["homonymie non déclarée"] += 1
+
+    # ---- les documents de loi existent en double et se recopient à la main
+    # Racine et proj/ portent les mêmes quatre documents. Rien ne garantissait qu'ils
+    # restent identiques : une modification faite d'un côté se découvre le jour où les
+    # deux textes se contredisent. Signalé cinq fois au rapport sans être vérifié.
+    LOIS = ("CLAUDE.md", "SPEC-MODELE.md", "SPEC-INGESTION.md", "SPEC-SITE.md")
+    abs_root = root.resolve()          # « . » n'a pas de parent utilisable
+    for nom in LOIS:
+        ici, la = abs_root / nom, abs_root.parent / nom
+        if not ici.exists() or not la.exists():
+            continue
+        if ici.read_bytes() != la.read_bytes():
+            rap.e("A1", nom, "les deux copies du document ont divergé : "
+                             f"{ici.parent.name}/ et {la.parent.name}/ ne portent "
+                             "plus le même texte")
 
     # ---- A13 couverture
     for code, elems in inventaires.items():

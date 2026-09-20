@@ -125,46 +125,48 @@ symboles:
   sens: aire sous la courbe ROC
 collisions:
 - symbole: $\lambda$
-  ou: dss/regression-ridge (slide 50) · dss/boosting (slide 126) · dss/decroissance-des-poids (slide 174)
-  sens: >-
-    trois emplois dans le même cours. Pénalité de ridge et du lasso ; taux
-    d'apprentissage du boosting ; coût des poids de la décroissance. Le cours ne le
-    signale jamais. Les trois valeurs typiques diffèrent d'un ordre de grandeur.
-- symbole: $\lambda$
-  ou: dss/regression-ridge · dup/aversion-aux-pertes
-  sens: >-
-    collision avec l'autre cours : ici un paramètre de pénalité, là le rapport
-    d'aversion aux pertes
+  ici: paramètre de pénalité de ridge et du lasso (slide 50)
+  ailleurs:
+    dss: taux d'apprentissage du boosting (slide 126), coût des poids de la décroissance
+      (slide 174)
+    dup: coefficient d'aversion aux pertes (L3 slide 39)
+  note: >-
+    trois emplois dans le même cours, que la source ne signale jamais, et un quatrième
+    dans l'autre cours. Les trois valeurs typiques du cours diffèrent d'un ordre de grandeur
 - symbole: $d$
-  ou: dss/cp-de-mallows (slide 41) · dss/boosting (slide 126) · dss/regle-delta (slide 145)
-  sens: >-
-    trois emplois dans le même cours. Nombre de prédicteurs ; nombre de coupures par
-    arbre ; signal d'erreur de la règle delta
+  ici: nombre de prédicteurs (slide 41)
+  ailleurs:
+    dss: nombre de coupures par arbre (slide 126), signal d'erreur de la règle delta
+      (slide 145)
+  note: collision interne à la source
 - symbole: $m$
-  ou: dss/foret-aleatoire (slide 113) · dss/garantie-pac (slide 168) · dss/reduction-de-dimension (slide 72)
-  sens: >-
-    prédicteurs tirés par coupure ; nombre d'exemples d'apprentissage ; indice de
-    direction
-- symbole: $\rho$
-  ou: dss/variance-d-une-moyenne-correlee · dup/aversion-second-ordre
-  sens: >-
-    collision avec l'autre cours : ici une corrélation entre arbres, là l'aversion
-    absolue au risque
-- symbole: $\eta$
-  ou: dss/regle-delta · dup/famille-hara
-  sens: >-
-    collision avec l'autre cours : ici le taux d'apprentissage, là un paramètre de la
-    famille HARA
-- symbole: $\alpha$
-  ou: dss/descente-avec-inertie · dup/aversion-a-la-deception
-  sens: >-
-    collision avec l'autre cours : ici l'inertie, là l'intensité de la pénalité de
-    déception
-- symbole: $B$
-  ou: dss/bagging · fpp/compte-capitalise
-  sens: >-
-    collision avec l'autre cours : ici le nombre d'arbres, là le compte capitalisé
-    $B(t,T)$
+  ici: prédicteurs tirés à chaque coupure (slide 113)
+  ailleurs:
+    dss: nombre d'exemples d'apprentissage (slide 168), indice de direction (slide 72)
+  note: collision interne à la source
 - symbole: $\sigma^2$
-  ou: dss/cp-de-mallows (slide 41) · dss/variance-d-une-moyenne-correlee (slide 109)
-  sens: variance de l'erreur du modèle ; variance d'un arbre
+  ici: variance de l'erreur du modèle (slide 41)
+  ailleurs:
+    dss: variance d'un arbre (slide 109)
+  note: collision interne à la source
+- symbole: $\rho$
+  ici: corrélation de paire entre deux arbres (slide 109)
+  ailleurs:
+    dup: aversion absolue au risque (L3 slide 40)
+    fpp: sensibilité du prix au taux d'intérêt (§6.4)
+  note: >-
+    le même $\rho$ sert dans les trois cours. Aucun des trois ne le signale, chacun
+    étant seul dans son poly
+- symbole: $\eta$
+  ici: taux d'apprentissage de la règle delta (slide 145)
+  ailleurs:
+    dup: paramètre de translation de la famille HARA (L2 slide 12)
+- symbole: $\alpha$
+  ici: coefficient d'inertie de la descente (slide 152)
+  ailleurs:
+    dup: coefficient linéaire de l'utilité quadratique (L1 slide 14)
+- symbole: $B$
+  ici: nombre d'échantillons bootstrap, nombre d'arbres (slide 97)
+  ailleurs:
+    fpp: compte capitalisé $B(t,T)$ — orthographe différente au registre, collision de
+      lettre seulement

@@ -37,13 +37,31 @@ symbole qui entre en collision avec un autre cours.
 
 ## Étape 2 — Confrontation à l'existant
 
+Cette étape se prépare avec `tools/confronter.py`, qui n'écrit rien et ne décide rien :
+il imprime la liste de ce qui est à examiner. Quatre questions, quatre appels.
+
+```
+python tools/confronter.py --refs <code> refs.txt   # la suite d'un cours déjà ouvert
+python tools/confronter.py --noms "<candidat>" …    # des noms, avant toute fiche
+python tools/confronter.py --cours <code>           # un cours entier contre les autres
+python tools/confronter.py --aval <id> …            # les chemins que je vais périmer
+```
+
+Le premier appel est le seul exact : il compare des références de source à l'inventaire,
+et l'inventaire est exhaustif par A13. Pour la suite d'un cours, c'est lui qui tranche.
+Les deux suivants sont approchés — ils rapprochent par les mots, et un cours peut nommer
+autrement ce qu'un autre a déjà dit. Ils réduisent ce qu'il reste à lire ; ils ne
+dispensent pas de le lire.
+
 **Attention particulière** : une notion nouvelle qui entre dans le socle d'une fiche
-existante rend le « chemin jusqu'ici » de cette fiche incomplet, sans que rien ne le
-signale. Le validateur ne voit pas ce cas. Il est à vérifier à la main, et la liste des
-fiches concernées se calcule : ce sont les descendants de la notion nouvelle par $D^{-1}$.
+existante rend le « chemin jusqu'ici » de cette fiche incomplet. Depuis que la rubrique
+doit nommer chaque notion de son socle, le validateur le signale — sur la fiche *et* sur
+toute sa descendance par $D^{-1}$, puisque le socle de chacune a grandi aussi. Le
+signalement arrive une fois l'arête posée ; `--aval` donne la liste avant.
 
 Pour chaque élément inventorié, chercher s'il correspond à une notion existante — par
-`nom`, par `alias`, par `symbole`, et par le sens. Trois issues :
+`nom`, par `alias`, par `symbole`, et par le sens. Les trois premières routes sont
+calculées par l'outil, la quatrième reste à faire. Trois issues :
 
 - **Il existe déjà.** L'élément prend `absorbe: <id>` ou `notion: <id>` s'il en est la
   source principale. Si la fiche existante doit changer (précision, référence, limite
@@ -52,8 +70,14 @@ Pour chaque élément inventorié, chercher s'il correspond à une notion exista
   nouvelle. Le critère de grain (SPEC-MODELE §5) tranche.
 - **Il est hors périmètre.** `exclu` avec une raison écrite.
 
-Interdit : créer une fiche dont le nom ou un alias coïncide avec une fiche existante. Le
-validateur le refuse ; le protocole l'interdit avant même le validateur.
+Interdit, **dans un même cours** : créer une fiche dont le nom ou un alias coïncide avec
+une fiche existante. Le validateur le refuse (A12).
+
+**Entre deux cours**, la coïncidence est permise et fréquente : « prime de risque » désigne
+une grandeur dans `dup` et une autre dans `fpp`, sous le même $\pi$, et les deux fiches
+doivent exister. Elle se déclare alors sous `homonymes` dans `notation.yml`, sinon le
+validateur la signale. Déclarer n'est pas résoudre : c'est écrire, une fois, que le mot
+ne suffit pas à distinguer.
 
 ## Étape 3 — Rédaction des fiches nouvelles
 

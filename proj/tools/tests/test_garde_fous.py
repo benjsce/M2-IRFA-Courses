@@ -1,0 +1,217 @@
+#!/usr/bin/env python3
+"""
+test_garde_fous.py — les garde-fous du validateur se déclenchent-ils vraiment ?
+
+Un contrôle qu'on n'a jamais vu échouer n'est pas un contrôle : c'est une intention.
+Ce module fabrique un corpus minuscule en dossier temporaire, y injecte une faute à la
+fois, et vérifie que `validate.py` la voit — et qu'il se tait quand la faute est déclarée.
+
+Il couvre les quatre garde-fous qui portent sur ce qui *se répète d'un cours à l'autre*
+ou *change en amont d'une fiche déjà écrite* : homonymie, collision de symbole, cours
+inexistant dans une déclaration, et croissance du socle d'une fiche existante.
+
+Usage : python tools/tests/test_garde_fous.py
+Sortie : une ligne par cas ; code de retour ≠ 0 si un garde-fou reste muet.
+
+Dépendance : pyyaml.
+"""
+from __future__ import annotations
+import shutil, sys, tempfile
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from validate import Rapport, valider          # noqa: E402
+
+for _f in (sys.stdout, sys.stderr):            # cp1252 sous PowerShell
+    if hasattr(_f, "reconfigure"):
+        _f.reconfigure(encoding="utf-8", errors="replace")
+
+
+# ---------------------------------------------------------------- le corpus d'essai
+
+FICHE = """---
+id: {code}/{slug}
+nom: {nom}
+type: notion
+statut: source
+construite_a_partir_de: [{dep}]
+{extra}refs:
+- p. 1
+---
+## Ce que c'est
+{nom}, pour l'essai. [p. 1]
+{chemin}
+## Ce qui la définit
+Rien de plus. [p. 1]
+
+## Cesse d'être valide quand
+L'essai est fini. [p. 1]
+"""
+
+
+def ecrire(root: Path, code: str, fiches, notation=""):
+    d = root / "courses" / code
+    (d / "notions").mkdir(parents=True)
+    (d / "course.yml").write_text(
+        "code: %s\ntitre: Essai %s\nsources: []\nrefs_pattern: ^p\\. \\d+$\ndepend_de: []\n"
+        % (code, code), encoding="utf-8", newline="\n")
+    (d / "notation.yml").write_text(notation or "symboles: []\n",
+                                    encoding="utf-8", newline="\n")
+    inv = ["elements:"]
+    for f in fiches:
+        champs = dict(code=code, extra="", chemin="", dep="")
+        champs.update(f)
+        (d / "notions" / (f["slug"] + ".md")).write_text(
+            FICHE.format(**champs), encoding="utf-8", newline="\n")
+        inv += ["- ref: p. 1 %s" % f["slug"], "  notion: %s/%s" % (code, f["slug"])]
+    (d / "inventaire.yml").write_text("\n".join(inv) + "\n", encoding="utf-8", newline="\n")
+
+
+def messages(root: Path):
+    rap = Rapport()
+    valider(root, rap)
+    return ([f"E {a} {o}: {m}" for a, o, m in rap.E],
+            [f"W {a} {o}: {m}" for a, o, m in rap.W])
+
+
+# ---------------------------------------------------------------- les cas
+
+ECHECS = []
+
+
+def cas(titre, attendu, construire, doit_apparaitre=True, sous=""):
+    """`attendu` est un fragment de message ; on le cherche dans E + W.
+    `sous` : valider un sous-dossier, pour les contrôles qui regardent le dossier parent."""
+    root = Path(tempfile.mkdtemp())
+    try:
+        construire(root)
+        E, W = messages(root / sous if sous else root)
+        vu = any(attendu in x for x in E + W)
+        ok = vu is doit_apparaitre
+        print(("  ok   " if ok else "  RATÉ ") + titre)
+        if not ok:
+            ECHECS.append(titre)
+            for x in E + W:
+                print("         " + x)
+    finally:
+        shutil.rmtree(root, ignore_errors=True)
+
+
+def hom_non_declaree(root):
+    ecrire(root, "aa", [dict(slug="prime", nom="Prime de risque")])
+    ecrire(root, "bb", [dict(slug="prime", nom="Prime de risque")])
+
+
+def hom_declaree(root):
+    hom_non_declaree(root)
+    (root / "courses" / "aa" / "notation.yml").write_text(
+        "symboles: []\nhomonymes:\n- nom: Prime de risque\n  entre:\n  - aa/prime\n"
+        "  - bb/prime\n  note: deux objets, le même mot\n",
+        encoding="utf-8", newline="\n")
+
+
+def hom_meme_cours(root):
+    ecrire(root, "aa", [dict(slug="prime", nom="Prime de risque"),
+                        dict(slug="prime-bis", nom="Autre", extra="alias:\n- risk premium\n"),
+                        dict(slug="prime-ter", nom="Encore", extra="alias:\n- risk premium\n")])
+
+
+def sym_non_declare(root):
+    reg = "symboles:\n- symbole: $\\rho$\n  notion: %s/x\n  ref: p. 1\n  sens: un sens\n"
+    ecrire(root, "aa", [dict(slug="x", nom="Un", extra="symbole: $\\rho$\n")], reg % "aa")
+    ecrire(root, "bb", [dict(slug="x", nom="Deux", extra="symbole: $\\rho$\n")], reg % "bb")
+
+
+def sym_declare(root):
+    sym_non_declare(root)
+    p = root / "courses" / "aa" / "notation.yml"
+    p.write_text(p.read_text(encoding="utf-8")
+                 + "collisions:\n- symbole: $\\rho$\n  ici: un sens\n  ailleurs:\n"
+                   "    bb: un autre sens\n", encoding="utf-8", newline="\n")
+
+
+def sym_declare_a_moitie(root):
+    """Trois cours partagent le symbole, la déclaration n'en nomme que deux."""
+    reg = "symboles:\n- symbole: $\\rho$\n  notion: %s/x\n  ref: p. 1\n  sens: un sens\n"
+    for c in ("aa", "bb", "cc"):
+        ecrire(root, c, [dict(slug="x", nom="N " + c, extra="symbole: $\\rho$\n")], reg % c)
+    p = root / "courses" / "aa" / "notation.yml"
+    p.write_text(p.read_text(encoding="utf-8")
+                 + "collisions:\n- symbole: $\\rho$\n  ici: un sens\n  ailleurs:\n"
+                   "    bb: un autre sens\n", encoding="utf-8", newline="\n")
+
+
+def cours_fantome(root):
+    ecrire(root, "aa", [dict(slug="x", nom="Un")],
+           "symboles: []\ncollisions:\n- symbole: $P$\n  ici: un sens\n  ailleurs:\n"
+           "    zz: ailleurs, dans un cours qui n'existe pas\n")
+
+
+def socle_grandit(root):
+    """Une notion nouvelle entre dans le socle d'une fiche déjà écrite, et dans celui
+    de sa descendance : le « chemin jusqu'ici » de chacune devient incomplet."""
+    ch = "\n## Le chemin jusqu'ici\nTout vient de %s. [p. 1]\n"
+    ecrire(root, "aa", [
+        dict(slug="base", nom="Base"),
+        dict(slug="milieu", nom="Milieu", dep="aa/base, aa/neuve",
+             chemin=ch % "aa/base"),
+        dict(slug="aval", nom="Aval", dep="aa/milieu",
+             chemin=ch % "aa/base, aa/milieu"),
+        dict(slug="neuve", nom="Neuve"),
+    ])
+
+
+def lois_divergentes(root):
+    """Les quatre documents de loi vivent en double, racine et proj/. Un texte modifié
+    d'un seul côté se découvre le jour où les deux se contredisent."""
+    ecrire(root / "proj", "aa", [dict(slug="x", nom="Un")])
+    (root / "CLAUDE.md").write_text("la loi\n", encoding="utf-8", newline="\n")
+    (root / "proj" / "CLAUDE.md").write_text("la loi, retouchée\n",
+                                             encoding="utf-8", newline="\n")
+
+
+def lois_identiques(root):
+    lois_divergentes(root)
+    (root / "proj" / "CLAUDE.md").write_text("la loi\n", encoding="utf-8", newline="\n")
+
+
+def main():
+    print("homonymie")
+    cas("nom identique entre deux cours, non déclaré → signalé",
+        "homonymie non déclarée", hom_non_declaree)
+    cas("nom identique entre deux cours, déclaré → silence",
+        "homonymie non déclarée", hom_declaree, doit_apparaitre=False)
+    cas("alias identique dans le même cours → erreur",
+        "un cours ne nomme pas deux notions de la même façon", hom_meme_cours)
+
+    print("collision de symbole")
+    cas("symbole dans deux registres, non déclaré → signalé",
+        "collision non déclarée", sym_non_declare)
+    cas("symbole dans deux registres, déclaré → silence",
+        "collision non déclarée", sym_declare, doit_apparaitre=False)
+    cas("déclaration qui n'en nomme que deux sur trois → signalé",
+        "collision non déclarée pour cc", sym_declare_a_moitie)
+    cas("déclaration nommant un cours inexistant → erreur",
+        "qui n'existe pas", cours_fantome)
+
+    print("socle qui grandit sous une fiche déjà écrite")
+    cas("la fiche elle-même → signalée",
+        "aa/milieu: « Le chemin jusqu'ici » ne nomme pas", socle_grandit)
+    cas("sa descendance aussi → signalée",
+        "aa/aval: « Le chemin jusqu'ici » ne nomme pas", socle_grandit)
+
+    print("documents de loi en double")
+    cas("une copie retouchée seule → erreur",
+        "ne portent plus le même texte", lois_divergentes, sous="proj")
+    cas("les deux copies identiques → silence",
+        "ne portent plus le même texte", lois_identiques, doit_apparaitre=False, sous="proj")
+
+    print()
+    if ECHECS:
+        print("%d garde-fou(s) muet(s) : %s" % (len(ECHECS), ", ".join(ECHECS)))
+        sys.exit(1)
+    print("tous les garde-fous se déclenchent")
+
+
+if __name__ == "__main__":
+    main()

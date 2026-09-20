@@ -233,12 +233,13 @@ symboles:
 collisions:
 - symbole: $P$
   ici: zéro-coupon P(t,T)
-  ailleurs:
-    cs: probabilité historique
+  note: >-
+    en calcul stochastique, $P$ note la probabilité historique. Ce cours n'est pas dans
+    la base ; la note est là pour l'étudiant qui lira les deux, pas pour le validateur
 - symbole: $F$
   ici: prix forward
-  ailleurs:
-    cs: filtration F_t
+  note: >-
+    en calcul stochastique, $\mathcal F_t$ note la filtration. Même remarque que pour $P$
 - symbole: $d$
   ici: rendement continu de dividende (§5.2)
   ailleurs:

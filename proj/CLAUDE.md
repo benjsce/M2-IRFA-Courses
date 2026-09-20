@@ -26,9 +26,10 @@ Quand tu hésites sur le fond, tu demandes — tu n'improvises pas.
 2. lire le dernier rapport dans rapports/  # ce qui était en dette, ce qui était proposé
 3. travailler selon SPEC-INGESTION.md
 4. python tools/validate.py            # doit passer ; sinon corriger, jamais contourner
-5. python tools/build.py               # régénère site/
-6. écrire rapports/AAAA-MM-JJ-<cours>.md  # obligatoire, format dans SPEC-INGESTION.md
-7. git commit                          # une session = un commit, message renvoyant au rapport
+5. python tools/tests/test_garde_fous.py   # les contrôles se déclenchent-ils encore ?
+6. python tools/build.py               # régénère site/
+7. écrire rapports/AAAA-MM-JJ-<cours>.md  # obligatoire, format dans SPEC-INGESTION.md
+8. git commit                          # une session = un commit, message renvoyant au rapport
 ```
 
 Si le validateur échoue à l'étape 1 sur un état que tu n'as pas produit, tu le signales
