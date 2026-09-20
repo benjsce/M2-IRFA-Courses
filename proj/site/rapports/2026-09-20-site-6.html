@@ -169,8 +169,9 @@ hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
 .chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
 .chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
 .aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
-/* l'en-tête est collant : une ancre visée ne doit pas passer dessous */
-[id]{scroll-margin-top:4.2rem}
+/* L'en-tête est collant : une ancre visée ne doit pas passer dessous. Mesuré :
+   il fait 48 px sur une ligne, 85 px quand il se replie en deux (écran étroit). */
+[id]{scroll-margin-top:6rem}
 .aide p,.aide ul,.aide table{max-width:42rem}
 .dette ul{margin:.3rem 0 0}
 footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
@@ -279,7 +280,13 @@ quarts : encore tronqué. L'échelle ajustée à la largeur de la chaîne
 (<code>(largeur_du_cadre − 80) / (profondeur × 320 + 220)</code>) montre la lignée entière.</p><p>Vérifié sur <code>dup/utilite-quadratique</code> : <em>Toute l'attitude est dans la courbure</em> (principe)
 → <em>Famille HARA</em> (abstraite) → <em>Utilité quadratique</em> (encadrée), les trois visibles d'un
 coup.</p><h2>Les 39 % de notions qui n'ont pas de carte</h2><p><strong>Mesure.</strong> Un nœud n'existe que pour une notion qui a un parent, des membres, ou le type
-principe :</p><div class="tablebloc"><table><thead><tr><th>cours</th><th>dans l'arbre</th><th>hors arbre</th></tr></thead><tbody><tr><td>dup</td><td>42 / 68</td><td>26 (38 %)</td></tr><tr><td>fpp</td><td>33 / 55</td><td>22 (40 %)</td></tr><tr><td><strong>total</strong></td><td><strong>75 / 123</strong></td><td><strong>48 (39 %)</strong></td></tr></tbody></table></div><p>Un bouton « voir dans l'arbre » sur ces 48 fiches aurait menti. Deux fois plutôt qu'une :</p><ul><li><strong>avant le clic</strong>, le lien s'intitule « arbre du cours » et non « voir dans l'arbre »,</li><li>et son infobulle dit « cette notion n'est rangée sous aucune famille » ;</li><li><strong>après</strong>, la page nomme la notion, explique que ce n'est pas un oubli, **ouvre le</li><li>groupe replié** qui la contient dans la liste du bas — sans quoi la pastille marquée</li><li>restait invisible, ce que le premier essai faisait — et l'y encadre.</li></ul><p>Vérifié sur <code>fpp/portage</code>.</p><h2>Fiches modifiées</h2><p>Aucune.</p><h2>Validation</h2><p>```
+principe :</p><div class="tablebloc"><table><thead><tr><th>cours</th><th>dans l'arbre</th><th>hors arbre</th></tr></thead><tbody><tr><td>dup</td><td>42 / 68</td><td>26 (38 %)</td></tr><tr><td>fpp</td><td>33 / 55</td><td>22 (40 %)</td></tr><tr><td><strong>total</strong></td><td><strong>75 / 123</strong></td><td><strong>48 (39 %)</strong></td></tr></tbody></table></div><p>Un bouton « voir dans l'arbre » sur ces 48 fiches aurait menti. Deux fois plutôt qu'une :</p><ul><li><strong>avant le clic</strong>, le lien s'intitule « arbre du cours » et non « voir dans l'arbre »,</li><li>et son infobulle dit « cette notion n'est rangée sous aucune famille » ;</li><li><strong>après</strong>, la page nomme la notion, explique que ce n'est pas un oubli, **ouvre le</li><li>groupe replié** qui la contient dans la liste du bas — sans quoi la pastille marquée</li><li>restait invisible, ce que le premier essai faisait — et l'y encadre.</li></ul><p>Vérifié sur <code>fpp/portage</code>.</p><h2>Un troisième cas, trouvé en relisant</h2><p>Une notion peut avoir une carte <strong>et</strong> être invisible : les 10 notions <code>ajout</code> qui ont un
+parent ou des membres disparaissent quand « masquer les ajouts » est actif. Arriver
+dessus depuis leur fiche donnait « n'a pas de carte dans cet arbre », ce qui est faux.
+La page distingue maintenant les trois cas :</p><div class="tablebloc"><table><thead><tr><th>la notion</th><th>ce que dit la page d'arrivée</th></tr></thead><tbody><tr><td>a une carte visible (75)</td><td>« Arrivé depuis X : sa carte est encadrée… »</td></tr><tr><td>a une carte, masquée par le filtre (10 sur ces 75)</td><td>« X a bien une carte, mais elle ne vient pas du cours : le filtre la retire. »</td></tr><tr><td>n'a pas de carte (48)</td><td>« X n'a pas de carte : le cours ne la range sous aucune famille. » + la pastille marquée dans la liste</td></tr></tbody></table></div><p><strong>Et une mesure au passage.</strong> Le <code>scroll-margin-top</code> que j'avais posé à <code>4.2rem</code> pour que
+les ancres ne passent pas sous l'en-tête collant était trop court : mesuré, l'en-tête
+fait 48 px sur une ligne mais <strong>85 px</strong> quand il se replie en deux sur un écran étroit.
+Porté à <code>6rem</code>.</p><h2>Fiches modifiées</h2><p>Aucune.</p><h2>Validation</h2><p>```
 123 notions · 0 erreur · 4 avertissement(s) · dette : aucune
 149 fichiers · 2751 liens internes · 0 mort
 ```</p><h2>SPEC-SITE</h2><ul><li>règle 8 : « une fiche <strong>mène</strong> à l'arbre, sur sa propre carte ; elle n'en dessine jamais</li><li>un morceau » — la séparation des deux traitements visuels tient.</li><li>§3.1 item 1 : l'en-tête d'une fiche porte le lien visant l'arbre ; type, niveau et</li><li>marque <code>ajout</code> sont des liens vers <code>aide.html</code>.</li><li>§3.3 : l'accès depuis toutes les pages, l'arrivée visée, et le cas des 39 %.</li></ul></article></div></main>

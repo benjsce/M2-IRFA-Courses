@@ -467,8 +467,9 @@ hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
 .chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
 .chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
 .aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
-/* l'en-tête est collant : une ancre visée ne doit pas passer dessous */
-[id]{scroll-margin-top:4.2rem}
+/* L'en-tête est collant : une ancre visée ne doit pas passer dessous. Mesuré :
+   il fait 48 px sur une ligne, 85 px quand il se replie en deux (écran étroit). */
+[id]{scroll-margin-top:6rem}
 .aide p,.aide ul,.aide table{max-width:42rem}
 .dette ul{margin:.3rem 0 0}
 footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
@@ -806,8 +807,15 @@ function transformer(){plan.style.transform='translate('+pan.x+'px,'+pan.y+'px) 
 function viser(id){
   var msg=document.getElementById('cible'),st=structure();
   var n=null;noeuds.forEach(function(x){if(x.id===id)n=x});
-  if(!n||!st.gardes[id]){
-    var nom=n?n.nom:(window.ARBRE_HORS&&ARBRE_HORS[id]);
+  if(n&&!st.gardes[id]){
+    /* la carte existe, mais « masquer les ajouts » la retire : le dire, sinon on
+       cherche une carte que le filtre a enlevée. */
+    msg.innerHTML='<strong>'+n.nom+'</strong> a bien une carte dans cet arbre, mais elle ne '
+      +'vient pas du cours : le filtre la retire. Le bouton « ajouts masqués », en haut, la '
+      +'fera réapparaître.';
+    msg.hidden=false;msg.scrollIntoView({block:'start'});return;}
+  if(!n){
+    var nom=(window.ARBRE_HORS&&ARBRE_HORS[id]);
     var li=document.querySelector('#seuls a[href*="/'+id.split('/')[1]+'.html"]');
     msg.innerHTML=(nom?'<strong>'+nom+'</strong>':'Cette notion')
       +' n’a pas de carte dans cet arbre : le cours ne la range sous aucune famille, et '
