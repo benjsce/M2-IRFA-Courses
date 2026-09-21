@@ -10,6 +10,7 @@ alias:
 - strong risk aversion
 - aversion au risque au sens fort
 refs:
+- L3 slide 32
 - L4 slide 15
 - L4 slide 34
 ---

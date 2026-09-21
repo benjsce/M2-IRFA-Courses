@@ -16,7 +16,6 @@ refs:
 - L3 slide 32
 - L3 slide 33
 - L4 slide 14
-- L4 slide 15
 ---
 
 ## Ce que c'est
@@ -26,20 +25,20 @@ Déformer non pas chaque probabilité mais la fonction de répartition, ce qui p
 $$U(P)=\sum_{i=1}^n\pi_iu(x_i),\qquad \pi_i=\varphi(p_1+\dots+p_i)-\varphi(p_1+\dots+p_{i-1}),\quad \pi_1=\varphi(p_1)$$ [L3 slide 27]
 
 ## Ce qui la définit
-Les résultats sont d’abord ordonnés, $x_1<\dots<x_n$ ; le poids d’un résultat dépend donc de son rang, et la somme des poids vaut un par construction. C’est ce qui rétablit la dominance. [L3 slide 27]
+Le problème est celui-ci. Pondérer chaque probabilité prise isolément peut faire préférer une loterie à une autre qui la domine pourtant résultat par résultat : c’est ce que fait dup/theorie-des-perspectives, et la phase d’édition n’y remédie pas. [L3 slide 26]
 
-Le modèle a deux cas limites : $\varphi$ identité redonne l’utilité espérée, $u$ linéaire donne la théorie duale de Yaari. La concavité de $u$ et celle de $\varphi$ jouent toutes deux dans l’aversion au risque, et une préférence RDU est averse si et seulement si les deux sont concaves. [L3 slide 32]
+Les résultats sont d’abord ordonnés, $x_1<\dots<x_n$ ; le poids d’un résultat dépend donc de son rang, et la somme des poids vaut un par construction. C’est ce qui rétablit la dominance. [L3 slide 27]
 
 $$U(F)=\int u(x)\,d\big(\varphi\circ F\big)(x)$$ [L3 slide 33]
 
 Le modèle demande peu à ses deux ingrédients : $u$ évalue les résultats, et $\varphi$ va de $[0,1]$ dans lui-même, continue, croissante au sens large et surjective. Ce n’est que là où le cours dérive qu’il en exige davantage — $\varphi$ strictement croissante, et $u$ strictement croissante, strictement concave et dérivable. [L3 slide 27, L4 slide 26]
 
-Deux conséquences que le cours emploie sans les écrire. La surjectivité jointe à la croissance impose $\varphi(0)=0$ et $\varphi(1)=1$. Et les deux ingrédients ne sont pas identifiés de la même façon : $u$ n’est définie qu’à une transformation affine croissante près, tandis que $\varphi$ est fixée — ce qui rend la diagonale significative pour l’une et pas pour l’autre. [ajout]
+Les deux ne sont pas identifiés de la même façon : $u$ n’est définie qu’à une transformation affine croissante près, tandis que $\varphi$ est fixée. [ajout]
 
 ## Le chemin jusqu'ici
 dup/loterie et dup/fonction-utilite définissent dup/utilite-esperee, et c'est par rapport à elle que la déformation se mesure. [ajout]
 
-RDU déforme la fonction de répartition et non chaque probabilité prise isolément. Cette différence-là est la raison d'être de la fiche : c'est ce qui lui permet de préserver la dominance stochastique, que la pondération naïve viole. Il fallait donc l'utilité espérée pour dire par rapport à quoi on déforme. [ajout]
+Il fallait l'utilité espérée pour dire par rapport à quoi on déforme : elle est la référence non déformée dont le modèle s'écarte, et non un ingrédient de son calcul. [ajout]
 
 ## Exemple minimal
 Avec $u(x)=x$ et $\varphi(p_1)>p_1$ : $U(x_1,p_1;x_2,p_2)<U(p_1x_1+p_2x_2,1)$, donc l’agent est averse par la seule déformation. [L3 slide 32]
@@ -57,18 +56,7 @@ Les deux objets libres ne portent pas la même chose : la courbure de $u$ mesure
 | la forme de $\varphi$ | l’identité, $\varphi(p)=p$ | le modèle redonne l’utilité espérée |
 | la forme de $\varphi$ | au-dessus de la diagonale, $\varphi(p)\ge p$ | pessimisme : poids cumulé supplémentaire sur les mauvais rangs |
 | la forme de $\varphi$ | concave | pessimiste, et le poids marginal décroît avec le rang |
-[L3 slide 32, L4 slide 14, L4 slide 15]
-
-Les deux formes d’aversion que le cours distingue se lisent alors sur les combinaisons. [L4 slide 15]
-
-| paramètre | cas | valeur |
-|---|---|---|
-| le couple $(u,\varphi)$ | $u$ concave et $\varphi$ concave | refus de tout étalement préservant la moyenne, et la dominance du second ordre est préservée |
-| le couple $(u,\varphi)$ | $u$ concave et $\varphi(p)\ge p$ | suffit à faire préférer la moyenne certaine à la loterie |
-| le couple $(u,\varphi)$ | $u$ concave et $\varphi$ pessimiste sans être concave | la moyenne certaine reste préférée, mais un risque équitable ajouté à l’intérieur du portefeuille peut devenir attrayant |
-[L3 slide 32, L4 slide 15, L4 slide 34]
-
-Les deux exigences ne se confondent donc pas, et la source en fournit elle-même le contre-exemple : la déformation de L4 slide 34 est pessimiste sans être concave. L’équivalence énoncée en L3 slide 32 — averse si et seulement si les deux sont concaves — porte ainsi sur la forme forte de l’aversion, non sur la forme faible. [ajout]
+[L3 slide 32, L4 slide 14]
 
 ![Les mêmes trois courbures, à gauche sur $u$ et à droite sur $\varphi$. À gauche seule la courbure compte, puisque $u$ n’est définie qu’à une transformation affine près ; à droite la diagonale sépare le pessimisme de l’optimisme, et une $\varphi$ concave passe nécessairement au-dessus.](figures/rdu.svg) [ajout]
 
