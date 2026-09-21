@@ -11,6 +11,7 @@ alias:
 refs:
 - L1 slide 62
 - L1 slide 63
+- L4 slide 61
 ---
 
 ## Ce que c'est
@@ -21,6 +22,10 @@ $$f_1\succ f_2\Rightarrow\pi(R)>\pi(B),\qquad f_4\succ f_3\Rightarrow\pi(B)+\pi(
 
 ## Ce qui la définit
 Les deux implications se contredisent, et la colonne jaune — commune aux deux actes de chaque paire — s’annule dans les deux cas. C’est donc bien le principe de la chose sûre qui casse. [L1 slide 63]
+
+Le quatrième cours reprend la même urne en appelant ses couleurs rouge, bleu et vert, et l’écrit comme une table de quatre actes à trois colonnes : le raisonnement est mot pour mot celui de la première présentation. [L4 slide 35, L4 slide 36]
+
+Il en donne aussi une seconde version, à deux urnes. L’une a une composition rouge-bleu connue à parts égales, l’autre une composition inconnue ; chaque état décrit un tirage dans chacune. Les choix aversifs à l’ambiguïté y consistent à préférer parier sur l’urne connue, quelle que soit la couleur — préférence qui, comme la première, ne se représente par aucune probabilité unique. [L4 slide 61]
 
 ## Le chemin jusqu'ici
 Le chemin passe par dup/acte et dup/fonction-utilite, qui se combinent en dup/utilite-esperee-subjective, laquelle repose à son tour sur dup/principe-de-la-chose-sure. [ajout]

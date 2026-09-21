@@ -12,6 +12,8 @@ refs:
 - L2 slide 25
 - L2 slide 26
 - L2 slide 27
+- L4 slide 20
+- L4 slide 21
 ---
 
 ## Ce que c'est
@@ -38,3 +40,7 @@ Chaîner l’inégalité clé sur $m$ pas vers le bas et $n$ pas vers le haut, s
 
 ## Cesse d'être valide quand
 Le paradoxe résiste à l’aversion absolue décroissante : la table recalculée sous DARA donne des seuils encore plus absurdes. Il ne résiste pas à une aversion du premier ordre. [L2 slide 32, L3 slide 41]
+
+Sous pondération par rang avec $u(x)=x$, le pari de perte $L$ et de gain $G$ est accepté exactement quand $G/L\ge\varphi(1/2)/\big(1-\varphi(1/2)\big)$, seuil qui ne dépend plus de la richesse : avec $\varphi(1/2)=3/5$, le seuil vaut $3/2$, et l’agent refuse 125 contre 100 tout en acceptant 16 000 contre 10 000. [L4 slide 20]
+
+La réparation n’est pourtant pas tenue pour acquise, à cause du risque de fond. Le pari proposé n’est jamais le seul risque couru sur une année, et le choix porte en réalité sur la somme du pari et de ce risque de fond ; un risque de fond assez large rend difficile d’engendrer l’aversion voulue sur les petits enjeux, de sorte que le paradoxe revient — sauf à supposer un cadrage étroit. [L4 slide 21]

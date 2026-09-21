@@ -155,6 +155,94 @@ symboles:
   notion: dup/portefeuille-rdu
   ref: L3 slide 42
   sens: prix de l'état $s$
+- symbole: $\pi_s$
+  notion: dup/poids-de-decision
+  ref: L4 slide 17
+  sens: poids de décision de l'état $s$, saut de $\varphi$ sur les probabilités cumulées
+- symbole: $P_s$
+  notion: dup/poids-de-decision
+  ref: L4 slide 26
+  sens: probabilité cumulée jusqu'au rang $s$
+- symbole: $q_s/\pi_s$
+  notion: dup/prix-par-unite-de-poids
+  ref: L4 slide 28
+  sens: prix de l'état rapporté à son poids de décision
+- symbole: $\kappa_s$
+  notion: dup/regroupement-des-etats
+  ref: L4 slide 27
+  sens: multiplicateur de la contrainte d'ordre entre deux états voisins
+- symbole: $\mathcal{F}$
+  notion: dup/cadre-anscombe-aumann
+  ref: L4 slide 43
+  sens: >-
+    ensemble des actes à valeurs dans les loteries — le même rôle que $F$ en L1 slide 2,
+    sous une autre lettre
+- symbole: $\ell$
+  notion: dup/cadre-anscombe-aumann
+  ref: L4 slide 43
+  sens: une loterie, vue aussi comme l'acte constant qui la donne dans tous les états
+- symbole: $\Delta(S)$
+  notion: dup/ensemble-de-priors
+  ref: L4 slide 43
+  sens: simplexe des probabilités sur les états
+- symbole: $K$
+  notion: dup/ensemble-de-priors
+  ref: L4 slide 38
+  sens: >-
+    ensemble des probabilités a priori plausibles — le même objet que $\Pi$ en
+    L1 slide 64, sous une autre lettre
+- symbole: $I$
+  notion: dup/maxmin-eu
+  ref: L4 slide 48
+  sens: fonctionnelle de la préférence, lue sur les vecteurs d'utilité
+- symbole: $C(\mu)$
+  notion: dup/capacite
+  ref: L4 slide 56
+  sens: cœur d'une capacité, ensemble des probabilités qui la majorent sur tout événement
+- symbole: $\int^{C}$
+  notion: dup/integrale-de-choquet
+  ref: L4 slide 57
+  sens: intégrale de Choquet, prise par rapport à une capacité
+- symbole: $p$
+  notion: dup/demande-cara-normale
+  ref: L4 slide 63
+  sens: prix de l'actif risqué — voir la collision
+- symbole: $\hat v$
+  notion: dup/demande-cara-normale
+  ref: L4 slide 63
+  sens: moyenne du paiement terminal de l'actif risqué
+- symbole: $\hat\sigma$
+  notion: dup/demande-cara-normale
+  ref: L4 slide 63
+  sens: écart type du paiement terminal de l'actif risqué
+- symbole: $x_R^{*}$
+  notion: dup/demande-cara-normale
+  ref: L4 slide 63
+  sens: position optimale d'un investisseur qui connaît la loi
+- symbole: $v_{\min}$
+  notion: dup/demande-sous-ambiguite
+  ref: L4 slide 64
+  sens: plus basse moyenne jugée plausible
+- symbole: $v_{\max}$
+  notion: dup/demande-sous-ambiguite
+  ref: L4 slide 64
+  sens: plus haute moyenne jugée plausible
+- symbole: $\sigma_{\max}$
+  notion: dup/demande-sous-ambiguite
+  ref: L4 slide 64
+  sens: plus haut écart type jugé plausible
+- symbole: $x_A^{*}$
+  notion: dup/demande-sous-ambiguite
+  ref: L4 slide 65
+  sens: position optimale d'un investisseur ambigu
+- symbole: $\bar x$
+  notion: dup/equilibre-sous-ambiguite
+  ref: L4 slide 66
+  sens: offre agrégée de l'actif risqué, par investisseur
+- symbole: $\hat p$
+  notion: dup/equilibre-sous-ambiguite
+  ref: L4 slide 67
+  sens: prix qui prévaudrait si les investisseurs ambigus s'abstenaient
 collisions:
 - symbole: $F$
   ici: ensemble des actes (L1 slide 2)
@@ -176,7 +264,9 @@ collisions:
 - symbole: $a$
   ici: part investie dans l'actif sans risque (L1 slide 12)
   ailleurs:
-    dup: acte $a_1,\dots,a_4$ des choix d'Allais (L1 slide 42), variable de choix (L1 slide 26)
+    dup: >-
+      acte $a_1,\dots,a_4$ des choix d'Allais (L1 slide 42), variable de choix
+      (L1 slide 26), poids de la pire moitié $a=\varphi(1/2)$ (L4 slide 25)
   note: collision interne à la source
 - symbole: $\alpha$
   ici: coefficient de l'utilité quadratique (L1 slide 14)
@@ -191,7 +281,12 @@ collisions:
 - symbole: $\mu$
   ici: espérance d'une perspective (L1 slide 11)
   ailleurs:
+    dup: une capacité, mesure d'événements non nécessairement additive (L4 slide 56)
     fpp: dérive du sous-jacent sous la probabilité historique (§5.4)
+  note: >-
+    collision interne à la source en plus de la collision entre cours : la lettre désigne
+    une espérance dans la partie risque et une croyance non additive dans la partie
+    ambiguïté
 - symbole: $\sigma$
   ici: écart type d'une perspective (L1 slide 11)
   ailleurs:
@@ -203,6 +298,40 @@ collisions:
   ici: aversion relative constante de CRRA (L1 slide 35)
   ailleurs:
     fpp: sensibilité du delta au sous-jacent, la grecque gamma (§8.2)
+- symbole: $\lambda$
+  ici: coefficient d'aversion aux pertes (L3 slide 39)
+  ailleurs:
+    dup: part des investisseurs ambigus dans la population (L4 slide 66)
+  note: collision interne à la source
+- symbole: $\eta$
+  ici: paramètre de translation de la famille HARA (L1 slide 35)
+  ailleurs:
+    dup: multiplicateur de la contrainte de budget du portefeuille (L3 éq. 2, L4 slide 27)
+  note: collision interne à la source
+- symbole: $\beta$
+  ici: coefficient quadratique de l'utilité quadratique (L1 slide 14)
+  ailleurs:
+    dup: >-
+      exposant de la pondération cumulative et de l'utilité averse aux pertes
+      (L3 slide 38, L4 slide 22, L4 slide 23)
+  note: >-
+    collision interne à la source, que deux fiches employaient déjà sans qu'elle soit
+    écrite
+- symbole: $K$
+  ici: ensemble des probabilités a priori plausibles (L4 slide 38)
+  ailleurs:
+    fpp: strike, prix ou taux fixé dans le contrat (§2.3)
+  note: >-
+    collision entre cours. À l'intérieur de dup, la difficulté est inverse : c'est le même
+    objet qui porte deux lettres, $\Pi$ en L1 slide 64 et $K$ en L4 slide 38
+- symbole: $p$
+  ici: prix de l'actif risqué (L4 slide 63)
+  ailleurs:
+    dup: une probabilité, partout ailleurs dans le cours (L1 slide 2, L4 slide 26)
+    dss: nombre de prédicteurs d'une régression (slide 26)
+  note: >-
+    collision interne à la source, et la plus proche à l'œil : les dernières slides font
+    voisiner $p$ le prix et $p_s$ la probabilité de l'état
 homonymes:
 - nom: Prime de risque
   entre:

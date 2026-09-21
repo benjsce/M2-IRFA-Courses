@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="fr" data-rel="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Couverture de l’ambiguïté · notions</title>
+<script>
+/* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
+   localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
+   cases « déjà su » ne peuvent donc pas traverser les pages par là. Ils voyagent dans
+   le fragment de l'URL, que tous les liens internes portent ; localStorage ne sert plus
+   que de mémoire locale, pour la page qu'on rouvre sans fragment.
+   Ce script s'exécute avant le rendu : sinon le thème clignote à chaque page. */
+(function(){
+var H={},h=(location.hash||'').replace(/^#/,'');
+h.split('~').forEach(function(p){var i=p.indexOf(':');if(i>0)H[p.slice(0,i)]=p.slice(i+1)});
+window.ETAT_URL=H;
+function loc(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+var t=H.t?(H.t==='d'?'dark':'light'):loc('notions.theme','');
+if(t)document.documentElement.setAttribute('data-theme',t);
+var a=(H.a!==undefined)?H.a:loc('notions.ajouts','1');
+if(a==='0')document.documentElement.classList.add('sans-ajouts');
+})();
+</script>
+<style>
+:root{
+  --bg:#fbfaf7; --bg2:#f3f0ea; --fg:#1b1a17; --mut:#6c675d; --fai:#8e887c;
+  --li:#e0dbd1; --li2:#cdc6b8; --card:#ffffff; --acc:#8a4f23; --acc2:#f3e7dc;
+  --ajo:#6d5a8c; --ajo2:#efe9f5; --lim:#9a3a2e; --ok:#3f6b46; --faute:#a8631a;
+  --r:8px; --w:min(72rem,100%);
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}}
+:root[data-theme="dark"]{
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}
+.fig{margin:.9rem 0;padding:.5rem .2rem .2rem;text-align:center}
+/* « > svg » et non « svg » : MathJax pose son propre <svg> dans la légende, et
+   une règle non ancrée en faisait un bloc qui coupait la phrase en trois. */
+.fig > svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig figcaption{margin-top:.35rem;font-family:var(--sans);font-size:.82rem;
+  color:var(--mut);text-align:center;line-height:1.45}
+@media print{.fig{break-inside:avoid}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
+  font-size:17px;line-height:1.62;overflow-wrap:break-word}
+a{color:var(--acc);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-style:dotted}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+.wrap{width:var(--w);margin:0 auto;padding:0 1rem}
+
+/* ---- barre du haut ---- */
+header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
+  border-bottom:1px solid var(--li);font-family:var(--sans)}
+.topin{width:var(--w);margin:0 auto;padding:.45rem 1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.brand{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--fg);letter-spacing:.02em}
+.fil{color:var(--mut);font-size:.82rem;flex:1 1 8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fil a{color:var(--mut)}
+.btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
+  border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+a.btn{text-decoration:none}
+.btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
+.rech{position:relative;flex:0 1 16rem;min-width:9rem}
+.rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
+  border:1px solid var(--li2);border-radius:var(--r);background:var(--card);color:var(--fg)}
+.res{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--li2);
+  border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.14);max-height:60vh;overflow:auto;padding:.2rem;margin:0;
+  list-style:none;display:none;z-index:50;min-width:18rem}
+.res.on{display:block}
+.res li a{display:block;padding:.3rem .45rem;border-radius:6px;text-decoration:none;color:var(--fg);font-size:.86rem}
+.res li a:hover,.res li.sel a{background:var(--acc2)}
+.res .sub{color:var(--mut);font-size:.76rem;font-family:var(--sans)}
+.res .vide{padding:.4rem .5rem;color:var(--mut);font-size:.84rem}
+
+main{padding:1.4rem 0 4rem}
+h1{font-size:1.75rem;line-height:1.24;margin:.2rem 0 .3rem}
+h2{font-size:1.06rem;font-family:var(--sans);font-weight:600;letter-spacing:.01em;margin:0}
+h3{font-size:.95rem;font-family:var(--sans);margin:1.2rem 0 .3rem}
+p{margin:.55rem 0}
+.ptag{font-family:var(--sans);font-size:.74rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .5rem}
+
+/* ---- métadonnées de fiche ---- */
+.meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;font-family:var(--sans);font-size:.75rem;color:var(--mut);margin:.4rem 0 1.1rem}
+.pill{border:1px solid var(--li2);border-radius:99px;padding:.06rem .5rem;background:var(--card);white-space:nowrap}
+.pill.ajout{color:var(--ajo);border-color:var(--ajo);background:var(--ajo2)}
+.pill.typ{background:var(--acc2);border-color:var(--acc)}
+.sym{font-family:var(--serif);font-size:1rem;color:var(--fg)}
+
+/* ---- sections ---- */
+.sec{border-top:1px solid var(--li);padding:.85rem 0}
+.sec.vide{display:none}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.45rem;padding:.1rem 0}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"›";color:var(--fai);font-family:var(--sans);display:inline-block;
+  transition:transform .12s ease;transform:rotate(0deg);width:.7em}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fai);font-weight:400}
+.corps{padding-top:.25rem}
+.gen{border-left:2px solid var(--li2);padding-left:.7rem}
+.chemin{border-left:3px solid var(--acc);background:var(--bg2);border-radius:0 var(--r) var(--r) 0;
+  padding:.5rem .8rem;margin:.2rem 0 .7rem}
+.chemin p{margin:.35rem 0;font-size:.95rem}
+.chemin p:first-child{margin-top:0}
+.chemin p:last-child{margin-bottom:0}
+.note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
+.sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
+.sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
+.sec.faute>summary h2{color:var(--faute)}
+.faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
+  margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.faute-b strong{color:var(--faute)}
+.sec.lim>summary h2{color:var(--lim)}
+.sec.lim>h2{color:var(--lim)}
+
+/* ---- marqueurs de traçabilité ---- */
+.marq{font-family:var(--sans);font-size:.7rem;color:var(--fai);white-space:nowrap;vertical-align:.12em}
+.marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
+.marqligne{margin:.15rem 0 0}
+html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
+.bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
+  color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
+
+/* ---- pastilles ---- */
+.pasts{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0;padding:0;list-style:none}
+.past{display:inline-block;font-family:var(--sans);font-size:.82rem;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--li2);border-radius:99px;padding:.12rem .6rem}
+.past:hover{border-color:var(--acc);color:var(--acc)}
+.past .cc{color:var(--fai);font-size:.74rem}
+.past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
+.past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
+.past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
+
+/* ---- socle ---- */
+.socle{list-style:none;padding:0;margin:.3rem 0}
+.socle li{display:flex;gap:.5rem;align-items:baseline;padding:.12rem 0;font-size:.92rem}
+.socle input{margin:0;accent-color:var(--ok)}
+.socle li.su a{color:var(--fai);text-decoration:line-through}
+.compteur{font-family:var(--sans);font-size:.78rem;color:var(--mut)}
+.grp{margin:.5rem 0}
+.grp>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--mut)}
+
+table{border-collapse:collapse;margin:.5rem 0;font-size:.9rem;display:block;overflow-x:auto;max-width:100%}
+th,td{border:1px solid var(--li);padding:.25rem .55rem;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-family:var(--sans);font-size:.78rem;font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+  background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
+ul{padding-left:1.1rem}
+hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
+
+/* ---- cartes d'accueil / carte du cours ---- */
+.cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
+.carte{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.65rem .8rem}
+.carte h3{margin:0 0 .2rem}
+.carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
+.carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
+.dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.vise{animation:vise 1.6s ease}
+@keyframes vise{from{background:var(--acc2)}to{background:transparent}}
+
+/* ---- orientation : ce qui s'adresse au lecteur qui arrive ---- */
+.entree{border:1px solid var(--li2);border-left:3px solid var(--acc);border-radius:var(--r);
+  padding:.7rem .9rem;margin:.8rem 0 1.4rem;background:var(--card)}
+.entree p{margin:.3rem 0;font-size:.92rem}
+.entree .quoi{font-size:1.02rem}
+.entree ul{margin:.5rem 0 .2rem;padding-left:1.1rem;font-family:var(--sans);font-size:.88rem}
+.entree li{margin:.2rem 0}
+.chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
+.chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
+.aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
+/* L'en-tête est collant : une ancre visée ne doit pas passer dessous. Mesuré :
+   il fait 48 px sur une ligne, 85 px quand il se replie en deux (écran étroit). */
+[id]{scroll-margin-top:6rem}
+.aide p,.aide ul,.aide table{max-width:42rem}
+.dette ul{margin:.3rem 0 0}
+footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
+
+/* ---- arbre ---- */
+.barre{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+#scene{position:relative;border:1px solid var(--li);border-radius:var(--r);background:var(--bg2);
+  height:min(74vh,720px);overflow:hidden;touch-action:none;cursor:grab}
+#scene.drag{cursor:grabbing}
+#pan{position:absolute;transform-origin:0 0;top:0;left:0}
+#aretes{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+#aretes path{fill:none;stroke:var(--li2);stroke-width:1.5}
+.noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
+  padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
+.noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
+.noeud .nm{font-weight:600}
+.noeud .nm a{text-decoration:none;color:var(--fg)}
+.noeud .nm a:hover{color:var(--acc)}
+.noeud .pa{color:var(--mut);font-size:.72rem;display:block;margin-top:.1rem}
+.noeud .pli{font:inherit;font-size:.72rem;background:none;border:1px solid var(--li2);border-radius:4px;
+  color:var(--mut);cursor:pointer;padding:0 .3rem;margin-right:.25rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.4rem}
+  .rech{flex:1 1 100%;order:9}
+  #scene{height:66vh}
+}
+@media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="brand" href="../../index.html">notions</a><span class="fil"><a href="../../dup/index.html">Decision under Uncertainty and Portfolio Analysis</a> › Couverture de l’ambiguïté</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><h1>Couverture de l’ambiguïté</h1><div class="meta"><a class="pill typ" href="../../aide.html" data-v="types" title="un objet du cours, celui qu’on manipule">notion</a><a class="pill" href="../../dup/index.html">dup</a><a class="pill" href="../../aide.html" data-v="niveau" title="ordre de lecture : nombre de notions à traverser, au plus long, pour arriver jusqu’à celle-ci. Niveau 0 = ne dépend d’aucune autre.">niveau 6</a><a class="pill" href="../../dup/arbre.html" data-noeud="dup/couverture-de-l-ambiguite" title="cette notion n’est rangée sous aucune famille">arbre du cours</a><span class="pill">L4 slide 41</span><span class="pill">L4 slide 51</span><span class="pill">L4 slide 52</span></div><p class="note">aussi : hedging ambiguity, superadditivité de la valeur</p><section class="sec " data-oblig="1"><h2>Ce que c'est</h2><div class="corps"><p>Le pire prior dépend de la position, de sorte que combiner deux actes peut valoir davantage que la somme de leurs valeurs prises séparément. <span class="marq" title="référence à la source">[L4 slide 41]</span></p></div></section><section class="sec " data-oblig="1"><h2>Forme</h2><div class="corps"><p>$$\widehat{I}(a+b)\ \ge\ \widehat{I}(a)+\widehat{I}(b)$$ <span class="marq" title="référence à la source">[L4 slide 52]</span></p></div></section><section class="sec " data-oblig="1"><h2>Ce qui la définit</h2><div class="corps"><p>Sur la bande $K=\{p:0{,}2\le p_R\le0{,}6\}$ et avec $u(x)=x$, parier 100 sur rouge vaut 20, parier 100 contre rouge vaut 40, et les deux paris détenus ensemble paient 100 à coup sûr. Chaque pari est jugé sous son pire prior, et ces deux priors ne sont pas le même : la valeur n’est donc pas additive, même avec une utilité linéaire en monnaie. <span class="marq" title="référence à la source">[L4 slide 41]</span></p><p>La géométrie du mélange dit la même chose autrement. Avec les vecteurs d’utilité $f=(0,2)$ et $g=(2,0)$ et $K=\{(p,1-p):1/4\le p\le3/4\}$, chaque prior donne une droite en fonction du poids de mélange, et le maxmin en retient l’enveloppe inférieure, qui est concave. Les deux actes valent 0,5 chacun, et leur mélange à parts égales vaut 1. <span class="marq" title="référence à la source">[L4 slide 51]</span></p><p>C’est l’étape de la démonstration où l’aversion à l’ambiguïté entre : combinée à l’homogénéité positive, elle donne la superadditivité, donc la concavité de la fonctionnelle — ce qui ouvre la voie aux fonctions affines de support. <span class="marq" title="référence à la source">[L4 slide 52]</span></p></div></section><details class="sec " data-k="construite"><summary><h2>Construite à partir de</h2><span class="cnt">1 prérequis direct</span></summary><div class="corps"><ul class="pasts"><li><a class="past" href="../../dup/n/maxmin-eu.html">Utilité espérée maxmin<span class="nv">n5</span></a></li></ul><p class="note">Seulement ce dont cette fiche dépend directement. Le socle, juste en dessous, reprend ces notions-ci et y ajoute tout ce dont elles dépendent à leur tour.</p></div></details><details class="sec gen" data-k="socle"><summary><h2>Socle complet</h2><span class="cnt">11 prérequis en tout</span></summary><div class="corps"><div class="chemin"><p class="is-ajout"><a href="../../dup/n/acte.html">Acte</a> et <a href="../../dup/n/loterie.html">Loterie</a> s’emboîtent dans <a href="../../dup/n/cadre-anscombe-aumann.html">Cadre d’Anscombe-Aumann</a> ; <a href="../../dup/n/ensemble-de-priors.html">Ensemble de priors</a> y découpe la croyance et <a href="../../dup/n/independance-de-certitude.html">Indépendance de certitude</a> affaiblit l’axiome, ce qui donne <a href="../../dup/n/maxmin-eu.html">Utilité espérée maxmin</a>. L’autre amont de ce modèle est le motif à expliquer : <a href="../../dup/n/utilite-esperee-subjective.html">Utilité espérée subjective</a>, construite sur <a href="../../dup/n/acte.html">Acte</a> et <a href="../../dup/n/fonction-utilite.html">Fonction d’utilité</a> et adossée à <a href="../../dup/n/principe-de-la-chose-sure.html">Principe de la chose sûre</a>, que <a href="../../dup/n/paradoxe-d-ellsberg.html">Paradoxe d’Ellsberg</a> met en défaut, d’où <a href="../../dup/n/aversion-a-l-ambiguite.html">Aversion à l’ambiguïté</a>. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p class="is-ajout">Cette fiche lit une propriété du modèle qu’on ne voit pas dans sa formule : le minimum étant pris acte par acte, il ne commute pas avec l’addition. Elle vient donc après le maxmin, et non avant — il fallait l’opérateur pour découvrir ce qu’il fait aux sommes. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div><p class="note">Tout ce qu’il faut avoir lu avant cette fiche, du plus élémentaire au plus construit. <strong>La liste est complète</strong> : la lire suffit, aucune de ces notions n’en appelle une autre qui manquerait ici. Cocher une case la barre sur toutes les pages. (<a href="../../aide.html" data-v="socle">en savoir plus</a>)</p><p class="compteur" data-cpt="socle"></p><details class="grp" open><summary>niveau 0 (3)</summary><ul class="socle"><li><input type="checkbox" data-su="dup/acte" aria-label="déjà su : Acte"><a href="../../dup/n/acte.html">Acte</a></li><li><input type="checkbox" data-su="dup/fonction-utilite" aria-label="déjà su : Fonction d’utilité"><a href="../../dup/n/fonction-utilite.html">Fonction d’utilité</a></li><li><input type="checkbox" data-su="dup/loterie" aria-label="déjà su : Loterie"><a href="../../dup/n/loterie.html">Loterie</a></li></ul></details><details class="grp" open><summary>niveau 1 (2)</summary><ul class="socle"><li><input type="checkbox" data-su="dup/cadre-anscombe-aumann" aria-label="déjà su : Cadre d’Anscombe-Aumann"><a href="../../dup/n/cadre-anscombe-aumann.html">Cadre d’Anscombe-Aumann</a></li><li><input type="checkbox" data-su="dup/utilite-esperee-subjective" aria-label="déjà su : Utilité espérée subjective"><a href="../../dup/n/utilite-esperee-subjective.html">Utilité espérée subjective</a></li></ul></details><details class="grp" open><summary>niveau 2 (3)</summary><ul class="socle"><li><input type="checkbox" data-su="dup/ensemble-de-priors" aria-label="déjà su : Ensemble de priors"><a href="../../dup/n/ensemble-de-priors.html">Ensemble de priors</a></li><li><input type="checkbox" data-su="dup/independance-de-certitude" aria-label="déjà su : Indépendance de certitude"><a href="../../dup/n/independance-de-certitude.html">Indépendance de certitude</a></li><li><input type="checkbox" data-su="dup/principe-de-la-chose-sure" aria-label="déjà su : Principe de la chose sûre"><a href="../../dup/n/principe-de-la-chose-sure.html">Principe de la chose sûre</a></li></ul></details><details class="grp" open><summary>niveau 3 (1)</summary><ul class="socle"><li><input type="checkbox" data-su="dup/paradoxe-d-ellsberg" aria-label="déjà su : Paradoxe d’Ellsberg"><a href="../../dup/n/paradoxe-d-ellsberg.html">Paradoxe d’Ellsberg</a></li></ul></details><details class="grp" open><summary>niveau 4 (1)</summary><ul class="socle"><li><input type="checkbox" data-su="dup/aversion-a-l-ambiguite" aria-label="déjà su : Aversion à l’ambiguïté"><a href="../../dup/n/aversion-a-l-ambiguite.html">Aversion à l’ambiguïté</a></li></ul></details><details class="grp" open><summary>niveau 5 (1)</summary><ul class="socle"><li><input type="checkbox" data-su="dup/maxmin-eu" aria-label="déjà su : Utilité espérée maxmin"><a href="../../dup/n/maxmin-eu.html">Utilité espérée maxmin</a></li></ul></details></div></details><details class="sec " data-k="exemple" data-oblig="1"><summary><h2>Exemple minimal</h2></summary><div class="corps"><p>Les deux paris opposés de la bande $K$ valent 20 et 40 pris séparément, et 100 détenus ensemble. <span class="marq" title="référence à la source">[L4 slide 41]</span></p><figure class="fig is-ajout"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 330" width="100%" height="auto" role="img" style="color:var(--fg);max-width:560px;height:auto"><title>Chaque prior donne une droite ; le maxmin passe sous les deux</title><path d="M54 16 L54 290 M54 290 L542 290" fill="none" stroke="var(--mut)" stroke-width="1.2"/><path d="M70.83 290 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="70.83" y="307" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0,0</text><path d="M281.17 290 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="281.17" y="307" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0,5</text><path d="M491.52 290 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="491.52" y="307" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">1,0</text><path d="M54 211.71 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="46" y="215.71" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0,5</text><path d="M54 133.43 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="46" y="137.43" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">1,0</text><path d="M54 55.14 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="46" y="59.14" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">1,5</text><text x="542" y="323" text-anchor="end" font-size="12" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">poids du mélange, t</text><text x="10" y="10" text-anchor="start" font-size="12" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">valeur</text><path d="M281.17 290 L281.17 133.43" fill="none" stroke="var(--li2)" stroke-width="1.2" stroke-dasharray="4 3" stroke-linecap="round" stroke-linejoin="round"/><path d="M70.83 55.14 L73.46 56.12 L76.09 57.1 L78.72 58.08 L81.34 59.06 L83.97 60.04 L86.6 61.01 L89.23 61.99 L91.86 62.97 L94.49 63.95 L97.12 64.93 L99.75 65.91 L102.38 66.89 L105.01 67.86 L107.64 68.84 L110.27 69.82 L112.9 70.8 L115.53 71.78 L118.16 72.76 L120.78 73.74 L123.41 74.71 L126.04 75.69 L128.67 76.67 L131.3 77.65 L133.93 78.63 L136.56 79.61 L139.19 80.59 L141.82 81.56 L144.45 82.54 L147.08 83.52 L149.71 84.5 L152.34 85.48 L154.97 86.46 L157.59 87.44 L160.22 88.41 L162.85 89.39 L165.48 90.37 L168.11 91.35 L170.74 92.33 L173.37 93.31 L176 94.29 L178.63 95.26 L181.26 96.24 L183.89 97.22 L186.52 98.2 L189.15 99.18 L191.78 100.16 L194.41 101.14 L197.03 102.11 L199.66 103.09 L202.29 104.07 L204.92 105.05 L207.55 106.03 L210.18 107.01 L212.81 107.99 L215.44 108.96 L218.07 109.94 L220.7 110.92 L223.33 111.9 L225.96 112.88 L228.59 113.86 L231.22 114.84 L233.84 115.81 L236.47 116.79 L239.1 117.77 L241.73 118.75 L244.36 119.73 L246.99 120.71 L249.62 121.69 L252.25 122.66 L254.88 123.64 L257.51 124.62 L260.14 125.6 L262.77 126.58 L265.4 127.56 L268.03 128.54 L270.66 129.51 L273.28 130.49 L275.91 131.47 L278.54 132.45 L281.17 133.43 L283.8 134.41 L286.43 135.39 L289.06 136.36 L291.69 137.34 L294.32 138.32 L296.95 139.3 L299.58 140.28 L302.21 141.26 L304.84 142.24 L307.47 143.21 L310.09 144.19 L312.72 145.17 L315.35 146.15 L317.98 147.13 L320.61 148.11 L323.24 149.09 L325.87 150.06 L328.5 151.04 L331.13 152.02 L333.76 153 L336.39 153.98 L339.02 154.96 L341.65 155.94 L344.28 156.91 L346.91 157.89 L349.53 158.87 L352.16 159.85 L354.79 160.83 L357.42 161.81 L360.05 162.79 L362.68 163.76 L365.31 164.74 L367.94 165.72 L370.57 166.7 L373.2 167.68 L375.83 168.66 L378.46 169.64 L381.09 170.61 L383.72 171.59 L386.34 172.57 L388.97 173.55 L391.6 174.53 L394.23 175.51 L396.86 176.49 L399.49 177.46 L402.12 178.44 L404.75 179.42 L407.38 180.4 L410.01 181.38 L412.64 182.36 L415.27 183.34 L417.9 184.31 L420.53 185.29 L423.16 186.27 L425.78 187.25 L428.41 188.23 L431.04 189.21 L433.67 190.19 L436.3 191.16 L438.93 192.14 L441.56 193.12 L444.19 194.1 L446.82 195.08 L449.45 196.06 L452.08 197.04 L454.71 198.01 L457.34 198.99 L459.97 199.97 L462.59 200.95 L465.22 201.93 L467.85 202.91 L470.48 203.89 L473.11 204.86 L475.74 205.84 L478.37 206.82 L481 207.8 L483.63 208.78 L486.26 209.76 L488.89 210.74 L491.52 211.71" fill="none" stroke="var(--ajo)" stroke-width="1.8" stroke-dasharray="5 4" stroke-linecap="round" stroke-linejoin="round"/><path d="M70.83 211.71 L73.46 210.74 L76.09 209.76 L78.72 208.78 L81.34 207.8 L83.97 206.82 L86.6 205.84 L89.23 204.86 L91.86 203.89 L94.49 202.91 L97.12 201.93 L99.75 200.95 L102.38 199.97 L105.01 198.99 L107.64 198.01 L110.27 197.04 L112.9 196.06 L115.53 195.08 L118.16 194.1 L120.78 193.12 L123.41 192.14 L126.04 191.16 L128.67 190.19 L131.3 189.21 L133.93 188.23 L136.56 187.25 L139.19 186.27 L141.82 185.29 L144.45 184.31 L147.08 183.34 L149.71 182.36 L152.34 181.38 L154.97 180.4 L157.59 179.42 L160.22 178.44 L162.85 177.46 L165.48 176.49 L168.11 175.51 L170.74 174.53 L173.37 173.55 L176 172.57 L178.63 171.59 L181.26 170.61 L183.89 169.64 L186.52 168.66 L189.15 167.68 L191.78 166.7 L194.41 165.72 L197.03 164.74 L199.66 163.76 L202.29 162.79 L204.92 161.81 L207.55 160.83 L210.18 159.85 L212.81 158.87 L215.44 157.89 L218.07 156.91 L220.7 155.94 L223.33 154.96 L225.96 153.98 L228.59 153 L231.22 152.02 L233.84 151.04 L236.47 150.06 L239.1 149.09 L241.73 148.11 L244.36 147.13 L246.99 146.15 L249.62 145.17 L252.25 144.19 L254.88 143.21 L257.51 142.24 L260.14 141.26 L262.77 140.28 L265.4 139.3 L268.03 138.32 L270.66 137.34 L273.28 136.36 L275.91 135.39 L278.54 134.41 L281.17 133.43 L283.8 132.45 L286.43 131.47 L289.06 130.49 L291.69 129.51 L294.32 128.54 L296.95 127.56 L299.58 126.58 L302.21 125.6 L304.84 124.62 L307.47 123.64 L310.09 122.66 L312.72 121.69 L315.35 120.71 L317.98 119.73 L320.61 118.75 L323.24 117.77 L325.87 116.79 L328.5 115.81 L331.13 114.84 L333.76 113.86 L336.39 112.88 L339.02 111.9 L341.65 110.92 L344.28 109.94 L346.91 108.96 L349.53 107.99 L352.16 107.01 L354.79 106.03 L357.42 105.05 L360.05 104.07 L362.68 103.09 L365.31 102.11 L367.94 101.14 L370.57 100.16 L373.2 99.18 L375.83 98.2 L378.46 97.22 L381.09 96.24 L383.72 95.26 L386.34 94.29 L388.97 93.31 L391.6 92.33 L394.23 91.35 L396.86 90.37 L399.49 89.39 L402.12 88.41 L404.75 87.44 L407.38 86.46 L410.01 85.48 L412.64 84.5 L415.27 83.52 L417.9 82.54 L420.53 81.56 L423.16 80.59 L425.78 79.61 L428.41 78.63 L431.04 77.65 L433.67 76.67 L436.3 75.69 L438.93 74.71 L441.56 73.74 L444.19 72.76 L446.82 71.78 L449.45 70.8 L452.08 69.82 L454.71 68.84 L457.34 67.86 L459.97 66.89 L462.59 65.91 L465.22 64.93 L467.85 63.95 L470.48 62.97 L473.11 61.99 L475.74 61.01 L478.37 60.04 L481 59.06 L483.63 58.08 L486.26 57.1 L488.89 56.12 L491.52 55.14" fill="none" stroke="var(--ajo)" stroke-width="1.8" stroke-dasharray="5 4" stroke-linecap="round" stroke-linejoin="round"/><path d="M70.83 211.71 L73.46 210.74 L76.09 209.76 L78.72 208.78 L81.34 207.8 L83.97 206.82 L86.6 205.84 L89.23 204.86 L91.86 203.89 L94.49 202.91 L97.12 201.93 L99.75 200.95 L102.38 199.97 L105.01 198.99 L107.64 198.01 L110.27 197.04 L112.9 196.06 L115.53 195.08 L118.16 194.1 L120.78 193.12 L123.41 192.14 L126.04 191.16 L128.67 190.19 L131.3 189.21 L133.93 188.23 L136.56 187.25 L139.19 186.27 L141.82 185.29 L144.45 184.31 L147.08 183.34 L149.71 182.36 L152.34 181.38 L154.97 180.4 L157.59 179.42 L160.22 178.44 L162.85 177.46 L165.48 176.49 L168.11 175.51 L170.74 174.53 L173.37 173.55 L176 172.57 L178.63 171.59 L181.26 170.61 L183.89 169.64 L186.52 168.66 L189.15 167.68 L191.78 166.7 L194.41 165.72 L197.03 164.74 L199.66 163.76 L202.29 162.79 L204.92 161.81 L207.55 160.83 L210.18 159.85 L212.81 158.87 L215.44 157.89 L218.07 156.91 L220.7 155.94 L223.33 154.96 L225.96 153.98 L228.59 153 L231.22 152.02 L233.84 151.04 L236.47 150.06 L239.1 149.09 L241.73 148.11 L244.36 147.13 L246.99 146.15 L249.62 145.17 L252.25 144.19 L254.88 143.21 L257.51 142.24 L260.14 141.26 L262.77 140.28 L265.4 139.3 L268.03 138.32 L270.66 137.34 L273.28 136.36 L275.91 135.39 L278.54 134.41 L281.17 133.43 L283.8 134.41 L286.43 135.39 L289.06 136.36 L291.69 137.34 L294.32 138.32 L296.95 139.3 L299.58 140.28 L302.21 141.26 L304.84 142.24 L307.47 143.21 L310.09 144.19 L312.72 145.17 L315.35 146.15 L317.98 147.13 L320.61 148.11 L323.24 149.09 L325.87 150.06 L328.5 151.04 L331.13 152.02 L333.76 153 L336.39 153.98 L339.02 154.96 L341.65 155.94 L344.28 156.91 L346.91 157.89 L349.53 158.87 L352.16 159.85 L354.79 160.83 L357.42 161.81 L360.05 162.79 L362.68 163.76 L365.31 164.74 L367.94 165.72 L370.57 166.7 L373.2 167.68 L375.83 168.66 L378.46 169.64 L381.09 170.61 L383.72 171.59 L386.34 172.57 L388.97 173.55 L391.6 174.53 L394.23 175.51 L396.86 176.49 L399.49 177.46 L402.12 178.44 L404.75 179.42 L407.38 180.4 L410.01 181.38 L412.64 182.36 L415.27 183.34 L417.9 184.31 L420.53 185.29 L423.16 186.27 L425.78 187.25 L428.41 188.23 L431.04 189.21 L433.67 190.19 L436.3 191.16 L438.93 192.14 L441.56 193.12 L444.19 194.1 L446.82 195.08 L449.45 196.06 L452.08 197.04 L454.71 198.01 L457.34 198.99 L459.97 199.97 L462.59 200.95 L465.22 201.93 L467.85 202.91 L470.48 203.89 L473.11 204.86 L475.74 205.84 L478.37 206.82 L481 207.8 L483.63 208.78 L486.26 209.76 L488.89 210.74 L491.52 211.71" fill="none" stroke="var(--acc)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="70.83" cy="211.71" r="3.6" fill="var(--acc)"/><circle cx="281.17" cy="133.43" r="3.6" fill="var(--acc)"/><circle cx="491.52" cy="211.71" r="3.6" fill="var(--acc)"/><text x="159.38" y="83.59" text-anchor="end" font-size="11.5" stroke="var(--card)" stroke-width="3.2" stroke-linejoin="round" fill="none" font-family="ui-sans-serif,system-ui,sans-serif">p = 1/4</text><text x="159.38" y="83.59" text-anchor="end" font-size="11.5" fill="var(--ajo)" font-family="ui-sans-serif,system-ui,sans-serif">p = 1/4</text><text x="402.97" y="83.59" text-anchor="start" font-size="11.5" stroke="var(--card)" stroke-width="3.2" stroke-linejoin="round" fill="none" font-family="ui-sans-serif,system-ui,sans-serif">p = 3/4</text><text x="402.97" y="83.59" text-anchor="start" font-size="11.5" fill="var(--ajo)" font-family="ui-sans-serif,system-ui,sans-serif">p = 3/4</text><text x="281.17" y="120.43" text-anchor="middle" font-size="12.5" stroke="var(--card)" stroke-width="3.2" stroke-linejoin="round" fill="none" font-family="ui-sans-serif,system-ui,sans-serif">le mélange à parts égales vaut 1</text><text x="281.17" y="120.43" text-anchor="middle" font-size="12.5" fill="var(--fg)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">le mélange à parts égales vaut 1</text><text x="78.83" y="225.71" text-anchor="start" font-size="11.5" stroke="var(--card)" stroke-width="3.2" stroke-linejoin="round" fill="none" font-family="ui-sans-serif,system-ui,sans-serif">f et g valent 0,5 chacun</text><text x="78.83" y="225.71" text-anchor="start" font-size="11.5" fill="var(--fg)" font-family="ui-sans-serif,system-ui,sans-serif">f et g valent 0,5 chacun</text></svg><figcaption>Les deux priors extrêmes de l'ensemble donnent chacun une droite en fonction du poids du mélange ; le maxmin retient l'enveloppe inférieure, en trait plein. Le creux est aux extrémités : les deux actes valent 0,5 chacun, leur mélange à parts égales vaut 1. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></figcaption></figure></div></details><details class="sec " data-k="geste" data-oblig="1"><summary><h2>Geste de calcul type</h2></summary><div class="corps"><p>Chercher le pire prior acte par acte, puis celui de la somme : s’il change d’un acte à l’autre, la valeur de la combinaison dépasse la somme des valeurs. <span class="marq" title="référence à la source">[L4 slide 41]</span></p></div></details><details class="sec lim" data-k="limite" data-oblig="1"><summary><h2>Cesse d'être valide quand</h2></summary><div class="corps"><p>La superadditivité n’est pas une additivité manquée, c’est l’axiome d’aversion à l’ambiguïté lui-même : un agent attiré par l’ambiguïté donnerait l’inégalité inverse, et un agent neutre l’égalité. <span class="marq" title="référence à la source">[L4 slide 45]</span></p></div></details></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../../aide.html">comment lire ce site</a> · <a href="../../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../../search-index.js"></script>
+<script>
+var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+        s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- l'état qui traverse les pages ----------------------------------------
+   Voir le commentaire de l'en-tête : en file://, seul le fragment traverse.
+   Forme du fragment :  #t:d~a:0~p:1-0--1...~s:<tampon>.<bits>~v:<ancre>
+     t  thème      d | l            (absent : celui du système)
+     a  ajouts     0                (absent : montrés)
+     p  pliage     un caractère par clé de CLES_PLI : 1 ouvert, 0 fermé, - inconnu
+     s  déjà su    un bit par notion, six bits par caractère, précédé d'un tampon
+     v  ancre      l'élément vers lequel défiler à l'arrivée
+   Le tampon est calculé sur la liste des identifiants : dès qu'une notion entre dans
+   le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
+   cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
+var ETAT=(function(){
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees"],TAMPON='aeee',
+    A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
+var pli={},su={};
+if(typeof H.p==='string'){
+  for(var i=0;i<CLES.length&&i<H.p.length;i++){var c=H.p.charAt(i);
+    if(c==='0'||c==='1')pli[CLES[i]]=(c==='1');}
+}else{
+  CLES.forEach(function(k){var v=LS.g('notions.pli.'+k,null);if(v!==null)pli[k]=(v==='1')});
+}
+function decode(t){var o={},q=t.indexOf('.');
+  if(q<0||t.slice(0,q)!==TAMPON)return o;
+  var b=t.slice(q+1);
+  for(var i=0;i<b.length;i++){var v=A64.indexOf(b.charAt(i));if(v<0)continue;
+    for(var j=0;j<6;j++){if(v&(1<<j)){var k=i*6+j;if(k<IDS.length)o[IDS[k]]=1}}}
+  return o;}
+function encode(){var o='';
+  for(var i=0;i<IDS.length;i+=6){var v=0;
+    for(var j=0;j<6;j++){if(su[IDS[i+j]])v|=1<<j}
+    o+=A64.charAt(v);}
+  return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
+if(typeof H.s==='string'){su=decode(H.s)}
+else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
+function frag(ancre,noeud){var p=[];
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t)p.push('t:'+(t==='dark'?'d':'l'));
+  if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
+  var q='';CLES.forEach(function(k){q+=(pli[k]===undefined?'-':(pli[k]?'1':'0'))});
+  if(/[01]/.test(q))p.push('p:'+q);
+  var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
+  if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
+  return p.length?'#'+p.join('~'):'';}
+function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
+function propager(){var f=frag();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';if(!interne(h))return;
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
+  /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
+     Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
+  try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
+  try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}}
+return{pli:function(k){return pli[k]===undefined?null:pli[k]},
+       setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
+       su:function(id){return !!su[id]},
+       setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
+       lien:function(u,v,n){return u+frag(v,n)},
+       ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
+       propager:propager};
+})();
+function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
+  var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
+  b.textContent=on?'masquer les ajouts':'ajouts masqués';}
+  document.querySelectorAll('.sec').forEach(function(s){
+    var c=s.querySelector('.corps');if(!c)return;var n=0;
+    c.querySelectorAll(':scope>*').forEach(function(el){
+      if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
+      if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
+      n++;});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='Cette rubrique existe, mais tout son contenu est un ajout : le filtre le masque. Elle reste visible pour que vous ne concluiez pas qu’elle est vide.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
+  if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var bt=document.getElementById('btheme');
+  if(bt)bt.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    var nx=(cur||sys)==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);
+    ETAT.propager();});
+  var ba=document.getElementById('bajout');
+  if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);ETAT.propager();});
+  majAjouts(!document.documentElement.classList.contains('sans-ajouts'));
+  /* les liens de la page portent l'état ; une ancre demandée est ouverte et visée */
+  ETAT.propager();
+  var an=ETAT.ancre();
+  if(an){var el=document.getElementById(an);
+    if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView();el.classList.add('vise')}}
+  /* --- recherche instantanée (règle 9) --- */
+  var inp=document.getElementById('q'),res=document.getElementById('qres');
+  if(!inp||!res||!window.SEARCH_INDEX)return;
+  var REL=document.documentElement.getAttribute('data-rel')||'';
+  var sel=-1,items=[];
+  function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+  function cherche(q){
+    var n=norm(q);if(!n)return [];
+    var out=[];
+    SEARCH_INDEX.forEach(function(e){
+      var sc=-1,ch=e.h||[];
+      for(var i=0;i<ch.length;i++){var p=norm(ch[i]).indexOf(n);
+        if(p===0){sc=Math.max(sc,3-(i>0?1:0))}else if(p>0){sc=Math.max(sc,1)}}
+      if(sc>=0)out.push([sc,e]);});
+    out.sort(function(a,b){return b[0]-a[0]||a[1].n.localeCompare(b[1].n)});
+    return out.slice(0,9).map(function(x){return x[1]});}
+  function rendre(){
+    items=cherche(inp.value);sel=-1;res.innerHTML='';
+    if(!inp.value){res.classList.remove('on');return}
+    if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
+    items.forEach(function(e,i){
+      var li=document.createElement('li');
+      var a=document.createElement('a');a.href=ETAT.lien(REL+e.u);a.id='qr'+i;
+      a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
+      li.appendChild(a);res.appendChild(li);});
+    res.classList.add('on');}
+  function bouge(d){if(!items.length)return;sel=(sel+d+items.length)%items.length;
+    Array.prototype.forEach.call(res.children,function(li,i){li.classList.toggle('sel',i===sel)});
+    inp.setAttribute('aria-activedescendant','qr'+sel);}
+  inp.addEventListener('input',rendre);
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();bouge(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();bouge(-1)}
+    else if(e.key==='Enter'){var a=res.querySelector(sel>=0?'li.sel a':'li a');if(a){e.preventDefault();location.href=a.href}}
+    else if(e.key==='Escape'){inp.value='';res.classList.remove('on')}});
+  document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
+  document.addEventListener('keydown',function(e){
+    if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  /* pliage mémorisé par rubrique (règle 5), et transporté d'une page à l'autre */
+  document.querySelectorAll('details.sec[data-k]').forEach(function(d){
+    var k=d.getAttribute('data-k'),v=ETAT.pli(k);
+    if(v!==null)d.open=v;
+    d.addEventListener('toggle',function(){ETAT.setPli(k,d.open)});});
+  /* amont et aval : même état « déjà su », un compteur par liste (règle 7) */
+  function compte(){
+    document.querySelectorAll('.sec').forEach(function(s){
+      var cpt=s.querySelector('[data-cpt]');if(!cpt)return;
+      var l=s.querySelectorAll('input[data-su]'),k=0;
+      l.forEach(function(c){if(c.checked)k++});
+      cpt.textContent=l.length+' notion'+(l.length>1?'s':'')+', '+(l.length-k)+' à voir';});}
+  document.querySelectorAll('input[data-su]').forEach(function(c){
+    var id=c.getAttribute('data-su');c.checked=ETAT.su(id);
+    c.closest('li').classList.toggle('su',c.checked);
+    c.addEventListener('change',function(){
+      ETAT.setSu(id,c.checked);
+      document.querySelectorAll('input[data-su="'+id+'"]').forEach(function(o){
+        o.checked=c.checked;o.closest('li').classList.toggle('su',c.checked);});
+      compte();});});
+  compte();
+});
+</script>
+</body>
+</html>

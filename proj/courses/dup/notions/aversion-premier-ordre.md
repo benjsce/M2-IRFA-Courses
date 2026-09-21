@@ -10,6 +10,7 @@ alias:
 refs:
 - L2 slide 21
 - L3 slide 41
+- L4 slide 25
 ---
 
 ## Ce que c'est
@@ -22,6 +23,12 @@ $$r(\sigma)=\dfrac{\lambda^{\frac{1}{1-\gamma}}-1}{\lambda^{\frac{1}{1-\gamma}}+
 Elle apparaît dès que la fonction de valeur présente un coude en zéro, ou que les probabilités sont déformées : la prime ne s’évanouit plus au second ordre quand le pari rétrécit. [L3 slide 41, L2 slide 21]
 
 C’est ce qui permet d’expliquer le refus de petits paris favorables, que l’utilité espérée dérivable interdit. [L2 slide 21]
+
+Le quatrième cours en donne la dérivation par la seule déformation des probabilités, sans coude dans l’utilité. Pour un pari symétrique de $\pm\sigma$ autour de la richesse, en posant $a=\varphi(1/2)$, le développement limité de la compensation donne un terme d’ordre un qui ne s’annule que si $a$ vaut un demi — c’est-à-dire sous utilité espérée. [L4 slide 25]
+
+$$r(\sigma)=(2a-1)\,\sigma+O(\sigma^2)$$ [L4 slide 25]
+
+La conséquence porte sur la participation, et pas seulement sur la prime. Pour une petite position longue d’excédent de rendement $\mu$, la dérivée de la valeur en zéro vaut $u'(w)\big[\mu-(2a-1)\sigma\big]$ : une prime objectivement positive peut rester trop faible pour faire entrer l’agent sur le marché. [L4 slide 25]
 
 ## Le chemin jusqu'ici
 Le socle est celui du paradoxe de Rabin, et pour cause : cette fiche en est la sortie. La courbure de dup/fonction-utilite se mesure par dup/aversion-absolue-arrow-pratt ; dup/loterie, évaluée par cette utilité, porte dup/utilite-esperee, puis dup/equivalent-certain et dup/prime-de-risque ; dup/approximation-arrow-pratt réunit les deux branches et permet de nommer dup/aversion-second-ordre. [ajout]

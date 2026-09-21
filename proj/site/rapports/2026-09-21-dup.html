@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="fr" data-rel="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rapport 2026-09-21-dup · notions</title>
+<script>
+/* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
+   localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
+   cases « déjà su » ne peuvent donc pas traverser les pages par là. Ils voyagent dans
+   le fragment de l'URL, que tous les liens internes portent ; localStorage ne sert plus
+   que de mémoire locale, pour la page qu'on rouvre sans fragment.
+   Ce script s'exécute avant le rendu : sinon le thème clignote à chaque page. */
+(function(){
+var H={},h=(location.hash||'').replace(/^#/,'');
+h.split('~').forEach(function(p){var i=p.indexOf(':');if(i>0)H[p.slice(0,i)]=p.slice(i+1)});
+window.ETAT_URL=H;
+function loc(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+var t=H.t?(H.t==='d'?'dark':'light'):loc('notions.theme','');
+if(t)document.documentElement.setAttribute('data-theme',t);
+var a=(H.a!==undefined)?H.a:loc('notions.ajouts','1');
+if(a==='0')document.documentElement.classList.add('sans-ajouts');
+})();
+</script>
+<style>
+:root{
+  --bg:#fbfaf7; --bg2:#f3f0ea; --fg:#1b1a17; --mut:#6c675d; --fai:#8e887c;
+  --li:#e0dbd1; --li2:#cdc6b8; --card:#ffffff; --acc:#8a4f23; --acc2:#f3e7dc;
+  --ajo:#6d5a8c; --ajo2:#efe9f5; --lim:#9a3a2e; --ok:#3f6b46; --faute:#a8631a;
+  --r:8px; --w:min(72rem,100%);
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}}
+:root[data-theme="dark"]{
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}
+.fig{margin:.9rem 0;padding:.5rem .2rem .2rem;text-align:center}
+/* « > svg » et non « svg » : MathJax pose son propre <svg> dans la légende, et
+   une règle non ancrée en faisait un bloc qui coupait la phrase en trois. */
+.fig > svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig figcaption{margin-top:.35rem;font-family:var(--sans);font-size:.82rem;
+  color:var(--mut);text-align:center;line-height:1.45}
+@media print{.fig{break-inside:avoid}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
+  font-size:17px;line-height:1.62;overflow-wrap:break-word}
+a{color:var(--acc);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-style:dotted}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+.wrap{width:var(--w);margin:0 auto;padding:0 1rem}
+
+/* ---- barre du haut ---- */
+header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
+  border-bottom:1px solid var(--li);font-family:var(--sans)}
+.topin{width:var(--w);margin:0 auto;padding:.45rem 1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.brand{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--fg);letter-spacing:.02em}
+.fil{color:var(--mut);font-size:.82rem;flex:1 1 8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fil a{color:var(--mut)}
+.btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
+  border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+a.btn{text-decoration:none}
+.btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
+.rech{position:relative;flex:0 1 16rem;min-width:9rem}
+.rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
+  border:1px solid var(--li2);border-radius:var(--r);background:var(--card);color:var(--fg)}
+.res{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--li2);
+  border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.14);max-height:60vh;overflow:auto;padding:.2rem;margin:0;
+  list-style:none;display:none;z-index:50;min-width:18rem}
+.res.on{display:block}
+.res li a{display:block;padding:.3rem .45rem;border-radius:6px;text-decoration:none;color:var(--fg);font-size:.86rem}
+.res li a:hover,.res li.sel a{background:var(--acc2)}
+.res .sub{color:var(--mut);font-size:.76rem;font-family:var(--sans)}
+.res .vide{padding:.4rem .5rem;color:var(--mut);font-size:.84rem}
+
+main{padding:1.4rem 0 4rem}
+h1{font-size:1.75rem;line-height:1.24;margin:.2rem 0 .3rem}
+h2{font-size:1.06rem;font-family:var(--sans);font-weight:600;letter-spacing:.01em;margin:0}
+h3{font-size:.95rem;font-family:var(--sans);margin:1.2rem 0 .3rem}
+p{margin:.55rem 0}
+.ptag{font-family:var(--sans);font-size:.74rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .5rem}
+
+/* ---- métadonnées de fiche ---- */
+.meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;font-family:var(--sans);font-size:.75rem;color:var(--mut);margin:.4rem 0 1.1rem}
+.pill{border:1px solid var(--li2);border-radius:99px;padding:.06rem .5rem;background:var(--card);white-space:nowrap}
+.pill.ajout{color:var(--ajo);border-color:var(--ajo);background:var(--ajo2)}
+.pill.typ{background:var(--acc2);border-color:var(--acc)}
+.sym{font-family:var(--serif);font-size:1rem;color:var(--fg)}
+
+/* ---- sections ---- */
+.sec{border-top:1px solid var(--li);padding:.85rem 0}
+.sec.vide{display:none}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.45rem;padding:.1rem 0}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"›";color:var(--fai);font-family:var(--sans);display:inline-block;
+  transition:transform .12s ease;transform:rotate(0deg);width:.7em}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fai);font-weight:400}
+.corps{padding-top:.25rem}
+.gen{border-left:2px solid var(--li2);padding-left:.7rem}
+.chemin{border-left:3px solid var(--acc);background:var(--bg2);border-radius:0 var(--r) var(--r) 0;
+  padding:.5rem .8rem;margin:.2rem 0 .7rem}
+.chemin p{margin:.35rem 0;font-size:.95rem}
+.chemin p:first-child{margin-top:0}
+.chemin p:last-child{margin-bottom:0}
+.note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
+.sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
+.sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
+.sec.faute>summary h2{color:var(--faute)}
+.faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
+  margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.faute-b strong{color:var(--faute)}
+.sec.lim>summary h2{color:var(--lim)}
+.sec.lim>h2{color:var(--lim)}
+
+/* ---- marqueurs de traçabilité ---- */
+.marq{font-family:var(--sans);font-size:.7rem;color:var(--fai);white-space:nowrap;vertical-align:.12em}
+.marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
+.marqligne{margin:.15rem 0 0}
+html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
+.bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
+  color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
+
+/* ---- pastilles ---- */
+.pasts{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0;padding:0;list-style:none}
+.past{display:inline-block;font-family:var(--sans);font-size:.82rem;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--li2);border-radius:99px;padding:.12rem .6rem}
+.past:hover{border-color:var(--acc);color:var(--acc)}
+.past .cc{color:var(--fai);font-size:.74rem}
+.past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
+.past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
+.past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
+
+/* ---- socle ---- */
+.socle{list-style:none;padding:0;margin:.3rem 0}
+.socle li{display:flex;gap:.5rem;align-items:baseline;padding:.12rem 0;font-size:.92rem}
+.socle input{margin:0;accent-color:var(--ok)}
+.socle li.su a{color:var(--fai);text-decoration:line-through}
+.compteur{font-family:var(--sans);font-size:.78rem;color:var(--mut)}
+.grp{margin:.5rem 0}
+.grp>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--mut)}
+
+table{border-collapse:collapse;margin:.5rem 0;font-size:.9rem;display:block;overflow-x:auto;max-width:100%}
+th,td{border:1px solid var(--li);padding:.25rem .55rem;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-family:var(--sans);font-size:.78rem;font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+  background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
+ul{padding-left:1.1rem}
+hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
+
+/* ---- cartes d'accueil / carte du cours ---- */
+.cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
+.carte{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.65rem .8rem}
+.carte h3{margin:0 0 .2rem}
+.carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
+.carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
+.dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.vise{animation:vise 1.6s ease}
+@keyframes vise{from{background:var(--acc2)}to{background:transparent}}
+
+/* ---- orientation : ce qui s'adresse au lecteur qui arrive ---- */
+.entree{border:1px solid var(--li2);border-left:3px solid var(--acc);border-radius:var(--r);
+  padding:.7rem .9rem;margin:.8rem 0 1.4rem;background:var(--card)}
+.entree p{margin:.3rem 0;font-size:.92rem}
+.entree .quoi{font-size:1.02rem}
+.entree ul{margin:.5rem 0 .2rem;padding-left:1.1rem;font-family:var(--sans);font-size:.88rem}
+.entree li{margin:.2rem 0}
+.chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
+.chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
+.aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
+/* L'en-tête est collant : une ancre visée ne doit pas passer dessous. Mesuré :
+   il fait 48 px sur une ligne, 85 px quand il se replie en deux (écran étroit). */
+[id]{scroll-margin-top:6rem}
+.aide p,.aide ul,.aide table{max-width:42rem}
+.dette ul{margin:.3rem 0 0}
+footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
+
+/* ---- arbre ---- */
+.barre{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+#scene{position:relative;border:1px solid var(--li);border-radius:var(--r);background:var(--bg2);
+  height:min(74vh,720px);overflow:hidden;touch-action:none;cursor:grab}
+#scene.drag{cursor:grabbing}
+#pan{position:absolute;transform-origin:0 0;top:0;left:0}
+#aretes{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+#aretes path{fill:none;stroke:var(--li2);stroke-width:1.5}
+.noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
+  padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
+.noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
+.noeud .nm{font-weight:600}
+.noeud .nm a{text-decoration:none;color:var(--fg)}
+.noeud .nm a:hover{color:var(--acc)}
+.noeud .pa{color:var(--mut);font-size:.72rem;display:block;margin-top:.1rem}
+.noeud .pli{font:inherit;font-size:.72rem;background:none;border:1px solid var(--li2);border-radius:4px;
+  color:var(--mut);cursor:pointer;padding:0 .3rem;margin-right:.25rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.4rem}
+  .rech{flex:1 1 100%;order:9}
+  #scene{height:66vh}
+}
+@media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="brand" href="../index.html">notions</a><span class="fil">rapport d’ingestion › 2026-09-21-dup</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><article class="rapport"><h1>Rapport d'ingestion — dup — 2026-09-21</h1><p>Quatrième cours de <em>Decision under Uncertainty and Portfolio Analysis</em> : <code>lec4.pdf</code>,
+67 slides, déposé dans <code>courses/dup/sources/</code>. C'est le premier rapport de la journée
+portant sur un cours ; les quatre précédents portaient sur les figures.</p><h2>Matériau traité</h2><div class="tablebloc"><table><thead><tr><th>source</th><th>fichier</th><th>slides</th></tr></thead><tbody><tr><td>L4</td><td><code>courses/dup/sources/lec4.pdf</code></td><td>67</td></tr></tbody></table></div><p>Lu en entier avant toute écriture. <code>course.yml</code> déclare la source, et <code>refs_pattern</code>
+accepte désormais <code>L4</code> : <code>^(L[1234] slide \d+|L[1234] éq\. \d+)$</code>. Aucune équation
+numérotée dans cette source ; la référence est toujours la slide.</p><p><strong>Ce que cette lecture apprend d'abord, c'est que le cours se répète beaucoup.</strong> Les
+slides 2 à 37 reprennent L3 slides 20 à 47 puis L1 slides 62 à 64, souvent au titre près.
+Le tableau ci-dessous le montre ligne par ligne : 48 éléments sur 67 sont absorbés par des
+fiches existantes, dont la plupart sans qu'un mot ait à changer. Le cours neuf commence
+slide 38 et ne s'arrête plus : trente slides sur l'ambiguïté, sa représentation et ses
+conséquences de marché. La convention <code>recouvrement</code> de <code>course.yml</code> a été étendue en
+conséquence.</p><h2>Inventaire ajouté (à auditer par l'utilisateur)</h2><p>67 éléments, un par slide, dans l'ordre du document. Aucun <code>a_venir</code> : la tranche est
+traitée en entier.</p><div class="tablebloc"><table><thead><tr><th>réf</th><th>intitulé</th><th>image</th></tr></thead><tbody><tr><td>L4 slide 1</td><td>page de titre</td><td>exclu, hors contenu</td></tr><tr><td>L4 slide 2</td><td>Early Models of Reference Dependence</td><td>absorbe <code>theorie-des-perspectives</code></td></tr><tr><td>L4 slide 3</td><td>Prospect Theory</td><td>absorbe <code>theorie-des-perspectives</code></td></tr><tr><td>L4 slide 4</td><td>Shape of the Value Function</td><td>absorbe <code>aversion-aux-pertes</code></td></tr><tr><td>L4 slide 5</td><td>Experiment: KT (1979) Problem 13</td><td>absorbe <code>theorie-des-perspectives</code></td></tr><tr><td>L4 slide 6</td><td>Recap: What Can Be Explained So Far</td><td>absorbe <code>theorie-des-perspectives</code></td></tr><tr><td>L4 slide 7</td><td>Probability Weighting</td><td>absorbe <code>ponderation-des-probabilites</code></td></tr><tr><td>L4 slide 8</td><td>Problems with KT weighting Function</td><td>absorbe <code>theorie-des-perspectives</code></td></tr><tr><td>L4 slide 9</td><td>Rank-Dependent Utility</td><td>absorbe <code>rdu</code></td></tr><tr><td>L4 slide 10</td><td>Illustration of Probability Distribution</td><td>absorbe <code>rdu</code></td></tr><tr><td>L4 slide 11</td><td>Illustration of EV</td><td>absorbe <code>rdu</code></td></tr><tr><td>L4 slide 12</td><td>Illustration of EU</td><td>absorbe <code>rdu</code></td></tr><tr><td>L4 slide 13</td><td>Illustration of RDU</td><td>absorbe <code>rdu</code></td></tr><tr><td><strong>L4 slide 14</strong></td><td><strong>Special Cases and Pessimism</strong></td><td><strong>notion <code>pessimisme</code></strong></td></tr><tr><td><strong>L4 slide 15</strong></td><td><strong>Weak and Strong Risk Aversion</strong></td><td><strong>notion <code>aversion-forte-au-risque</code></strong></td></tr><tr><td>L4 slide 16</td><td>Rank-Dependent Utility for General lottery</td><td>absorbe <code>rdu</code></td></tr><tr><td><strong>L4 slide 17</strong></td><td><strong>Decision Weights Follow the Portfolio</strong></td><td><strong>notion <code>poids-de-decision</code></strong></td></tr><tr><td>L4 slide 18</td><td>RDU and the Allais Paradox</td><td>absorbe <code>rdu</code></td></tr><tr><td>L4 slide 19</td><td>Exercises</td><td>exclu, sans corrigé dans la source</td></tr><tr><td>L4 slide 20</td><td>RDU and the Rabin Paradox</td><td>absorbe <code>paradoxe-rabin</code></td></tr><tr><td>L4 slide 21</td><td>Is that for the Rabin Paradox?</td><td>absorbe <code>paradoxe-rabin</code></td></tr><tr><td>L4 slide 22</td><td>Cumulative Prospect Theory</td><td>absorbe <code>cpt</code></td></tr><tr><td>L4 slide 23</td><td>Loss Averse utility</td><td>absorbe <code>aversion-aux-pertes</code></td></tr><tr><td>L4 slide 24</td><td>Second order risk aversion of EU</td><td>absorbe <code>aversion-second-ordre</code></td></tr><tr><td>L4 slide 25</td><td>First-Order Risk Aversion from Probability Weighting</td><td>absorbe <code>aversion-premier-ordre</code></td></tr><tr><td>L4 slide 26</td><td>RDU Portfolios in a Complete Market</td><td>absorbe <code>portefeuille-rdu</code></td></tr><tr><td>L4 slide 27</td><td>Optimality Within a Payoff Ordering</td><td>absorbe <code>portefeuille-rdu</code></td></tr><tr><td><strong>L4 slide 28</strong></td><td><strong>Price per Unit of Decision Weight</strong></td><td><strong>notion <code>prix-par-unite-de-poids</code></strong></td></tr><tr><td>L4 slide 29</td><td>Example: The Same Investor under EU and RDU</td><td>absorbe <code>portefeuille-rdu</code></td></tr><tr><td>L4 slide 30</td><td>Why Ignoring the Ordering Constraints Fails</td><td>absorbe <code>portefeuille-rdu</code></td></tr><tr><td>L4 slide 31</td><td>Solution: Equal Payoffs in the Two Bad States</td><td>absorbe <code>regroupement-des-etats</code></td></tr><tr><td><strong>L4 slide 32</strong></td><td><strong>Portfolio Insurance and Upside Exposure</strong></td><td><strong>notion <code>assurance-de-portefeuille</code></strong></td></tr><tr><td><strong>L4 slide 33</strong></td><td><strong>Bunching and the General Solution Method</strong></td><td><strong>notion <code>regroupement-des-etats</code></strong></td></tr><tr><td>L4 slide 34</td><td>Why Extra Mean-Zero Risk Can Be Attractive</td><td>absorbe <code>aversion-forte-au-risque</code></td></tr><tr><td>L4 slide 35</td><td>Ellsberg One Urn</td><td>absorbe <code>paradoxe-d-ellsberg</code></td></tr><tr><td>L4 slide 36</td><td>Ellsberg's Paradox (II)</td><td>absorbe <code>paradoxe-d-ellsberg</code></td></tr><tr><td>L4 slide 37</td><td>Non-Bayesian Models of Ambiguity</td><td>absorbe <code>reponse-a-l-ambiguite</code></td></tr><tr><td>L4 slide 38</td><td>Maxmin Expected Utility</td><td>absorbe <code>maxmin-eu</code></td></tr><tr><td>L4 slide 39</td><td>The Probability Simplex</td><td>absorbe <code>ensemble-de-priors</code></td></tr><tr><td><strong>L4 slide 40</strong></td><td><strong>A Set of Plausible Priors</strong></td><td><strong>notion <code>ensemble-de-priors</code></strong></td></tr><tr><td><strong>L4 slide 41</strong></td><td><strong>Different Acts Can Have Different Worst-Case Priors</strong></td><td><strong>notion <code>couverture-de-l-ambiguite</code></strong></td></tr><tr><td>L4 slide 42</td><td>Revisit Ellsberg One Urn</td><td>absorbe <code>maxmin-eu</code></td></tr><tr><td><strong>L4 slide 43</strong></td><td><strong>The Anscombe-Aumann Framework</strong></td><td><strong>notion <code>cadre-anscombe-aumann</code></strong></td></tr><tr><td>L4 slide 44</td><td>Axioms: Order, Continuity and Monotonicity</td><td>absorbe <code>cadre-anscombe-aumann</code></td></tr><tr><td><strong>L4 slide 45</strong></td><td><strong>Axioms: Independence and Ambiguity Aversion</strong></td><td><strong>notion <code>independance-de-certitude</code></strong></td></tr><tr><td>L4 slide 46</td><td>SEU and MEU Representation Theorems</td><td>absorbe <code>maxmin-eu</code></td></tr><tr><td>L4 slide 47</td><td>Proof of MEU: Utility and Constant Equivalents</td><td>absorbe <code>maxmin-eu</code></td></tr><tr><td>L4 slide 48</td><td>Proof of MEU: The Utility Functional</td><td>absorbe <code>maxmin-eu</code></td></tr><tr><td>L4 slide 49</td><td>Proof of MEU: Positive Homogeneity and Extension</td><td>absorbe <code>maxmin-eu</code></td></tr><tr><td>L4 slide 50</td><td>Proof of MEU: Translation Invariance</td><td>absorbe <code>maxmin-eu</code></td></tr><tr><td>L4 slide 51</td><td>MEU Geometry: Mixing Can Hedge Ambiguity</td><td>absorbe <code>couverture-de-l-ambiguite</code></td></tr><tr><td>L4 slide 52</td><td>Proof of MEU: Superadditivity</td><td>absorbe <code>couverture-de-l-ambiguite</code></td></tr><tr><td>L4 slide 53</td><td>Proof of MEU: Supporting Probabilities</td><td>absorbe <code>maxmin-eu</code></td></tr><tr><td>L4 slide 54</td><td>MEU Geometry: Recovering the Supporting Priors</td><td>absorbe <code>maxmin-eu</code></td></tr><tr><td>L4 slide 55</td><td>Proof of MEU: The Set of Priors</td><td>absorbe <code>maxmin-eu</code></td></tr><tr><td><strong>L4 slide 56</strong></td><td><strong>Capacity as a Belief</strong></td><td><strong>notion <code>capacite</code></strong></td></tr><tr><td><strong>L4 slide 57</strong></td><td><strong>The Choquet Integral</strong></td><td><strong>notion <code>integrale-de-choquet</code></strong></td></tr><tr><td>L4 slide 58</td><td>Choquet Evaluation of the Ellsberg Bets</td><td>absorbe <code>capacite</code></td></tr><tr><td><strong>L4 slide 59</strong></td><td><strong>Comonotonicity</strong></td><td><strong>notion <code>independance-comonotone</code></strong></td></tr><tr><td>L4 slide 60</td><td>Choquet Expected Utility</td><td>absorbe <code>ceu</code></td></tr><tr><td>L4 slide 61</td><td>Revisit Ellsberg Two Urns</td><td>absorbe <code>paradoxe-d-ellsberg</code></td></tr><tr><td><strong>L4 slide 62</strong></td><td><strong>Ambiguity and a No-Trade Interval</strong></td><td><strong>notion <code>intervalle-de-non-echange</code></strong></td></tr><tr><td><strong>L4 slide 63</strong></td><td><strong>Portfolio Analysis under Risk</strong></td><td><strong>notion <code>demande-cara-normale</code></strong></td></tr><tr><td>L4 slide 64</td><td>Portfolio Analysis under Ambiguity</td><td>absorbe <code>demande-sous-ambiguite</code></td></tr><tr><td><strong>L4 slide 65</strong></td><td><strong>Optimal Demand under Ambiguity</strong></td><td><strong>notion <code>demande-sous-ambiguite</code></strong></td></tr><tr><td><strong>L4 slide 66</strong></td><td><strong>Portfolio Analysis: Equilibrium</strong></td><td><strong>notion <code>equilibre-sous-ambiguite</code></strong></td></tr><tr><td>L4 slide 67</td><td>Equilibrium Price and Participation</td><td>absorbe <code>equilibre-sous-ambiguite</code></td></tr></tbody></table></div><p><strong>Le point à vérifier en priorité, ce sont les lignes <code>absorbe</code> des slides 2 à 34.</strong>
+J'affirme là que le contenu est déjà dans la fiche nommée, et pour la plupart j'affirme
+aussi que rien n'a eu à y être ajouté. C'est vrai parce que ces slides sont les jumelles
+de slides de L3 déjà inventoriées de la même façon — L4 slide 2 est L3 slide 20, L4 slide 9
+est L3 slide 27, et ainsi de suite jusqu'à L4 slide 34. Quatre exceptions, où le quatrième
+cours dit quelque chose que le troisième ne disait pas : elles ont donné lieu à une
+modification déclarée plus bas (slides 20, 21, 25, 60) ou à une fiche nouvelle.</p><h2>Notations ajoutées ou en collision</h2><p>21 symboles enregistrés, soit 60 pour ce cours. Quatre collisions internes nouvelles sont
+déclarées, et deux étaient déjà à l'œuvre sans l'être :</p><div class="tablebloc"><table><thead><tr><th>symbole</th><th>ici</th><th>ailleurs dans le même cours</th></tr></thead><tbody><tr><td>$\mu$</td><td>espérance d'une perspective (L1 slide 11)</td><td><strong>une capacité</strong> (L4 slide 56)</td></tr><tr><td>$\lambda$</td><td>coefficient d'aversion aux pertes (L3 slide 39)</td><td><strong>part des investisseurs ambigus</strong> (L4 slide 66)</td></tr><tr><td>$\eta$</td><td>translation de la famille HARA (L1 slide 35)</td><td>multiplicateur du budget (L3 éq. 2, L4 slide 27)</td></tr><tr><td>$\beta$</td><td>coefficient de l'utilité quadratique (L1 slide 14)</td><td>exposant de la pondération cumulative (L3 slide 38, L4 slide 22)</td></tr><tr><td>$p$</td><td><strong>prix de l'actif risqué</strong> (L4 slide 63)</td><td>une probabilité, partout ailleurs</td></tr><tr><td>$a$</td><td>part en actif sans risque (L1 slide 12)</td><td>+ <strong>poids de la pire moitié</strong> $a=\varphi(1/2)$ (L4 slide 25)</td></tr></tbody></table></div><p>Les deux qui n'étaient pas déclarées, $\eta$ et $\beta$, l'étaient déjà dans les faits :
+<code>portefeuille-rdu</code> et <code>cpt</code> les emploient au second sens depuis leur création. Le registre
+le dit maintenant. Une collision entre cours s'ajoute, $K$ contre le strike de <code>fpp</code> ;
+elle est déclarée et le validateur ne la signale plus.</p><p><strong>Une difficulté d'un genre nouveau, et A12 n'en parle pas.</strong> Ici ce n'est pas une lettre
+pour deux objets, c'est <strong>un objet pour deux lettres</strong> : l'ensemble des probabilités
+plausibles s'écrit $\Pi$ en L1 slide 64 et $K$ en L4 slide 38 ; l'ensemble des actes
+s'écrit $F$ en L1 slide 2 et $\mathcal{F}$ en L4 slide 43. A12 m'interdit de renommer, donc
+les deux lettres coexistent : la fiche <code>maxmin-eu</code> garde sa forme en $\Pi$ et porte en plus
+celle en $K$, tracée sur L4. Le registre dit, dans le champ <code>sens</code> de chaque nouvelle
+entrée, qu'il s'agit du même objet. Voir question 3.</p><h2>Fiches créées</h2><p><strong>18 fiches</strong> — 17 notions et une abstraite. Toutes de statut <code>source</code> sauf l'abstraite.</p><div class="tablebloc"><table><thead><tr><th>id</th><th>type</th><th>cas_de</th><th>construite à partir de</th></tr></thead><tbody><tr><td><code>pessimisme</code></td><td>notion</td><td>—</td><td>rdu</td></tr><tr><td><code>aversion-forte-au-risque</code></td><td>notion</td><td>—</td><td>pessimisme, accroissement-de-risque</td></tr><tr><td><code>poids-de-decision</code></td><td>notion</td><td>—</td><td>rdu</td></tr><tr><td><code>prix-par-unite-de-poids</code></td><td>notion</td><td>—</td><td>poids-de-decision, portefeuille-rdu</td></tr><tr><td><code>regroupement-des-etats</code></td><td>notion</td><td>—</td><td>prix-par-unite-de-poids</td></tr><tr><td><code>assurance-de-portefeuille</code></td><td>notion</td><td>—</td><td>regroupement-des-etats</td></tr><tr><td><code>cadre-anscombe-aumann</code></td><td>notion</td><td>—</td><td>acte, loterie</td></tr><tr><td><code>independance-restreinte</code></td><td><strong>abstraite</strong></td><td>axiome-independance</td><td>cadre-anscombe-aumann</td></tr><tr><td><code>independance-de-certitude</code></td><td>notion</td><td>independance-restreinte</td><td>cadre-anscombe-aumann</td></tr><tr><td><code>independance-comonotone</code></td><td>notion</td><td>independance-restreinte</td><td>cadre-anscombe-aumann</td></tr><tr><td><code>ensemble-de-priors</code></td><td>notion</td><td>—</td><td>cadre-anscombe-aumann</td></tr><tr><td><code>couverture-de-l-ambiguite</code></td><td>notion</td><td>—</td><td>maxmin-eu</td></tr><tr><td><code>capacite</code></td><td>notion</td><td>—</td><td>aversion-a-l-ambiguite</td></tr><tr><td><code>integrale-de-choquet</code></td><td>notion</td><td>—</td><td>capacite</td></tr><tr><td><code>intervalle-de-non-echange</code></td><td>notion</td><td>—</td><td>ceu</td></tr><tr><td><code>demande-cara-normale</code></td><td>notion</td><td>—</td><td>cara, equivalent-certain</td></tr><tr><td><code>demande-sous-ambiguite</code></td><td>notion</td><td>—</td><td>demande-cara-normale, maxmin-eu</td></tr><tr><td><code>equilibre-sous-ambiguite</code></td><td>notion</td><td>—</td><td>demande-sous-ambiguite</td></tr></tbody></table></div><p><strong>Aucun exemple minimal en dette, aucun geste de calcul en dette.</strong> Les 24 valeurs
+numériques ont été recalculées avant d'être écrites, puis toutes ensemble en fin de
+session. Trois d'entre elles vérifient la source plutôt que de la recopier : les poids
+$(0{,}2560;0{,}2013;0{,}5426)$ de L4 slide 30 et la valeur $\varphi(0{,}5)=0{,}457368$ de
+L4 slide 31 sont bien ce que donne la formule de L4 slide 22 avec $\beta=0{,}7$, et
+l'allocation $x^{\mathrm{EU}}=(0{,}328;0{,}903;1{,}577)$ de L4 slide 29 est bien celle que
+donnent $u(x)=x^{0{,}6}$, les prix et les probabilités de la même slide.</p><p><strong>Deux fiches portent une figure</strong>, décidée à la relecture :</p><div class="tablebloc"><table><thead><tr><th>fiche</th><th>ce que la figure montre</th><th>marqueur</th></tr></thead><tbody><tr><td><code>couverture-de-l-ambiguite</code></td><td>deux droites qui se croisent, et l'enveloppe inférieure qui creuse aux extrémités</td><td><code>[ajout]</code></td></tr><tr><td><code>assurance-de-portefeuille</code></td><td>les deux profils de richesse, celui de l'utilité espérée et celui de la pondération par rang</td><td><code>[ajout]</code></td></tr></tbody></table></div><p>La première est calculée : les droites sortent des vecteurs d'utilité et des deux priors
+extrêmes que la rubrique nomme. La seconde reprend les deux profils tels que la fiche les
+écrit — les recalculer demanderait les prix d'état et la déformation, que cette page-là ne
+nomme pas, et la figure dirait alors plus que sa fiche.</p><h2>Fiches modifiées</h2><p>Six fiches. **Aucun texte existant n'a été remplacé, sauf deux rubriques « Le chemin
+jusqu'ici » qui étaient devenues fausses** — le détail est plus bas, et c'est la seule
+chose de cette section qui mérite un regard attentif.</p><h3>Ajouts seuls, aucun mot retiré</h3><div class="tablebloc"><table><thead><tr><th>fiche</th><th>rubrique</th><th>ancien</th><th>nouveau</th></tr></thead><tbody><tr><td><code>paradoxe-d-ellsberg</code></td><td>Ce qui la définit</td><td>s'arrêtait après « … C'est donc bien le principe de la chose sûre qui casse. [L1 slide 63] »</td><td>deux paragraphes ajoutés : la reprise de l'urne sous les couleurs rouge, bleu, vert [L4 slide 35, L4 slide 36], et la version à deux urnes [L4 slide 61]</td></tr><tr><td><code>paradoxe-rabin</code></td><td>Cesse d'être valide quand</td><td>s'arrêtait après « … Il ne résiste pas à une aversion du premier ordre. [L2 slide 32, L3 slide 41] »</td><td>deux paragraphes ajoutés : le seuil $G/L\ge\varphi(1/2)/(1-\varphi(1/2))$ qui ne dépend plus de la richesse [L4 slide 20], et le risque de fond qui ramène le paradoxe [L4 slide 21]</td></tr><tr><td><code>aversion-premier-ordre</code></td><td>Ce qui la définit</td><td>s'arrêtait après « … que l'utilité espérée dérivable interdit. [L2 slide 21] »</td><td>trois blocs ajoutés : la dérivation par la seule déformation, la formule $r(\sigma)=(2a-1)\sigma+O(\sigma^2)$, et la marge de participation $u'(w)[\mu-(2a-1)\sigma]$ [L4 slide 25]</td></tr><tr><td><code>reponse-a-l-ambiguite</code></td><td>Ce que les membres partagent</td><td>s'arrêtait après « … Ce qui change est la nature de l'objet qui la remplace. [L1 slide 64] »</td><td>un paragraphe ajouté : le point de départ de Schmeidler, les deux voies non développées, et la séparation risque / ambiguïté [L4 slide 37]</td></tr><tr><td><code>maxmin-eu</code></td><td>Ce qui la définit</td><td>s'arrêtait après « … portée par le seul opérateur $\min$. [L1 slide 64] »</td><td>cinq blocs ajoutés : la définition de L4 avec $K$ compact convexe, la forme en $K$, le théorème de représentation, l'architecture de la démonstration, et le calcul d'Ellsberg [L4 slides 38, 42, 46 à 55]</td></tr><tr><td><code>ceu</code></td><td>Forme</td><td>rubrique absente</td><td>rubrique créée : $f\succsim g\iff\int^{C}u(f)\,\mathrm{d}\mu\ge\int^{C}u(g)\,\mathrm{d}\mu$ [L4 slide 60]</td></tr><tr><td><code>ceu</code></td><td>Ce qui la définit</td><td>s'arrêtait après « … ce qu'une probabilité interdit par construction. [L1 slide 64] »</td><td>deux paragraphes ajoutés : le théorème de Schmeidler et son unicité, puis la lecture maxmin sur le cœur quand la capacité est convexe [L4 slide 60]</td></tr></tbody></table></div><p>Les six fiches reçoivent aussi leurs références L4 dans l'en-tête. Aucune rubrique
+« Exemple minimal » n'a été touchée, aucun identifiant, aucun symbole existant.</p><h3>Arêtes modifiées, et les deux proses qu'elles ont rendues fausses</h3><div class="tablebloc"><table><thead><tr><th>fiche</th><th>ancien</th><th>nouveau</th><th>raison</th></tr></thead><tbody><tr><td><code>maxmin-eu</code></td><td><code>construite_a_partir_de: [aversion-a-l-ambiguite]</code></td><td><code>[aversion-a-l-ambiguite, ensemble-de-priors, independance-de-certitude]</code></td><td>L4 donne les deux objets dont le modèle est fait : l'ensemble de priors et l'axiome affaibli</td></tr><tr><td><code>ceu</code></td><td><code>construite_a_partir_de: [aversion-a-l-ambiguite]</code></td><td><code>[integrale-de-choquet, independance-comonotone]</code></td><td>même raison ; <code>aversion-a-l-ambiguite</code> est <strong>retirée</strong> parce qu'elle est désormais atteinte par <code>capacite</code>, et A8 la refuse en double</td></tr></tbody></table></div><p>Ces deux arêtes font grandir le socle de leur fiche, et la rubrique « Le chemin jusqu'ici »
+doit nommer chaque notion du socle. Les deux ont donc été réécrites — c'est la seule
+réécriture de la session :</p><div class="tablebloc"><table><thead><tr><th>fiche</th><th>ancien texte</th><th>nouveau texte</th><th>raison</th></tr></thead><tbody><tr><td><code>maxmin-eu</code></td><td>« <strong>Le socle est celui de l'utilité espérée de Choquet</strong> : <a href="../dup/n/acte.html">Acte</a> et <a href="../dup/n/fonction-utilite.html">Fonction d’utilité</a> se combinent en… » puis « Deux voies, <strong>même socle</strong> — c'est pourquoi le cours les range sous une famille. »</td><td>trois paragraphes : le fil du problème, le fil des moyens, et leur fermeture</td><td>la phrase était doublement fautive. Elle renvoyait à une autre page (« le socle est celui de X »), ce que SPEC-MODELE §2.1 interdit explicitement ; et elle est devenue fausse le jour où les deux socles ont cessé d'être égaux, c'est-à-dire aujourd'hui</td></tr><tr><td><code>ceu</code></td><td>« <strong>Le socle est celui de l'autre réponse à l'ambiguïté</strong> : <a href="../dup/n/acte.html">Acte</a> et <a href="../dup/n/fonction-utilite.html">Fonction d’utilité</a>… »</td><td>trois paragraphes : le fil de l'objet, le fil de l'axiome, et ce qui est propre à la fiche</td><td>même faute, même correction</td></tr></tbody></table></div><p>Le second paragraphe de chaque fiche, celui qui dit ce qui est propre au modèle, a été
+conservé mot pour mot et seulement prolongé.</p><h2>Abstractions créées / insérées</h2><p><strong>Une abstraite créée, sans insertion :</strong> <code>dup/independance-restreinte</code>, statut <code>ajout</code>,
+<code>cas_de: dup/axiome-independance</code>.</p><div class="tablebloc"><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>paramètre</td><td>la classe de mélanges sur laquelle l'axiome porte encore</td></tr><tr><td>membre <code>independance-de-certitude</code></td><td>le mélange n'est imposé qu'avec une loterie constante</td></tr><tr><td>membre <code>independance-comonotone</code></td><td>le mélange n'est imposé qu'entre actes comonotones</td></tr></tbody></table></div><p>Elle se justifie par ses membres, pas par son élégance : les deux modèles d'ambiguïté du
+cours ne diffèrent <strong>par rien d'autre</strong>. Mêmes axiomes de base, même cadre, même statut
+d'unicité ; ce qui les sépare est le domaine laissé à l'indépendance, et c'est de ce
+domaine que sortent l'ensemble de priors d'un côté, la capacité de l'autre. Le paramètre
+engendre donc bien ses valeurs au lieu de les décrire.</p><p>Aucune fiche existante n'a été reparentée : les deux membres sont nés dans cette session.
+A5 est satisfait par deux membres, A4 par la racine <code>axiome-independance</code>, qui est un
+principe. Voir question 2 pour le troisième membre possible.</p><h2>Abstractions en attente</h2><div class="tablebloc"><table><thead><tr><th>abstraction pressentie</th><th>membres</th><th>paramètre envisagé</th><th>ce qui manque</th></tr></thead><tbody><tr><td>source de l'attitude face au risque</td><td>courbure de l'utilité, pessimisme</td><td>ce qui porte l'aversion</td><td>le premier membre est un <strong>principe</strong>, et un principe ne peut pas être membre d'une abstraite (A4). Voir question 1</td></tr><tr><td>forme de la croyance non ponctuelle</td><td>capacite, ensemble-de-priors</td><td>ce qui remplace la probabilité unique</td><td>rien, sinon que ce paramètre est <strong>déjà</strong> celui de <code>reponse-a-l-ambiguite</code>, dont les membres sont <code>ceu</code> et <code>maxmin-eu</code>. Deux abstraites de même paramètre sur deux étages seraient une redondance, pas une structure</td></tr><tr><td>demande d'actif risqué</td><td>demande-cara-normale, demande-sous-ambiguite</td><td>ce que l'investisseur sait de la loi</td><td>un principe au-dessus (A4), et surtout un doute : le second membre <strong>dépend</strong> du premier, ce qui est le symptôme d'une fausse fratrie</td></tr><tr><td>les quatre lignes en attente du rapport du 2026-09-20 restent ouvertes</td><td></td><td></td><td></td></tr></tbody></table></div><h2>Dette</h2><div class="tablebloc"><table><thead><tr><th>poste</th><th>avant</th><th>après</th></tr></thead><tbody><tr><td>liens à venir</td><td>0</td><td>0</td></tr><tr><td>exemples minimaux à venir</td><td>0</td><td>0</td></tr><tr><td>gestes de calcul à venir</td><td>0</td><td>0</td></tr><tr><td>chemins incomplets</td><td>0</td><td>0</td></tr><tr><td>inventaire à venir</td><td>1 (<code>fpp</code>)</td><td>1 (<code>fpp</code>)</td></tr></tbody></table></div><p>Inchangée. Les 67 éléments de L4 sont traités, et les 18 fiches nouvelles sont complètes.</p><h2>Contradictions source</h2><p>Relevées à la lecture, aucune arbitrée :</p><p>1. <strong>L4 slide 5 reproduit la coquille de L3 slide 23</strong> : « 6,000 with probability 0258 »,
+   quand le contexte impose 0,25. Deux cours de suite, donc ce n'est pas une frappe isolée.
+2. <strong>L4 slide 5 nomme trois fois les mêmes actes différemment.</strong> Le problème 13 oppose
+   $A$ et $C$, mais la dérivation qui suit écrit $B\succ A$ ; et le problème 13′ rappelle
+   $C$ pour désigner un acte à pertes, qui n'est pas le $C$ de la slide précédente.
+3. <strong>L4 slide 1 est datée « September 21, 2006 »</strong> quand L1 et L2 portent 2026 — même
+   coquille que L3 slide 1.
+4. <strong>L4 slide 20 écrit $\phi$</strong> là où tout le reste du cours écrit $\varphi$ pour la
+   fonction de distorsion. La fiche garde $\varphi$, qui est la forme du registre.
+5. <strong>Tension interne, et c'est la seule qui engage la structure.</strong> L1 slide 3 et L1 slide 7
+   portent le principe que la base a enregistré sous le nom « Toute l'attitude est dans la
+   courbure ». L4 slide 14 énonce le contraire en toutes lettres : « Utility curvature
+   measures sensitivity to wealth. Probability distortion changes the weight assigned to
+   different outcome ranks. » Voir question 1.</p><h2>Questions pour l'utilisateur</h2><p>1. <strong>Le principe <code>dup/courbure-de-l-utilite</code> est contredit par L4 slide 14.</strong> Il dit que
+   toute l'attitude face au risque est dans la courbure de $u$ ; la slide dit qu'il y en a
+   deux sources, la courbure et la distorsion. *Recommandation : ne rien toucher cette
+   semaine, et trancher ensemble. Deux issues possibles — restreindre la portée du principe
+   à l'utilité espérée, en le déclarant dans sa rubrique « Cesse d'être valide quand » ; ou
+   créer un principe frère pour la distorsion, ce qui débloquerait du même coup la première
+   abstraction en attente. La seconde est la plus fidèle à la source, la première est la
+   moins coûteuse.* Renommer le principe est exclu (A1).
+2. <strong><code>dup/eu-prudente</code> doit-elle rejoindre <code>independance-restreinte</code> ?</strong> Son axiome est
+   l'indépendance de certitude <strong>négative</strong>, et sa <code>valeur</code> actuelle sous le principe —
+   « une invariance de mélange à sens unique, face au certain » — est déjà une valeur du
+   paramètre de la nouvelle abstraite. *Recommandation : oui, mais c'est une insertion
+   §4.1 sur une fiche existante, et je ne la fais pas seul. Un mot de vous suffit.*
+3. <strong>Un objet, deux lettres : faut-il que le registre le dise ailleurs que dans <code>sens</code> ?</strong>
+   A12 prévoit les collisions (une lettre, deux objets) et les homonymies (un nom, deux
+   fiches), pas ce cas-ci. *Recommandation : laisser ainsi pour l'instant. Cela s'est
+   produit deux fois dans la même slide range, ce qui est peu ; si une troisième arrive,
+   une clé <code>doublets</code> dans <code>notation.yml</code> se justifiera, et le validateur pourra la vérifier
+   comme il vérifie les deux autres.*
+4. <strong>Tranche suivante ?</strong> Il n'y a plus de tranche en attente dans <code>dup</code> : les quatre
+   cours sont ingérés en entier, inventaire compris. *Recommandation : les exercices.
+   <code>courses/dup/exercices/</code> est vide, et les quatre slides « Exercises » sont exclues faute
+   de corrigé. C'est le seul endroit où <code>dup</code> est en retard sur <code>fpp</code>, qui a son livre
+   d'exercices.*
+5. Restent ouvertes : le balayage de <code>fpp</code> et <code>dss</code> à la recherche des rubriques qui
+   gagneraient une figure ; la fiche sœur <code>dup/aversion-second-ordre</code> toujours sans figure ;
+   et les trois questions du rapport <code>2026-09-20-confrontation.md</code>.</p><h2>Validation</h2><p>```
+217 notions · 0 erreur(s) · 2 avertissement(s)
+dette : inventaire à venir = 1
+```</p><p>Les deux avertissements sont antérieurs à la session et ne concernent pas <code>dup</code>
+(<code>fpp/feynman-kac</code> A8, <code>fpp</code> inventaire <code>exos §2.1</code>). Aucun avertissement nouveau : les
+deux collisions de symbole qu'a fait apparaître le nouveau registre, $K$ et $p$, ont été
+déclarées dans la foulée.</p><p>```
+dup : 86 fiches · 60 symboles · 225 éléments d'inventaire · 8 figures
+test_garde_fous : tous les contrôles se déclenchent
+test_layout : ok dup (complet) 45 nœuds · ok dup (ajouts masqués) 41 nœuds
+              ok dss 31 · ok fpp 33
+build : 274 fichiers, la plus lourde 115 ko
+24 valeurs numériques recalculées, dont 3 qui vérifient la source
+les deux figures ont été regardées dans les deux thèmes, sur leur page construite
+```</p></article></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../aide.html">comment lire ce site</a> · <a href="../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../search-index.js"></script>
+<script>
+var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+        s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- l'état qui traverse les pages ----------------------------------------
+   Voir le commentaire de l'en-tête : en file://, seul le fragment traverse.
+   Forme du fragment :  #t:d~a:0~p:1-0--1...~s:<tampon>.<bits>~v:<ancre>
+     t  thème      d | l            (absent : celui du système)
+     a  ajouts     0                (absent : montrés)
+     p  pliage     un caractère par clé de CLES_PLI : 1 ouvert, 0 fermé, - inconnu
+     s  déjà su    un bit par notion, six bits par caractère, précédé d'un tampon
+     v  ancre      l'élément vers lequel défiler à l'arrivée
+   Le tampon est calculé sur la liste des identifiants : dès qu'une notion entre dans
+   le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
+   cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
+var ETAT=(function(){
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees"],TAMPON='aeee',
+    A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
+var pli={},su={};
+if(typeof H.p==='string'){
+  for(var i=0;i<CLES.length&&i<H.p.length;i++){var c=H.p.charAt(i);
+    if(c==='0'||c==='1')pli[CLES[i]]=(c==='1');}
+}else{
+  CLES.forEach(function(k){var v=LS.g('notions.pli.'+k,null);if(v!==null)pli[k]=(v==='1')});
+}
+function decode(t){var o={},q=t.indexOf('.');
+  if(q<0||t.slice(0,q)!==TAMPON)return o;
+  var b=t.slice(q+1);
+  for(var i=0;i<b.length;i++){var v=A64.indexOf(b.charAt(i));if(v<0)continue;
+    for(var j=0;j<6;j++){if(v&(1<<j)){var k=i*6+j;if(k<IDS.length)o[IDS[k]]=1}}}
+  return o;}
+function encode(){var o='';
+  for(var i=0;i<IDS.length;i+=6){var v=0;
+    for(var j=0;j<6;j++){if(su[IDS[i+j]])v|=1<<j}
+    o+=A64.charAt(v);}
+  return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
+if(typeof H.s==='string'){su=decode(H.s)}
+else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
+function frag(ancre,noeud){var p=[];
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t)p.push('t:'+(t==='dark'?'d':'l'));
+  if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
+  var q='';CLES.forEach(function(k){q+=(pli[k]===undefined?'-':(pli[k]?'1':'0'))});
+  if(/[01]/.test(q))p.push('p:'+q);
+  var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
+  if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
+  return p.length?'#'+p.join('~'):'';}
+function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
+function propager(){var f=frag();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';if(!interne(h))return;
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
+  /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
+     Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
+  try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
+  try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}}
+return{pli:function(k){return pli[k]===undefined?null:pli[k]},
+       setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
+       su:function(id){return !!su[id]},
+       setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
+       lien:function(u,v,n){return u+frag(v,n)},
+       ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
+       propager:propager};
+})();
+function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
+  var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
+  b.textContent=on?'masquer les ajouts':'ajouts masqués';}
+  document.querySelectorAll('.sec').forEach(function(s){
+    var c=s.querySelector('.corps');if(!c)return;var n=0;
+    c.querySelectorAll(':scope>*').forEach(function(el){
+      if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
+      if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
+      n++;});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='Cette rubrique existe, mais tout son contenu est un ajout : le filtre le masque. Elle reste visible pour que vous ne concluiez pas qu’elle est vide.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
+  if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var bt=document.getElementById('btheme');
+  if(bt)bt.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    var nx=(cur||sys)==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);
+    ETAT.propager();});
+  var ba=document.getElementById('bajout');
+  if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);ETAT.propager();});
+  majAjouts(!document.documentElement.classList.contains('sans-ajouts'));
+  /* les liens de la page portent l'état ; une ancre demandée est ouverte et visée */
+  ETAT.propager();
+  var an=ETAT.ancre();
+  if(an){var el=document.getElementById(an);
+    if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView();el.classList.add('vise')}}
+  /* --- recherche instantanée (règle 9) --- */
+  var inp=document.getElementById('q'),res=document.getElementById('qres');
+  if(!inp||!res||!window.SEARCH_INDEX)return;
+  var REL=document.documentElement.getAttribute('data-rel')||'';
+  var sel=-1,items=[];
+  function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+  function cherche(q){
+    var n=norm(q);if(!n)return [];
+    var out=[];
+    SEARCH_INDEX.forEach(function(e){
+      var sc=-1,ch=e.h||[];
+      for(var i=0;i<ch.length;i++){var p=norm(ch[i]).indexOf(n);
+        if(p===0){sc=Math.max(sc,3-(i>0?1:0))}else if(p>0){sc=Math.max(sc,1)}}
+      if(sc>=0)out.push([sc,e]);});
+    out.sort(function(a,b){return b[0]-a[0]||a[1].n.localeCompare(b[1].n)});
+    return out.slice(0,9).map(function(x){return x[1]});}
+  function rendre(){
+    items=cherche(inp.value);sel=-1;res.innerHTML='';
+    if(!inp.value){res.classList.remove('on');return}
+    if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
+    items.forEach(function(e,i){
+      var li=document.createElement('li');
+      var a=document.createElement('a');a.href=ETAT.lien(REL+e.u);a.id='qr'+i;
+      a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
+      li.appendChild(a);res.appendChild(li);});
+    res.classList.add('on');}
+  function bouge(d){if(!items.length)return;sel=(sel+d+items.length)%items.length;
+    Array.prototype.forEach.call(res.children,function(li,i){li.classList.toggle('sel',i===sel)});
+    inp.setAttribute('aria-activedescendant','qr'+sel);}
+  inp.addEventListener('input',rendre);
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();bouge(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();bouge(-1)}
+    else if(e.key==='Enter'){var a=res.querySelector(sel>=0?'li.sel a':'li a');if(a){e.preventDefault();location.href=a.href}}
+    else if(e.key==='Escape'){inp.value='';res.classList.remove('on')}});
+  document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
+  document.addEventListener('keydown',function(e){
+    if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
+});
+</script>
+</body>
+</html>
