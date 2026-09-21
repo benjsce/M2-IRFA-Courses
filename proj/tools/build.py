@@ -1113,6 +1113,11 @@ def page_fiche(m, i):
     # 2–4
     c.append(sec("Ce que c'est", rendre(S.get("Ce que c'est", ""), ctx, fiche=True)))
     c.append(sec("Forme", rendre(S.get("Forme", ""), ctx, fiche=True)))
+    # Toujours dépliée, et sans clé de pliage : une rubrique qui sert à comprendre la
+    # notation ne peut pas être cachée derrière un clic (SPEC-MODELE §2.1).
+    if "Ce que les symboles modélisent" in S:
+        c.append(sec("Ce que les symboles modélisent",
+                     rendre(S["Ce que les symboles modélisent"], ctx, fiche=True)))
     for t in ("Ce qui la définit", "Ce que les membres partagent"):
         if t in S:
             c.append(sec(t, rendre(S[t], ctx, fiche=True)))
@@ -1212,7 +1217,11 @@ def page_fiche(m, i):
 # ================================================================ 7. les autres pages
 
 def dette_du_cours(m, code):
-    liens, gestes, exemples = [], [], []
+    liens, gestes, exemples, symboles = [], [], [], []
+    par_notion = {}
+    for s in m["cours"][code].get("notation") or []:   # une liste d'entrées, pas une table
+        if isinstance(s.get("notion"), str) and s.get("symbole"):
+            par_notion.setdefault(s["notion"], []).append(s["symbole"].strip())
     for i in m["cours"][code]["notions"]:
         for y in (m["D"].get(i) or []) + ([m["A"][i]] if m["A"].get(i) else []):
             if y not in m["N"]:
@@ -1222,8 +1231,12 @@ def dette_du_cours(m, code):
             gestes.append(i)
         if "à venir" in S.get("Exemple minimal", ""):
             exemples.append(i)
+        expl = S.get("Ce que les symboles modélisent", "")
+        if any(y not in expl for y in par_notion.get(i, [])):
+            symboles.append(i)
     inv = [e for e in m["cours"][code]["inventaire"] if "a_venir" in e]
-    return dict(liens=liens, gestes=gestes, exemples=exemples, inventaire=inv)
+    return dict(liens=liens, gestes=gestes, exemples=exemples, inventaire=inv,
+                symboles=symboles)
 
 
 def page_cours(m, code):
@@ -1330,7 +1343,8 @@ def page_cours(m, code):
     ch.append("<li>liens à venir : <strong>" + str(len(d["liens"])) + "</strong>"
              + (" — " + ", ".join(esc(y) + " (depuis " + esc(nom_de(m, x)) + ")" for x, y in d["liens"][:MAX_LISTE])
                 if d["liens"] else "") + "</li>")
-    for lab, k in (("gestes de calcul à venir", "gestes"),):
+    for lab, k in (("gestes de calcul à venir", "gestes"),
+                   ("fiches dont les symboles ne sont pas expliqués en français", "symboles")):
         items = "".join('<li><a href="%s%s/n/%s.html">%s</a></li>'
                         % (rel, code, i.split("/", 1)[1], esc(nom_de(m, i))) for i in d[k])
         if not d[k]:

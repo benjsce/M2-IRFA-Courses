@@ -18,6 +18,9 @@ Ce que le prix d’un payoff contient au-delà de sa valeur intrinsèque. [Déf.
 ## Forme
 $$\mathrm{Prix}=\mathrm{IV}+\mathrm{TV}$$ [Déf. 13]
 
+## Ce que les symboles modélisent
+$\mathrm{TV}$ est un écart et non un prix : ce que le prix contient au-delà de la valeur intrinsèque. Le nom induit en erreur — il ne mesure pas seulement le temps restant, mais tout ce que l'aléa ajoute à une évaluation faite en la moyenne. [Déf. 13]
+
 ## Ce qui la définit
 Son signe est celui de la convexité de $g$ : positive quand $g$ est convexe, négative quand elle est concave. C’est Jensen, lu comme une décomposition de prix. [Déf. 13]
 

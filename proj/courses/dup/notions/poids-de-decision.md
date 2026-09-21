@@ -20,6 +20,11 @@ Le poids qu'une préférence dépendante du rang accorde à un état, lu sur le 
 ## Forme
 $$\pi_s=\varphi(P_s)-\varphi(P_{s-1}),\qquad P_s=\sum_{j\le s}p_j,\qquad P_0=0$$ [L4 slide 26]
 
+## Ce que les symboles modélisent
+$P_s$ est une probabilité cumulée : la chance de ne pas faire mieux que le résultat de rang $s$. $\pi_s$ est ce que l'état $s$ pèse dans l'évaluation, c'est-à-dire le saut que la déformation fait en franchissant ce rang. [L4 slide 17, L4 slide 26]
+
+$\pi_s$ n'est donc pas une croyance sur l'état : il change si les paiements changent d'ordre, à probabilités inchangées. [ajout]
+
 ## Ce qui la définit
 $p_s$ dit la probabilité de l'état ; $\pi_s$ dit ce qu'il pèse dans l'évaluation, et ce poids dépend de l'endroit où le paiement total vient se ranger. Les deux nombres ne se confondent que si la déformation est l'identité. [L4 slide 17]
 

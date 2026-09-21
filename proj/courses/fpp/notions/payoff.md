@@ -19,6 +19,9 @@ La fonction qui dit combien le contrat paie, en fonction de ce qu’on a observ�
 ## Forme
 $$\mathrm{Call}(S_T,K)=(S_T-K)^+,\qquad \mathrm{Put}(S_T,K)=(K-S_T)^+,\qquad x^+=\max(x,0)$$ [Déf. 11]
 
+## Ce que les symboles modélisent
+$G$ est une fonction et non un montant : elle prend ce qui a été observé et rend ce que le contrat paie. Tout le contenu d'un contrat tient en elle ; le prix et la couverture s'en déduisent, ils ne s'ajoutent pas à elle. [Déf. 11]
+
 ## Ce qui la définit
 C’est une fonction de plusieurs observables : valeur finale, maximum, minimum, moyenne, franchissement d’une barrière. Le payoff est le contrat ; tout le reste est valorisation. [Déf. 11]
 

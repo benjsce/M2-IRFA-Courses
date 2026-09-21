@@ -116,6 +116,37 @@ def hom_meme_cours(root):
                         dict(slug="prime-ter", nom="Encore", extra="alias:\n- risk premium\n")])
 
 
+REG_UN = ("symboles:\n- symbole: $\\rho$\n  notion: aa/x\n  ref: p. 1\n  sens: un sens\n"
+          "- symbole: $\\tau$\n  notion: aa/x\n  ref: p. 1\n  sens: un autre\n")
+
+
+def sym_sans_rubrique(root):
+    """Le registre attribue deux symboles à la fiche, elle n'explique aucun."""
+    ecrire(root, "aa", [dict(slug="x", nom="Un", extra="symbole: $\\rho$\n")], REG_UN)
+
+
+def sym_rubrique_partielle(root):
+    """La rubrique est là, mais elle n'en nomme qu'un sur les deux."""
+    ecrire(root, "aa", [dict(slug="x", nom="Un", extra="symbole: $\\rho$\n")], REG_UN)
+    f = root / "courses" / "aa" / "notions" / "x.md"
+    t = f.read_text(encoding="utf-8").replace(
+        "## Ce qui la définit",
+        "## Ce que les symboles modélisent\n$\\rho$ mesure une chose. [p. 1]\n\n"
+        "## Ce qui la définit")
+    f.write_text(t, encoding="utf-8", newline="\n")
+
+
+def sym_rubrique_complete(root):
+    """Les deux symboles sont nommés : le validateur se tait."""
+    ecrire(root, "aa", [dict(slug="x", nom="Un", extra="symbole: $\\rho$\n")], REG_UN)
+    f = root / "courses" / "aa" / "notions" / "x.md"
+    t = f.read_text(encoding="utf-8").replace(
+        "## Ce qui la définit",
+        "## Ce que les symboles modélisent\n$\\rho$ mesure une chose, $\\tau$ en mesure "
+        "une autre. [p. 1]\n\n## Ce qui la définit")
+    f.write_text(t, encoding="utf-8", newline="\n")
+
+
 def sym_non_declare(root):
     reg = "symboles:\n- symbole: $\\rho$\n  notion: %s/x\n  ref: p. 1\n  sens: un sens\n"
     ecrire(root, "aa", [dict(slug="x", nom="Un", extra="symbole: $\\rho$\n")], reg % "aa")
@@ -264,6 +295,14 @@ def main():
         "collision non déclarée pour cc", sym_declare_a_moitie)
     cas("déclaration nommant un cours inexistant → erreur",
         "qui n'existe pas", cours_fantome)
+
+    print("symboles laissés sans explication française")
+    cas("fiche porteuse sans la rubrique → signalée",
+        "« Ce que les symboles modélisent » à écrire", sym_sans_rubrique)
+    cas("rubrique qui en oublie un → signalée",
+        "ne nomme pas 1 symbole(s) du registre", sym_rubrique_partielle)
+    cas("rubrique qui les nomme tous → silence",
+        "Ce que les symboles modélisent", sym_rubrique_complete, doit_apparaitre=False)
 
     print("socle qui grandit sous une fiche déjà écrite")
     cas("la fiche elle-même → signalée",

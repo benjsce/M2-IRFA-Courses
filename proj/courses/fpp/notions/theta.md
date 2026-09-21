@@ -20,6 +20,9 @@ De combien le prix bouge quand le temps passe. [§8.2]
 ## Forme
 $$\Theta=\dfrac{\partial P}{\partial t}$$ [§8.2]
 
+## Ce que les symboles modélisent
+$\Theta$ mesure ce que le seul passage du temps fait au prix, tout le reste étant tenu fixe. C'est la seule des sensibilités dont la variable ne soit pas un aléa : le temps passe à coup sûr. [§8.2]
+
 ## Ce qui la définit
 Négatif pour l’acheteur d’option dans presque tous les cas : la valeur temps s’érode à mesure que l’échéance approche. [§8.2]
 

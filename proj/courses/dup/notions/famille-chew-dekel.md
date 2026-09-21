@@ -24,6 +24,9 @@ La famille des préférences qui conservent l’intermédiarité : un mélange s
 ## Forme
 $$V(P)=\sum_i p_i\,\Gamma\big(x_i,V(P)\big)$$ [L3 slide 4]
 
+## Ce que les symboles modélisent
+$\Gamma$ prend deux arguments : un résultat, et la valeur de la loterie où ce résultat figure. Le second est tout l'écart avec l'utilité espérée — la contribution d'un gain y dépend de la loterie qui l'entoure, au lieu d'être fixée une fois pour toutes. [L3 slide 4]
+
 ## Ce que les membres partagent
 L’axiome d’intermédiarité : mélanger deux loteries indifférentes ne crée ni valeur ni coût, et mélanger une meilleure et une moins bonne donne un intermédiaire. L’indépendance l’implique, la réciproque est fausse. [L3 slide 3]
 

@@ -25,6 +25,9 @@ refs:
 ## Ce que c'est
 Du bagging où, à chaque coupure, seuls $m$ prédicteurs tirés au hasard sont candidats. [slide 113]
 
+## Ce que les symboles modélisent
+$m$ est le nombre de prédicteurs tirés au sort **à chaque coupure**, et non une fois par arbre. C'est la répétition du tirage qui décorrèle les arbres ; $m$ égal au nombre total de prédicteurs redonne exactement le bagging. [slide 113]
+
 ## Ce qui la définit
 La cause de la corrélation est identifiée avant le remède : s'il existe un prédicteur très fort, tous les arbres le placent en haut et se ressemblent. [slide 110]
 

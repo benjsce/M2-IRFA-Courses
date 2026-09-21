@@ -24,6 +24,9 @@ La valeur d’une loterie est la moyenne des utilités de ses résultats, pondé
 ## Forme
 $$V_{\mathrm{EU}}(P)=\sum_{i=1}^{n}p_i\,u(x_i),\qquad V(F)=\mathbb{E}[U(\tilde x)]=\int U(x)\,dF(x)$$ [L1 slide 3, L1 slide 6]
 
+## Ce que les symboles modélisent
+$V_{EU}$ prend une loterie entière et rend un nombre : c'est une fonctionnelle, non une fonction de montant. La distinction avec $u$ est celle du tout et de la partie — $u$ évalue un résultat, $V_{EU}$ évalue la distribution qui les porte tous. [L1 slide 3]
+
 ## Ce qui la définit
 Les probabilités entrent linéairement et l’utilité ne dépend que du résultat : c’est cette double séparation qui donne au modèle ses prédictions tranchées. [L1 slide 3]
 

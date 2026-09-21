@@ -19,6 +19,9 @@ Une mesure de l’incertitude d’une loterie qui ne regarde que les probabilit�
 ## Forme
 $$H(P)=-\sum_i p_i\log p_i$$ [L1 slide 17]
 
+## Ce que les symboles modélisent
+$H(P)$ prend une loterie et rend un nombre, mais ne regarde que ses probabilités : remplacer 10 et 20 par 10 000 et 20 000 n'y change rien. C'est une mesure d'imprévisibilité et non de risque financier — elle est maximale quand tous les résultats sont également probables, quels qu'ils soient. [L1 slide 17]
+
 ## Ce qui la définit
 Elle ne dépend pas de la distance entre les résultats, ce qui la rend inapte à mesurer le coût économique du risque de paiement. [L1 slide 17]
 

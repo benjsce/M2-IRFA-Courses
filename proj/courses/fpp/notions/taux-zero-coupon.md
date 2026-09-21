@@ -17,6 +17,9 @@ Le facteur d’actualisation réécrit en rendement annualisé, pour être compa
 ## Forme
 $$R(t,T)=-\dfrac{\ln P(t,T)}{T-t}$$ [§2.3]
 
+## Ce que les symboles modélisent
+$R(t,T)$ et $L(t,S)$ disent le même prix en rendement, de deux façons : la première par composition continue, la seconde linéairement, comme le fait le marché court. Ce sont deux conventions de lecture, pas deux marchés. [§2.3]
+
 ## Ce qui la définit
 La courbe s’affiche en taux linéaire $L$ sur le court terme et en taux continu $R$ sur le long terme : c’est une pure convention d’affichage. [Déf. 6]
 

@@ -19,6 +19,9 @@ Le rapport entre l’actif et les capitaux propres. [Déf. 1]
 ## Forme
 $$l_t\equiv\dfrac{A_t}{E_t}$$ [Déf. 1]
 
+## Ce que les symboles modélisent
+$l_t$ est un rapport entre deux montants du bilan, sans unité. Ce n'est pas un taux d'endettement au sens courant : il vaut un quand il n'y a aucune dette, et croît sans borne à mesure que les capitaux propres s'amenuisent. [Déf. 1]
+
 ## Ce qui la définit
 Il amplifie exactement, et linéairement, l’écart de rendement entre l’actif et la dette : $\frac{\Delta E_t}{E_t}-\frac{\Delta D_t}{D_t}=l_t\big(\frac{\Delta A_t}{A_t}-\frac{\Delta D_t}{D_t}\big)$. [§1.3]
 

@@ -17,6 +17,9 @@ L’écart type du rendement d’un actif. [Déf. 2]
 ## Forme
 $$\sigma_E=\mathrm{stdev}(\tilde\pi_E)=l\,\sigma_A$$ [§1.3]
 
+## Ce que les symboles modélisent
+$\sigma$ est l'écart type d'un rendement : une grandeur annualisée, sans unité monétaire, et qui ne dit rien du niveau du prix. $\sigma_A$ est celle de l'actif au bilan, à distinguer de celle des capitaux propres, que le levier amplifie. [Déf. 2, §1.3]
+
 ## Ce qui la définit
 C’est la seule mesure de dispersion que le cours retient, et elle est amplifiée par le levier exactement comme la prime. [Déf. 2, §1.3]
 

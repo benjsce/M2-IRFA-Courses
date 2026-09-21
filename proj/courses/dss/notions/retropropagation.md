@@ -31,6 +31,9 @@ Propager l'erreur globale vers l'arrière pour corriger chaque poids proportionn
 $$E=\tfrac12\sum_j(t_j-o_j)^2,\qquad \Delta w_{ij}=\eta\,d_j o_i$$
 $$d_j=o_j(1-o_j)(t_j-o_j)\ \text{(sortie)},\qquad d_i=o_i(1-o_i)\sum_j EI_j w_{ij}\ \text{(caché)}$$ [slide 155, slide 159]
 
+## Ce que les symboles modélisent
+$w_{ij}$ est le poids de la connexion allant du nœud $i$ vers le nœud $j$ : l'ordre des indices est un sens de circulation, pas une convention indifférente. $o_j$ est ce que le nœud $j$ produit, $t_j$ ce qu'on aurait voulu qu'il produise, et $E$ l'écart entre les deux, sommé sur les nœuds de sortie. [slide 155, slide 156]
+
 ## Ce qui la définit
 L'idée est simple à énoncer : l'erreur globale est renvoyée vers l'arrière, et chaque poids est modifié en proportion de ce qu'il a contribué. C'est ce renvoi qui donne son nom à l'algorithme. [slide 154]
 

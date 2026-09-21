@@ -19,6 +19,9 @@ Le taux sur $[T,S]$ qu’on peut verrouiller dès aujourd’hui. [§2.3]
 ## Forme
 $$F(t,T,S)=\dfrac{1}{S-T}\ln\dfrac{P(t,T)}{P(t,S)}$$ [§2.3]
 
+## Ce que les symboles modélisent
+$F(t,T,S)$ prend trois dates : celle d'où l'on parle, et les deux qui bornent la période empruntée. $f(t,T)$ en est la limite quand la période se resserre sur un instant — un taux instantané, qui ne s'échange pas mais dont le reste de la courbe se déduit. [§2.3]
+
 ## Ce qui la définit
 Un taux long est une moyenne pondérée de forwards : $R(t,S)(S-t)=R(t,T)(T-t)+F(t,T,S)(S-T)$. À la limite, $f(t,T)=-\partial\ln P/\partial T$ et $P(t,T)=\exp\left(-\int_t^T f(t,u)du\right)$ — la courbe entière est l’accumulation de ses forwards. [§2.3]
 

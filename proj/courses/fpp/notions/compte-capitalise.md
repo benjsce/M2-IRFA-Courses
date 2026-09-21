@@ -19,6 +19,9 @@ Le facteur d’actualisation obtenu en enchaînant les zéro-coupons courts, san
 ## Forme
 $$B(t,T)=\prod_k P(t_k,t_{k+1})$$ [§4.2.2]
 
+## Ce que les symboles modélisent
+$B(t,T)$ prend deux dates et rend un facteur : ce que devient une unité placée en $t$ et roulée jusqu'en $T$ au taux court. Sa différence avec le zéro-coupon tient en un mot — sa valeur en $T$ n'est **pas connue** en $t$, puisqu'on enchaîne des taux qu'on ignore encore. [§4.2.2]
+
 ## Ce qui la définit
 Même rôle que $P(t,T)$ — transporter de la valeur jusqu’à $T$ — mais reconstitué pas à pas, donc aléatoire. [§4.2.2]
 

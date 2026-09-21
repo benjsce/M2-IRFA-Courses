@@ -21,6 +21,9 @@ $F^*$ est plus risquée que $F$ si elle s’obtient en ajoutant un bruit de moye
 ## Forme
 $$\tilde y=\tilde x+\tilde\varepsilon,\qquad \mathbb{E}[\tilde\varepsilon\mid\tilde x]=0$$ [L1 slide 20]
 
+## Ce que les symboles modélisent
+$\tilde\varepsilon$ est une variable aléatoire et non un nombre : le supplément de hasard qu'on ajoute au tirage. Ce qui la définit n'est pas d'être petite, c'est d'être **sans direction** — sa moyenne est nulle sachant ce qui a déjà été tiré, de sorte qu'elle n'apporte ni gain ni perte attendus, seulement de la dispersion. [L1 slide 20]
+
 ## Ce qui la définit
 Le bruit n’a pas besoin d’être indépendant de $\tilde x$ : sa variance conditionnelle peut varier avec $\tilde x$. [L1 slide 20]
 

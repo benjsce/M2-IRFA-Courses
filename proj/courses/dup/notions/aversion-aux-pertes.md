@@ -19,6 +19,9 @@ Une perte pèse plus lourd qu’un gain de même taille, avec un coude exactemen
 ## Forme
 $$u(x)=\begin{cases}x^\beta&x\ge0\\ -\lambda(-x)^\beta&x\le0\end{cases},\qquad \lim_{x\to0^+}\dfrac{-u(-x)}{u(x)}=\lambda>1$$ [L3 slide 39]
 
+## Ce que les symboles modélisent
+$\lambda$ est un rapport sans unité : ce que pèse une perte rapportée à un gain de même taille, mesuré juste au bord du point de référence. Il ne décrit pas la courbure de la fonction mais la cassure de sa pente en zéro, et $\lambda=1$ signifie qu'il n'y a pas de cassure du tout. [L3 slide 39]
+
 ## Ce qui la définit
 La fonction est croissante, convexe pour les pertes, concave pour les gains, et concave au premier ordre en zéro. C’est ce coude qui produit l’aversion du premier ordre. [L3 slide 39]
 

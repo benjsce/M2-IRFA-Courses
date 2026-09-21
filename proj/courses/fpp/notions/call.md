@@ -22,6 +22,9 @@ Le droit d’acheter le sous-jacent au prix $K$ à la date $T$. [Déf. 9]
 ## Forme
 $$\mathrm{Call}(S_T,K)=(S_T-K)^+$$ [Déf. 11]
 
+## Ce que les symboles modélisent
+$C$ est le prix du droit, et non le gain qu'il procurera : ce qu'on paie aujourd'hui pour pouvoir acheter plus tard. Il ne se confond pas avec le strike, qui est fixé au contrat et ne s'échange jamais. [§6.4]
+
 ## Ce qui la définit
 Le détenteur n’exerce que si $S_T>K$ : le payoff est nul en dessous, linéaire de pente 1 au-dessus. [Déf. 11]
 

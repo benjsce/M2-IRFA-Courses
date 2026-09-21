@@ -20,6 +20,9 @@ Ce que vaudrait le payoff dans un monde sans aléa, c’est-à-dire évalué en 
 ## Forme
 $$\mathrm{IV}=e^{-rT}\,g\big(\mathbb{E}(S_T)\big)$$ [Déf. 12]
 
+## Ce que les symboles modélisent
+$\mathrm{IV}$ est ce que vaudrait le payoff si l'on remplaçait l'aléa par sa moyenne : on évalue en la moyenne au lieu de moyenner les évaluations. C'est un montant, et l'écart entre lui et le prix porte un nom à lui seul. [Déf. 12]
+
 ## Ce qui la définit
 On échange l’ordre de $g$ et de l’espérance : c’est exactement le terme que l’inégalité de Jensen sépare du vrai prix. [Déf. 12]
 

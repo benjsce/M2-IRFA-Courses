@@ -18,6 +18,9 @@ L’intégrale d’une fonction par rapport à une capacité, obtenue en empilan
 ## Forme
 $$\int^{C}_S z\,\mathrm{d}\mu=\sum_{i=1}^n\big[\mu(A_i)-\mu(A_{i+1})\big]z(s_i),\qquad A_i=\{s_i,\dots,s_n\},\ A_{n+1}=\varnothing$$ [L4 slide 57]
 
+## Ce que les symboles modélisent
+$\int^{C}$ n'est pas une intégrale ordinaire dont on aurait changé la mesure : elle exige de ranger d'abord les états par valeur croissante, de sorte que son résultat dépend de la fonction intégrée autrement que par ses valeurs. C'est ce qui la rend non linéaire — l'intégrale d'une somme n'y est pas la somme des intégrales. [L4 slide 57]
+
 ## Ce qui la définit
 Les états sont d’abord rangés par valeur croissante, $z(s_1)\le\dots\le z(s_n)$, et les événements $A_i$ sont les queues « à partir de ce rang ». Le poids d’un état est alors la chute de capacité qu’on subit en sortant de sa queue. [L4 slide 57]
 

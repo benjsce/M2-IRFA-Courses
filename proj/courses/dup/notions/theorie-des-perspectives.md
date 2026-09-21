@@ -23,9 +23,12 @@ Une fonction de valeur définie sur les gains et les pertes relatifs à un point
 ## Forme
 $$V(x,p;y,q)=\pi(p)v(x)+\pi(q)v(y),\qquad v(0)=0,\ \pi(0)=0,\ \pi(1)=1$$ [L3 slide 21]
 
-## Ce qui la définit
-Les deux ingrédients remplacent chacun une pièce de l’utilité espérée. $v$ prend la place de l’utilité de la richesse : elle n’évalue pas un état final mais un **écart** au point de référence, et vaut donc zéro en ce point. $\pi$ prend la place de la probabilité elle-même : ce n’est pas une croyance, c’est le poids que cette probabilité reçoit dans la décision, appliqué branche par branche. [L3 slide 20, L3 slide 21]
+## Ce que les symboles modélisent
+Les deux ingrédients remplacent chacun une pièce de l’utilité espérée. $v(x)$ prend la place de l’utilité de la richesse : elle n’évalue pas un état final mais un **écart** au point de référence, et vaut donc zéro en ce point. $\pi(p)$ prend la place de la probabilité elle-même : ce n’est pas une croyance, c’est le poids que cette probabilité reçoit dans la décision, appliqué branche par branche. [L3 slide 20, L3 slide 21]
 
+C’est ce « branche par branche » qui coûtera cher : appliquée à chaque probabilité prise isolément, $\pi(p)$ fait perdre la dominance stochastique, là où une déformation des probabilités cumulées la préserverait. [L3 slide 26]
+
+## Ce qui la définit
 Markowitz le premier propose de définir l’utilité sur les écarts à la richesse courante, pour expliquer qu’on achète à la fois de l’assurance et des billets de loterie. [L3 slide 20]
 
 L’aversion aux paris symétriques impose $v(x)<-v(-x)$ : la courbe est plus raide du côté des pertes. Une concavité marquée autour de zéro — un coude — explique les paradoxes d’échelle. [L3 slide 22]

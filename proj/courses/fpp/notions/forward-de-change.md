@@ -21,6 +21,9 @@ Le taux de change convenu aujourd’hui pour un échange de devises futur. [§2.
 ## Forme
 $$K(t,T)=X_t\dfrac{P(t,T)}{P^f(t,T)}=X_te^{(R^f-R)\tau}$$ [§2.4]
 
+## Ce que les symboles modélisent
+$P^f(t,T)$ est le zéro-coupon de l'autre devise : le prix, exprimé en monnaie étrangère, d'une unité étrangère payée en $T$. L'exposant ne marque pas une puissance, il marque le pays. [§2.4]
+
 ## Ce qui la définit
 La devise locale s’apprécie à terme si le taux étranger est supérieur au taux local. [§2.4]
 

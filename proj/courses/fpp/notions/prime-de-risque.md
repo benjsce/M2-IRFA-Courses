@@ -20,6 +20,9 @@ Le rendement d’un actif au-delà de son coût de financement. [Déf. 2]
 ## Forme
 $$\tilde\pi_E=l\times\tilde\pi_A,\qquad \pi_E=\mathbb{E}(\tilde\pi_E)=l\,\pi_A$$ [§1.3]
 
+## Ce que les symboles modélisent
+$\pi_A$ et $\pi_E$ sont des écarts de rendement, exprimés en taux et non en montants : ce que rapportent l'actif, puis les capitaux propres, au-delà de leur coût de financement. Le second est le premier vu à travers le levier. [Déf. 2, §1.3]
+
 ## Ce qui la définit
 La moyenne prospective de cet excès est la prime de risque espérée ; le levier la multiplie exactement, comme il multiplie la volatilité. [Déf. 2, §1.3]
 

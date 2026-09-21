@@ -21,6 +21,9 @@ L'écriture de la matrice centrée des prédicteurs comme produit de deux matric
 ## Forme
 $$\mathbf{X}=\mathbf{U}\mathbf{D}\mathbf{V}^T,\qquad \mathbf{X}\hat\beta^{\text{ls}}=\mathbf{U}\mathbf{U}^T\mathbf{y},\qquad \mathbf{X}\hat\beta^{\text{ridge}}=\sum_{j=1}^{p}\mathbf{u}_j\frac{d_j^2}{d_j^2+\lambda}\mathbf{u}_j^T\mathbf{y}$$ [slide 58, slide 59]
 
+## Ce que les symboles modélisent
+Dans $\mathbf{X}=\mathbf{U}\mathbf{D}\mathbf{V}^T$, les deux matrices orthogonales sont des changements de repère — elles tournent sans déformer — et la diagonale porte seule l'étirement. $d_j$ est cet étirement pour la direction de rang $j$ ; son carré dit la variance que la direction explique. [slide 58, slide 59]
+
 ## Ce qui la définit
 Lue dans cette base, la différence entre moindres carrés et ridge tient en un facteur : les deux calculent les coordonnées de $\mathbf{y}$ dans la base orthonormée $\mathbf{U}$, mais ridge les rétrécit de $d_j^2/(d_j^2+\lambda)$. [slide 60]
 

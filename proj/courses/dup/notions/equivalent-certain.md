@@ -19,6 +19,9 @@ Le montant certain qui procure exactement l’utilité espérée du pari. [L1 sl
 ## Forme
 $$U(c)=\mathbb{E}[U(\tilde x)]$$ [L1 slide 9]
 
+## Ce que les symboles modélisent
+$c$ est un montant, dans la même unité que les résultats du pari, et c'est ce qui le rend comparable à eux. Il traduit une utilité — grandeur sans unité, définie à une transformation près — en euros, et c'est pour cela qu'on peut lui retrancher une moyenne pour obtenir une prime. [L1 slide 9]
+
 ## Ce qui la définit
 Il traduit une distribution entière en un seul nombre, exprimé dans l’unité des résultats et non dans celle des utilités. [L1 slide 9]
 

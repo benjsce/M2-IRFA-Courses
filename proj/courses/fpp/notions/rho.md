@@ -20,6 +20,9 @@ De combien le prix bouge quand le taux d’intérêt bouge. [§8.2]
 ## Forme
 $$\rho=\dfrac{\partial P}{\partial r}$$ [§8.2]
 
+## Ce que les symboles modélisent
+$\rho$ dérive le prix par rapport à un taux : c'est donc un montant par point de taux, et non un nombre sans unité comme le delta. Deux sensibilités ne se comparent pas sans regarder ce qu'elles dérivent. [§8.2]
+
 ## Ce qui la définit
 Positif pour un call, négatif pour un put : monter le taux abaisse la valeur actualisée du strike, donc renchérit le droit d’acheter. [§8.2]
 

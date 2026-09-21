@@ -20,6 +20,11 @@ Sous utilité exponentielle et paiement gaussien, la position optimale est l’�
 ## Forme
 $$\mathrm{CE}(x)=w+(\hat v-p)x-\tfrac12\hat\sigma^2x^2,\qquad x_R^{*}(p)=\frac{\hat v-p}{\hat\sigma^{2}}$$ [L4 slide 63]
 
+## Ce que les symboles modélisent
+$p$ est le prix du titre aujourd'hui, $\hat v$ le paiement qu'il rendra en moyenne : leur écart est le gain espéré par unité détenue. $\hat\sigma$ est l'écart type de ce paiement, donc ce qu'une unité fait courir. $x_R^{*}$ est le nombre d'unités détenues à l'optimum — un nombre signé, négatif quand l'agent vend à découvert. [L4 slide 63]
+
+$p$ est ici un prix, alors que la lettre désigne une probabilité partout ailleurs dans le cours. [ajout]
+
 ## Ce qui la définit
 La monnaie a pour prix et pour paiement terminal l’unité ; le budget $w=m+px$ donne la richesse terminale $w+x(\tilde v-p)$, et la normalité jointe à l’exponentielle rend l’équivalent certain exactement quadratique. [L4 slide 63]
 

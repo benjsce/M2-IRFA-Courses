@@ -20,6 +20,9 @@ Le prix qui égalise l’offre de l’actif risqué et la somme des demandes de 
 ## Forme
 $$(1-\lambda)\,x_R^{*}(p)+\lambda\,x_A^{*}(p)=\bar x,\qquad \hat p=\hat v-\frac{\hat\sigma^2\bar x}{1-\lambda}$$ [L4 slide 66, L4 slide 67]
 
+## Ce que les symboles modélisent
+$\bar x$ est l'offre du titre rapportée au nombre d'investisseurs : ce que chacun détiendrait si elle était partagée également. $\hat p$ n'est pas le prix d'équilibre mais un prix de référence — celui qui s'établirait si les investisseurs ambigus restaient à l'écart ; c'est sa position par rapport à l'intervalle de non-participation qui décide du régime. [L4 slide 66, L4 slide 67]
+
 ## Ce qui la définit
 Tous les investisseurs ont la même utilité exponentielle et un accès illimité à l’emprunt ; une fraction $\lambda$ d’entre eux considère l’ensemble des modèles gaussiens, le reste un modèle unique. La demande agrégée est continue et strictement décroissante, et parcourt toute la droite réelle : le prix d’équilibre existe et il est unique. [L4 slide 66]
 

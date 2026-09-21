@@ -21,6 +21,11 @@ Un acte associe à chaque état non plus un résultat mais une loterie, ce qui p
 ## Forme
 $$\mathcal{F}=\{f:S\to\Delta(X)\},\qquad \big(\alpha f+(1-\alpha)g\big)(s)=\alpha f(s)+(1-\alpha)g(s)$$ [L4 slide 43]
 
+## Ce que les symboles modélisent
+$\mathcal{F}$ est l'ensemble des actes de ce cadre : des fonctions qui vont des états vers les loteries, et non vers les résultats. $\ell$ désigne une loterie et, du même coup, l'acte qui la donne dans tous les états ; c'est ce double emploi qui permet de comparer un acte à une loterie. [L4 slide 43]
+
+$\mathcal{F}$ tient le rôle que $F$ tenait chez Savage, sous une autre lettre. [ajout]
+
 ## Ce qui la définit
 Le mélange se fait état par état, sur les loteries : c’est une randomisation objective, distincte de l’incertitude sur l’état. Une loterie $\ell$ désigne aussi l’acte constant qui la donne dans tous les états, ce qui permet de comparer $f(s)$ et $g(s)$ comme deux actes constants et donne un sens à la comparaison état par état. [L4 slide 43]
 

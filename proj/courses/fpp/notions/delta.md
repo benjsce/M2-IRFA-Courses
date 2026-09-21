@@ -20,6 +20,9 @@ De combien le prix de l’option bouge quand le sous-jacent bouge d’une unité
 ## Forme
 $$\delta=\dfrac{\partial P}{\partial S}=N(d_1)$$ [§8.2]
 
+## Ce que les symboles modélisent
+$\delta$ est une dérivée : de combien le prix bouge pour une unité de sous-jacent. C'est un rapport de deux prix, donc un nombre sans unité, et c'est ce qui permet de le lire directement comme une quantité de sous-jacent à détenir. [§8.2]
+
 ## Ce qui la définit
 C’est exactement la quantité de sous-jacent à détenir en sens inverse pour annuler le risque au premier ordre : le delta *est* la couverture, c’est le $\delta$ du §7.1. [§7.1, §8.2]
 

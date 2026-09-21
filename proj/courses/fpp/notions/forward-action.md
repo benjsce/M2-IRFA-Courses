@@ -20,6 +20,9 @@ Le prix convenu aujourd’hui pour acheter une action à une date future. [§3.1
 ## Forme
 $$F(t,T)=\dfrac{S_t\,\Phi}{P(t,T)}$$ [§3.1, §3.2]
 
+## Ce que les symboles modélisent
+$S_t$ est le prix auquel on peut acheter l'action tout de suite ; $F(t,T)$ celui auquel on s'engage aujourd'hui à l'acheter en $T$. Les deux sont connus en $t$ : le prix forward n'est pas une prévision du prix futur, c'est un prix d'aujourd'hui pour une livraison différée. [§3.1, Déf. 8]
+
 ## Ce qui la définit
 C’est le cas le plus simple du prix à terme : règlement unique, dans la devise du sous-jacent. Tout le contenu propre tient dans $\Phi$. [ajout]
 

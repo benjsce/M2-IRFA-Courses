@@ -25,6 +25,11 @@ refs:
 ## Forme
 $$V(f)=\min_{\pi\in\Pi}\sum_s\pi(s)\,U\big(f(s)\big)$$ [L1 slide 64]
 
+## Ce que les symboles modélisent
+$\Pi$ est l'ensemble des probabilités que l'agent juge plausibles, et le modèle ne lui en fait choisir aucune : il retient pour chaque acte la plus défavorable. $\Pi$ n'est donc pas une croyance, c'est un aveu d'ignorance. [L1 slide 64]
+
+$I$ associe une valeur à un vecteur d'utilités, un état par coordonnée. C'est un intermédiaire de démonstration, sans lecture économique propre. [L4 slide 48]
+
 ## Ce qui la définit
 La croyance n’est plus un point mais un ensemble $\Pi$, et l’attitude face à l’ambiguïté est portée par le seul opérateur $\min$. [L1 slide 64]
 

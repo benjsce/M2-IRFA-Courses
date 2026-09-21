@@ -18,6 +18,9 @@ Ajouter à la mise à jour une fraction de la mise à jour précédente. [slide 
 ## Forme
 $$\Delta w_{ij}(t)=\eta\,d_j o_i+\alpha\,\Delta w_{ij}(t-1),\qquad 0<\alpha<1$$ [slide 161]
 
+## Ce que les symboles modélisent
+$\alpha$ est la fraction de la mise à jour précédente qu'on reconduit, entre zéro et un. Ce n'est pas un pas d'apprentissage : il ne dit pas de combien on avance, il dit à quel point on garde sa direction. [slide 161]
+
 ## Ce qui la définit
 Le terme ajouté garde la direction du pas précédent, comme l'inertie d'une bille. Trois effets suivent : la direction se maintient, les petits minima locaux sont franchis, et le pas grandit quand le gradient est stable. [slide 161]
 

@@ -22,6 +22,9 @@ Le droit de vendre le sous-jacent au prix $K$ à la date $T$. [Déf. 9]
 ## Forme
 $$\mathrm{Put}(S_T,K)=(K-S_T)^+$$ [Déf. 11]
 
+## Ce que les symboles modélisent
+$P$ est le prix du droit de vendre : un montant payé aujourd'hui. La lettre est aussi celle du zéro-coupon $P(t,T)$, et seuls les arguments les distinguent — un prix d'option n'en porte pas. [§6.4]
+
 ## Ce qui la définit
 Symétrique du call par rapport au strike : le détenteur n’exerce que si $S_T<K$, et le payoff est borné par $K$. [Déf. 11]
 

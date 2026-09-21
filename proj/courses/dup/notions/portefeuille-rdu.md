@@ -21,6 +21,9 @@ Le programme de choix de portefeuille quand les états sont pondérés par leur 
 ## Forme
 $$\max_{x_s}\sum_{s=1}^n\pi_su(x_s)\quad\text{s.c.}\quad\sum_s x_sq_s=w,\ \ x_s\le x_{s+1}$$ [L3 éq. 1]
 
+## Ce que les symboles modélisent
+$q_s$ est le prix, aujourd'hui, d'un titre qui paie une unité dans le seul état $s$ et rien ailleurs. C'est un prix de marché, le même pour tous les agents — à la différence du poids de décision, qui dépend de l'investisseur et de son portefeuille. [L3 slide 42]
+
 ## Ce qui la définit
 La contrainte de monotonie $x_s\le x_{s+1}$ n’est pas décorative : elle vient de ce que les poids $\pi_s$ dépendent du rang, donc de la solution elle-même. [L3 slide 42]
 

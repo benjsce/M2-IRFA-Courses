@@ -19,6 +19,9 @@ Le prix d'un état rapporté à son poids de décision, qui remplace le rapport 
 ## Forme
 $$u'(x_s)=\eta\,\frac{q_s}{\pi_s},\qquad x_s=(u')^{-1}\!\left(\eta\,\frac{q_s}{\pi_s}\right)$$ [L4 slide 28]
 
+## Ce que les symboles modélisent
+$q_s/\pi_s$ rapporte un prix de marché à un poids propre à l'agent : ce que coûte un paiement dans l'état $s$, divisé par l'importance que cet état a pour lui. Plus il est bas, meilleur marché est cet état pour cet investisseur-là — ce n'est donc pas une grandeur de marché, malgré son numérateur. [L4 slide 28]
+
 ## Ce qui la définit
 Sous utilité espérée, le rapport qui commande l'allocation est $q_s/p_s$, le prix par unité de probabilité. Sous utilité dépendante du rang, la probabilité objective n'entre plus dans la condition du premier ordre : c'est $q_s/\pi_s$ qui la remplace, et le rang du paiement décide donc de ce qu'un état coûte. [L4 slide 28]
 

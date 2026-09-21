@@ -22,6 +22,9 @@ La courbure de l’utilité, normalisée par sa pente, en un point de richesse. 
 ## Forme
 $$A(x)=-\dfrac{U''(x)}{U'(x)}$$ [L1 slide 33]
 
+## Ce que les symboles modélisent
+$A(x)$ prend un niveau de richesse et rend un nombre : la vitesse à laquelle l'utilité se courbe à cet endroit, rapportée à sa pente. C'est une mesure **locale**, pas une préférence entre deux paris — deux agents peuvent partager la même valeur en un point et diverger partout ailleurs. La division par la pente est ce qui la rend insensible à l'échelle choisie pour $u$. [L1 slide 33]
+
 ## Ce qui la définit
 La normalisation par $U'$ est ce qui rend la mesure invariante par transformation affine de $U$ : deux utilités qui représentent les mêmes préférences ont le même $A$. [ajout]
 

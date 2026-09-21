@@ -14,6 +14,9 @@ refs:
 ## Ce que c'est
 Nombre d’unités de devise étrangère pour une unité de devise locale. [§2.4]
 
+## Ce que les symboles modélisent
+$X_t$ est un rapport entre deux monnaies, et son sens de lecture est une convention : ici, le nombre d'unités étrangères pour une unité locale. Inverser la convention inverse toutes les formules qui suivent. [§2.4]
+
 ## Ce qui la définit
 Quand $X$ monte, la devise locale s’apprécie. C’est un facteur atomique : rien ne s’en décline. [§2.4]
 

@@ -24,6 +24,7 @@ STATUTS = {"source", "ajout", "retiree"}
 RUBRIQUES = [  # (titre, obligatoire pour quels types, condition)
     "Ce que c'est",
     "Forme",
+    "Ce que les symboles modélisent",
     "Ce qui la définit",
     "Ce que les membres partagent",
     "Pourquoi ce niveau existe",
@@ -102,6 +103,7 @@ def valider(root: Path, rap: Rapport):
     N = {}            # id -> dict(meta=..., sections=..., course=..., path=...)
     courses = {}      # code -> course.yml
     notations = {}    # code -> set(symboles)
+    sym_de_notion = defaultdict(list)   # id -> symboles que le registre lui attribue
     a_venir = {}      # id -> raison
     inventaires = {}  # code -> liste
     declarees = []    # (code, entrée collisions) — déclarations de collision de symbole
@@ -122,7 +124,10 @@ def valider(root: Path, rap: Rapport):
         if nf.exists():
             nd = yaml.safe_load(nf.read_text(encoding="utf-8")) or {}
             for s in nd.get("symboles", []) or []:
-                syms.add(s.get("symbole", "").strip())
+                sym = s.get("symbole", "").strip()
+                syms.add(sym)
+                if sym and isinstance(s.get("notion"), str):
+                    sym_de_notion[s["notion"]].append(sym)
             for c in nd.get("collisions", []) or []:
                 declarees.append((code, c))
             for h in nd.get("homonymes", []) or []:
@@ -271,6 +276,27 @@ def valider(root: Path, rap: Rapport):
         for y in D[nid]:
             if any(g != y and y in reach_of(g) for g in D[nid]):
                 rap.w("A8", nid, f"dépendance redondante : {y} est déjà atteinte via une autre dépendance ; à retirer")
+
+    # ---- « Ce que les symboles modélisent » : la notation dite en français
+    # Le registre nomme un symbole, il ne dit pas ce qu'il modélise : ce que $\varphi$
+    # prend en entrée, ce qu'elle rend, ce qu'elle n'est pas. C'est du contenu, donc
+    # écrit, donc vérifiable seulement par ce qu'il nomme — même garde-fou que le socle.
+    # SPEC-MODELE §2.1. Demandé par l'utilisateur le 2026-09-21.
+    for nid, n in N.items():
+        attendus = sym_de_notion.get(nid, [])
+        txt = dict(n["sections"]).get("Ce que les symboles modélisent")
+        if not attendus:
+            continue
+        if txt is None:
+            rap.w("A12", nid, "« Ce que les symboles modélisent » à écrire (%d symbole(s) "
+                              "au registre : %s)" % (len(attendus), ", ".join(attendus)))
+            rap.dette["symboles à expliquer"] += 1
+            continue
+        oublies = [s for s in attendus if s not in txt]
+        if oublies:
+            rap.w("A12", nid, "« Ce que les symboles modélisent » ne nomme pas %d symbole(s) "
+                              "du registre : %s" % (len(oublies), ", ".join(oublies)))
+            rap.dette["symboles à expliquer"] += 1
 
     # ---- « Le chemin jusqu'ici » : la prose qui raconte le socle
     # Le socle est dérivé, ce paragraphe est écrit : les deux peuvent diverger en

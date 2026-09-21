@@ -21,6 +21,9 @@ Une borne qui lie le nombre d'exemples d'apprentissage au nombre de poids du ré
 ## Forme
 $$m>O\Big(\frac{W}{\varepsilon}\log_2\frac{N}{\varepsilon}\Big)\ \approx\ m>\frac{W}{\varepsilon}$$ [slide 168]
 
+## Ce que les symboles modélisent
+$W$ compte les poids du réseau, c'est-à-dire sa capacité à retenir. $\varepsilon$ est la tolérance qu'on s'accorde sur l'erreur. La borne lie les deux au nombre d'exemples nécessaires : plus on veut d'exactitude, ou plus le réseau est gros, plus il en faut. [slide 168]
+
 ## Ce qui la définit
 Deux conditions, et le cours donne les deux : l'erreur sur le jeu d'apprentissage doit être inférieure à $\varepsilon/2$, et le nombre d'exemples doit dépasser la borne. On obtient alors la généralisation avec 95 % de confiance, pour une tolérance $\varepsilon<1/8$. [slide 168]
 

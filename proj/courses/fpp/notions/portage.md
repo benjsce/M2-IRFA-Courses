@@ -16,6 +16,11 @@ refs:
 ## Ce que c'est
 La fraction de sous-jacent qu’il faut détenir aujourd’hui pour en avoir exactement une unité à l’échéance. [§3.2, §5.2.1]
 
+## Ce que les symboles modélisent
+$d_i$ est le taux de dividende proportionnel versé à la date $T_i$, et $q$ le même flux vu comme un rendement continu — la source écrit $d$ au §5.2 et $q$ au §6.4 pour un seul objet. [§3.2, §6.4]
+
+$\Phi$ est un facteur et non un montant : la fraction d'unité qu'il faut détenir aujourd'hui pour en avoir exactement une à l'échéance. Il vaut un quand le sous-jacent ne rapporte rien entre-temps. [ajout]
+
 ## Ce qui la définit
 Un actif qui verse quelque chose pendant qu’on le détient allège son propre portage. [§3.2, §5.2.1]
 

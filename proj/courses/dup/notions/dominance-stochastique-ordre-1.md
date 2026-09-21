@@ -22,6 +22,9 @@ Déplacer de la probabilité d’un résultat bas vers un résultat haut augment
 ## Forme
 $$\tilde x_2\succ_{FSD}\tilde x_1\ \implies\ \mathbb{E}[U(\tilde x_2)]>\mathbb{E}[U(\tilde x_1)]\quad\text{pour toute }U\text{ croissante}$$ [L1 slide 16]
 
+## Ce que les symboles modélisent
+$\succ_{FSD}$ relie deux loteries, pas deux nombres, et la relation est **partielle** : deux loteries peuvent n'être comparables ni dans un sens ni dans l'autre. Elle ne dit pas de combien l'une est meilleure, seulement que tout agent préférant plus à moins la préférera. [L1 slide 16]
+
 ## Ce qui la définit
 Le critère ne demande rien de plus que la croissance de $U$ : c’est le plus large accord qu’on puisse obtenir entre agents. [L1 slide 6]
 

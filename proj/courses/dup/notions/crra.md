@@ -20,6 +20,9 @@ L’utilité dont l’aversion relative $zA(z)$ ne dépend pas de la richesse. [
 ## Forme
 $$u(z)=\dfrac{z^{1-\gamma}}{1-\gamma}\ \implies\ A(z)=\dfrac{\gamma}{z}$$ [L1 slide 35]
 
+## Ce que les symboles modélisent
+$\gamma$ est l'aversion **relative** : l'aversion absolue multipliée par la richesse, donc un nombre sans unité. La différence avec le coefficient de CARA est celle d'un pari libellé en euros et d'un pari libellé en pourcentage de fortune — $\gamma$ constant veut dire que l'agent voit les risques en proportion. [L1 slide 35]
+
 ## Ce qui la définit
 C’est la forme que le cours retient pour toutes ses calibrations, parce que la prime y est proportionnelle à la richesse et donc exprimable en pourcentage. [L1 slide 35, L1 slide 36]
 

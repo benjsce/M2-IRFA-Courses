@@ -21,6 +21,9 @@ La seule forme d’utilité pour laquelle l’utilité espérée ne dépend que 
 ## Forme
 $$U(x)=\alpha x+\beta x^2\ \implies\ \mathbb{E}[U(\tilde x)]=\alpha\mu+\beta(\mu^2+\sigma^2)$$ [L1 slide 14]
 
+## Ce que les symboles modélisent
+$\alpha$ et $\beta$ sont les deux coefficients d'une parabole, et non des degrés d'aversion : c'est leur rapport qui fixe le sommet, au-delà duquel l'utilité se met à décroître. $\beta$ porte le terme carré, donc toute la courbure. [L1 slide 14]
+
 ## Ce qui la définit
 Sur des distributions non restreintes, un agent à utilité espérée classe tous les risques par leur seule moyenne et leur seule variance si et seulement si son utilité est quadratique. [L1 slide 14]
 

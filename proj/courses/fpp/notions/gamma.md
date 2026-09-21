@@ -20,6 +20,9 @@ De combien le delta bouge quand le sous-jacent bouge. [§8.2]
 ## Forme
 $$\gamma=\dfrac{\partial^2P}{\partial S^2}$$ [§8.2]
 
+## Ce que les symboles modélisent
+$\gamma$ est la dérivée du delta, donc la dérivée seconde du prix : elle dit de combien la couverture doit être réajustée quand le sous-jacent bouge. Une couverture qui ne regarde que le delta suppose implicitement qu'elle est petite. [§8.2]
+
 ## Ce qui la définit
 Il mesure la courbure du prix en le sous-jacent, donc la fréquence à laquelle il faut refaire la couverture en delta. [§8.2]
 

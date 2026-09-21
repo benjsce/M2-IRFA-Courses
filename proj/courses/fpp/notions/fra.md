@@ -21,6 +21,9 @@ Un contrat qui fixe aujourd’hui le taux d’un emprunt futur entre $T$ et $S$.
 ## Forme
 $$P(t,T)=P(t,S)e^{K(S-T)}$$ [§2.3, Déf. 7]
 
+## Ce que les symboles modélisent
+FRA n'est pas une grandeur mais un contrat, désigné par son sigle anglais : un accord qui fixe dès aujourd'hui le taux d'un emprunt qui commencera plus tard. Ce qu'il fixe est un taux, ce qu'il porte est une période future. [Déf. 7]
+
 ## Ce qui la définit
 Le strike d’un FRA s’écrit en taux : $K=\frac{1}{S-T}\ln\frac{P(t,T)}{P(t,S)}$. [§2.3, Déf. 7]
 

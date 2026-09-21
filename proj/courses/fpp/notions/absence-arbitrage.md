@@ -16,6 +16,9 @@ refs:
 ## Ce que c'est
 Deux flux identiques dans tous les états du monde ont le même prix aujourd’hui. [§3.1, §2.4]
 
+## Ce que les symboles modélisent
+$\pi$ désigne ici une prime de risque : un écart de rendement, donc un taux, et non une probabilité malgré la lettre. C'est la grandeur que l'absence d'arbitrage contraint — deux flux identiques dans tous les états ne peuvent pas en porter deux différentes. [§1.3]
+
 ## Ce qui la définit
 Une différence de prix entre deux flux identiques serait encaissable sans risque ni mise : c’est ce qu’on interdit. [§3.1, §2.4]
 

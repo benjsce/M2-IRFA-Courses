@@ -17,6 +17,9 @@ La variance de la moyenne de $B$ variables de même loi ne tombe pas à zéro si
 ## Forme
 $$\rho\,\sigma^2+\frac{1-\rho}{B}\,\sigma^2$$ [slide 109]
 
+## Ce que les symboles modélisent
+$\rho$ est la corrélation entre deux arbres pris au hasard, et non entre deux prédicteurs. C'est elle qui pose le plancher : moyenner davantage d'arbres ne fait jamais descendre la variance en dessous de $\rho$ fois celle d'un seul. [slide 109]
+
 ## Ce qui la définit
 Les arbres d'un bagging sont de même loi mais pas indépendants. L'espérance de leur moyenne vaut donc celle d'un arbre isolé, et le biais du bagging est exactement celui d'un arbre unique. [slide 108]
 

@@ -21,6 +21,9 @@ refs:
 ## Forme
 $$\int U(x)\,dF^*(x)\ \le\ \int U(x)\,dF(x)\qquad\text{pour toute }U\text{ concave}$$ [L1 slide 19]
 
+## Ce que les symboles modélisent
+$F^*$ est une fonction de répartition et non un résultat : l'étoile marque celle des deux lois qu'on déclare la plus risquée. La relation qu'elle porte est partielle et **à moyenne égale** — deux lois de moyennes différentes ne se comparent pas par cet ordre. [L1 slide 19]
+
 ## Ce qui la définit
 Le critère est unanime : il ne retient que ce sur quoi tous les agents averses s’accordent, ce qui explique qu’il ne classe pas toute paire. [L1 slide 19]
 

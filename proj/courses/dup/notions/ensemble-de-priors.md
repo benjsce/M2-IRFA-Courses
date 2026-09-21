@@ -21,6 +21,11 @@ Un ensemble de probabilités sur les états, non vide, compact et convexe, qui r
 ## Forme
 $$K\subseteq\Delta(S),\qquad \Delta(S)=\Big\{p:\ p_s\ge0,\ \textstyle\sum_s p_s=1\Big\}$$ [L4 slide 38, L4 slide 39]
 
+## Ce que les symboles modélisent
+$\Delta(S)$ est l'ensemble de toutes les probabilités qu'on pourrait poser sur les états — pour trois états, un triangle. $K$ en est une partie : les compositions que l'agent juge plausibles. $K$ ne hiérarchise pas ses éléments, aucune probabilité n'y étant plus crédible qu'une autre, et c'est ce qui le sépare d'une loi portant sur les lois. [L4 slide 38, L4 slide 40]
+
+$K$ est le même objet que le $\Pi$ de L1 slide 64, sous une autre lettre. [ajout]
+
 ## Ce qui la définit
 Pour trois états, le simplexe se dessine comme un triangle dont les sommets sont les certitudes : un prior y est un point, un ensemble de priors une partie du triangle. C’est la même géométrie que le diagramme de Marschak-Machina, appliquée cette fois aux croyances et non aux loteries. [L4 slide 39]
 

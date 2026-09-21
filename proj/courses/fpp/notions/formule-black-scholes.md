@@ -22,6 +22,9 @@ Le prix fermé d’un call et d’un put sous diffusion log-normale et taux cons
 $$C=S_0N(d_1)-Ke^{-rT}N(d_2),\qquad P=Ke^{-rT}N(-d_2)-S_0N(-d_1)$$
 $$d_1=\dfrac{\ln(S_0/K)+\big(r+\tfrac{\sigma^2}{2}\big)T}{\sigma\sqrt{T}},\qquad d_2=d_1-\sigma\sqrt{T}$$ [éq. 3, éq. 4, éq. 5, éq. 6]
 
+## Ce que les symboles modélisent
+$N(\cdot)$ est la répartition de la loi normale centrée réduite : elle prend un nombre et rend une probabilité. $d_1$ et $d_2$ sont ses deux arguments, sans unité, et leur écart vaut la volatilité multipliée par la racine du temps restant. $q$ est un taux de dividende continu, la seule des quatre grandeurs à porter une dimension. [§6.4]
+
 ## Ce qui la définit
 C’est une seule formule avec trois jeux d’entrées possibles. La version en forward et zéro-coupon — la formule de Black — est la plus générale : les deux autres s’en déduisent en remplaçant $F$ par $S_0$ ou $S_0e^{-qT}$. [§6.4, §6.5]
 

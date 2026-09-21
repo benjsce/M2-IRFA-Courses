@@ -16,6 +16,9 @@ refs:
 ## Ce que c'est
 Le passage de la certitude à une quasi-certitude reçoit un poids sans commune mesure avec le même écart de probabilité ailleurs. [L1 slide 43]
 
+## Ce que les symboles modélisent
+$\delta_x$ est une loterie, pas un montant : celle qui donne $x$ à coup sûr. La notation sert à poser le certain et le risqué sur le même plan pour pouvoir les mélanger, et c'est ce qui permet d'écrire un pari comme un mélange entre une loterie et une certitude. [L2 slide 15]
+
 ## Ce qui la définit
 C’est le trait commun à l’effet de conséquence commune et à l’effet de rapport commun : dans les deux, l’option qui perd sa certitude est celle qui est abandonnée. [L1 slide 43, L1 slide 47]
 

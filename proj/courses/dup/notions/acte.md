@@ -19,6 +19,11 @@ Une application qui associe un résultat à chaque état du monde, sans qu’auc
 ## Forme
 $$f:S\to X,\qquad F=\{f:S\to X\}$$ [L1 slide 2]
 
+## Ce que les symboles modélisent
+$S$ est l'espace des états du monde : la liste de ce qui peut arriver, et rien de plus — aucune probabilité ne leur est attachée. $f$ est un acte, c'est-à-dire un choix vu comme une fonction : il dit, pour chaque état, le résultat qu'on obtient. $F$ est l'ensemble de ces fonctions, donc l'ensemble des choix disponibles. [L1 slide 2]
+
+Quatre slides plus loin, $F$ désignera une fonction de répartition, et la source ne signale pas le changement. [L1 slide 6]
+
 ## Ce qui la définit
 Les croyances sur les états ne sont pas fournies d’avance : elles se déduisent des choix, au lieu d’être des données du problème. [L1 slide 2]
 

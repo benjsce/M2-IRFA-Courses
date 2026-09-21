@@ -58,6 +58,10 @@ Une phrase. [Prop. 2]
 ## Forme
 $$K = \dfrac{S_t\,\Phi}{D}$$ [ajout]
 
+## Ce que les symboles modélisent
+$\Phi$ est le portage : ce que rapporte ou coûte la détention du sous-jacent jusqu'à
+l'échéance, exprimé en facteur et non en montant. [Déf. 5]
+
 ## Ce que les membres partagent          ← « Ce qui la définit » pour un principe ou une notion
 ... [Prop. 2, Prop. 3]
 
@@ -89,17 +93,45 @@ $$K = \dfrac{S_t\,\Phi}{D}$$ [ajout]
 |---|---|---|---|
 | 1 | Ce que c'est | tous | obligatoire ; **une phrase**, ≤ 220 caractères |
 | 2 | Forme | tous | si la notion a une formule |
-| 3 | Ce qui la définit / Ce que les membres partagent | tous | obligatoire |
-| 4 | Pourquoi ce niveau existe | abstraite | obligatoire |
-| 5 | Le chemin jusqu'ici | tous | **obligatoire dès que le socle n'est pas vide** ; interdite s'il l'est |
-| 6 | Exemple minimal | tous | obligatoire si Forme ; une instance concrète chiffrée, sans calcul |
-| 7 | Geste de calcul type | tous | obligatoire si Forme ; peut être `à venir [ajout]` → dette |
-| 8 | Ce qui reste libre | tous | facultatif ; table |
-| 9 | Cesse d'être valide quand | tous | obligatoire ; peut être « rien dans le périmètre du cours [réf] » |
-| 10 | Origine | tous | facultatif ; liste d'exercices |
+| 3 | Ce que les symboles modélisent | tous | **obligatoire dès que le registre attribue un symbole à la fiche** ; elle les nomme tous |
+| 4 | Ce qui la définit / Ce que les membres partagent | tous | obligatoire |
+| 5 | Pourquoi ce niveau existe | abstraite | obligatoire |
+| 6 | Le chemin jusqu'ici | tous | **obligatoire dès que le socle n'est pas vide** ; interdite s'il l'est |
+| 7 | Exemple minimal | tous | obligatoire si Forme ; une instance concrète chiffrée, sans calcul |
+| 8 | Geste de calcul type | tous | obligatoire si Forme ; peut être `à venir [ajout]` → dette |
+| 9 | Ce qui reste libre | tous | facultatif ; table |
+| 10 | Cesse d'être valide quand | tous | obligatoire ; peut être « rien dans le périmètre du cours [réf] » |
+| 11 | Origine | tous | facultatif ; liste d'exercices |
 
 Une rubrique absente qui n'est pas obligatoire est simplement omise. Une rubrique hors de
 cette liste est une erreur. L'ordre est une erreur s'il n'est pas respecté.
+
+**« Ce que les symboles modélisent », en détail.** Une notation n'est pas son nom. Le
+registre dit que $\varphi$ est la « fonction de distorsion des probabilités » : cela nomme
+l'objet et ne dit pas ce qu'il modélise — ce qu'il prend en entrée, ce qu'il rend, et ce
+qu'il n'est pas. La rubrique le dit en français, pour les symboles que la fiche possède.
+
+**Elle nomme chaque symbole que le registre lui attribue, sans exception**, et le validateur
+compte ceux qu'elle oublie, comme il le fait pour les notions du socle. Expliquer deux
+symboles sur trois laisse le lecteur devant la question même que la rubrique existe pour
+éviter. Pour chacun, elle dit :
+
+- **ce qu'il prend et ce qu'il rend**, quand c'est une fonction. L'argument de $\varphi$ est
+  une probabilité cumulée et non un montant, et toute la notion tient dans cette
+  différence-là ;
+- **ce qu'il modélise**, en une phrase de français et sans formule ;
+- **ce qu'il n'est pas**, quand la confusion est probable : une croyance, une utilité,
+  l'homonyme d'un autre cours.
+
+Ce qu'elle ne fait pas : redire la formule, qui est en « Forme » ; redire ce qu'est la
+notion, qui est en « Ce que c'est » ; recopier le `sens` du registre, qui tient en une ligne
+parce qu'il sert à **retrouver** un symbole et non à le comprendre.
+
+L'obligation est un **W** compté en dette, et non un **E**. Le jour où elle est écrite, elle
+porte sur 87 fiches ; les rendre toutes conformes d'un coup serait la réécriture en masse
+que le protocole tient pour le danger principal du dépôt. *Ouverte le 2026-09-21, sur cette
+remarque de l'utilisateur : « parfois il est nécessaire à la compréhension de comprendre ce
+que modélise une fonction / une notation en français ».*
 
 **« Le chemin jusqu'ici », en détail.** Deux à quatre paragraphes courts qui disent *en quoi
 les notions du socle mènent à celle-ci*. Le socle donne l'ordre de lecture ; ce paragraphe

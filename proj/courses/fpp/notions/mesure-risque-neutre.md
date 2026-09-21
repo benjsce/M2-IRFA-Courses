@@ -24,6 +24,9 @@ La probabilité sous laquelle un prix est simplement l’espérance actualisée 
 ## Forme
 $$\Pi\big(g(S_T)\big)=P(0,T)\,\mathbb{E}^{\mathbb{Q}}\big[g(S_T)\big]$$ [Prop. 5, Prop. 6]
 
+## Ce que les symboles modélisent
+$\mathbb{Q}$ est une probabilité, mais pas celle des fréquences observées : c'est un instrument de calcul sous lequel actualiser suffit à donner le prix. Elle ne prédit rien — deux agents en désaccord complet sur l'avenir peuvent s'accorder sur elle. [§5.1]
+
 ## Ce qui la définit
 $\mathbb{Q}$ n’est pas choisie, elle est contrainte : $\mathbb{E}^{\mathbb{Q}}[S_T]=F(t,T)$. Le marché à terme la calibre. La positivité des prix d’états en fait une mesure positive, et le prix du flux certain 1 en fixe la constante à $P(0,T)$. [§5.1, Prop. 5, Prop. 6]
 

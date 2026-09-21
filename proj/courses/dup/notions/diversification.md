@@ -19,6 +19,9 @@ Combiner deux actifs risqués peut réduire l’écart type du portefeuille au-d
 ## Forme
 $$\sigma_p^2=a^2\sigma_1^2+(1-a)^2\sigma_2^2+2a(1-a)\,\mathrm{Cov}(\tilde r_1,\tilde r_2)$$ [L1 slide 13]
 
+## Ce que les symboles modélisent
+$\sigma_p$ est l'écart type du portefeuille entier, et non la somme de ceux des titres qui le composent. Toute la notion tient dans cette différence : la mesure porte sur le total, et le total peut être moins dispersé que chacune de ses parties. [L1 slide 13]
+
 ## Ce qui la définit
 C’est la covariance, et non les variances, qui décide de la forme de l’ensemble atteignable dans le plan écart type-moyenne. [L1 slide 13]
 

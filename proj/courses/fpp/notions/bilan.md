@@ -18,6 +18,9 @@ La photographie comptable d’une entité : ce qu’elle possède d’un côté,
 ## Forme
 $$A_t=E_t+D_t$$ [Prop. 1]
 
+## Ce que les symboles modélisent
+$A_t$, $E_t$ et $D_t$ sont trois montants pris à une même date, et non des taux : ce que l'entité possède, ce qui appartient aux actionnaires, ce qu'elle doit. L'indice rappelle qu'ils bougent — un bilan est un instantané. Ce qui les lie est une identité comptable, vraie par construction et non par hypothèse économique. [§1.3]
+
 ## Ce qui la définit
 Toute transaction s’enregistre par au moins deux écritures, ce qui force l’égalité à tout instant : actif égale passif, quel que soit le moment. [§1.2, Prop. 1]
 

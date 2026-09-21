@@ -27,6 +27,11 @@ Le prix fixé aujourd’hui pour un échange livré plus tard. [Prop. 2, Prop. 3
 ## Forme
 $$K=\dfrac{S_t\,\Phi}{D}$$ [ajout]
 
+## Ce que les symboles modélisent
+$F$ est le prix à terme qui rend le contrat de valeur nulle au moment où on le signe ; $K$ est le prix effectivement inscrit dedans, et les deux ne coïncident qu'à la signature. $H$ est le prix d'un future, dont le règlement est quotidien. [Déf. 8, §2.3, §4.2]
+
+$D$ note le facteur d'actualisation appliqué au strike, sans que la source lui donne d'emplacement propre. [ajout]
+
 ## Ce que les membres partagent
 Tous sont le prix comptant d’un même objet : le payoff $S_T/D$. Le prix à terme n’est jamais une formule nouvelle, c’est un prix comptant amplifié par le coût de portage. [ajout]
 

@@ -19,6 +19,11 @@ Ce que l’agent accepte d’abandonner sur la moyenne pour se débarrasser du r
 ## Forme
 $$\pi(\tilde x)=\mathbb{E}[\tilde x]-c,\qquad \mathbb{E}u(w_0+X)=u(w_0-\pi)$$ [L1 slide 9, L1 slide 31]
 
+## Ce que les symboles modélisent
+$\pi$ est un montant, ni une probabilité ni un taux : ce que l'agent consent à abandonner sur la moyenne pour ne plus courir le risque. $w_0$ est la richesse d'où il part, et elle compte — la même prime ne dit pas la même chose selon le niveau où on la mesure. [L1 slide 9, L1 slide 31]
+
+$\pi$ porte la même lettre que le poids de décision et que la croyance subjective, et le même nom qu'une grandeur différente dans le cours fpp. [ajout]
+
 ## Ce qui la définit
 Sous aversion au risque, $c\le\mathbb{E}[\tilde x]$ et donc $\pi\ge0$ ; plus d’aversion implique une prime plus grande. [L1 slide 9, L1 slide 31]
 

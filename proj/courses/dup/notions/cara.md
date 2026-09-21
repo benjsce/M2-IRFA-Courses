@@ -20,6 +20,9 @@ L’utilité dont l’aversion absolue ne dépend pas de la richesse. [L1 slide 
 ## Forme
 $$u(z)=-\exp(-Az)\ \implies\ A(z)=A$$ [L1 slide 35]
 
+## Ce que les symboles modélisent
+$A$ est un nombre et non une fonction : la valeur que prend l'aversion absolue, la même à tous les niveaux de richesse. C'est cette constance qui rend la position optimale indépendante de la fortune de l'agent. [L1 slide 35, L4 slide 63]
+
 ## Ce qui la définit
 La prime de risque y est indépendante de la richesse initiale : un millionnaire et un étudiant paient la même somme pour éviter le même pari. [L1 slide 35, ajout]
 

@@ -22,6 +22,9 @@ L'estimation de l'erreur quadratique de test d'un modèle des moindres carrés �
 ## Forme
 $$C_p=\frac{1}{n}\big(\mathrm{RSS}+2d\hat\sigma^2\big)$$ [slide 41]
 
+## Ce que les symboles modélisent
+$d$ compte les prédicteurs du modèle qu'on évalue. $\hat\sigma^2$ estime la variance du bruit, et vient d'un modèle **complet** — pas de celui qu'on est en train de juger, sans quoi le critère se mordrait la queue. $C_p$ combine les deux pour estimer une erreur de test à partir d'une erreur d'apprentissage. [slide 41]
+
 ## Ce qui la définit
 La pénalité $2d\hat\sigma^2$ corrige exactement ce que l'erreur d'apprentissage sous-estime : plus le modèle porte de variables, plus la correction est forte. [slide 41]
 

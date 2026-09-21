@@ -22,6 +22,9 @@ Le critère pénalisé dont la pénalité croît avec la taille de l'échantillo
 ## Forme
 $$\mathrm{BIC}=\frac{1}{n}\big(\mathrm{RSS}+\log(n)\,d\hat\sigma^2\big)$$ [slide 43]
 
+## Ce que les symboles modélisent
+BIC se lit comme AIC, mais sa pénalité dépend de la taille de l'échantillon : à nombre de prédicteurs égal, il devient plus sévère à mesure que les données s'accumulent. [slide 43]
+
 ## Ce qui la définit
 Il remplace le terme $2d\hat\sigma^2$ du $C_p$ par $\log(n)d\hat\sigma^2$ : la seule différence est le facteur qui multiplie le nombre de variables. [slide 43]
 

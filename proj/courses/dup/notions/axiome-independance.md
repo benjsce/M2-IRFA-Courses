@@ -18,6 +18,9 @@ Mélanger deux loteries avec une même troisième ne change pas leur classement.
 ## Forme
 $$P \succsim Q \iff \alpha P+(1-\alpha)R \succsim \alpha Q+(1-\alpha)R,\qquad \alpha\in(0,1)$$ [L1 slide 5]
 
+## Ce que les symboles modélisent
+$\succsim$ n'est pas un nombre mais une relation : « $f\succsim g$ » se lit « $f$ vaut au moins $g$ », sans intensité ni distance. C'est l'objet primitif du cours, celui qu'on observe ; les fonctions d'utilité viennent après, comme des façons de la représenter. [L1 slide 2]
+
 ## Ce qui la définit
 Une fois que le tirage a désigné la branche commune, le décideur reçoit la même conséquence des deux côtés : seules les branches non communes diffèrent, et elles seules doivent décider. [L1 slide 5]
 

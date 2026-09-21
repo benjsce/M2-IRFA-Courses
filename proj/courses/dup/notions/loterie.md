@@ -19,6 +19,9 @@ Une distribution de probabilité sur les résultats, dont les probabilités font
 ## Forme
 $$\Delta(X)=\Big\{p:X\to[0,1]\ :\ \sum_{x\in X}p(x)=1\Big\},\qquad P=(x_1,p_1;\dots;x_n,p_n)$$ [L1 slide 2]
 
+## Ce que les symboles modélisent
+$X$ est l'ensemble des résultats possibles, $\Delta(X)$ l'ensemble des façons d'y tirer au sort, et $P$ l'une de ces façons. La distinction porte tout le cours : $X$ ne contient aucun hasard, et le hasard de $\Delta(X)$ est **objectif** — les probabilités sont données avec l'énoncé, elles ne sont pas à estimer. [L1 slide 2]
+
 ## Ce qui la définit
 Le risque est dit objectif : rien n’est à inférer, les probabilités sont spécifiées avec l’objet. [L1 slide 2]
 

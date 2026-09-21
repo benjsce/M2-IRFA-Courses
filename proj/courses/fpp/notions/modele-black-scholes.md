@@ -21,6 +21,9 @@ Le sous-jacent suit une diffusion log-normale et le taux est constant. [§5.4]
 ## Forme
 $$dS_t=S_t\big(\mu\,dt+\sigma\,dW_t^{\mathbb{P}}\big)=S_t\big(r\,dt+\sigma\,dW_t^{\mathbb{Q}}\big)$$ [§5.4]
 
+## Ce que les symboles modélisent
+$\mu$ est la dérive du sous-jacent sous la probabilité **historique**, celle des fréquences observées : c'est précisément la grandeur qui disparaîtra du prix de l'option. $W_t$ est un mouvement brownien, le hasard élémentaire du modèle — de moyenne nulle, et de variance égale au temps écoulé. [§5.4]
+
 ## Ce qui la définit
 Le passage de $\mathbb{P}$ à $\mathbb{Q}$ ne change que la dérive, jamais la volatilité : $\mu$ devient $r$, et $\sigma$ reste. [§5.4]
 

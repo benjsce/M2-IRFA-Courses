@@ -19,6 +19,9 @@ La fonction qui traduit un résultat en utilité, et dont la courbure porte tout
 ## Forme
 $$u:X\to\mathbb{R},\qquad U'(x)>0$$ [L1 slide 3, L1 slide 6]
 
+## Ce que les symboles modélisent
+$u$ prend un résultat — un montant — et rend un nombre sans unité dont seule la forme compte : ajouter une constante ou multiplier par un facteur positif ne change aucune préférence. $U$ est la même fonction appliquée à la richesse plutôt qu'à un gain ; la source emploie les deux lettres pour un seul objet. [L1 slide 3, L1 slide 6]
+
 ## Ce qui la définit
 Elle est définie sur les résultats seuls, jamais sur les probabilités : c’est ce qui rend la séparation possible. [L1 slide 3]
 

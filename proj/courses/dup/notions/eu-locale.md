@@ -24,6 +24,9 @@ Renoncer à l’indépendance globale et ne garder que la dérivabilité de la v
 ## Forme
 $$V(P+\Delta P)-V(P)=\sum_i\Upsilon(x_i;P)\,\Delta p_i+o(\lVert\Delta P\rVert),\qquad \sum_i\Delta p_i=0$$ [L3 slide 13]
 
+## Ce que les symboles modélisent
+$\Upsilon$ est une fonction d'utilité ordinaire, mais attachée à un point : elle dépend de la loterie où l'on se tient. L'agent n'a donc pas une utilité, il en a une par voisinage, et l'utilité espérée redevient exacte au premier ordre autour de chaque loterie. [L3 slide 13]
+
 ## Ce qui la définit
 Les variations infinitésimales de probabilité s’évaluent comme sous utilité espérée, mais avec une utilité locale qui dépend de la loterie courante. Sous EU, $\Upsilon(x_i;P)=U(x_i)$ et la dépendance disparaît. [L3 slide 13, L1 slide 57]
 

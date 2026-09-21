@@ -22,6 +22,9 @@ Transformer les $p$ prédicteurs en $M<p$ combinaisons linéaires, puis ajuster 
 ## Forme
 $$Z_m=\sum_{j=1}^{p}\phi_{mj}X_j,\qquad y_i=\theta_0+\sum_{m=1}^{M}\theta_m z_{im}+\epsilon_i$$ [slide 72]
 
+## Ce que les symboles modélisent
+$Z_m$ est une combinaison des prédicteurs, donc une variable construite et non observée. $\phi_{mj}$ et $\theta_m$ se ressemblent et ne font pas le même travail : le premier est le poids du prédicteur $j$ dans la direction $m$, il dit **comment la direction est faite** ; le second est le coefficient de régression sur cette direction, il dit **ce qu'elle vaut pour prédire**. $M$ est le nombre de directions retenues. [slide 72]
+
 ## Ce que les membres partagent
 Tous ramènent l'estimation de $p+1$ coefficients à celle de $M+1$ coefficients, avec $M<p$. Le gain n'est pas de retirer des variables mais d'en estimer moins. [slide 73]
 

@@ -20,6 +20,9 @@ De combien le prix bouge quand la volatilité bouge. [§8.2]
 ## Forme
 $$\mathcal{V}=\dfrac{\partial P}{\partial\sigma}$$ [§8.2]
 
+## Ce que les symboles modélisent
+$\mathcal{V}$ dérive le prix par rapport à la volatilité, c'est-à-dire par rapport à un **paramètre du modèle** et non à une grandeur cotée sur le marché. C'est ce qui la sépare des autres sensibilités. [§8.2]
+
 ## Ce qui la définit
 Positif pour le call comme pour le put : plus d’incertitude vaut plus cher des deux côtés, parce que le payoff est convexe. [§8.2]
 

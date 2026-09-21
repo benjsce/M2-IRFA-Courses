@@ -20,6 +20,9 @@ L'ajustement d'un modèle linéaire par minimisation de la somme des carrés des
 ## Forme
 $$\mathrm{RSS}=\sum_{i=1}^{n}\Big(y_i-\beta_0-\sum_{j=1}^{p}\beta_jx_{ij}\Big)^2$$ [slide 48]
 
+## Ce que les symboles modélisent
+$n$ compte les observations et $p$ les prédicteurs ; c'est leur rapport qui décide de tout, un modèle où $p$ approche $n$ s'ajustant parfaitement sans rien avoir appris. RSS est ce qu'on minimise : une somme de carrés, donc un montant d'erreur et non un taux. [slide 26, slide 48]
+
 ## Ce qui la définit
 L'estimateur a un biais faible et une variabilité faible tant que la relation est linéaire et que $n\gg p$. Tout le chapitre tient dans ce que devient cette phrase quand l'inégalité se referme. [slide 26]
 

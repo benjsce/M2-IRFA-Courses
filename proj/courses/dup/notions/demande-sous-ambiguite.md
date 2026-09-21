@@ -21,6 +21,9 @@ Quand la moyenne du paiement n’est connue que dans un intervalle, la demande d
 ## Forme
 $$x_A^{*}(p)=\begin{cases}(v_{\min}-p)/\sigma_{\max}^2,&p<v_{\min}\\[2pt]0,&v_{\min}\le p\le v_{\max}\\[2pt](v_{\max}-p)/\sigma_{\max}^2,&p>v_{\max}\end{cases}$$ [L4 slide 65]
 
+## Ce que les symboles modélisent
+$v_{\min}$ et $v_{\max}$ bornent les moyennes que l'investisseur juge plausibles : l'écart entre les deux mesure son **ignorance**, et non le risque du titre. $\sigma_{\max}$ borne de la même façon les écarts types envisagés. Des quatre symboles, $x_A^{*}$ est le seul qui soit une décision ; les trois autres décrivent ce que l'agent ne sait pas. [L4 slide 64, L4 slide 65]
+
 ## Ce qui la définit
 L’investisseur retient tous les modèles gaussiens dont la moyenne tombe entre $v_{\min}$ et $v_{\max}$ et l’écart type entre $\sigma_{\min}$ et $\sigma_{\max}$, puis maximise le plus mauvais équivalent certain. Le pire modèle change avec le signe de la position : une position longue est jugée sous la moyenne la plus basse, une position courte sous la plus haute, et toute position non nulle sous l’écart type le plus élevé. [L4 slide 64]
 

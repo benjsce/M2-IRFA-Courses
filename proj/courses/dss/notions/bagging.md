@@ -26,6 +26,9 @@ Construire un arbre sur chaque échantillon bootstrap, puis moyenner les prédic
 ## Forme
 $$\hat f_{\text{avg}}(x)=\frac{1}{B}\sum_{b=1}^{B}\hat f^{\,b}(x)$$ [slide 99]
 
+## Ce que les symboles modélisent
+$B$ est le nombre d'arbres agrégés : un paramètre de calcul, pas un paramètre de modèle. L'augmenter ne fait pas surapprendre, il fait seulement converger la moyenne — le coût en est du temps, pas du biais. [slide 99]
+
 ## Ce qui la définit
 Le problème qu'il traite est nommé : découper les données autrement donne un arbre différent, donc la variance est forte. Moyenner des estimations incertaines donne un résultat moins incertain. [slide 98]
 

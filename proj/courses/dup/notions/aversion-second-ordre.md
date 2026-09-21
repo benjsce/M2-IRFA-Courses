@@ -19,6 +19,9 @@ Sous utilité espérée dérivable, la prime d’un petit pari de moyenne nulle 
 ## Forme
 $$r(\sigma)\approx\dfrac{\rho}{2}\sigma^2,\qquad \rho=-\dfrac{u''(x)}{u'(x)}$$ [L3 slide 40]
 
+## Ce que les symboles modélisent
+$\rho$ prend un niveau de richesse et rend l'aversion absolue en ce point : c'est le coefficient d'Arrow-Pratt, sous une autre lettre. Il sert ici de facteur d'échelle et de rien d'autre — la prime d'un petit pari vaut la moitié de $\rho$ fois la variance. [L3 slide 40]
+
 ## Ce qui la définit
 La conséquence est forte : la moyenne agit au premier ordre et l’écart type seulement au second, donc un agent à utilité espérée accepte toujours un petit pari actuariellement favorable. [L2 slide 24]
 

@@ -24,6 +24,11 @@ Déformer non pas chaque probabilité mais la fonction de répartition, ce qui p
 ## Forme
 $$U(P)=\sum_{i=1}^n\pi_iu(x_i),\qquad \pi_i=\varphi(p_1+\dots+p_i)-\varphi(p_1+\dots+p_{i-1}),\quad \pi_1=\varphi(p_1)$$ [L3 slide 27]
 
+## Ce que les symboles modélisent
+$\varphi$ prend une probabilité **cumulée** — la chance de ne pas faire mieux qu'un résultat donné — et rend ce que cette chance pèse dans la décision. Ce n'est pas une croyance, puisque l'agent connaît ses probabilités, ni une utilité, puisqu'elle ne parle jamais de montants. [L3 slide 27]
+
+Deux conséquences de cet argument-là. Le poids d'un résultat n'est pas $\varphi$ prise à son rang mais le saut qu'elle y fait ; et un même montant ne pèse pas pareil dans deux loteries différentes, puisque son cumul n'y est pas le même. [ajout]
+
 ## Ce qui la définit
 Le problème est celui-ci. Pondérer chaque probabilité prise isolément peut faire préférer une loterie à une autre qui la domine pourtant résultat par résultat : c’est ce que fait dup/theorie-des-perspectives, et la phase d’édition n’y remédie pas. [L3 slide 26]
 

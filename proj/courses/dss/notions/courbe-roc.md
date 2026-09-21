@@ -20,6 +20,9 @@ Le tracé du taux de vrais positifs contre le taux de faux positifs quand le seu
 ## Forme
 $$\text{GINI} = 2\times\mathrm{AUC} - 1$$ [slide 12]
 
+## Ce que les symboles modélisent
+AUC résume toute la courbe en un nombre entre zéro et un, et ce nombre ne dépend d'aucun seuil : c'est là son intérêt. Un demi est le tirage au sort, un est la séparation parfaite. Ce n'est pas une proportion de bonnes réponses. [slide 12]
+
 ## Ce qui la définit
 Faire varier le seuil retire du jugement le choix du seuil : ce qui reste mesure la capacité du score à ordonner, pas à trancher. [ajout]
 

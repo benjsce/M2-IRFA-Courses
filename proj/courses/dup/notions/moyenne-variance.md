@@ -19,6 +19,9 @@ Représenter une perspective par deux nombres seulement, sa moyenne et son écar
 ## Forme
 $$\sigma^2=\mathrm{Var}(\tilde x)=\mathbb{E}\big[(\tilde x-\mathbb{E}\tilde x)^2\big],\qquad \sigma=\sqrt{\mathrm{Var}(\tilde x)}$$ [L1 slide 11]
 
+## Ce que les symboles modélisent
+$\tilde x$ est une richesse aléatoire, et le tilde marque qu'on parle du tirage et non de sa valeur. $\mu$ et $\sigma$ en sont les deux premiers moments, et la notion consiste précisément à ne garder que ceux-là : tout ce que la loi contient au-delà est jeté. [L1 slide 6, L1 slide 11]
+
 ## Ce qui la définit
 Un avantage et un coût : les moments d’un portefeuille se calculent facilement, mais la réduction jette de l’information que l’utilité espérée, elle, utilise. [L1 slide 11]
 

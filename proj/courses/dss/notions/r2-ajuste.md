@@ -20,6 +20,9 @@ Le $R^2$ corrigé du nombre de variables, et le seul critère du groupe qui se l
 ## Forme
 $$R^2_{\text{ajusté}}=1-\frac{\mathrm{RSS}/(n-d-1)}{\mathrm{TSS}/(n-1)}$$ [slide 44]
 
+## Ce que les symboles modélisent
+TSS est la dispersion totale de la variable à expliquer : l'erreur qu'on ferait en ne prédisant jamais que la moyenne. C'est l'étalon de la comparaison — le $R^2$ rapporte l'erreur du modèle à celle-là, et non à zéro. [slide 44]
+
 ## Ce qui la définit
 La correction porte sur les degrés de liberté : ajouter une variable fait baisser la RSS mais aussi $n-d-1$, et le rapport ne diminue que si la baisse de RSS est assez forte. [slide 44]
 

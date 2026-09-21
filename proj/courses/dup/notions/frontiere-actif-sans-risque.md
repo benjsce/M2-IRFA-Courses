@@ -18,6 +18,11 @@ Mélanger un actif sans risque et un actif risqué trace un segment de droite da
 ## Forme
 $$\tilde r_p=ar_0+(1-a)\tilde r,\qquad \mu_p=ar_0+(1-a)\mu_r,\qquad \sigma_p=|1-a|\,\sigma_r$$ [L1 slide 12]
 
+## Ce que les symboles modélisent
+$a$ est une part de portefeuille, donc un nombre sans unité : à un, tout est placé sans risque ; à zéro, tout est risqué ; en dessous de zéro, l'agent emprunte pour investir davantage. $r_0$ est le rendement du placement sans risque, et le seul point de la frontière dont l'écart type soit nul. [L1 slide 12]
+
+$a$ désignera ailleurs un acte d'Allais, puis une variable de choix. [ajout]
+
 ## Ce qui la définit
 L’écart type est proportionnel à la part risquée : la frontière est une droite, et emprunter au taux $r_0$ la prolonge au-delà du portefeuille tout risqué. [L1 slide 12]
 

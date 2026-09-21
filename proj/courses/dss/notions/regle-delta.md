@@ -20,6 +20,9 @@ Corriger chaque poids proportionnellement à l'erreur commise et à l'entrée qu
 ## Forme
 $$w_i(t+1)=w_i(t)+\Delta w_i,\qquad \Delta w_i=\eta\,d\,x_i(t),\qquad d=t-y$$ [slide 145]
 
+## Ce que les symboles modélisent
+$\eta$ est le taux d'apprentissage : la fraction de la correction qu'on applique réellement. Trop petit, l'apprentissage traîne ; trop grand, il oscille sans se poser. Ce n'est pas un paramètre du modèle mais un paramètre de la marche vers le modèle. [slide 145]
+
 ## Ce qui la définit
 L'algorithme du perceptron tient en quatre pas répétés : initialiser les poids, présenter un motif et sa sortie désirée, calculer la sortie, mettre à jour les poids. On recommence jusqu'à un niveau d'erreur acceptable. [slide 144]
 

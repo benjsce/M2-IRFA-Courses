@@ -22,6 +22,9 @@ Le critère pénalisé défini pour toute la classe des modèles ajustés par ma
 ## Forme
 $$\mathrm{AIC}=-2\log L+2\cdot d$$ [slide 42]
 
+## Ce que les symboles modélisent
+AIC est un score qu'on compare, non une quantité qu'on interprète : sa valeur absolue ne dit rien, seul son classement entre modèles compte. $L$ est la vraisemblance **maximisée**, donc déjà optimisée sur les paramètres — c'est exactement pour cela qu'il faut la pénaliser. [slide 42]
+
 ## Ce qui la définit
 Sa portée est plus large que celle du $C_p$ : il ne suppose pas un modèle linéaire, seulement une vraisemblance maximisable. [slide 42]
 

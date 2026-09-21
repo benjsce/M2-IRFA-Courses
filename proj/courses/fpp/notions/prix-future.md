@@ -23,6 +23,9 @@ Le prix d’un contrat à terme réglé par appels de marge quotidiens. [§4.2, 
 ## Forme
 $$H_t=\Pi_t\!\left[\dfrac{S_T}{B(t,T)}\right]$$ [§4.2, Prop. 3, Prop. 4]
 
+## Ce que les symboles modélisent
+$H_t$ est un prix qui se réajuste chaque jour, et non la valeur d'un contrat : c'est le niveau auquel les appels de marge se calculent. Un future vaut zéro juste après chaque règlement, et c'est ce qui le sépare d'un forward. [§4.2]
+
 ## Ce qui la définit
 Chaque variation est encaissée le jour même et doit être replacée à un taux inconnu : le facteur d’actualisation devient $B(t,T)$. [§4.2, Prop. 3, Prop. 4]
 

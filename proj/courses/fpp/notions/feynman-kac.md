@@ -21,6 +21,9 @@ Le pont entre l’équation aux dérivées partielles et l’espérance : une so
 ## Forme
 $$\mathcal{L}f(t,x)=\dfrac{\partial f}{\partial t}+\mu(t,x)\dfrac{\partial f}{\partial x}+\tfrac12\sigma^2(t,x)\dfrac{\partial^2f}{\partial x^2},\qquad Z_t=f(t,X_t)\equiv\mathbb{E}\big(F(X_T)\mid\mathcal{F}_t\big)$$ [éq. 18, éq. 19]
 
+## Ce que les symboles modélisent
+$\mathcal{L}$ n'est pas un nombre mais un opérateur : il prend une fonction et en rend une autre, celle qui dit comment la première dérive le long de la diffusion. C'est lui qui fait le passage entre une équation aux dérivées partielles et une espérance. [éq. 18]
+
 ## Ce qui la définit
 Pour que $f(t,X_t)$ soit une martingale, sa partie à variation finie doit être nulle, donc $\mathcal{L}f=0$. Réciproquement, toute solution du problème de Dirichlet $\mathcal{L}f=0$ avec $f(T,x)=F(x)$ définit une martingale de valeur terminale $F(X_T)$. [§7.2.1]
 

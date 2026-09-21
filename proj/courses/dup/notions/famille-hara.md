@@ -19,6 +19,11 @@ La famille d’utilités dont l’aversion absolue est une fonction hyperbolique
 ## Forme
 $$u(z)=\zeta\Big(\eta+\dfrac{z}{\gamma}\Big)^{1-\gamma}\ \implies\ A(z)=\Big(\eta+\dfrac{z}{\gamma}\Big)^{-1}$$ [L1 slide 35]
 
+## Ce que les symboles modélisent
+$\eta$ déplace l'origine des richesses au lieu de changer la courbure : c'est un paramètre de translation, pas un degré d'aversion. [L1 slide 35]
+
+Deux agents de même courbure et d'$\eta$ différents ne diffèrent donc que par le niveau à partir duquel ils comptent. [ajout]
+
 ## Ce que les membres partagent
 Toutes les utilités classiques du cours en relèvent, et leur $A$ s’obtient en fixant $\eta$ et $\gamma$. Choisir une utilité, dans ce cours, c’est choisir un point de cette famille. [L1 slide 35]
 

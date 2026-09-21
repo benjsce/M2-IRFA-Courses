@@ -29,6 +29,9 @@ $$\sum_{i=1}^{n}\Big(y_i-\beta_0-\sum_{j=1}^{p}\beta_jx_{ij}\Big)^2+\lambda\sum_
 
 $$\hat\beta^{\text{ridge}}=(\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{y}$$ [slide 57]
 
+## Ce que les symboles modélisent
+$\lambda$ règle la force de la pénalité et décide seul du compromis : à zéro on retrouve les moindres carrés, très grand on écrase tous les coefficients. $\ell_2$ en nomme la forme, la somme des carrés — arrondie en zéro, elle rapproche les coefficients de zéro sans jamais les y poser. [slide 50, slide 63]
+
 ## Ce qui la définit
 La forme matricielle dit tout : on ajoute une constante positive à la diagonale de $\mathbf{X}^T\mathbf{X}$ avant de l'inverser, ce qui rend le problème non singulier. C'est pourquoi la méthode fonctionne encore quand $p>n$, cas où les moindres carrés n'ont même pas de solution unique. [slide 56, slide 57]
 

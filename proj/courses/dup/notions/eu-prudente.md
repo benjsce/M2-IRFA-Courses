@@ -24,6 +24,9 @@ L’agent envisage plusieurs fonctions d’utilité et retient, pour chaque lote
 ## Forme
 $$c(P,u)=u^{-1}\Big(\sum_i p_iu(x_i)\Big),\qquad V(P)=\inf_{u\in\mathcal{U}}c(P,u)$$ [L3 slide 16]
 
+## Ce que les symboles modélisent
+$\mathcal{U}$ est un ensemble de fonctions et non une fonction : l'agent ne sait pas laquelle est la sienne et retient, pour chaque loterie, la plus sévère. Élargir $\mathcal{U}$ ne peut donc qu'abaisser la valeur des paris, et laisse les résultats sûrs inchangés. [L3 slide 16]
+
 ## Ce qui la définit
 L’axiome est l’indépendance de certitude négative : si un risqué bat un sûr, ajouter du risque commun ne peut pas renverser ce classement. La comparaison inverse, elle, reste libre. [L3 slide 15]
 
