@@ -21,6 +21,8 @@ Les probabilités entrant linéairement, les courbes d’indifférence de l’ut
 
 Les choix de type Allais imposent des pentes qui changent : le motif empirique le plus courant est l’éventail qui s’ouvre. [L1 slide 44]
 
+![Les quatre loteries d'Allais, placées à partir des paramètres de l'exemple minimal : les deux segments se déduisent l'un de l'autre par le même déplacement, donc ils sont parallèles, et l'indépendance leur impose le même classement. Les droites pointillées sont des courbes d'indifférence de l'utilité espérée ; leur pente dépend de $u(2400)$, que le cours ne fixe pas, et seul leur parallélisme compte. L'éventail qui s'ouvre n'est pas sur la figure.](figures/triangle-des-probabilites.svg) [ajout]
+
 ## Le chemin jusqu'ici
 Il faut dup/loterie et dup/fonction-utilite, puis dup/utilite-esperee qu'elles définissent. [ajout]
 

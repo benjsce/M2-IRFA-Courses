@@ -116,11 +116,15 @@ class Figure:
                        dx=X - self.px(0) + dx, dy=(Y0 + Y1) / 2 - self.py(0) + 4, fond=True)
 
     # -- axes -------------------------------------------------------------
-    def axes(self, xlab="", ylab="", xticks=(), yticks=(), fmt=str):
-        x0, y0 = self.px(self.xmin), self.py(self.ymin)
-        self._add('<path d="M%s %s L%s %s L%s %s" fill="none" stroke="%s" stroke-width="1.2"/>'
-                  % (_n(x0), _n(self.py(self.ymax)), _n(x0), _n(y0),
-                     _n(self.px(self.xmax)), _n(y0), DOUX))
+    def axes(self, xlab="", ylab="", xticks=(), yticks=(), fmt=str, croix=None):
+        """`croix=(x, y)` fait passer les axes par ce point des données au lieu du coin
+        bas-gauche. Indispensable dès que zéro est au milieu : une fonction qui change
+        de pente en zéro ne se lit pas si l'axe est ailleurs."""
+        cx, cy = croix if croix else (self.xmin, self.ymin)
+        x0, y0 = self.px(cx), self.py(cy)
+        self._add('<path d="M%s %s L%s %s M%s %s L%s %s" fill="none" stroke="%s" stroke-width="1.2"/>'
+                  % (_n(x0), _n(self.py(self.ymax)), _n(x0), _n(self.py(self.ymin)),
+                     _n(self.px(self.xmin)), _n(y0), _n(self.px(self.xmax)), _n(y0), DOUX))
         for t in xticks:
             X = self.px(t)
             self._add('<path d="M%s %s l0 4" stroke="%s" stroke-width="1.2"/>' % (_n(X), _n(y0), DOUX))

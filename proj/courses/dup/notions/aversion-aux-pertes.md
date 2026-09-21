@@ -34,6 +34,8 @@ L'aversion aux pertes est exactement le point où les deux se referment : un cou
 ## Exemple minimal
 Avec $\beta=1$ et $\lambda=2$ : gagner 100 vaut $+100$, perdre 100 vaut $-200$. La perte pèse deux fois le gain de même taille. [ajout]
 
+![La pente double en franchissant zéro, et c'est là tout le coude. La droite pointillée est la même fonction avec $\lambda=1$, c'est-à-dire sans aversion aux pertes : elle ne vient pas de la source et sert seulement à rendre le coude visible.](figures/aversion-aux-pertes.svg) [ajout]
+
 ## Geste de calcul type
 Chercher la limite du rapport $-u(-x)/u(x)$ quand $x\to0^+$ : si elle dépasse un, il y a un coude, donc aversion du premier ordre. [L3 slide 39]
 
