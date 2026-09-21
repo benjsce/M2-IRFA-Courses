@@ -291,10 +291,10 @@ def _figure(lignes, ctx):
     appelé par `<img>` : une image liée ne voit pas les variables CSS du document et
     garderait donc une encre noire sur fond sombre. Recopié, il suit le thème."""
     texte = "\n".join(lignes).strip()
-    chip = ""
+    chip, aj = "", False
     mo = MARQUEUR.search(texte)
     if mo:
-        chip, _ = _marqueur_html(mo.group(1))
+        chip, aj = _marqueur_html(mo.group(1))
         texte = texte[: mo.start()].rstrip()
     m2 = FIGURE.match(texte)
     if not m2 or not ctx or "code" not in ctx:
@@ -305,7 +305,7 @@ def _figure(lignes, ctx):
         return ""
     svg = f.read_text(encoding="utf-8").strip()
     leg = (enligne(legende, ctx) + (" " + chip if chip else "")) if (legende or chip) else ""
-    return ('<figure class="fig">' + svg
+    return ('<figure class="fig%s">' % (" is-ajout" if aj else "") + svg
             + ("<figcaption>" + leg + "</figcaption>" if leg else "") + "</figure>")
 
 

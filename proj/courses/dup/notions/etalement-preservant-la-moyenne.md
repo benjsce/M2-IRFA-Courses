@@ -30,5 +30,7 @@ Déplacer de la probabilité vers les queues à moyenne constante est une opéra
 ## Exemple minimal
 De $\{40,60\}$ uniforme vers $\{20,40,60,80\}$ uniforme : la moyenne reste 50, la probabilité est partie vers les extrêmes. [L1 slide 24]
 
+![Les deux masses centrales perdent la moitié de leur hauteur, et ce qu'elles perdent réapparaît à 20 et à 80. La moyenne ne bouge pas, parce que ce qui part à gauche compense exactement ce qui part à droite.](figures/etalement-preservant-la-moyenne.svg) [ajout]
+
 ## Cesse d'être valide quand
 Un seul étalement ne produit qu’un croisement des fonctions de répartition ; une suite en produit plusieurs, et la lecture graphique cesse d’être praticable. [L1 slide 22]

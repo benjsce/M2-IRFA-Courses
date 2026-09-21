@@ -20,6 +20,8 @@ La différence entre un call et un put de mêmes strike et maturité est un forw
 ## Forme
 $$(S_T-K)^+-(K-S_T)^+=S_T-K\ \implies\ C(S_0,K,T)-P(S_0,K,T)=S_0-KP(0,T)$$ [Prop. 7]
 
+![À chaque valeur du sous-jacent, le payoff du call moins celui du put tombe sur celui du forward : c'est ce que veut dire « vraie état par état ». Le strike vaut 100, comme dans l'exemple minimal, et aucun prix n'apparaît — l'actualisation vient après.](figures/parite-call-put.svg) [ajout]
+
 ## Ce qui la définit
 C’est une identité de payoff, vraie état par état, donc une identité de prix par absence d’arbitrage. Aucun modèle n’y entre : ni volatilité, ni loi du sous-jacent. [Prop. 7]
 

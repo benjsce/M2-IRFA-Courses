@@ -30,5 +30,7 @@ Le compromis n'a de sens que mesuré sur des données non vues. Sur les données
 ## Exemple minimal
 Quand le paramètre de pénalité augmente, le biais monte, la variance descend, et l'erreur quadratique moyenne passe par un minimum avant de remonter. [slide 54]
 
+![Les deux erreurs varient en sens contraire, et c'est leur somme qui décide. La source ne chiffre ni l'une ni l'autre : la figure ne porte donc aucune graduation, seulement les formes et l'endroit où la somme est minimale.](figures/compromis-biais-variance.svg) [ajout]
+
 ## Cesse d'être valide quand
 L'échange n'est favorable que si les moindres carrés sont effectivement très variables. Quand $n\gg p$, il n'y a presque rien à gagner. [slide 55]

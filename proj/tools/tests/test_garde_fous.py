@@ -221,6 +221,31 @@ def fig_orpheline(root):
     _fig(root)
 
 
+def projection():
+    """A11 garantit qu'effacer tout ce qui est marqué « ajout » laisse un objet cohérent.
+    Une figure marquée ainsi doit donc porter la classe que la feuille de style masque —
+    sinon le bouton « masquer les ajouts » laisse un dessin que le cours ne contient pas.
+    Oublié à l'écriture du bloc figure, vu à l'écran le 2026-09-21."""
+    import build                                         # noqa: E402
+    racine = Path(tempfile.mkdtemp())
+    try:
+        d = racine / "courses" / "aa" / "figures"
+        d.mkdir(parents=True)
+        (d / "f.svg").write_text("<svg/>", encoding="utf-8", newline="\n")
+        ctx = {"m": {"racine": racine, "N": {}, "exercices": {}}, "rel": "", "code": "aa"}
+        for marque, attendu in (("ajout", True), ("p. 1", False)):
+            html = build._figure(["![Une l\u00e9gende.](figures/f.svg) [%s]" % marque], ctx)
+            vu = 'class="fig is-ajout"' in html
+            ok = vu is attendu
+            print(("  ok   " if ok else "  RAT\u00c9 ")
+                  + "figure marqu\u00e9e [%s] %s masqu\u00e9e avec les ajouts"
+                  % (marque, "est" if attendu else "n'est pas"))
+            if not ok:
+                ECHECS.append("projection [%s]" % marque)
+    finally:
+        shutil.rmtree(racine, ignore_errors=True)
+
+
 def main():
     print("homonymie")
     cas("nom identique entre deux cours, non déclaré → signalé",
@@ -263,6 +288,9 @@ def main():
         "sans script", fig_sans_script)
     cas("SVG qu'aucune fiche n'appelle → signalé",
         "n'est appelée par aucune fiche", fig_orpheline)
+
+    print("projection « masquer les ajouts » (A11)")
+    projection()
 
     print()
     if ECHECS:

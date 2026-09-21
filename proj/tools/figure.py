@@ -79,6 +79,16 @@ class Figure:
         self._add('<circle cx="%s" cy="%s" r="%s" fill="%s"/>'
                   % (_n(self.px(x)), _n(self.py(y)), _n(r), couleur))
 
+    def barre(self, x, y, largeur, couleur=ACCENT, opacite=1.0, y0=None):
+        """Une masse de probabilité : un rectangle posé sur l'axe, largeur en unités de
+        données pour qu'il reste à sa place quel que soit le cadrage."""
+        yb = self.ymin if y0 is None else y0
+        X0, X1 = self.px(x - largeur / 2), self.px(x + largeur / 2)
+        Y0, Y1 = self.py(yb), self.py(y)
+        self._add('<rect x="%s" y="%s" width="%s" height="%s" fill="%s"%s rx="1.5"/>'
+                  % (_n(X0), _n(min(Y0, Y1)), _n(X1 - X0), _n(abs(Y0 - Y1)), couleur,
+                     ' fill-opacity="%s"' % _n(opacite) if opacite < 1 else ""))
+
     def texte(self, x, y, s, couleur=ENCRE, taille=12.5, ancre="start",
               dx=0, dy=0, gras=False, fond=False):
         X, Y = self.px(x) + dx, self.py(y) + dy
@@ -139,6 +149,42 @@ class Figure:
                 'width="100%%" height="auto" role="img" '
                 'style="color:%s;max-width:%dpx;height:auto">%s%s</svg>\n'
                 % (self.w, self.h, ENCRE, self.w, t, "".join(self.corps)))
+
+
+class Planche:
+    """Plusieurs cadres côte à côte, séparés par un signe.
+
+    Il y a des identités qu'un cadre unique cache au lieu de les montrer : superposer
+    le payoff d'un call, celui d'un put et leur différence donne trois traits qui se
+    recouvrent deux à deux, et on ne voit qu'une droite. Posés côte à côte avec un
+    « + » et un « = », les mêmes trois traits disent l'identité d'un coup d'œil.
+    """
+
+    def __init__(self, figures, signes=(), ecart=30, titre=""):
+        self.figures = list(figures)
+        self.signes = list(signes)
+        self.ecart = ecart
+        self.titre = titre
+
+    def svg(self):
+        h = max(f.h for f in self.figures)
+        w = sum(f.w for f in self.figures) + self.ecart * (len(self.figures) - 1)
+        morceaux, x = [], 0
+        for k, f in enumerate(self.figures):
+            if k:
+                signe = self.signes[k - 1] if k - 1 < len(self.signes) else ""
+                if signe:
+                    morceaux.append('<text x="%s" y="%s" text-anchor="middle" '
+                                    'font-size="20" fill="%s" '
+                                    'font-family="ui-sans-serif,system-ui,sans-serif">%s</text>'
+                                    % (_n(x - self.ecart / 2), _n(h / 2 + 7), DOUX, _echap(signe)))
+            morceaux.append('<g transform="translate(%s 0)">%s</g>' % (_n(x), "".join(f.corps)))
+            x += f.w + self.ecart
+        t = ("<title>%s</title>" % _echap(self.titre)) if self.titre else ""
+        return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %d %d" '
+                'width="100%%" height="auto" role="img" '
+                'style="color:%s;max-width:%dpx;height:auto">%s%s</svg>\n'
+                % (w, h, ENCRE, w, t, "".join(morceaux)))
 
 
 def _echap(s):
