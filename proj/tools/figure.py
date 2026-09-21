@@ -115,11 +115,20 @@ class Figure:
             self.texte(0, 0, etiquette, couleur=couleur, taille=12, ancre=ancre,
                        dx=X - self.px(0) + dx, dy=(Y0 + Y1) / 2 - self.py(0) + 4, fond=True)
 
+    def mesure_h(self, y, x0, x1, couleur=ENCRE):
+        """La même mesure, couchée : un écart en abscisse. Une prime de risque se lit
+        sur l'axe des richesses, pas sur celui des utilités."""
+        Y, X0, X1 = self.py(y), self.px(x0), self.px(x1)
+        self._add('<path d="M%s %s L%s %s M%s %s l0 -4 M%s %s l0 -4" stroke="%s" '
+                  'stroke-width="1.4" fill="none" stroke-linecap="round"/>'
+                  % (_n(X0), _n(Y), _n(X1), _n(Y), _n(X0), _n(Y + 2), _n(X1), _n(Y + 2), couleur))
+
     # -- axes -------------------------------------------------------------
-    def axes(self, xlab="", ylab="", xticks=(), yticks=(), fmt=str, croix=None):
+    def axes(self, xlab="", ylab="", xticks=(), yticks=(), fmt=str, croix=None, fmt_y=None):
         """`croix=(x, y)` fait passer les axes par ce point des données au lieu du coin
         bas-gauche. Indispensable dès que zéro est au milieu : une fonction qui change
         de pente en zéro ne se lit pas si l'axe est ailleurs."""
+        fy = fmt_y or fmt          # les deux axes n'ont pas toujours la même unité
         cx, cy = croix if croix else (self.xmin, self.ymin)
         x0, y0 = self.px(cx), self.py(cy)
         self._add('<path d="M%s %s L%s %s M%s %s L%s %s" fill="none" stroke="%s" stroke-width="1.2"/>'
@@ -136,7 +145,7 @@ class Figure:
             self._add('<path d="M%s %s l-4 0" stroke="%s" stroke-width="1.2"/>' % (_n(x0), _n(Y), DOUX))
             self._add('<text x="%s" y="%s" text-anchor="end" font-size="11.5" fill="%s" '
                       'font-family="ui-sans-serif,system-ui,sans-serif">%s</text>'
-                      % (_n(x0 - 8), _n(Y + 4), DOUX, _echap(fmt(t))))
+                      % (_n(x0 - 8), _n(Y + 4), DOUX, _echap(fy(t))))
         if xlab:
             self._add('<text x="%s" y="%s" text-anchor="end" font-size="12" fill="%s" '
                       'font-family="ui-sans-serif,system-ui,sans-serif">%s</text>'

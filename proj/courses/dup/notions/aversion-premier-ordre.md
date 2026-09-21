@@ -31,6 +31,8 @@ Le premier ordre se définit **par contraste** : une prime proportionnelle à l'
 ## Exemple minimal
 Avec $\lambda=2$ et $\gamma=0$ : $k=1/3$, donc un pari de $\pm10$ coûte une prime de $3{,}33$, contre $0{,}5$ au second ordre. [ajout]
 
+![Les deux régimes sur le même repère. Ce qui se joue est près de zéro : la droite part avec une pente, la parabole part à plat, et c'est pourquoi seule la première explique qu'on refuse un petit pari favorable. La parabole est celle qui passe par $0{,}5$ en $\sigma=10$, seul point que la fiche en donne.](figures/aversion-premier-ordre.svg) [ajout]
+
 ## Geste de calcul type
 Chercher si la prime tend vers zéro comme $\sigma$ ou comme $\sigma^2$ : c’est le test qui sépare les deux régimes, et il décide de la capacité du modèle à rendre compte des petits risques. [L3 slide 40, L3 slide 41]
 

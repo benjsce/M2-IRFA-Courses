@@ -30,6 +30,8 @@ La prime de risque en est la simple différence à la moyenne. Elle n'ajoute auc
 ## Exemple minimal
 Avec $u(x)=\sqrt{x}$ et le pari $(0,\tfrac12;100,\tfrac12)$ : $\pi=50-25=25$. [ajout]
 
+![La même courbe et le même pari que sur dup/aversion-au-risque, avec la construction en plus : on part de la moyenne des utilités, on redescend sur la courbe pour lire l'équivalent certain, et ce qui reste jusqu'à la moyenne est la prime. Les deux points ont la même utilité, 5.](figures/prime-de-risque.svg) [ajout]
+
 ## Geste de calcul type
 Calculer l’équivalent certain, le retrancher de la moyenne. Pour un petit risque, l’approximation d’Arrow-Pratt évite l’inversion : $\pi\approx\tfrac12\mathrm{Var}(X)A(w_0)$. [L1 slide 9, L1 slide 32]
 
