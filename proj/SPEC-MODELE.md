@@ -183,6 +183,35 @@ donc sur la forme, pas sur le nombre de sources. Elle a une conséquence à acce
 jour où une troisième source emploie `exo. n`, il faudra préfixer — et cela se verra,
 parce que `refs_pattern` refusera la forme nue.
 
+### 2.4 Les figures
+
+Une rubrique peut porter une figure, quand un dessin montre en une fois ce que la prose
+dit en trois phrases. Elle s'écrit comme un bloc à part, avec sa légende et son marqueur :
+
+```markdown
+![La corde passe sous la courbe : c'est toute l'inégalité.](figures/aversion-au-risque.svg) [ajout]
+```
+
+Quatre règles, et elles ne se négocient pas.
+
+1. **La figure ne montre que ce que sa fiche dit.** Elle illustre, elle n'ajoute pas. Une
+   figure qui introduit un objet dont la fiche ne parle pas appartient à une autre fiche.
+2. **Elle porte un marqueur comme n'importe quel bloc** (A11). Tracée par l'opérateur à
+   partir de l'exemple du cours, c'est `[ajout]` ; reproduite d'un schéma de la source,
+   c'est la référence de ce schéma.
+3. **Le dessin est calculé, pas dessiné.** `courses/<code>/figures/<slug>.py` est un
+   script sans dépendance qui imprime le SVG sur la sortie standard ; `<slug>.svg` est sa
+   sortie, déposée à côté. Le validateur rejoue le script et compare : une figure qu'on ne
+   sait plus refaire est une figure qui dérivera de ce qu'elle montre, comme une prose qui
+   décrit un socle calculé.
+4. **Aucune couleur en dur.** Les traits nomment les variables CSS du site — `var(--fg)`,
+   `var(--mut)`, `var(--acc)`. Le fond reste vide. C'est ce qui fait qu'une figure suit le
+   thème clair ou sombre au lieu de disparaître dans l'un des deux ; une image matricielle,
+   même à fond transparent, garderait son encre noire.
+
+`tools/figure.py` porte les primitives de tracé — repère, courbe, point, mesure d'un écart,
+axes — et n'a besoin de rien d'autre que la bibliothèque standard.
+
 ## 3. Les axiomes de structure
 
 Chaque axiome dit ce qu'il interdit et la sévérité : **E** (erreur, build refusé),
@@ -376,6 +405,9 @@ homonymes:
     entre: [dup/prime-de-risque, fpp/prime-de-risque]
     note: deux grandeurs distinctes sous le même mot, et sous le même $\pi$
 ```
+
+`figures/<slug>.py` et `figures/<slug>.svg` — le script d'une figure et sa sortie (§2.4).
+Le second se régénère depuis le premier ; le validateur vérifie qu'ils s'accordent.
 
 `inventaire.yml`
 ```yaml

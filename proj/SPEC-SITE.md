@@ -246,6 +246,11 @@ que de laisser chercher.
 - **Formules** : MathJax 3, sortie SVG, chargé depuis un CDN par défaut ; option
   `--offline` qui copie MathJax dans `site/vendor/` pour un usage sans réseau. Les fontes
   du texte sont des fontes système ; aucune dépendance externe autre que MathJax.
+- **Figures** (SPEC-MODELE §2.4) : le SVG est **recopié dans la page**, jamais appelé par
+  `<img src>`. Une image liée est un document séparé : elle n'hérite pas des variables CSS
+  de la page, donc elle ne suit pas le thème, et en `file://` elle ajoute une requête que
+  la contrainte précédente interdit. Recopiée, la figure change de couleur en même temps
+  que le reste, au clic sur le bouton de thème.
 - **Une page = un fichier autonome** (CSS et JS inclus), ≤ 300 ko hors MathJax.
 - **L'état de lecture traverse les pages par l'URL.** Thème, pliage des rubriques et
   cases « déjà su » suivent la personne d'une page à l'autre. `localStorage` ne peut pas

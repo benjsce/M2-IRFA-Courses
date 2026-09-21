@@ -82,6 +82,23 @@ non identifié, A4) ; deux fiches qui se définissent l'une par l'autre (A3, ell
 probablement une seule notion) ; un symbole du cours qui entre en collision avec un autre
 cours (A12, à déclarer, pas à résoudre seul).
 
+## Les figures
+
+Tu peux ajouter une figure à une fiche quand un dessin montre en une fois ce que la prose
+dit en trois phrases — une courbe et sa corde, deux erreurs qui se croisent, un payoff
+brisé. Tu n'as pas à demander la permission ; tu la déclares au rapport comme toute
+modification de fiche.
+
+Tu la calcules en Python, sans dépendance, avec `tools/figure.py` : le script vit dans
+`courses/<code>/figures/<slug>.py`, sa sortie SVG à côté, et le validateur rejoue le
+script pour vérifier qu'ils s'accordent. Aucune couleur en dur — les traits nomment les
+variables CSS du site, et la figure suit alors le thème clair ou sombre. Le détail des
+quatre règles est en SPEC-MODELE §2.4.
+
+Ce qui reste interdit : une figure qui montre autre chose que ce que dit sa fiche. Un
+dessin est une assertion ; il porte un marqueur comme les autres, et il n'introduit aucun
+objet que la rubrique ne nomme pas.
+
 ## Ce que tu ne fais pas
 
 Tu ne réorganises pas, tu ne « nettoies » pas, tu ne fusionnes pas de fiches de ta propre

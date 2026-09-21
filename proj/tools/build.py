@@ -71,7 +71,7 @@ def lire_fiche(path: Path):
 
 
 def charger(root: Path):
-    m = dict(cours={}, N={}, a_venir={}, exercices={}, rapports=[])
+    m = dict(cours={}, N={}, a_venir={}, exercices={}, rapports=[], racine=root)
     for cdir in sorted(p for p in (root / "courses").iterdir() if p.is_dir()):
         code = cdir.name
         meta = yaml.safe_load((cdir / "course.yml").read_text(encoding="utf-8")) or {}
@@ -283,6 +283,32 @@ def _liste(lignes, ctx, fiche):
     return "".join(out)
 
 
+FIGURE = re.compile(r"^!\[(.*?)\]\((figures/[a-z0-9-]+\.svg)\)\s*$")
+
+
+def _figure(lignes, ctx):
+    """`![légende](figures/<slug>.svg) [réf]` — le SVG est **recopié dans la page**, pas
+    appelé par `<img>` : une image liée ne voit pas les variables CSS du document et
+    garderait donc une encre noire sur fond sombre. Recopié, il suit le thème."""
+    texte = "\n".join(lignes).strip()
+    chip = ""
+    mo = MARQUEUR.search(texte)
+    if mo:
+        chip, _ = _marqueur_html(mo.group(1))
+        texte = texte[: mo.start()].rstrip()
+    m2 = FIGURE.match(texte)
+    if not m2 or not ctx or "code" not in ctx:
+        return ""
+    legende, chemin = m2.group(1), m2.group(2)
+    f = ctx["m"]["racine"] / "courses" / ctx["code"] / chemin
+    if not f.exists():
+        return ""
+    svg = f.read_text(encoding="utf-8").strip()
+    leg = (enligne(legende, ctx) + (" " + chip if chip else "")) if (legende or chip) else ""
+    return ('<figure class="fig">' + svg
+            + ("<figcaption>" + leg + "</figcaption>" if leg else "") + "</figure>")
+
+
 def rendre(texte, ctx=None, fiche=False, niveau_titre=3):
     """Markdown minimal : titres, tables, listes, paragraphes. fiche=True extrait les
     marqueurs de traçabilité (A11) en fin de bloc et marque les blocs « ajout »."""
@@ -302,6 +328,11 @@ def rendre(texte, ctx=None, fiche=False, niveau_titre=3):
         if prem.startswith(("- ", "* ")):
             out.append(_liste(lignes, ctx, fiche))
             continue
+        if prem.startswith("!["):
+            fig = _figure(lignes, ctx)
+            if fig:
+                out.append(fig)
+                continue
         chip, aj = "", False
         corps = list(lignes)
         if fiche:
@@ -339,6 +370,11 @@ CSS = """
   --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
   --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
 }
+.fig{margin:.9rem 0;padding:.5rem .2rem .2rem;text-align:center}
+.fig svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig figcaption{margin-top:.35rem;font-family:var(--sans);font-size:.82rem;
+  color:var(--mut);text-align:center;line-height:1.45}
+@media print{.fig{break-inside:avoid}}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
@@ -1030,7 +1066,7 @@ def page_fiche(m, i):
     code = n["cours"]
     slug = i.split("/", 1)[1]
     rel = "../../"
-    ctx = {"m": m, "rel": rel}
+    ctx = {"m": m, "rel": rel, "code": code}
     ajout = meta.get("statut") == "ajout"
     parent = m["A"].get(i)
     membres = m["A_inv"].get(i, [])

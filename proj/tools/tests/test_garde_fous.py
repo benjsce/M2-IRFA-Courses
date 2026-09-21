@@ -175,6 +175,52 @@ def lois_identiques(root):
     (root / "proj" / "CLAUDE.md").write_text("la loi\n", encoding="utf-8", newline="\n")
 
 
+SCRIPT_FIG = '''import sys
+sys.stdout.write("<svg xmlns=\'http://www.w3.org/2000/svg\'><title>t</title></svg>\\n")
+'''
+
+
+def _fig(root, code="aa", svg=None, script=True, citee=True):
+    d = root / "courses" / code / "figures"
+    d.mkdir(parents=True, exist_ok=True)
+    if script:
+        (d / "f.py").write_text(SCRIPT_FIG, encoding="utf-8", newline="\n")
+    (d / "f.svg").write_text(
+        svg if svg is not None
+        else "<svg xmlns='http://www.w3.org/2000/svg'><title>t</title></svg>\n",
+        encoding="utf-8", newline="\n")
+
+
+def fig_ok(root):
+    appel = "\n![Une l\u00e9gende.](figures/f.svg) [p. 1]\n"
+    ecrire(root, "aa", [dict(slug="x", nom="Un", chemin=appel)])
+    _fig(root)
+
+
+def fig_derive(root):
+    """Le SVG a été retouché à la main : on ne sait plus le refaire."""
+    fig_ok(root)
+    (root / "courses" / "aa" / "figures" / "f.svg").write_text(
+        "<svg xmlns='http://www.w3.org/2000/svg'><title>autre</title></svg>\n",
+        encoding="utf-8", newline="\n")
+
+
+def fig_absente(root):
+    appel = "\n![Une l\u00e9gende.](figures/manquante.svg) [p. 1]\n"
+    ecrire(root, "aa", [dict(slug="x", nom="Un", chemin=appel)])
+    _fig(root)
+
+
+def fig_sans_script(root):
+    fig_ok(root)
+    (root / "courses" / "aa" / "figures" / "f.py").unlink()
+
+
+def fig_orpheline(root):
+    ecrire(root, "aa", [dict(slug="x", nom="Un")])
+    _fig(root)
+
+
 def main():
     print("homonymie")
     cas("nom identique entre deux cours, non déclaré → signalé",
@@ -205,6 +251,18 @@ def main():
         "ne portent plus le même texte", lois_divergentes, sous="proj")
     cas("les deux copies identiques → silence",
         "ne portent plus le même texte", lois_identiques, doit_apparaitre=False, sous="proj")
+
+    print("figures")
+    cas("figure conforme à son script → silence",
+        "figures", fig_ok, doit_apparaitre=False)
+    cas("SVG retouché à la main → erreur",
+        "ne correspond plus", fig_derive)
+    cas("fiche appelant une figure absente → erreur",
+        "qui n'existe pas", fig_absente)
+    cas("SVG sans script → erreur",
+        "sans script", fig_sans_script)
+    cas("SVG qu'aucune fiche n'appelle → signalé",
+        "n'est appelée par aucune fiche", fig_orpheline)
 
     print()
     if ECHECS:

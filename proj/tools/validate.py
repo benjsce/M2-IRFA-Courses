@@ -8,7 +8,7 @@ Sortie : liste des erreurs (E) et avertissements (W), dette, code de retour 1 si
 Dépendance : pyyaml.
 """
 from __future__ import annotations
-import argparse, json, re, sys, unicodedata
+import argparse, json, re, subprocess, sys, unicodedata
 from pathlib import Path
 from collections import defaultdict
 
@@ -511,6 +511,44 @@ def valider(root: Path, rap: Rapport):
                 rap.w("A12", f"{a} ↔ {b}", f"« {mot} » désigne les deux, homonymie non déclarée : "
                                            "l'ajouter aux « homonymes » de l'un des deux registres")
                 rap.dette["homonymie non déclarée"] += 1
+
+    # ---- A11 figures : une image qu'on ne sait plus refaire n'est pas une source
+    # Une figure de fiche est un SVG déposé dans courses/<code>/figures/, produit par le
+    # script de même nom. Le script est la source, le SVG en est la sortie compilée :
+    # on rejoue le script et on compare. Sinon la figure dérive de ce qu'elle montre,
+    # exactement comme une prose qui décrit un socle calculé.
+    FIG = re.compile(r"!\[[^\]]*\]\((figures/[a-z0-9-]+\.svg)\)")
+    citees = defaultdict(set)
+    for nid, n in N.items():
+        for _t, body in n["sections"]:
+            for mo in FIG.finditer(body):
+                citees[n["course"]].add(mo.group(1).split("/", 1)[1])
+    for code in sorted(courses):
+        fdir = courses_dir / code / "figures"
+        posees = {f.name for f in fdir.glob("*.svg")} if fdir.is_dir() else set()
+        for nom in sorted(citees[code] - posees):
+            rap.e("A11", f"{code} figures", f"une fiche appelle « {nom} », qui n'existe pas")
+        for nom in sorted(posees - citees[code]):
+            rap.w("A11", f"{code} figures", f"« {nom} » n'est appelée par aucune fiche")
+            rap.dette["figure orpheline"] += 1
+        for nom in sorted(posees & citees[code]):
+            script = fdir / (nom[:-4] + ".py")
+            if not script.exists():
+                rap.e("A11", f"{code} figures", f"« {nom} » sans script : on ne sait pas la refaire")
+                continue
+            try:
+                r = subprocess.run([sys.executable, str(script)], capture_output=True, timeout=60)
+            except Exception as ex:
+                rap.e("A11", f"{code} figures", f"« {script.name} » n'a pas pu être rejoué : {ex}")
+                continue
+            if r.returncode != 0:
+                rap.e("A11", f"{code} figures", "« %s » échoue : %s"
+                      % (script.name, r.stderr.decode("utf-8", "replace").strip().splitlines()[-1:]))
+                continue
+            attendu = r.stdout.decode("utf-8").replace("\r\n", "\n")
+            if attendu != (fdir / nom).read_text(encoding="utf-8"):
+                rap.e("A11", f"{code} figures", f"« {nom} » ne correspond plus à « {script.name} » : "
+                                                f"régénérer avec python {script.as_posix()} > {nom}")
 
     # ---- les documents de loi existent en double et se recopient à la main
     # Racine et proj/ portent les mêmes quatre documents. Rien ne garantissait qu'ils

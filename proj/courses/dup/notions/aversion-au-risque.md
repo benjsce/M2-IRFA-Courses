@@ -32,6 +32,8 @@ L'aversion au risque n'est rien d'autre que le sens de cet écart. Elle ne deman
 ## Exemple minimal
 Avec $u(x)=\sqrt{x}$ et le pari $(0,\tfrac12;100,\tfrac12)$ : la moyenne certaine vaut $u(50)=7{,}07$ contre $5$ pour le pari. [ajout]
 
+![La corde joint les deux résultats du pari, et son milieu vaut la moyenne des utilités. La courbe passe au-dessus parce qu'elle est concave : l'écart entre les deux est l'inégalité de Jensen.](figures/aversion-au-risque.svg) [ajout]
+
 ## Geste de calcul type
 Comparer $U(\mathbb{E}\tilde x)$ et $\mathbb{E}U(\tilde x)$ ; si l’on ne veut pas calculer, le signe de $U''$ décide seul. [ajout]
 
