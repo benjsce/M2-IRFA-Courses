@@ -135,6 +135,12 @@ symboles:
   notion: dup/theorie-des-perspectives
   ref: L3 slide 21
   sens: fonction de valeur, définie sur les écarts au point de référence
+- symbole: $\pi(p)$
+  notion: dup/theorie-des-perspectives
+  ref: L3 slide 21
+  sens: >-
+    fonction de poids : ce que pèse une probabilité dans la décision — voir la collision
+    avec la prime de risque, qui porte la même lettre
 - symbole: $\lambda$
   notion: dup/aversion-aux-pertes
   ref: L3 slide 39
