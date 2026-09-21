@@ -15,6 +15,8 @@ refs:
 - L3 slide 27
 - L3 slide 32
 - L3 slide 33
+- L4 slide 14
+- L4 slide 15
 ---
 
 ## Ce que c'est
@@ -30,6 +32,10 @@ Le modèle a deux cas limites : $\varphi$ identité redonne l’utilité espér�
 
 $$U(F)=\int u(x)\,d\big(\varphi\circ F\big)(x)$$ [L3 slide 33]
 
+Le modèle demande peu à ses deux ingrédients : $u$ évalue les résultats, et $\varphi$ va de $[0,1]$ dans lui-même, continue, croissante au sens large et surjective. Ce n’est que là où le cours dérive qu’il en exige davantage — $\varphi$ strictement croissante, et $u$ strictement croissante, strictement concave et dérivable. [L3 slide 27, L4 slide 26]
+
+Deux conséquences que le cours emploie sans les écrire. La surjectivité jointe à la croissance impose $\varphi(0)=0$ et $\varphi(1)=1$. Et les deux ingrédients ne sont pas identifiés de la même façon : $u$ n’est définie qu’à une transformation affine croissante près, tandis que $\varphi$ est fixée — ce qui rend la diagonale significative pour l’une et pas pour l’autre. [ajout]
+
 ## Le chemin jusqu'ici
 dup/loterie et dup/fonction-utilite définissent dup/utilite-esperee, et c'est par rapport à elle que la déformation se mesure. [ajout]
 
@@ -40,6 +46,31 @@ Avec $u(x)=x$ et $\varphi(p_1)>p_1$ : $U(x_1,p_1;x_2,p_2)<U(p_1x_1+p_2x_2,1)$, d
 
 ## Geste de calcul type
 Ordonner les résultats, cumuler les probabilités, appliquer $\varphi$ aux cumuls, différencier pour obtenir les poids, puis pondérer les utilités. [L3 slide 27]
+
+## Ce qui reste libre
+Les deux objets libres ne portent pas la même chose : la courbure de $u$ mesure la sensibilité à la richesse, la déformation $\varphi$ change le poids accordé à chaque rang. [L4 slide 14]
+
+| paramètre | cas | valeur |
+|---|---|---|
+| la forme de $u$ | linéaire, $u(x)=x$ | théorie duale de Yaari : toute l’attitude passe par $\varphi$ |
+| la forme de $u$ | concave | sensibilité décroissante à la richesse |
+| la forme de $\varphi$ | l’identité, $\varphi(p)=p$ | le modèle redonne l’utilité espérée |
+| la forme de $\varphi$ | au-dessus de la diagonale, $\varphi(p)\ge p$ | pessimisme : poids cumulé supplémentaire sur les mauvais rangs |
+| la forme de $\varphi$ | concave | pessimiste, et le poids marginal décroît avec le rang |
+[L3 slide 32, L4 slide 14, L4 slide 15]
+
+Les deux formes d’aversion que le cours distingue se lisent alors sur les combinaisons. [L4 slide 15]
+
+| paramètre | cas | valeur |
+|---|---|---|
+| le couple $(u,\varphi)$ | $u$ concave et $\varphi$ concave | refus de tout étalement préservant la moyenne, et la dominance du second ordre est préservée |
+| le couple $(u,\varphi)$ | $u$ concave et $\varphi(p)\ge p$ | suffit à faire préférer la moyenne certaine à la loterie |
+| le couple $(u,\varphi)$ | $u$ concave et $\varphi$ pessimiste sans être concave | la moyenne certaine reste préférée, mais un risque équitable ajouté à l’intérieur du portefeuille peut devenir attrayant |
+[L3 slide 32, L4 slide 15, L4 slide 34]
+
+Les deux exigences ne se confondent donc pas, et la source en fournit elle-même le contre-exemple : la déformation de L4 slide 34 est pessimiste sans être concave. L’équivalence énoncée en L3 slide 32 — averse si et seulement si les deux sont concaves — porte ainsi sur la forme forte de l’aversion, non sur la forme faible. [ajout]
+
+![Les mêmes trois courbures, à gauche sur $u$ et à droite sur $\varphi$. À gauche seule la courbure compte, puisque $u$ n’est définie qu’à une transformation affine près ; à droite la diagonale sépare le pessimisme de l’optimisme, et une $\varphi$ concave passe nécessairement au-dessus.](figures/rdu.svg) [ajout]
 
 ## Cesse d'être valide quand
 Résout les paradoxes d’Allais et, avec un $\varphi$ bien choisi, celui de Rabin — mais le risque de fond ramène ce dernier, sauf à invoquer un cadrage étroit. [L3 slide 34, L3 slide 36, L3 slide 37]
