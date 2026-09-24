@@ -93,6 +93,52 @@ def blocs(texte: str):
     return out
 
 
+# ---------------------------------------------------------------- parcours (essai)
+# Un parcours raconte une partie du cours dans un ordre choisi : il passe par des fiches
+# et dit, à chaque étape, la question qui mène à la suivante. Les fiches restent le
+# dictionnaire ; le parcours est le récit que le découpage en fiches avait perdu.
+# ESSAI du 2026-09-24, sur dup seulement, en attente de l'accord de l'utilisateur :
+# aucune spécification ne le porte encore.
+
+PARCOURS_RUBRIQUES = ["Point de départ", "À savoir avant", "Étapes", "Point d'arrivée"]
+_ETAPE = re.compile(r"^(\d+)\.\s+([a-z]{2,8}/[a-z0-9-]+)\s*$")
+_AVANT = re.compile(r"^-\s+([a-z]{2,8}/[a-z0-9-]+)\s*:\s*(.+)$")
+
+
+def _mots(t):
+    """Les mots pleins d'un texte, sans marqueur ni formule : de quoi comparer deux phrases."""
+    t = MARKER.sub("", t.lower())
+    t = re.sub(r"\$[^$]*\$", " ", t)
+    return set(re.findall(r"[a-zàâçéèêëîïôûùüÿœ']{4,}", t))
+
+
+def lire_parcours(path: Path):
+    """En-tête YAML, rubriques « ## », puis les étapes et les prérequis rattachés.
+    Rend (meta, sections, etapes, avant) : etapes = [(numéro, id, transition)],
+    avant = [(id, rôle dans l'histoire)]."""
+    meta, sections = lire_fiche(path)
+    S = dict(sections)
+    etapes, cur = [], None
+    for line in S.get("Étapes", "").splitlines():
+        mo = _ETAPE.match(line)
+        if mo:
+            cur = [int(mo.group(1)), mo.group(2), []]
+            etapes.append(cur)
+        elif cur is not None and line.strip():
+            cur[2].append(line.strip())
+    etapes = [(n, i, " ".join(t)) for n, i, t in etapes]
+    avant, cur = [], None
+    for line in S.get("À savoir avant", "").splitlines():
+        mo = _AVANT.match(line)
+        if mo:
+            cur = [mo.group(1), [mo.group(2).strip()]]
+            avant.append(cur)
+        elif cur is not None and line.strip():
+            cur[1].append(line.strip())
+    avant = [(i, " ".join(t)) for i, t in avant]
+    return meta, sections, etapes, avant
+
+
 # ---------------------------------------------------------------- validation
 
 def valider(root: Path, rap: Rapport):
@@ -590,6 +636,107 @@ def valider(root: Path, rap: Rapport):
             rap.e("A1", nom, "les deux copies du document ont divergé : "
                              f"{ici.parent.name}/ et {la.parent.name}/ ne portent "
                              "plus le même texte")
+
+    # ---- parcours (essai) : le récit ne contredit pas le graphe
+    # Trois garanties. Une étape n'arrive jamais avant l'un de ses prérequis, sinon le
+    # récit demanderait de lire une fiche avant ce qu'elle suppose. Tout ce que les
+    # étapes supposent et que le parcours ne raconte pas est listé « à savoir avant »,
+    # avec une phrase qui dit ce que cette fiche fait dans l'histoire — sans quoi on y
+    # arrive sans savoir pourquoi (remarque de l'utilisateur, 2026-09-24). Et chaque
+    # phrase est tracée, comme dans une fiche.
+    for code in sorted(courses):
+        pdir = courses_dir / code / "parcours"
+        if not pdir.is_dir():
+            continue
+        pat = courses[code].get("refs_pattern")
+        rx = re.compile(pat) if pat else None
+        for f in sorted(pdir.glob("*.md")):
+            ou = f"{code} parcours {f.stem}"
+            try:
+                meta, secs, etapes, avant = lire_parcours(f)
+            except Exception as ex:
+                rap.e("P", ou, f"parcours illisible : {ex}"); continue
+            if meta.get("id") != f"{code}/parcours-{f.stem}":
+                rap.e("P", ou, f"id '{meta.get('id')}' doit valoir '{code}/parcours-{f.stem}'")
+            if "ordre" in meta and not isinstance(meta["ordre"], int):
+                rap.e("P", ou, "« ordre » doit être un entier : la place du parcours dans le cours")
+            if not meta.get("titre"):
+                rap.e("P", ou, "titre manquant")
+            titres = [t for t, _ in secs]
+            for t in titres:
+                if t not in PARCOURS_RUBRIQUES:
+                    rap.e("P", ou, f"rubrique inconnue : « {t} »")
+            idx = [PARCOURS_RUBRIQUES.index(t) for t in titres if t in PARCOURS_RUBRIQUES]
+            if idx != sorted(idx) or len(set(idx)) != len(idx):
+                rap.e("P", ou, f"rubriques dans le désordre ou dupliquées : {titres}")
+            for t in ("Point de départ", "Étapes", "Point d'arrivée"):
+                if t not in titres:
+                    rap.e("P", ou, f"« {t} » manquant")
+            if not etapes:
+                rap.e("P", ou, "aucune étape"); continue
+            if [n for n, _, _ in etapes] != list(range(1, len(etapes) + 1)):
+                rap.e("P", ou, "les étapes doivent être numérotées 1, 2, 3… sans trou")
+            ids = [i for _, i, _ in etapes]
+            for i in ids:
+                if i not in N:
+                    rap.e("P", ou, f"étape inconnue : {i}")
+                elif N[i]["course"] != code:
+                    rap.e("P", ou, f"étape {i} hors du cours {code} : un parcours raconte son cours")
+            for i in sorted({i for i in ids if ids.count(i) > 1}):
+                rap.e("P", ou, f"{i} apparaît deux fois")
+            connus = [i for i in ids if i in N]
+            pos = {i: k for k, i in enumerate(ids)}
+            for k, x in enumerate(ids):
+                if x not in N:
+                    continue
+                for y in sorted(reach_of(x)):
+                    if y in pos and pos[y] > k:
+                        rap.e("P", ou, f"étape {k + 1} ({x}) arrive avant son prérequis {y} "
+                                       f"(étape {pos[y] + 1})")
+            # Seulement les prérequis directs : ce sur quoi le récit s'appuie. Exiger aussi
+            # leur propre socle demandait plus de quinze rôles au parcours sur les
+            # portefeuilles, pour des fiches sans rapport avec son histoire (mesuré le
+            # 2026-09-24) ; chacune garde son socle sur sa propre fiche.
+            suppose = {y for x in connus for y in D[x]} - set(ids)
+            listes = [i for i, _ in avant]
+            for y in sorted(suppose - set(listes)):
+                rap.e("P", ou, f"{y} est supposé connu par une étape mais n'est pas rattaché à "
+                               "l'histoire : l'ajouter « à savoir avant », avec son rôle")
+            for y in sorted(set(listes) - suppose):
+                rap.e("P", ou, f"« à savoir avant » cite {y}, dont aucune étape ne dépend directement")
+            for y in sorted({i for i in listes if listes.count(i) > 1}):
+                rap.e("P", ou, f"« à savoir avant » cite {y} deux fois")
+            # Une transition pose la question qui mène à la fiche ; elle ne redit pas la
+            # réponse, que la page affiche juste en dessous. Mesuré sur le premier parcours :
+            # les transitions qui fonctionnent reprennent au plus 36 % des mots de « Ce que
+            # c'est », celles qui la paraphrasent 56 % et plus. Seuil au milieu.
+            for n, x, t in etapes:
+                if x in N:
+                    cc = dict(N[x]["sections"]).get("Ce que c'est", "")
+                    a, b = _mots(t), _mots(cc)
+                    if b and len(a & b) / len(b) >= 0.5:
+                        rap.w("P", ou, f"[étape {n}] la transition redit « Ce que c'est » de {x} "
+                                       f"({len(a & b) / len(b):.0%} de ses mots) : poser la question "
+                                       "qui y mène, pas la réponse")
+                        rap.dette["transition qui redit la fiche"] += 1
+            # marqueurs : chaque transition, chaque rôle, chaque paragraphe
+            morceaux = [(f"étape {n}", t) for n, _, t in etapes] + [(f"avant {i}", t) for i, t in avant]
+            S = dict(secs)
+            for t in ("Point de départ", "Point d'arrivée"):
+                morceaux += [(t, b) for b in blocs(S.get(t, ""))]
+            for lieu, txt in morceaux:
+                if not txt.strip():
+                    rap.e("P", ou, f"[{lieu}] phrase vide"); continue
+                mk = MARKER.search(txt.splitlines()[-1])
+                if not mk:
+                    rap.e("P", ou, f"[{lieu}] phrase sans marqueur de référence : « {txt[:60]}… »")
+                    continue
+                for tok in [x.strip() for x in mk.group(1).split(",")]:
+                    if tok != "ajout" and rx and not rx.match(tok):
+                        rap.e("P", ou, f"[{lieu}] référence hors grammaire : « {tok} »")
+                for x in NOMBRE_DERIVE.finditer(txt):
+                    rap.w("P", ou, f"[{lieu}] nombre calculé écrit en dur : « {x.group(0)} »")
+                    rap.dette["nombre calculé en dur"] += 1
 
     # ---- A13 couverture
     for code, elems in inventaires.items():

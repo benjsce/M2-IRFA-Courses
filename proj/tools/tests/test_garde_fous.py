@@ -192,6 +192,54 @@ def socle_grandit(root):
     ])
 
 
+# ---------------------------------------------------------------- parcours (essai)
+# Trois fiches en chaîne : base ← milieu ← haut. Le parcours raconte milieu puis haut,
+# et doit rattacher base à l'histoire, puisque milieu la suppose.
+
+def _parcours(root, etapes, avant):
+    ch = "\n## Le chemin jusqu'ici\nTout vient de %s. [p. 1]\n"
+    ecrire(root, "aa", [
+        dict(slug="base", nom="Base"),
+        dict(slug="milieu", nom="Milieu", dep="aa/base", chemin=ch % "aa/base"),
+        dict(slug="haut", nom="Haut", dep="aa/milieu", chemin=ch % "aa/base, aa/milieu"),
+    ])
+    d = root / "courses" / "aa" / "parcours"
+    d.mkdir()
+    txt = ["---", "id: aa/parcours-essai", "titre: Essai", "---", "",
+           "## Point de départ", "On part d'ici. [p. 1]", ""]
+    if avant:
+        txt += ["## À savoir avant"] + ["- aa/%s : son rôle ici. [p. 1]" % x for x in avant] + [""]
+    txt += ["## Étapes"]
+    for k, x in enumerate(etapes, 1):
+        txt += ["%d. aa/%s" % (k, x), "   La question qui y mène. [p. 1]", ""]
+    txt += ["## Point d'arrivée", "On arrive là. [p. 1]"]
+    (d / "essai.md").write_text("\n".join(txt) + "\n", encoding="utf-8", newline="\n")
+
+
+def parcours_ok(root):
+    _parcours(root, ["milieu", "haut"], ["base"])
+
+
+def parcours_paraphrase(root):
+    _parcours(root, ["milieu", "haut"], ["base"])
+    f = root / "courses" / "aa" / "parcours" / "essai.md"
+    f.write_text(f.read_text(encoding="utf-8").replace(
+        "1. aa/milieu\n   La question qui y mène. [p. 1]",
+        "1. aa/milieu\n   Milieu, pour l'essai. [p. 1]"), encoding="utf-8", newline="\n")
+
+
+def parcours_desordre(root):
+    _parcours(root, ["haut", "milieu"], ["base"])
+
+
+def parcours_sans_rattachement(root):
+    _parcours(root, ["milieu", "haut"], [])
+
+
+def parcours_rattachement_inutile(root):
+    _parcours(root, ["base", "milieu", "haut"], ["base"])
+
+
 def lois_divergentes(root):
     """Les quatre documents de loi vivent en double, racine et proj/. Un texte modifié
     d'un seul côté se découvre le jour où les deux se contredisent."""
@@ -327,6 +375,18 @@ def main():
         "sans script", fig_sans_script)
     cas("SVG qu'aucune fiche n'appelle → signalé",
         "n'est appelée par aucune fiche", fig_orpheline)
+
+    print("parcours (essai)")
+    cas("parcours conforme → silence",
+        "parcours", parcours_ok, doit_apparaitre=False)
+    cas("transition qui redit la définition de sa fiche → signalée",
+        "la transition redit", parcours_paraphrase)
+    cas("étape placée avant son prérequis → erreur",
+        "arrive avant son prérequis", parcours_desordre)
+    cas("prérequis supposé sans rôle dans l'histoire → erreur",
+        "n'est pas rattaché à l'histoire", parcours_sans_rattachement)
+    cas("rattachement d'une fiche qu'aucune étape ne suppose → erreur",
+        "dont aucune étape ne dépend directement", parcours_rattachement_inutile)
 
     print("projection « masquer les ajouts » (A11)")
     projection()

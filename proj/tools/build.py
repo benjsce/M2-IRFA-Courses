@@ -71,7 +71,7 @@ def lire_fiche(path: Path):
 
 
 def charger(root: Path):
-    m = dict(cours={}, N={}, a_venir={}, exercices={}, rapports=[], racine=root)
+    m = dict(cours={}, N={}, a_venir={}, exercices={}, rapports=[], racine=root, parcours={})
     for cdir in sorted(p for p in (root / "courses").iterdir() if p.is_dir()):
         code = cdir.name
         meta = yaml.safe_load((cdir / "course.yml").read_text(encoding="utf-8")) or {}
@@ -100,6 +100,17 @@ def charger(root: Path):
                 fm, secs = lire_fiche(f)
                 m["exercices"][fm["id"]] = dict(meta=fm, sections=secs, cours=code, slug=f.stem)
                 m["cours"][code]["exercices"].append(fm["id"])
+        # parcours (essai, 2026-09-24) : le récit à travers les fiches
+        pdir = cdir / "parcours"
+        m["cours"][code]["parcours"] = []
+        if pdir.is_dir():
+            from validate import lire_parcours
+            for f in sorted(pdir.glob("*.md")):
+                fm, secs, etapes, avant = lire_parcours(f)
+                m["parcours"][fm["id"]] = dict(meta=fm, sections=secs, etapes=etapes,
+                                               avant=avant, cours=code, slug=f.stem)
+                m["cours"][code]["parcours"].append(fm["id"])
+            m["cours"][code]["parcours"].sort(key=lambda x: (m["parcours"][x]["meta"].get("ordre", 999), x))
     rdir = root / "rapports"
     if rdir.is_dir():
         for f in sorted(rdir.glob("*.md")):
@@ -158,6 +169,14 @@ def deriver(m):
     m["D"], m["A"], m["D_inv"], m["A_inv"] = D, A, dict(D_inv), dict(A_inv)
     m["niveau"] = niveau
     m["socle"] = {i: socle(i) for i in N}
+    # Pour chaque fiche : les parcours où elle est une étape, et ceux qui la supposent
+    # connue. C'est ce qui permet à la fiche de dire où elle se place dans le récit.
+    m["etape_de"], m["suppose_par"] = defaultdict(list), defaultdict(list)
+    for pid, pc in m["parcours"].items():
+        for k, (_, x, _) in enumerate(pc["etapes"]):
+            m["etape_de"][x].append((pid, k))
+        for x, role in pc["avant"]:
+            m["suppose_par"][x].append((pid, role))
     return m
 
 
@@ -441,6 +460,30 @@ details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fa
 .chemin p:first-child{margin-top:0}
 .chemin p:last-child{margin-bottom:0}
 .note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
+.parc{border:1px solid var(--li);border-left:3px solid var(--acc);border-radius:0 var(--r) var(--r) 0;
+  background:var(--bg2);padding:.5rem .8rem;margin:.6rem 0;font-size:.93rem}
+.parc-t{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin-bottom:.15rem}
+.parc p{margin:.2rem 0}
+.parc-nav{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--sans);font-size:.8rem;margin-top:.35rem}
+.parc-nav .suiv{margin-left:auto;text-align:right}
+.etapes{list-style:none;padding:0;margin:.6rem 0 1.2rem;counter-reset:e}
+.etapes>li{counter-increment:e;position:relative;padding:0 0 1rem 1.7rem;border-left:2px solid var(--li);margin-left:.9rem}
+.etapes>li:last-child{border-left-color:transparent}
+.etapes>li::before{content:counter(e);position:absolute;left:-.95rem;top:0;width:1.75rem;height:1.75rem;
+  border-radius:99px;background:var(--card);border:1px solid var(--acc);color:var(--acc);
+  font-family:var(--sans);font-size:.78rem;display:flex;align-items:center;justify-content:center}
+.etapes>li>p{margin:.1rem 0 .35rem}
+.etapes .arr{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.45rem .75rem}
+.etapes .arr a.tit{font-weight:600;text-decoration:none}
+.etapes .arr p{margin:.15rem 0;font-size:.88rem;color:var(--mut)}
+.avant{list-style:none;padding:0;margin:.4rem 0 1rem}
+.avant>li{margin:.5rem 0}
+.avant>li p{margin:.1rem 0 0;font-size:.95rem}
+.avant a.tit{font-weight:600;text-decoration:none}
+.roles{list-style:none;padding:0;margin:.2rem 0 0}
+.roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
+.roles>li.cible{background:var(--acc2)}
+details.parc>summary{cursor:pointer}
 .sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
 .sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
 .sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
@@ -1110,6 +1153,7 @@ def page_fiche(m, i):
                    '(<a href="' + rel + 'aide.html" data-v="ajouts">pourquoi</a>)</div>')
 
     c = list(ent)
+    c.append(bandeaux_parcours(m, i, rel, ctx))
     # 2–4
     c.append(sec("Ce que c'est", rendre(S.get("Ce que c'est", ""), ctx, fiche=True)))
     c.append(sec("Forme", rendre(S.get("Forme", ""), ctx, fiche=True)))
@@ -1214,6 +1258,148 @@ def page_fiche(m, i):
     return page(m, titre=meta.get("nom", i), rel=rel, fil=fil, corps="".join(c), js=JS_FICHE)
 
 
+# ================================================================ 6 bis. les parcours (essai)
+
+def lien_parcours(m, pid, rel, ancre=""):
+    pc = m["parcours"][pid]
+    return ('<a href="' + rel + pc["cours"] + "/parcours/" + pc["slug"] + ".html"
+            + (("#" + ancre) if ancre else "") + '">« ' + esc(pc["meta"].get("titre", pid)) + " »</a>")
+
+
+def _prefixer(html_role, tete):
+    """Colle le nom de la fiche devant la phrase de rôle, qui s'écrit « : c'est… »."""
+    mo = re.match(r"<p( class=\"[^\"]*\")?>", html_role)
+    if not mo:
+        return "<p>" + tete + "</p>" + html_role
+    return html_role[: mo.end()] + tete + html_role[mo.end():]
+
+
+def bandeaux_parcours(m, i, rel, ctx):
+    """En tête de fiche : la place de la notion dans chaque récit qui la traverse.
+    Étape : la question qui y mène, et de quoi aller à la précédente et à la suivante.
+    Supposée connue : ce qu'elle fait dans cette histoire-là."""
+    out = []
+    for pid, k in m["etape_de"].get(i, []):
+        pc = m["parcours"][pid]
+        et = pc["etapes"]
+        nav = []
+        for j, sens in ((k - 1, "prec"), (k + 1, "suiv")):
+            if 0 <= j < len(et):
+                x = et[j][1]
+                cx, sx = x.split("/", 1)
+                lab = esc(nom_de(m, x))
+                nav.append('<a class="%s" href="%s%s/n/%s.html">%s</a>'
+                           % (sens, rel, cx, sx, ("← " + lab) if sens == "prec" else (lab + " →")))
+            else:
+                nav.append('<span class="%s">%s</span>' % (sens, lien_parcours(m, pid, rel)
+                           if sens == "suiv" else "début du parcours"))
+        out.append('<div class="parc"><div class="parc-t">'
+                   + aide(rel, "parcours", "Parcours") + " " + lien_parcours(m, pid, rel, "e%d" % (k + 1))
+                   + " · étape " + str(k + 1) + " sur " + str(len(et)) + "</div>"
+                   + rendre(et[k][2], ctx, fiche=True)
+                   + '<div class="parc-nav">' + "".join(nav) + "</div></div>")
+    # Supposée connue : un seul encadré, quel que soit le nombre de parcours. Une notion
+    # de base est supposée par plusieurs récits (utilite-esperee : quatre dans dup), et
+    # quatre bandeaux empilés repoussaient la définition sous la ligne de flottaison.
+    # Replié dès qu'il y en a plusieurs ; on arrive par #p-<parcours> et celui-là s'ouvre.
+    roles = m["suppose_par"].get(i, [])
+    if roles:
+        li = []
+        for pid, role in roles:
+            pc = m["parcours"][pid]
+            li.append('<li id="p-' + pc["slug"] + '">' + _prefixer(
+                rendre(role, ctx, fiche=True), lien_parcours(m, pid, rel, "avant") + " : ") + "</li>")
+        tete = (aide(rel, "parcours", "Parcours") + " · cette notion est supposée connue"
+                + (" par " + str(len(roles)) + " parcours" if len(roles) > 1 else "")
+                + " : voici le rôle qu’elle y joue")
+        corps = '<ul class="roles">' + "".join(li) + "</ul>"
+        if len(roles) == 1:
+            out.append('<div class="parc"><div class="parc-t">' + tete + "</div>" + corps + "</div>")
+        else:
+            out.append('<details class="parc"><summary class="parc-t">' + tete + "</summary>"
+                       + corps + "</details>"
+                       "<script>(function(){var h=location.hash;if(h.indexOf('#p-')!==0)return;"
+                       "var e=document.getElementById(h.slice(1));if(!e)return;"
+                       "var d=e.closest('details');if(d)d.open=true;e.classList.add('cible');})();</script>")
+    return "".join(out)
+
+
+def page_parcours(m, pid):
+    pc = m["parcours"][pid]
+    code, meta, S = pc["cours"], pc["meta"], dict(pc["sections"])
+    rel = "../../"
+    ctx = {"m": m, "rel": rel, "code": code}
+    et = pc["etapes"]
+    c = ["<h1>" + esc(meta.get("titre", pid)) + "</h1>",
+         '<div class="meta"><a class="pill typ" href="' + rel + 'aide.html" data-v="parcours">parcours</a>'
+         '<a class="pill" href="' + rel + code + '/index.html">' + esc(code) + "</a>"
+         + ('<span class="pill">' + esc(str(meta["source"])) + "</span>" if meta.get("source") else "")
+         + '<span class="pill">' + str(len(et)) + " étapes</span></div>",
+         '<div class="entree">' + rendre(S.get("Point de départ", ""), ctx, fiche=True) + "</div>"]
+    if pc["avant"]:
+        li = []
+        for x, role in pc["avant"]:
+            cx, sx = x.split("/", 1)
+            tete = ('<a class="tit" href="' + rel + cx + "/n/" + sx + '.html#p-' + pc["slug"] + '">' + esc(nom_de(m, x))
+                    + "</a>" + (" <span class=\"note\">(" + esc(cx) + ")</span>" if cx != code else "") + " : ")
+            li.append("<li>" + _prefixer(rendre(role, ctx, fiche=True), tete) + "</li>")
+        c.append('<h2 id="avant" class="ptag">À savoir avant de commencer</h2>'
+                 '<p class="note">Le récit s’appuie sur ces fiches sans les raconter. Chacune dit '
+                 "ce qu’elle fait dans cette histoire.</p>"
+                 '<ul class="avant">' + "".join(li) + "</ul>")
+    c.append('<h2 class="ptag">Le récit</h2><ol class="etapes">')
+    for k, (_, x, trans) in enumerate(et):
+        cx, sx = x.split("/", 1)
+        cc = rendre(dict(m["N"][x]["sections"]).get("Ce que c'est", ""), ctx, fiche=True)
+        c.append('<li id="e%d">%s<div class="arr%s"><a class="tit" href="%s%s/n/%s.html">%s</a>%s</div></li>'
+                 % (k + 1, rendre(trans, ctx, fiche=True), " is-ajout" if est_ajout(m, x) else "",
+                    rel, cx, sx, esc(nom_de(m, x)), cc))
+    c.append("</ol>")
+    c.append('<h2 class="ptag">Où l’on arrive</h2><div class="entree">'
+             + rendre(S.get("Point d'arrivée", ""), ctx, fiche=True) + "</div>")
+    fil = ('<a href="' + rel + code + '/index.html">' + esc(m["cours"][code]["meta"].get("titre", code))
+           + "</a> › parcours › " + esc(meta.get("titre", pid)))
+    return page(m, titre=meta.get("titre", pid), rel=rel, fil=fil, corps="".join(c), js=JS_FICHE)
+
+
+def bloc_parcours_cours(m, code, rel, ctx):
+    pids = m["cours"][code].get("parcours") or []
+    if not pids:
+        return ""
+    li, couverts = [], set()
+    for pid in pids:
+        pc = m["parcours"][pid]
+        couverts |= {x for _, x, _ in pc["etapes"]}
+        dep = dict(pc["sections"]).get("Point de départ", "")
+        premier = blocs_md(dep)[0] if dep.strip() else ""
+        li.append('<li class="carte"><a class="tit" href="%s%s/parcours/%s.html">%s</a>'
+                  '<p>%s</p><p class="note">%d étapes%s</p></li>'
+                  % (rel, code, pc["slug"], esc(pc["meta"].get("titre", pid)),
+                     rendre(premier, ctx, fiche=True).replace("<p>", "").replace("</p>", ""),
+                     len(pc["etapes"]),
+                     (" · " + esc(str(pc["meta"]["source"]))) if pc["meta"].get("source") else ""))
+    hors = [i for i in m["cours"][code]["notions"] if i not in couverts]
+    note = ('<p class="note">Chaque parcours suit un fil du cours, étape par étape, et dit à chaque '
+            "fois la question qui mène à la fiche suivante.")
+    if hors:
+        note += (" " + str(len(hors)) + " fiches ne sont l’étape d’aucun parcours : on les trouve par la "
+                 'carte ci-dessous ou <a href="' + rel + code + '/notions.html">la liste complète</a>.')
+    return ('<h2 class="ptag">Lire le cours comme une histoire</h2>' + note + "</p>"
+            '<ul class="cartes">' + "".join(li) + "</ul>")
+
+
+def blocs_md(txt):
+    out, cur = [], []
+    for line in txt.splitlines():
+        if line.strip():
+            cur.append(line)
+        elif cur:
+            out.append("\n".join(cur)); cur = []
+    if cur:
+        out.append("\n".join(cur))
+    return out or [""]
+
+
 # ================================================================ 7. les autres pages
 
 def dette_du_cours(m, code):
@@ -1275,6 +1461,7 @@ def page_cours(m, code):
          "site</a> définit en une page les quatre mots qui reviennent partout : niveau, socle, "
          "cas particulier de, ajout.</p></div>"]
 
+    c.append(bloc_parcours_cours(m, code, rel, ctx))
     c.append('<h2 class="ptag">Principes</h2>'
              '<p class="note">Les idées qui organisent le cours. Tout le reste en découle, '
              "directement ou de loin.</p>")
@@ -1653,6 +1840,15 @@ def page_aide(m):
          "<li><strong>notion</strong> — l’objet concret, celui qu’on manipule et qu’on calcule."
          "</li></ul>",
 
+         '<h2 id="parcours">Les parcours</h2>',
+         "<p>Une fiche dit ce qu’est une notion ; elle ne dit pas l’histoire du cours. Un "
+         "<strong>parcours</strong> la raconte : il traverse plusieurs fiches dans un ordre choisi "
+         "et dit, à chaque étape, la question qui mène à la suivante. On peut le lire d’un bout à "
+         "l’autre sur sa page, ou fiche par fiche avec les liens « précédente » et « suivante » "
+         "en haut de chaque fiche.</p>"
+         "<p>Un parcours ne demande jamais de lire une fiche avant ce qu’elle suppose. Ce qu’il "
+         "suppose sans le raconter est listé au début, avec pour chaque fiche le rôle qu’elle "
+         "joue dans cette histoire ; ce rôle s’affiche aussi en tête de la fiche elle-même.</p>",
          '<h2 id="ajouts">Ce qui vient du cours, et ce qui a été ajouté</h2>',
          "<p>Chaque phrase tirée du cours porte sa référence, « §3.2 ». Ce qui n’y est pas mais a "
          "été ajouté pour que la fiche tienne debout porte la marque <em>ajout</em>.</p>",
@@ -1911,6 +2107,8 @@ def main():
             ecrire(site / code / "n" / (i.split("/", 1)[1] + ".html"), page_fiche(m, i), tailles)
         for x in m["cours"][code]["exercices"]:
             ecrire(site / code / "exercices" / (m["exercices"][x]["slug"] + ".html"), page_exercice(m, x), tailles)
+        for pid in m["cours"][code].get("parcours") or []:
+            ecrire(site / code / "parcours" / (m["parcours"][pid]["slug"] + ".html"), page_parcours(m, pid), tailles)
 
     # 5. contraintes de SPEC-SITE §4
     trop = [(p, n) for p, n in tailles if n > TAILLE_MAX]
