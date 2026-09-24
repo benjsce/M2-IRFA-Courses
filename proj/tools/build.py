@@ -1264,10 +1264,14 @@ def page_fiche(m, i):
 
 # ================================================================ 6 bis. les parcours (SPEC-MODELE §8, SPEC-SITE §3.1)
 
-def lien_parcours(m, pid, rel, ancre=""):
+def lien_parcours(m, pid, rel, ancre="", depuis=None):
+    """`depuis` : le cours de la page. Un parcours d'un autre cours porte son code, sans
+    quoi ses références — « [§2.1.2] » — se liraient comme celles du cours de la page."""
     pc = m["parcours"][pid]
+    autre = depuis and pc["cours"] != depuis
     return ('<a href="' + rel + pc["cours"] + "/parcours/" + pc["slug"] + ".html"
-            + (("#" + ancre) if ancre else "") + '">« ' + esc(pc["meta"].get("titre", pid)) + " »</a>")
+            + (("#" + ancre) if ancre else "") + '">« ' + esc(pc["meta"].get("titre", pid)) + " »</a>"
+            + (' <span class="cc">(' + esc(pc["cours"]) + ", références de ce cours)</span>" if autre else ""))
 
 
 def _prefixer(html_role, tete):
@@ -1312,7 +1316,8 @@ def bandeaux_parcours(m, i, rel, ctx):
         for pid, role in roles:
             pc = m["parcours"][pid]
             li.append('<li id="p-' + pc["slug"] + '">' + _prefixer(
-                rendre(role, ctx, fiche=True), lien_parcours(m, pid, rel, "avant") + " : ") + "</li>")
+                rendre(role, ctx, fiche=True),
+                lien_parcours(m, pid, rel, "avant", depuis=i.split("/", 1)[0]) + " : ") + "</li>")
         tete = (aide(rel, "parcours", "Parcours") + " · cette notion est supposée connue"
                 + (" par " + str(len(roles)) + " parcours" if len(roles) > 1 else "")
                 + " : voici le rôle qu’elle y joue")
