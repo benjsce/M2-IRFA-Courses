@@ -2119,6 +2119,26 @@ def main():
         for pid in m["cours"][code].get("parcours") or []:
             ecrire(site / code / "parcours" / (m["parcours"][pid]["slug"] + ".html"), page_parcours(m, pid), tailles)
 
+    # 4 bis. sceller le fil de chaque cours (SPEC-MODELE A17) : la suite des étapes dans
+    # l'ordre de lecture. Réécrit seulement s'il a changé ; le validateur a déjà vérifié
+    # que l'ancien fil est contenu dans le nouveau.
+    import datetime
+    for code in sorted(m["cours"]):
+        pids = m["cours"][code].get("parcours") or []
+        if not pids:
+            continue
+        fil = [x for pid in pids for _, x, _ in m["parcours"][pid]["etapes"]]
+        f = root / "courses" / code / "parcours" / "fil.yml"
+        ancien = (yaml.safe_load(f.read_text(encoding="utf-8")) or {}).get("fil") if f.exists() else None
+        if ancien != fil:
+            f.write_text("# Écrit par build.py (SPEC-MODELE A17) : toutes les étapes du cours, dans l'ordre\n"
+                         "# de lecture. Le validateur exige que cette suite reste contenue, dans le même\n"
+                         "# ordre, dans celle des parcours actuels. Ne pas éditer à la main.\n"
+                         + yaml.safe_dump({"scelle": datetime.date.today().isoformat(), "fil": fil},
+                                          allow_unicode=True, sort_keys=False),
+                         encoding="utf-8", newline="\n")
+            print("   fil scellé : courses/%s/parcours/fil.yml" % code)
+
     # 5. contraintes de SPEC-SITE §4
     trop = [(p, n) for p, n in tailles if n > TAILLE_MAX]
     for p, n in trop:

@@ -251,6 +251,38 @@ def parcours_hors_recit_declaree(root):
                   encoding="utf-8", newline="\n")
 
 
+def _sceller(root, fil, scelle="2026-09-01"):
+    (root / "courses" / "aa" / "parcours" / "fil.yml").write_text(
+        "scelle: '%s'\nfil: [%s]\n" % (scelle, ", ".join("aa/" + x for x in fil)),
+        encoding="utf-8", newline="\n")
+
+
+def fil_decoupe(root):
+    """Un parcours base → milieu → haut, découpé en deux parcours consécutifs."""
+    _parcours(root, ["base"], [], slug="un", ordre=1)
+    _parcours(root, ["milieu", "haut"], ["base"], slug="deux", ordre=2, fiches=False)
+    _sceller(root, ["base", "milieu", "haut"])
+
+
+def fil_retire(root):
+    _parcours(root, ["milieu", "haut"], ["base"])
+    _sceller(root, ["base", "milieu", "haut"])          # base n'est plus une étape
+
+
+def fil_reordonne(root):
+    _parcours(root, ["base"], [], slug="un", ordre=2)
+    _parcours(root, ["milieu", "haut"], ["base"], slug="deux", ordre=1, fiches=False)
+    _sceller(root, ["base", "milieu", "haut"])
+
+
+def fil_refonte_declaree(root):
+    fil_retire(root)
+    cy = root / "courses" / "aa" / "course.yml"
+    cy.write_text(cy.read_text(encoding="utf-8")
+                  + "refonte_du_recit:\n- date: '2026-09-02'\n  raison: essai\n",
+                  encoding="utf-8", newline="\n")
+
+
 def cours_sans_parcours(root):
     ecrire(root, "aa", [dict(slug="base", nom="Base")])
 
@@ -403,7 +435,7 @@ def main():
     cas("SVG qu'aucune fiche n'appelle → signalé",
         "n'est appelée par aucune fiche", fig_orpheline)
 
-    print("parcours (A14–A16)")
+    print("parcours (A14–A17)")
     cas("parcours conforme → silence",
         "parcours", parcours_ok, doit_apparaitre=False)
     cas("transition qui redit la définition de sa fiche → signalée",
@@ -422,6 +454,14 @@ def main():
         "aa/base: n'a de place dans aucun parcours", parcours_fiche_hors_recit)
     cas("fiche hors récit déclarée avec sa raison → silence",
         "n'a de place dans aucun parcours", parcours_hors_recit_declaree, doit_apparaitre=False)
+    cas("parcours découpé en deux consécutifs → le fil est contenu, silence",
+        "n'est plus", fil_decoupe, doit_apparaitre=False)
+    cas("étape retirée du récit scellé → erreur",
+        "E A17", fil_retire)
+    cas("parcours réordonnés → erreur",
+        "E A17", fil_reordonne)
+    cas("refonte déclarée → avertissement, pas erreur",
+        "E A17", fil_refonte_declaree, doit_apparaitre=False)
     cas("cours sans aucun parcours → compté en dette",
         "le cours n'est raconté nulle part", cours_sans_parcours)
 

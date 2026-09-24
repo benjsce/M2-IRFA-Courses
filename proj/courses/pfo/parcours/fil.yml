@@ -1,0 +1,41 @@
+# Écrit par build.py (SPEC-MODELE A17) : toutes les étapes du cours, dans l'ordre
+# de lecture. Le validateur exige que cette suite reste contenue, dans le même
+# ordre, dans celle des parcours actuels. Ne pas éditer à la main.
+scelle: '2026-09-24'
+fil:
+- pfo/fourchette-bid-ask
+- pfo/prix-milieu
+- pfo/vwap
+- pfo/passage-aux-rendements
+- pfo/rendement-arithmetique
+- pfo/rendement-logarithmique
+- pfo/piege-d-agregation
+- pfo/remplissage-des-valeurs-manquantes
+- pfo/score-z
+- pfo/filtre-z-score-glissant
+- pfo/pipeline-d-ingestion
+- pfo/regroupement-de-volatilite
+- pfo/ewma
+- pfo/matrice-de-covariance
+- pfo/matrice-de-correlation
+- pfo/effet-epps
+- pfo/norme-de-frobenius
+- pfo/marches-non-gaussiens
+- pfo/fait-stylise
+- pfo/moment-standardise
+- pfo/coefficient-d-asymetrie
+- pfo/kurtosis
+- pfo/asymetrie-negative
+- pfo/queues-epaisses
+- pfo/p-valeur
+- pfo/test-de-normalite
+- pfo/test-de-jarque-bera
+- pfo/test-de-shapiro-wilk
+- pfo/quantile
+- pfo/valeur-a-risque
+- pfo/valeur-a-risque-conditionnelle
+- pfo/modele-de-risque
+- pfo/var-historique
+- pfo/var-gaussienne
+- pfo/developpement-de-cornish-fisher
+- pfo/var-de-cornish-fisher

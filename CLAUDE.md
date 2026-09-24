@@ -10,7 +10,7 @@ action, à chaque session.
 
 ## Les trois documents qui font loi
 
-1. `SPEC-MODELE.md` — le modèle de données et ses axiomes (A1–A16), dont les parcours (§8). C'est la référence.
+1. `SPEC-MODELE.md` — le modèle de données et ses axiomes (A1–A17), dont les parcours (§8). C'est la référence.
    Toute décision de structure se justifie par un axiome ; sinon elle n'est pas prise.
 2. `SPEC-INGESTION.md` — le protocole hebdomadaire d'alimentation. Tu le suis dans l'ordre,
    sans sauter d'étape, et tu produis le rapport à la fin.

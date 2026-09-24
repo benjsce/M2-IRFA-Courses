@@ -76,7 +76,7 @@ elle-même, jamais sur la note d'un sous-agent.
 - `site/` : il est généré. Pour vérifier une page, l'ouvrir dans le navigateur ou y
   chercher une chaîne précise.
 - Les SVG des figures : ils sont la sortie d'un script, et le validateur vérifie qu'ils
-  s'accordent.
+  s'accordent. De même `parcours/fil.yml`, que `build.py` écrit et que le validateur lit.
 - Les copies de synchronisation `* 2.md`, `* 2.html` : des doublons que le validateur
   signale et ignore.
 - Une sortie longue en entier : `tail`, `head`, `grep`, ou un compte.

@@ -407,6 +407,8 @@ cinq fiches sous une abstraite `sensibilite`, dont le paramètre est « la varia
 - **Lire les parcours d'un cours dans l'ordre ne fait jamais rencontrer une fiche avant ce
   qu'elle suppose** : chaque prérequis a été raconté plus tôt, ou présenté « à savoir
   avant » avec son rôle. (A3, A14, A15)
+- **Ce qui a été lu reste lisible dans le même ordre** : le récit d'une semaine est
+  contenu dans celui de la suivante, sauf refonte déclarée. (A17)
 
 ## 7. Fichiers annexes d'un cours
 
@@ -424,6 +426,9 @@ refs_pattern: '^(§\d+(\.\d+)*|Déf\. \d+|Prop\. \d+|Th\. \d+|Ex\. \d+|éq\. \d+
 depend_de: []            # cours prérequis (A10) ; vide si aucun
 hors_parcours:           # fiches sans place dans aucun récit, avec leur raison (A16)
   fpp/exemple: digression de la section 4, qui couperait le fil des options
+refonte_du_recit:        # refontes voulues du récit, datées et motivées (A17)
+  - date: '2026-11-02'
+    raison: le chapitre 5 réorganise les options ; le parcours 3 est refait
 ```
 
 `notation.yml`
@@ -542,8 +547,25 @@ d'eux, ou est déclarée dans `course.yml` sous `hors_parcours` avec sa raison. 
 qui a des fiches et aucun parcours est compté en dette. *Empêche* : les notions que rien
 ne raconte et que rien n'explique, ce qu'A13 empêche pour la source.
 
+**A17 — Le fil ne se perd pas. [E]**
+`build.py` scelle, dans `courses/<code>/parcours/fil.yml`, la suite de toutes les étapes
+du cours dans l'ordre de lecture — les parcours par `ordre`, les étapes dans leur ordre.
+La suite actuelle doit **contenir** le fil scellé, dans le même ordre : on peut insérer une
+étape, prolonger un parcours, en ajouter un, ou découper un parcours en parcours
+consécutifs ; on ne peut ni retirer une étape du récit, ni en réordonner deux. Une refonte
+voulue se déclare dans `course.yml`, sous `refonte_du_recit`, avec sa date et sa raison :
+l'erreur devient alors un avertissement, et le fil est scellé à nouveau. *Empêche* : qu'un
+lecteur qui a suivi le récit une semaine ne le retrouve plus la suivante. *Demandé par
+l'utilisateur le 2026-09-24 : « que l'histoire précédente soit toujours contenue, et
+qu'après on passe à d'autres histoires ».*
+
 ### 8.4 Écrire un parcours
 
+- **Combien de parcours : autant que le cours pose de questions, pas plus.** Un cours
+  court, ou qui commence, tient en **un seul** parcours ; on découpe quand le cours pose
+  plusieurs questions distinctes, ou quand un fil dépasse une vingtaine d'étapes — le
+  validateur avertit au-delà de vingt. *Constaté sur pfo : trois parcours annoncés, cinq
+  écrits, parce que les fondre donnait des fils de plus de quinze étapes.*
 - **Un fil, pas un chapitre.** Un parcours suit une question du début à sa réponse ; il
   peut traverser plusieurs supports (le parcours sur l'ambiguïté va de L1 à L4) et un
   support peut nourrir plusieurs parcours. Une bifurcation se raconte en ligne : on
@@ -562,5 +584,15 @@ ne raconte et que rien n'explique, ce qu'A13 empêche pour la source.
   (SPEC-INGESTION étape 3), et le point d'arrivée dit ce que le récit a établi.
 - **Des phrases, pas des étiquettes** ; aucun nombre que le générateur calcule (le nombre
   d'étapes est affiché) ; aucune arête transcrite en prose (« X et Y donnent Z »).
+- **Faire grandir le récit sans perdre le fil.** Quand le cours avance, dans cet ordre de
+  préférence : la matière nouvelle **prolonge** le dernier parcours, ou **ouvre** un
+  parcours d'ordre supérieur, ou **s'insère** dans un parcours existant à l'endroit où sa
+  question se pose. Quand un parcours devient trop long, on le **découpe** en parcours
+  consécutifs dont la suite reproduit exactement ses étapes : le premier garde
+  l'identifiant (A1), les suivants prennent les ordres qui suivent, et les `ordre` des
+  parcours d'après se décalent sans changer d'ordre relatif. Un seul parcours du premier
+  chapitre devient ainsi, au fil des semaines, le premier d'une série. Ce qui est interdit
+  est ce qui perd le lecteur : retirer une étape, déplacer une étape avant une autre qui
+  la précédait, réordonner les parcours (A17).
 - **Viser la couverture, pas l'exhaustivité forcée.** Une digression qui couperait le fil
   se déclare `hors_parcours` avec sa raison ; elle n'a pas à entrer dans un récit.

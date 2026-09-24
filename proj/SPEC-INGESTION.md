@@ -182,6 +182,12 @@ avoir (A16). Trois cas :
 - **Elle est une digression** : la déclarer `hors_parcours` dans `course.yml`, avec sa
   raison.
 
+Un cours qui commence tient souvent en un seul parcours ; il se découpe quand il grandit.
+Le découpage se fait en parcours consécutifs qui reproduisent exactement la suite des
+étapes, et jamais en réordonnant ce qui a déjà été lu (A17 ; règles d'écriture en
+SPEC-MODELE §8.4). Toute insertion, tout découpage se déclare au rapport, avec l'ancienne
+et la nouvelle suite d'étapes. Une refonte se déclare en plus dans `course.yml`.
+
 Une fiche nouvelle qui devient le prérequis direct d'une étape existante oblige à la
 raconter plus tôt, ou à l'ajouter « à savoir avant » avec son rôle (A15) ; le validateur le
 signale. Pour un cours qui n'a encore aucun parcours, les écrire tous est une session à

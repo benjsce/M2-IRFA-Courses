@@ -774,6 +774,39 @@ def valider(root: Path, rap: Rapport):
                           f"suppose {y}, que le parcours « {raconte[y][1]} » ne raconte qu'ensuite "
                           f"(ordre {raconte[y][0]} > {o})")
 
+        # A17 le fil ne se perd pas : ce qu'on a lu reste lisible dans le même ordre.
+        # build.py scelle, dans parcours/fil.yml, la suite de toutes les étapes du cours
+        # dans l'ordre de lecture. La suite actuelle doit la contenir, dans le même ordre :
+        # insérer, prolonger, ajouter un parcours, découper un parcours en parcours
+        # consécutifs, tout cela la contient ; retirer ou réordonner, non. Une refonte
+        # voulue se déclare dans course.yml (refonte_du_recit), datée et motivée.
+        # Demandé par l'utilisateur le 2026-09-24 : « que l'histoire précédente soit
+        # toujours contenue, et qu'après on passe à d'autres histoires ».
+        fil_f = courses_dir / code / "parcours" / "fil.yml"
+        if lus and fil_f.exists():
+            sc = yaml.safe_load(fil_f.read_text(encoding="utf-8")) or {}
+            ancien = [i for i in (sc.get("fil") or [])
+                      if i in N and N[i]["meta"].get("statut") != "retiree"]
+            actuel = [i for _, _, ids, _ in sorted(lus, key=lambda t: (t[0] if isinstance(t[0], int) else 10**6, t[1])) for i in ids]
+            it = iter(actuel)
+            perdu = next((i for i in ancien if not any(i == x for x in it)), None)
+            if perdu:
+                refontes = courses[code].get("refonte_du_recit") or []
+                dates = [str(r.get("date", "")) for r in refontes if isinstance(r, dict) and r.get("raison")]
+                if dates and max(dates) >= str(sc.get("scelle", "")):
+                    rap.w("A17", f"{code} parcours", f"refonte du récit déclarée ({max(dates)}) : "
+                                                     f"{perdu} n'est plus lu à sa place d'avant")
+                else:
+                    rap.e("A17", f"{code} parcours", f"le fil scellé le {sc.get('scelle')} n'est plus "
+                          f"contenu : {perdu} a été retiré du récit ou déplacé avant une étape qui "
+                          "le précédait. Insérer ou découper, ne pas retirer ni réordonner ; une refonte "
+                          "voulue se déclare dans course.yml (refonte_du_recit : date, raison)")
+        for o, slug, ids, _ in lus:
+            if len(ids) > 20:
+                rap.w("A14", f"{code} parcours {slug}", f"{len(ids)} étapes : au-delà de vingt, le fil "
+                                                        "se perd ; découper en parcours consécutifs")
+                rap.dette["parcours trop long"] += 1
+
         # A16 couverture du récit
         hors = courses[code].get("hors_parcours") or {}
         if not isinstance(hors, dict):
