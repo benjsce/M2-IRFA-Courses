@@ -1,0 +1,274 @@
+# Registre des notations de pfo (SPEC-MODELE A12).
+# Le poly surcharge deux symboles : $\alpha$ désigne trois objets (paramètre de lissage
+# EWMA, niveau de signification d'un test, seuil de la VaR), et $K$ désigne tantôt la
+# kurtosis de Pearson (éq. 2.2, éq. 2.5), tantôt l'excès de kurtosis (§2.3, éq. 2.26).
+# Le registre garde le symbole de la source et porte une entrée par sens, rattachée à la
+# fiche qui l'emploie — comme dup le fait pour $K$ et dss pour $\lambda$.
+symboles:
+- symbole: $P_t^{\mathrm{bid}}$
+  notion: pfo/fourchette-bid-ask
+  ref: §1.1.1
+  sens: meilleur prix auquel un acheteur achète en t
+- symbole: $P_t^{\mathrm{ask}}$
+  notion: pfo/fourchette-bid-ask
+  ref: §1.1.1
+  sens: meilleur prix auquel un vendeur vend en t
+- symbole: $S_t$
+  notion: pfo/fourchette-bid-ask
+  ref: éq. 1.1
+  sens: fourchette acheteur-vendeur en t
+- symbole: $P_t^{\mathrm{mid}}$
+  notion: pfo/prix-milieu
+  ref: éq. 1.2
+  sens: milieu de la fourchette
+- symbole: $P_{\mathrm{VWAP}}$
+  notion: pfo/vwap
+  ref: éq. 1.3
+  sens: prix moyen d'exécution pondéré par les volumes
+- symbole: $V_i$
+  notion: pfo/vwap
+  ref: éq. 1.3
+  sens: volume de la i-ème exécution
+- symbole: $P_t$
+  notion: pfo/rendement-arithmetique
+  ref: §1.2
+  sens: prix de l'actif en t
+- symbole: $R_t$
+  notion: pfo/rendement-arithmetique
+  ref: éq. 1.4
+  sens: rendement arithmétique de la sous-période t
+- symbole: $R_{0\to T}$
+  notion: pfo/rendement-arithmetique
+  ref: éq. 1.4
+  sens: rendement arithmétique sur [0, T]
+- symbole: $r_t$
+  notion: pfo/rendement-logarithmique
+  ref: éq. 1.5
+  sens: rendement logarithmique de la période t
+- symbole: $r_{0\to T}$
+  notion: pfo/rendement-logarithmique
+  ref: éq. 1.6
+  sens: rendement logarithmique sur [0, T]
+- symbole: $R_p$
+  notion: pfo/piege-d-agregation
+  ref: éq. 1.7
+  sens: rendement arithmétique d'un portefeuille
+- symbole: $r_p$
+  notion: pfo/piege-d-agregation
+  ref: éq. 1.8
+  sens: rendement logarithmique d'un portefeuille
+- symbole: $w_i$
+  notion: pfo/piege-d-agregation
+  ref: éq. 1.7
+  sens: poids de l'actif i dans le portefeuille
+- symbole: $Z$
+  notion: pfo/score-z
+  ref: éq. 1.9
+  sens: score z, écart à la moyenne en nombre d'écarts types
+- symbole: $\mu$
+  notion: pfo/score-z
+  ref: éq. 1.9
+  sens: moyenne du groupe, ou espérance du rendement (§2.1.2)
+- symbole: $\sigma$
+  notion: pfo/score-z
+  ref: éq. 1.9
+  sens: écart type du groupe, ou du rendement (§2.1.2)
+- symbole: $\sigma_t^2$
+  notion: pfo/ewma
+  ref: éq. 1.10
+  sens: variance EWMA en t
+- symbole: $\lambda$
+  notion: pfo/ewma
+  ref: éq. 1.10
+  sens: paramètre de persistance EWMA, 0,94 en journalier
+- symbole: $\alpha$
+  notion: pfo/ewma
+  ref: p. 14
+  sens: paramètre de lissage EWMA, 1 − λ
+- symbole: $\widehat\sigma_t$
+  notion: pfo/ewma
+  ref: p. 16
+  sens: volatilité EWMA estimée en t
+- symbole: $\boldsymbol{\Sigma}$
+  notion: pfo/matrice-de-covariance
+  ref: éq. 1.11
+  sens: matrice de variance-covariance annualisée
+- symbole: $\mathbf{r}_t$
+  notion: pfo/matrice-de-covariance
+  ref: éq. 1.11
+  sens: vecteur des rendements des N actifs en t
+- symbole: $\mathbf{R}$
+  notion: pfo/matrice-de-correlation
+  ref: p. 17
+  sens: matrice des corrélations de Pearson
+- symbole: $\mathbf{D}$
+  notion: pfo/matrice-de-correlation
+  ref: p. 17
+  sens: matrice diagonale des variances
+- symbole: $\rho_{ij}$
+  notion: pfo/matrice-de-correlation
+  ref: p. 17
+  sens: corrélation des rendements de i et j
+- symbole: $\sigma_{ij}$
+  notion: pfo/matrice-de-correlation
+  ref: p. 17
+  sens: covariance des rendements de i et j
+- symbole: $\|\cdot\|_F$
+  notion: pfo/norme-de-frobenius
+  ref: éq. 1.12
+  sens: norme de Frobenius d'une matrice
+- symbole: $S$
+  notion: pfo/coefficient-d-asymetrie
+  ref: éq. 2.1
+  sens: coefficient d'asymétrie (skewness) de Fisher
+- symbole: $K$
+  notion: pfo/kurtosis
+  ref: éq. 2.2
+  sens: kurtosis de Pearson, 3 pour une loi normale ; excès de kurtosis en §2.3 et éq. 2.26
+- symbole: $K_{\mathrm{ex}}$
+  notion: pfo/kurtosis
+  ref: p. 20
+  sens: excès de kurtosis, K − 3
+- symbole: $K_F$
+  notion: pfo/kurtosis
+  ref: éq. 2.6
+  sens: kurtosis de Fisher, le même objet que l'excès
+- symbole: $JB$
+  notion: pfo/test-de-jarque-bera
+  ref: §2.3
+  sens: statistique de Jarque-Bera
+- symbole: $T$
+  notion: pfo/test-de-jarque-bera
+  ref: §2.3
+  sens: nombre d'observations ; nombre de sous-périodes en éq. 1.4
+- symbole: $\chi^2(2)$
+  notion: pfo/test-de-jarque-bera
+  ref: p. 26
+  sens: loi du khi-deux à deux degrés de liberté
+- symbole: $H_0$
+  notion: pfo/test-de-normalite
+  ref: éq. 2.13
+  sens: hypothèse nulle, les données suivent une loi normale
+- symbole: $H_1$
+  notion: pfo/test-de-normalite
+  ref: éq. 2.14
+  sens: hypothèse alternative, elles ne la suivent pas
+- symbole: $\alpha$
+  notion: pfo/p-valeur
+  ref: éq. 2.15
+  sens: niveau de signification d'un test, 0,05
+- symbole: $W$
+  notion: pfo/test-de-shapiro-wilk
+  ref: p. 27
+  sens: statistique de Shapiro-Wilk
+- symbole: $X_{(i)}$
+  notion: pfo/test-de-shapiro-wilk
+  ref: p. 27
+  sens: i-ème observation de l'échantillon ordonné (statistique d'ordre)
+- symbole: $a_i$
+  notion: pfo/test-de-shapiro-wilk
+  ref: p. 27
+  sens: coefficients de Shapiro-Wilk
+- symbole: $m_i$
+  notion: pfo/test-de-shapiro-wilk
+  ref: p. 28
+  sens: espérance de la i-ème statistique d'ordre d'une normale centrée réduite
+- symbole: $V$
+  notion: pfo/test-de-shapiro-wilk
+  ref: p. 28
+  sens: matrice de covariance des statistiques d'ordre d'une normale
+- symbole: $L$
+  notion: pfo/valeur-a-risque
+  ref: Déf. 2.5.1
+  sens: perte du portefeuille sur l'horizon
+- symbole: $\alpha$
+  notion: pfo/valeur-a-risque
+  ref: Déf. 2.5.1
+  sens: probabilité de dépassement de la VaR, 0,05 pour une VaR à 95 %
+- symbole: $\mathrm{VaR}_\alpha$
+  notion: pfo/valeur-a-risque
+  ref: éq. 2.23
+  sens: valeur à risque au seuil α
+- symbole: $\mathrm{CVaR}_\alpha$
+  notion: pfo/valeur-a-risque-conditionnelle
+  ref: éq. 2.24
+  sens: perte moyenne au-delà de la VaR
+- symbole: $z_\alpha$
+  notion: pfo/var-gaussienne
+  ref: p. 33
+  sens: quantile d'ordre α de la loi normale centrée réduite
+- symbole: $\varphi$
+  notion: pfo/var-gaussienne
+  ref: Listing 2.2
+  sens: densité de la loi normale centrée réduite
+- symbole: $q_\alpha$
+  notion: pfo/developpement-de-cornish-fisher
+  ref: p. 34
+  sens: quantile d'ordre α corrigé de la non-normalité
+- symbole: $\delta$
+  notion: pfo/developpement-de-cornish-fisher
+  ref: p. 34
+  sens: correction ajoutée au quantile normal
+- symbole: $q_\alpha^{CF}$
+  notion: pfo/var-de-cornish-fisher
+  ref: éq. 2.29
+  sens: quantile de rendement de Cornish-Fisher, dénormalisé
+- symbole: $z_{CF}$
+  notion: pfo/var-de-cornish-fisher
+  ref: éq. 2.35
+  sens: quantile centré réduit corrigé par Cornish-Fisher
+
+collisions:
+- symbole: $S_t$
+  ici: fourchette acheteur-vendeur (éq. 1.1)
+  ailleurs:
+    fpp: prix comptant du sous-jacent
+  note: >-
+    le plus trompeur des deux cours voisins : en pfo, $S_t$ est un écart de prix de
+    quelques centimes, pas le prix lui-même
+- symbole: $S$
+  ici: coefficient d'asymétrie (éq. 2.1)
+  ailleurs:
+    dup: espace des états du monde
+- symbole: $K$
+  ici: kurtosis, de Pearson ou en excès selon la page
+  ailleurs:
+    fpp: strike
+    dup: ensemble des probabilités a priori
+- symbole: $\sigma$
+  ici: écart type, d'un groupe ou d'un rendement
+  ailleurs:
+    fpp: volatilité, écart type du rendement
+    dup: écart type d'une perspective
+  note: le même objet dans les trois cours, à l'annualisation près
+- symbole: $\mu$
+  ici: moyenne, ou espérance du rendement
+  ailleurs:
+    fpp: dérive du sous-jacent sous la probabilité historique
+    dup: espérance d'une perspective
+- symbole: $\lambda$
+  ici: persistance EWMA
+  ailleurs:
+    dss: paramètre de pénalité de ridge et du lasso
+    dup: coefficient d'aversion aux pertes
+- symbole: $\alpha$
+  ici: trois sens dans ce seul cours — lissage EWMA, niveau d'un test, seuil de la VaR
+  ailleurs:
+    dss: coefficient d'inertie
+    dup: coefficient linéaire de l'utilité quadratique
+- symbole: $W$
+  ici: statistique de Shapiro-Wilk
+  ailleurs:
+    dss: nombre de poids du réseau
+- symbole: $L$
+  ici: perte du portefeuille
+  ailleurs:
+    dss: vraisemblance maximisée
+- symbole: $\delta$
+  ici: correction de Cornish-Fisher du quantile normal
+  ailleurs:
+    fpp: delta d'une option
+- symbole: $\varphi$
+  ici: densité de la loi normale centrée réduite (Listing 2.2)
+  ailleurs:
+    dup: fonction de distorsion des probabilités
