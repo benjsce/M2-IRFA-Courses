@@ -201,6 +201,10 @@ symboles:
   notion: pfo/var-gaussienne
   ref: Listing 2.2
   sens: densité de la loi normale centrée réduite
+- symbole: $F$
+  notion: pfo/quantile
+  ref: p. 34
+  sens: fonction de répartition, dont le quantile est l'inverse
 - symbole: $q_\alpha$
   notion: pfo/developpement-de-cornish-fisher
   ref: p. 34
@@ -272,3 +276,8 @@ collisions:
   ici: densité de la loi normale centrée réduite (Listing 2.2)
   ailleurs:
     dup: fonction de distorsion des probabilités
+- symbole: $F$
+  ici: fonction de répartition (p. 34)
+  ailleurs:
+    dup: ensemble des actes, puis fonction de répartition de la richesse
+    fpp: prix forward
