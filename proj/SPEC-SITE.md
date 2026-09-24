@@ -101,6 +101,7 @@ site/
   <code>/inventaire.html          la couverture de la source, pour l'audit hebdomadaire
   <code>/exercices.html           les exercices du cours, groupés par section de la source
   <code>/exercices/<slug>.html    énoncé, solution officielle, résolution, fiches touchées
+  <code>/parcours/<slug>.html     un récit à travers les fiches (SPEC-MODELE §8)
   rapports/<date>.html            les rapports d'ingestion
 ```
 
@@ -112,6 +113,12 @@ Dans cet ordre, sans exception :
    et un lien vers l'arbre du cours **visant la carte de cette notion**. Le type, le
    niveau et la marque `ajout` sont eux-mêmes des liens vers la section d'`aide.html`
    qui les définit.
+1 bis. Bandeaux de parcours, **générés** : pour le parcours dont la fiche est une étape, le
+   titre, « étape k sur n », la transition qui mène ici, la fiche précédente et la
+   suivante ; pour les parcours qui la supposent connue, un seul encadré qui donne son rôle
+   dans chacun, replié dès qu'il y en a plusieurs, et dont l'entrée s'ouvre quand on arrive
+   depuis ce parcours (ancre `#p-<slug>`). Un seul encadré et non un par parcours : la
+   fiche `dup/utilite-esperee` en aurait porté cinq, empilés au-dessus de sa définition.
 2. Ce que c'est.
 3. Forme.
 4. Ce qui la définit / Ce que les membres partagent.
@@ -196,7 +203,10 @@ le nombre de notions à traverser au plus long pour atteindre celle-ci, donc un 
 lecture, ni un degré de difficulté ni un degré d'importance. Sans cette phrase, « niveau 2 »
 ne veut rien dire pour le lecteur.
 
-Ce qu'on voit, dans l'ordre : un **bloc d'entrée** qui dit combien de notions compte le
+Ce qu'on voit, dans l'ordre : un **bloc d'entrée** ; puis « Lire le cours comme une
+histoire », les parcours par `ordre` croissant, chacun avec son point de départ et son
+nombre d'étapes, et le nombre de fiches qui ne sont l'étape d'aucun parcours ; puis le
+reste. Le bloc d'entrée dit combien de notions compte le
 cours et donne quatre chemins selon ce que la personne cherche (découvrir, tout voir,
 commencer à lire, voir les familles, s'entraîner sur les exercices, chercher un terme
 précis) ; les principes, glosés en une ligne ; pour
@@ -207,6 +217,13 @@ suivi de la rédaction (règle 13). Rien d'autre. Le détail est à un clic.
 Le bloc d'entrée existe parce que la page ne peut pas se deviner : quatre destinations y
 sont accessibles sans qu'aucune soit désignée, et la bonne dépend de ce que la personne
 sait déjà du cours.
+
+### 3.2 quinquies Le parcours `<code>/parcours/<slug>.html`
+
+Dans l'ordre : le titre ; le point de départ ; « à savoir avant de commencer », chaque fiche
+suivie de son rôle, avec un lien qui ouvre ce rôle sur la fiche ; le récit, une étape par
+item numéroté — la transition, puis la fiche et sa définition, **générée** depuis « Ce que
+c'est » ; le point d'arrivée. Le mot « parcours » n'est défini que dans `aide.html`.
 
 ### 3.3 L'arbre `<code>/arbre.html`
 

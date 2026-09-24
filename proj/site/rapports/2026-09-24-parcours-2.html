@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="fr" data-rel="">
+<html lang="fr" data-rel="../">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Base de notions · notions</title>
+<title>Rapport 2026-09-24-parcours-2 · notions</title>
 <script>
 /* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
    localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
@@ -239,13 +239,85 @@ footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);f
 }
 @media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
 </style>
-
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
-<header class="top"><div class="topin"><a class="brand" href="index.html">notions</a><span class="fil">accueil</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
-<main><div class="wrap"><h1>Base de notions — M2 IRFA</h1><div class="entree"><p class="quoi"><strong>Des cours découpés en notions : une notion, une page.</strong> Chaque page dit ce qu’est la notion, ce qu’il faut savoir avant de la lire, et ce qu’elle permet de lire ensuite.</p><p>253 notions pour l’instant, sur 4 cours. Choisissez un cours ci-dessous, ou cherchez directement un nom ou un symbole avec la touche <code>/</code>.</p><p class="note"><a href="aide.html">Comment lire ce site</a> — une page, les quatre mots qui reviennent partout : niveau, socle, cas particulier de, ajout.</p></div><h2 class="ptag">Cours</h2><ul class="cartes"><li class="carte"><a class="tit" href="dss/index.html">Data Science Software</a><p>Bertrand K. Hassani · 2025-2026</p><p>76 notions, dont 10 qui ne dépendent d’aucune autre · 0 exercices</p><p><a href="dss/notions.html">toutes les notions</a> · <a href="dss/arbre.html">l’arbre des familles</a></p></li><li class="carte"><a class="tit" href="dup/index.html">Decision under Uncertainty and Portfolio Analysis</a><p>Xiangyu Qu · 2025-2026</p><p>86 notions, dont 10 qui ne dépendent d’aucune autre · 0 exercices</p><p><a href="dup/notions.html">toutes les notions</a> · <a href="dup/arbre.html">l’arbre des familles</a></p></li><li class="carte"><a class="tit" href="fpp/index.html">Financial Products and Introduction to Pricing</a><p>Nicolas Gaussel · 2025-2026</p><p>55 notions, dont 16 qui ne dépendent d’aucune autre · 20 exercices</p><p><a href="fpp/notions.html">toutes les notions</a> · <a href="fpp/arbre.html">l’arbre des familles</a> · <a href="fpp/exercices.html">les exercices</a></p></li><li class="carte"><a class="tit" href="pfo/index.html">Python for Finance and Optimisation</a><p>Mohamed Mrad · 2026-2027</p><p>36 notions, dont 14 qui ne dépendent d’aucune autre · 1 exercices</p><p><a href="pfo/notions.html">toutes les notions</a> · <a href="pfo/arbre.html">l’arbre des familles</a> · <a href="pfo/exercices.html">les exercices</a></p></li></ul><details class="chantier"><summary>Suivi de la rédaction — comment cette base est faite, et ce qui reste à y faire</summary><div class="dette"><ul><li>253 notions réparties sur 4 cours</li><li>reste à écrire : 0 liens vers des notions à venir, 0 gestes de calcul, 1 éléments d’inventaire</li><li><a href="aide.html" data-v="fabrication">comment cette base est faite</a> : le schéma des fiches, ce qui est recalculé à chaque construction, le validateur</li><li>rapports d’ingestion, un par séance de travail : <a href="rapports/2026-09-24-pfo.html">2026-09-24-pfo</a> · <a href="rapports/2026-09-24-pfo-2.html">2026-09-24-pfo-2</a> · <a href="rapports/2026-09-24-parcours.html">2026-09-24-parcours</a> · <a href="rapports/2026-09-24-parcours-2.html">2026-09-24-parcours-2</a> · <a href="rapports/2026-09-24-parcours 2.html">2026-09-24-parcours 2</a> · <a href="rapports/2026-09-21-modele.html">2026-09-21-modele</a> · <a href="rapports/2026-09-21-figures.html">2026-09-21-figures</a> · <a href="rapports/2026-09-21-figures-4.html">2026-09-21-figures-4</a> · <a href="rapports/2026-09-21-figures-3.html">2026-09-21-figures-3</a> · <a href="rapports/2026-09-21-figures-2.html">2026-09-21-figures-2</a> · <a href="rapports/2026-09-21-dup.html">2026-09-21-dup</a> · <a href="rapports/2026-09-21-dup-4.html">2026-09-21-dup-4</a> · <a href="rapports/2026-09-21-dup-3.html">2026-09-21-dup-3</a> · <a href="rapports/2026-09-21-dup-2.html">2026-09-21-dup-2</a> · <a href="rapports/2026-09-20-spec-ingestion.html">2026-09-20-spec-ingestion</a> · <a href="rapports/2026-09-20-site.html">2026-09-20-site</a> · <a href="rapports/2026-09-20-site-6.html">2026-09-20-site-6</a> · <a href="rapports/2026-09-20-site-5.html">2026-09-20-site-5</a> · <a href="rapports/2026-09-20-site-4.html">2026-09-20-site-4</a> · <a href="rapports/2026-09-20-site-3.html">2026-09-20-site-3</a> · <a href="rapports/2026-09-20-site-2.html">2026-09-20-site-2</a> · <a href="rapports/2026-09-20-regles.html">2026-09-20-regles</a> · <a href="rapports/2026-09-20-proses.html">2026-09-20-proses</a> · <a href="rapports/2026-09-20-fpp.html">2026-09-20-fpp</a> · <a href="rapports/2026-09-20-fpp-4.html">2026-09-20-fpp-4</a> · <a href="rapports/2026-09-20-fpp-3.html">2026-09-20-fpp-3</a> · <a href="rapports/2026-09-20-fpp-2.html">2026-09-20-fpp-2</a> · <a href="rapports/2026-09-20-dup.html">2026-09-20-dup</a> · <a href="rapports/2026-09-20-dss.html">2026-09-20-dss</a> · <a href="rapports/2026-09-20-confrontation.html">2026-09-20-confrontation</a> · <a href="rapports/2026-09-20-chemins.html">2026-09-20-chemins</a></li></ul></div></details></div></main>
-<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="aide.html">comment lire ce site</a> · <a href="aide.html" data-v="fabrication">comment il est fait</a></div></footer>
-<script src="search-index.js"></script>
+<header class="top"><div class="topin"><a class="brand" href="../index.html">notions</a><span class="fil">rapport d’ingestion › 2026-09-24-parcours-2</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><article class="rapport"><h1>Rapport de session — les parcours deviennent la règle, et l'économie de lecture — 2026-09-24 (2)</h1><p>*Session sur le modèle et non sur un cours ; seconde du jour sur ce sujet, d'où le
+suffixe <code>-2</code> (SPEC-INGESTION étape 6).*</p><p>L'utilisateur a retenu l'essai des parcours sur dup : « à chaque étape, ce qu'il y a dans
+le socle, ce sont des choses qu'on a soit vues précédemment, soit qui faisaient partie de
+ce qu'il faut savoir avant de commencer ». La branche <code>essai-parcours</code> est fusionnée dans
+<code>main</code> et supprimée. Il a demandé en même temps une façon de ne plus relire tout le
+dépôt à chaque session.</p><h2>1. Les parcours dans les spécifications</h2><p><strong>SPEC-MODELE</strong> : §1 dit qu'un cours porte des parcours, qui n'ajoutent aucune relation ;
+§6 ajoute la garantie « lire les parcours d'un cours dans l'ordre ne fait jamais
+rencontrer une fiche avant ce qu'elle suppose » ; §7 documente <code>hors_parcours</code> ; un §8
+nouveau donne le pourquoi, le format, trois axiomes et les règles d'écriture.</p><div class="tablebloc"><table><thead><tr><th>axiome</th><th>ce qu'il exige</th><th>sévérité</th></tr></thead><tbody><tr><td>A14 — ordre du récit</td><td>aucune étape avant ses prérequis ; <strong>entre parcours</strong>, lus par <code>ordre</code>, aucun ne suppose ce qu'un suivant raconte ; <code>ordre</code> distincts</td><td>E</td></tr><tr><td>A15 — rattachement</td><td>tout prérequis direct hors du parcours figure « à savoir avant » avec son rôle, et rien d'autre</td><td>E</td></tr><tr><td>A16 — couverture</td><td>toute fiche est étape, rôle, ou <code>hors_parcours</code> avec sa raison ; un cours sans parcours est en dette</td><td>W</td></tr></tbody></table></div><p>Les deux règles nouvelles depuis l'essai viennent de la demande « parcourir tout le cours
+dans le bon ordre » : l'ordre <strong>entre</strong> parcours (A14) et la couverture (A16). Mesurées
+avant d'être écrites : les sept parcours de dup les respectent déjà, y compris en suivant
+les socles transitifs.</p><p><strong>SPEC-INGESTION</strong> : une étape 4 bis, « le récit » — toute fiche nouvelle prolonge un fil
+(insertion, et relecture de la transition suivante, déclarée comme une modification),
+ouvre un parcours, ou se déclare digression. Le plan du rapport reçoit une section
+« Parcours ».</p><p><strong>SPEC-SITE</strong> : la page du parcours (§3.2 quinquies), les bandeaux de la fiche (§3.1,
+rang 1 bis), la rubrique « Lire le cours comme une histoire » sur la carte (§3.2).</p><p><strong>Validateur</strong> : les contrôles de l'essai prennent les numéros A14–A16 ; l'ordre entre
+parcours, l'unicité des <code>ordre</code> et la couverture sont ajoutés. <strong>Garde-fous</strong> : dix cas
+sur les parcours, tous se déclenchent.</p><p><strong>dup</strong> : <code>course.yml</code> déclare <code>dup/utilite-dependante-de-l-etat</code> hors parcours, avec sa
+raison. dup n'a plus aucune fiche hors récit.</p><h2>2. L'économie de lecture</h2><p><strong>Mesure d'abord</strong> (à quatre caractères par token) : les trois SPEC et CLAUDE.md, ≈ 18 k ;
+un cours, ≈ 26 à 67 k fiches et annexes comprises ; <strong>tous les rapports, ≈ 86 k</strong> ; **les
+scripts, ≈ 53 k** ; un poly lu en images, bien davantage. Le poste le plus lourd n'était
+pas les cours.</p><p><strong><code>tools/carte.py</code></strong>, nouveau, n'écrit rien :
+- sans argument (≈ 0,2 k tokens) : les cours, leurs tailles, leurs parcours, le dernier
+  rapport de chacun, les arêtes entre cours ;
+- avec un code (≈ 11 k) : le graphe du cours en une ligne par fiche, ses parcours, son
+  inventaire, et <strong>une ligne par fiche de tous les autres cours</strong> (nom, alias, symbole,
+  « Ce que c'est »). C'est ce qui garde possibles les liens entre cours — pfo vers
+  <code>fpp/volatilite</code> — sans relire ces cours, qui coûteraient ≈ 130 k.</p><p><strong><code>LECTURE.md</code></strong>, nouveau document de loi, en double comme les quatre autres et contrôlé
+de même : ce qui se lit toujours (les documents de loi, le validateur, la carte), selon le
+travail (le cours travaillé et ses voisins ; deux rapports seulement ; une fiche étrangère
+seulement si la carte la désigne ; le matériau nouveau d'une source, par tranches ; les
+scripts par plages), et jamais (<code>site/</code>, les SVG, les copies de synchronisation).</p><p><strong>La condition</strong> : si les anciens rapports ne se lisent plus, le dernier doit suffire.
+SPEC-INGESTION impose donc au rapport de <strong>recopier</strong> ce qui reste ouvert au lieu d'y
+renvoyer. Ce rapport est le premier à le faire, section 4.</p><p><strong>CLAUDE.md</strong> : le déroulé de session passe à neuf étapes (carte, rapports ciblés,
+étape 4 bis) et renvoie à LECTURE.md.</p><h2>3. Un incident, et sa correction</h2><p>Juste après la fusion Git, le client de synchronisation du dossier (iCloud Drive) a créé
+une copie de conflit de chaque parcours, « <code>risque 2.md</code> » à côté de « <code>risque.md</code> »,
+identique octet pour octet, et une copie d'un rapport. <code>.gitignore</code> les écarte déjà du
+dépôt, mais le validateur les lisait comme des parcours en double et refusait le build.
+Le validateur, le générateur et la carte <strong>les ignorent désormais en le disant</strong> ; elles
+n'ont pas été supprimées. <strong>Sept copies sont sur le disque, à supprimer par l'utilisateur</strong>
+(le validateur les liste) :
+<code>courses/dup/parcours/* 2.md</code> et <code>rapports/2026-09-24-parcours 2.md</code>.</p><p>Relevé en rédigeant la spécification : le rapport de l'essai et mon message annonçaient
+« 14 transitions attrapées sur 101 » ; le recompte donne <strong>15 sur 84</strong>. SPEC-MODELE porte
+le bon chiffre.</p><h2>Fiches modifiées</h2><p>Aucune fiche. Fichiers modifiés hors fiches : <code>courses/dup/course.yml</code> (ajout de
+<code>hors_parcours</code>, aucune ligne existante retouchée), les quatre documents de loi et
+LECTURE.md (racine et <code>proj/</code>), <code>tools/validate.py</code>, <code>tools/build.py</code>,
+<code>tools/tests/test_garde_fous.py</code> ; créé : <code>tools/carte.py</code>.</p><h2>Parcours</h2><p>Aucun créé. Les sept de dup reçoivent un <code>ordre</code> (fait pendant l'essai) et passent sous
+les axiomes A14–A16 sans modification.</p><h2>4. Ce qui reste ouvert, recopié des derniers rapports de chaque cours</h2><p><strong>Dette</strong> (validateur) : <code>cours sans parcours</code> = 3 (dss, fpp, pfo) — nouvelle, voulue ;
+<code>inventaire à venir</code> = 1 (fpp, <code>exos §2.1</code>, modèle de Merton).</p><p><strong>Avertissement ancien</strong> : <code>fpp/feynman-kac</code> porte une dépendance redondante vers
+<code>fpp/mesure-risque-neutre</code> (A8).</p><p><strong>Abstractions en attente</strong>
+- dss : <em>fonction d'activation</em> (cinq variantes à la slide 178, une seule développée) ;
+  <em>indicateur de matrice de confusion</em> (une trentaine de rapports, traités en table).
+- dup : <em>dominance stochastique</em> ; <em>mesure de risque</em>.
+- pfo : <em>estimateur de volatilité</em> (membre unique : <code>pfo/ewma</code>) ; <em>mesure de risque</em> (VaR
+  et CVaR, qui ne sont pas sœurs aujourd'hui).</p><p><strong>Questions sans réponse</strong>
+1. fpp — créer <code>fpp/modele-de-merton</code> ? Recommandation du 2026-09-20 : oui.
+2. fpp — le domaine de $l$ dans l'exercice 16 : trois lectures, trois tables ; à demander à
+   l'enseignant.
+3. fpp — la convention $X_t$ : garder la collision déclarée (recommandation).
+4. dss — les trois emplois de $\lambda$ : à demander à l'enseignant.
+5. dss — des fiches pour l'arbre de décision, la régression logistique, le SVM ?
+   Recommandation : attendre un support.
+6. dup — un contrôle des symboles LaTeX du corps absents du registre : recommandé depuis
+   deux rapports, à faire dans une session dédiée au validateur.
+7. dup — <code>dup/maxmin-eu</code> reste la plus longue fiche du dépôt.
+8. <strong>Nouvelle</strong> — écrire les parcours de fpp, dss et pfo. Recommandation : un cours par
+   session, en commençant par pfo (le plus petit, ≈ 36 fiches), avec la carte et, pour
+   les cours plus longs, des sous-agents qui préparent le plan (LECTURE.md).</p><p>Le point « documents de loi en double, synchronisés à la main » des rapports fpp est
+réglé depuis le 2026-09-21 : le validateur compare les copies.</p><h2>Validation</h2><p>```
+253 notions · 0 erreur(s) · 12 avertissement(s)
+dette : cours sans parcours = 3, inventaire à venir = 1
+```</p><p>Les douze avertissements : deux anciens (fpp), trois cours sans parcours, sept copies de
+synchronisation ignorées. Garde-fous : tous se déclenchent. Site régénéré.</p></article></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../aide.html">comment lire ce site</a> · <a href="../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../search-index.js"></script>
 <script>
 var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
         s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};

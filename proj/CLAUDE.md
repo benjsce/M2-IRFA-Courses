@@ -10,11 +10,14 @@ action, à chaque session.
 
 ## Les trois documents qui font loi
 
-1. `SPEC-MODELE.md` — le modèle de données et ses axiomes (A1–A13). C'est la référence.
+1. `SPEC-MODELE.md` — le modèle de données et ses axiomes (A1–A16), dont les parcours (§8). C'est la référence.
    Toute décision de structure se justifie par un axiome ; sinon elle n'est pas prise.
 2. `SPEC-INGESTION.md` — le protocole hebdomadaire d'alimentation. Tu le suis dans l'ordre,
    sans sauter d'étape, et tu produis le rapport à la fin.
 3. `SPEC-SITE.md` — l'architecture d'information du site et les contraintes du générateur.
+
+`LECTURE.md` dit comment les appliquer sans relire tout le dépôt : ce qui se lit toujours,
+selon le travail, jamais. Il se lit à chaque session, avec les trois autres.
 
 Un exemple réel et validé vit dans `courses/fpp/`. Quand tu hésites sur la forme, regarde-le.
 Quand tu hésites sur le fond, tu demandes — tu n'improvises pas.
@@ -23,13 +26,14 @@ Quand tu hésites sur le fond, tu demandes — tu n'improvises pas.
 
 ```
 1. python tools/validate.py            # état du graphe avant de toucher quoi que ce soit
-2. lire le dernier rapport dans rapports/  # ce qui était en dette, ce qui était proposé
-3. travailler selon SPEC-INGESTION.md
-4. python tools/validate.py            # doit passer ; sinon corriger, jamais contourner
-5. python tools/tests/test_garde_fous.py   # les contrôles se déclenchent-ils encore ?
-6. python tools/build.py               # régénère site/
-7. écrire rapports/AAAA-MM-JJ-<cours>.md  # obligatoire, format dans SPEC-INGESTION.md
-8. git commit                          # une session = un commit, message renvoyant au rapport
+2. python tools/carte.py [<code>]      # la base en une ligne par fiche (LECTURE.md)
+3. lire le dernier rapport du cours et ceux du dernier jour  # dette, propositions, questions
+4. travailler selon SPEC-INGESTION.md, étape 4 bis comprise : toute fiche a sa place dans un récit
+5. python tools/validate.py            # doit passer ; sinon corriger, jamais contourner
+6. python tools/tests/test_garde_fous.py   # les contrôles se déclenchent-ils encore ?
+7. python tools/build.py               # régénère site/
+8. écrire rapports/AAAA-MM-JJ-<cours>.md  # obligatoire ; il recopie tout ce qui reste ouvert
+9. git commit                          # une session = un commit, message renvoyant au rapport
 ```
 
 Si le validateur échoue à l'étape 1 sur un état que tu n'as pas produit, tu le signales

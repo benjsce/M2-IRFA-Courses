@@ -88,6 +88,8 @@ def charger(root: Path):
         for it in av or []:
             m["a_venir"][it["id"]] = it
         for f in sorted((cdir / "notions").glob("*.md")):
+            if re.search(r" \d+$", f.stem):         # copie de synchronisation (voir validate.py)
+                continue
             fm, secs = lire_fiche(f)
             if fm.get("statut") == "retiree":       # SPEC-INGESTION : sort du site, reste au dépôt
                 continue
@@ -100,12 +102,14 @@ def charger(root: Path):
                 fm, secs = lire_fiche(f)
                 m["exercices"][fm["id"]] = dict(meta=fm, sections=secs, cours=code, slug=f.stem)
                 m["cours"][code]["exercices"].append(fm["id"])
-        # parcours (essai, 2026-09-24) : le récit à travers les fiches
+        # parcours (SPEC-MODELE §8) : le récit à travers les fiches
         pdir = cdir / "parcours"
         m["cours"][code]["parcours"] = []
         if pdir.is_dir():
-            from validate import lire_parcours
+            from validate import lire_parcours, copie_de_conflit
             for f in sorted(pdir.glob("*.md")):
+                if copie_de_conflit(f):
+                    continue
                 fm, secs, etapes, avant = lire_parcours(f)
                 m["parcours"][fm["id"]] = dict(meta=fm, sections=secs, etapes=etapes,
                                                avant=avant, cours=code, slug=f.stem)
@@ -1258,7 +1262,7 @@ def page_fiche(m, i):
     return page(m, titre=meta.get("nom", i), rel=rel, fil=fil, corps="".join(c), js=JS_FICHE)
 
 
-# ================================================================ 6 bis. les parcours (essai)
+# ================================================================ 6 bis. les parcours (SPEC-MODELE §8, SPEC-SITE §3.1)
 
 def lien_parcours(m, pid, rel, ancre=""):
     pc = m["parcours"][pid]

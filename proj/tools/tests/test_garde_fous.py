@@ -192,20 +192,21 @@ def socle_grandit(root):
     ])
 
 
-# ---------------------------------------------------------------- parcours (essai)
+# ---------------------------------------------------------------- parcours (A14–A16)
 # Trois fiches en chaîne : base ← milieu ← haut. Le parcours raconte milieu puis haut,
 # et doit rattacher base à l'histoire, puisque milieu la suppose.
 
-def _parcours(root, etapes, avant):
+def _parcours(root, etapes, avant, slug="essai", ordre=1, fiches=True):
     ch = "\n## Le chemin jusqu'ici\nTout vient de %s. [p. 1]\n"
-    ecrire(root, "aa", [
-        dict(slug="base", nom="Base"),
-        dict(slug="milieu", nom="Milieu", dep="aa/base", chemin=ch % "aa/base"),
-        dict(slug="haut", nom="Haut", dep="aa/milieu", chemin=ch % "aa/base, aa/milieu"),
-    ])
+    if fiches:
+        ecrire(root, "aa", [
+            dict(slug="base", nom="Base"),
+            dict(slug="milieu", nom="Milieu", dep="aa/base", chemin=ch % "aa/base"),
+            dict(slug="haut", nom="Haut", dep="aa/milieu", chemin=ch % "aa/base, aa/milieu"),
+        ])
     d = root / "courses" / "aa" / "parcours"
-    d.mkdir()
-    txt = ["---", "id: aa/parcours-essai", "titre: Essai", "---", "",
+    d.mkdir(exist_ok=True)
+    txt = ["---", "id: aa/parcours-%s" % slug, "ordre: %d" % ordre, "titre: Essai", "---", "",
            "## Point de départ", "On part d'ici. [p. 1]", ""]
     if avant:
         txt += ["## À savoir avant"] + ["- aa/%s : son rôle ici. [p. 1]" % x for x in avant] + [""]
@@ -213,7 +214,7 @@ def _parcours(root, etapes, avant):
     for k, x in enumerate(etapes, 1):
         txt += ["%d. aa/%s" % (k, x), "   La question qui y mène. [p. 1]", ""]
     txt += ["## Point d'arrivée", "On arrive là. [p. 1]"]
-    (d / "essai.md").write_text("\n".join(txt) + "\n", encoding="utf-8", newline="\n")
+    (d / (slug + ".md")).write_text("\n".join(txt) + "\n", encoding="utf-8", newline="\n")
 
 
 def parcours_ok(root):
@@ -226,6 +227,32 @@ def parcours_paraphrase(root):
     f.write_text(f.read_text(encoding="utf-8").replace(
         "1. aa/milieu\n   La question qui y mène. [p. 1]",
         "1. aa/milieu\n   Milieu, pour l'essai. [p. 1]"), encoding="utf-8", newline="\n")
+
+
+def parcours_ordre_inverse(root):
+    """Le premier parcours suppose base, que seul le second raconte."""
+    _parcours(root, ["milieu", "haut"], ["base"], slug="un", ordre=1)
+    _parcours(root, ["base"], [], slug="deux", ordre=2, fiches=False)
+
+
+def parcours_ordre_juste(root):
+    _parcours(root, ["base"], [], slug="un", ordre=1)
+    _parcours(root, ["milieu", "haut"], ["base"], slug="deux", ordre=2, fiches=False)
+
+
+def parcours_fiche_hors_recit(root):
+    _parcours(root, ["haut"], ["milieu"])        # base : ni étape ni rôle
+
+
+def parcours_hors_recit_declaree(root):
+    _parcours(root, ["haut"], ["milieu"])
+    cy = root / "courses" / "aa" / "course.yml"
+    cy.write_text(cy.read_text(encoding="utf-8") + "hors_parcours:\n  aa/base: une digression\n",
+                  encoding="utf-8", newline="\n")
+
+
+def cours_sans_parcours(root):
+    ecrire(root, "aa", [dict(slug="base", nom="Base")])
 
 
 def parcours_desordre(root):
@@ -376,7 +403,7 @@ def main():
     cas("SVG qu'aucune fiche n'appelle → signalé",
         "n'est appelée par aucune fiche", fig_orpheline)
 
-    print("parcours (essai)")
+    print("parcours (A14–A16)")
     cas("parcours conforme → silence",
         "parcours", parcours_ok, doit_apparaitre=False)
     cas("transition qui redit la définition de sa fiche → signalée",
@@ -387,6 +414,16 @@ def main():
         "n'est pas rattaché à l'histoire", parcours_sans_rattachement)
     cas("rattachement d'une fiche qu'aucune étape ne suppose → erreur",
         "dont aucune étape ne dépend directement", parcours_rattachement_inutile)
+    cas("parcours qui suppose ce qu'un parcours suivant raconte → erreur",
+        "ne raconte qu'ensuite", parcours_ordre_inverse)
+    cas("parcours lus dans le bon ordre → silence",
+        "ne raconte qu'ensuite", parcours_ordre_juste, doit_apparaitre=False)
+    cas("fiche sans place dans aucun parcours → signalée",
+        "aa/base: n'a de place dans aucun parcours", parcours_fiche_hors_recit)
+    cas("fiche hors récit déclarée avec sa raison → silence",
+        "n'a de place dans aucun parcours", parcours_hors_recit_declaree, doit_apparaitre=False)
+    cas("cours sans aucun parcours → compté en dette",
+        "le cours n'est raconté nulle part", cours_sans_parcours)
 
     print("projection « masquer les ajouts » (A11)")
     projection()

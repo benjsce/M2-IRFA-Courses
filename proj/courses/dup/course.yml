@@ -25,3 +25,8 @@ conventions_par_defaut:
     L2 slides 2 à 15 reprennent L1 slides 42 à 54, et L4 slides 2 à 34 reprennent L3
     slides 20 à 47 puis L1 slides 62 à 64 ; la référence retenue est celle de la source
     qui traite le point le plus complètement
+# Fiches sans place dans aucun parcours, et pourquoi (SPEC-MODELE A16).
+hors_parcours:
+  dup/utilite-dependante-de-l-etat: >-
+    digression de L1 slide 61 sur une limite de Savage que le cours ne reprend pas ; elle
+    couperait le fil de l'ambiguïté entre la chose sûre et Ellsberg

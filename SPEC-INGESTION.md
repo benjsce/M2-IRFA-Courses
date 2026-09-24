@@ -167,6 +167,26 @@ L'opération est :
 Une insertion touche plusieurs fiches existantes : c'est l'opération la plus risquée du
 protocole, et la seule où modifier plusieurs fiches à la fois est légitime.
 
+## Étape 4 bis — Le récit (SPEC-MODELE §8)
+
+Chaque fiche nouvelle trouve sa place dans un parcours, ou reçoit une raison de ne pas en
+avoir (A16). Trois cas :
+
+- **Elle prolonge un fil existant** : l'insérer comme étape à l'endroit où sa question se
+  pose, écrire sa transition, et **relire la transition de l'étape suivante**, qui menait
+  jusque-là à une autre fiche. C'est une modification de parcours : elle se déclare au
+  rapport comme une modification de fiche, ancien texte → nouveau texte.
+- **Elle ouvre un fil nouveau** (un chapitre, une question que le cours n'avait pas
+  posée) : écrire un parcours, lui donner son `ordre`, et vérifier qu'il ne suppose rien
+  qu'un parcours d'ordre supérieur raconte (A14).
+- **Elle est une digression** : la déclarer `hors_parcours` dans `course.yml`, avec sa
+  raison.
+
+Une fiche nouvelle qui devient le prérequis direct d'une étape existante oblige à la
+raconter plus tôt, ou à l'ajouter « à savoir avant » avec son rôle (A15) ; le validateur le
+signale. Pour un cours qui n'a encore aucun parcours, les écrire tous est une session à
+part entière : la dette « cours sans parcours » le rappelle.
+
 ## Étape 5 — Exercices et corrigés
 
 Un exercice n'est pas une notion. Il vit dans `courses/<code>/exercices/<slug>.md` avec
@@ -224,8 +244,16 @@ Avec le paramètre, les membres et leurs valeurs.
 ## Abstractions en attente
 Membre unique · paramètre envisagé · ce qui manque.
 
+## Parcours
+Créés, étapes insérées ou déplacées, transitions réécrites (ancien → nouveau), fiches
+déclarées hors_parcours.
+
 ## Dette
 Liens a-venir · gestes à venir · éléments d'inventaire a_venir. Total et variation.
+
+**Le rapport recopie ce qui reste ouvert** — dette, abstractions en attente, questions sans
+réponse, contradictions non tranchées — au lieu de renvoyer à un rapport antérieur : la
+session suivante ne lit que le dernier (LECTURE.md).
 
 ## Contradictions source
 Corrigé vs cours, source vs source, avec les deux valeurs et la référence.

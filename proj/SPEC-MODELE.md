@@ -32,6 +32,10 @@ calculée. C'est ce qui rend l'alimentation hebdomadaire sûre.
 
 Rien d'autre. Toute information supplémentaire est soit du contenu de fiche, soit dérivée.
 
+Un cours porte aussi des **parcours** (§8). Ce ne sont pas des notions et ils n'ajoutent
+aucune relation : ils ordonnent un récit à travers les notions existantes, et le validateur
+vérifie que ce récit ne contredit jamais $D$.
+
 ## 2. Le format d'une fiche
 
 Un fichier `courses/<code>/notions/<slug>.md`, UTF-8, LF. En-tête YAML puis sections
@@ -400,6 +404,9 @@ cinq fiches sous une abstraite `sensibilite`, dont le paramètre est « la varia
 - Ajouter une notion avec ses seules arêtes sortantes ne peut invalider aucune notion
   existante ; seuls A5 et A8 sont recalculés. (A9)
 - Effacer les ajouts laisse un graphe valide. (A11)
+- **Lire les parcours d'un cours dans l'ordre ne fait jamais rencontrer une fiche avant ce
+  qu'elle suppose** : chaque prérequis a été raconté plus tôt, ou présenté « à savoir
+  avant » avec son rôle. (A3, A14, A15)
 
 ## 7. Fichiers annexes d'un cours
 
@@ -415,6 +422,8 @@ sources:
     type: notes de cours
 refs_pattern: '^(§\d+(\.\d+)*|Déf\. \d+|Prop\. \d+|Th\. \d+|Ex\. \d+|éq\. \d+|p\. \d+|Rem\. \d+|slide \d+)$'
 depend_de: []            # cours prérequis (A10) ; vide si aucun
+hors_parcours:           # fiches sans place dans aucun récit, avec leur raison (A16)
+  fpp/exemple: digression de la section 4, qui couperait le fil des options
 ```
 
 `notation.yml`
@@ -461,3 +470,97 @@ elements:
   raison: section 6 non encore traitée
   depuis: 2026-09-20
 ```
+
+## 8. Les parcours
+
+### 8.1 Pourquoi
+
+Le découpage en fiches perd le récit du cours. Une fiche dit ce qu'est une notion et ce
+qu'il faut savoir avant ; elle ne dit pas pourquoi la notion arrive, ni quelle question elle
+résout. « Le chemin jusqu'ici » raconte l'amont d'une fiche, pas le cours. Un **parcours**
+raconte une partie du cours : il traverse des fiches dans un ordre choisi et dit, à chaque
+étape, la question qui mène à la suivante. Les fiches restent le dictionnaire ; les
+parcours sont le cours qu'on lit. *Essayé sur dup et retenu par l'utilisateur le
+2026-09-24 : « à chaque étape, ce qu'il y a dans le socle, ce sont des choses qu'on a soit
+vues précédemment, soit qui faisaient partie de ce qu'il faut savoir avant de commencer ».*
+
+### 8.2 Le format
+
+Un fichier `courses/<code>/parcours/<slug>.md`, identifiant `<code>/parcours-<slug>`
+(définitif, A1).
+
+```markdown
+---
+id: dup/parcours-ambiguite
+ordre: 6                                  # la place du parcours dans le cours
+titre: Quand on ne connaît même pas les probabilités
+source: L1 slides 59–64, L4 slides 35–62  # indicatif
+---
+
+## Point de départ
+Une situation concrète, prise au monde numérique du cours, qui pose la question. [L1 slide 62]
+
+## À savoir avant
+- dup/acte : le rôle que cette fiche joue dans cette histoire-ci. [L1 slide 2]
+
+## Étapes
+1. dup/separation-gouts-croyances
+   La question qui mène à cette fiche. [ajout]
+
+2. dup/utilite-esperee-subjective
+   … [L1 slide 59]
+
+## Point d'arrivée
+Ce que le récit a établi, en une ou deux phrases. [ajout]
+```
+
+Quatre rubriques, dans cet ordre, et rien d'autre ; « À savoir avant » est omise si aucune
+étape ne suppose de fiche extérieure au parcours. Chaque phrase porte un marqueur (A11),
+dans la grammaire du cours.
+
+### 8.3 Les axiomes du récit
+
+**A14 — Ordre du récit. [E]**
+Dans un parcours, aucune étape n'arrive avant l'un de ses prérequis, directs ou non. Entre
+les parcours d'un cours, lus par `ordre` croissant, aucun ne suppose — par une étape, son
+socle, ou « à savoir avant » — une fiche qu'un parcours d'ordre supérieur est le premier à
+raconter. Les `ordre` d'un cours sont distincts ; une étape appartient au cours du parcours
+et n'y figure qu'une fois. *Empêche* : un récit qui demande de lire une fiche avant ce
+qu'elle suppose, dans un parcours ou d'un parcours au suivant.
+
+**A15 — Rattachement. [E]**
+Tout prérequis **direct** d'une étape, que le parcours ne raconte pas, figure « à savoir
+avant » avec une phrase qui dit **le rôle qu'il joue dans cette histoire** ; et rien d'autre
+n'y figure. *Empêche* : arriver sur une fiche de base sans savoir ce qu'elle fait dans le
+récit. Seuls les prérequis directs : exiger aussi leur socle demandait plus de quinze rôles
+à un parcours de dup, pour des fiches sans rapport avec son histoire ; chaque fiche garde
+son socle complet sur sa propre page.
+
+**A16 — Couverture du récit. [W, dette]**
+Toute fiche d'un cours est l'étape d'un parcours, ou figure « à savoir avant » dans l'un
+d'eux, ou est déclarée dans `course.yml` sous `hors_parcours` avec sa raison. Un cours
+qui a des fiches et aucun parcours est compté en dette. *Empêche* : les notions que rien
+ne raconte et que rien n'explique, ce qu'A13 empêche pour la source.
+
+### 8.4 Écrire un parcours
+
+- **Un fil, pas un chapitre.** Un parcours suit une question du début à sa réponse ; il
+  peut traverser plusieurs supports (le parcours sur l'ambiguïté va de L1 à L4) et un
+  support peut nourrir plusieurs parcours. Une bifurcation se raconte en ligne : on
+  l'annonce, on suit la première branche, puis la seconde, puis on dit où elles se
+  rejoignent.
+- **La transition pose la question, pas la réponse.** La page affiche la définition de la
+  fiche juste après la transition ; la redire est la faute la plus fréquente. Le
+  validateur compte les mots pleins de « Ce que c'est » repris par la transition : au-delà
+  de la moitié, avertissement compté en dette. *Mesuré le 2026-09-24 : les transitions qui
+  fonctionnent en reprennent au plus 36 %, les paraphrases 56 % et plus ; le contrôle en a
+  attrapé 15 sur les 84 de dup, toutes réécrites.*
+- **Le rôle dit ce que la fiche fait ici**, pas ce qu'elle est. « Elle porte l'aversion au
+  risque. Ici elle ne change jamais : toute l'histoire se joue du côté de la croyance »,
+  et non « la fonction qui traduit un résultat en utilité ».
+- **Le point de départ est une instance concrète**, prise au monde numérique du cours
+  (SPEC-INGESTION étape 3), et le point d'arrivée dit ce que le récit a établi.
+- **Des phrases, pas des étiquettes** ; aucun nombre que le générateur calcule (le nombre
+  d'étapes est affiché) ; aucune arête transcrite en prose (« X et Y donnent Z »).
+- **Viser la couverture, pas l'exhaustivité forcée.** Une digression qui couperait le fil
+  se déclare `hors_parcours` avec sa raison ; elle n'a pas à entrer dans un récit.
