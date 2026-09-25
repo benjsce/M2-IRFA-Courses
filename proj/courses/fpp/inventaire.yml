@@ -353,7 +353,7 @@ elements:
   exclu: 'titre de chapitre, aucun contenu propre'
 - ref: exos §2.1
   intitule: The Merton model of the firm
-  a_venir: '2026-09-27 — le modèle est nommé et développé par la source ; création d''une fiche « modèle de Merton » proposée au rapport du 2026-09-20'
+  notion: fpp/modele-de-merton
 - ref: exo. 16
   intitule: Fonds propres comme call sur la firme, spread de crédit, effet d'un dividende
   absorbe: 'fpp/responsabilite-limitee'

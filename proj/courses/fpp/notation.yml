@@ -193,19 +193,31 @@ symboles:
   sens: sensibilité du prix au taux d'intérêt
 # ── livre d'exercices (exercises_book_v2.pdf) ────────────────────────────────
 - symbole: $s$
+  notion: fpp/modele-de-merton
   ref: exo. 16
   sens: spread de crédit de la firme, elle emprunte à r+s
 - symbole: $l$
+  notion: fpp/modele-de-merton
   ref: exo. 16
   sens: >-
     ratio dette sur actif D/F_T du modèle de Merton, dans [0,1] ; à ne pas confondre
     avec le levier $l_t=A_t/E_t$ du poly (Déf. 1), voir collisions
 - symbole: $D^r$
+  notion: fpp/modele-de-merton
   ref: exo. 16
   sens: valeur de marché de la dette risquée
 - symbole: $F_T$
+  notion: fpp/modele-de-merton
   ref: exo. 16
   sens: valeur forward de la firme en T
+- symbole: $D$
+  notion: fpp/modele-de-merton
+  ref: exos §2.1
+  sens: notionnel de la dette zéro-coupon de la firme, remboursé en T
+- symbole: $E_0$
+  notion: fpp/modele-de-merton
+  ref: exos §2.1
+  sens: valeur initiale des fonds propres de la firme
 - symbole: $V_0$
   ref: exo. 17
   sens: valeur initiale d'un produit structuré

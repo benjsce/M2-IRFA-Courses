@@ -13,6 +13,7 @@ Payer quelque chose aujourd'hui pour avoir le droit, et non l'obligation, d'ache
 - fpp/replication-dynamique : c'est elle qui garantit qu'un contrat à prime se réplique, même quand son paiement n'est pas linéaire. [§4.2.2]
 - fpp/facteur-actualisation : il actualise le strike dans la parité call-put. [Prop. 7]
 - fpp/modele-black-scholes : c'est l'hypothèse sur le sous-jacent qui rend le prix d'une option calculable en forme fermée. [§6.4]
+- fpp/responsabilite-limitee : c'est le plancher de l'actionnaire, posé à la fin du premier parcours, que la dernière étape évalue enfin. [§1.4, exo. 16]
 
 ## Étapes
 1. fpp/payoff
@@ -42,7 +43,12 @@ Payer quelque chose aujourd'hui pour avoir le droit, et non l'obligation, d'ache
 9. fpp/formule-black-scholes
    Sous le modèle de référence, tout cela se calcule en une formule fermée. [§6.4, §6.5]
 
+10. fpp/modele-de-merton
+   Le premier parcours laissait l'actionnaire d'une entreprise endettée avec une perte bornée en bas. Que vaut ce qu'il détient, et que coûte à l'entreprise le risque qu'elle fasse faillite ? [exos §2.1]
+
 ## Point d'arrivée
 Le droit d'acheter vaut plus que l'engagement ferme au même prix, parce qu'il n'oblige à rien quand l'action baisse : l'écart entre les deux est exactement un put. [Prop. 7]
 
 Son prix dépasse aussi sa valeur intrinsèque, parce que son paiement est convexe ; cette valeur temps, la formule de Black et Scholes la chiffre. [Déf. 13, §6.4]
+
+Le même outil évalue un bilan : les fonds propres d'une entreprise endettée sont un call sur sa valeur, et son spread de crédit est le prix d'un put. [exo. 16]

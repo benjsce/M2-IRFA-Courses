@@ -1,7 +1,7 @@
 # Écrit par build.py (SPEC-MODELE A17) : toutes les étapes du cours, dans l'ordre
 # de lecture. Le validateur exige que cette suite reste contenue, dans le même
 # ordre, dans celle des parcours actuels. Ne pas éditer à la main.
-scelle: '2026-09-24'
+scelle: '2026-09-25'
 fil:
 - fpp/marche-financier
 - fpp/bilan
@@ -45,6 +45,7 @@ fil:
 - fpp/valeur-intrinseque
 - fpp/valeur-temps
 - fpp/formule-black-scholes
+- fpp/modele-de-merton
 - fpp/edp-black-scholes
 - fpp/feynman-kac
 - fpp/equation-de-la-chaleur
