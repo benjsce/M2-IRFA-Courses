@@ -16,7 +16,9 @@ refs:
 L'erreur d'un modèle sur des observations qu'il n'a pas servi à ajuster. [slide 37]
 
 ## Ce qui la définit
-L'erreur d'apprentissage est une mauvaise estimation de l'erreur de test, et elle l'est toujours dans le même sens : elle la sous-estime. C'est pourquoi le modèle complet a toujours la plus petite RSS et le plus grand $R^2$ sans être le meilleur. [slide 37]
+L'erreur d'apprentissage est en général une mauvaise estimation de l'erreur de test. Le modèle qui contient tous les prédicteurs a toujours la plus petite RSS et le plus grand $R^2$, parce que ces deux quantités mesurent l'erreur d'apprentissage ; il n'est pas pour autant le meilleur. [slide 37]
+
+Son défaut a un sens : en moyenne, elle sous-estime l'erreur de test, puisque le modèle a été ajusté sur ces données-là, et d'autant plus qu'il a de variables. Sur un échantillon particulier, l'écart peut être plus grand ou plus petit ; c'est en espérance que le biais est garanti. [ajout]
 
 Le cours donne deux façons de l'atteindre : indirectement, en corrigeant l'erreur d'apprentissage d'une pénalité pour le nombre de variables ; directement, par un jeu de validation ou par validation croisée. [slide 38]
 
