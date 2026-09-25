@@ -26,6 +26,14 @@ $P_t$ est le prix de l'actif à la date $t$ ; dans les listings du cours, c'est 
 
 $R_t$ est le rendement d'une seule sous-période, $R_{0\to T}$ celui de la période entière. Le second ne s'obtient pas en additionnant les premiers mais en composant les facteurs $1+R_t$. [éq. 1.4]
 
+La sous-période $t$ va de $t-1$ à $t$ : $R_t$ vaut $R_{t-1\to t}$, et non $R_{0\to t}$. [ajout]
+
+$$R_t=\dfrac{P_t-P_{t-1}}{P_{t-1}},\qquad 1+R_t=\dfrac{P_t}{P_{t-1}}$$ [ajout]
+
+Le produit donne bien le rendement de la période entière parce qu'il se télescope : chaque prix intermédiaire apparaît une fois au numérateur et une fois au dénominateur. [ajout]
+
+$$\prod_{t=1}^{T}(1+R_t)=\dfrac{P_1}{P_0}\cdot\dfrac{P_2}{P_1}\cdots\dfrac{P_T}{P_{T-1}}=\dfrac{P_T}{P_0}$$ [ajout]
+
 ## Ce qui la définit
 Le rendement arithmétique n'est pas additif dans le temps : le rendement de la période entière est le produit des facteurs de croissance, moins un, et non la somme des rendements. [§1.2.1, éq. 1.4]
 
