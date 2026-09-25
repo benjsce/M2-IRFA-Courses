@@ -40,6 +40,8 @@ Pour une matière première ce serait le convenience yield : la source ne le tra
 ## Cesse d'être valide quand
 Le portage cesse d’être un scalaire si les dividendes sont en montant fixe : $F=\frac{S_t-\sum_i D_iP(t,T_i)}{P(t,T)}$, et les dates de détachement réapparaissent. [ajout]
 
+![Des dividendes en montant, ici deux. Le détenteur de l'action reçoit $D_1$ en $T_1$, $D_2$ en $T_2$, puis l'action ; ramenés en $t$ chacun par le zéro-coupon de sa date, ces trois flux font le comptant $S_t$. L'acheteur à terme ne reçoit que l'action : ce qui reste du comptant est ce qu'il doit payer, $F\,P(t,T)$ en valeur de $t$.](figures/portage.svg) [ajout]
+
 ## Origine
 - exercice fpp/ex-01 (c)(d) : « 8 % de la valeur de l'action » ne fixe pas la convention cum/ex ; $\Phi=1-d$ (cours) donne 59,97, $\Phi=1/(1+d)$ (corrigé) donne 59,59 [ajout]
 - exercice fpp/ex-02 (c) : deuxième instance de l'ambiguïté cum/ex — $\Phi=1-d$ (cours, §3.2) donne 79,73, $\Phi=1/(1+d)$ (corrigé) donne 79,86. Ce n'est donc pas une coquille isolée mais la convention constante du livre d'exercices [exo. 1]

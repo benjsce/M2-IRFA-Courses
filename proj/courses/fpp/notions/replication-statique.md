@@ -19,6 +19,8 @@ Acheter le sous-jacent, le porter et le livrer, sans aucun geste entre-temps. [�
 ## Forme
 $$(S_T-K)-\left(S_T-\dfrac{S_t}{P(t,T)}\right)=\dfrac{S_t}{P(t,T)}-K$$ [§3.1]
 
+![Les quatre flux du montage. En $t$, l'emprunt paie l'action et le solde est nul ; en $T$, on livre l'action contre $K$ et on rembourse $S_t/P(t,T)$. Entre les deux, aucun geste. Un flux reçu monte, un flux payé descend.](figures/replication-statique.svg) [ajout]
+
 ## Ce qui la définit
 Le P&L est non aléatoire et le portefeuille coûte zéro : il vaut donc zéro, ce qui détermine $K$. [§3.1]
 

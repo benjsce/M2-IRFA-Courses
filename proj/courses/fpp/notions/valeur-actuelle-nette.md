@@ -21,6 +21,8 @@ La somme d’un échéancier de flux certains, ramenés à une même date. [Déf
 ## Forme
 $$\mathrm{NPV}(t)=\sum_i P(t,t_i)X_i$$ [Déf. 4]
 
+![Chaque flux revient en $t$ par le facteur de sa propre date, puis les valeurs ramenées s'additionnent. Trois flux comme dans l'exemple minimal, sans ses nombres.](figures/valeur-actuelle-nette.svg) [ajout]
+
 ## Ce que les symboles modélisent
 $\mathrm{NPV}$ est un montant rapporté à une date, obtenu en y ramenant des flux échelonnés. Elle suppose ces flux **certains** : l'actualisation y fait tout le travail, et aucune probabilité n'intervient. [Déf. 4]
 

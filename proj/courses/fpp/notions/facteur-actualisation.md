@@ -29,6 +29,8 @@ $P(t,T)$ prend deux dates et rend un **prix** : celui, en $t$, d'une unité pay�
 ## Ce qui la définit
 On capitalise en avançant dans le temps et l’on actualise en reculant : le facteur est le taux de change entre deux dates. [§2.1, Déf. 3]
 
+![Le même facteur, lu dans les deux sens. Un euro payé en $T$ revient en $t$ et y vaut $P(t,T)$ ; un euro placé en $t$ arrive en $T$ et y vaut $1/P(t,T)$.](figures/facteur-actualisation.svg) [ajout]
+
 ## Le chemin jusqu'ici
 Tout part de fpp/convention-capitalisation, qui dit dans quelles coordonnées un taux s'écrit. [ajout]
 

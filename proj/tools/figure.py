@@ -22,6 +22,7 @@ Dépendance : aucune.
 """
 from __future__ import annotations
 import math
+import re
 
 # Les couleurs du site (voir CSS dans build.py). Une figure n'en nomme aucune autre.
 ENCRE = "var(--fg)"          # le trait principal, le texte qui compte
@@ -96,11 +97,11 @@ class Figure:
             self._add('<text x="%s" y="%s" text-anchor="%s" font-size="%s" '
                       'stroke="%s" stroke-width="3.2" stroke-linejoin="round" '
                       'fill="none" font-family="ui-sans-serif,system-ui,sans-serif">%s</text>'
-                      % (_n(X), _n(Y), ancre, _n(taille), FOND, _echap(s)))
+                      % (_n(X), _n(Y), ancre, _n(taille), FOND, _exposants(s, taille)))
         self._add('<text x="%s" y="%s" text-anchor="%s" font-size="%s" fill="%s"%s '
                   'font-family="ui-sans-serif,system-ui,sans-serif">%s</text>'
                   % (_n(X), _n(Y), ancre, _n(taille), couleur,
-                     ' font-weight="600"' if gras else "", _echap(s)))
+                     ' font-weight="600"' if gras else "", _exposants(s, taille)))
 
     def mesure(self, x, y0, y1, couleur=ENCRE, etiquette="", cote="right"):
         """La mesure d'un écart vertical : un trait, deux embouts, une étiquette.
@@ -122,6 +123,51 @@ class Figure:
         self._add('<path d="M%s %s L%s %s M%s %s l0 -4 M%s %s l0 -4" stroke="%s" '
                   'stroke-width="1.4" fill="none" stroke-linecap="round"/>'
                   % (_n(X0), _n(Y), _n(X1), _n(Y), _n(X0), _n(Y + 2), _n(X1), _n(Y + 2), couleur))
+
+    # -- échéanciers -----------------------------------------------------
+    def fleche(self, x0, y0, x1, y1, couleur=ENCRE, epaisseur=1.5, courbure=0.0,
+               pointilles=None):
+        """Une flèche de (x0, y0) vers (x1, y1), pointe à l'arrivée. `courbure` est en
+        pixels : le sommet de l'arc s'écarte d'autant de la corde, vers le haut de
+        l'image quand elle est positive. Un flux reçu monte, un flux payé descend ; un
+        flux qu'on actualise revient vers la gauche en arc, comme au tableau."""
+        X0, Y0, X1, Y1 = self.px(x0), self.py(y0), self.px(x1), self.py(y1)
+        if courbure:
+            L = math.hypot(X1 - X0, Y1 - Y0) or 1.0
+            nx, ny = (Y1 - Y0) / L, -(X1 - X0) / L          # une normale à la corde
+            if ny > 0:                                       # tournée vers le haut
+                nx, ny = -nx, -ny
+            cx = (X0 + X1) / 2 + 2 * courbure * nx
+            cy = (Y0 + Y1) / 2 + 2 * courbure * ny
+            d = "M%s %s Q%s %s %s %s" % (_n(X0), _n(Y0), _n(cx), _n(cy), _n(X1), _n(Y1))
+            tx, ty = X1 - cx, Y1 - cy
+        else:
+            d = "M%s %s L%s %s" % (_n(X0), _n(Y0), _n(X1), _n(Y1))
+            tx, ty = X1 - X0, Y1 - Y0
+        t = math.hypot(tx, ty) or 1.0
+        ux, uy = tx / t, ty / t
+        a, b = 8.0, 4.0                                      # longueur, demi-largeur
+        p1 = (X1 - a * ux + b * uy, Y1 - a * uy - b * ux)
+        p2 = (X1 - a * ux - b * uy, Y1 - a * uy + b * ux)
+        self._add('<path d="%s" fill="none" stroke="%s" stroke-width="%s"%s '
+                  'stroke-linecap="round"/>'
+                  % (d, couleur, _n(epaisseur),
+                     ' stroke-dasharray="%s"' % pointilles if pointilles else ""))
+        self._add('<path d="M%s %s L%s %s L%s %s Z" fill="%s"/>'
+                  % (_n(X1), _n(Y1), _n(p1[0]), _n(p1[1]), _n(p2[0]), _n(p2[1]), couleur))
+
+    def axe_temps(self, y, x0, x1, dates):
+        """L'axe du temps d'un échéancier : un trait, et une graduation étiquetée par
+        date. `dates` est une liste de couples (abscisse, étiquette)."""
+        self.courbe([(x0, y), (x1, y)], couleur=DOUX, epaisseur=1.3)
+        self.fleche(x1 - 0.01, y, x1, y, couleur=DOUX, epaisseur=1.3)
+        for x, s in dates:
+            X, Y = self.px(x), self.py(y)
+            self._add('<path d="M%s %s l0 10" stroke="%s" stroke-width="1.3"/>'
+                      % (_n(X), _n(Y - 5), DOUX))
+            self._add('<text x="%s" y="%s" text-anchor="middle" font-size="12.5" fill="%s" '
+                      'font-style="italic" font-family="ui-sans-serif,system-ui,sans-serif">%s</text>'
+                      % (_n(X), _n(Y + 21), DOUX, _echap(s)))
 
     # -- axes -------------------------------------------------------------
     def axes(self, xlab="", ylab="", xticks=(), yticks=(), fmt=str, croix=None, fmt_y=None):
@@ -198,6 +244,20 @@ class Planche:
                 'width="100%%" height="auto" role="img" '
                 'style="color:%s;max-width:%dpx;height:auto">%s%s</svg>\n'
                 % (w, h, ENCRE, w, t, "".join(morceaux)))
+
+
+def _exposants(s, taille):
+    """`P^{f}(t,T)`, `H_{tₖ}` : l'exposant monte, l'indice descend, d'un tiers de corps,
+    et tous deux rapetissent. Les caractères exposants d'Unicode (ᶠ) existent, mais la
+    police de secours qui les dessine les pose à côté de la lettre au lieu d'au-dessus."""
+    morceaux = re.split(r"([\^_])\{([^}]*)\}", str(s))
+    out = _echap(morceaux[0])
+    for k in range(1, len(morceaux), 3):
+        h = taille * (0.35 if morceaux[k] == "^" else -0.25)
+        out += ('<tspan dy="%s" font-size="%s">%s</tspan><tspan dy="%s">%s</tspan>'
+                % (_n(-h), _n(taille * 0.72), _echap(morceaux[k + 1]), _n(h),
+                   _echap(morceaux[k + 2])))
+    return out
 
 
 def _echap(s):

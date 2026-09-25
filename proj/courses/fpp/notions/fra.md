@@ -21,6 +21,8 @@ Un contrat qui fixe aujourd’hui le taux d’un emprunt futur entre $T$ et $S$.
 ## Forme
 $$P(t,T)=P(t,S)e^{K(S-T)}$$ [§2.3, Déf. 7]
 
+![L'emprunt que le FRA verrouille : on reçoit $1$ en $T$, on rend $e^{K(S-T)}$ en $S$. Ramenés en $t$, les deux flux valent $P(t,T)$ et $P(t,S)e^{K(S-T)}$ ; le contrat ne coûtant rien à la signature, ils sont égaux, et c'est la forme ci-dessus.](figures/fra.svg) [ajout]
+
 ## Ce que les symboles modélisent
 FRA n'est pas une grandeur mais un contrat, désigné par son sigle anglais : un accord qui fixe dès aujourd'hui le taux d'un emprunt qui commencera plus tard. Ce qu'il fixe est un taux, ce qu'il porte est une période future. [Déf. 7]
 

@@ -21,6 +21,8 @@ Le taux de change convenu aujourd’hui pour un échange de devises futur. [§2.
 ## Forme
 $$K(t,T)=X_t\dfrac{P(t,T)}{P^f(t,T)}=X_te^{(R^f-R)\tau}$$ [§2.4]
 
+![Les deux jambes du contrat, chacune ramenée en $t$ par le zéro-coupon de sa propre devise : $1$ euro payé en $T$ vaut $P(t,T)$, $K$ dollars reçus en $T$ valent $KP^f(t,T)$ dollars, soit $KP^f(t,T)/X_t$ euros. Le contrat ne coûte rien à la signature, les deux valeurs sont donc égales, et c'est la formule. L'euro est la devise locale, comme dans l'exemple minimal.](figures/forward-de-change.svg) [ajout]
+
 ## Ce que les symboles modélisent
 $P^f(t,T)$ est le zéro-coupon de l'autre devise : le prix, exprimé en monnaie étrangère, d'une unité étrangère payée en $T$. L'exposant ne marque pas une puissance, il marque le pays. [§2.4]
 

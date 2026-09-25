@@ -29,6 +29,8 @@ $H_t$ est un prix qui se réajuste chaque jour, et non la valeur d'un contrat : 
 ## Ce qui la définit
 Chaque variation est encaissée le jour même et doit être replacée à un taux inconnu : le facteur d’actualisation devient $B(t,T)$. [§4.2, Prop. 3, Prop. 4]
 
+![En haut, le forward se règle en une fois, en $T$. En bas, le future règle chaque jour la variation de son prix, dans un sens ou dans l'autre, et chaque montant doit être replacé jusqu'en $T$ à un taux qu'on ne connaît pas en $t$. Les hauteurs ne viennent d'aucune donnée : seuls le nombre de flux et leurs dates comptent.](figures/prix-future.svg) [ajout]
+
 ## Le chemin jusqu'ici
 fpp/convention-capitalisation et fpp/facteur-actualisation fixent le prix du temps ; fpp/compte-capitalise donne celui de l'argent réinvesti au jour le jour ; fpp/replication-dynamique dit comment le répliquer. [ajout]
 

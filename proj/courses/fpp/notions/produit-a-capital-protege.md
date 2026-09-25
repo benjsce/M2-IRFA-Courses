@@ -21,6 +21,8 @@ Un zéro-coupon qui rend la mise, plus un call qui donne la hausse. [§9.2]
 ## Forme
 $$\text{ZC}+\text{Call},\qquad \text{ou de façon équivalente}\qquad \text{Spot}+\text{Put}$$ [§9.2]
 
+![La mise $K$ coupée en deux. $KP(t,T)$ placés en zéro-coupon rendent $K$ en $T$ ; le solde achète des calls, dont le flux en $T$ est en pointillé parce qu'il est aléatoire et peut être nul.](figures/produit-a-capital-protege.svg) [ajout]
+
 ## Ce qui la définit
 Les deux écritures sont la même par la parité call-put : protéger le capital, c’est acheter une option de vente, que l’on écrive la protection du côté du zéro-coupon ou du côté du comptant. [§9.2, Prop. 7]
 
