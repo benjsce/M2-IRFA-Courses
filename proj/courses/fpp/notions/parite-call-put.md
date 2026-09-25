@@ -18,7 +18,9 @@ refs:
 La différence entre un call et un put de mêmes strike et maturité est un forward. [Prop. 7]
 
 ## Forme
-$$(S_T-K)^+-(K-S_T)^+=S_T-K\ \implies\ C(S_0,K,T)-P(S_0,K,T)=S_0-KP(0,T)$$ [Prop. 7]
+$$(S_T-K)^+-(K-S_T)^+=S_T-K\ \implies\ C_t-P_t=S_t-KP(t,T)$$ [ajout]
+
+C'est la parité écrite à une date $t<T$ quelconque, $C_t$ et $P_t$ étant les prix en $t$ du call et du put de strike $K$ et d'échéance $T$. La source l'énonce en $t=0$ : $C(S_0,K,T)-P(S_0,K,T)=S_0-KP(0,T)$. [Prop. 7]
 
 ![À chaque valeur du sous-jacent, le payoff du call moins celui du put tombe sur celui du forward : c'est ce que veut dire « vraie état par état ». Le strike vaut 100, comme dans l'exemple minimal, et aucun prix n'apparaît — l'actualisation vient après.](figures/parite-call-put.svg) [ajout]
 
@@ -37,7 +39,7 @@ Avec $S_0=100$, $K=100$, $P(0,1)=0{,}9608$ : $C-P=100-96{,}08=3{,}92$. [ajout]
 Connaissant l’un des deux prix, en déduire l’autre sans modèle. Si les deux sont cotés et que la parité n’est pas respectée, l’écart est un arbitrage. [Prop. 7]
 
 ## Cesse d'être valide quand
-Énoncée sans dividende dans la source. Avec un dividende, $S_0$ est remplacé par $S_0\Phi$, et l’identité de payoff reste mais l’identité de prix change. [ajout]
+Énoncée sans dividende dans la source. Avec un dividende, $S_t$ est remplacé par $S_t\Phi$, et l’identité de payoff reste mais l’identité de prix change. [ajout]
 
 ## Origine
 - exercice fpp/ex-10 : quatre inconnues, une équation ; on l'emploie dans les quatre sens, ici pour extraire le strike [ajout]

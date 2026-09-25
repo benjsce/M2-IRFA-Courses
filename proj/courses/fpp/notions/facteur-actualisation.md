@@ -40,7 +40,7 @@ Le facteur d'actualisation est ce qu'on obtient en refusant de choisir : plutôt
 Taux continu de 4 % sur un an : $P(0,1)=0{,}9608$. [ajout]
 
 ## Geste de calcul type
-Fixer la convention, puis actualiser : à 4 % continu, un flux de 100 payé dans un an vaut $100\times0{,}9608=96{,}08$ aujourd’hui. Pour remonter le temps on divise, pour l’avancer on multiplie. [§2.1]
+Fixer la convention, puis actualiser : à 4 % continu, un flux de 100 payé dans un an vaut $100\times0{,}9608=96{,}08$ aujourd’hui. Pour reculer on multiplie par $P(t,T)$, pour avancer on divise par lui. [§2.1]
 
 ## Ce qui reste libre
 | paramètre | cas | valeur |

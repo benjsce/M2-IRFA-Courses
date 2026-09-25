@@ -283,22 +283,32 @@ demande de l'utilisateur, figures d'échéancier.</p><p>1. <code>fpp/forward-de-
 9. <code>fpp/produit-a-capital-protege</code>, après <code>$$\text{ZC}+\text{Call},\qquad \text{ou de façon équivalente}\qquad \text{Spot}+\text{Put}$$ [§9.2]</code> :
    <code>![La mise $K$ coupée en deux. $KP(t,T)$ placés en zéro-coupon rendent $K$ en $T$ ; le solde achète des calls, dont le flux en $T$ est en pointillé parce qu'il est aléatoire et peut être nul.](figures/produit-a-capital-protege.svg) [ajout]</code>
 10. <code>fpp/prix-future</code>, après <code>Chaque variation est encaissée le jour même et doit être replacée à un taux inconnu : le facteur d’actualisation devient $B(t,T)$. [§4.2, Prop. 3, Prop. 4]</code> :
-    <code>![En haut, le forward se règle en une fois, en $T$. En bas, le future règle chaque jour la variation de son prix, dans un sens ou dans l'autre, et chaque montant doit être replacé jusqu'en $T$ à un taux qu'on ne connaît pas en $t$. Les hauteurs ne viennent d'aucune donnée : seuls le nombre de flux et leurs dates comptent.](figures/prix-future.svg) [ajout]</code></p><h2>Fichiers modifiés (hors fiches)</h2><ul><li><code>courses/fpp/figures/</code> : dix scripts et leurs dix SVG, un par fiche ci-dessus.</li><li><code>tools/figure.py</code>, trois ajouts, rien de retiré ni de modifié dans le tracé existant :</li><li><code>Figure.fleche</code> : une flèche droite ou en arc, pointe à l'arrivée — le geste du</li><li>tableau, un flux qu'on ramène en $t$ ;</li><li><code>Figure.axe_temps</code> : l'axe d'un échéancier, graduations étiquetées par date ;</li><li><code>_exposants</code> : dans les textes, <code>^{f}</code> monte et <code>_{1}</code> descend en <code>&lt;tspan&gt;</code>. Le</li><li>caractère Unicode « ᶠ » s'affichait à côté de la lettre et non au-dessus (constaté au</li><li>rendu). Aucune figure existante ne contient <code>^{</code> ou <code>_{</code> dans un texte tracé : leurs</li><li>SVG sont inchangés, et le validateur, qui les rejoue tous, le confirme.</li></ul><h2>Dette</h2><p>Inchangée : aucune dette comptée.</p><p><strong>Avertissements</strong> : <code>fpp/feynman-kac</code>, dépendance redondante vers
+    <code>![En haut, le forward se règle en une fois, en $T$. En bas, le future règle chaque jour la variation de son prix, dans un sens ou dans l'autre, et chaque montant doit être replacé jusqu'en $T$ à un taux qu'on ne connaît pas en $t$. Les hauteurs ne viennent d'aucune donnée : seuls le nombre de flux et leurs dates comptent.](figures/prix-future.svg) [ajout]</code></p><h2>Corrections sur réponse de l'utilisateur</h2><p>Réponse aux questions 1 et 2 : « oui corrige les deux comme tu proposes si elles sont
+mathématiquement correctes ». Vérifié avant d'écrire :</p><ul><li>une unité payée en $T$ vaut $P(t,T)$ en $t$, une unité placée en $t$ vaut $1/P(t,T)$ en</li><li>$T$ : reculer multiplie, avancer divise ;</li><li>la parité ne demande qu'une réplication statique, sans geste entre-temps : elle vaut à</li><li>toute date $t&lt;T$, $C_t-P_t=S_t-KP(t,T)$. Avec dividende, $S_t\Phi-KP(t,T)=P(t,T)(F-K)$,</li><li>la valeur d'un forward de strike $K$ : le remplacement de $S_t$ par $S_t\Phi$ est juste.</li></ul><p>11. <code>fpp/facteur-actualisation</code>, Geste de calcul type :
+    <code>Pour remonter le temps on divise, pour l’avancer on multiplie. [§2.1]</code> →
+    <code>Pour reculer on multiplie par $P(t,T)$, pour avancer on divise par lui. [§2.1]</code>.
+    Raison : la phrase contredisait le calcul qui la précède ($100\times0{,}9608$).
+12. <code>fpp/parite-call-put</code>, Forme :
+    <code>$$(S_T-K)^+-(K-S_T)^+=S_T-K\ \implies\ C(S_0,K,T)-P(S_0,K,T)=S_0-KP(0,T)$$ [Prop. 7]</code> →
+    <code>$$(S_T-K)^+-(K-S_T)^+=S_T-K\ \implies\ C_t-P_t=S_t-KP(t,T)$$ [ajout]</code>, suivi d'un
+    paragraphe nouveau : <code>C'est la parité écrite à une date $t&lt;T$ quelconque, $C_t$ et $P_t$ étant les prix en $t$ du call et du put de strike $K$ et d'échéance $T$. La source l'énonce en $t=0$ : $C(S_0,K,T)-P(S_0,K,T)=S_0-KP(0,T)$. [Prop. 7]</code>.
+    Raison : préférence de l'utilisateur pour la date générale. La forme en $t$ est marquée
+    <code>[ajout]</code> parce que la source ne l'écrit qu'en $0$ ; la forme de la source reste sur la
+    page, avec sa référence, pour qu'on la retrouve dans le poly (A12).
+13. <code>fpp/parite-call-put</code>, Cesse d'être valide quand :
+    <code>Avec un dividende, $S_0$ est remplacé par $S_0\Phi$,</code> →
+    <code>Avec un dividende, $S_t$ est remplacé par $S_t\Phi$,</code>. Raison : cohérence avec la forme.</p><p>L'exemple minimal de la parité reste en $S_0$ et $P(0,1)$ : c'est une instance chiffrée,
+dates fixées, comme proposé.</p><h2>Fichiers modifiés (hors fiches)</h2><ul><li><code>courses/fpp/figures/</code> : dix scripts et leurs dix SVG, un par fiche ci-dessus.</li><li><code>tools/figure.py</code>, trois ajouts, rien de retiré ni de modifié dans le tracé existant :</li><li><code>Figure.fleche</code> : une flèche droite ou en arc, pointe à l'arrivée — le geste du</li><li>tableau, un flux qu'on ramène en $t$ ;</li><li><code>Figure.axe_temps</code> : l'axe d'un échéancier, graduations étiquetées par date ;</li><li><code>_exposants</code> : dans les textes, <code>^{f}</code> monte et <code>_{1}</code> descend en <code>&lt;tspan&gt;</code>. Le</li><li>caractère Unicode « ᶠ » s'affichait à côté de la lettre et non au-dessus (constaté au</li><li>rendu). Aucune figure existante ne contient <code>^{</code> ou <code>_{</code> dans un texte tracé : leurs</li><li>SVG sont inchangés, et le validateur, qui les rejoue tous, le confirme.</li></ul><h2>Dette</h2><p>Inchangée : aucune dette comptée.</p><p><strong>Avertissements</strong> : <code>fpp/feynman-kac</code>, dépendance redondante vers
 <code>fpp/mesure-risque-neutre</code> (A8) ; sept copies de synchronisation à supprimer par
 l'utilisateur (<code>courses/dup/parcours/* 2.md</code>, <code>rapports/2026-09-24-parcours 2.md</code>).</p><p><strong>Abstractions en attente</strong> — pfo : portefeuille de variance minimale globale ;
 estimateur de volatilité ; mesure de risque. dss : fonction d'activation ; indicateur de
-matrice de confusion. dup : dominance stochastique ; mesure de risque.</p><h2>Questions pour l'utilisateur</h2><p>1. <strong>fpp — nouvelle.</strong> <code>fpp/facteur-actualisation</code>, « Geste de calcul type », dit : « Pour
-   remonter le temps on divise, pour l'avancer on multiplie. » La même rubrique vient
-   d'actualiser en <strong>multipliant</strong> ($100\times0{,}9608$), et la nouvelle figure montre
-   $\times P(t,T)$ en reculant. La phrase n'est juste que lue avec le facteur de
-   capitalisation $C_t$, qu'elle ne nomme pas. Non modifiée. Recommandation : écrire
-   « pour reculer on multiplie par $P(t,T)$, pour avancer on divise par lui ».
-2. <strong>fpp — nouvelle.</strong> $P(t,T)$ plutôt que $P(0,T)$ : appliqué aux figures. Faut-il
-   l'étendre à la prose ? Les exemples minimaux écrivent $P(0,1)$, ce qui est une instance
-   chiffrée légitime (dates fixées) ; <code>fpp/parite-call-put</code> écrit $S_0$ et $P(0,T)$ dans sa
-   forme, comme la Prop. 7 de la source. Recommandation : laisser les exemples chiffrés en
-   $0$, et ne réécrire en $t$ que la forme de la parité, en le déclarant (la source l'écrit
-   en $0$).
+matrice de confusion. dup : dominance stochastique ; mesure de risque.</p><h2>Questions pour l'utilisateur</h2><p>1. <strong>fpp — nouvelle.</strong> <code>fpp/produit-a-capital-protege</code>, Geste de calcul type, écrit
+   « Placer $KP(0,T)$ pour garantir $K$ » : une écriture générale, non chiffrée, datée en
+   $0$, alors que la figure juste au-dessus écrit $KP(t,T)$. Non modifiée, parce que hors de
+   ce que l'utilisateur a validé. Recommandation : écrire $KP(t,T)$ ; la ligne porte
+   <code>[ajout]</code>, aucune référence n'est en jeu.
+2. (Questions 1 et 2 de la première version de ce rapport : tranchées, voir « Corrections
+   sur réponse de l'utilisateur ».)
 3. dss — étendre le monde des 20 clients au parcours « Garder toutes les variables, mais
    les contraindre » ? Recommandation : oui ; ridge y est précisément $X^TX+\lambda I$.
 4. dss — compléter au fil des sessions les 28 fiches sans exemple. Recommandation : oui.
