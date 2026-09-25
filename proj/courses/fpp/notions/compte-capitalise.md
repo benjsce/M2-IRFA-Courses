@@ -20,7 +20,7 @@ Le facteur d’actualisation obtenu en enchaînant les zéro-coupons courts, san
 $$B(t,T)=\prod_k P(t_k,t_{k+1})$$ [§4.2.2]
 
 ## Ce que les symboles modélisent
-$B(t,T)$ prend deux dates et rend un facteur : ce que devient une unité placée en $t$ et roulée jusqu'en $T$ au taux court. Sa différence avec le zéro-coupon tient en un mot — sa valeur en $T$ n'est **pas connue** en $t$, puisqu'on enchaîne des taux qu'on ignore encore. [§4.2.2]
+$B(t,T)$ prend deux dates et rend un facteur : celui qui ramène en $t$ une unité payée en $T$ quand on roule au taux court ; une unité placée en $t$ et roulée jusqu'en $T$ devient $1/B(t,T)$. Sa différence avec le zéro-coupon tient en un mot — sa valeur n'est **pas connue** en $t$, puisqu'on enchaîne des taux qu'on ignore encore. [§4.2.2]
 
 ## Retrouver la formule
 ![En haut, le zéro-coupon fait le trajet de $T$ à $t$ en un seul saut, connu en $t$. En bas, le compte capitalisé enchaîne des zéro-coupons courts : seul le premier est connu en $t$, les suivants ne le seront qu'à leur date, d'où le pointillé.](figures/compte-capitalise.svg) [ajout]

@@ -35,7 +35,7 @@ Le produit est exactement la somme des deux, et c'est tout le montage : un zéro
 96,08 placés en zéro-coupon à un an rendent 100 ; les 3,92 restants achètent une fraction de call. [ajout]
 
 ## Geste de calcul type
-Placer $KP(0,T)$ pour garantir $K$, puis dépenser le solde en calls : le nombre de calls achetés donne le taux de participation à la hausse. [ajout]
+Placer $KP(t,T)$ pour garantir $K$, puis dépenser le solde en calls : le nombre de calls achetés donne le taux de participation à la hausse. [ajout]
 
 ## Cesse d'être valide quand
 La protection vaut à l’échéance seulement, et elle coûte exactement la prime du put : il n’y a pas de protection gratuite. [ajout]
