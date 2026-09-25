@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="fr" data-rel="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Frontière efficiente · notions</title>
+<script>
+/* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
+   localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
+   cases « déjà su » ne peuvent donc pas traverser les pages par là. Ils voyagent dans
+   le fragment de l'URL, que tous les liens internes portent ; localStorage ne sert plus
+   que de mémoire locale, pour la page qu'on rouvre sans fragment.
+   Ce script s'exécute avant le rendu : sinon le thème clignote à chaque page. */
+(function(){
+var H={},h=(location.hash||'').replace(/^#/,'');
+h.split('~').forEach(function(p){var i=p.indexOf(':');if(i>0)H[p.slice(0,i)]=p.slice(i+1)});
+window.ETAT_URL=H;
+function loc(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+var t=H.t?(H.t==='d'?'dark':'light'):loc('notions.theme','');
+if(t)document.documentElement.setAttribute('data-theme',t);
+var a=(H.a!==undefined)?H.a:loc('notions.ajouts','1');
+if(a==='0')document.documentElement.classList.add('sans-ajouts');
+})();
+</script>
+<style>
+:root{
+  --bg:#fbfaf7; --bg2:#f3f0ea; --fg:#1b1a17; --mut:#6c675d; --fai:#8e887c;
+  --li:#e0dbd1; --li2:#cdc6b8; --card:#ffffff; --acc:#8a4f23; --acc2:#f3e7dc;
+  --ajo:#6d5a8c; --ajo2:#efe9f5; --lim:#9a3a2e; --ok:#3f6b46; --faute:#a8631a;
+  --r:8px; --w:min(72rem,100%);
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}}
+:root[data-theme="dark"]{
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}
+.fig{margin:.9rem 0;padding:.5rem .2rem .2rem;text-align:center}
+/* « > svg » et non « svg » : MathJax pose son propre <svg> dans la légende, et
+   une règle non ancrée en faisait un bloc qui coupait la phrase en trois. */
+.fig > svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig figcaption{margin-top:.35rem;font-family:var(--sans);font-size:.82rem;
+  color:var(--mut);text-align:center;line-height:1.45}
+@media print{.fig{break-inside:avoid}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
+  font-size:17px;line-height:1.62;overflow-wrap:break-word}
+a{color:var(--acc);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-style:dotted}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+.wrap{width:var(--w);margin:0 auto;padding:0 1rem}
+
+/* ---- barre du haut ---- */
+header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
+  border-bottom:1px solid var(--li);font-family:var(--sans)}
+.topin{width:var(--w);margin:0 auto;padding:.45rem 1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.brand{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--fg);letter-spacing:.02em}
+.fil{color:var(--mut);font-size:.82rem;flex:1 1 8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fil a{color:var(--mut)}
+.btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
+  border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+a.btn{text-decoration:none}
+.btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
+.rech{position:relative;flex:0 1 16rem;min-width:9rem}
+.rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
+  border:1px solid var(--li2);border-radius:var(--r);background:var(--card);color:var(--fg)}
+.res{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--li2);
+  border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.14);max-height:60vh;overflow:auto;padding:.2rem;margin:0;
+  list-style:none;display:none;z-index:50;min-width:18rem}
+.res.on{display:block}
+.res li a{display:block;padding:.3rem .45rem;border-radius:6px;text-decoration:none;color:var(--fg);font-size:.86rem}
+.res li a:hover,.res li.sel a{background:var(--acc2)}
+.res .sub{color:var(--mut);font-size:.76rem;font-family:var(--sans)}
+.res .vide{padding:.4rem .5rem;color:var(--mut);font-size:.84rem}
+
+main{padding:1.4rem 0 4rem}
+h1{font-size:1.75rem;line-height:1.24;margin:.2rem 0 .3rem}
+h2{font-size:1.06rem;font-family:var(--sans);font-weight:600;letter-spacing:.01em;margin:0}
+h3{font-size:.95rem;font-family:var(--sans);margin:1.2rem 0 .3rem}
+p{margin:.55rem 0}
+.ptag{font-family:var(--sans);font-size:.74rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .5rem}
+
+/* ---- métadonnées de fiche ---- */
+.meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;font-family:var(--sans);font-size:.75rem;color:var(--mut);margin:.4rem 0 1.1rem}
+.pill{border:1px solid var(--li2);border-radius:99px;padding:.06rem .5rem;background:var(--card);white-space:nowrap}
+.pill.ajout{color:var(--ajo);border-color:var(--ajo);background:var(--ajo2)}
+.pill.typ{background:var(--acc2);border-color:var(--acc)}
+.sym{font-family:var(--serif);font-size:1rem;color:var(--fg)}
+
+/* ---- sections ---- */
+.sec{border-top:1px solid var(--li);padding:.85rem 0}
+.sec.vide{display:none}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.45rem;padding:.1rem 0}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"›";color:var(--fai);font-family:var(--sans);display:inline-block;
+  transition:transform .12s ease;transform:rotate(0deg);width:.7em}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fai);font-weight:400}
+.corps{padding-top:.25rem}
+.gen{border-left:2px solid var(--li2);padding-left:.7rem}
+.chemin{border-left:3px solid var(--acc);background:var(--bg2);border-radius:0 var(--r) var(--r) 0;
+  padding:.5rem .8rem;margin:.2rem 0 .7rem}
+.chemin p{margin:.35rem 0;font-size:.95rem}
+.chemin p:first-child{margin-top:0}
+.chemin p:last-child{margin-bottom:0}
+.note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
+.parc{border:1px solid var(--li);border-left:3px solid var(--acc);border-radius:0 var(--r) var(--r) 0;
+  background:var(--bg2);padding:.5rem .8rem;margin:.6rem 0;font-size:.93rem}
+.parc-t{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin-bottom:.15rem}
+.parc p{margin:.2rem 0}
+.parc-nav{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--sans);font-size:.8rem;margin-top:.35rem}
+.parc-nav .suiv{margin-left:auto;text-align:right}
+.etapes{list-style:none;padding:0;margin:.6rem 0 1.2rem;counter-reset:e}
+.etapes>li{counter-increment:e;position:relative;padding:0 0 1rem 1.7rem;border-left:2px solid var(--li);margin-left:.9rem}
+.etapes>li:last-child{border-left-color:transparent}
+.etapes>li::before{content:counter(e);position:absolute;left:-.95rem;top:0;width:1.75rem;height:1.75rem;
+  border-radius:99px;background:var(--card);border:1px solid var(--acc);color:var(--acc);
+  font-family:var(--sans);font-size:.78rem;display:flex;align-items:center;justify-content:center}
+.etapes>li>p{margin:.1rem 0 .35rem}
+.etapes .arr{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.45rem .75rem}
+.etapes .arr a.tit{font-weight:600;text-decoration:none}
+.etapes .arr p{margin:.15rem 0;font-size:.88rem;color:var(--mut)}
+.avant{list-style:none;padding:0;margin:.4rem 0 1rem}
+.avant>li{margin:.5rem 0}
+.avant>li p{margin:.1rem 0 0;font-size:.95rem}
+.avant a.tit{font-weight:600;text-decoration:none}
+.roles{list-style:none;padding:0;margin:.2rem 0 0}
+.roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
+.roles>li.cible{background:var(--acc2)}
+details.parc>summary{cursor:pointer}
+.sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
+.sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
+.sec.faute>summary h2{color:var(--faute)}
+.faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
+  margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.faute-b strong{color:var(--faute)}
+.sec.lim>summary h2{color:var(--lim)}
+.sec.lim>h2{color:var(--lim)}
+
+/* ---- marqueurs de traçabilité ---- */
+.marq{font-family:var(--sans);font-size:.7rem;color:var(--fai);white-space:nowrap;vertical-align:.12em}
+.marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
+.marqligne{margin:.15rem 0 0}
+html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
+.bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
+  color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
+
+/* ---- pastilles ---- */
+.pasts{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0;padding:0;list-style:none}
+.past{display:inline-block;font-family:var(--sans);font-size:.82rem;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--li2);border-radius:99px;padding:.12rem .6rem}
+.past:hover{border-color:var(--acc);color:var(--acc)}
+.past .cc{color:var(--fai);font-size:.74rem}
+.past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
+.past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
+.past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
+
+/* ---- socle ---- */
+.socle{list-style:none;padding:0;margin:.3rem 0}
+.socle li{display:flex;gap:.5rem;align-items:baseline;padding:.12rem 0;font-size:.92rem}
+.socle input{margin:0;accent-color:var(--ok)}
+.socle li.su a{color:var(--fai);text-decoration:line-through}
+.compteur{font-family:var(--sans);font-size:.78rem;color:var(--mut)}
+.grp{margin:.5rem 0}
+.grp>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--mut)}
+
+table{border-collapse:collapse;margin:.5rem 0;font-size:.9rem;display:block;overflow-x:auto;max-width:100%}
+th,td{border:1px solid var(--li);padding:.25rem .55rem;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-family:var(--sans);font-size:.78rem;font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+  background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
+ul{padding-left:1.1rem}
+hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
+
+/* ---- cartes d'accueil / carte du cours ---- */
+.cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
+.carte{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.65rem .8rem}
+.carte h3{margin:0 0 .2rem}
+.carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
+.carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
+.dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.vise{animation:vise 1.6s ease}
+@keyframes vise{from{background:var(--acc2)}to{background:transparent}}
+
+/* ---- orientation : ce qui s'adresse au lecteur qui arrive ---- */
+.entree{border:1px solid var(--li2);border-left:3px solid var(--acc);border-radius:var(--r);
+  padding:.7rem .9rem;margin:.8rem 0 1.4rem;background:var(--card)}
+.entree p{margin:.3rem 0;font-size:.92rem}
+.entree .quoi{font-size:1.02rem}
+.entree ul{margin:.5rem 0 .2rem;padding-left:1.1rem;font-family:var(--sans);font-size:.88rem}
+.entree li{margin:.2rem 0}
+.chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
+.chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
+.aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
+/* L'en-tête est collant : une ancre visée ne doit pas passer dessous. Mesuré :
+   il fait 48 px sur une ligne, 85 px quand il se replie en deux (écran étroit). */
+[id]{scroll-margin-top:6rem}
+.aide p,.aide ul,.aide table{max-width:42rem}
+.dette ul{margin:.3rem 0 0}
+footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
+
+/* ---- arbre ---- */
+.barre{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+#scene{position:relative;border:1px solid var(--li);border-radius:var(--r);background:var(--bg2);
+  height:min(74vh,720px);overflow:hidden;touch-action:none;cursor:grab}
+#scene.drag{cursor:grabbing}
+#pan{position:absolute;transform-origin:0 0;top:0;left:0}
+#aretes{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+#aretes path{fill:none;stroke:var(--li2);stroke-width:1.5}
+.noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
+  padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
+.noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
+.noeud .nm{font-weight:600}
+.noeud .nm a{text-decoration:none;color:var(--fg)}
+.noeud .nm a:hover{color:var(--acc)}
+.noeud .pa{color:var(--mut);font-size:.72rem;display:block;margin-top:.1rem}
+.noeud .pli{font:inherit;font-size:.72rem;background:none;border:1px solid var(--li2);border-radius:4px;
+  color:var(--mut);cursor:pointer;padding:0 .3rem;margin-right:.25rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.4rem}
+  .rech{flex:1 1 100%;order:9}
+  #scene{height:66vh}
+}
+@media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="brand" href="../../index.html">notions</a><span class="fil"><a href="../../pfo/index.html">Python for Finance and Optimisation</a> › Frontière efficiente</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><h1>Frontière efficiente</h1><div class="meta"><span class="pill sym">$\mu_0$, $\mu_p$</span><a class="pill typ" href="../../aide.html" data-v="types" title="un objet du cours, celui qu’on manipule">notion</a><a class="pill" href="../../pfo/index.html">pfo</a><a class="pill" href="../../aide.html" data-v="niveau" title="ordre de lecture : nombre de notions à traverser, au plus long, pour arriver jusqu’à celle-ci. Niveau 0 = ne dépend d’aucune autre.">niveau 4</a><a class="pill" href="../../pfo/arbre.html" data-noeud="pfo/frontiere-efficiente" title="ouvrir l’arbre des familles sur cette notion">voir dans l’arbre</a><span class="pill">§3.0.2</span><span class="pill">p. 39</span><span class="pill">Fig. 3.1</span><span class="pill">p. 52</span></div><p class="note">aussi : efficient frontier, minimisation du risque sous contrainte de rendement cible, formulation 1, portefeuille de variance minimale globale, GMV</p><div class="parc"><div class="parc-t"><a href="../../aide.html" data-v="parcours">Parcours</a> <a href="../../pfo/parcours/portefeuille.html#e5">« Répartir un capital entre plusieurs actifs »</a> · étape 5 sur 9</div><p>Premier critère : se fixer un rendement et ne rien risquer de plus que nécessaire pour l'obtenir. Que dessinent ces choix quand la cible varie ? <span class="marq" title="référence à la source">[§3.0.2]</span></p><div class="parc-nav"><a class="prec" href="../../pfo/n/optimisation-de-portefeuille.html">← Optimisation de portefeuille</a><a class="suiv" href="../../pfo/n/ratio-de-sharpe.html">Ratio de Sharpe →</a></div></div><section class="sec " data-oblig="1"><h2>Ce que c'est</h2><div class="corps"><p>L'ensemble des portefeuilles de variance minimale pour chaque rendement cible, qui se trace comme une courbe dans le plan risque-rendement. <span class="marq" title="référence à la source">[§3.0.2]</span></p></div></section><section class="sec " data-oblig="1"><h2>Forme</h2><div class="corps"><p>$$\min_{W}\ \frac12W^T\boldsymbol{\Sigma}W\qquad\text{sous}\quad W^T\mu=\mu_0,\quad W^T\mathbf{1}=1,\quad W\ge0$$ <span class="marq" title="référence à la source">[§3.0.2]</span></p></div></section><section class="sec "><h2>Ce que les symboles modélisent</h2><div class="corps"><p>$\mu_0$ est le rendement cible, un niveau de rendement espéré qu'on impose au portefeuille avant de chercher le moins risqué de ceux qui l'atteignent. $\mu_p$ est le rendement espéré d'un portefeuille quelconque quand on le place dans le plan, en ordonnée, face à son risque $\sigma_p$ en abscisse. <span class="marq" title="référence à la source">[§3.0.2, p. 39]</span></p></div></section><section class="sec " data-oblig="1"><h2>Ce qui la définit</h2><div class="corps"><p>Chaque contrainte a une lecture économique : le portefeuille atteint exactement le rendement cible, tout le capital est investi, et la vente à découvert est interdite. Le facteur un demi ne change pas la solution ; il simplifie les dérivées. <span class="marq" title="référence à la source">[§3.0.2]</span></p><p>Pour un rendement cible donné, le problème fournit le portefeuille de variance minimale parmi tous ceux qui l'atteignent. En faisant varier progressivement $\mu_0$, on obtient une suite de portefeuilles optimaux, chacun caractérisé par son couple $(\sigma_p,\mu_p)$ : leur tracé est la frontière efficiente. <span class="marq" title="référence à la source">[§3.0.2, p. 39]</span></p><p>Graphiquement, la région des portefeuilles réalisables est un nuage dans le plan risque-rendement ; pour chaque cible, on retient le point réalisable le plus à gauche sur la droite horizontale $\mu_p=\mu_0$. <span class="marq" title="référence à la source">[p. 39, Fig. 3.1]</span></p><figure class="fig is-ajout"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 330" width="100%" height="auto" role="img" style="color:var(--fg);max-width:560px;height:auto"><title>Seule la branche au-dessus du portefeuille de variance minimale est efficiente</title><path d="M54 16 L54 290 M54 290 L542 290" fill="none" stroke="var(--mut)" stroke-width="1.2"/><path d="M54 290 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="54" y="307" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0</text><path d="M164.91 290 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="164.91" y="307" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">5</text><path d="M275.82 290 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="275.82" y="307" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">10</text><path d="M386.73 290 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="386.73" y="307" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">15</text><path d="M497.64 290 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="497.64" y="307" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">20</text><path d="M54 242.76 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="46" y="246.76" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">6</text><path d="M54 195.52 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="46" y="199.52" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">7</text><path d="M54 148.28 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="46" y="152.28" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">8</text><path d="M54 101.03 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="46" y="105.03" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">9</text><path d="M54 53.79 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="46" y="57.79" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">10</text><text x="542" y="323" text-anchor="end" font-size="12" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">risque σp, en %</text><text x="10" y="10" text-anchor="start" font-size="12" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">rendement μp, en %</text><path d="M252.4 204.97 L252.4 205.15 L252.4 205.34 L252.41 205.53 L252.41 205.72 L252.42 205.91 L252.42 206.1 L252.43 206.29 L252.44 206.48 L252.45 206.67 L252.46 206.86 L252.48 207.04 L252.49 207.23 L252.5 207.42 L252.52 207.61 L252.54 207.8 L252.56 207.99 L252.58 208.18 L252.6 208.37 L252.62 208.56 L252.65 208.74 L252.67 208.93 L252.7 209.12 L252.73 209.31 L252.76 209.5 L252.79 209.69 L252.82 209.88 L252.85 210.07 L252.89 210.26 L252.92 210.45 L252.96 210.63 L253 210.82 L253.03 211.01 L253.07 211.2 L253.12 211.39 L253.16 211.58 L253.2 211.77 L253.25 211.96 L253.29 212.15 L253.34 212.34 L253.39 212.52 L253.44 212.71 L253.49 212.9 L253.54 213.09 L253.6 213.28 L253.65 213.47 L253.71 213.66 L253.77 213.85 L253.82 214.04 L253.88 214.22 L253.94 214.41 L254.01 214.6 L254.07 214.79 L254.13 214.98 L254.2 215.17 L254.27 215.36 L254.34 215.55 L254.4 215.74 L254.48 215.93 L254.55 216.11 L254.62 216.3 L254.69 216.49 L254.77 216.68 L254.85 216.87 L254.92 217.06 L255 217.25 L255.08 217.44 L255.16 217.63 L255.25 217.82 L255.33 218 L255.42 218.19 L255.5 218.38 L255.59 218.57 L255.68 218.76 L255.77 218.95 L255.86 219.14 L255.95 219.33 L256.04 219.52 L256.14 219.7 L256.23 219.89 L256.33 220.08 L256.43 220.27 L256.53 220.46 L256.63 220.65 L256.73 220.84 L256.83 221.03 L256.93 221.22 L257.04 221.41 L257.14 221.59 L257.25 221.78 L257.36 221.97 L257.47 222.16 L257.58 222.35 L257.69 222.54 L257.8 222.73 L257.92 222.92 L258.03 223.11 L258.15 223.3 L258.27 223.48 L258.39 223.67 L258.51 223.86 L258.63 224.05 L258.75 224.24 L258.87 224.43 L259 224.62 L259.12 224.81 L259.25 225 L259.38 225.18 L259.5 225.37 L259.63 225.56 L259.77 225.75 L259.9 225.94 L260.03 226.13 L260.17 226.32 L260.3 226.51 L260.44 226.7 L260.57 226.89 L260.71 227.07 L260.85 227.26 L260.99 227.45 L261.14 227.64 L261.28 227.83 L261.42 228.02 L261.57 228.21 L261.71 228.4 L261.86 228.59 L262.01 228.78 L262.16 228.96 L262.31 229.15 L262.46 229.34 L262.62 229.53 L262.77 229.72 L262.92 229.91 L263.08 230.1 L263.24 230.29 L263.4 230.48 L263.55 230.66 L263.71 230.85 L263.88 231.04 L264.04 231.23 L264.2 231.42 L264.37 231.61 L264.53 231.8 L264.7 231.99 L264.86 232.18 L265.03 232.37 L265.2 232.55 L265.37 232.74 L265.55 232.93 L265.72 233.12 L265.89 233.31 L266.07 233.5 L266.24 233.69 L266.42 233.88 L266.6 234.07 L266.77 234.26 L266.95 234.44 L267.14 234.63 L267.32 234.82 L267.5 235.01 L267.68 235.2 L267.87 235.39 L268.05 235.58 L268.24 235.77 L268.43 235.96 L268.62 236.14 L268.81 236.33 L269 236.52 L269.19 236.71 L269.38 236.9 L269.57 237.09 L269.77 237.28 L269.96 237.47 L270.16 237.66 L270.36 237.85 L270.56 238.03 L270.76 238.22 L270.96 238.41 L271.16 238.6 L271.36 238.79 L271.56 238.98 L271.77 239.17 L271.97 239.36 L272.18 239.55 L272.38 239.74 L272.59 239.92 L272.8 240.11 L273.01 240.3 L273.22 240.49 L273.43 240.68 L273.64 240.87 L273.86 241.06 L274.07 241.25 L274.29 241.44 L274.5 241.62 L274.72 241.81 L274.94 242 L275.16 242.19 L275.38 242.38 L275.6 242.57 L275.82 242.76" fill="none" stroke="var(--mut)" stroke-width="1.8" stroke-dasharray="5 4" stroke-linecap="round" stroke-linejoin="round"/><path d="M497.64 53.79 L495.86 54.55 L494.09 55.3 L492.32 56.06 L490.55 56.82 L488.79 57.57 L487.02 58.33 L485.26 59.08 L483.5 59.84 L481.74 60.6 L479.98 61.35 L478.23 62.11 L476.48 62.86 L474.73 63.62 L472.98 64.38 L471.23 65.13 L469.49 65.89 L467.74 66.64 L466 67.4 L464.27 68.15 L462.53 68.91 L460.8 69.67 L459.07 70.42 L457.34 71.18 L455.61 71.93 L453.89 72.69 L452.17 73.45 L450.45 74.2 L448.73 74.96 L447.02 75.71 L445.31 76.47 L443.6 77.22 L441.89 77.98 L440.19 78.74 L438.49 79.49 L436.79 80.25 L435.09 81 L433.4 81.76 L431.71 82.52 L430.02 83.27 L428.34 84.03 L426.66 84.78 L424.98 85.54 L423.31 86.3 L421.64 87.05 L419.97 87.81 L418.3 88.56 L416.64 89.32 L414.98 90.07 L413.32 90.83 L411.67 91.59 L410.02 92.34 L408.38 93.1 L406.73 93.85 L405.1 94.61 L403.46 95.37 L401.83 96.12 L400.2 96.88 L398.58 97.63 L396.96 98.39 L395.34 99.14 L393.73 99.9 L392.12 100.66 L390.52 101.41 L388.91 102.17 L387.32 102.92 L385.73 103.68 L384.14 104.44 L382.55 105.19 L380.98 105.95 L379.4 106.7 L377.83 107.46 L376.26 108.22 L374.7 108.97 L373.15 109.73 L371.6 110.48 L370.05 111.24 L368.51 111.99 L366.97 112.75 L365.44 113.51 L363.91 114.26 L362.39 115.02 L360.87 115.77 L359.36 116.53 L357.86 117.29 L356.36 118.04 L354.86 118.8 L353.37 119.55 L351.89 120.31 L350.41 121.06 L348.94 121.82 L347.48 122.58 L346.02 123.33 L344.57 124.09 L343.12 124.84 L341.68 125.6 L340.25 126.36 L338.82 127.11 L337.4 127.87 L335.99 128.62 L334.58 129.38 L333.18 130.14 L331.79 130.89 L330.4 131.65 L329.03 132.4 L327.66 133.16 L326.29 133.91 L324.94 134.67 L323.59 135.43 L322.25 136.18 L320.92 136.94 L319.6 137.69 L318.28 138.45 L316.98 139.21 L315.68 139.96 L314.39 140.72 L313.11 141.47 L311.84 142.23 L310.57 142.98 L309.32 143.74 L308.08 144.5 L306.84 145.25 L305.62 146.01 L304.4 146.76 L303.2 147.52 L302 148.28 L300.81 149.03 L299.64 149.79 L298.48 150.54 L297.32 151.3 L296.18 152.06 L295.05 152.81 L293.92 153.57 L292.81 154.32 L291.72 155.08 L290.63 155.83 L289.55 156.59 L288.49 157.35 L287.44 158.1 L286.4 158.86 L285.37 159.61 L284.36 160.37 L283.36 161.13 L282.37 161.88 L281.39 162.64 L280.43 163.39 L279.48 164.15 L278.54 164.9 L277.62 165.66 L276.71 166.42 L275.82 167.17 L274.94 167.93 L274.07 168.68 L273.22 169.44 L272.38 170.2 L271.56 170.95 L270.76 171.71 L269.96 172.46 L269.19 173.22 L268.43 173.98 L267.68 174.73 L266.95 175.49 L266.24 176.24 L265.55 177 L264.86 177.75 L264.2 178.51 L263.55 179.27 L262.92 180.02 L262.31 180.78 L261.71 181.53 L261.14 182.29 L260.57 183.05 L260.03 183.8 L259.5 184.56 L259 185.31 L258.51 186.07 L258.03 186.82 L257.58 187.58 L257.14 188.34 L256.73 189.09 L256.33 189.85 L255.95 190.6 L255.59 191.36 L255.25 192.12 L254.92 192.87 L254.62 193.63 L254.34 194.38 L254.07 195.14 L253.82 195.9 L253.6 196.65 L253.39 197.41 L253.2 198.16 L253.03 198.92 L252.89 199.67 L252.76 200.43 L252.65 201.19 L252.56 201.94 L252.49 202.7 L252.44 203.45 L252.41 204.21 L252.4 204.97" fill="none" stroke="var(--acc)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M54 204.97 L252.4 204.97" fill="none" stroke="var(--li2)" stroke-width="1.2" stroke-dasharray="4 3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="252.4" cy="204.97" r="4" fill="var(--fg)"/><text x="244.4" y="195.97" text-anchor="end" font-size="11.5" stroke="var(--card)" stroke-width="3.2" stroke-linejoin="round" fill="none" font-family="ui-sans-serif,system-ui,sans-serif">variance minimale globale</text><text x="244.4" y="195.97" text-anchor="end" font-size="11.5" fill="var(--fg)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">variance minimale globale</text><circle cx="275.82" cy="242.76" r="3.6" fill="var(--mut)"/><circle cx="497.64" cy="53.79" r="3.6" fill="var(--mut)"/><text x="283.82" y="246.76" text-anchor="start" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">actif 1</text><text x="504.64" y="57.79" text-anchor="start" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">actif 2</text><text x="391.16" y="119.93" text-anchor="start" font-size="11.5" stroke="var(--card)" stroke-width="3.2" stroke-linejoin="round" fill="none" font-family="ui-sans-serif,system-ui,sans-serif">branche efficiente</text><text x="391.16" y="119.93" text-anchor="start" font-size="11.5" fill="var(--acc)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">branche efficiente</text><text x="331.27" y="261.66" text-anchor="start" font-size="11.5" stroke="var(--card)" stroke-width="3.2" stroke-linejoin="round" fill="none" font-family="ui-sans-serif,system-ui,sans-serif">branche inefficiente</text><text x="331.27" y="261.66" text-anchor="start" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">branche inefficiente</text></svg><figcaption>Deux actifs non corrélés, de rendements 6 % et 10 % et de volatilités 10 % et 20 %. En faisant varier le poids du premier de 0 à 1, le portefeuille décrit une courbe ; le point le plus à gauche est le portefeuille de variance minimale globale. Seule la branche au-dessus de lui est efficiente : sous lui, on peut obtenir plus de rendement pour moins de risque. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></figcaption></figure></div></section><details class="sec gen abs" data-k="casde"><summary><h2>Cas particulier de</h2><span class="cnt">autre relation</span></summary><div class="corps"><p class="note avert">Ce n’est pas un prérequis : on peut lire ce cas particulier sans avoir lu le cas général. Les prérequis, c’est « construite à partir de ».</p><ul class="pasts"><li><a class="past" href="../../pfo/n/optimisation-de-portefeuille.html">Optimisation de portefeuille</a></li></ul><p class="note">valeur pour le paramètre du parent : minimiser la variance, le rendement espéré étant fixé à une cible</p></div></details><details class="sec " data-k="construite"><summary><h2>Construite à partir de</h2><span class="cnt">1 prérequis direct</span></summary><div class="corps"><ul class="pasts"><li><a class="past" href="../../pfo/n/moments-du-portefeuille.html">Rendement espéré et variance d'un portefeuille<span class="nv">n3</span></a></li></ul><p class="note">Seulement ce dont cette fiche dépend directement. Le socle, juste en dessous, reprend ces notions-ci et y ajoute tout ce dont elles dépendent à leur tour.</p></div></details><details class="sec gen" data-k="socle"><summary><h2>Socle complet</h2><span class="cnt">10 prérequis en tout</span></summary><div class="corps"><div class="chemin"><p class="is-ajout">La frontière est tracée point par point, et chaque point est un calcul de <a href="../../pfo/n/moments-du-portefeuille.html">Rendement espéré et variance d'un portefeuille</a> : un rendement espéré imposé, une variance minimisée. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p class="is-ajout">La variance vient de <a href="../../pfo/n/matrice-de-covariance.html">Matrice de variance-covariance</a>, estimée sur <a href="../../pfo/n/rendement-logarithmique.html">Rendement logarithmique</a> et annualisée par <a href="../../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance</a>, avec le carré de <a href="../../fpp/n/volatilite.html">Volatilité</a> sur la diagonale ; le rendement espéré est une moyenne pondérée, parce que <a href="../../pfo/n/piege-d-agregation.html">Piège d'agrégation</a> l'établit pour <a href="../../pfo/n/rendement-arithmetique.html">Rendement arithmétique</a>. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p class="is-ajout">La forme de la courbe est celle de <a href="../../dup/n/diversification.html">Diversification</a> : quand on mélange, la variance tombe sous celle des composants, et la frontière se creuse vers la gauche. <a href="../../dup/n/moyenne-variance.html">Analyse moyenne-variance</a>, en réduisant chaque <a href="../../dup/n/loterie.html">Loterie</a> à deux nombres, avait déjà dessiné le plan où elle se trace. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div><p class="note">Tout ce qu’il faut avoir lu avant cette fiche, du plus élémentaire au plus construit. <strong>La liste est complète</strong> : la lire suffit, aucune de ces notions n’en appelle une autre qui manquerait ici. Cocher une case la barre sur toutes les pages. (<a href="../../aide.html" data-v="socle">en savoir plus</a>)</p><p class="compteur" data-cpt="socle"></p><details class="grp" open><summary>niveau 0 (4)</summary><ul class="socle"><li><input type="checkbox" data-su="dup/loterie" aria-label="déjà su : Loterie"><a href="../../dup/n/loterie.html">Loterie</a></li><li><input type="checkbox" data-su="pfo/rendement-arithmetique" aria-label="déjà su : Rendement arithmétique"><a href="../../pfo/n/rendement-arithmetique.html">Rendement arithmétique</a></li><li><input type="checkbox" data-su="pfo/rendement-logarithmique" aria-label="déjà su : Rendement logarithmique"><a href="../../pfo/n/rendement-logarithmique.html">Rendement logarithmique</a></li><li><input type="checkbox" data-su="fpp/volatilite" aria-label="déjà su : Volatilité"><a href="../../fpp/n/volatilite.html">Volatilité</a></li></ul></details><details class="grp" open><summary>niveau 1 (3)</summary><ul class="socle"><li><input type="checkbox" data-su="dup/moyenne-variance" aria-label="déjà su : Analyse moyenne-variance"><a href="../../dup/n/moyenne-variance.html">Analyse moyenne-variance</a></li><li><input type="checkbox" data-su="pfo/piege-d-agregation" aria-label="déjà su : Piège d'agrégation"><a href="../../pfo/n/piege-d-agregation.html">Piège d'agrégation</a></li><li><input type="checkbox" data-su="fpp/echelonnement-de-la-variance" aria-label="déjà su : Échelonnement de la variance"><a href="../../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance</a></li></ul></details><details class="grp" open><summary>niveau 2 (2)</summary><ul class="socle"><li><input type="checkbox" data-su="dup/diversification" aria-label="déjà su : Diversification"><a href="../../dup/n/diversification.html">Diversification</a></li><li><input type="checkbox" data-su="pfo/matrice-de-covariance" aria-label="déjà su : Matrice de variance-covariance"><a href="../../pfo/n/matrice-de-covariance.html">Matrice de variance-covariance</a></li></ul></details><details class="grp" open><summary>niveau 3 (1)</summary><ul class="socle"><li><input type="checkbox" data-su="pfo/moments-du-portefeuille" aria-label="déjà su : Rendement espéré et variance d'un portefeuille"><a href="../../pfo/n/moments-du-portefeuille.html">Rendement espéré et variance d'un portefeuille</a></li></ul></details></div></details><details class="sec gen" data-k="sert"><summary><h2>Sert ensuite à</h2><span class="cnt">1</span></summary><div class="corps"><p class="note">Ce que cette notion permet d’aborder juste après. Seulement l’étape suivante, pas toute la suite : une notion très en amont ouvrirait sinon la moitié du cours.</p><p class="compteur" data-cpt="aval"></p><ul class="socle"><li><input type="checkbox" data-su="pfo/portefeuille-tangent" aria-label="déjà su : Portefeuille tangent"><a href="../../pfo/n/portefeuille-tangent.html">Portefeuille tangent</a> <span class="marq">niveau 5</span></li></ul></div></details><details class="sec " data-k="exemple" data-oblig="1"><summary><h2>Exemple minimal</h2></summary><div class="corps"><p class="is-ajout">Avec les deux actifs non corrélés de rendements 6 % et 10 % et de volatilités 10 % et 20 %, le portefeuille de variance minimale globale place 80 % dans le premier : rendement 6,8 %, volatilité 8,94 %. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div></details><details class="sec " data-k="geste" data-oblig="1"><summary><h2>Geste de calcul type</h2></summary><div class="corps"><p class="is-ajout">Sans cible de rendement, pour deux actifs non corrélés, les poids de variance minimale sont proportionnels aux inverses des variances : $1/0{,}01=100$ et $1/0{,}04=25$, donc $W=(0{,}8;0{,}2)$. Alors $W^T\mu=0{,}8\times6\,\%+0{,}2\times10\,\%=6{,}8\,\%$ et $\sigma_p=\sqrt{0{,}64\times0{,}01+0{,}04\times0{,}04}=\sqrt{0{,}008}=8{,}94\,\%$. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div></details><details class="sec " data-k="libre"><summary><h2>Ce qui reste libre</h2></summary><div class="corps"><div class="tablebloc"><table><thead><tr><th>contrainte</th><th>cas</th><th>effet</th></tr></thead><tbody><tr><td>rendement cible</td><td>$\mu_0$ fixé</td><td>un point de la frontière</td></tr><tr><td>rendement cible</td><td>aucune</td><td>le portefeuille de variance minimale globale, le point le plus à gauche</td></tr></tbody></table><p class="marqligne"><span class="marq" title="référence à la source">[§3.0.2, p. 52]</span></p></div></div></details><details class="sec lim" data-k="limite" data-oblig="1"><summary><h2>Cesse d'être valide quand</h2></summary><div class="corps"><p class="is-ajout">Faire varier $\mu_0$ sur toute sa plage trace la frontière de variance minimale entière, branche basse comprise. Seule la partie située au-dessus du portefeuille de variance minimale globale est efficiente : sous lui, un autre portefeuille offre à la fois plus de rendement et moins de risque. Le cours appelle « frontière efficiente » la courbe entière. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p class="is-ajout">Dans l'exemple, une cible de 6 % impose tout le capital dans le premier actif, pour une volatilité de 10 % : le portefeuille de variance minimale globale fait mieux sur les deux tableaux. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p>La légende de la figure 3.1 du poly, « illustration d'une distribution à asymétrie négative », est celle d'une figure du chapitre 2 ; la figure montre bien la construction de la frontière. <span class="marq" title="référence à la source">[Fig. 3.1]</span></p></div></details><details class="sec " data-k="origine"><summary><h2>Origine</h2></summary><div class="corps"><ul><li>exercice <a href="../../pfo/exercices/ex-02.html">pfo/ex-02</a> : le portefeuille de variance minimale globale s'obtient en retirant la contrainte de rendement cible, et ne dépend pas des rendements espérés <span class="marq" title="référence à la source">[p. 52]</span></li></ul></div></details></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../../aide.html">comment lire ce site</a> · <a href="../../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../../search-index.js"></script>
+<script>
+var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+        s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- l'état qui traverse les pages ----------------------------------------
+   Voir le commentaire de l'en-tête : en file://, seul le fragment traverse.
+   Forme du fragment :  #t:d~a:0~p:1-0--1...~s:<tampon>.<bits>~v:<ancre>
+     t  thème      d | l            (absent : celui du système)
+     a  ajouts     0                (absent : montrés)
+     p  pliage     un caractère par clé de CLES_PLI : 1 ouvert, 0 fermé, - inconnu
+     s  déjà su    un bit par notion, six bits par caractère, précédé d'un tampon
+     v  ancre      l'élément vers lequel défiler à l'arrivée
+   Le tampon est calculé sur la liste des identifiants : dès qu'une notion entre dans
+   le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
+   cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
+var ETAT=(function(){
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees"],TAMPON='90d4',
+    A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
+var pli={},su={};
+if(typeof H.p==='string'){
+  for(var i=0;i<CLES.length&&i<H.p.length;i++){var c=H.p.charAt(i);
+    if(c==='0'||c==='1')pli[CLES[i]]=(c==='1');}
+}else{
+  CLES.forEach(function(k){var v=LS.g('notions.pli.'+k,null);if(v!==null)pli[k]=(v==='1')});
+}
+function decode(t){var o={},q=t.indexOf('.');
+  if(q<0||t.slice(0,q)!==TAMPON)return o;
+  var b=t.slice(q+1);
+  for(var i=0;i<b.length;i++){var v=A64.indexOf(b.charAt(i));if(v<0)continue;
+    for(var j=0;j<6;j++){if(v&(1<<j)){var k=i*6+j;if(k<IDS.length)o[IDS[k]]=1}}}
+  return o;}
+function encode(){var o='';
+  for(var i=0;i<IDS.length;i+=6){var v=0;
+    for(var j=0;j<6;j++){if(su[IDS[i+j]])v|=1<<j}
+    o+=A64.charAt(v);}
+  return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
+if(typeof H.s==='string'){su=decode(H.s)}
+else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
+function frag(ancre,noeud){var p=[];
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t)p.push('t:'+(t==='dark'?'d':'l'));
+  if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
+  var q='';CLES.forEach(function(k){q+=(pli[k]===undefined?'-':(pli[k]?'1':'0'))});
+  if(/[01]/.test(q))p.push('p:'+q);
+  var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
+  if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
+  return p.length?'#'+p.join('~'):'';}
+function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
+function propager(){var f=frag();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';if(!interne(h))return;
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
+  /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
+     Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
+  try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
+  try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}}
+return{pli:function(k){return pli[k]===undefined?null:pli[k]},
+       setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
+       su:function(id){return !!su[id]},
+       setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
+       lien:function(u,v,n){return u+frag(v,n)},
+       ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
+       propager:propager};
+})();
+function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
+  var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
+  b.textContent=on?'masquer les ajouts':'ajouts masqués';}
+  document.querySelectorAll('.sec').forEach(function(s){
+    var c=s.querySelector('.corps');if(!c)return;var n=0;
+    c.querySelectorAll(':scope>*').forEach(function(el){
+      if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
+      if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
+      n++;});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='Cette rubrique existe, mais tout son contenu est un ajout : le filtre le masque. Elle reste visible pour que vous ne concluiez pas qu’elle est vide.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
+  if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var bt=document.getElementById('btheme');
+  if(bt)bt.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    var nx=(cur||sys)==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);
+    ETAT.propager();});
+  var ba=document.getElementById('bajout');
+  if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);ETAT.propager();});
+  majAjouts(!document.documentElement.classList.contains('sans-ajouts'));
+  /* les liens de la page portent l'état ; une ancre demandée est ouverte et visée */
+  ETAT.propager();
+  var an=ETAT.ancre();
+  if(an){var el=document.getElementById(an);
+    if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView();el.classList.add('vise')}}
+  /* --- recherche instantanée (règle 9) --- */
+  var inp=document.getElementById('q'),res=document.getElementById('qres');
+  if(!inp||!res||!window.SEARCH_INDEX)return;
+  var REL=document.documentElement.getAttribute('data-rel')||'';
+  var sel=-1,items=[];
+  function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+  function cherche(q){
+    var n=norm(q);if(!n)return [];
+    var out=[];
+    SEARCH_INDEX.forEach(function(e){
+      var sc=-1,ch=e.h||[];
+      for(var i=0;i<ch.length;i++){var p=norm(ch[i]).indexOf(n);
+        if(p===0){sc=Math.max(sc,3-(i>0?1:0))}else if(p>0){sc=Math.max(sc,1)}}
+      if(sc>=0)out.push([sc,e]);});
+    out.sort(function(a,b){return b[0]-a[0]||a[1].n.localeCompare(b[1].n)});
+    return out.slice(0,9).map(function(x){return x[1]});}
+  function rendre(){
+    items=cherche(inp.value);sel=-1;res.innerHTML='';
+    if(!inp.value){res.classList.remove('on');return}
+    if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
+    items.forEach(function(e,i){
+      var li=document.createElement('li');
+      var a=document.createElement('a');a.href=ETAT.lien(REL+e.u);a.id='qr'+i;
+      a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
+      li.appendChild(a);res.appendChild(li);});
+    res.classList.add('on');}
+  function bouge(d){if(!items.length)return;sel=(sel+d+items.length)%items.length;
+    Array.prototype.forEach.call(res.children,function(li,i){li.classList.toggle('sel',i===sel)});
+    inp.setAttribute('aria-activedescendant','qr'+sel);}
+  inp.addEventListener('input',rendre);
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();bouge(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();bouge(-1)}
+    else if(e.key==='Enter'){var a=res.querySelector(sel>=0?'li.sel a':'li a');if(a){e.preventDefault();location.href=a.href}}
+    else if(e.key==='Escape'){inp.value='';res.classList.remove('on')}});
+  document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
+  document.addEventListener('keydown',function(e){
+    if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  /* pliage mémorisé par rubrique (règle 5), et transporté d'une page à l'autre */
+  document.querySelectorAll('details.sec[data-k]').forEach(function(d){
+    var k=d.getAttribute('data-k'),v=ETAT.pli(k);
+    if(v!==null)d.open=v;
+    d.addEventListener('toggle',function(){ETAT.setPli(k,d.open)});});
+  /* amont et aval : même état « déjà su », un compteur par liste (règle 7) */
+  function compte(){
+    document.querySelectorAll('.sec').forEach(function(s){
+      var cpt=s.querySelector('[data-cpt]');if(!cpt)return;
+      var l=s.querySelectorAll('input[data-su]'),k=0;
+      l.forEach(function(c){if(c.checked)k++});
+      cpt.textContent=l.length+' notion'+(l.length>1?'s':'')+', '+(l.length-k)+' à voir';});}
+  document.querySelectorAll('input[data-su]').forEach(function(c){
+    var id=c.getAttribute('data-su');c.checked=ETAT.su(id);
+    c.closest('li').classList.toggle('su',c.checked);
+    c.addEventListener('change',function(){
+      ETAT.setSu(id,c.checked);
+      document.querySelectorAll('input[data-su="'+id+'"]').forEach(function(o){
+        o.checked=c.checked;o.closest('li').classList.toggle('su',c.checked);});
+      compte();});});
+  compte();
+});
+</script>
+</body>
+</html>

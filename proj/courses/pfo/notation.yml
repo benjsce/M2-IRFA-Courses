@@ -222,6 +222,123 @@ symboles:
   ref: éq. 2.35
   sens: quantile centré réduit corrigé par Cornish-Fisher
 
+# ── chapitre 3 ─────────────────────────────────────────────────────────────────
+- symbole: $W$
+  notion: pfo/moments-du-portefeuille
+  ref: §3.0.1
+  sens: vecteur colonne des poids des N actifs du portefeuille
+- symbole: $\mu$
+  notion: pfo/moments-du-portefeuille
+  ref: §3.0.1
+  sens: vecteur colonne des rendements espérés des actifs
+- symbole: $\mu_i$
+  notion: pfo/moments-du-portefeuille
+  ref: §3.0.1
+  sens: rendement espéré de l'actif i, E(R_i)
+- symbole: $E(R_p)$
+  notion: pfo/moments-du-portefeuille
+  ref: §3.0.1
+  sens: rendement espéré du portefeuille
+- symbole: $\sigma_p$
+  notion: pfo/moments-du-portefeuille
+  ref: p. 38
+  sens: écart type (volatilité) du portefeuille
+- symbole: $\mu_0$
+  notion: pfo/frontiere-efficiente
+  ref: §3.0.2
+  sens: rendement cible imposé au portefeuille
+- symbole: $\mu_p$
+  notion: pfo/frontiere-efficiente
+  ref: §3.0.2
+  sens: rendement espéré d'un portefeuille placé dans le plan rendement-risque
+- symbole: $R_f$
+  notion: pfo/ratio-de-sharpe
+  ref: §3.0.3
+  sens: rendement certain de l'actif sans risque
+- symbole: $SR(W)$
+  notion: pfo/ratio-de-sharpe
+  ref: §3.0.3
+  sens: ratio de Sharpe du portefeuille de poids W
+- symbole: $W^*$
+  notion: pfo/portefeuille-tangent
+  ref: p. 40
+  sens: poids du portefeuille tangent, de ratio de Sharpe maximal
+- symbole: $SR(\mu_0)$
+  notion: pfo/portefeuille-tangent
+  ref: §3.0.4
+  sens: ratio de Sharpe du portefeuille efficient de rendement cible μ0
+- symbole: $\mu_0^*$
+  notion: pfo/portefeuille-tangent
+  ref: §3.0.4
+  sens: rendement cible qui maximise SR(μ0)
+- symbole: $\alpha$
+  notion: pfo/ligne-de-marche-des-capitaux
+  ref: p. 41
+  sens: part investie dans le portefeuille tangent, le reste dans l'actif sans risque
+- symbole: $\mu_C$
+  notion: pfo/ligne-de-marche-des-capitaux
+  ref: p. 41
+  sens: rendement espéré de la combinaison actif sans risque et portefeuille tangent
+- symbole: $\sigma_C$
+  notion: pfo/ligne-de-marche-des-capitaux
+  ref: p. 41
+  sens: écart type de cette combinaison
+- symbole: $f$
+  notion: pfo/slsqp
+  ref: éq. 3.1
+  sens: fonction objectif à minimiser
+- symbole: $g$
+  notion: pfo/slsqp
+  ref: éq. 3.1
+  sens: contraintes d'égalité, g(x) = 0
+- symbole: $h$
+  notion: pfo/slsqp
+  ref: éq. 3.1
+  sens: contraintes d'inégalité, h(x) ≥ 0
+- symbole: $x_k$
+  notion: pfo/slsqp
+  ref: éq. 3.2
+  sens: itéré courant à l'itération k
+- symbole: $d_k$
+  notion: pfo/slsqp
+  ref: éq. 3.5
+  sens: déplacement solution du sous-problème quadratique
+- symbole: $H_k$
+  notion: pfo/slsqp
+  ref: éq. 3.3
+  sens: approximation du hessien du lagrangien à l'itération k
+- symbole: $\alpha_k$
+  notion: pfo/slsqp
+  ref: éq. 3.5
+  sens: longueur du pas, fixée par recherche linéaire
+- symbole: $L(x, \lambda, \mu)$
+  notion: pfo/slsqp
+  ref: éq. 3.6
+  sens: lagrangien du problème contraint
+- symbole: $\lambda$
+  notion: pfo/slsqp
+  ref: éq. 3.6
+  sens: multiplicateurs des contraintes d'égalité
+- symbole: $\mu$
+  notion: pfo/slsqp
+  ref: éq. 3.6
+  sens: multiplicateurs des contraintes d'inégalité
+- symbole: $\mu_d$
+  notion: pfo/annualisation
+  ref: §3.0.7
+  sens: rendement logarithmique espéré journalier
+- symbole: $\sigma_d$
+  notion: pfo/annualisation
+  ref: §3.0.7
+  sens: écart type journalier du rendement
+- symbole: $\mu_{\mathrm{annuel}}$
+  notion: pfo/annualisation
+  ref: §3.0.7
+  sens: rendement logarithmique espéré annualisé
+- symbole: $\sigma_{\mathrm{annuel}}$
+  notion: pfo/annualisation
+  ref: §3.0.7
+  sens: écart type annualisé
 collisions:
 - symbole: $S_t$
   ici: fourchette acheteur-vendeur (éq. 1.1)
@@ -246,22 +363,31 @@ collisions:
     dup: écart type d'une perspective
   note: le même objet dans les trois cours, à l'annualisation près
 - symbole: $\mu$
-  ici: moyenne, ou espérance du rendement
+  ici: >-
+    moyenne, ou espérance du rendement ; au chapitre 3, vecteur des rendements espérés
+    (§3.0.1), puis multiplicateurs des contraintes d'inégalité du lagrangien (éq. 3.6)
   ailleurs:
     fpp: dérive du sous-jacent sous la probabilité historique
     dup: espérance d'une perspective
 - symbole: $\lambda$
-  ici: persistance EWMA
+  ici: >-
+    persistance EWMA ; au chapitre 3, multiplicateurs des contraintes d'égalité du
+    lagrangien (éq. 3.6)
   ailleurs:
     dss: paramètre de pénalité de ridge et du lasso
     dup: coefficient d'aversion aux pertes
 - symbole: $\alpha$
-  ici: trois sens dans ce seul cours — lissage EWMA, niveau d'un test, seuil de la VaR
+  ici: >-
+    quatre sens dans ce seul cours — lissage EWMA, niveau d'un test, seuil de la VaR,
+    puis part investie dans le portefeuille tangent (p. 41) ; $\alpha_k$, le pas de
+    SLSQP (éq. 3.5), en est distinct par son indice
   ailleurs:
     dss: coefficient d'inertie
     dup: coefficient linéaire de l'utilité quadratique
 - symbole: $W$
-  ici: statistique de Shapiro-Wilk
+  ici: >-
+    statistique de Shapiro-Wilk ; au chapitre 3, vecteur des poids du portefeuille
+    (§3.0.1)
   ailleurs:
     dss: nombre de poids du réseau
 - symbole: $L$
@@ -281,3 +407,14 @@ collisions:
   ailleurs:
     dup: ensemble des actes, puis fonction de répartition de la richesse
     fpp: prix forward
+- symbole: $\sigma_p$
+  ici: écart type du portefeuille de N actifs, $\sqrt{W^T\Sigma W}$ (p. 38)
+  ailleurs:
+    dup: écart type d'un portefeuille de deux actifs (L1 slide 13)
+  note: >-
+    le même objet dans les deux cours : dup/diversification en est le cas à deux actifs,
+    et pfo/moments-du-portefeuille s'appuie dessus
+- symbole: $f$
+  ici: fonction objectif d'un problème d'optimisation (éq. 3.1)
+  ailleurs:
+    dup: un acte, application des états vers les résultats (L1 slide 2)

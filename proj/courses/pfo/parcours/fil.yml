@@ -1,7 +1,7 @@
 # Écrit par build.py (SPEC-MODELE A17) : toutes les étapes du cours, dans l'ordre
 # de lecture. Le validateur exige que cette suite reste contenue, dans le même
 # ordre, dans celle des parcours actuels. Ne pas éditer à la main.
-scelle: '2026-09-24'
+scelle: '2026-09-25'
 fil:
 - pfo/fourchette-bid-ask
 - pfo/prix-milieu
@@ -39,3 +39,12 @@ fil:
 - pfo/var-gaussienne
 - pfo/developpement-de-cornish-fisher
 - pfo/var-de-cornish-fisher
+- pfo/paradigme-de-markowitz
+- pfo/moments-du-portefeuille
+- pfo/annualisation
+- pfo/optimisation-de-portefeuille
+- pfo/frontiere-efficiente
+- pfo/ratio-de-sharpe
+- pfo/portefeuille-tangent
+- pfo/ligne-de-marche-des-capitaux
+- pfo/slsqp

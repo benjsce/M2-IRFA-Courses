@@ -4,19 +4,23 @@ enseignant: Mohamed Mrad
 annee: 2026-2027
 sources:
 - id: poly
-  fichier: sources/Chapter1-2.pdf
-  type: notes de cours (chapitres 1 et 2, 35 pages)
+  fichier: sources/Chapter_1_2_3.pdf
+  type: notes de cours (chapitres 1 à 3, 56 pages)
 # Une seule source : la référence est nue (SPEC-MODELE §2.3). Le poly numérote ses
 # sections, ses équations, ses listings, ses figures et sa table par chapitre (1.x, 2.x),
 # et porte une seule définition numérotée (Définition 2.5.1). Les intertitres non
 # numérotés (« Z-Score », « The Fisher Convention »…) se citent par la page imprimée,
 # qui coïncide ici avec la page du PDF.
-# Les chapitres suivants arriveront probablement dans d'autres fichiers ; leurs numéros
-# commencent par le numéro du chapitre, donc ne se recouvrent pas avec ceux-ci. Seules
-# les pages pourraient se recouvrir : ce jour-là, préfixer `p.` par la source.
+# Le chapitre 3 est arrivé le 2026-09-25 dans une nouvelle version du même poly, qui
+# remplace la précédente : les chapitres 1 et 2 y sont identiques, aux mêmes pages à
+# partir de la page 7 ; seule l'introduction générale glisse de la page 4 à la page 5.
+# Le chapitre 3 ne numérote ni ses listings ni ses exercices : ils se citent par la page.
+# Si un chapitre arrivait un jour dans un fichier séparé, ses pages pourraient se
+# recouvrir avec celles-ci : ce jour-là, préfixer `p.` par la source.
 refs_pattern: ^(§\d+(\.\d+)*|éq\. \d+\.\d+|Déf\. \d+\.\d+\.\d+|Listing \d+\.\d+|Fig\. \d+\.\d+|Table \d+\.\d+|p\. \d+)$
 depend_de:
 - fpp
+- dup
 conventions_par_defaut:
   langue_source: >-
     anglais ; les noms de fiches sont en français, le terme anglais est porté en alias
