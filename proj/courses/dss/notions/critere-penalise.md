@@ -18,6 +18,8 @@ Estimer l'erreur de test en corrigeant l'erreur d'apprentissage d'une pénalité
 ## Ce qui la définit
 Tous ajoutent une pénalité à la RSS pour la taille du modèle, et tous servent au même usage : comparer des modèles qui n'ont pas le même nombre de variables. [slide 39]
 
+Un critère ne calcule pas les coefficients : dans chaque modèle comparé, ce sont toujours ceux des moindres carrés, qui minimisent la RSS. La pénalité ne dépend que du nombre de variables, pas de la valeur des coefficients ; elle ne départage donc que des modèles déjà ajustés. [ajout]
+
 C'est la voie indirecte. Elle ne demande qu'un ajustement, là où la validation croisée en demande un par bloc — mais elle suppose une forme de modèle, ce que la validation croisée ne suppose pas. [slide 38]
 
 Trois d'entre eux se lisent dans le sens « plus petit vaut mieux » ; le $R^2$ ajusté se lit dans l'autre sens. [slide 40]
