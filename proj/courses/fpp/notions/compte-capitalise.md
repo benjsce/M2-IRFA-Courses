@@ -19,10 +19,19 @@ Le facteur d’actualisation obtenu en enchaînant les zéro-coupons courts, san
 ## Forme
 $$B(t,T)=\prod_k P(t_k,t_{k+1})$$ [§4.2.2]
 
-![En haut, le zéro-coupon fait le trajet de $T$ à $t$ en un seul saut, connu en $t$. En bas, le compte capitalisé enchaîne des zéro-coupons courts : seul le premier est connu en $t$, les suivants ne le seront qu'à leur date, d'où le pointillé.](figures/compte-capitalise.svg) [ajout]
-
 ## Ce que les symboles modélisent
 $B(t,T)$ prend deux dates et rend un facteur : ce que devient une unité placée en $t$ et roulée jusqu'en $T$ au taux court. Sa différence avec le zéro-coupon tient en un mot — sa valeur en $T$ n'est **pas connue** en $t$, puisqu'on enchaîne des taux qu'on ignore encore. [§4.2.2]
+
+## Retrouver la formule
+![En haut, le zéro-coupon fait le trajet de $T$ à $t$ en un seul saut, connu en $t$. En bas, le compte capitalisé enchaîne des zéro-coupons courts : seul le premier est connu en $t$, les suivants ne le seront qu'à leur date, d'où le pointillé.](figures/compte-capitalise.svg) [ajout]
+
+Placer $1$ en $t=t_0$ au zéro-coupon court : on a $1/P(t_0,t_1)$ en $t_1$. [ajout]
+
+Replacer le tout jusqu'en $t_2$ : on a $1/\bigl(P(t_0,t_1)P(t_1,t_2)\bigr)$. Mais $P(t_1,t_2)$ ne sera connu qu'en $t_1$ : le montant final ne l'est pas en $t$. [ajout]
+
+Jusqu'en $T$, une unité placée en $t$ devient $1/\prod_k P(t_k,t_{k+1})$. Le facteur qui ramène de $T$ à $t$ est l'inverse, comme $P(t,T)$ est l'inverse de ce que devient une unité placée au zéro-coupon long. [ajout]
+
+$$B(t,T)=\prod_k P(t_k,t_{k+1})$$ [§4.2.2]
 
 ## Ce qui la définit
 Même rôle que $P(t,T)$ — transporter de la valeur jusqu’à $T$ — mais reconstitué pas à pas, donc aléatoire. [§4.2.2]

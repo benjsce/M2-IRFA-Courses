@@ -338,6 +338,31 @@ def _fig(root, code="aa", svg=None, script=True, citee=True):
         encoding="utf-8", newline="\n")
 
 
+def _retrouver(corps):
+    return "\n## Retrouver la formule\n" + corps + "\n"
+
+
+def retrouver_ok(root):
+    corps = ("![Une l\u00e9gende.](figures/f.svg) [p. 1]\n\n"
+             "On raisonne. [p. 1]\n\n$$a=b$$ [p. 1]")
+    ecrire(root, "aa", [dict(slug="x", nom="Un", chemin=_retrouver(corps))])
+    _fig(root)
+
+
+def retrouver_sans_formule(root):
+    """Le raisonnement s'arrête avant la formule qu'il devait retrouver."""
+    corps = "On raisonne. [p. 1]\n\n$$a=b$$ [p. 1]\n\nEt on conclut en prose. [p. 1]"
+    ecrire(root, "aa", [dict(slug="x", nom="Un", chemin=_retrouver(corps))])
+
+
+def retrouver_figure_apres(root):
+    """La figure arrive après le raisonnement qu'elle devait porter."""
+    corps = ("On raisonne. [p. 1]\n\n![Une l\u00e9gende.](figures/f.svg) [p. 1]\n\n"
+             "$$a=b$$ [p. 1]")
+    ecrire(root, "aa", [dict(slug="x", nom="Un", chemin=_retrouver(corps))])
+    _fig(root)
+
+
 def fig_ok(root):
     appel = "\n![Une l\u00e9gende.](figures/f.svg) [p. 1]\n"
     ecrire(root, "aa", [dict(slug="x", nom="Un", chemin=appel)])
@@ -431,6 +456,14 @@ def main():
         "ne portent plus le même texte", lois_divergentes, sous="proj")
     cas("les deux copies identiques → silence",
         "ne portent plus le même texte", lois_identiques, doit_apparaitre=False, sous="proj")
+
+    print("retrouver la formule")
+    cas("figure, raisonnement, formule → silence",
+        "Retrouver la formule", retrouver_ok, doit_apparaitre=False)
+    cas("raisonnement qui ne finit pas sur la formule → erreur",
+        "ne finit pas sur la formule", retrouver_sans_formule)
+    cas("figure posée après le raisonnement → erreur",
+        "la figure vient après le raisonnement", retrouver_figure_apres)
 
     print("figures")
     cas("figure conforme à son script → silence",

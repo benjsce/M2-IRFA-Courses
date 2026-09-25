@@ -40,7 +40,7 @@ MAX_LISTE = 7          # SPEC-SITE §2 règle 4
 # inemployé), sinon un lien déjà copié rouvrirait les mauvaises rubriques.
 CLES_PLI = ["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple",
             "geste", "libre", "limite", "membres", "origine",
-            "soluoff", "revele", "contra", "touchees"]
+            "soluoff", "revele", "contra", "touchees", "retrouver"]
 TAILLE_MAX = 300_000   # SPEC-SITE §4 : une page ≤ 300 ko hors MathJax
 
 # l'algorithme de l'arbre vit dans le test ; on en importe les constantes (SPEC-SITE §5)
@@ -1166,6 +1166,11 @@ def page_fiche(m, i):
     if "Ce que les symboles modélisent" in S:
         c.append(sec("Ce que les symboles modélisent",
                      rendre(S["Ce que les symboles modélisent"], ctx, fiche=True)))
+    # La démonstration, repliée : on voit la formule, on peut essayer de la retrouver
+    # seul, puis déplier le dessin et le raisonnement (SPEC-MODELE §2.1).
+    if "Retrouver la formule" in S:
+        c.append(sec("Retrouver la formule", rendre(S["Retrouver la formule"], ctx, fiche=True),
+                     cle="retrouver"))
     for t in ("Ce qui la définit", "Ce que les membres partagent"):
         if t in S:
             c.append(sec(t, rendre(S[t], ctx, fiche=True)))

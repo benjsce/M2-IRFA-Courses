@@ -121,6 +121,8 @@ Dans cet ordre, sans exception :
    fiche `dup/utilite-esperee` en aurait porté cinq, empilés au-dessus de sa définition.
 2. Ce que c'est.
 3. Forme.
+3 bis. Retrouver la formule — repliée : on voit la formule, on peut essayer de la
+   retrouver seul, puis déplier le dessin et le raisonnement.
 4. Ce qui la définit / Ce que les membres partagent.
 5. *(abstraite)* Le paramètre qui les distingue — table membre → valeur, **générée**.
 6. *(abstraite)* Pourquoi ce niveau existe.

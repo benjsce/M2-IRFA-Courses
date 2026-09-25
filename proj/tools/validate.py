@@ -25,6 +25,7 @@ RUBRIQUES = [  # (titre, obligatoire pour quels types, condition)
     "Ce que c'est",
     "Forme",
     "Ce que les symboles modélisent",
+    "Retrouver la formule",
     "Ce qui la définit",
     "Ce que les membres partagent",
     "Pourquoi ce niveau existe",
@@ -439,6 +440,19 @@ def valider(root: Path, rap: Rapport):
             rap.e("A1", nid, "rubrique dupliquée")
         S = dict(secs)
         typ = m.get("type")
+        # « Retrouver la formule » : le dessin d'abord, puis le raisonnement, qui aboutit à
+        # la formule. Une démonstration qui ne finit pas sur ce qu'elle démontre laisse le
+        # lecteur refaire la dernière ligne ; une figure posée après le raisonnement ne
+        # sert plus à le suivre. Demandé par l'utilisateur le 2026-09-25.
+        if "Retrouver la formule" in S:
+            rf = blocs(S["Retrouver la formule"])
+            if not rf or "$$" not in rf[-1]:
+                rap.e("A1", nid, "« Retrouver la formule » ne finit pas sur la formule "
+                                 "retrouvée, en équation centrée ($$…$$)")
+            figs = [k for k, x in enumerate(rf) if x.startswith("![")]
+            if figs and figs[0] != 0:
+                rap.e("A1", nid, "« Retrouver la formule » : la figure vient après le "
+                                 "raisonnement ; elle doit l'ouvrir")
         if "Ce que c'est" not in S:
             rap.e("A1", nid, "« Ce que c'est » manquant")
         else:

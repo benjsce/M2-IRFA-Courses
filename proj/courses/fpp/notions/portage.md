@@ -21,6 +21,19 @@ $d_i$ est le taux de dividende proportionnel versé à la date $T_i$, et $q$ le 
 
 $\Phi$ est un facteur et non un montant : la fraction d'unité qu'il faut détenir aujourd'hui pour en avoir exactement une à l'échéance. Il vaut un quand le sous-jacent ne rapporte rien entre-temps. [ajout]
 
+## Retrouver la formule
+![Des dividendes en montant, ici deux. Le détenteur de l'action reçoit $D_1$ en $T_1$, $D_2$ en $T_2$, puis l'action ; ramenés en $t$ chacun par le zéro-coupon de sa date, ces trois flux font le comptant $S_t$. L'acheteur à terme ne reçoit que l'action : ce qui reste du comptant est ce qu'il doit payer, $F\,P(t,T)$ en valeur de $t$.](figures/portage.svg) [ajout]
+
+La formule retrouvée ici est celle des dividendes en montant fixe, donnée dans « Cesse d'être valide quand » : c'est le cas où le portage cesse d'être un facteur. [ajout]
+
+Le détenteur d'une action reçoit $D_1$ en $T_1$, $D_2$ en $T_2$, puis garde l'action en $T$. Ces flux, ensemble, valent le comptant $S_t$. [ajout]
+
+Chaque dividende est un montant connu à une date connue : il vaut aujourd'hui $D_iP(t,T_i)$. L'action livrée en $T$, sans ses dividendes, vaut donc ce qui reste, $S_t-\sum_i D_iP(t,T_i)$. [ajout]
+
+L'acheteur à terme reçoit seulement l'action, et paie $F$ en $T$, soit $F\,P(t,T)$ en valeur d'aujourd'hui. Le contrat étant nul à la signature, les deux sont égaux. [ajout]
+
+$$F=\dfrac{S_t-\sum_i D_iP(t,T_i)}{P(t,T)}$$ [ajout]
+
 ## Ce qui la définit
 Un actif qui verse quelque chose pendant qu’on le détient allège son propre portage. [§3.2, §5.2.1]
 
@@ -39,8 +52,6 @@ Pour une matière première ce serait le convenience yield : la source ne le tra
 
 ## Cesse d'être valide quand
 Le portage cesse d’être un scalaire si les dividendes sont en montant fixe : $F=\frac{S_t-\sum_i D_iP(t,T_i)}{P(t,T)}$, et les dates de détachement réapparaissent. [ajout]
-
-![Des dividendes en montant, ici deux. Le détenteur de l'action reçoit $D_1$ en $T_1$, $D_2$ en $T_2$, puis l'action ; ramenés en $t$ chacun par le zéro-coupon de sa date, ces trois flux font le comptant $S_t$. L'acheteur à terme ne reçoit que l'action : ce qui reste du comptant est ce qu'il doit payer, $F\,P(t,T)$ en valeur de $t$.](figures/portage.svg) [ajout]
 
 ## Origine
 - exercice fpp/ex-01 (c)(d) : « 8 % de la valeur de l'action » ne fixe pas la convention cum/ex ; $\Phi=1-d$ (cours) donne 59,97, $\Phi=1/(1+d)$ (corrigé) donne 59,59 [ajout]

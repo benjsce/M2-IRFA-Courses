@@ -98,6 +98,7 @@ l'échéance, exprimé en facteur et non en montant. [Déf. 5]
 | 1 | Ce que c'est | tous | obligatoire ; **une phrase**, ≤ 220 caractères |
 | 2 | Forme | tous | si la notion a une formule |
 | 3 | Ce que les symboles modélisent | tous | **obligatoire dès que le registre attribue un symbole à la fiche** ; elle les nomme tous |
+| 3 bis | Retrouver la formule | tous | facultatif ; la figure d'abord s'il y en a une, puis le raisonnement ; **finit sur la formule retrouvée**, en `$$…$$` |
 | 4 | Ce qui la définit / Ce que les membres partagent | tous | obligatoire |
 | 5 | Pourquoi ce niveau existe | abstraite | obligatoire |
 | 6 | Le chemin jusqu'ici | tous | **obligatoire dès que le socle n'est pas vide** ; interdite s'il l'est |
@@ -136,6 +137,19 @@ porte sur 87 fiches ; les rendre toutes conformes d'un coup serait la réécritu
 que le protocole tient pour le danger principal du dépôt. *Ouverte le 2026-09-21, sur cette
 remarque de l'utilisateur : « parfois il est nécessaire à la compréhension de comprendre ce
 que modélise une fonction / une notation en français ».*
+
+**« Retrouver la formule », en détail.** La démonstration qui permet de reconstruire la
+formule sans l'avoir apprise : pour un prix à terme, chaque jambe du contrat ramenée en $t$,
+puis l'égalité qui dit que le contrat ne coûte rien. Elle s'ouvre sur la figure quand la
+fiche en a une — le dessin d'abord, parce que c'est lui qu'on refait de tête —, avance par
+paragraphes courts, un pas par paragraphe, chacun avec son marqueur, et **se termine sur la
+formule** en équation centrée : une démonstration qui s'arrête avant sa conclusion laisse
+au lecteur la dernière ligne, la seule qu'il cherchait. Le validateur vérifie les deux
+règles, figure en tête et formule à la fin, en **E**. La rubrique est facultative : elle
+n'a de sens que là où la formule se déduit d'un raisonnement du cours, pas là où elle est
+une définition. *Demandée par l'utilisateur le 2026-09-25 : « pour retrouver les formules
+comme le prix forward, celui de l'exchange, je voudrais les graphiques puis le raisonnement
+(démo) pour retrouver la formule ».*
 
 **« Le chemin jusqu'ici », en détail.** Deux à quatre paragraphes courts qui disent *en quoi
 les notions du socle mènent à celle-ci*. Le socle donne l'ordre de lecture ; ce paragraphe

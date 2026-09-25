@@ -22,7 +22,16 @@ $$(S_T-K)^+-(K-S_T)^+=S_T-K\ \implies\ C_t-P_t=S_t-KP(t,T)$$ [ajout]
 
 C'est la parité écrite à une date $t<T$ quelconque, $C_t$ et $P_t$ étant les prix en $t$ du call et du put de strike $K$ et d'échéance $T$. La source l'énonce en $t=0$ : $C(S_0,K,T)-P(S_0,K,T)=S_0-KP(0,T)$. [Prop. 7]
 
+## Retrouver la formule
 ![À chaque valeur du sous-jacent, le payoff du call moins celui du put tombe sur celui du forward : c'est ce que veut dire « vraie état par état ». Le strike vaut 100, comme dans l'exemple minimal, et aucun prix n'apparaît — l'actualisation vient après.](figures/parite-call-put.svg) [ajout]
+
+État par état : au-dessus du strike seul le call paie, au-dessous seul le put, et dans les deux cas la différence vaut $S_T-K$. C'est une identité de payoff. [Prop. 7]
+
+Deux positions qui paient la même chose dans tous les états ont le même prix en $t$ : sinon on vend la plus chère, on achète l'autre, et l'écart est un gain sans risque. [Prop. 7]
+
+$S_T-K$ payé en $T$, c'est l'action, qui vaut $S_t$ sans dividende, moins $K$ payé en $T$, qui vaut $KP(t,T)$. [ajout]
+
+$$C_t-P_t=S_t-KP(t,T)$$ [ajout]
 
 ## Ce qui la définit
 C’est une identité de payoff, vraie état par état, donc une identité de prix par absence d’arbitrage. Aucun modèle n’y entre : ni volatilité, ni loi du sous-jacent. [Prop. 7]
