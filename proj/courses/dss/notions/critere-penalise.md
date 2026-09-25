@@ -28,5 +28,8 @@ dss/apprentissage-supervise donne le cadre, dss/moindres-carres-ordinaires la RS
 
 Le critère est le pont entre les deux dernières : il corrige l'une pour approcher l'autre. Sans la distinction entre erreur d'apprentissage et erreur de test, la pénalité n'aurait pas d'objet. [ajout]
 
+## Exemple minimal
+Sur les 20 clients, passer du modèle à deux prédicteurs au modèle complet fait baisser l'erreur d'apprentissage de 0,14 et monter la pénalité du $C_p$ de 0,42 : leur somme est plus basse pour le petit modèle, le bon. [ajout]
+
 ## Cesse d'être valide quand
 Ces critères estiment l'erreur de test, ils ne la mesurent pas : leur pénalité repose sur une hypothèse de modèle, et $\hat\sigma^2$ doit lui-même être estimé. [ajout]

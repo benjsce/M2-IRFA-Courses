@@ -6,7 +6,9 @@ source: slides 128–163
 ---
 
 ## Point de départ
-Une frontière linéaire suffit à séparer certaines classes, et échoue sur d'autres aussi simples que le « ou exclusif ». Le bloc sur les réseaux de neurones part d'un neurone unique et montre comment en assembler plusieurs pour dépasser cette limite. [slide 148, slide 149]
+Quatre points suffisent à mettre en défaut une frontière linéaire : $(0,0)$ et $(1,1)$ dans une classe, $(0,1)$ et $(1,0)$ dans l'autre, le « ou exclusif ». Aucune droite ne les sépare. [slide 149]
+
+Le bloc sur les réseaux de neurones part d'un neurone unique et montre comment en assembler plusieurs pour dépasser cette limite. [slide 148]
 
 ## À savoir avant
 - dss/apprentissage-supervise : c'est le cadre de tout le bloc ; un réseau apprend à partir d'exemples dont on connaît la réponse. [slide 130, slide 133]

@@ -6,7 +6,7 @@ source: poly, §7–§8
 ---
 
 ## Point de départ
-Une banque vend un call et ne veut pas parier sur l'action. Comment neutraliser son risque, et combien cela lui coûte-t-il de le faire à chaque instant ? [ajout]
+Une banque vend un call à un an de strike 100 sur l'action à 100 : elle encaisse 9,93 et ne veut pas parier sur l'action. Comment neutraliser son risque, et combien cela lui coûte-t-il de le faire à chaque instant ? [ajout]
 
 ## À savoir avant
 - fpp/modele-black-scholes : c'est la dynamique du sous-jacent sur laquelle on écrit la variation du prix de l'option. [§7.1]

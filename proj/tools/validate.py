@@ -40,6 +40,9 @@ DERIVEES = {"Sert ensuite à", "Membres", "Socle", "Socle complet", "Niveau",
             "Le paramètre qui les distingue", "Cas particulier de", "Construite à partir de"}
 
 MARKER = re.compile(r"\[([^\[\]]+)\]\s*$")
+# Tous les marqueurs d'un texte, pour en retirer les numéros de référence avant d'y
+# chercher un chiffre : « [slide 4] » n'est pas une instance chiffrée.
+MARQ_TOUS = re.compile(r"\[[^\[\]]+\]")
 
 # Un nombre écrit en toutes lettres devant une quantité que le générateur calcule :
 # « treize notions au socle », « quatre membres ». Vrai le jour où on l'écrit, faux la
@@ -736,9 +739,19 @@ def valider(root: Path, rap: Rapport):
                                              f"({len(a & b) / len(b):.0%} de ses mots) : poser la question "
                                              "qui y mène, pas la réponse")
                             rap.dette["transition qui redit la fiche"] += 1
+                # « Le point de départ est une instance concrète, prise au monde numérique du
+                # cours » (SPEC-MODELE §8.4). La règle était énoncée, rien ne la vérifiait : le
+                # 2026-09-25, 15 départs sur 27 ne portaient aucun chiffre, dont les 7 de dss,
+                # et l'utilisateur n'y comprenait pas la sélection de variables. Le contrôle ne
+                # voit que l'absence de tout chiffre ; qu'ils viennent du bon monde, il ne le
+                # peut pas.
+                S = dict(secs)
+                if "Point de départ" in S and not re.search(r"\d", MARQ_TOUS.sub("", S["Point de départ"])):
+                    rap.w("A14", ou, "« Point de départ » sans aucun chiffre : partir d'une instance "
+                                     "concrète, prise au monde numérique du cours")
+                    rap.dette["départ sans instance chiffrée"] += 1
                 # A11 : chaque transition, chaque rôle, chaque paragraphe est tracé
                 morceaux = [(f"étape {n}", t) for n, _, t in etapes] + [(f"avant {i}", t) for i, t in avant]
-                S = dict(secs)
                 for t in ("Point de départ", "Point d'arrivée"):
                     morceaux += [(t, b) for b in blocs(S.get(t, ""))]
                 for lieu, txt in morceaux:

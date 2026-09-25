@@ -31,5 +31,8 @@ dss/apprentissage-supervise, puis dss/moindres-carres-ordinaires. [ajout]
 
 La famille garde l'ajustement intact et ne touche qu'à la liste des prédicteurs : les coefficients retenus sont des coefficients de moindres carrés, sans aucun rétrécissement. Le socle dit donc ce qui n'est pas modifié. [ajout]
 
+## Exemple minimal
+Sur les 20 clients, garder l'endettement et le revenu et écarter les trois autres prédicteurs revient à donner aux trois un coefficient nul, et aux deux premiers leurs coefficients de moindres carrés. [ajout]
+
 ## Cesse d'être valide quand
 Le choix est discret : une variable est dedans ou dehors. Une variable faiblement mais réellement liée à la réponse est perdue, là où la régularisation l'aurait gardée avec un petit coefficient. [ajout]

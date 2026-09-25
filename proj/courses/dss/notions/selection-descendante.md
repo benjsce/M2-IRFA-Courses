@@ -28,10 +28,12 @@ Même point de départ que le sens ascendant : dss/apprentissage-supervise, puis
 La dépendance est ici plus contraignante qu'elle n'en a l'air, car la procédure commence par ajuster le modèle complet — et il faut donc que cet ajustement existe. [ajout]
 
 ## Exemple minimal
-Avec $n=50$ observations et $p=80$ prédicteurs, elle ne peut pas démarrer : le modèle complet n'a pas de solution unique. [ajout]
+Sur les 20 clients, elle retire tour à tour les trois variables sans lien avec la perte et retombe sur l'endettement et le revenu, que le $C_p$ retient ; là où la sélection ascendante s'est trompée, elle trouve le bon modèle. [ajout]
 
 ## Geste de calcul type
 Vérifier $n>p$ avant de la lancer ; si l'inégalité ne tient pas, il faut passer au sens ascendant. [slide 36]
+
+Avec $n=50$ observations et $p=80$ prédicteurs, elle ne peut pas démarrer : le modèle complet n'a pas de solution unique. [ajout]
 
 ## Cesse d'être valide quand
 Exige $n>p$, là où la sélection ascendante s'en passe. [slide 36]

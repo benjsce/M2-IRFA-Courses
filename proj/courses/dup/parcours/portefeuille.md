@@ -6,7 +6,7 @@ source: L3 slides 42–46, L4 slides 17–34, L4 slides 63–67
 ---
 
 ## Point de départ
-Les modèles des parcours précédents changent-ils ce qu'un investisseur achète, et le prix auquel un marché s'équilibre ? Le cours pose la question pour deux d'entre eux, la pondération par rang et l'ambiguïté. [ajout]
+Un actif risqué coûte 100 et vaut en moyenne 110, avec un écart type de 20. Combien un investisseur en achète-t-il, et cette quantité change-t-elle quand il pondère les états par leur rang, ou quand il doute de la loi elle-même ? Le cours pose la question pour ces deux modèles, et pour le prix auquel un marché s'équilibre. [ajout]
 
 ## À savoir avant
 - dup/rdu : c'est le modèle de préférence de la première moitié du parcours, où les états comptent selon le rang de leur paiement. [L3 slide 42]

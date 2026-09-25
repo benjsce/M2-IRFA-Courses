@@ -37,7 +37,7 @@ Le socle est celui du Cp de Mallows : dss/apprentissage-supervise, puis dss/moin
 Les deux critères ne diffèrent pas par ce qu'ils supposent mais par le facteur qui multiplie le nombre de variables. Il fallait donc exactement le même point de départ pour que la comparaison ait un sens. [ajout]
 
 ## Exemple minimal
-À $n=1000$, $\log n\approx 6{,}9$ : la pénalité par variable est plus de trois fois celle du $C_p$. [ajout]
+Sur les 20 clients, $\log 20\approx3{,}0$ : la pénalité par variable vaut une fois et demie celle du $C_p$, et le BIC retient lui aussi le modèle à deux prédicteurs, à 1,54 contre 2,03 pour le modèle complet. [ajout]
 
 ## Geste de calcul type
 Le calculer à côté du $C_p$ : l'écart entre les deux modèles retenus mesure directement le poids que l'on accorde à la parcimonie. [slide 40, slide 43]

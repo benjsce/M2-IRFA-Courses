@@ -581,7 +581,10 @@ qu'après on passe à d'autres histoires ».*
   risque. Ici elle ne change jamais : toute l'histoire se joue du côté de la croyance »,
   et non « la fonction qui traduit un résultat en utilité ».
 - **Le point de départ est une instance concrète**, prise au monde numérique du cours
-  (SPEC-INGESTION étape 3), et le point d'arrivée dit ce que le récit a établi.
+  (SPEC-INGESTION étape 3), et le point d'arrivée dit ce que le récit a établi. Le
+  validateur avertit quand le départ ne porte aucun chiffre, les numéros de référence
+  mis à part ; il ne peut pas vérifier que les chiffres viennent du bon monde. *Mesuré le
+  2026-09-25 : 15 départs sur 27 n'en portaient aucun, les 7 de dss compris.*
 - **Des phrases, pas des étiquettes** ; aucun nombre que le générateur calcule (le nombre
   d'étapes est affiché) ; aucune arête transcrite en prose (« X et Y donnent Z »).
 - **Faire grandir le récit sans perdre le fil.** Quand le cours avance, dans cet ordre de

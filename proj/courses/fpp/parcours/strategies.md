@@ -6,7 +6,9 @@ source: poly, §9
 ---
 
 ## Point de départ
-Un épargnant veut profiter d'une hausse de l'action sans risquer sa mise. Aucun call ni aucun put ne lui donne cela seul. [§9.2]
+Un épargnant place 100 et veut profiter d'une hausse de l'action sans risquer sa mise. Aucun call ni aucun put ne lui donne cela seul. [§9.2]
+
+Avec un zéro-coupon à un an à 0,9608, il lui suffit de 96,08 pour garantir ses 100 : il lui reste 3,92 pour s'exposer à la hausse. [ajout]
 
 ## À savoir avant
 - fpp/payoff : c'est ce qu'on assemble ; un produit se décrit d'abord par ce qu'il paiera. [§9.1]

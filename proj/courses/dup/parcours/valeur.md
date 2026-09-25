@@ -6,7 +6,9 @@ source: L1 slides 55–57, L3 slides 3–17
 ---
 
 ## Point de départ
-Les violations d'Allais demandent d'affaiblir l'axiome d'indépendance. Une première famille de modèles le fait en gardant les probabilités telles quelles, et en rendant la valeur d'un résultat dépendante de la loterie où il se trouve. [L1 slide 55, L3 slide 3]
+Beaucoup préfèrent 1 M sûr à $(5\text{M},{,}10;1\text{M},{,}89;0,{,}01)$, et pourtant $(5\text{M},{,}10;0,{,}90)$ à $(1\text{M},{,}11;0,{,}89)$. [L1 slide 42]
+
+Ces violations d'Allais demandent d'affaiblir l'axiome d'indépendance. Une première famille de modèles le fait en gardant les probabilités telles quelles, et en rendant la valeur d'un résultat dépendante de la loterie où il se trouve. [L1 slide 55, L3 slide 3]
 
 ## À savoir avant
 - dup/utilite-esperee : c'est le cas particulier que chaque modèle du parcours retrouve quand on remet l'indépendance entière. [L3 slide 13]

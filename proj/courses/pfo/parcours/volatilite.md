@@ -6,7 +6,7 @@ source: poly, §1.4–§1.6
 ---
 
 ## Point de départ
-Les rendements sont propres. Il faut maintenant dire combien ils bougent et s'ils bougent ensemble : c'est ce qu'une allocation de portefeuille demandera. Deux difficultés apparaissent aussitôt, l'une dans le temps, l'autre entre les places. [ajout]
+Les rendements sont propres. Il faut maintenant dire combien ils bougent et s'ils bougent ensemble : un actif varie de 1 % par jour, un autre de 2 %, avec une corrélation de 0,5. Deux difficultés apparaissent aussitôt, l'une dans le temps, l'autre entre les places. [ajout]
 
 ## À savoir avant
 - fpp/volatilite : c'est la grandeur qu'on cherche à estimer. Ce parcours montre qu'un seul nombre fixe ne suffit pas à la décrire. [§1.4]

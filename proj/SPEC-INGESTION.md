@@ -123,7 +123,19 @@ Une fiche par notion nouvelle, au format de SPEC-MODELE §2. Règles de rédacti
     d'exemple : il se recopie dans une copie d'examen ;
   - **un seul monde numérique par cours**, réutilisé d'une fiche à l'autre, pour que
     l'étudiant reconnaisse les mêmes nombres. `fpp` : courbe à 4 % et 5 %, action à 100.
-    `dup` : $u(x)=\sqrt{x}$, le pari $(0,\tfrac12;100,\tfrac12)$.
+    `dup` : $u(x)=\sqrt{x}$, le pari $(0,\tfrac12;100,\tfrac12)$. `pfo` : volatilités
+    journalières de 1 % et 2 %, corrélation 0,5 ; au chapitre 3, deux actifs non corrélés
+    à 6 % et 10 % de rendement, 10 % et 20 % de volatilité, taux sans risque 2 %. `dss` :
+    une banque et ses 20 anciens clients en défaut — endettement, revenu, trois variables
+    sans lien avec la perte, et la perte subie —, simulés par
+    `courses/dss/figures/surapprentissage.py`, qui en est le générateur de référence ;
+  - **un exemple qui traverse le récit.** Les exemples des étapes d'un même parcours se
+    prennent dans ce monde, pour que le lecteur voie les mêmes données passer d'une fiche
+    à la suivante. Une fiche sans formule n'est pas tenue d'avoir un exemple, mais une
+    étape conceptuelle — une erreur de test, un surapprentissage — est celle où il sert
+    le plus. *Constaté le 2026-09-25 : le parcours de dss sur la sélection de variables
+    changeait de nombres à chaque fiche, n'en avait aucun sur ses trois étapes
+    conceptuelles, et l'utilisateur n'y voyait pas où se plaçait la RSS.*
 - **« Geste de calcul type »** : comment on s'en sert, sur un cas, trois lignes. S'il n'y a
   pas encore d'exercice pour l'alimenter, `à venir [ajout]` : c'est de la dette, elle est
   comptée.

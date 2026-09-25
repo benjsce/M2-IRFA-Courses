@@ -30,5 +30,8 @@ Deux fils y mènent. dss/apprentissage-supervise puis dss/moindres-carres-ordina
 
 Les deux raisons ne sont pas de même nature et le cours les sépare : la précision se dégrade quand $n$ n'est pas beaucoup plus grand que $p$, l'interprétabilité se dégrade dès qu'une variable inutile reste dans le modèle. [ajout]
 
+## Exemple minimal
+Parmi les cinq prédicteurs des 20 clients, trois n'ont aucun lien avec la perte : les garder coûte en précision, l'erreur de test passant de 1,16 à 1,83, et en lisibilité. [ajout]
+
 ## Cesse d'être valide quand
 Aucune des trois familles ne garantit de trouver le meilleur sous-ensemble : ce sont des heuristiques ou des contraintes, pas des optimums. [slide 36]

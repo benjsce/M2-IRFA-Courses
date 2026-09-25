@@ -30,10 +30,12 @@ dss/apprentissage-supervise et dss/moindres-carres-ordinaires donnent l'ajusteme
 Les deux sont nécessaires, pour des raisons différentes : à taille fixée la RSS suffit à comparer, entre tailles différentes il faut une pénalité. La procédure fait les deux comparaisons l'une après l'autre, et les confondre reviendrait à toujours retenir le modèle complet. [ajout]
 
 ## Exemple minimal
-Avec $p=10$, il faut ajuster 1 024 modèles ; avec $p=40$, plus de mille milliards. [ajout]
+Avec les cinq prédicteurs des 20 clients, il faut ajuster 32 modèles. Le meilleur à un prédicteur est, par hasard, une variable sans lien avec la perte ; le meilleur à deux est le bon, l'endettement et le revenu. [ajout]
 
 ## Geste de calcul type
 Séparer les deux comparaisons : à taille fixée la RSS suffit, entre tailles différentes il faut un critère qui pénalise. Confondre les deux revient à toujours retenir le modèle complet. [slide 30, slide 37]
 
 ## Cesse d'être valide quand
 Devient infaisable au-delà d'une quarantaine de prédicteurs. Et plus l'espace de recherche est grand, plus la chance de trouver un modèle qui a l'air bon sans pouvoir prédictif augmente. [slide 31, slide 32]
+
+Avec $p=10$, il faut déjà ajuster 1 024 modèles ; avec $p=40$, plus de mille milliards. [ajout]

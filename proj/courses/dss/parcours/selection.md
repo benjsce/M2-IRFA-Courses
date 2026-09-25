@@ -6,7 +6,7 @@ source: slides 23–45
 ---
 
 ## Point de départ
-On dispose de dizaines de prédicteurs pour expliquer une réponse. Les mettre tous dans une régression la rend meilleure sur les données d'apprentissage, et pourtant souvent pire sur de nouvelles données. Lesquels garder ? [slide 27]
+Les 20 clients de la banque sont décrits par cinq prédicteurs : l'endettement, le revenu, et trois variables sans aucun lien avec la perte. Une régression sur les cinq ajuste mieux les 20 clients qu'une régression sur les deux premiers, avec une erreur moyenne de 0,98 contre 1,12 ; sur 20 000 clients nouveaux, elle se trompe davantage, 1,83 contre 1,16. Lesquels garder, quand on ne dispose pas des clients nouveaux ? [ajout]
 
 ## À savoir avant
 - dss/apprentissage-supervise : c'est le cadre de tout le parcours ; chaque exemple porte la réponse que la régression doit reproduire. [slide 25]
@@ -60,3 +60,5 @@ On dispose de dizaines de prédicteurs pour expliquer une réponse. Les mettre t
 
 ## Point d'arrivée
 Pour choisir des variables, on estime l'erreur de test, par une pénalité ou par validation croisée, et l'on parcourt les sous-ensembles, tous ou pas à pas. [ajout]
+
+Sur les 20 clients, le $C_p$, l'AIC, le BIC, le $R^2$ ajusté et la validation croisée désignent tous le modèle à l'endettement et au revenu ; la sélection descendante le retrouve, la sélection ascendante, piégée par une variable de bruit, le manque. [ajout]

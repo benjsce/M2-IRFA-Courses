@@ -6,6 +6,8 @@ source: L1 slide 55, L2 slides 21–27, L3 slides 20–41, L4 slides 14–15
 ---
 
 ## Point de départ
+Un billet verse 100 avec une probabilité de 1 %, et rien sinon. Avec $u(x)=\sqrt{x}$, l'utilité espérée ne lui accorde qu'un équivalent certain de 0,01, et pourtant beaucoup le paient plus que son espérance, 1. [ajout]
+
 Une seconde famille de modèles laisse l'utilité des résultats tranquille et agit sur les probabilités : un événement rare peut compter plus que sa probabilité, un événement presque certain moins. [L1 slide 55]
 
 ## À savoir avant

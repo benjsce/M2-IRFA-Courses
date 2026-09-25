@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="fr" data-rel="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rapport 2026-09-25-recits · notions</title>
+<script>
+/* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
+   localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
+   cases « déjà su » ne peuvent donc pas traverser les pages par là. Ils voyagent dans
+   le fragment de l'URL, que tous les liens internes portent ; localStorage ne sert plus
+   que de mémoire locale, pour la page qu'on rouvre sans fragment.
+   Ce script s'exécute avant le rendu : sinon le thème clignote à chaque page. */
+(function(){
+var H={},h=(location.hash||'').replace(/^#/,'');
+h.split('~').forEach(function(p){var i=p.indexOf(':');if(i>0)H[p.slice(0,i)]=p.slice(i+1)});
+window.ETAT_URL=H;
+function loc(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+var t=H.t?(H.t==='d'?'dark':'light'):loc('notions.theme','');
+if(t)document.documentElement.setAttribute('data-theme',t);
+var a=(H.a!==undefined)?H.a:loc('notions.ajouts','1');
+if(a==='0')document.documentElement.classList.add('sans-ajouts');
+})();
+</script>
+<style>
+:root{
+  --bg:#fbfaf7; --bg2:#f3f0ea; --fg:#1b1a17; --mut:#6c675d; --fai:#8e887c;
+  --li:#e0dbd1; --li2:#cdc6b8; --card:#ffffff; --acc:#8a4f23; --acc2:#f3e7dc;
+  --ajo:#6d5a8c; --ajo2:#efe9f5; --lim:#9a3a2e; --ok:#3f6b46; --faute:#a8631a;
+  --r:8px; --w:min(72rem,100%);
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}}
+:root[data-theme="dark"]{
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}
+.fig{margin:.9rem 0;padding:.5rem .2rem .2rem;text-align:center}
+/* « > svg » et non « svg » : MathJax pose son propre <svg> dans la légende, et
+   une règle non ancrée en faisait un bloc qui coupait la phrase en trois. */
+.fig > svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig figcaption{margin-top:.35rem;font-family:var(--sans);font-size:.82rem;
+  color:var(--mut);text-align:center;line-height:1.45}
+@media print{.fig{break-inside:avoid}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
+  font-size:17px;line-height:1.62;overflow-wrap:break-word}
+a{color:var(--acc);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-style:dotted}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+.wrap{width:var(--w);margin:0 auto;padding:0 1rem}
+
+/* ---- barre du haut ---- */
+header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
+  border-bottom:1px solid var(--li);font-family:var(--sans)}
+.topin{width:var(--w);margin:0 auto;padding:.45rem 1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.brand{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--fg);letter-spacing:.02em}
+.fil{color:var(--mut);font-size:.82rem;flex:1 1 8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fil a{color:var(--mut)}
+.btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
+  border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+a.btn{text-decoration:none}
+.btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
+.rech{position:relative;flex:0 1 16rem;min-width:9rem}
+.rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
+  border:1px solid var(--li2);border-radius:var(--r);background:var(--card);color:var(--fg)}
+.res{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--li2);
+  border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.14);max-height:60vh;overflow:auto;padding:.2rem;margin:0;
+  list-style:none;display:none;z-index:50;min-width:18rem}
+.res.on{display:block}
+.res li a{display:block;padding:.3rem .45rem;border-radius:6px;text-decoration:none;color:var(--fg);font-size:.86rem}
+.res li a:hover,.res li.sel a{background:var(--acc2)}
+.res .sub{color:var(--mut);font-size:.76rem;font-family:var(--sans)}
+.res .vide{padding:.4rem .5rem;color:var(--mut);font-size:.84rem}
+
+main{padding:1.4rem 0 4rem}
+h1{font-size:1.75rem;line-height:1.24;margin:.2rem 0 .3rem}
+h2{font-size:1.06rem;font-family:var(--sans);font-weight:600;letter-spacing:.01em;margin:0}
+h3{font-size:.95rem;font-family:var(--sans);margin:1.2rem 0 .3rem}
+p{margin:.55rem 0}
+.ptag{font-family:var(--sans);font-size:.74rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .5rem}
+
+/* ---- métadonnées de fiche ---- */
+.meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;font-family:var(--sans);font-size:.75rem;color:var(--mut);margin:.4rem 0 1.1rem}
+.pill{border:1px solid var(--li2);border-radius:99px;padding:.06rem .5rem;background:var(--card);white-space:nowrap}
+.pill.ajout{color:var(--ajo);border-color:var(--ajo);background:var(--ajo2)}
+.pill.typ{background:var(--acc2);border-color:var(--acc)}
+.sym{font-family:var(--serif);font-size:1rem;color:var(--fg)}
+
+/* ---- sections ---- */
+.sec{border-top:1px solid var(--li);padding:.85rem 0}
+.sec.vide{display:none}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.45rem;padding:.1rem 0}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"›";color:var(--fai);font-family:var(--sans);display:inline-block;
+  transition:transform .12s ease;transform:rotate(0deg);width:.7em}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fai);font-weight:400}
+.corps{padding-top:.25rem}
+.gen{border-left:2px solid var(--li2);padding-left:.7rem}
+.chemin{border-left:3px solid var(--acc);background:var(--bg2);border-radius:0 var(--r) var(--r) 0;
+  padding:.5rem .8rem;margin:.2rem 0 .7rem}
+.chemin p{margin:.35rem 0;font-size:.95rem}
+.chemin p:first-child{margin-top:0}
+.chemin p:last-child{margin-bottom:0}
+.note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
+.parc{border:1px solid var(--li);border-left:3px solid var(--acc);border-radius:0 var(--r) var(--r) 0;
+  background:var(--bg2);padding:.5rem .8rem;margin:.6rem 0;font-size:.93rem}
+.parc-t{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin-bottom:.15rem}
+.parc p{margin:.2rem 0}
+.parc-nav{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--sans);font-size:.8rem;margin-top:.35rem}
+.parc-nav .suiv{margin-left:auto;text-align:right}
+.etapes{list-style:none;padding:0;margin:.6rem 0 1.2rem;counter-reset:e}
+.etapes>li{counter-increment:e;position:relative;padding:0 0 1rem 1.7rem;border-left:2px solid var(--li);margin-left:.9rem}
+.etapes>li:last-child{border-left-color:transparent}
+.etapes>li::before{content:counter(e);position:absolute;left:-.95rem;top:0;width:1.75rem;height:1.75rem;
+  border-radius:99px;background:var(--card);border:1px solid var(--acc);color:var(--acc);
+  font-family:var(--sans);font-size:.78rem;display:flex;align-items:center;justify-content:center}
+.etapes>li>p{margin:.1rem 0 .35rem}
+.etapes .arr{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.45rem .75rem}
+.etapes .arr a.tit{font-weight:600;text-decoration:none}
+.etapes .arr p{margin:.15rem 0;font-size:.88rem;color:var(--mut)}
+.avant{list-style:none;padding:0;margin:.4rem 0 1rem}
+.avant>li{margin:.5rem 0}
+.avant>li p{margin:.1rem 0 0;font-size:.95rem}
+.avant a.tit{font-weight:600;text-decoration:none}
+.roles{list-style:none;padding:0;margin:.2rem 0 0}
+.roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
+.roles>li.cible{background:var(--acc2)}
+details.parc>summary{cursor:pointer}
+.sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
+.sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
+.sec.faute>summary h2{color:var(--faute)}
+.faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
+  margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.faute-b strong{color:var(--faute)}
+.sec.lim>summary h2{color:var(--lim)}
+.sec.lim>h2{color:var(--lim)}
+
+/* ---- marqueurs de traçabilité ---- */
+.marq{font-family:var(--sans);font-size:.7rem;color:var(--fai);white-space:nowrap;vertical-align:.12em}
+.marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
+.marqligne{margin:.15rem 0 0}
+html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
+.bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
+  color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
+
+/* ---- pastilles ---- */
+.pasts{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0;padding:0;list-style:none}
+.past{display:inline-block;font-family:var(--sans);font-size:.82rem;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--li2);border-radius:99px;padding:.12rem .6rem}
+.past:hover{border-color:var(--acc);color:var(--acc)}
+.past .cc{color:var(--fai);font-size:.74rem}
+.past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
+.past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
+.past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
+
+/* ---- socle ---- */
+.socle{list-style:none;padding:0;margin:.3rem 0}
+.socle li{display:flex;gap:.5rem;align-items:baseline;padding:.12rem 0;font-size:.92rem}
+.socle input{margin:0;accent-color:var(--ok)}
+.socle li.su a{color:var(--fai);text-decoration:line-through}
+.compteur{font-family:var(--sans);font-size:.78rem;color:var(--mut)}
+.grp{margin:.5rem 0}
+.grp>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--mut)}
+
+table{border-collapse:collapse;margin:.5rem 0;font-size:.9rem;display:block;overflow-x:auto;max-width:100%}
+th,td{border:1px solid var(--li);padding:.25rem .55rem;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-family:var(--sans);font-size:.78rem;font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+  background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
+ul{padding-left:1.1rem}
+hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
+
+/* ---- cartes d'accueil / carte du cours ---- */
+.cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
+.carte{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.65rem .8rem}
+.carte h3{margin:0 0 .2rem}
+.carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
+.carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
+.dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.vise{animation:vise 1.6s ease}
+@keyframes vise{from{background:var(--acc2)}to{background:transparent}}
+
+/* ---- orientation : ce qui s'adresse au lecteur qui arrive ---- */
+.entree{border:1px solid var(--li2);border-left:3px solid var(--acc);border-radius:var(--r);
+  padding:.7rem .9rem;margin:.8rem 0 1.4rem;background:var(--card)}
+.entree p{margin:.3rem 0;font-size:.92rem}
+.entree .quoi{font-size:1.02rem}
+.entree ul{margin:.5rem 0 .2rem;padding-left:1.1rem;font-family:var(--sans);font-size:.88rem}
+.entree li{margin:.2rem 0}
+.chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
+.chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
+.aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
+/* L'en-tête est collant : une ancre visée ne doit pas passer dessous. Mesuré :
+   il fait 48 px sur une ligne, 85 px quand il se replie en deux (écran étroit). */
+[id]{scroll-margin-top:6rem}
+.aide p,.aide ul,.aide table{max-width:42rem}
+.dette ul{margin:.3rem 0 0}
+footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
+
+/* ---- arbre ---- */
+.barre{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+#scene{position:relative;border:1px solid var(--li);border-radius:var(--r);background:var(--bg2);
+  height:min(74vh,720px);overflow:hidden;touch-action:none;cursor:grab}
+#scene.drag{cursor:grabbing}
+#pan{position:absolute;transform-origin:0 0;top:0;left:0}
+#aretes{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+#aretes path{fill:none;stroke:var(--li2);stroke-width:1.5}
+.noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
+  padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
+.noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
+.noeud .nm{font-weight:600}
+.noeud .nm a{text-decoration:none;color:var(--fg)}
+.noeud .nm a:hover{color:var(--acc)}
+.noeud .pa{color:var(--mut);font-size:.72rem;display:block;margin-top:.1rem}
+.noeud .pli{font:inherit;font-size:.72rem;background:none;border:1px solid var(--li2);border-radius:4px;
+  color:var(--mut);cursor:pointer;padding:0 .3rem;margin-right:.25rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.4rem}
+  .rech{flex:1 1 100%;order:9}
+  #scene{height:66vh}
+}
+@media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="brand" href="../index.html">notions</a><span class="fil">rapport d’ingestion › 2026-09-25-recits</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><article class="rapport"><h1>Rapport — récits et exemples — 2026-09-25</h1><p>Session sans matériau nouveau, qui touche quatre cours : le sujet remplace le code de
+cours dans le nom du rapport (SPEC-INGESTION, étape 6).</p><h2>Matériau traité</h2><p>Aucun matériau nouveau. Origine : l'utilisateur, lisant le parcours dss « Choisir les
+variables d'une régression », ne voyait pas si les données étaient déjà séparées ni où se
+plaçait la RSS ; un exemple suivi de bout en bout, écrit dans la conversation, l'a
+éclairé. Mesures faites avant de proposer quoi que ce soit :</p><ul><li>dans ce parcours, les exemples changeaient de nombres à chaque fiche ($p=3$ et</li><li>$n=1000$, puis $d=3$ à $d=5$, puis $n=1000$, puis dix blocs, puis $p=10$), et aucun ne</li><li>montrait une RSS face à une erreur de test ;</li><li>les trois étapes conceptuelles — erreur de test, surapprentissage, critère pénalisé —</li><li>n'avaient aucun exemple ; sur dss, 48 fiches sur 76 en ont un, contre 76 sur 86 dans dup ;</li><li>dss n'avait pas de monde numérique, contrairement à la règle de SPEC-INGESTION ;</li><li><strong>15 points de départ de parcours sur 27 ne portaient aucun chiffre</strong> : les 7 de dss,</li><li>4 de dup, 3 de fpp, 1 de pfo. La règle (SPEC-MODELE §8.4) existait ; rien ne la</li><li>vérifiait. Les 7 de dss datent de ma session du 2026-09-24.</li></ul><p>L'utilisateur a demandé de tout faire : « oui vas-y fais tout et push ».</p><h2>Le monde numérique de dss</h2><p>Une banque, 20 anciens clients en défaut. Prédicteurs : endettement $x_1$ (%, entre 10
+et 60), revenu $x_2$ (k€, entre 20 et 80), trois variables sans lien avec la perte
+$x_3,x_4,x_5$. Réponse : la perte $y$ (k€). Règle de simulation, que la banque ignore :
+$y=2+0{,}10\,x_1-0{,}05\,x_2+\varepsilon$, $\varepsilon\sim\mathcal N(0,1)$. Graine 78,
+module <code>random</code> de la bibliothèque standard ; 20 000 clients nouveaux mesurent l'erreur
+de test. Le générateur de référence est <code>courses/dss/figures/surapprentissage.py</code>, que le
+validateur rejoue ; les nombres ci-dessous en sont sortis, et ont été recalculés deux
+fois (script de travail, puis sortie de la figure), à l'identique.</p><div class="tablebloc"><table><thead><tr><th>modèle</th><th>RSS</th><th>RSS/20</th><th>test</th><th>$C_p$</th><th>AIC</th><th>BIC</th><th>$R^2$</th><th>$R^2$ aj.</th><th>VC 5 blocs</th></tr></thead><tbody><tr><td>aucun</td><td>44,03</td><td>2,20</td><td>4,23</td><td>2,20</td><td>15,78</td><td>2,20</td><td>0</td><td>0</td><td>2,66</td></tr><tr><td>$x_1$</td><td>34,75</td><td>1,74</td><td>2,66</td><td>1,88</td><td>13,05</td><td>1,95</td><td>0,21</td><td>0,17</td><td>2,13</td></tr><tr><td>$x_1,x_2$</td><td>22,43</td><td>1,12</td><td><strong>1,16</strong></td><td><strong>1,40</strong></td><td><strong>6,30</strong></td><td><strong>1,54</strong></td><td>0,49</td><td><strong>0,43</strong></td><td><strong>1,66</strong></td></tr><tr><td>+ $x_3$</td><td>21,99</td><td>1,10</td><td>1,37</td><td>1,52</td><td>7,90</td><td>1,73</td><td>0,50</td><td>0,41</td><td>1,77</td></tr><tr><td>+ $x_4$</td><td>21,36</td><td>1,07</td><td>1,42</td><td>1,63</td><td>9,31</td><td>1,91</td><td>0,51</td><td>0,39</td><td>2,21</td></tr><tr><td>+ $x_5$</td><td>19,60</td><td>0,98</td><td>1,83</td><td>1,68</td><td>9,59</td><td>2,03</td><td>0,55</td><td>0,40</td><td>2,22</td></tr></tbody></table></div><p>$\hat\sigma^2=1{,}40$ (modèle complet, $n-p-1=14$). Coefficients à deux prédicteurs :
+$3{,}30+0{,}076\,x_1-0{,}060\,x_2$. AIC calculé comme $n\log(\mathrm{RSS}/n)+2d$.
+Meilleur sous-ensemble : à un prédicteur, <strong>$x_3$</strong> (RSS 33,07, une variable de bruit,
+par hasard) ; à deux, $x_1,x_2$. Sélection ascendante : $x_3$, $x_5$, $x_2$, $x_1$, $x_4$ ;
+le $C_p$ y retient $\{x_1,x_2,x_3,x_5\}$, d'erreur de test 1,77. Sélection descendante :
+retire $x_4$, $x_3$, $x_5$, et le $C_p$ retient $\{x_1,x_2\}$.</p><p>La graine a été choisie parmi celles où tous les critères désignent le vrai modèle et où
+l'erreur de test croît régulièrement au-delà ; c'est un choix pédagogique, dit ici. La
+propriété qui fait échouer la sélection ascendante n'a pas été cherchée : elle est
+apparue, et elle illustre exactement ce que le cours dit du sens ascendant (slide 36).</p><h2>Inventaire ajouté (à auditer par l'utilisateur)</h2><p>Aucun élément.</p><h2>Fiches créées</h2><p>Aucune. Une figure créée : <code>courses/dss/figures/surapprentissage.py</code> et <code>.svg</code>, insérée
+dans <code>dss/surapprentissage</code>, vérifiée à l'écran.</p><h2>Fiches modifiées</h2><p>Seize fiches de dss, toutes du parcours « Choisir les variables » ou de son cadre. Les
+exemples remplacés ne sont pas perdus quand ils portaient une information propre : ceux
+de <code>meilleur-sous-ensemble</code>, <code>selection-ascendante</code> et <code>selection-descendante</code> passent
+dans une autre rubrique, dite ci-dessous. Ceux de <code>cp-de-mallows</code>, <code>aic</code>, <code>bic</code>,
+<code>r2-ajuste</code> et <code>validation-croisee</code> sont remplacés : ce qu'ils disaient est dit par la
+rubrique « Ce qui la définit » de leur fiche, ou par le nouvel exemple.</p><p>Pas d'alias « variables explicatives » : un alias est un autre nom de la notion, et ce
+n'en est pas un pour les moindres carrés. Le mot est défini dans
+<code>dss/apprentissage-supervise</code>, et les symboles $x_{ij}$, $\beta_j$, $\beta_0$, $y_i$ dans
+<code>dss/moindres-carres-ordinaires</code>.</p><p><strong><code>dss/apprentissage-supervise</code></strong></p><ul><li><em>Ce qui la définit</em> — ancien : rien (ajout)</li><li>→ nouveau : « En régression, les composantes de l'objet d'entrée s'appellent les prédicteurs — on dit aussi variables explicatives, ou régresseurs — et la sortie désirée s'appelle la réponse. [ajout] »</li><li><em>Exemple minimal</em> — ancien : rien (ajout)</li><li>→ nouveau : « ## Exemple minimal</li><li>Une banque dispose des dossiers de 20 anciens clients en défaut : pour chacun, l'endettement et le revenu sont l'entrée, et la perte subie, en milliers d'euros, est la sortie désirée. [ajout] »</li></ul><p><strong><code>dss/moindres-carres-ordinaires</code></strong></p><ul><li><em>Ce que les symboles modélisent</em> — ancien : rien (ajout)</li><li>→ nouveau : « $x_{ij}$ est la valeur du prédicteur $j$ pour l'observation $i$, et $y_i$ la réponse observée. $\beta_j$ est le coefficient du prédicteur $j$ : de combien la prédiction bouge quand ce prédicteur augmente d'une unité, les autres restant fixes ; $\beta_0$ est la constante. [ajout] »</li><li><em>Exemple minimal</em> — ancien : « Avec $p=3$ prédicteurs et $n=1000$ observations, l'ajustement est stable ; avec $n=4$, il passe exactement par les points et ne dit plus rien. [ajout] »</li><li>→ nouveau : « Sur les 20 clients, la régression de la perte sur l'endettement $x_1$ et le revenu $x_2$ donne $\hat y=3{,}30+0{,}076\,x_1-0{,}060\,x_2$ et une RSS de 22,43, quand la règle qui a servi à simuler les données est $y=2+0{,}10\,x_1-0{,}05\,x_2$ plus un bruit. [ajout] »</li><li><em>Geste de calcul type</em> — ancien : rien (ajout)</li><li>→ nouveau : « Ici $n=20$ et $p=2$ : l'ajustement est utilisable. Avec 19 prédicteurs pour ces 20 clients, il passerait exactement par les points, avec une RSS nulle, et ne dirait plus rien. [ajout] »</li></ul><p><strong><code>dss/erreur-de-test</code></strong></p><ul><li><em>Exemple minimal</em> — ancien : rien (ajout)</li><li>→ nouveau : « ## Exemple minimal</li><li>Sur les 20 clients, la régression sur l'endettement et le revenu a une erreur quadratique moyenne de 1,12 ; sur 20 000 clients nouveaux, de 1,16. Avec trois prédicteurs de plus, sans lien avec la perte, le modèle annonce 0,98 et fait 1,83. [ajout] »</li></ul><p><strong><code>dss/surapprentissage</code></strong></p><ul><li><em>Ce qui la définit (figure)</em> — ancien : rien (ajout)</li><li>→ nouveau : « !<a href="figures/surapprentissage.svg">Les 20 clients du parcours. En ajoutant les prédicteurs un à un, l'erreur mesurée sur les clients d'apprentissage baisse à chaque pas. Celle mesurée sur 20 000 clients nouveaux baisse tant qu'on ajoute l'endettement et le revenu, puis remonte avec chacune des trois variables sans lien avec la perte.</a> [ajout] »</li><li><em>Exemple minimal</em> — ancien : rien (ajout)</li><li>→ nouveau : « ## Exemple minimal</li><li>Sur les 20 clients, ajouter aux deux bons prédicteurs trois variables sans lien avec la perte fait baisser l'erreur d'apprentissage de 1,12 à 0,98 et monter l'erreur de test de 1,16 à 1,83. [ajout] »</li></ul><p><strong><code>dss/critere-penalise</code></strong></p><ul><li><em>Exemple minimal</em> — ancien : rien (ajout)</li><li>→ nouveau : « ## Exemple minimal</li><li>Sur les 20 clients, passer du modèle à deux prédicteurs au modèle complet fait baisser l'erreur d'apprentissage de 0,14 et monter la pénalité du $C_p$ de 0,42 : leur somme est plus basse pour le petit modèle, le bon. [ajout] »</li></ul><p><strong><code>dss/cp-de-mallows</code></strong></p><ul><li><em>Exemple minimal</em> — ancien : « À RSS égale, passer de $d=3$ à $d=5$ augmente $C_p$ de $4\hat\sigma^2/n$. [ajout] »</li><li>→ nouveau : « Sur les 20 clients, avec $\hat\sigma^2=1{,}40$ estimé sur le modèle complet, $C_p$ vaut 1,40 pour le modèle à deux prédicteurs et 1,68 pour le modèle complet ; il est minimal au premier. [ajout] »</li><li><em>Geste de calcul type</em> — ancien : rien (ajout)</li><li>→ nouveau : « Pour le modèle à deux prédicteurs : $C_p=(22{,}43+2\times2\times1{,}40)/20=(22{,}43+5{,}60)/20=1{,}40$. [ajout] »</li></ul><p><strong><code>dss/aic</code></strong></p><ul><li><em>Exemple minimal</em> — ancien : « Deux modèles de même log-vraisemblance et de tailles 3 et 5 diffèrent de 4 points d'AIC, en faveur du plus petit. [ajout] »</li><li>→ nouveau : « Pour une régression à erreurs gaussiennes, $-2\log L$ vaut $n\log(\mathrm{RSS}/n)$ à une constante près ; sur les 20 clients, l'AIC vaut 6,30 pour le modèle à deux prédicteurs et 9,59 pour le modèle complet. [ajout] »</li></ul><p><strong><code>dss/bic</code></strong></p><ul><li><em>Exemple minimal</em> — ancien : « À $n=1000$, $\log n\approx 6{,}9$ : la pénalité par variable est plus de trois fois celle du $C_p$. [ajout] »</li><li>→ nouveau : « Sur les 20 clients, $\log 20\approx3{,}0$ : la pénalité par variable vaut une fois et demie celle du $C_p$, et le BIC retient lui aussi le modèle à deux prédicteurs, à 1,54 contre 2,03 pour le modèle complet. [ajout] »</li></ul><p><strong><code>dss/r2-ajuste</code></strong></p><ul><li><em>Exemple minimal</em> — ancien : « Ajouter une variable qui ne fait pas baisser la RSS fait baisser le $R^2$ ajusté, alors que le $R^2$ ordinaire reste au même niveau. [ajout] »</li><li>→ nouveau : « Sur les 20 clients, passer de deux à cinq prédicteurs fait monter le $R^2$ de 0,49 à 0,55 et descendre le $R^2$ ajusté de 0,43 à 0,40. [ajout] »</li></ul><p><strong><code>dss/validation-croisee</code></strong></p><ul><li><em>Exemple minimal</em> — ancien : « Avec dix blocs, le modèle est ajusté dix fois sur 90 % des données et évalué sur les 10 % restants ; l'erreur retenue est la moyenne des dix. [slide 182] »</li><li>→ nouveau : « Les 20 clients coupés en 5 blocs de 4 : chaque modèle est ajusté 5 fois sur 16 clients et évalué sur les 4 restants ; l'erreur moyenne vaut 1,66 pour le modèle à deux prédicteurs et 2,22 pour le modèle complet. [ajout] »</li></ul><p><strong><code>dss/selection-de-variables</code></strong></p><ul><li><em>Exemple minimal</em> — ancien : rien (ajout)</li><li>→ nouveau : « ## Exemple minimal</li><li>Parmi les cinq prédicteurs des 20 clients, trois n'ont aucun lien avec la perte : les garder coûte en précision, l'erreur de test passant de 1,16 à 1,83, et en lisibilité. [ajout] »</li></ul><p><strong><code>dss/selection-de-sous-ensemble</code></strong></p><ul><li><em>Exemple minimal</em> — ancien : rien (ajout)</li><li>→ nouveau : « ## Exemple minimal</li><li>Sur les 20 clients, garder l'endettement et le revenu et écarter les trois autres prédicteurs revient à donner aux trois un coefficient nul, et aux deux premiers leurs coefficients de moindres carrés. [ajout] »</li></ul><p><strong><code>dss/meilleur-sous-ensemble</code></strong></p><ul><li><em>Exemple minimal</em> — ancien : « Avec $p=10$, il faut ajuster 1 024 modèles ; avec $p=40$, plus de mille milliards. [ajout] »</li><li>→ nouveau : « Avec les cinq prédicteurs des 20 clients, il faut ajuster 32 modèles. Le meilleur à un prédicteur est, par hasard, une variable sans lien avec la perte ; le meilleur à deux est le bon, l'endettement et le revenu. [ajout] »</li><li><em>Cesse d'être valide quand</em> — ancien : rien (ajout)</li><li>→ nouveau : « Avec $p=10$, il faut déjà ajuster 1 024 modèles ; avec $p=40$, plus de mille milliards. [ajout] »</li></ul><p><strong><code>dss/selection-pas-a-pas</code></strong></p><ul><li><em>Exemple minimal</em> — ancien : rien (ajout)</li><li>→ nouveau : « ## Exemple minimal</li><li>Avec les cinq prédicteurs des 20 clients, chaque sens ajuste 16 modèles, là où le parcours exhaustif en ajuste 32. [ajout] »</li></ul><p><strong><code>dss/selection-ascendante</code></strong></p><ul><li><em>Exemple minimal</em> — ancien : « Avec $p=20$, elle ajuste 211 modèles là où le parcours exhaustif en demanderait plus d'un million. [ajout] »</li><li>→ nouveau : « Sur les 20 clients, elle fait entrer d'abord une variable sans lien avec la perte, la meilleure seule par hasard, puis une seconde, et n'atteint l'endettement qu'au quatrième pas ; le $C_p$ retient alors un modèle à quatre prédicteurs dont deux inutiles, d'erreur de test 1,77 contre 1,16. [ajout] »</li><li><em>Geste de calcul type</em> — ancien : rien (ajout)</li><li>→ nouveau : « Avec $p=20$, elle ajuste 211 modèles là où le parcours exhaustif en demanderait plus d'un million. [ajout] »</li></ul><p><strong><code>dss/selection-descendante</code></strong></p><ul><li><em>Exemple minimal</em> — ancien : « Avec $n=50$ observations et $p=80$ prédicteurs, elle ne peut pas démarrer : le modèle complet n'a pas de solution unique. [ajout] »</li><li>→ nouveau : « Sur les 20 clients, elle retire tour à tour les trois variables sans lien avec la perte et retombe sur l'endettement et le revenu, que le $C_p$ retient ; là où la sélection ascendante s'est trompée, elle trouve le bon modèle. [ajout] »</li><li><em>Geste de calcul type</em> — ancien : rien (ajout)</li><li>→ nouveau : « Avec $n=50$ observations et $p=80$ prédicteurs, elle ne peut pas démarrer : le modèle complet n'a pas de solution unique. [ajout] »</li></ul><h2>Parcours</h2><p>Quinze points de départ réécrits pour porter une instance chiffrée, prise au monde
+numérique de leur cours ; un point d'arrivée complété (dss/selection). Aucune étape
+ajoutée, retirée ni déplacée : les fils scellés sont inchangés. Chiffres vérifiés :
+bootstrap de 20 parmi 20, $20\times0{,}95^{20}=7{,}2$ laissés de côté ; pari
+$(25,\tfrac12;75,\tfrac12)$ d'écart type 25 ; équivalent certain $(0{,}01\times10)^2=0{,}01$ ;
+$100/0{,}9608=104{,}08$ ; call de Black et Scholes à 9,925 (fiche <code>fpp/formule-black-scholes</code>) ;
+$100\times0{,}9608=96{,}08$ ; 30 défauts sur 1 000, 97 % d'exactitude pour le modèle constant.</p><p><strong><code>dss/panorama</code></strong> — <em>Point de départ</em>
+- ancien : « Le cours s'ouvre sur un avertissement : deux séries peuvent monter et descendre ensemble pendant des années sans avoir rien à voir. Avant toute méthode, il faut savoir ce qu'on demande aux données, et comment juger la réponse. [slide 4] »
+- nouveau : « Le cours s'ouvre sur un avertissement : de 1999 à 2009, les noyades en piscine ont suivi le nombre de films où jouait Nicolas Cage, sans avoir rien à voir avec eux. [slide 4]</p><p>Une banque dispose des dossiers de 20 anciens clients en défaut : leur endettement, leur revenu, et la perte qu'ils lui ont coûtée. Que peut-elle en apprendre, et comment saura-t-elle si ce qu'elle a appris est juste ? [ajout] »</p><p><strong><code>dss/selection</code></strong> — <em>Point de départ</em>
+- ancien : « On dispose de dizaines de prédicteurs pour expliquer une réponse. Les mettre tous dans une régression la rend meilleure sur les données d'apprentissage, et pourtant souvent pire sur de nouvelles données. Lesquels garder ? [slide 27] »
+- nouveau : « Les 20 clients de la banque sont décrits par cinq prédicteurs : l'endettement, le revenu, et trois variables sans aucun lien avec la perte. Une régression sur les cinq ajuste mieux les 20 clients qu'une régression sur les deux premiers, avec une erreur moyenne de 0,98 contre 1,12 ; sur 20 000 clients nouveaux, elle se trompe davantage, 1,83 contre 1,16. Lesquels garder, quand on ne dispose pas des clients nouveaux ? [ajout] »</p><p><strong><code>dss/selection</code></strong> — <em>Point d'arrivée</em>
+- ancien : rien (ajout)
+- nouveau : « Sur les 20 clients, le $C_p$, l'AIC, le BIC, le $R^2$ ajusté et la validation croisée désignent tous le modèle à l'endettement et au revenu ; la sélection descendante le retrouve, la sélection ascendante, piégée par une variable de bruit, le manque. [ajout] »</p><p><strong><code>dss/retrecir</code></strong> — <em>Point de départ</em>
+- ancien : « Choisir un sous-ensemble de prédicteurs est un geste brutal : chacun est gardé ou jeté. Peut-on garder tous les prédicteurs, et limiter autrement ce que le modèle apprend ? [slide 46] »
+- nouveau : « Sur les 20 clients, sélectionner des prédicteurs donne à chacun soit son coefficient de moindres carrés, soit zéro : il est gardé ou jeté. Et si la banque décrivait ses 20 clients par 30 prédicteurs, les moindres carrés n'auraient même plus de solution unique. Peut-on garder tous les prédicteurs, et limiter autrement ce que le modèle apprend ? [ajout] »</p><p><strong><code>dss/arbres</code></strong> — <em>Point de départ</em>
+- ancien : « Un arbre de décision isolé prédit mal, mais il s'ajuste très vite : on peut se permettre d'en construire beaucoup. Comment faire pour qu'ils n'apprennent pas tous la même chose ? [slide 97] »
+- nouveau : « Un arbre de décision isolé prédit mal, mais il s'ajuste très vite : on peut se permettre d'en construire beaucoup. [slide 97]</p><p>Tirer 20 clients avec remise parmi les 20 de la banque en laisse en moyenne 7 de côté, et chaque tirage donne un autre arbre. Comment faire pour que ces arbres n'apprennent pas tous la même chose, et à quoi servent les clients laissés de côté ? [ajout] »</p><p><strong><code>dss/neurones</code></strong> — <em>Point de départ</em>
+- ancien : « Une frontière linéaire suffit à séparer certaines classes, et échoue sur d'autres aussi simples que le « ou exclusif ». Le bloc sur les réseaux de neurones part d'un neurone unique et montre comment en assembler plusieurs pour dépasser cette limite. [slide 148, slide 149] »
+- nouveau : « Quatre points suffisent à mettre en défaut une frontière linéaire : $(0,0)$ et $(1,1)$ dans une classe, $(0,1)$ et $(1,0)$ dans l'autre, le « ou exclusif ». Aucune droite ne les sépare. [slide 149]</p><p>Le bloc sur les réseaux de neurones part d'un neurone unique et montre comment en assembler plusieurs pour dépasser cette limite. [slide 148] »</p><p><strong><code>dss/entrainement</code></strong> — <em>Point de départ</em>
+- ancien : « Un réseau assez grand peut apprendre par cœur ses exemples d'entraînement. Ce qu'on veut, c'est qu'il réponde juste sur des cas qu'il n'a jamais vus. [slide 165] »
+- nouveau : « Une régression à 19 prédicteurs passerait exactement par les 20 clients de la banque, sans rien avoir appris. [ajout] ¶ Un réseau qui a plus de poids que d'exemples peut faire de même : apprendre par cœur ses exemples d'entraînement. Ce qu'on veut, c'est qu'il réponde juste sur des cas qu'il n'a jamais vus. [slide 165] »</p><p><strong><code>dss/terrain</code></strong> — <em>Point de départ</em>
+- ancien : « Le cours se termine sur deux articles qui mettent ses méthodes à l'épreuve : l'un compare tous les modèles sur un même problème de crédit, l'autre montre ce qu'ils apprennent quand les données sont biaisées. [slide 204, slide 218] »
+- nouveau : « Sur 1 000 demandes de crédit, 30 finissent en défaut : un modèle qui prédit toujours « pas de défaut » a raison dans 97 % des cas, et ne détecte aucun défaut. [ajout]</p><p>Le cours se termine sur deux articles qui mettent ses méthodes à l'épreuve : l'un compare tous les modèles sur un même problème de crédit, l'autre montre ce qu'ils apprennent quand les données sont biaisées. [slide 204, slide 218] »</p><p><strong><code>dup/comparer</code></strong> — <em>Point de départ</em>
+- ancien : « Deux placements ont la même moyenne. Lequel est le plus risqué ? La réponse la plus courante, « celui dont l'écart type est le plus grand », est aussi celle que le cours met en doute. [ajout] »
+- nouveau : « Deux placements ont la même moyenne de 50 : le pari $(0,\tfrac12;100,\tfrac12)$, d'écart type 50, et le pari $(25,\tfrac12;75,\tfrac12)$, d'écart type 25. Lequel est le plus risqué ? La réponse la plus courante, « celui dont l'écart type est le plus grand », est aussi celle que le cours met en doute. [ajout] »</p><p><strong><code>dup/valeur</code></strong> — <em>Point de départ</em>
+- ancien : « Les violations d'Allais demandent d'affaiblir l'axiome d'indépendance. Une première famille de modèles le fait en gardant les probabilités telles quelles, et en rendant la valeur d'un résultat dépendante de la loterie où il se trouve. [L1 slide 55, L3 slide 3] »
+- nouveau : « Beaucoup préfèrent 1 M sûr à $(5\text{M},{,}10;1\text{M},{,}89;0,{,}01)$, et pourtant $(5\text{M},{,}10;0,{,}90)$ à $(1\text{M},{,}11;0,{,}89)$. [L1 slide 42]</p><p>Ces violations d'Allais demandent d'affaiblir l'axiome d'indépendance. Une première famille de modèles le fait en gardant les probabilités telles quelles, et en rendant la valeur d'un résultat dépendante de la loterie où il se trouve. [L1 slide 55, L3 slide 3] »</p><p><strong><code>dup/poids</code></strong> — <em>Point de départ</em>
+- ancien : « Une seconde famille de modèles laisse l'utilité des résultats tranquille et agit sur les probabilités : un événement rare peut compter plus que sa probabilité, un événement presque certain moins. [L1 slide 55] »
+- nouveau : « Un billet verse 100 avec une probabilité de 1 %, et rien sinon. Avec $u(x)=\sqrt{x}$, l'utilité espérée ne lui accorde qu'un équivalent certain de 0,01, et pourtant beaucoup le paient plus que son espérance, 1. [ajout]</p><p>Une seconde famille de modèles laisse l'utilité des résultats tranquille et agit sur les probabilités : un événement rare peut compter plus que sa probabilité, un événement presque certain moins. [L1 slide 55] »</p><p><strong><code>dup/portefeuille</code></strong> — <em>Point de départ</em>
+- ancien : « Les modèles des parcours précédents changent-ils ce qu'un investisseur achète, et le prix auquel un marché s'équilibre ? Le cours pose la question pour deux d'entre eux, la pondération par rang et l'ambiguïté. [ajout] »
+- nouveau : « Un actif risqué coûte 100 et vaut en moyenne 110, avec un écart type de 20. Combien un investisseur en achète-t-il, et cette quantité change-t-elle quand il pondère les états par leur rang, ou quand il doute de la loi elle-même ? Le cours pose la question pour ces deux modèles, et pour le prix auquel un marché s'équilibre. [ajout] »</p><p><strong><code>fpp/risque-neutre</code></strong> — <em>Point de départ</em>
+- ancien : « Les prix à terme se lisent sur le marché. Peut-on en tirer une façon de calculer le prix de n'importe quel flux futur, même non linéaire ? [ajout] »
+- nouveau : « L'action vaut 100 et le zéro-coupon à un an 0,9608 : son prix à terme à un an vaut 104,08, et il se lit sur le marché. Peut-on en tirer une façon de calculer le prix de n'importe quel flux futur, même non linéaire ? [ajout] »</p><p><strong><code>fpp/couverture</code></strong> — <em>Point de départ</em>
+- ancien : « Une banque vend un call et ne veut pas parier sur l'action. Comment neutraliser son risque, et combien cela lui coûte-t-il de le faire à chaque instant ? [ajout] »
+- nouveau : « Une banque vend un call à un an de strike 100 sur l'action à 100 : elle encaisse 9,93 et ne veut pas parier sur l'action. Comment neutraliser son risque, et combien cela lui coûte-t-il de le faire à chaque instant ? [ajout] »</p><p><strong><code>fpp/strategies</code></strong> — <em>Point de départ</em>
+- ancien : « Un épargnant veut profiter d'une hausse de l'action sans risquer sa mise. Aucun call ni aucun put ne lui donne cela seul. [§9.2] »
+- nouveau : « Un épargnant place 100 et veut profiter d'une hausse de l'action sans risquer sa mise. Aucun call ni aucun put ne lui donne cela seul. [§9.2]</p><p>Avec un zéro-coupon à un an à 0,9608, il lui suffit de 96,08 pour garantir ses 100 : il lui reste 3,92 pour s'exposer à la hausse. [ajout] »</p><p><strong><code>pfo/volatilite</code></strong> — <em>Point de départ</em>
+- ancien : « Les rendements sont propres. Il faut maintenant dire combien ils bougent et s'ils bougent ensemble : c'est ce qu'une allocation de portefeuille demandera. Deux difficultés apparaissent aussitôt, l'une dans le temps, l'autre entre les places. [ajout] »
+- nouveau : « Les rendements sont propres. Il faut maintenant dire combien ils bougent et s'ils bougent ensemble : un actif varie de 1 % par jour, un autre de 2 %, avec une corrélation de 0,5. Deux difficultés apparaissent aussitôt, l'une dans le temps, l'autre entre les places. [ajout] »</p><h2>Validateur et documents de loi</h2><ul><li><code>tools/validate.py</code> : nouvel avertissement <strong>A14 « Point de départ sans aucun chiffre »</strong>,</li><li>compté en dette (<code>départ sans instance chiffrée</code>). Les numéros de référence entre</li><li>crochets sont retirés avant la recherche (<code>MARQ_TOUS</code>). Il ne vérifie pas que les</li><li>chiffres viennent du bon monde, et le dit en commentaire.</li><li><code>tools/tests/test_garde_fous.py</code> : le parcours d'essai part de « 100 » au lieu de</li><li>« d'ici » ; nouveau cas « point de départ sans aucun chiffre → signalé », qui passe.</li><li><code>SPEC-INGESTION.md</code>, étape 3 : les mondes numériques de pfo et de dss ajoutés à côté de</li><li>ceux de fpp et dup ; nouvelle règle « un exemple qui traverse le récit ».</li><li><code>SPEC-MODELE.md</code>, §8.4 : le contrôle du point de départ, et la mesure du jour.</li><li>Les deux copies de chaque document (racine et <code>proj/</code>) sont identiques.</li></ul><h2>Dette</h2><p>Inchangée : aucune dette comptée ; <code>départ sans instance chiffrée</code> = 0 après réécriture.</p><p><strong>Avertissements</strong> : <code>fpp/feynman-kac</code>, dépendance redondante vers
+<code>fpp/mesure-risque-neutre</code> (A8) ; sept copies de synchronisation à supprimer par
+l'utilisateur (<code>courses/dup/parcours/* 2.md</code>, <code>rapports/2026-09-24-parcours 2.md</code>).</p><p><strong>Abstractions en attente</strong> — pfo : portefeuille de variance minimale globale ;
+estimateur de volatilité ; mesure de risque. dss : fonction d'activation ; indicateur de
+matrice de confusion. dup : dominance stochastique ; mesure de risque.</p><h2>Questions pour l'utilisateur</h2><p>1. dss — étendre le monde des 20 clients aux exemples des autres parcours (rétrécir,
+   arbres) ? Recommandation : oui pour « Garder toutes les variables, mais les
+   contraindre », qui prolonge directement la sélection ; les réseaux de neurones et les
+   arbres de classification demandent une réponse binaire, à simuler à part.
+2. Les autres fiches de dss sans exemple (28 sur 76) : les compléter au fil des sessions,
+   parcours par parcours, plutôt qu'en une réécriture en masse. Recommandation : oui.
+3. pfo — garder les arêtes vers dup (<code>depend_de: [fpp, dup]</code>) ? Recommandation : oui.
+4. pfo — une fiche à part pour le portefeuille de variance minimale globale ?
+   Recommandation : non tant qu'aucun chapitre ne le développe.
+5. pfo — calculer les parties A et B de l'exercice 3 sur données réelles ?
+6. fpp — corriger la note de collision de $l$ et la section « Contradiction » de
+   <code>fpp/ex-16</code> (le spread est fini en $l=1$) ? Recommandation : oui.
+7. fpp — le domaine de $l$ dans l'exercice 16 : à demander à l'enseignant.
+8. fpp — la convention $X_t$ : garder la collision déclarée.
+9. dss — les trois emplois de $\lambda$ : à demander à l'enseignant.
+10. dss — des fiches pour l'arbre de décision, la régression logistique, le SVM ? Attendre
+    un support.
+11. dup — un contrôle des symboles LaTeX du corps absents du registre.
+12. dup — <code>dup/maxmin-eu</code> reste la plus longue fiche du dépôt.
+13. pfo — contradictions de la source à confirmer auprès de l'enseignant : chapitre 2
+    (signe de l'éq. 2.25, α « niveau de confiance » Déf. 2.5.1, $F$ normale p. 34,
+    kurtosis p. 23, $K=3$ Table 2.1, légende Fig. 2.2) et chapitre 3 (légende Fig. 3.1,
+    $R_t$ logarithmique au §3.0.7, $W^T\mu$ sur rendements logarithmiques, vérification
+    de l'exercice 2).</p><h2>Validation</h2><p><code>263 notions · 0 erreur(s) · 8 avertissement(s)</code> ; garde-fous : tous se déclenchent ;
+site reconstruit.</p></article></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../aide.html">comment lire ce site</a> · <a href="../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../search-index.js"></script>
+<script>
+var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+        s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- l'état qui traverse les pages ----------------------------------------
+   Voir le commentaire de l'en-tête : en file://, seul le fragment traverse.
+   Forme du fragment :  #t:d~a:0~p:1-0--1...~s:<tampon>.<bits>~v:<ancre>
+     t  thème      d | l            (absent : celui du système)
+     a  ajouts     0                (absent : montrés)
+     p  pliage     un caractère par clé de CLES_PLI : 1 ouvert, 0 fermé, - inconnu
+     s  déjà su    un bit par notion, six bits par caractère, précédé d'un tampon
+     v  ancre      l'élément vers lequel défiler à l'arrivée
+   Le tampon est calculé sur la liste des identifiants : dès qu'une notion entre dans
+   le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
+   cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
+var ETAT=(function(){
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees"],TAMPON='90d4',
+    A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
+var pli={},su={};
+if(typeof H.p==='string'){
+  for(var i=0;i<CLES.length&&i<H.p.length;i++){var c=H.p.charAt(i);
+    if(c==='0'||c==='1')pli[CLES[i]]=(c==='1');}
+}else{
+  CLES.forEach(function(k){var v=LS.g('notions.pli.'+k,null);if(v!==null)pli[k]=(v==='1')});
+}
+function decode(t){var o={},q=t.indexOf('.');
+  if(q<0||t.slice(0,q)!==TAMPON)return o;
+  var b=t.slice(q+1);
+  for(var i=0;i<b.length;i++){var v=A64.indexOf(b.charAt(i));if(v<0)continue;
+    for(var j=0;j<6;j++){if(v&(1<<j)){var k=i*6+j;if(k<IDS.length)o[IDS[k]]=1}}}
+  return o;}
+function encode(){var o='';
+  for(var i=0;i<IDS.length;i+=6){var v=0;
+    for(var j=0;j<6;j++){if(su[IDS[i+j]])v|=1<<j}
+    o+=A64.charAt(v);}
+  return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
+if(typeof H.s==='string'){su=decode(H.s)}
+else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
+function frag(ancre,noeud){var p=[];
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t)p.push('t:'+(t==='dark'?'d':'l'));
+  if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
+  var q='';CLES.forEach(function(k){q+=(pli[k]===undefined?'-':(pli[k]?'1':'0'))});
+  if(/[01]/.test(q))p.push('p:'+q);
+  var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
+  if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
+  return p.length?'#'+p.join('~'):'';}
+function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
+function propager(){var f=frag();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';if(!interne(h))return;
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
+  /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
+     Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
+  try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
+  try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}}
+return{pli:function(k){return pli[k]===undefined?null:pli[k]},
+       setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
+       su:function(id){return !!su[id]},
+       setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
+       lien:function(u,v,n){return u+frag(v,n)},
+       ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
+       propager:propager};
+})();
+function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
+  var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
+  b.textContent=on?'masquer les ajouts':'ajouts masqués';}
+  document.querySelectorAll('.sec').forEach(function(s){
+    var c=s.querySelector('.corps');if(!c)return;var n=0;
+    c.querySelectorAll(':scope>*').forEach(function(el){
+      if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
+      if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
+      n++;});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='Cette rubrique existe, mais tout son contenu est un ajout : le filtre le masque. Elle reste visible pour que vous ne concluiez pas qu’elle est vide.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
+  if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var bt=document.getElementById('btheme');
+  if(bt)bt.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    var nx=(cur||sys)==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);
+    ETAT.propager();});
+  var ba=document.getElementById('bajout');
+  if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);ETAT.propager();});
+  majAjouts(!document.documentElement.classList.contains('sans-ajouts'));
+  /* les liens de la page portent l'état ; une ancre demandée est ouverte et visée */
+  ETAT.propager();
+  var an=ETAT.ancre();
+  if(an){var el=document.getElementById(an);
+    if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView();el.classList.add('vise')}}
+  /* --- recherche instantanée (règle 9) --- */
+  var inp=document.getElementById('q'),res=document.getElementById('qres');
+  if(!inp||!res||!window.SEARCH_INDEX)return;
+  var REL=document.documentElement.getAttribute('data-rel')||'';
+  var sel=-1,items=[];
+  function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+  function cherche(q){
+    var n=norm(q);if(!n)return [];
+    var out=[];
+    SEARCH_INDEX.forEach(function(e){
+      var sc=-1,ch=e.h||[];
+      for(var i=0;i<ch.length;i++){var p=norm(ch[i]).indexOf(n);
+        if(p===0){sc=Math.max(sc,3-(i>0?1:0))}else if(p>0){sc=Math.max(sc,1)}}
+      if(sc>=0)out.push([sc,e]);});
+    out.sort(function(a,b){return b[0]-a[0]||a[1].n.localeCompare(b[1].n)});
+    return out.slice(0,9).map(function(x){return x[1]});}
+  function rendre(){
+    items=cherche(inp.value);sel=-1;res.innerHTML='';
+    if(!inp.value){res.classList.remove('on');return}
+    if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
+    items.forEach(function(e,i){
+      var li=document.createElement('li');
+      var a=document.createElement('a');a.href=ETAT.lien(REL+e.u);a.id='qr'+i;
+      a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
+      li.appendChild(a);res.appendChild(li);});
+    res.classList.add('on');}
+  function bouge(d){if(!items.length)return;sel=(sel+d+items.length)%items.length;
+    Array.prototype.forEach.call(res.children,function(li,i){li.classList.toggle('sel',i===sel)});
+    inp.setAttribute('aria-activedescendant','qr'+sel);}
+  inp.addEventListener('input',rendre);
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();bouge(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();bouge(-1)}
+    else if(e.key==='Enter'){var a=res.querySelector(sel>=0?'li.sel a':'li a');if(a){e.preventDefault();location.href=a.href}}
+    else if(e.key==='Escape'){inp.value='';res.classList.remove('on')}});
+  document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
+  document.addEventListener('keydown',function(e){
+    if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
+});
+</script>
+</body>
+</html>

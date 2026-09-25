@@ -6,7 +6,7 @@ source: poly, §5
 ---
 
 ## Point de départ
-Les prix à terme se lisent sur le marché. Peut-on en tirer une façon de calculer le prix de n'importe quel flux futur, même non linéaire ? [ajout]
+L'action vaut 100 et le zéro-coupon à un an 0,9608 : son prix à terme à un an vaut 104,08, et il se lit sur le marché. Peut-on en tirer une façon de calculer le prix de n'importe quel flux futur, même non linéaire ? [ajout]
 
 ## À savoir avant
 - fpp/prix-a-terme : c'est ce que le marché cote, et c'est lui qui contraint la probabilité cherchée : sous elle, l'espérance du sous-jacent doit valoir son prix à terme. [Prop. 5, Prop. 6]

@@ -37,10 +37,12 @@ dss/apprentissage-supervise fixe le cadre, dss/moindres-carres-ordinaires fourni
 La correction porte sur une quantité issue de l'ajustement lui-même, ce qui explique qu'aucun autre ingrédient ne soit nécessaire. [ajout]
 
 ## Exemple minimal
-À RSS égale, passer de $d=3$ à $d=5$ augmente $C_p$ de $4\hat\sigma^2/n$. [ajout]
+Sur les 20 clients, avec $\hat\sigma^2=1{,}40$ estimé sur le modèle complet, $C_p$ vaut 1,40 pour le modèle à deux prédicteurs et 1,68 pour le modèle complet ; il est minimal au premier. [ajout]
 
 ## Geste de calcul type
 Calculer $C_p$ pour chaque taille de modèle et retenir le plus petit : une petite valeur indique une erreur faible. [slide 40]
+
+Pour le modèle à deux prédicteurs : $C_p=(22{,}43+2\times2\times1{,}40)/20=(22{,}43+5{,}60)/20=1{,}40$. [ajout]
 
 ## Cesse d'être valide quand
 Sous modèle linéaire à erreurs gaussiennes, il est équivalent à l'AIC — le cours le dit explicitement. Ce n'est donc pas un critère de plus. [slide 42]

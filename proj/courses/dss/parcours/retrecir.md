@@ -6,7 +6,7 @@ source: slides 46–95
 ---
 
 ## Point de départ
-Choisir un sous-ensemble de prédicteurs est un geste brutal : chacun est gardé ou jeté. Peut-on garder tous les prédicteurs, et limiter autrement ce que le modèle apprend ? [slide 46]
+Sur les 20 clients, sélectionner des prédicteurs donne à chacun soit son coefficient de moindres carrés, soit zéro : il est gardé ou jeté. Et si la banque décrivait ses 20 clients par 30 prédicteurs, les moindres carrés n'auraient même plus de solution unique. Peut-on garder tous les prédicteurs, et limiter autrement ce que le modèle apprend ? [ajout]
 
 ## À savoir avant
 - dss/moindres-carres-ordinaires : c'est le modèle que les méthodes du parcours modifient, en contraignant ses coefficients ou en changeant ses prédicteurs. [slide 46, slide 71]

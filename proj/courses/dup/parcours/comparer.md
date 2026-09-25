@@ -6,7 +6,7 @@ source: L1 slides 6–28
 ---
 
 ## Point de départ
-Deux placements ont la même moyenne. Lequel est le plus risqué ? La réponse la plus courante, « celui dont l'écart type est le plus grand », est aussi celle que le cours met en doute. [ajout]
+Deux placements ont la même moyenne de 50 : le pari $(0,\tfrac12;100,\tfrac12)$, d'écart type 50, et le pari $(25,\tfrac12;75,\tfrac12)$, d'écart type 25. Lequel est le plus risqué ? La réponse la plus courante, « celui dont l'écart type est le plus grand », est aussi celle que le cours met en doute. [ajout]
 
 ## À savoir avant
 - dup/loterie : c'est l'objet que l'on compare tout au long du parcours, un pari dont les probabilités sont connues. [L1 slide 2]

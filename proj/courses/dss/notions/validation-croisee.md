@@ -30,7 +30,7 @@ dss/apprentissage-supervise, puis dss/erreur-de-test, qu'il s'agit d'estimer. [a
 C'est la voie directe : elle ne corrige pas l'erreur d'apprentissage, elle fabrique des données non vues en découpant celles dont on dispose. [ajout]
 
 ## Exemple minimal
-Avec dix blocs, le modèle est ajusté dix fois sur 90 % des données et évalué sur les 10 % restants ; l'erreur retenue est la moyenne des dix. [slide 182]
+Les 20 clients coupés en 5 blocs de 4 : chaque modèle est ajusté 5 fois sur 16 clients et évalué sur les 4 restants ; l'erreur moyenne vaut 1,66 pour le modèle à deux prédicteurs et 2,22 pour le modèle complet. [ajout]
 
 ## Geste de calcul type
 Tracer l'erreur estimée contre la taille du modèle, puis lire le minimum — et, si la courbe est plate, appliquer la règle de l'écart type plutôt que de prendre le point le plus bas. [slide 45]

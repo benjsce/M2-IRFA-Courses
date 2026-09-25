@@ -6,6 +6,8 @@ source: slides 203–237
 ---
 
 ## Point de départ
+Sur 1 000 demandes de crédit, 30 finissent en défaut : un modèle qui prédit toujours « pas de défaut » a raison dans 97 % des cas, et ne détecte aucun défaut. [ajout]
+
 Le cours se termine sur deux articles qui mettent ses méthodes à l'épreuve : l'un compare tous les modèles sur un même problème de crédit, l'autre montre ce qu'ils apprennent quand les données sont biaisées. [slide 204, slide 218]
 
 ## À savoir avant

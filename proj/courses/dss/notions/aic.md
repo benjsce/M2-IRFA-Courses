@@ -37,7 +37,7 @@ dss/apprentissage-supervise donne le cadre, dss/moindres-carres-ordinaires le mo
 L'AIC ne demande rien de plus, et c'est ce qui fait sa portée : il vaut pour toute vraisemblance maximisable, le cas linéaire n'étant que celui où il rejoint le Cp. [ajout]
 
 ## Exemple minimal
-Deux modèles de même log-vraisemblance et de tailles 3 et 5 diffèrent de 4 points d'AIC, en faveur du plus petit. [ajout]
+Pour une régression à erreurs gaussiennes, $-2\log L$ vaut $n\log(\mathrm{RSS}/n)$ à une constante près ; sur les 20 clients, l'AIC vaut 6,30 pour le modèle à deux prédicteurs et 9,59 pour le modèle complet. [ajout]
 
 ## Geste de calcul type
 Reporter la log-vraisemblance maximisée, ajouter deux fois le nombre de paramètres, retenir la plus petite valeur. [slide 42]

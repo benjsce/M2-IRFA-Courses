@@ -35,5 +35,8 @@ dss/apprentissage-supervise et dss/moindres-carres-ordinaires donnent l'ajusteme
 
 La dépendance au parcours exhaustif n'est pas technique mais logique : la sélection pas à pas existe parce que celui-ci devient infaisable au-delà d'une quarantaine de prédicteurs. [ajout]
 
+## Exemple minimal
+Avec les cinq prédicteurs des 20 clients, chaque sens ajuste 16 modèles, là où le parcours exhaustif en ajuste 32. [ajout]
+
 ## Cesse d'être valide quand
 L'espace parcouru étant réduit, le modèle retenu peut être strictement moins bon que le meilleur sous-ensemble de même taille. C'est le prix explicitement payé pour la faisabilité. [slide 36]

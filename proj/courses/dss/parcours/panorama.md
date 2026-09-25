@@ -6,7 +6,9 @@ source: slides 1–22
 ---
 
 ## Point de départ
-Le cours s'ouvre sur un avertissement : deux séries peuvent monter et descendre ensemble pendant des années sans avoir rien à voir. Avant toute méthode, il faut savoir ce qu'on demande aux données, et comment juger la réponse. [slide 4]
+Le cours s'ouvre sur un avertissement : de 1999 à 2009, les noyades en piscine ont suivi le nombre de films où jouait Nicolas Cage, sans avoir rien à voir avec eux. [slide 4]
+
+Une banque dispose des dossiers de 20 anciens clients en défaut : leur endettement, leur revenu, et la perte qu'ils lui ont coûtée. Que peut-elle en apprendre, et comment saura-t-elle si ce qu'elle a appris est juste ? [ajout]
 
 ## Étapes
 1. dss/correlation-fallacieuse

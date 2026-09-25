@@ -28,5 +28,8 @@ Tout part de dss/apprentissage-supervise : sans sortie désirée, il n'y a pas d
 
 L'erreur de test porte sur les mêmes couples, mais sur des observations tenues à l'écart de l'ajustement. Cette séparation est la première du chapitre, et presque tout ce qui suit en dépend. [ajout]
 
+## Exemple minimal
+Sur les 20 clients, la régression sur l'endettement et le revenu a une erreur quadratique moyenne de 1,12 ; sur 20 000 clients nouveaux, de 1,16. Avec trois prédicteurs de plus, sans lien avec la perte, le modèle annonce 0,98 et fait 1,83. [ajout]
+
 ## Cesse d'être valide quand
 En grande dimension, le cours interdit d'invoquer la RSS, les p-values ou le $R^2$ calculés sur les données d'apprentissage comme preuve d'un bon ajustement. [slide 94]

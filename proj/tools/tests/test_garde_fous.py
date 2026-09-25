@@ -207,7 +207,7 @@ def _parcours(root, etapes, avant, slug="essai", ordre=1, fiches=True):
     d = root / "courses" / "aa" / "parcours"
     d.mkdir(exist_ok=True)
     txt = ["---", "id: aa/parcours-%s" % slug, "ordre: %d" % ordre, "titre: Essai", "---", "",
-           "## Point de départ", "On part d'ici. [p. 1]", ""]
+           "## Point de départ", "On part de 100. [p. 1]", ""]
     if avant:
         txt += ["## À savoir avant"] + ["- aa/%s : son rôle ici. [p. 1]" % x for x in avant] + [""]
     txt += ["## Étapes"]
@@ -227,6 +227,15 @@ def parcours_paraphrase(root):
     f.write_text(f.read_text(encoding="utf-8").replace(
         "1. aa/milieu\n   La question qui y mène. [p. 1]",
         "1. aa/milieu\n   Milieu, pour l'essai. [p. 1]"), encoding="utf-8", newline="\n")
+
+
+def parcours_depart_abstrait(root):
+    """Un point de départ sans chiffre : le chiffre de la référence ne compte pas."""
+    _parcours(root, ["milieu", "haut"], ["base"])
+    f = root / "courses" / "aa" / "parcours" / "essai.md"
+    f.write_text(f.read_text(encoding="utf-8").replace(
+        "On part de 100. [p. 1]", "On part d'une idée générale. [p. 1]"),
+        encoding="utf-8", newline="\n")
 
 
 def parcours_ordre_inverse(root):
@@ -440,6 +449,8 @@ def main():
         "parcours", parcours_ok, doit_apparaitre=False)
     cas("transition qui redit la définition de sa fiche → signalée",
         "la transition redit", parcours_paraphrase)
+    cas("point de départ sans aucun chiffre → signalé",
+        "sans aucun chiffre", parcours_depart_abstrait)
     cas("étape placée avant son prérequis → erreur",
         "arrive avant son prérequis", parcours_desordre)
     cas("prérequis supposé sans rôle dans l'histoire → erreur",

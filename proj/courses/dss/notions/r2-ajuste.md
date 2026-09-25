@@ -35,7 +35,7 @@ Comme les autres critères du groupe, il part de dss/apprentissage-supervise pui
 Ce qu'il corrige n'est pas la RSS seule mais son rapport à la somme totale des carrés : la correction porte sur les degrés de liberté, et c'est pourquoi il se lit à la hausse quand les trois autres se lisent à la baisse. [ajout]
 
 ## Exemple minimal
-Ajouter une variable qui ne fait pas baisser la RSS fait baisser le $R^2$ ajusté, alors que le $R^2$ ordinaire reste au même niveau. [ajout]
+Sur les 20 clients, passer de deux à cinq prédicteurs fait monter le $R^2$ de 0,49 à 0,55 et descendre le $R^2$ ajusté de 0,43 à 0,40. [ajout]
 
 ## Geste de calcul type
 Retenir la plus grande valeur, à l'inverse des trois autres critères. C'est la seule inversion de lecture du groupe. [slide 40, slide 44]

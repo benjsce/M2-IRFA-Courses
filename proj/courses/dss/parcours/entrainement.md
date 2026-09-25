@@ -6,7 +6,9 @@ source: slides 164–202
 ---
 
 ## Point de départ
-Un réseau assez grand peut apprendre par cœur ses exemples d'entraînement. Ce qu'on veut, c'est qu'il réponde juste sur des cas qu'il n'a jamais vus. [slide 165]
+Une régression à 19 prédicteurs passerait exactement par les 20 clients de la banque, sans rien avoir appris. [ajout]
+
+Un réseau qui a plus de poids que d'exemples peut faire de même : apprendre par cœur ses exemples d'entraînement. Ce qu'on veut, c'est qu'il réponde juste sur des cas qu'il n'a jamais vus. [slide 165]
 
 ## À savoir avant
 - dss/reseau-multicouche : c'est le modèle qu'on entraîne dans tout le parcours, et dont on doit choisir la taille. [slide 165, slide 176]

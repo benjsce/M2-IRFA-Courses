@@ -6,7 +6,9 @@ source: slides 96–127
 ---
 
 ## Point de départ
-Un arbre de décision isolé prédit mal, mais il s'ajuste très vite : on peut se permettre d'en construire beaucoup. Comment faire pour qu'ils n'apprennent pas tous la même chose ? [slide 97]
+Un arbre de décision isolé prédit mal, mais il s'ajuste très vite : on peut se permettre d'en construire beaucoup. [slide 97]
+
+Tirer 20 clients avec remise parmi les 20 de la banque en laisse en moyenne 7 de côté, et chaque tirage donne un autre arbre. Comment faire pour que ces arbres n'apprennent pas tous la même chose, et à quoi servent les clients laissés de côté ? [ajout]
 
 ## À savoir avant
 - dss/compromis-biais-variance : c'est ce que les méthodes d'ensemble exploitent ; un arbre isolé a une variance forte, et moyenner plusieurs arbres la réduit sans toucher au biais. [ajout]
