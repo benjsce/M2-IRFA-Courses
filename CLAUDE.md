@@ -117,6 +117,15 @@ Ce qui reste interdit : une figure qui montre autre chose que ce que dit sa fich
 dessin est une assertion ; il porte un marqueur comme les autres, et il n'introduit aucun
 objet que la rubrique ne nomme pas.
 
+## Les fiches se lisent d'une traite
+
+Une fiche qui passe le validateur n'est pas pour autant claire. Tu écris chaque fiche
+comme `fpp/taux-forward`, l'étalon : une idée annoncée d'emblée ; **ce qui est connu et ce
+qu'on cherche**, dits en toutes lettres quand la notion détermine une quantité ; des
+chiffres avant les lettres ; une seule figure ; peu d'informations. Puis tu la relis entière,
+rendue, comme l'étudiant. Le détail est en SPEC-MODELE §2.5. *Demandé par l'utilisateur le
+2026-09-26, après une relecture de fpp qui n'a trouvé qu'une fiche claire sur 56.*
+
 ## Ce que tu ne fais pas
 
 Tu ne réorganises pas, tu ne « nettoies » pas, tu ne fusionnes pas de fiches de ta propre

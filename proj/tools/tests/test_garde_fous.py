@@ -434,6 +434,14 @@ def retrouver_figure_apres(root):
     _fig(root)
 
 
+def deux_figures(root):
+    """Deux dessins sur une même fiche : le lecteur doit les relier de tête."""
+    appel = ("\n![Une l\u00e9gende.](figures/f.svg) [p. 1]\n\n"
+             "![Une autre.](figures/f.svg) [p. 1]\n")
+    ecrire(root, "aa", [dict(slug="x", nom="Un", chemin=appel)])
+    _fig(root)
+
+
 def fig_ok(root):
     appel = "\n![Une l\u00e9gende.](figures/f.svg) [p. 1]\n"
     ecrire(root, "aa", [dict(slug="x", nom="Un", chemin=appel)])
@@ -542,6 +550,10 @@ def main():
         "la figure vient après le raisonnement", retrouver_figure_apres)
 
     print("figures")
+    cas("deux figures sur une fiche → avertissement",
+        "une fiche porte une seule figure", deux_figures)
+    cas("une seule figure → silence",
+        "une fiche porte une seule figure", fig_ok, doit_apparaitre=False)
     cas("figure conforme à son script → silence",
         "figures", fig_ok, doit_apparaitre=False)
     cas("SVG retouché à la main → erreur",

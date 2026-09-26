@@ -515,6 +515,15 @@ def valider(root: Path, rap: Rapport):
             if figs and figs[0] != 0:
                 rap.e("A1", nid, "« Retrouver la formule » : la figure vient après le "
                                  "raisonnement ; elle doit l'ouvrir")
+        # Une fiche, une idée, une figure (SPEC-MODELE §2.5). Deux figures sur une fiche,
+        # c'est deux dessins à relier de tête : la seconde redit la première, ou appartient
+        # à une autre fiche. Constaté sur fpp/taux-forward le 2026-09-26 : « il y a trop
+        # d'informations » ; la fiche n'est devenue claire qu'avec une figure unique.
+        nfig = sum(len(re.findall(r"!\[[^\]]*\]\(figures/", b)) for _t, b in secs)
+        if nfig > 1:
+            rap.w("A1", nid, f"{nfig} figures : une fiche porte une seule figure, la plus "
+                             "parlante (SPEC-MODELE §2.5)")
+            rap.dette["figure en trop"] += 1
         if "Ce que c'est" not in S:
             rap.e("A1", nid, "« Ce que c'est » manquant")
         else:

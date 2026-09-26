@@ -292,6 +292,52 @@ qu'elles montrent est ce qu'il faut voir. *Demandé par l'utilisateur le 2026-09
 les figures de dup et de pfo : « pas n'importe quel graphique ; il faut faire un graphique
 qui met en évidence au mieux ce que l'on cherche à montrer ».*
 
+### 2.5 Une fiche se lit d'une traite
+
+Les rubriques disent ce qu'une fiche contient ; elles ne disent pas si l'étudiant la
+comprend. Une fiche peut satisfaire toutes les règles de §2.1 à §2.4 et rester opaque :
+deux définitions qui ne se raccordent pas, la même égalité écrite trois fois, un
+prolongement difficile mêlé au cœur, les chiffres qui rendent l'idée évidente relégués à la
+fin. *Constaté le 2026-09-26 sur fpp : après plusieurs passes qui ajoutaient chacune une
+rubrique ou une figure, une relecture a trouvé 1 fiche claire sur 56 ; l'étudiant, de
+`fpp/taux-forward` : « il y a trop d'informations ». Réécrite selon les règles qui suivent,
+la fiche est devenue l'étalon : « j'aime beaucoup la mise en évidence du trou et de ce qui
+est connu ».*
+
+L'étalon est `fpp/taux-forward`. Toute fiche écrite ou réécrite se compare à lui.
+
+- **Une idée, annoncée d'emblée.** « Ce que c'est » dit l'idée que tout le reste sert ; une
+  seconde idée va dans une autre fiche, ou tient en une phrase à la fin de « Ce qui la
+  définit ».
+- **Le connu et le trou.** Quand la notion détermine une quantité — un prix, un taux, un
+  nombre de titres —, la fiche dit en toutes lettres ce qui est **connu** et ce qu'on
+  **cherche**, et la notion est ce qui bouche le trou : « la prime est connue, elle est
+  nulle ; on cherche $K$ ». Pour une définition pure (bilan, option, payoff), on ne force
+  pas le schéma.
+- **La Forme se lit comme l'idée.** Quand la source donne plusieurs écritures équivalentes,
+  la première est celle qui dit l'idée (« total moins partie connue, divisé par la durée
+  du trou »), la suivante celle du poly. Deux écritures d'une même égalité se donnent
+  ensemble, jamais dans deux rubriques qui ne disent pas que c'est la même.
+- **Des chiffres avant les lettres.** « Retrouver la formule » passe par les nombres de
+  l'exemple avant la formule générale, un pas par paragraphe, et chaque pas dit pourquoi
+  (« on en achète $1/P(t,S)$ » ne suffit pas).
+- **Une seule figure**, la plus parlante (§2.4), qui montre le connu et le trou quand c'est
+  le schéma de la fiche ; jamais la figure d'une fiche voisine à une lettre près. Le
+  validateur avertit au-delà d'une figure.
+- **Peu d'informations.** Ce qui ne sert pas l'idée sort de la fiche, ou tient en une phrase
+  à la fin. Le symbole du registre qu'il faut nommer (§2.1) se nomme en une phrase, pas en
+  un paragraphe.
+- **Deux fiches voisines ne se répètent pas.** Si deux fiches racontent le même calcul, l'une
+  dit ce qui la distingue de l'autre : le taux forward est un nombre lu dans la courbe, le
+  FRA le contrat qui l'obtient.
+- **Tout nombre est recalculé** avant d'être écrit, figure comprise.
+
+**Le test de lecture d'une fiche.** On lit la fiche entière, rendue sur le site, comme
+l'étudiant, sans ouvrir ses voisines ; chaque endroit où l'on s'arrête est à reprendre. Le
+rapport dit, fiche par fiche, que le test a été fait. Le validateur ne contrôle que le
+nombre de figures ; le reste ne se mesure pas, et c'est la lecture qui tranche, comme pour
+les parcours (§8.6).
+
 ## 3. Les axiomes de structure
 
 Chaque axiome dit ce qu'il interdit et la sévérité : **E** (erreur, build refusé),
