@@ -29,15 +29,15 @@ $$F(t,T,S)=\frac{R(t,S)(S-t)-R(t,T)(T-t)}{S-T}=\frac{1}{S-T}\ln\frac{P(t,T)}{P(t
 $F(t,T,S)$ prend trois dates : celle où on le lit, puis le début et la fin de l'emprunt. C'est un taux continu par an. Ce n'est ni le prix forward $F(t,T)$ d'une action, qui n'a que deux dates et est un prix, ni le $F$ de la formule de Black. [§2.3, §3.1, éq. 11]
 
 ## Retrouver la formule
-![Le FRA ramené en t. Le taux fixe paie en S un montant fixé aujourd'hui, qui vaut P(t,S) fois ce montant. L'intérêt variable reçu en S vaut exactement 1 en T quel que soit le taux, donc P(t,T) aujourd'hui. Le contrat ne coûtant rien, les deux sont égaux, et K est le taux forward.](figures/taux-forward.svg) [ajout]
+![Le FRA en trois étapes, avec la courbe du cours. En haut, ce qu'on reçoit : ① l'intérêt variable reçu en S est exactement ce que donne 1 reçu en T et placé jusqu'en S au taux du moment ; il vaut donc 1 en T, et ② 0,9608 aujourd'hui. En bas, ce qu'on paie : le montant fixé aujourd'hui, payé en S, vaut ② 0,9048 fois ce montant aujourd'hui. ③ Le contrat ne coûtant rien, les deux valeurs sont égales, ce qui donne K = 6 %.](figures/taux-forward.svg) [ajout]
 
 Prenons la courbe du cours : 4 % à un an, 5 % à deux ans, donc $P(t,T)=0{,}9608$ et $P(t,S)=0{,}9048$ pour $T$ dans un an et $S$ dans deux ans. [ajout]
 
-La jambe variable rapporte en $S$ ce que rapporte 1 placé en $T$ au taux du moment : elle vaut 1 en $T$, quel que soit ce taux, donc $P(t,T)=0{,}9608$ aujourd'hui. [Déf. 7, ajout]
+① La jambe variable rapporte en $S$ ce que rapporte 1 placé en $T$ au taux du moment : elle vaut 1 en $T$, quel que soit ce taux. ② Ramenée en $t$, elle vaut $P(t,T)=0{,}9608$. [Déf. 7, ajout]
 
-La jambe fixe paie $e^{K}$ en $S$, montant connu : elle vaut $0{,}9048\,e^{K}$ aujourd'hui. [§2.3]
+② La jambe fixe paie $e^{K}$ en $S$, montant connu dès aujourd'hui : ramenée en $t$, elle vaut $P(t,S)\,e^{K}=0{,}9048\,e^{K}$. [§2.3]
 
-Le contrat ne coûte rien, les deux valeurs sont égales : $e^{K}=0{,}9608/0{,}9048$, soit $K=6\,\%$. En lettres, $P(t,T)=P(t,S)\,e^{K(S-T)}$, et : [§2.3]
+③ Le contrat ne coûte rien, les deux valeurs sont égales : $e^{K}=0{,}9608/0{,}9048$, soit $K=6\,\%$. En lettres, $P(t,T)=P(t,S)\,e^{K(S-T)}$, et : [§2.3]
 
 $$F(t,T,S)\equiv K=\frac{1}{S-T}\ln\frac{P(t,T)}{P(t,S)}$$ [§2.3]
 

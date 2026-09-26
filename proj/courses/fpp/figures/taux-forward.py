@@ -1,45 +1,56 @@
 #!/usr/bin/env python3
 r"""
-taux-forward.svg — le FRA ramené en t. La jambe fixe paie e^{K(S−T)} en S, fixé
-aujourd'hui, qui vaut P(t,S)·e^{K(S−T)} en t. La jambe variable reçoit e^{R(T,S)(S−T)}
-en S, qui vaut 1 en T quel que soit le taux, donc P(t,T) en t. Le contrat ne coûtant rien,
-les deux valeurs sont égales, et K est le taux forward : 6 % avec la courbe du cours.
+taux-forward.svg — le FRA ramené en t, en trois étapes numérotées.
+
+① La jambe variable : recevoir en S l'intérêt au taux R(T,S), c'est exactement ce que
+   donne 1 reçu en T et placé de T à S au taux du moment. Elle vaut donc 1 en T.
+② Chaque jambe revient en t par son zéro-coupon : 1 en T vaut P(t,T) = 0,9608 ;
+   e^{K(S−T)} payé en S vaut P(t,S)·e^{K} = 0,9048·e^{K}.
+③ Le contrat ne coûte rien : 0,9608 = 0,9048·e^{K}, donc K = 6 %.
+Courbe du cours : 4 % à un an, 5 % à deux ans ; T = t + 1, S = t + 2.
 
 Usage : python courses/fpp/figures/taux-forward.py > taux-forward.svg
 Dépendance : aucune.
 """
-import math
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "tools"))
-from figure import Figure, Planche, ACCENT, AJOUT, DOUX, ENCRE, PALE      # noqa: E402
+from figure import Figure, ACCENT, AJOUT, DOUX, ENCRE      # noqa: E402
 
-f = Figure(xmin=-1.0, xmax=2.95, ymin=-2.0, ymax=2.0, w=600, h=400, marges=(10, 10, 10, 10),
-           titre="P(t,T) = P(t,S)·e^{K(S−T)} : le FRA ne coûte rien, K est le taux forward")
-f.axe_temps(0, -0.6, 2.8, [(0, "t"), (1, "T"), (2, "S")])
-# jambe variable, en haut
-f.fleche(2, 0.1, 2, 1.0, couleur=ACCENT, epaisseur=2, pointilles="5 4")
-f.texte(2, 0.8, "e^{R(T,S)(S−T)}", couleur=ACCENT, dx=10, gras=True)
-f.texte(2, 0.52, "inconnu aujourd'hui", couleur=ACCENT, dx=10, taille=12)
-f.fleche(1.95, 1.15, 1.06, 1.15, couleur=ACCENT, courbure=14, pointilles="5 4")
-f.point(1, 1.15, couleur=ACCENT)
-f.texte(1, 1.15, "vaut 1 en T,", couleur=ACCENT, ancre="end", dx=-8, dy=-4, taille=12)
-f.texte(1, 1.15, "quel que soit R(T,S)", couleur=ACCENT, ancre="end", dx=-8, dy=11, taille=12)
-f.fleche(0.95, 1.62, 0.45, 1.62, couleur=ACCENT, courbure=10)
-f.texte(0, 1.62, "P(t,T)", couleur=ACCENT, ancre="middle", dy=4, gras=True)
-# jambe fixe, en bas
-f.fleche(2, -0.42, 2, -1.25, couleur=AJOUT, epaisseur=2.2)
-f.texte(2, -0.7, "e^{K(S−T)}", couleur=AJOUT, dx=10, gras=True)
-f.texte(2, -0.98, "fixé aujourd'hui", couleur=AJOUT, dx=10, taille=12)
-f.fleche(2, -1.45, 0.65, -1.45, couleur=AJOUT, courbure=-22)
-f.texte(0, -1.45, "P(t,S)·e^{K(S−T)}", couleur=AJOUT, ancre="middle", dy=4, gras=True)
-# égalité, dans la colonne de t
-f.courbe([(0, 1.42), (0, 0.3)], couleur=DOUX, epaisseur=1.3)
-f.courbe([(0, -0.45), (0, -1.22)], couleur=DOUX, epaisseur=1.3)
-f.texte(0, 0.95, "égales :", couleur=ENCRE, ancre="end", dx=-8, dy=-2, gras=True)
-f.texte(0, 0.95, "le contrat", couleur=DOUX, ancre="end", dx=-8, dy=14, taille=12)
-f.texte(0, 0.95, "ne coûte rien", couleur=DOUX, ancre="end", dx=-8, dy=29, taille=12)
-f.texte(0, -0.85, "0,9608 = 0,9048·e^{K}", couleur=DOUX, ancre="end", dx=-8, taille=12)
-f.texte(1.0, -1.9, "K = F(t,T,S) = ln(0,9608 / 0,9048) = 6 %", couleur=ENCRE, ancre="middle", gras=True)
+f = Figure(xmin=-1.25, xmax=3.05, ymin=-2.45, ymax=2.45, w=660, h=470, marges=(10, 10, 10, 10),
+           titre="Taux forward : chaque jambe du FRA ramenée en t, puis égalées parce que le contrat est gratuit")
+f.axe_temps(0, -0.05, 2.9, [(0, "t"), (1, "T = t + 1"), (2, "S = t + 2")])
+f.texte(-1.2, 1.9, "on reçoit", couleur=ACCENT, gras=True, taille=12)
+f.texte(-1.2, -1.95, "on paie", couleur=AJOUT, gras=True, taille=12)
+
+# ① la jambe variable équivaut à 1 en T
+f.fleche(1, 0.12, 1, 0.85, couleur=ACCENT, epaisseur=2.2)
+f.texte(1, 0.45, "1", couleur=ACCENT, dx=8, gras=True)
+f.fleche(1.06, 0.95, 1.96, 0.95, couleur=ACCENT, courbure=12, epaisseur=1.4)
+f.fleche(2, 0.12, 2, 0.85, couleur=ACCENT, epaisseur=2.2, pointilles="5 4")
+f.texte(2, 0.62, "e^{R(T,S)(S−T)}", couleur=ACCENT, dx=8, gras=True)
+f.texte(2, 0.62, "inconnu aujourd'hui", couleur=ACCENT, dx=8, dy=16, taille=11.5)
+f.texte(1.5, 0.95, "① 1 placé de T à S au taux du moment", couleur=ACCENT, ancre="middle", dy=-30, taille=12)
+f.texte(1.5, 0.95, "donne exactement ce montant", couleur=ACCENT, ancre="middle", dy=-15, taille=12)
+
+# ② chaque jambe revient en t
+f.fleche(0.95, 1.05, 0.12, 1.55, couleur=ACCENT, courbure=26, epaisseur=1.8)
+f.texte(0.55, 1.55, "② × P(t,T)", couleur=ACCENT, ancre="middle", dy=-26, gras=True, taille=12)
+f.texte(0, 1.55, "0,9608", couleur=ACCENT, ancre="end", dx=-8, dy=5, gras=True)
+
+f.fleche(2, -0.45, 2, -1.15, couleur=AJOUT, epaisseur=2.2)
+f.texte(2, -0.75, "e^{K(S−T)}", couleur=AJOUT, dx=8, gras=True)
+f.texte(2, -0.75, "fixé aujourd'hui", couleur=AJOUT, dx=8, dy=16, taille=11.5)
+f.fleche(1.95, -1.3, 0.12, -1.55, couleur=AJOUT, courbure=-30, epaisseur=1.8)
+f.texte(1.2, -1.45, "② × P(t,S)", couleur=AJOUT, ancre="middle", gras=True, taille=12)
+f.texte(0, -1.55, "0,9048 × e^{K}", couleur=AJOUT, ancre="end", dx=-8, dy=5, gras=True)
+
+# ③ les deux valeurs sont égales
+f.courbe([(-0.4, 1.3), (-0.4, 0.4)], couleur=ENCRE, epaisseur=1.4)
+f.courbe([(-0.4, -0.45), (-0.4, -1.3)], couleur=ENCRE, epaisseur=1.4)
+f.texte(-0.4, 0.0, "③ égales :", couleur=ENCRE, ancre="middle", dy=-3, gras=True, taille=13)
+f.texte(-0.4, 0.0, "le contrat est gratuit", couleur=DOUX, ancre="middle", dy=13, taille=11)
+f.texte(0.85, -2.33, "0,9608 = 0,9048 × e^{K}, d'où K = F(t,T,S) = ln(0,9608 / 0,9048) = 6 %",
+        couleur=ENCRE, ancre="middle", gras=True, taille=12.5)
 sys.stdout.write(f.svg())
