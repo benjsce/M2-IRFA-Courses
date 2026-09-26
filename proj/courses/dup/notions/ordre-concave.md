@@ -27,6 +27,8 @@ $F^*$ est une fonction de répartition et non un résultat : l'étoile marque ce
 ## Ce qui la définit
 Le critère est unanime : il ne retient que ce sur quoi tous les agents averses s’accordent, ce qui explique qu’il ne classe pas toute paire. [L1 slide 19]
 
+La classe est celle de toutes les $U$ concaves, croissantes ou non. À moyennes égales, la partie linéaire d'une utilité donne la même valeur aux deux lois ; il ne reste que la courbure pour les départager, et c'est pourquoi la définition n'exige pas que $U$ soit croissante. [ajout]
+
 ## Le chemin jusqu'ici
 dup/loterie et dup/fonction-utilite se combinent en dup/utilite-esperee, d'où se tire dup/aversion-au-risque — et c'est cette dernière qui est la clé. [ajout]
 

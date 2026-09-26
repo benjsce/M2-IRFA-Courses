@@ -22,6 +22,10 @@ $$\int_0^x\big[F^*(t)-F(t)\big]\,dt\ \ge\ 0\quad\forall x\in[0,M],\qquad\text{av
 ## Ce qui la définit
 C’est la seule des formulations équivalentes qui survive à une suite quelconque d’étalements, quel que soit le nombre de croisements des répartitions. [L1 slide 22]
 
+La condition ne contient aucune utilité, et c'est ce qui la rend commode : elle se vérifie sur les deux répartitions seules. La classe d'agents est cachée dans l'équivalence de Rothschild et Stiglitz : pour deux lois de même moyenne, la condition équivaut à ce que tout agent à utilité espérée concave préfère $F$ à $F^*$. [L1 slide 23]
+
+Aucune croissance de $U$ n'est demandée, et c'est l'égalité en $M$ qui en dispense : elle impose des moyennes égales, et à moyennes égales la pente de $U$ ne départage plus les deux lois. Sans cette égalité, la même intégrale positive pour tout $x$ définit la dominance du second ordre, qui ne vaut que pour les $U$ croissantes et concaves. [ajout]
+
 ## Le chemin jusqu'ici
 Tout part de dup/loterie, et de rien d'autre. [ajout]
 

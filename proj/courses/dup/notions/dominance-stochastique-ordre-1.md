@@ -28,6 +28,8 @@ $\succ_{FSD}$ relie deux loteries, pas deux nombres, et la relation est **partie
 ## Ce qui la définit
 Le critère ne demande rien de plus que la croissance de $U$ : c’est le plus large accord qu’on puisse obtenir entre agents. [L1 slide 6]
 
+Lue sur les fonctions de répartition, la condition dit que celle de la loi dominée est partout au-dessus ou égale à celle de la loi dominante. La classe d'agents est celle de toutes les $U$ croissantes, sans rien exiger de leur courbure : averses, neutres et amateurs de risque sont tous d'accord. [L1 slide 6, ajout]
+
 ## Le chemin jusqu'ici
 Il faut dup/loterie pour avoir l'objet du choix, dup/fonction-utilite pour l'évaluer, et dup/utilite-esperee qui assemble les deux. [ajout]
 
