@@ -20,17 +20,15 @@ refs:
 Un contrat qui donne un droit d’échanger à prix fixé, sans l’obligation de l’exercer. [Déf. 9]
 
 ## Ce que les membres partagent
-Le strike $K$ et la maturité $T$ sont fixés d’avance ; l’inconnue est la prime. C’est ce qui les sépare des contrats à prime nulle, où l’inconnue est le strike. [Déf. 9]
+Le strike $K$ et la maturité $T$ sont fixés d’avance. [Déf. 9]
 
-L’asymétrie du droit rend le payoff non linéaire, et c’est cette non-linéarité, et elle seule, qui interdit la réplication statique. [ajout]
+Le détenteur a le droit sans l'obligation : en $T$, il n'exerce que si l'échange lui rapporte, et laisse tomber sinon. Le payoff est donc celui de l'échange, coupé à zéro, $(S_T-K)^+$ ou $(K-S_T)^+$. [Déf. 9, Déf. 11]
 
 ## Pourquoi ce niveau existe
-Le cours définit ces contrats dans la même phrase, et ils ne diffèrent que par le sens de l’échange, avec une relation exacte entre eux — la parité call-put. Les séparer sans les réunir ferait perdre cette relation. [Déf. 9, Prop. 7]
+Le cours définit le call, droit d'acheter, et le put, droit de vendre, dans la même définition, et ils ne diffèrent que par le sens de l’échange, avec une relation exacte entre eux — la parité call-put. Les séparer sans les réunir ferait perdre cette relation. [Déf. 9, Prop. 7]
 
 ## Le chemin jusqu'ici
-Il n'y a qu'un prérequis, fpp/payoff. Une option, c'est la possibilité de ne pas exercer — donc un payoff qui se coupe à zéro, ce que la partie positive $(\cdot)^+$ écrit. [ajout]
-
-C'est le seul prérequis parce qu'à ce stade rien n'est encore évalué : on décrit un contrat, on ne le price pas. [ajout]
+Il n'y a qu'un prérequis, fpp/payoff : une option se décrit entièrement par ce qu'elle paie, et la partie positive $(\cdot)^+$ qu'il définit écrit la possibilité de ne pas exercer. À ce stade rien n'est encore évalué : on décrit un contrat, on ne le price pas. [ajout]
 
 ## Ce qui reste libre
 | paramètre | cas | valeur |
@@ -40,4 +38,4 @@ C'est le seul prérequis parce qu'à ce stade rien n'est encore évalué : on d�
 [Déf. 10]
 
 ## Cesse d'être valide quand
-Le style d’exercice est un second paramètre, orthogonal au sens du droit : le cours ne valorise que l’européenne, et l’américaine n’a pas de forme fermée. [Déf. 10]
+Le cours ne valorise que l'option européenne ; l'américaine, qu'on peut exercer à tout moment, n'a pas de forme fermée. [§6.2, ajout]

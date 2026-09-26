@@ -22,12 +22,14 @@ $$\mathrm{Prix}=\mathrm{IV}+\mathrm{TV}$$ [Déf. 13]
 $\mathrm{TV}$ est un écart et non un prix : ce que le prix contient au-delà de la valeur intrinsèque. Le nom induit en erreur — il ne mesure pas seulement le temps restant, mais tout ce que l'aléa ajoute à une évaluation faite en la moyenne. [Déf. 13]
 
 ## Ce qui la définit
-Son signe est celui de la convexité de $g$ : positive quand $g$ est convexe, négative quand elle est concave. C’est Jensen, lu comme une décomposition de prix. [Déf. 13]
+Le prix est **connu**, lu sur le marché ou donné par Black et Scholes ; la valeur intrinsèque se calcule **sans volatilité**, sur le seul prix forward. La valeur temps est **le reste** : ce que paie l'aléa. [Déf. 13, ajout]
+
+Son signe est celui de la convexité de $g$, le payoff vu comme fonction de $S_T$ seul : positive quand $g$ est convexe, négative quand elle est concave. C’est Jensen, lu comme une décomposition de prix. [§6.2, Déf. 13]
 
 ## Le chemin jusqu'ici
-Le socle est celui de fpp/valeur-intrinseque, la valeur intrinsèque elle-même en plus. Deux fils y mènent : fpp/replication-statique donne la méthode, fpp/portage et fpp/facteur-actualisation (bâti sur fpp/convention-capitalisation) en chiffrent les deux jambes, d'où fpp/prix-a-terme puis fpp/mesure-risque-neutre d'un côté, fpp/payoff de l'autre — de quoi évaluer, et quoi évaluer. [ajout]
+Il faut deux montants pour faire une différence. Le prix complet est l'espérance du payoff de fpp/payoff sous fpp/mesure-risque-neutre, actualisée ; cette mesure vient de fpp/prix-a-terme, que fpp/replication-statique établit à partir de fpp/portage et de fpp/facteur-actualisation (bâti sur fpp/convention-capitalisation). L'autre montant est fpp/valeur-intrinseque, le même payoff lu au prix forward. [ajout]
 
-C'est un socle de définition par différence : la valeur temps est ce qui reste quand on retire la valeur intrinsèque au prix. Elle n'ajoute aucun objet nouveau, seulement une soustraction — et c'est cette soustraction qui rend lisible ce que l'optionalité coûte. [ajout]
+La valeur temps n'ajoute aucun objet nouveau, seulement cette soustraction — et c'est elle qui rend lisible ce que l'optionalité coûte. [ajout]
 
 ## Exemple minimal
 Le call à la monnaie vaut 9,93 pour une valeur intrinsèque de 3,92 : la valeur temps est 6,00. [ajout]

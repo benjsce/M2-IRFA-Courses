@@ -10,6 +10,11 @@ bilan. Au-dessus de $D$ la dette est plate et les fonds propres ont le payoff d'
 strike $D$ ; en dessous, la faillite. $D=80$, pour une firme de valeur forward 100 comme
 dans l'exemple.
 
+Ce qu'on cherche se voit en haut à gauche : le triangle entre la dette promise $D$ (le
+pointillé) et ce que la dette reçoit vraiment sous $D$. C'est ce que les créanciers
+perdent en cas de faillite, $(D-S_T)^+$, le payoff d'un put de strike $D$ : la dette
+risquée est la dette sans risque moins ce put, et son prix est le spread.
+
 Usage : python courses/fpp/figures/modele-de-merton.py > modele-de-merton.svg
 Dépendance : aucune.
 """
@@ -28,21 +33,27 @@ def poly(pts, coul, op):
 
 
 f = Figure(xmin=0, xmax=SMAX + 4, ymin=0, ymax=SMAX + 8, w=480, h=400, marges=(54, 16, 40, 18),
-           titre="La dette reçoit au plus D ; les fonds propres, le reste : le payoff d'un call")
+           titre="Les fonds propres ont le payoff d'un call ; la dette perd sous D le payoff d'un put")
 f.axes(xlab="valeur de la firme ST", ylab="ce que reçoit chacun", xticks=(0, D, SMAX),
        yticks=(D, SMAX), fmt=lambda t: "D" if t == D else "%d" % t,
        fmt_y=lambda t: "D" if t == D else "%d" % t)
 
 f._add(poly([(0, 0), (D, D), (SMAX, D), (SMAX, 0)], DOUX, 0.35))
 f._add(poly([(D, D), (SMAX, SMAX), (SMAX, D)], ACCENT, 0.45))
+f._add(poly([(0, 0), (0, D), (D, D)], AJOUT, 0.22))           # le trou : le put vendu
+f.segment(0, D, D, D, couleur=AJOUT, epaisseur=1.6, pointilles="6 4")
 f.courbe([(0, 0), (SMAX, SMAX)], couleur=ENCRE, epaisseur=1.6)
 f.courbe([(0, 0), (D, D), (SMAX, D)], couleur=DOUX, epaisseur=2.2)
 f.segment(D, 0, D, D)
 f.texte(125, 40, "dette : min(ST, D)", couleur=ENCRE, ancre="middle", gras=True)
 f.texte(138, 106, "fonds propres", couleur=ENCRE, ancre="middle", gras=True)
 f.texte(138, 106, "(ST − D)+", couleur=ENCRE, ancre="middle", dy=16)
-f.texte(40, 14, "faillite", couleur=AJOUT, ancre="middle", gras=True)
-f.texte(40, 14, "la dette prend tout", couleur=AJOUT, ancre="middle", dy=15, taille=11)
+f.texte(40, 14, "faillite", couleur=ENCRE, ancre="middle", gras=True)
+f.texte(40, 14, "la dette prend tout", couleur=ENCRE, ancre="middle", dy=15, taille=11)
+f.texte(4, D, "dette promise D, sans risque", couleur=AJOUT, taille=11.5, dy=-7)
+f.texte(24, 58, "ce que la dette perd", couleur=AJOUT, ancre="middle", gras=True, taille=12)
+f.texte(24, 58, "sous D : le put vendu", couleur=AJOUT, ancre="middle", taille=11.5, dy=15)
+f.texte(24, 58, "(D − ST)+", couleur=AJOUT, ancre="middle", taille=11.5, dy=30)
 f.texte(SMAX, SMAX, "ST : la firme", couleur=ENCRE, ancre="end", dx=-10, dy=0, taille=11.5,
         fond=True)
 

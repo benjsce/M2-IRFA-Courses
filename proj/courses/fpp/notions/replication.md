@@ -12,13 +12,13 @@ refs:
 ---
 
 ## Ce que c'est
-Démontrer un prix en construisant un portefeuille qui reproduit le flux et dont on connaît le coût. [ajout]
+Trouver le prix d'un flux futur en le reconstruisant avec des actifs dont on connaît le prix : le flux coûte ce que coûte la reconstruction. [ajout]
 
 ## Ce que les membres partagent
-Le même schéma : si un portefeuille reproduit le payoff dans tous les états, son coût est le prix du payoff — sinon, arbitrage. [ajout]
+**Connu** : le prix aujourd'hui des briques, l'action et le zéro-coupon. **Cherché** : le prix d'un flux futur. On assemble les briques pour qu'elles paient exactement ce flux, dans tous les états du monde ; deux flux identiques ayant le même prix, le flux coûte ce que coûtent les briques. [§3.1, §4.2.2]
 
 ## Pourquoi ce niveau existe
-Le passage d’une méthode à l’autre est l’événement majeur du cours, et il survient deux fois, pour deux raisons distinctes. [ajout]
+Le cours change deux fois de montage, pour deux raisons distinctes : une fois parce que le refinancement n'est plus connu d'avance (les futures), une fois parce que le payoff n'est plus linéaire (les options). Les deux fois, il faut retoucher le montage en route ; ce niveau montre que la méthode, elle, ne change pas. [§4.2.2, ajout]
 
 ## Cesse d'être valide quand
 rien dans le périmètre du cours [ajout]

@@ -22,39 +22,41 @@ Le taux de change convenu aujourd’hui pour un échange de devises futur. [§2.
 $$K(t,T)=X_t\dfrac{P(t,T)}{P^f(t,T)}=X_te^{(R^f-R)\tau}$$ [§2.4]
 
 ## Ce que les symboles modélisent
-$P^f(t,T)$ est le zéro-coupon de l'autre devise : le prix, exprimé en monnaie étrangère, d'une unité étrangère payée en $T$. L'exposant ne marque pas une puissance, il marque le pays. [§2.4]
+$X_t$ compte les unités de devise étrangère que vaut aujourd'hui une unité de devise locale : ici, des dollars pour un euro. $K(t,T)$ est le même rapport, fixé aujourd'hui pour un échange fait en $T$. [§2.4]
+
+$P^f(t,T)$ est le zéro-coupon de l'autre devise : le prix, exprimé en monnaie étrangère, d'une unité étrangère payée en $T$. L'exposant ne marque pas une puissance, il marque le pays. Dans la forme en taux, $R$ et $R^f$ sont les taux zéro-coupon local et étranger de $t$ à $T$, et $\tau=T-t$. [§2.4]
 
 ## Retrouver la formule
-![Les deux jambes du contrat, chacune ramenée en $t$ par le zéro-coupon de sa propre devise : $1$ euro payé en $T$ vaut $P(t,T)$, $K$ dollars reçus en $T$ valent $KP^f(t,T)$ dollars, soit $KP^f(t,T)/X_t$ euros. Le contrat ne coûte rien à la signature, les deux valeurs sont donc égales, et c'est la formule. L'euro est la devise locale, comme dans l'exemple minimal.](figures/forward-de-change.svg) [ajout]
+![Les deux jambes du contrat, chacune ramenée en $t$ par le zéro-coupon de sa propre devise : $1$ euro payé en $T$ vaut $P(t,T)$, $K$ dollars reçus en $T$, le montant cherché, valent $KP^f(t,T)$ dollars, soit $KP^f(t,T)/X_t$ euros au change du jour. Le contrat ne coûte rien à la signature, les deux valeurs sont donc égales, et c'est la formule. L'euro est la devise locale, comme dans l'exemple minimal.](figures/forward-de-change.svg) [ajout]
 
-On se place du côté qui paie $1$ euro en $T$ et reçoit $K$ dollars en $T$. Le contrat ne coûte rien à la signature : il suffit de dire ce que vaut aujourd'hui chacune des deux jambes. [ajout]
+On se place du côté qui paie $1$ euro en $T$ et reçoit $K$ dollars en $T$. **Connus aujourd'hui** : le change $X_t$ et les deux zéro-coupons, $P(t,T)$ en euros et $P^f(t,T)$ en dollars. **Cherché** : $K$. Le contrat ne coûte rien à la signature : il suffit de dire ce que vaut aujourd'hui chacune des deux jambes. [ajout]
 
 Jambe euro : un euro payé en $T$ vaut aujourd'hui $P(t,T)$ euros, par le zéro-coupon local. [ajout]
 
 Jambe dollar : $K$ dollars reçus en $T$ valent aujourd'hui $KP^f(t,T)$ dollars, par le zéro-coupon étranger. Convertis au comptant, ils valent $KP^f(t,T)/X_t$ euros, puisque $X_t$ compte des dollars pour un euro. [ajout]
 
-Nul à la signature : $KP^f(t,T)/X_t=P(t,T)$. On isole $K$, puis on écrit $P=e^{-R\tau}$ et $P^f=e^{-R^f\tau}$ pour la forme en taux. [ajout]
+Les deux jambes valent donc autant : $KP^f(t,T)/X_t=P(t,T)$. On isole $K$, puis on écrit $P=e^{-R\tau}$ et $P^f=e^{-R^f\tau}$ pour la forme en taux. [ajout]
 
 $$K(t,T)=X_t\dfrac{P(t,T)}{P^f(t,T)}=X_te^{(R^f-R)\tau}$$ [ajout]
 
 ## Ce qui la définit
 La devise locale s’apprécie à terme si le taux étranger est supérieur au taux local. [§2.4]
 
-C’est le seul endroit où les deux principes se rejoignent : la composition du facteur temporel et du facteur de change. La parité des taux d’intérêt n’est pas un résultat de plus, c’est le portage avec le bon $\Phi$. [ajout]
+C'est un prix à terme dont le sous-jacent est une monnaie : son portage $\Phi$ est le zéro-coupon de la devise livrée, $P(t,T)$ pour l'euro, et son facteur d'actualisation $D$ celui de la devise du règlement, $P^f(t,T)$. La parité des taux d’intérêt n’est pas un résultat de plus, c’est le portage avec le bon $\Phi$. [ajout]
 
 ## Le chemin jusqu'ici
 fpp/taux-de-change fournit l'objet, et fpp/facteur-actualisation — bâti sur fpp/convention-capitalisation — le coût du temps. [ajout]
 
-La seule idée propre à cette fiche est qu'il y a **deux** facteurs d'actualisation, un par devise, et que le forward est leur rapport. La devise étrangère se porte comme un actif qui verse un rendement : son taux joue le rôle du portage. [ajout]
+La seule idée propre à cette fiche est qu'il y a **deux** facteurs d'actualisation, un par devise, et que le forward est leur rapport. La devise livrée, ici l'euro, se porte comme un actif qui verse un rendement : son taux à elle joue le rôle du portage. [ajout]
 
 ## Exemple minimal
-$X_t=1{,}10$ USD par EUR, $P(0,1)=0{,}9608$ (EUR à 4 %), $P^f(0,1)=0{,}9802$ (USD à 2 %) : $K(0,1)=1{,}0782$. [ajout]
+$X_t=1{,}10$ USD par EUR, $P(t,t+1)=0{,}9608$ (EUR à 4 %), $P^f(t,t+1)=0{,}9802$ (USD à 2 %) : $K(t,t+1)=1{,}0782$. [ajout]
 
 ## Geste de calcul type
 Poser quelle devise est locale, puis appliquer $K=X_tP/P^f$ : avec $X_t=1{,}10$, $P=0{,}9608$ et $P^f=0{,}9802$, on obtient 1,0782. Contrôler le sens par les taux — le taux étranger plus bas fait baisser le forward. [§2.4]
 
 ## Cesse d'être valide quand
-Valable parce que le sous-jacent *est* la devise de règlement. Dès qu’ils diffèrent, la corrélation entre $S$ et $X$ entre en jeu et la formule ne tient plus. [ajout]
+Suppose que ce qu'on livre est la devise elle-même. Si l'on livre un actif coté dans une devise contre un règlement dans l'autre, la corrélation entre son prix $S$ et le change $X$ entre en jeu, et la formule ne tient plus. [ajout]
 
 ## Origine
 - exercice fpp/ex-03 : la formule à exposants exige de décider quelle devise est « locale », ce que l'énoncé ne dit jamais ; refaire la réplication en une ligne [ajout]

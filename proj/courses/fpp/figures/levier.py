@@ -6,7 +6,7 @@ L'exemple de la fiche : un actif de 100 financé par 30 de capitaux propres et 7
 dette, soit $l=3{,}33$. Si l'actif perd 10 %, il vaut 90 ; la dette ne bouge pas, et toute
 la perte tombe sur les capitaux propres, qui passent de 30 à 20 : $-33\,\%$, soit $l$ fois
 $-10\,\%$. C'est l'identité de la fiche quand le rendement de la dette est nul. Le choc de
-10 % est choisi pour le dessin ; la fiche ne le fixe pas.
+10 % est choisi pour le dessin ; la fiche le reprend dans « Retrouver la formule ».
 
 Usage : python courses/fpp/figures/levier.py > levier.svg
 Dépendance : aucune.
@@ -33,7 +33,7 @@ def bilan(titre, A, E, D, note):
 
 
 p = Planche([bilan("avant", 100, 30, 70, "l = 100 / 30 = 3,33"),
-             bilan("l'actif perd 10 %", 90, 20, 70, "E : 30 → 20, soit −33 %")],
+             bilan("l'actif perd 10 %", 90, 20, 70, "E : −33 % = 3,33 × (−10 %)")],
             signes=("→",), ecart=40,
             titre="La dette ne bouge pas : toute la perte de l'actif tombe sur les capitaux propres")
 sys.stdout.write(p.svg())

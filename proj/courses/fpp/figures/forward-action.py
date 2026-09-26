@@ -8,6 +8,10 @@ avant : la jambe « action » vaut donc $S_t\Phi$ en t, et non $S_t$. La jambe
 « argent » vaut $F(t,T)P(t,T)$. Le contrat ne coûte rien à la signature : les deux
 sont égales, et c'est la formule. Deux dividendes, pour que la somme se voie.
 
+Ce que la figure doit faire voir : la jambe action est connue aujourd'hui (le comptant,
+les dividendes, donc Φ) ; le seul montant cherché est F(t,T), en pointillé, que l'égalité
+des deux jambes en t détermine.
+
 Usage : python courses/fpp/figures/forward-action.py > forward-action.svg
 Dépendance : aucune.
 """
@@ -41,11 +45,14 @@ g.texte(T, 1.5, "1 action", couleur=AJOUT, gras=True, taille=13.5, dx=9)
 g.fleche(T - 0.2, 3.05, t + 0.95, 3.05, couleur=AJOUT, courbure=22)
 g.texte(t, 2.95, "Sₜ·Φ", couleur=AJOUT, gras=True, taille=13.5, ancre="middle")
 g.texte(t, 2.25, "Φ = 1 − d_{1} − d_{2}", couleur=AJOUT, taille=12, ancre="middle")
+g.texte(t, 1.55, "connu aujourd'hui", couleur=DOUX, taille=11.5, ancre="middle")
 
 # jambe argent : F(t,T) payé en T
-g.fleche(T, -1.25, T, -3.1, couleur=ACCENT, epaisseur=2)
-g.texte(T, -2.2, "F(t,T)", couleur=ACCENT, gras=True, taille=13.5, dx=9)
+g.fleche(T, -1.25, T, -3.1, couleur=ACCENT, epaisseur=2, pointilles="5 4")
+g.texte(T, -2.0, "F(t,T)", couleur=ACCENT, gras=True, taille=13.5, dx=9)
+g.texte(T, -2.6, "cherché", couleur=ACCENT, taille=11.5, dx=9)
 g.fleche(T - 0.2, -3.5, t + 1.4, -3.5, couleur=ACCENT, courbure=-20)
 g.texte(t, -3.4, "F(t,T)·P(t,T)", couleur=ACCENT, gras=True, taille=13.5, ancre="middle")
+g.texte(t, -1.75, "égales à la signature", couleur=ENCRE, taille=12, ancre="middle")
 
 sys.stdout.write(g.svg())

@@ -4,7 +4,7 @@ nom: Contrat à prime
 type: abstraite
 statut: ajout
 cas_de: fpp/contrat-derive
-valeur: une prime $\Pi_0>0$ à la signature
+valeur: une prime strictement positive, payée à la signature
 parametre: la forme du payoff
 construite_a_partir_de:
 - fpp/mesure-risque-neutre
@@ -15,18 +15,20 @@ refs:
 ---
 
 ## Ce que c'est
-Les options : le strike est donné, l’inconnue est le prix. [ajout]
+Les contrats qu'on paie à la signature : le strike est **donné**, l’inconnue est **la prime**, ce que coûte le contrat aujourd'hui. [ajout]
 
 ## Ce que les membres partagent
-Un flux est versé à la signature, donc l’invariant « valeur nulle » ne s’hérite pas. Le payoff est non linéaire. [ajout]
+Comme on paie à la signature, le contrat ne vaut pas zéro : c'est ce montant, la prime, qu'on cherche, alors qu'un contrat à prime nulle cherche le strike qui le rend gratuit. [ajout]
+
+Le payoff est coudé : aucun portefeuille d'actions et de zéro-coupons fixé une fois pour toutes ne le reproduit, et c'est ce coude qui interdit la réplication statique. [ajout]
 
 ## Pourquoi ce niveau existe
-Ce niveau n’est présent que pour justifier celui du dessus, et pour marquer où la branche suivante se greffe. [ajout]
+Il réunit tout ce qui se paie à la signature, une option seule ou un assemblage d'options : dans tous les cas on paie une prime, et c'est elle qu'on cherche. [ajout]
 
 ## Le chemin jusqu'ici
 Deux fils partent du même endroit. Le premier combine fpp/replication-statique, fpp/portage et fpp/facteur-actualisation (bâti sur fpp/convention-capitalisation) pour obtenir fpp/prix-a-terme, puis fpp/mesure-risque-neutre. Le second part de fpp/compte-capitalise et aboutit à fpp/replication-dynamique. [ajout]
 
-La distinction que porte cette fiche — le strike est donné, l'inconnue est le prix — n'a de sens qu'une fois les deux modes de réplication disponibles. Un contrat à prime nulle se règle en statique ; un contrat à prime demande, lui, de rééquilibrer. [ajout]
+Le premier fil fournit le calcul de la prime, une espérance actualisée ; le second, la raison pour laquelle ce calcul est un prix : un payoff coudé ne se reproduit qu'en réajustant le portefeuille au fil du temps. [ajout]
 
 ## Cesse d'être valide quand
-La réplication statique ne s’applique plus : c’est l’entrée dans Black & Scholes. [ajout]
+rien dans le périmètre du cours [ajout]

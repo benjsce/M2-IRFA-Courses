@@ -11,16 +11,18 @@ alias:
 refs:
 - §3.1
 - §2.4
+- §5.1
 ---
 
 ## Ce que c'est
 Deux flux identiques dans tous les états du monde ont le même prix aujourd’hui. [§3.1, §2.4]
 
-## Ce que les symboles modélisent
-$\pi$ désigne ici une prime de risque : un écart de rendement, donc un taux, et non une probabilité malgré la lettre. C'est la grandeur que l'absence d'arbitrage contraint — deux flux identiques dans tous les états ne peuvent pas en porter deux différentes. [§1.3]
-
 ## Ce qui la définit
 Une différence de prix entre deux flux identiques serait encaissable sans risque ni mise : c’est ce qu’on interdit. [§3.1, §2.4]
+
+Par exemple, si un euro payé dans un an se vendait 0,9608 à un guichet et 0,9700 à un autre, on l'achèterait au premier et on le vendrait au second : 0,0092 empochés aujourd'hui, et dans un an l'euro reçu paie l'euro dû. [ajout]
+
+Le même interdit a une seconde face : un flux qui ne peut que rapporter, jamais coûter, ne peut pas être gratuit, sinon on le prendrait pour rien. S'il rapporte dans au moins un état du monde, son prix est strictement positif. [§5.1]
 
 ## Cesse d'être valide quand
 Rien, dans le périmètre du cours. En marché incomplet elle cesse de suffire à déterminer un prix unique. [ajout]

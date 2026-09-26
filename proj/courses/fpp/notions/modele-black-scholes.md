@@ -22,12 +22,20 @@ Le sous-jacent suit une diffusion log-normale et le taux est constant. [§5.4]
 $$dS_t=S_t\big(\mu\,dt+\sigma\,dW_t^{\mathbb{P}}\big)=S_t\big(r\,dt+\sigma\,dW_t^{\mathbb{Q}}\big)$$ [§5.4]
 
 ## Ce que les symboles modélisent
-$\mu$ est la dérive du sous-jacent sous la probabilité **historique**, celle des fréquences observées : c'est précisément la grandeur qui disparaîtra du prix de l'option. $W_t$ est un mouvement brownien, le hasard élémentaire du modèle — de moyenne nulle, et de variance égale au temps écoulé. [§5.4]
+$\mu$ est la dérive du sous-jacent sous la probabilité **historique** $\mathbb{P}$, celle des fréquences observées : c'est précisément la grandeur qui disparaîtra du prix de l'option. $r$ est le taux sans risque, constant, et $\sigma$ la volatilité, la même sous les deux probabilités. [§5.4]
+
+$W_t$ est un mouvement brownien, le hasard élémentaire du modèle — de moyenne nulle, et de variance égale au temps écoulé. Les deux écritures de la Forme en emploient deux, $W^{\mathbb{P}}_t$ et $W^{\mathbb{Q}}_t$ : c'est le même prix décrit sous deux probabilités, et le brownien change pour absorber l'écart de dérive, $W^{\mathbb{Q}}_t=W^{\mathbb{P}}_t+\frac{\mu-r}{\sigma}\,t$. [§5.4, ajout]
 
 ## Ce qui la définit
 Le passage de $\mathbb{P}$ à $\mathbb{Q}$ ne change que la dérive, jamais la volatilité : $\mu$ devient $r$, et $\sigma$ reste. [§5.4]
 
-$$S_t=S_0e^{(\mu-\frac{\sigma^2}{2})t+\sigma W_t^{\mathbb{P}}},\qquad \mathbb{E}^{\mathbb{Q}}(S_t)=S_0e^{rt}$$ [§5.4]
+Le prix s'écrit donc de deux façons, une par probabilité ; seule la seconde sert à calculer un prix. [ajout]
+
+$$S_t=S_0e^{(\mu-\frac{\sigma^2}{2})t+\sigma W_t^{\mathbb{P}}}=S_0e^{(r-\frac{\sigma^2}{2})t+\sigma W_t^{\mathbb{Q}}}$$ [§5.4, ajout]
+
+Sous $\mathbb{Q}$, $\sigma W^{\mathbb{Q}}_t$ est gaussien de variance $\sigma^2t$. La transformée de Laplace gaussienne ajoute à l'exposant la moitié de cette variance, $\sigma^2t/2$, qui compense le $-\sigma^2t/2$ : $\mathbb{E}^{\mathbb{Q}}(S_t)=S_0e^{rt}$. [§5.4, Th. 1]
+
+Ce que le marché fixe, c'est cette moyenne, le prix forward, qui se lit sans modèle ; ce que le modèle **ajoute**, c'est la dispersion autour d'elle, $\sigma$. [Prop. 6, ajout]
 
 ## Le chemin jusqu'ici
 Trois fils entrent ici, et c'est le nœud du cours. [ajout]

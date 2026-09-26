@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 r"""
-convention-capitalisation.svg — le facteur de capitalisation selon le nombre de périodes.
+convention-capitalisation.svg — un même taux affiché, autant de montants que de conventions.
 
-La forme de la fiche : $(1+rt/n)^n$ tend vers $e^{rt}$ quand $n$ grandit. Avec l'exemple,
-$r=5\,\%$ sur deux ans, $rt=0{,}10$ : une seule période donne le facteur linéaire 1,10,
-huit trimestres donnent 1,1038, et la limite continue vaut 1,1052. Chaque point est une
-convention ; toutes décrivent le même placement, écrit autrement.
+Ce que la figure doit faire voir : le taux et la durée sont connus, 5 % par an pendant
+deux ans, et ce que devient un euro ne l'est pas tant qu'on n'a pas dit combien de fois
+l'intérêt est versé et réinvesti. En abscisse ce nombre n, en ordonnée le facteur
+$(1+rt/n)^n$ avec $rt=0{,}10$ : une fois, le facteur linéaire 1,10 ; une fois par an
+(n = 2), l'actuariel 1,1025 ; huit trimestres, 1,1045 ; et la limite continue
+$e^{0,10}=1{,}1052$, que les points approchent par en dessous.
 
 Usage : python courses/fpp/figures/convention-capitalisation.py > convention-capitalisation.svg
 Dépendance : aucune.
@@ -17,22 +19,33 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "tools"))
 from figure import Figure, ACCENT, DOUX, AJOUT, ENCRE      # noqa: E402
 
-RT = 0.10
+R, DUREE = 0.05, 2
+RT = R * DUREE
 fac = lambda n: (1 + RT / n) ** n
 LIM = math.exp(RT)
+f4 = lambda v: ("%.4f" % v).replace(".", ",")
 
-f = Figure(xmin=0, xmax=25, ymin=1.0985, ymax=1.1065, w=560, h=320,
-           titre="Plus on découpe la période, plus le facteur approche e^{rt} = 1,1052")
-f.axes(xlab="nombre de périodes n sur deux ans", ylab="facteur", xticks=(1, 4, 8, 12, 16, 20, 24),
-       yticks=(1.1, 1.1038, LIM), fmt=lambda t: "%d" % t,
-       fmt_y=lambda t: ("%.4f" % t).replace(".", ","))
+f = Figure(xmin=0, xmax=25, ymin=1.0975, ymax=1.1072, w=600, h=340,
+           marges=(62, 22, 44, 18),
+           titre="Un même taux, 5 % par an pendant deux ans : chaque convention donne un autre montant")
+f.axes(xlab="nombre de fois où l'intérêt est versé en deux ans, n",
+       ylab="ce que devient 1 € au bout de deux ans",
+       xticks=(1, 2, 4, 8, 12, 16, 20, 24), yticks=(fac(1), fac(2), fac(8), LIM),
+       fmt=lambda t: "%d" % t, fmt_y=f4)
 
 f.courbe([(0, LIM), (25, LIM)], couleur=AJOUT, epaisseur=1.6, pointilles="6 4")
-f.texte(24.5, LIM, "continu : e^{0,10}", couleur=AJOUT, ancre="end", dy=-8, gras=True,
-        fond=True)
+f.texte(24.6, LIM, "continu : e^{0,10} = " + f4(LIM), couleur=AJOUT, ancre="end", dy=-8,
+        gras=True, fond=True)
+MARQUES = {1: "linéaire, une fois : " + f4(fac(1)),
+           2: "actuariel, une fois par an : " + f4(fac(2)),
+           8: "trimestriel, huit fois : " + f4(fac(8))}
 for n in range(1, 25):
-    f.point(n, fac(n), couleur=ACCENT if n in (1, 8) else DOUX, r=4.2 if n in (1, 8) else 3)
-f.texte(1, fac(1), "linéaire : 1,10", couleur=ACCENT, dx=10, dy=4, gras=True, fond=True)
-f.texte(8, fac(8), "trimestriel : 1,1038", couleur=ACCENT, dx=8, dy=18, gras=True, fond=True)
+    f.point(n, fac(n), couleur=ACCENT if n in MARQUES else DOUX, r=4.4 if n in MARQUES else 2.8)
+f.texte(1, fac(1), MARQUES[1], couleur=ACCENT, dx=12, dy=5, gras=True, fond=True)
+f.texte(2, fac(2), MARQUES[2], couleur=ACCENT, dx=12, dy=5, gras=True, fond=True)
+f.texte(8, fac(8), MARQUES[8], couleur=ACCENT, dx=10, dy=19, gras=True, fond=True)
+
+f.texte(24.6, 1.0995, "connu : 5 % par an, pendant 2 ans", couleur=ENCRE, ancre="end",
+        taille=12.5, fond=True)
 
 sys.stdout.write(f.svg())

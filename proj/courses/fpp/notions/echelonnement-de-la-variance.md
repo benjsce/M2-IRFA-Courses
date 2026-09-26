@@ -40,7 +40,7 @@ Une volatilité annuelle de 20 % donne $20\sqrt{0{,}25}=10\,\%$ à trois mois. [
 Pour changer d’horizon, multiplier la volatilité par la racine du rapport des durées — jamais par le rapport lui-même. [§5.3]
 
 ## Cesse d'être valide quand
-L’indépendance est l’hypothèse fragile : avec un retour à la moyenne ou de l’autocorrélation, l’écart type croît moins vite que $\sqrt{T}$. [ajout]
+L’indépendance est l’hypothèse fragile : avec une autocorrélation négative, un retour à la moyenne, l’écart type croît moins vite que $\sqrt{T}$ ; avec une autocorrélation positive, une tendance, il croît plus vite. [ajout]
 
 ## Origine
 - exercice fpp/ex-18 : passer d'une volatilité annuelle de 10 % à une volatilité trimestrielle de 5 % en divisant par deux, et l'employer aussitôt pour chiffrer une exposition — la fiche donnait $\sigma\sqrt T$ sans l'usage [exo. 18]

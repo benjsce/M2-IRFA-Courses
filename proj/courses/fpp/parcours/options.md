@@ -10,7 +10,7 @@ L'investisseur hésite. S'engager ferme à acheter l'action à 104,08 dans un an
 
 ## À savoir avant
 - fpp/mesure-risque-neutre : c'est le moteur de valorisation du parcours ; la valeur d'une option y est l'espérance actualisée de son paiement. [Prop. 6, §6.2]
-- fpp/replication-dynamique : c'est elle qui garantit qu'un contrat à prime se réplique, même quand son paiement n'est pas linéaire. [§4.2.2]
+- fpp/replication-dynamique : c'est l'idée d'un portefeuille réajusté à chaque pas ; le cours la montre sur les futures, et c'est elle qui, réajustée en continu, permettra de reproduire le paiement d'une option. [§4.2.2, ajout]
 - fpp/facteur-actualisation : il actualise le strike dans la parité call-put. [Prop. 7]
 - fpp/modele-black-scholes : c'est l'hypothèse sur le sous-jacent qui rend le prix d'une option calculable en forme fermée. [§6.4]
 - fpp/responsabilite-limitee : c'est le plancher de l'actionnaire, posé à la fin du premier parcours, que la dernière étape évalue enfin. [§1.4, exo. 16]

@@ -14,21 +14,23 @@ refs:
 ---
 
 ## Ce que c'est
-Un échange qui ne coûte rien à la signature : forward, future, FRA, swap. [ajout]
+Un échange qui ne coûte rien à la signature, comme un forward, un future, un FRA ou un swap : on n'y cherche pas son prix, qui est nul, mais le prix à inscrire dedans. [ajout]
 
 ## Ce que les membres partagent
-La valeur du contrat est nulle en $t$, donc l’inconnue est le strike et non le prix : $0=\Pi_t(S_T-K)$ donne $K=\mathbb{E}^{\mathbb{Q}}[S_T]$. [ajout]
+Pour une option, on connaît le contrat et on cherche sa prime, ce qu'il faut payer pour l'avoir. Ici, c'est l'inverse : **la prime est connue, c'est zéro**, et **on cherche le prix $K$** à inscrire dans le contrat. [ajout]
+
+Ce qui fixe $K$ : ce qu'on recevra et ce qu'on paiera, ramenés à aujourd'hui, valent autant, puisque la signature ne coûte rien. Pour une action à 100, livrée dans un an avec $P(t,t+1)=0{,}9608$, cette égalité donne $K=104{,}08$. [§3.1, ajout]
 
 ## Pourquoi ce niveau existe
-Le seul contenu réel de ce niveau est le déplacement de l’inconnue. Tout le reste est hérité du dessus ou instancié en dessous. [ajout]
+Ces contrats n'échangent pas la même chose, une action, une devise, un taux, mais ils posent la même question : quel prix inscrire pour que l'échange ne coûte rien aujourd'hui ? Ce niveau la pose une fois pour tous. [ajout]
 
 ## Le chemin jusqu'ici
-La chaîne est courte et droite : fpp/convention-capitalisation fixe les coordonnées, fpp/facteur-actualisation donne le prix d'un euro futur, et fpp/valeur-actuelle-nette somme un échéancier entier. [ajout]
+fpp/convention-capitalisation dit comment un taux fait grandir une somme avec le temps ; fpp/facteur-actualisation en tire le prix aujourd'hui d'un euro payé plus tard ; fpp/valeur-actuelle-nette additionne ces prix sur tous les flux d'un échange. [ajout]
 
-Un contrat à prime nulle est un échéancier dont la valeur actuelle nette est nulle à la signature. Il fallait donc savoir sommer des flux datés avant de pouvoir dire « cet échange ne coûte rien » — sinon la phrase n'a pas de sens. [ajout]
+Dire qu'un échange ne coûte rien à la signature, c'est dire que sa valeur actuelle nette est nulle : c'est cette équation, et elle seule, qui détermine $K$. [ajout]
 
 ## Cesse d'être valide quand
-Ne dit rien tant qu’on n’a pas dit ce qu’on échange ni comment on règle. [ajout]
+Dès que l'échange commence par un paiement, comme pour une option, la prime redevient l'inconnue et le prix inscrit dans le contrat est donné. [ajout]
 
 ## Origine
 - exercice fpp/ex-11 : le strike qui annule la prime **est** le prix forward. Un forward est un call-put à strike bien choisi ; c'est la définition, lue depuis la parité [exo. 11]

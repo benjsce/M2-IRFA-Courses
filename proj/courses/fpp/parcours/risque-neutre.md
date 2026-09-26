@@ -19,7 +19,7 @@ L'investisseur sait maintenant fixer le prix d'un engagement ferme : pour l'acti
 
 2. fpp/mesure-risque-neutre
    Ces deux exigences suffisent à donner à toute règle de prix une forme très simple. Laquelle ? [Prop. 5, Prop. 6]
-   Histoire : « c'est 104,08 à un an » — Une moyenne : le prix d'un paiement $g(S_T)$ versé en $T$ est sa moyenne sous une certaine probabilité $\mathbb{Q}$, ramenée à aujourd'hui par le zéro-coupon, $\Pi\big(g(S_T)\big)=P(t,T)\,\mathbb{E}^{\mathbb{Q}}\big[g(S_T)\big]$. Cette probabilité n'est pas une prévision : elle est choisie pour redonner les prix du marché, et c'est pourquoi on la dit risque-neutre. Pour l'action, elle doit redonner 100 : $0{,}9608\times\mathbb{E}^{\mathbb{Q}}(S_T)=100$, donc sous $\mathbb{Q}$ l'action vaut en moyenne 104,08 dans un an, son prix à terme, quoi que chacun croie de son rendement. [ajout]
+   Histoire : « c'est 104,08 à un an » — Une moyenne : le prix d'un paiement $g(S_T)$ versé en $T$ est sa moyenne sous une certaine probabilité $\mathbb{Q}$, ramenée à aujourd'hui par le zéro-coupon, $\Pi_t\big(g(S_T)\big)=P(t,T)\,\mathbb{E}^{\mathbb{Q}}\big[g(S_T)\big]$. Cette probabilité n'est pas une prévision : elle est choisie pour redonner les prix du marché, et c'est pourquoi on la dit risque-neutre. Pour l'action, elle doit redonner 100 : $0{,}9608\times\mathbb{E}^{\mathbb{Q}}(S_T)=100$, donc sous $\mathbb{Q}$ l'action vaut en moyenne 104,08 dans un an, son prix à terme, quoi que chacun croie de son rendement. [ajout]
 
 3. fpp/contrat-derive
    Le contrat de l'investisseur, qui ne verse que la hausse, se calcule-t-il de la même façon ? [Prop. 6]

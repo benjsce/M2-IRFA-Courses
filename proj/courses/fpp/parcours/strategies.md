@@ -23,7 +23,7 @@ Avec un zéro-coupon à un an à 0,9608, il lui suffit de 96,08 pour garantir se
 
 2. fpp/produit-a-capital-protege
    Lesquels, et combien de chacun ? [§9.2]
-   Histoire : « il lui reste 3,92 pour s'exposer à la hausse » — Les 96,08 placés en zéro-coupon rendent 100 dans un an ; les 3,92 achètent des calls de strike 100, à 9,93 l'unité, soit environ 0,39 call. L'épargnant reçoit ainsi 39 % de la hausse au-delà de 100, et jamais moins que sa mise. [ajout]
+   Histoire : « il lui reste 3,92 pour s'exposer à la hausse » — Les 96,08 placés en zéro-coupon rendent 100 dans un an ; les 3,92 achètent des calls de strike 100, à 9,93 l'unité, soit $3{,}92/9{,}93\approx0{,}395$ call. L'épargnant reçoit ainsi 39,5 % de la hausse au-delà de 100, et jamais moins que sa mise. [ajout]
 
 3. fpp/amelioration-de-rendement
    La hausse que l'épargnant achète, quelqu'un la lui vend. Qu'y gagne-t-il ? [§9.3]

@@ -52,11 +52,11 @@ Une banque vend à l'investisseur le call à un an de strike 100 sur l'action à
 
 9. fpp/feynman-kac
    Le prix du call avait été obtenu autrement, comme une moyenne sous la probabilité risque-neutre. Les deux méthodes s'accordent-elles ? [§7.2.1]
-   Histoire : « elle encaisse 9,93 » — Oui : le théorème de Feynman et Kac dit que l'espérance risque-neutre actualisée du paiement est la solution de cette équation. Les 9,93 encaissés sont donc exactement ce que coûte la couverture continue : c'est la réponse à la seconde question de la banque. [ajout]
+   Histoire : « elle encaisse 9,93 » — Oui. Le théorème de Feynman et Kac relie une espérance à la solution d'une équation de ce type ; il ne s'applique à celle de Black et Scholes qu'une fois retiré le terme d'actualisation, en passant au prix forward, ce que fait l'étape suivante. Il dit alors que l'espérance risque-neutre actualisée du paiement est la solution de l'équation. Les 9,93 encaissés sont donc exactement ce que coûte la couverture continue : c'est la réponse à la seconde question de la banque. [ajout]
 
 10. fpp/equation-de-la-chaleur
     Reste à résoudre l'équation elle-même. [§7.2.2]
-    Histoire : « le call à un an de strike 100 » — On change de variables : le logarithme du cours à la place du cours, et l'on retire l'actualisation en multipliant par $e^{r(T-t)}$, qui vaut 1,0408 à un an et 4 %. L'équation devient celle de la chaleur, que les physiciens savent résoudre, et sa solution redonne la formule de Black et Scholes. [ajout]
+    Histoire : « le call à un an de strike 100 » — On change de variables : on retire l'actualisation en multipliant par $e^{r(T-t)}$, qui vaut 1,0408 à un an et 4 %, ce qui fait travailler sur le prix forward ; on prend le logarithme du prix forward à la place du cours ; et l'on décale ce logarithme de $\tfrac12\sigma^2(T-t)$ pour effacer le terme qu'il crée. L'équation devient celle de la chaleur, que les physiciens savent résoudre, et sa solution redonne la formule de Black et Scholes. [ajout]
 
 ## Point d'arrivée
-Le prix d'une option est le coût de sa couverture continue, et chaque sensibilité dit une position à tenir en sens inverse pour neutraliser un risque. [§7.1, §8.2]
+Le prix d'une option est le coût de sa couverture continue. Chaque sensibilité mesure un risque : celui de l'action se neutralise avec des actions, celui de la volatilité seulement avec une autre option, et le passage du temps ne se couvre pas. [§7.1, §8.2, ajout]

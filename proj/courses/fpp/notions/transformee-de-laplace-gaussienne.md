@@ -23,13 +23,15 @@ $X$ est une variable aléatoire gaussienne quelconque, d'espérance $\mu$ et de 
 $\lambda$ est un réel quelconque, et $\mathbb{E}\big(e^{\lambda X}\big)$ est une fonction de $\lambda$ : elle prend ce réel et rend un nombre positif, l'espérance de l'exponentielle. Ce $\lambda$ n'est pas un paramètre de modèle ; dans l'application du cours, on le prend égal à un. [Th. 1, §5.4]
 
 ## Ce qui la définit
+L'espérance de $e^{X}$ n'est pas $e^{\mu}$ : il faut ajouter à l'exposant la moitié de la variance. [Th. 1]
+
 C’est le seul calcul technique dont Black et Scholes ont besoin : il transforme une espérance de log-normale en exponentielle d’un polynôme. [Th. 1, §5.4]
 
 ## Exemple minimal
-Avec $\mu=0$, $\sigma=1$ et $\lambda=1$ : $\mathbb{E}(e^X)=e^{0{,}5}=1{,}6487$. [ajout]
+Avec $\mu=0$, $\sigma=1$ et $\lambda=1$ : $\mathbb{E}(e^X)=e^{0{,}5}=1{,}6487$, et non $e^0=1$ : la moyenne de l'exponentielle dépasse l'exponentielle de la moyenne. [ajout]
 
 ## Geste de calcul type
-Pour $S_T=S_0e^{Y}$ avec $Y\sim\mathcal N(rT-\tfrac{\sigma^2T}{2},\sigma^2T)$, appliquer le théorème avec $\lambda=1$ : le terme $-\sigma^2T/2$ annule exactement le $+\lambda^2\sigma^2/2$, et il reste $\mathbb{E}(S_T)=S_0e^{rT}$. [§5.4]
+Pour $S_T=S_0e^{Y}$ avec $Y\sim\mathcal N(rT-\tfrac{\sigma^2T}{2},\sigma^2T)$, appliquer le théorème avec $\lambda=1$ : il ajoute à la moyenne de $Y$, $rT-\sigma^2T/2$, la moitié de sa variance, $\sigma^2T/2$. Les deux termes en $\sigma^2$ s'annulent, et il reste $\mathbb{E}(S_T)=S_0e^{rT}$. [§5.4]
 
 ## Cesse d'être valide quand
 Vaut pour une gaussienne, et pour elle seule : c’est l’hypothèse de log-normalité qui entre ici dans le modèle. [Th. 1]
