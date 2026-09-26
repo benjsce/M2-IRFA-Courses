@@ -15,7 +15,7 @@ refs:
 Le facteur d’actualisation réécrit en rendement annualisé, pour être comparable d’une maturité à l’autre. [§2.3]
 
 ## Forme
-$$R(t,T)=-\dfrac{\ln P(t,T)}{T-t}$$ [§2.3]
+$$R(t,T)=-\dfrac{\ln P(t,T)}{T-t},\qquad P(t,S)=\dfrac{1}{1+(S-t)\,L(t,S)}$$ [§2.3]
 
 ## Ce que les symboles modélisent
 $R(t,T)$ et $L(t,S)$ disent le même prix en rendement, de deux façons : la première par composition continue, la seconde linéairement, comme le fait le marché court. Ce sont deux conventions de lecture, pas deux marchés. [§2.3]
