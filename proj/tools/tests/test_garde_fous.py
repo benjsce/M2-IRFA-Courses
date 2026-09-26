@@ -212,7 +212,8 @@ def _parcours(root, etapes, avant, slug="essai", ordre=1, fiches=True):
         txt += ["## À savoir avant"] + ["- aa/%s : son rôle ici. [p. 1]" % x for x in avant] + [""]
     txt += ["## Étapes"]
     for k, x in enumerate(etapes, 1):
-        txt += ["%d. aa/%s" % (k, x), "   La question qui y mène. [p. 1]", ""]
+        txt += ["%d. aa/%s" % (k, x), "   La question qui y mène. [p. 1]",
+                "   Histoire : « 100 » — Ce que la fiche en reprend. [p. 1]", ""]
     txt += ["## Point d'arrivée", "On arrive là. [p. 1]"]
     (d / (slug + ".md")).write_text("\n".join(txt) + "\n", encoding="utf-8", newline="\n")
 
@@ -236,6 +237,32 @@ def parcours_depart_abstrait(root):
     f.write_text(f.read_text(encoding="utf-8").replace(
         "On part de 100. [p. 1]", "On part d'une idée générale. [p. 1]"),
         encoding="utf-8", newline="\n")
+
+
+def _histoire(root, nouvelle):
+    f = root / "courses" / "aa" / "parcours" / "essai.md"
+    f.write_text(f.read_text(encoding="utf-8").replace(
+        "Histoire : « 100 » — Ce que la fiche en reprend. [p. 1]", nouvelle, 1),
+        encoding="utf-8", newline="\n")
+
+
+def parcours_citation_absente(root):
+    """Une citation que le point de départ ne contient pas : le gras ne tomberait sur rien."""
+    _parcours(root, ["milieu", "haut"], ["base"])
+    _histoire(root, "Histoire : « 200 » — Ce que la fiche en reprend. [p. 1]")
+
+
+def parcours_citation_coupe_formule(root):
+    _parcours(root, ["milieu", "haut"], ["base"])
+    f = root / "courses" / "aa" / "parcours" / "essai.md"
+    f.write_text(f.read_text(encoding="utf-8").replace("On part de 100.", "On part de $x=100$."),
+                 encoding="utf-8", newline="\n")
+    _histoire(root, "Histoire : « $x=1 » — Ce que la fiche en reprend. [p. 1]")
+
+
+def parcours_histoire_sans_lien(root):
+    _parcours(root, ["milieu", "haut"], ["base"])
+    _histoire(root, "Histoire : « 100 » — [p. 1]")
 
 
 def parcours_ordre_inverse(root):
@@ -484,6 +511,12 @@ def main():
         "la transition redit", parcours_paraphrase)
     cas("point de départ sans aucun chiffre → signalé",
         "sans aucun chiffre", parcours_depart_abstrait)
+    cas("citation absente du point de départ → erreur",
+        "pas pris mot pour mot", parcours_citation_absente)
+    cas("citation qui coupe une formule → erreur",
+        "coupe une formule", parcours_citation_coupe_formule)
+    cas("ligne « Histoire : » sans phrase → erreur",
+        "sans phrase de lien", parcours_histoire_sans_lien)
     cas("étape placée avant son prérequis → erreur",
         "arrive avant son prérequis", parcours_desordre)
     cas("prérequis supposé sans rôle dans l'histoire → erreur",

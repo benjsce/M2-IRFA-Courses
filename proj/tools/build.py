@@ -106,13 +106,14 @@ def charger(root: Path):
         pdir = cdir / "parcours"
         m["cours"][code]["parcours"] = []
         if pdir.is_dir():
-            from validate import lire_parcours, copie_de_conflit
+            from validate import lire_parcours, lire_ancrages, copie_de_conflit
             for f in sorted(pdir.glob("*.md")):
                 if copie_de_conflit(f):
                     continue
                 fm, secs, etapes, avant = lire_parcours(f)
+                anc = {n: ls[0] for n, ls in lire_ancrages(secs).items()}
                 m["parcours"][fm["id"]] = dict(meta=fm, sections=secs, etapes=etapes,
-                                               avant=avant, cours=code, slug=f.stem)
+                                               avant=avant, ancrages=anc, cours=code, slug=f.stem)
                 m["cours"][code]["parcours"].append(fm["id"])
             m["cours"][code]["parcours"].sort(key=lambda x: (m["parcours"][x]["meta"].get("ordre", 999), x))
     rdir = root / "rapports"
@@ -468,6 +469,10 @@ details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fa
   background:var(--bg2);padding:.5rem .8rem;margin:.6rem 0;font-size:.93rem}
 .parc-t{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin-bottom:.15rem}
 .parc p{margin:.2rem 0}
+.parc-h{border-left:2px solid var(--li);padding:.1rem 0 .1rem .6rem;margin:.3rem 0 .45rem;color:var(--mut)}
+.parc-h strong{color:var(--fg)}
+.parc-l{font-family:var(--sans);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--acc);margin-right:.25rem}
+.parc-lien{margin-top:.35rem;font-size:.92em}
 .parc-nav{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--sans);font-size:.8rem;margin-top:.35rem}
 .parc-nav .suiv{margin-left:auto;text-align:right}
 .etapes{list-style:none;padding:0;margin:.6rem 0 1.2rem;counter-reset:e}
@@ -1287,6 +1292,25 @@ def _prefixer(html_role, tete):
     return html_role[: mo.end()] + tete + html_role[mo.end():]
 
 
+def histoire_en_gras(depart, citations):
+    """Le point de départ, les mots que la fiche traite mis en gras. Le validateur a vérifié
+    que chaque citation y figure mot pour mot et ne coupe aucune formule."""
+    for c in citations:
+        k = depart.find(c)
+        if c and k >= 0:
+            depart = depart[:k] + "**" + c + "**" + depart[k + len(c):]
+    return depart
+
+
+def lien_histoire(lien, ctx, citations=()):
+    """La phrase qui relie l'étape à l'histoire, précédée de son intitulé. Sur la page du
+    parcours, l'histoire n'est pas rappelée à côté de l'étape : les mots cités la précèdent."""
+    tete = '<span class="parc-l">Dans l’histoire</span> '
+    if citations:
+        tete += " ".join("« <strong>" + enligne(c, ctx) + "</strong> »" for c in citations) + " — "
+    return _prefixer(rendre(lien, ctx, fiche=True), tete)
+
+
 def bandeaux_parcours(m, i, rel, ctx):
     """En tête de fiche : la place de la notion dans chaque récit qui la traverse.
     Étape : la question qui y mène, et de quoi aller à la précédente et à la suivante.
@@ -1306,10 +1330,19 @@ def bandeaux_parcours(m, i, rel, ctx):
             else:
                 nav.append('<span class="%s">%s</span>' % (sens, lien_parcours(m, pid, rel)
                            if sens == "suiv" else "début du parcours"))
+        # L'histoire d'abord, rappelée sur chaque fiche : le lecteur n'a plus à revenir au
+        # parcours pour se souvenir d'où il part. Puis ce que cette fiche en reprend, puis la
+        # question qui mène ici depuis l'étape précédente.
+        cits, lien = pc["ancrages"].get(k + 1, ([], ""))
+        depart = dict(pc["sections"]).get("Point de départ", "")
         out.append('<div class="parc"><div class="parc-t">'
                    + aide(rel, "parcours", "Parcours") + " " + lien_parcours(m, pid, rel, "e%d" % (k + 1))
                    + " · étape " + str(k + 1) + " sur " + str(len(et)) + "</div>"
-                   + rendre(et[k][2], ctx, fiche=True)
+                   + '<div class="parc-h">' + rendre(histoire_en_gras(depart, cits), ctx, fiche=True) + "</div>"
+                   + (lien_histoire(lien, ctx) if lien else "")
+                   + (_prefixer(rendre(et[k][2], ctx, fiche=True),
+                                '<span class="parc-l">Depuis l’étape précédente</span> ') if k else
+                      rendre(et[k][2], ctx, fiche=True))
                    + '<div class="parc-nav">' + "".join(nav) + "</div></div>")
     # Supposée connue : un seul encadré, quel que soit le nombre de parcours. Une notion
     # de base est supposée par plusieurs récits (utilite-esperee : quatre dans dup), et
@@ -1365,9 +1398,11 @@ def page_parcours(m, pid):
     for k, (_, x, trans) in enumerate(et):
         cx, sx = x.split("/", 1)
         cc = rendre(dict(m["N"][x]["sections"]).get("Ce que c'est", ""), ctx, fiche=True)
-        c.append('<li id="e%d">%s<div class="arr%s"><a class="tit" href="%s%s/n/%s.html">%s</a>%s</div></li>'
+        cits, lien = pc["ancrages"].get(k + 1, ([], ""))
+        c.append('<li id="e%d">%s<div class="arr%s"><a class="tit" href="%s%s/n/%s.html">%s</a>%s%s</div></li>'
                  % (k + 1, rendre(trans, ctx, fiche=True), " is-ajout" if est_ajout(m, x) else "",
-                    rel, cx, sx, esc(nom_de(m, x)), cc))
+                    rel, cx, sx, esc(nom_de(m, x)), cc,
+                    ('<div class="parc-lien">' + lien_histoire(lien, ctx, cits) + "</div>") if lien else ""))
     c.append("</ol>")
     c.append('<h2 class="ptag">Où l’on arrive</h2><div class="entree">'
              + rendre(S.get("Point d'arrivée", ""), ctx, fiche=True) + "</div>")

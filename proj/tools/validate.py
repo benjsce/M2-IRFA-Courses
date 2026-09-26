@@ -126,6 +126,40 @@ def _mots(t):
     return set(re.findall(r"[a-zàâçéèêëîïôûùüÿœ']{4,}", t))
 
 
+# Le lien d'une étape avec l'histoire : la ligne « Histoire : » sous la transition. Elle
+# cite, entre « », les mots du point de départ que la fiche traite — la page les met en
+# gras dans le rappel de l'histoire — puis dit, après un tiret, pourquoi ces mots-là mènent
+# à cette fiche. Sans citation, la phrase seule : certaines étapes (une règle de cohérence,
+# une famille de formes) ne reprennent aucun mot de l'histoire, et en forcer un tromperait.
+# Demandé par l'utilisateur le 2026-09-26 : « à chaque fiche, avoir un retour sur
+# l'histoire », parce qu'il faisait lui-même ce lien de tête, par des allers-retours.
+_HISTOIRE = re.compile(r"^\s*Histoire\s*:\s*(.*)$")
+
+
+def lire_ancrages(sections):
+    """{numéro d'étape: [(citations, lien), …]} depuis la rubrique « Étapes ». Une liste par
+    étape, pour que le validateur voie une ligne « Histoire : » écrite deux fois."""
+    out, n = {}, None
+    for line in dict(sections).get("Étapes", "").splitlines():
+        mo = _ETAPE.match(line)
+        if mo:
+            n = int(mo.group(1)); continue
+        mh = _HISTOIRE.match(line)
+        if not mh or n is None:
+            continue
+        reste, cits = mh.group(1).strip(), []
+        while reste.startswith("«"):
+            fin = reste.find("»")
+            if fin < 0:
+                break
+            cits.append(reste[1:fin].strip())
+            reste = reste[fin + 1:].lstrip()
+        if cits and reste[:1] in "—–-":
+            reste = reste[1:].lstrip()
+        out.setdefault(n, []).append((cits, reste))
+    return out
+
+
 def lire_parcours(path: Path):
     """En-tête YAML, rubriques « ## », puis les étapes et les prérequis rattachés.
     Rend (meta, sections, etapes, avant) : etapes = [(numéro, id, transition)],
@@ -138,7 +172,7 @@ def lire_parcours(path: Path):
         if mo:
             cur = [int(mo.group(1)), mo.group(2), []]
             etapes.append(cur)
-        elif cur is not None and line.strip():
+        elif cur is not None and line.strip() and not _HISTOIRE.match(line):
             cur[2].append(line.strip())
     etapes = [(n, i, " ".join(t)) for n, i, t in etapes]
     avant, cur = [], None
@@ -764,8 +798,29 @@ def valider(root: Path, rap: Rapport):
                     rap.w("A14", ou, "« Point de départ » sans aucun chiffre : partir d'une instance "
                                      "concrète, prise au monde numérique du cours")
                     rap.dette["départ sans instance chiffrée"] += 1
+                # Le lien avec l'histoire : une ligne au plus par étape, une phrase après les
+                # citations, et chaque citation prise mot pour mot dans le point de départ —
+                # sinon le gras ne tombe sur rien, et le lecteur cherche des mots absents.
+                anc = lire_ancrages(secs)
+                depart = S.get("Point de départ", "")
+                for n, lignes in sorted(anc.items()):
+                    if n not in {k for k, _, _ in etapes}:
+                        rap.e("A14", ou, f"ligne « Histoire : » sous une étape {n} qui n'existe pas")
+                    if len(lignes) > 1:
+                        rap.e("A14", ou, f"[étape {n}] deux lignes « Histoire : » : une seule par étape")
+                    for cits, lien in lignes:
+                        for c in cits:
+                            if not c or c not in depart:
+                                rap.e("A14", ou, f"[étape {n}] « {c} » n'est pas pris mot pour mot "
+                                                 "dans le point de départ : le citer tel quel")
+                            elif c.count("$") % 2:
+                                rap.e("A14", ou, f"[étape {n}] « {c} » coupe une formule en deux : "
+                                                 "citer la formule entière")
+                        if not MARKER.sub("", lien).strip():
+                            rap.e("A14", ou, f"[étape {n}] « Histoire : » sans phrase de lien")
                 # A11 : chaque transition, chaque rôle, chaque paragraphe est tracé
                 morceaux = [(f"étape {n}", t) for n, _, t in etapes] + [(f"avant {i}", t) for i, t in avant]
+                morceaux += [(f"histoire {n}", lien) for n, ls in sorted(anc.items()) for _, lien in ls]
                 for t in ("Point de départ", "Point d'arrivée"):
                     morceaux += [(t, b) for b in blocs(S.get(t, ""))]
                 for lieu, txt in morceaux:
