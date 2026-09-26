@@ -61,7 +61,7 @@ Sur les 20 clients, sélectionner des prédicteurs donne à chacun soit son coef
 
 12. dss/malediction-de-la-dimension
     Dans ce régime, ajouter une variable a un coût, même quand on sait la contraindre. [slide 92]
-    Histoire : « Et si la banque décrivait ses 20 clients » — Même contraints, des prédicteurs sans lien avec la perte coûtent : sur les 20 clients, passer de deux à cinq prédicteurs faisait monter l'erreur de test des moindres carrés de 1,16 à 1,83, et ni ridge ni le lasso, quelle que soit la force de leur contrainte, ne ramènent le modèle à cinq prédicteurs sous 1,8. Une variable de plus ne paie que si elle est vraiment liée à la réponse. [ajout]
+    Histoire : « Peut-on garder tous les prédicteurs » — Même contraints, des prédicteurs sans lien avec la perte coûtent : sur les 20 clients, passer de deux à cinq prédicteurs faisait monter l'erreur de test des moindres carrés de 1,16 à 1,83, et ni ridge ni le lasso, quelle que soit la force de leur contrainte, ne ramènent le modèle à cinq prédicteurs sous 1,8. Une variable de plus ne paie que si elle est vraiment liée à la réponse. [ajout]
 
 ## Point d'arrivée
 On peut garder toutes les variables et contraindre leurs coefficients, ou les résumer en quelques directions ; dans les deux cas, on échange un peu de biais contre beaucoup de variance. [slide 53]

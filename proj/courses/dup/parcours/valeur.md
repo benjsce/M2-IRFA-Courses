@@ -39,7 +39,7 @@ Ces violations d'Allais demandent d'affaiblir l'axiome d'indépendance. Une prem
 
 6. dup/aversion-a-la-deception-generalisee
    Faut-il que la déception commence exactement à l'équivalent certain ? Le cours desserre ce seuil. [L3 slide 12]
-   Histoire : « tomber sous ce qu'il attendait » — Dans le modèle précédent, la déception commence dès qu'on tombe sous l'équivalent certain du billet. Le modèle généralisé ne la fait commencer que sous une fraction $\delta$ de cet équivalent : tomber juste un peu en dessous ne déçoit pas encore, et $\delta=1$ redonne le modèle précédent. [ajout]
+   Histoire : « tomber sous ce qu'il attendait » — Dans le modèle précédent, la déception commence dès qu'on tombe sous l'équivalent certain du billet, les 2 385 du premier billet de l'exemple. Le modèle généralisé ne la fait commencer que sous une fraction $\delta$ de cet équivalent : tomber juste un peu en dessous ne déçoit pas encore, et $\delta=1$ redonne le modèle précédent. [ajout]
 
 7. dup/eu-prudente
    Une dernière voie, hors de la famille, part de l'effet de certitude : l'agent hésite entre plusieurs fonctions d'utilité et se montre prudent. [L3 slide 15, L3 slide 16]

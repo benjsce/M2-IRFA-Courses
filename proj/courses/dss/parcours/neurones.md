@@ -54,7 +54,7 @@ Le bloc sur les réseaux de neurones part d'un neurone unique et montre comment 
 10. dss/descente-de-gradient
     Comment entraîner un réseau dont la sortie dépend des poids de plusieurs couches ? D'abord, un principe général de minimisation. [slide 160]
     Suite : Les poids de ce réseau à couche cachée, on vient de les donner à la main. Comment les trouver à partir des quatre exemples seuls ? [ajout]
-    Histoire : « Comment les trouver à partir des quatre exemples seuls » — On mesure l'erreur par la somme des carrés des écarts sur les quatre points, et l'on déplace chaque poids d'un petit pas dans la direction où elle baisse le plus vite, l'opposé de son gradient. [ajout]
+    Histoire : « Comment les trouver à partir des quatre exemples seuls » — On mesure l'erreur par la somme des carrés des écarts sur les quatre points, et l'on déplace chaque poids d'un petit pas dans la direction où elle baisse le plus vite, l'opposé de son gradient, qui rassemble, pour chaque poids, le taux auquel l'erreur change quand ce poids change. [slide 160, ajout]
 
 11. dss/retropropagation
     Ce principe demande de savoir quelle part de l'erreur revient à chaque poids caché. [slide 153, slide 154]

@@ -54,7 +54,7 @@ Deux placements ont la même moyenne de 50 : le pari $(0,\tfrac12;100,\tfrac12)$
 
 9. dup/accroissement-de-risque
    Seconde classe : tous les agents averses au risque. Ce sur quoi ils s'accordent définit enfin ce qu'est « plus risqué » à moyenne égale. [L1 slide 18]
-   Histoire : « Lequel est le plus risqué » — Voici enfin la réponse du cours, à moyenne égale : le premier pari est plus risqué que le second si tous les agents averses au risque préfèrent le second. [ajout]
+   Histoire : « Lequel est le plus risqué » — Voici la forme de la réponse du cours, à moyenne égale : le premier pari est plus risqué que le second si tous les agents averses au risque préfèrent le second. Les étapes qui suivent en donnent des définitions concrètes, par un déplacement de probabilité, par un hasard ajouté, par les préférences elles-mêmes, par un test sur les deux distributions, et le cours montre qu'elles désignent toujours le même pari. [ajout]
 
 10. dup/etalement-preservant-la-moyenne
     Comment fabrique-t-on un pari plus risqué à partir d'un autre ? La façon la plus concrète est de déplacer de la probabilité. [L1 slide 21]
@@ -66,7 +66,7 @@ Deux placements ont la même moyenne de 50 : le pari $(0,\tfrac12;100,\tfrac12)$
 
 12. dup/ordre-concave
     Une troisième part directement des préférences, et c'est elle qui justifie le mot « unanime ». [L1 slide 19]
-    Histoire : « La réponse la plus courante » — Elle désignait le bon pari, mais pour une mauvaise raison. Le premier est plus risqué parce que tout agent averse au risque préfère le second — avec $\sqrt{x}$, une utilité espérée de $\tfrac12\sqrt{25}+\tfrac12\sqrt{75}\approx6{,}83$ contre $\tfrac12\sqrt{0}+\tfrac12\sqrt{100}=5$ —, et non parce que son écart type est plus grand. [ajout]
+    Histoire : « La réponse la plus courante » — Elle désignait le bon pari, mais pour une mauvaise raison. Cette définition-ci écrit l'accord lui-même, sur les préférences : le premier est plus risqué parce que tout agent averse au risque préfère le second — avec $\sqrt{x}$, une utilité espérée de $\tfrac12\sqrt{25}+\tfrac12\sqrt{75}\approx6{,}83$ contre $\tfrac12\sqrt{0}+\tfrac12\sqrt{100}=5$ —, et non parce que son écart type est plus grand. [ajout]
 
 13. dup/condition-cdf-integree
     Il faut enfin un test que l'on puisse faire sur deux distributions données, sans chercher l'étalement ni le bruit. [L1 slide 22]
@@ -74,8 +74,8 @@ Deux placements ont la même moyenne de 50 : le pari $(0,\tfrac12;100,\tfrac12)$
 
 14. dup/statique-comparative-risque-accru
     Reste la question pratique : un agent qui investit, assure ou épargne doit-il en faire moins quand son risque grandit en ce sens ? [L1 slide 26]
-    Suite : Un agent place une part $a$ de sa richesse dans un placement risqué. Si ce placement devient plus risqué au sens du parcours, sans changer de moyenne, doit-il en placer moins ? [ajout]
-    Histoire : « doit-il en placer moins » — Pas forcément : ce n'est pas la concavité de son utilité qui décide, mais la forme de ce que lui rapporte un peu plus de placement, $U_a$, en fonction du résultat $x$. Si ce gain marginal est concave en $x$, $U_{xxa}<0$, il en place moins ; s'il est convexe, $U_{xxa}>0$, il en place plus. [ajout]
+    Suite : Un agent place une part $a$ de sa richesse dans un placement risqué dont le résultat est $x$ ; notons $U(x,a)$ son utilité quand il a placé $a$ et que le placement rend $x$. Si ce placement devient plus risqué au sens du parcours, sans changer de moyenne, doit-il en placer moins ? [ajout]
+    Histoire : « doit-il en placer moins » — Pas forcément : ce n'est pas la concavité de son utilité qui décide, mais la forme de ce que lui rapporte un peu plus de placement, $U_a$, la dérivée de $U$ en $a$, en fonction du résultat $x$. Si ce gain marginal est concave en $x$, c'est-à-dire si sa dérivée seconde en $x$, $U_{xxa}$, est négative, il en place moins ; s'il est convexe, $U_{xxa}>0$, il en place plus. [ajout]
 
 ## Point d'arrivée
 « Plus risqué » n'est pas « plus d'écart type » : c'est ce que tous les agents averses au risque rejettent, et Rothschild et Stiglitz montrent que plusieurs définitions concrètes en donnent la même chose. [L1 slide 23]

@@ -27,8 +27,8 @@ Un investisseur hésite entre deux actifs : l'un rapporte 6 % par an avec une vo
 
 3. pfo/annualisation
    Les prix arrivent jour par jour, les objectifs se fixent sur un an. Comment passer de l'un à l'autre sans fausser le risque ? [§3.0.7]
-   Suite : Ces chiffres annuels, l'investisseur ne les observe pas : ses données sont des rendements journaliers, par exemple de moyenne 0,04 % et d'écart type 1 %. Comment les porter à l'année ? [ajout]
-   Histoire : « Comment les porter à l'année » — La moyenne et la variance se multiplient par les 252 séances de l'année, l'écart type par leur racine : $252\times0{,}04\,\%=10{,}08\,\%$ et $1\,\%\times\sqrt{252}\approx15{,}87\,\%$ par an. [ajout]
+   Suite : Ces chiffres annuels, l'investisseur ne les observe pas : ses données sont des rendements journaliers, par exemple, pour le second actif, de moyenne 0,0397 % et d'écart type 1,26 %. Comment les porter à l'année ? [ajout]
+   Histoire : « Comment les porter à l'année » — La moyenne et la variance se multiplient par les 252 séances de l'année, l'écart type par leur racine : $252\times0{,}0397\,\%\approx10\,\%$ et $1{,}26\,\%\times\sqrt{252}\approx20\,\%$ par an, les chiffres du départ ; à l'inverse, $10\,\%/252$ et $20\,\%/\sqrt{252}$ redonnent les chiffres journaliers. [ajout]
 
 4. pfo/optimisation-de-portefeuille
    On sait désormais noter une répartition. Comment chercher la meilleure, et meilleure selon quel critère ? [p. 38]
@@ -43,7 +43,7 @@ Un investisseur hésite entre deux actifs : l'un rapporte 6 % par an avec une vo
    Histoire : « Un placement sans risque rapporte 2 % » — Au-delà de ces 2 %, chaque actif rapporte 0,40 par unité de volatilité, $(6-2)/10$ et $(10-2)/20$. Le mélange à parts égales atteint $(8-2)/11{,}18\approx0{,}54$ : il paie mieux le risque que chacun des deux. [ajout]
 
 7. pfo/portefeuille-tangent
-   Second critère : chercher directement le portefeuille qui obtient le meilleur score. Où tombe-t-il par rapport à la courbe ? [p. 40, §3.0.4]
+   Second critère : chercher directement le portefeuille dont le ratio de Sharpe est le plus élevé. Où tombe-t-il par rapport à la courbe ? [p. 40, §3.0.4]
    Histoire : « Combien mettre dans chacun » — Le mélange qui paie le mieux le risque donne à chaque actif, les deux n'étant pas corrélés, un poids proportionnel à son rendement au-delà des 2 % divisé par sa variance : $4/0{,}01=400$ contre $8/0{,}04=200$, soit deux tiers dans le premier actif et un tiers dans le second. Il rapporte 7,33 % pour 9,43 % de volatilité, soit 0,566 de rendement au-delà des 2 % par unité de volatilité. C'est le point où la droite partie des 2 % touche la courbe. [ajout]
 
 8. pfo/ligne-de-marche-des-capitaux

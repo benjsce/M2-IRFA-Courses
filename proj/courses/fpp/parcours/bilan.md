@@ -18,7 +18,7 @@ Une entreprise finance 100 d'actifs avec 30 de capitaux propres et 70 de dette. 
    Histoire : « avec 30 de capitaux propres et 70 de dette » — Le bilan range ces nombres : 100 d'actifs d'un côté, 30 de capitaux propres et 70 de dette de l'autre, et $100=30+70$ quoi qu'il arrive à l'entreprise. [ajout]
 
 3. fpp/levier
-   Le bilan fait apparaître un rapport qui décide de tout ce qui suit : la part de l'actif financée par l'actionnaire. [§1.3]
+   Le bilan fait apparaître un rapport qui décide de tout ce qui suit : combien d'euros d'actif reposent sur chaque euro mis par l'actionnaire. [§1.3]
    Histoire : « Que gagne l'actionnaire, et que risque-t-il » — Tout ce que font les 100 d'actifs retombe sur les 30 de l'actionnaire, puisque la dette, elle, est due quoi qu'il arrive. Le levier, rapport de l'actif aux capitaux propres, vaut $100/30\approx3{,}33$ : c'est lui qui transforme les gains et les risques de l'actif en ceux de l'actionnaire. [ajout]
 
 4. fpp/volatilite

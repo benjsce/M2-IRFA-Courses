@@ -23,7 +23,7 @@ Le cours se termine sur deux articles qui mettent ses méthodes à l'épreuve : 
 ## Étapes
 1. dss/comparaison-de-modeles
    Sur un même jeu de risque de crédit, quel modèle du cours fait le mieux ? [slide 204, slide 205]
-   Histoire : « l'un compare tous les modèles sur un même problème de crédit » — C'est le jeu du scoring de crédit : la forêt aléatoire y atteint un GINI de 57,84 contre 51,36 pour la régression logistique, soit 6,48 points de mieux, et le séparateur à vaste marge, un autre classifieur, tombe à 28,38, soit 22,98 points de moins. [ajout]
+   Histoire : « l'un compare tous les modèles sur un même problème de crédit » — C'est le jeu du scoring de crédit : la forêt aléatoire y atteint un GINI de 57,84 contre 51,36 pour la régression logistique, soit 6,48 points de mieux, et le séparateur à vaste marge, ou SVM, qui sépare les deux classes par la frontière la plus éloignée des exemples de chacune, tombe à 28,38, soit 22,98 points de moins que la régression logistique. [ajout]
 
 2. dss/smote
    Dans les données de crédit, les défauts sont rares. Comment apprendre une classe presque absente ? [slide 229]

@@ -6,6 +6,8 @@ source: slides 96–127
 ---
 
 ## Point de départ
+Un arbre de décision prédit la perte d'un client par une suite de questions à seuil sur ses prédicteurs, par exemple si son endettement dépasse 35, et lui attribue la perte moyenne des anciens clients qui ont répondu de même. [ajout]
+
 Un arbre de décision isolé prédit mal, mais il s'ajuste très vite : on peut se permettre d'en construire beaucoup. [slide 97]
 
 Tirer 20 clients avec remise parmi les 20 de la banque en laisse en moyenne 7 de côté, et chaque tirage donne un autre arbre. Comment faire pour que ces arbres n'apprennent pas tous la même chose, et à quoi servent les clients laissés de côté ? [ajout]

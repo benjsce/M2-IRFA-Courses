@@ -30,7 +30,7 @@ Aucune probabilité ne rend compte de ces deux choix à la fois. Ce parcours sui
 
 4. dup/paradoxe-d-ellsberg
    L'urne du départ montre les choix que ce principe interdit : la colonne jaune, commune aux deux actes de chaque paire, devrait s'annuler, et pourtant le choix s'inverse quand on l'ajoute. [L1 slide 63]
-   Histoire : « Aucune probabilité ne rend compte de ces deux choix à la fois » — Le premier choix exige $\pi(R)>\pi(N)$ ; le second exige $\pi(N)+\pi(J)>\pi(R)+\pi(J)$, donc $\pi(N)>\pi(R)$. Les deux ne peuvent pas tenir ensemble. [ajout]
+   Histoire : « Aucune probabilité ne rend compte de ces deux choix à la fois » — Avec $R$, $N$ et $J$ pour rouge, noir et jaune, le premier choix exige $\pi(R)>\pi(N)$ ; le second exige $\pi(N)+\pi(J)>\pi(R)+\pi(J)$, donc $\pi(N)>\pi(R)$. Les deux ne peuvent pas tenir ensemble. [ajout]
 
 5. dup/aversion-a-l-ambiguite
    Ce que les gens fuient ici n'est pas la dispersion du gain, c'est l'imprécision de la probabilité. Il faut donc un concept distinct de l'aversion au risque. [L1 slide 63]
@@ -84,8 +84,8 @@ Aucune probabilité ne rend compte de ces deux choix à la fois. Ce parcours sui
 
 17. dup/intervalle-de-non-echange
     Que fait cet agent face à un actif qu'il peut acheter ou vendre à découvert ? Son évaluation n'est pas la même dans les deux sens, parce que le pire état change avec le sens de la position. [L4 slide 62]
-    Suite : Un marché permet d'acheter, ou de vendre à découvert, au prix $p$, un titre qui paie 100 si la boule est noire et rien sinon. À quel prix l'agent de l'urne l'achète-t-il, et à quel prix le vend-il ? [ajout]
-    Histoire : « À quel prix l'agent de l'urne l'achète-t-il » — Acheté, le titre est jugé sous la composition la pire pour l'acheteur, où il ne paie jamais : il ne vaut rien. Vendu, il est jugé sous la pire pour le vendeur, où il paie deux fois sur trois : il coûte environ 66,7. Entre 0 et 66,7, l'agent n'achète ni ne vend. [ajout]
+    Suite : Un marché permet d'acheter, ou de vendre à découvert, au prix $p$, un titre qui paie 100 si la boule est noire et rien sinon. À quel prix l'agent aux poids qui ne s'ajoutent pas, celui qui donne un sixième au noir, l'achète-t-il, et à quel prix le vend-il ? [ajout]
+    Histoire : « À quel prix l'agent aux poids qui ne s'ajoutent pas, celui qui donne un sixième au noir, l'achète-t-il » — Il juge comme un maxmin sur les compositions où $\pi(N)$ va de $\tfrac16$ à $\tfrac12$. Acheté, le titre est jugé sous la composition la pire pour l'acheteur, $\pi(N)=\tfrac16$ : il vaut environ 16,7. Vendu, il est jugé sous la pire pour le vendeur, $\pi(N)=\tfrac12$, où il paie une fois sur deux : il coûte 50. Entre 16,7 et 50, l'agent n'achète ni ne vend. [ajout]
 
 ## Point d'arrivée
 L'ambiguïté ne change pas seulement des choix de laboratoire : elle crée des prix auxquels l'agent n'achète ni ne vend, ce qu'une probabilité unique ne produit jamais. [ajout]

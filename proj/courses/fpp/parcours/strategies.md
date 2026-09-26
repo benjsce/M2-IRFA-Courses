@@ -13,7 +13,7 @@ Avec un zéro-coupon à un an à 0,9608, il lui suffit de 96,08 pour garantir se
 ## À savoir avant
 - fpp/payoff : c'est ce qu'on assemble ; un produit se décrit d'abord par ce qu'il paiera. [§9.1]
 - fpp/call : c'est la brique qui donne la hausse, dans le produit protégé comme dans la vente de calls. [§9.2, §9.3]
-- fpp/put : c'est la brique qu'on vend pour encaisser une prime, dans l'amélioration de rendement. [§9.3]
+- fpp/put : c'est l'autre brique qu'on peut vendre pour encaisser une prime ; l'histoire vend un call, mais vendre un put relève de la même amélioration de rendement. [§9.3]
 - fpp/facteur-actualisation : c'est le prix du zéro-coupon qui rend la mise dans le produit protégé. [§9.2]
 
 ## Étapes

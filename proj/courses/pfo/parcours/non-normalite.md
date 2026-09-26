@@ -52,8 +52,8 @@ Le 19 octobre 1987, le Dow Jones perd 22,6 % en une séance. Sous une loi normal
 
 10. pfo/test-de-jarque-bera
     Premier test : il réemploie directement les deux moments calculés aux étapes 4 et 5. [§2.3]
-    Suite : Sur 1 000 rendements réels, on mesure une asymétrie de −0,5 et un excès de kurtosis de 3. La normalité tient-elle ? [ajout]
-    Histoire : « La normalité tient-elle » — Jarque-Bera combine les deux écarts à la loi normale, l'asymétrie $S$ et l'excès de kurtosis $K_{\mathrm{ex}}$, kurtosis moins les 3 de la loi normale, sur $T$ rendements : $JB=\tfrac{T}{6}\big(S^2+\tfrac{K_{\mathrm{ex}}^2}{4}\big)=\tfrac{1000}{6}\big((-0{,}5)^2+\tfrac{3^2}{4}\big)\approx416{,}7$. Si la loi était normale, $JB$ suivrait une loi du khi-deux à deux degrés de liberté, qui ne dépasse 5,99 qu'une fois sur vingt ; très au-delà, la normalité est rejetée. [ajout]
+    Suite : Sur 1 000 rendements réels, on mesure une asymétrie de −0,5 et un excès de kurtosis de 3, c'est-à-dire une kurtosis de 6, dépassant de 3 celle d'une loi normale. La normalité tient-elle ? [ajout]
+    Histoire : « La normalité tient-elle » — Jarque-Bera combine les deux écarts à la loi normale, l'asymétrie $S$ et l'excès de kurtosis $K_{\mathrm{ex}}$, sur $T$ rendements : $JB=\tfrac{T}{6}\big(S^2+\tfrac{K_{\mathrm{ex}}^2}{4}\big)=\tfrac{1000}{6}\big((-0{,}5)^2+\tfrac{3^2}{4}\big)\approx416{,}7$. Si la loi était normale, $JB$ suivrait une loi du khi-deux à deux degrés de liberté, qui ne dépasse 5,99 qu'une fois sur vingt ; très au-delà, la normalité est rejetée. [ajout]
 
 11. pfo/test-de-shapiro-wilk
     Second test : il regarde l'échantillon trié tout entier, et peut rejeter là où le premier ne voit rien. [§2.4, p. 31]

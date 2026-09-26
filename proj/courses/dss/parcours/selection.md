@@ -15,7 +15,7 @@ Les 20 clients de la banque sont décrits par cinq prédicteurs : l'endettement,
 ## Étapes
 1. dss/moindres-carres-ordinaires
    Le point de départ de tout le bloc est le modèle linéaire le plus classique. [slide 25]
-   Histoire : « Une régression sur les cinq » — La régression cherche les coefficients qui rendent la plus petite possible la somme des carrés des erreurs sur les 20 clients, notée RSS. Sur l'endettement $x_1$ et le revenu $x_2$, elle prédit la perte par $\hat y=3{,}30+0{,}076\,x_1-0{,}060\,x_2$, pour une RSS de 22,43 : divisée par les 20 clients, c'est l'erreur moyenne de 1,12 du point de départ. [ajout]
+   Histoire : « une régression sur les deux premiers » — La régression cherche les coefficients qui rendent la plus petite possible la somme des carrés des erreurs sur les 20 clients, notée RSS. Sur l'endettement $x_1$ et le revenu $x_2$, elle prédit la perte par $\hat y=3{,}30+0{,}076\,x_1-0{,}060\,x_2$, pour une RSS de 22,43 : divisée par les 20 clients, c'est l'erreur moyenne de 1,12 du point de départ. Sur les cinq prédicteurs, la RSS descend à 19,59, l'erreur moyenne de 0,98. [ajout]
 
 2. dss/erreur-de-test
    Pour juger un modèle, l'erreur sur les données qui ont servi à l'ajuster est trompeuse. Laquelle regarder ? [slide 37]
@@ -31,7 +31,7 @@ Les 20 clients de la banque sont décrits par cinq prédicteurs : l'endettement,
 
 5. dss/cp-de-mallows
    Première réponse, pour les moindres carrés. [slide 41]
-   Histoire : « Lesquels garder » — Le $C_p$ ajoute à la RSS une pénalité $2d\hat\sigma^2$ et divise le tout par le nombre $n$ de clients ; $d$ est le nombre de prédicteurs, $\hat\sigma^2$ la variance du bruit, estimée sur le modèle complet : sa RSS vaut 19,59, soit 20 fois son erreur moyenne de 0,98, et divisée par les 20 clients moins ses six coefficients elle donne $\hat\sigma^2\approx1{,}40$. Pour le modèle à deux prédicteurs, $C_p=(22{,}43+2\times2\times1{,}40)/20=1{,}40$ ; pour le modèle complet, $(19{,}59+2\times5\times1{,}40)/20=1{,}68$. La pénalité a monté de 0,42, bien plus que les 0,14 d'erreur gagnés : le $C_p$ garde l'endettement et le revenu. [ajout]
+   Histoire : « Lesquels garder » — Le $C_p$ ajoute à la RSS une pénalité $2d\hat\sigma^2$ et divise le tout par le nombre $n$ de clients ; $d$ est le nombre de prédicteurs, $\hat\sigma^2$ la variance du bruit, estimée sur le modèle complet, à cinq prédicteurs : sa RSS vaut 19,59, soit 20 fois son erreur moyenne de 0,98, et divisée par les 20 clients moins ses six coefficients, constante comprise, elle donne $\hat\sigma^2\approx1{,}40$. Pour le modèle à deux prédicteurs, $C_p=(22{,}43+2\times2\times1{,}40)/20=1{,}40$ ; pour le modèle complet, $(19{,}59+2\times5\times1{,}40)/20=1{,}68$. La pénalité a monté de 0,42, bien plus que les 0,14 d'erreur gagnés : le $C_p$ garde l'endettement et le revenu. [ajout]
 
 6. dss/aic
    Deuxième réponse, qui ne se limite pas à la régression linéaire. [slide 42]
@@ -63,12 +63,12 @@ Les 20 clients de la banque sont décrits par cinq prédicteurs : l'endettement,
 
 13. dss/selection-pas-a-pas
     Avec des dizaines de prédicteurs, le nombre de parties explose. Peut-on n'en visiter qu'une petite fraction ? [slide 32]
-    Suite : Si la banque décrivait ses clients par 40 variables, il faudrait ajuster plus de mille milliards de modèles. Peut-on n'en visiter qu'une petite fraction ? [ajout]
+    Suite : Si la banque décrivait ses clients par 40 variables, il faudrait ajuster $2^{40}$ modèles, plus de mille milliards. Peut-on n'en visiter qu'une petite fraction ? [ajout]
     Histoire : « Peut-on n'en visiter qu'une petite fraction » — Oui : on ajoute ou l'on retire un prédicteur à la fois, en gardant à chaque pas le meilleur mouvement. Avec les cinq prédicteurs des 20 clients, chaque sens ajuste le modèle de départ puis, à chaque pas, un modèle par prédicteur encore candidat : $1+5+4+3+2+1=16$ modèles au lieu de 32. [ajout]
 
 14. dss/selection-ascendante
     On peut partir de rien et avancer. [slide 34]
-    Histoire : « trois variables sans aucun lien avec la perte » — Partie de rien, la sélection ascendante fait entrer d'abord une de ces variables, la meilleure seule par hasard, puis une seconde, et n'atteint l'endettement qu'au quatrième pas. Le $C_p$ retient alors un modèle à quatre prédicteurs dont deux inutiles, d'erreur de test 1,77 contre 1,16. [ajout]
+    Histoire : « trois variables sans aucun lien avec la perte » — Partie de rien, la sélection ascendante fait entrer d'abord une de ces variables, la meilleure seule par hasard, puis une seconde, puis le revenu, et n'atteint l'endettement qu'au quatrième pas. Le $C_p$ retient alors un modèle à quatre prédicteurs dont deux inutiles, d'erreur de test 1,77 contre 1,16. [ajout]
 
 15. dss/selection-descendante
     Ou partir de tout et reculer. [slide 35]

@@ -18,7 +18,7 @@ refs:
 Une stratégie autofinançante rééquilibrée à chaque pas, dont la valeur finale est le payoff. [§4.2.2]
 
 ## Forme
-détenir $1/B(t_0,t_i)$ contrats en $t_i$ [§4.2.2]
+détenir $1/B(t_0,t_{i+1})$ contrats en $t_i$ [§4.2.2]
 
 ## Ce que les symboles modélisent
 $t_0$ est la date où l'on met en place la stratégie et $t_i$ la $i$-ième date de rééquilibrage, typiquement un jour après la précédente. Les contrats sont des contrats futures, dont les variations de prix sont versées à chaque date par l'appel de marge. [§4.2.2, ajout]
@@ -37,7 +37,7 @@ C'est le compte capitalisé qui rend la réplication *dynamique* possible : il d
 Trois pas à $P=0{,}99$ chacun : on détient successivement $1{,}0101$, $1{,}0203$ puis $1{,}0306$ contrats. [ajout]
 
 ## Geste de calcul type
-Suivre la position au lieu de la figer : détenir $1/B(t_0,t_i)$ contrats en $t_i$, soit 1,0101 puis 1,0203 puis 1,0306 pour trois pas à 0,99. La position se recalcule à chaque date. [§4.2.2]
+Suivre la position au lieu de la figer : détenir $1/B(t_0,t_{i+1})$ contrats en $t_i$, soit 1,0101 puis 1,0203 puis 1,0306 pour trois pas à 0,99. La position se recalcule à chaque date. [§4.2.2]
 
 ## Cesse d'être valide quand
 Suppose des marchés sans friction et un rééquilibrage continu — l’hypothèse la plus fragile de tout l’édifice. [ajout]

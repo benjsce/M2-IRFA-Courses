@@ -20,6 +20,10 @@ $X_t$ est un rapport entre deux monnaies, et son sens de lecture est une convent
 ## Ce qui la définit
 Quand $X$ monte, la devise locale s’apprécie. C’est un facteur atomique : rien ne s’en décline. [§2.4]
 
+Il ne convertit que des montants de la même date : $X_t$ est le taux d'aujourd'hui, et celui d'une date future, $X_T$, n'est pas connu en $t$. Un montant payé plus tard dans l'autre devise se ramène donc d'abord à aujourd'hui dans sa propre devise, puis se convertit au taux du jour. [ajout]
+
+![Deux lignes de temps, dollars en haut, euros en bas. En $t$, passer des dollars aux euros, c'est diviser par $X_t$, connu. En $T$, il faudra diviser par $X_T$, que personne ne connaît aujourd'hui : d'où le pointillé.](figures/taux-de-change.svg) [ajout]
+
 ## Cesse d'être valide quand
 rien dans le périmètre du cours [ajout]
 

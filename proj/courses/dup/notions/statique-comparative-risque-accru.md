@@ -34,7 +34,7 @@ Le socle tient tout entier dans dup/accroissement-de-risque, la famille des faç
 Une fois cet ordre partiel disponible, la question devient celle d'un déplacement : où va l'optimum quand le risque augmente ? Il fallait donc l'ordre avant le déplacement, et c'est le seul prérequis. [ajout]
 
 ## Exemple minimal
-Pour $U(x,a)=\ln(1+ax)$ on a $U_{xxa}<0$ : passer de $x$ uniforme sur $\{40,60\}$ à $x$ uniforme sur $\{20,40,60,80\}$, de même moyenne 50, fait baisser le $a$ optimal. [ajout]
+Une part $a$ de la richesse est placée dans un actif dont le rendement, en excès du placement sûr, est $x$ ; avec $U(x,a)=\ln(1+ax)$, on a $U_a=x/(1+ax)$ et $U_{xxa}=-2a/(1+ax)^3<0$. Si $x$ vaut $-40\,\%$ ou $+60\,\%$ à chances égales, la condition du premier ordre $\tfrac12\frac{-0{,}4}{1-0{,}4a}+\tfrac12\frac{0{,}6}{1+0{,}6a}=0$ donne $a^*=5/12\approx0{,}42$. Si chaque résultat s'étale de 50 points de part et d'autre, $x$ vaut $-90\,\%$, $+10\,\%$, $+10\,\%$ ou $+110\,\%$ avec probabilité $1/4$ chacun, même moyenne de 10 % : $a^*$ tombe à 0,20. C'est le même geste que l'étalement de $\{40,60\}$ vers $\{20,40,60,80\}$, mais sur un rendement qui peut être négatif : si $x$ était toujours positif, placer davantage rapporterait toujours plus, et il n'y aurait pas d'optimum. [ajout]
 
 ## Geste de calcul type
 Calculer $U_{xxa}$ et lire son signe : négatif, un accroissement de risque fait baisser $a^*$ ; positif, il le fait monter. Vérifier au passage que $U_{aa}<0$. [L1 slide 26, L1 slide 27]

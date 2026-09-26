@@ -54,7 +54,7 @@ L'utilité espérée repose sur l'axiome d'indépendance, et ces deux choix, fai
 9. dup/cadrage
    La présentation compte-t-elle aussi quand les loteries finales sont identiques et que seuls les mots changent ? [L1 slide 65]
    Suite : Deux groupes reçoivent le même problème, écrit autrement. Au premier : vous recevez 1 000, puis choisissez entre gagner 1 000 ou rien à pile ou face, et gagner 500 sûrs. Au second : vous recevez 2 000, puis choisissez entre perdre 1 000 ou rien à pile ou face, et perdre 500 sûrs. [L1 slide 65]
-   Histoire : « Deux groupes reçoivent le même problème, écrit autrement » — Dans les deux cas, c'est 1 500 sûrs contre 1 000 ou 2 000 à pile ou face. Les deux groupes choisissent pourtant, en majorité, à l'inverse l'un de l'autre : seuls les mots, gagner ou perdre, ont changé. [ajout]
+   Histoire : « Deux groupes reçoivent le même problème, écrit autrement » — Dans les deux cas, c'est 1 500 sûrs contre 1 000 ou 2 000 à pile ou face. Les deux groupes choisissent pourtant, en majorité, à l'inverse l'un de l'autre, les 500 sûrs quand on parle de gain, le pari quand on parle de perte : seuls les mots, gagner ou perdre, ont changé. [L1 slide 65, ajout]
 
 10. dup/inversion-des-preferences
     Et si l'on change non pas la description, mais la question posée au sujet ? [L1 slide 67]

@@ -45,7 +45,7 @@ Un portefeuille de 1 000 000 affiche des rendements journaliers de moyenne 0,05 
 
 8. pfo/var-de-cornish-fisher
    Comment ce quantile corrigé devient-il un montant de perte ? Pour la VaR, c'est immédiat ; pour la CVaR, qui moyenne toute la queue, il faut davantage. [§2.5.1, Listing 2.2]
-   Histoire : « un excès de kurtosis de 3 » — Avec le quantile corrigé, la VaR passe de 32 397 à $-(0{,}05\,\%-1{,}7217\times2\,\%)\times1\,000\,000\approx33\,935$. La CVaR, qui moyenne toute la queue, doit corriger chacun de ses quantiles avant d'en faire la moyenne, et bouge bien davantage, de 40 754 à 53 511 : plus d'environ 1,73 écart type sous la moyenne, le terme de kurtosis change de signe et pousse fort vers les pertes. [ajout]
+   Histoire : « un excès de kurtosis de 3 » — Avec le quantile corrigé, la VaR passe de 32 397 à $-(0{,}05\,\%-1{,}7217\times2\,\%)\times1\,000\,000\approx33\,935$. La CVaR, qui moyenne toute la queue, doit corriger chacun de ses quantiles avant d'en faire la moyenne, et bouge bien davantage, de 40 754 à 53 511, en moyennant comme le calcul du cours les niveaux de 0,01 % à 5 %, sans la toute extrémité de la queue qui ajouterait environ 430 : plus d'environ 1,73 écart type sous la moyenne, le terme de kurtosis change de signe et pousse fort vers les pertes. [ajout]
 
 ## Point d'arrivée
 Sur l'exemple de départ, la VaR à 95 % passe de 32 397 en gaussien à 33 935 avec Cornish-Fisher, et la CVaR de 40 754 à 53 511 : la correction pèse surtout sur ce qui se passe au-delà du seuil. [ajout]

@@ -22,6 +22,17 @@ $$F(t,T,S)=\dfrac{1}{S-T}\ln\dfrac{P(t,T)}{P(t,S)}$$ [§2.3]
 ## Ce que les symboles modélisent
 $F(t,T,S)$ prend trois dates : celle d'où l'on parle, et les deux qui bornent la période empruntée. $f(t,T)$ en est la limite quand la période se resserre sur un instant — un taux instantané, qui ne s'échange pas mais dont le reste de la courbe se déduit. [§2.3]
 
+## Retrouver la formule
+![Un euro placé en $t$ jusqu'en $S$, par deux chemins. En haut, d'un coup : il devient $1/P(t,S)$. En bas, jusqu'en $T$, où il devient $1/P(t,T)$, puis replacé de $T$ à $S$ au taux $F$ : il devient $e^{F(S-T)}/P(t,T)$. Le taux forward est celui qui fait arriver les deux chemins au même montant.](figures/taux-forward-retrouver.svg) [ajout]
+
+On part d'un euro en $t$ et l'on veut le faire fructifier jusqu'en $S$. Un zéro-coupon d'échéance $S$ coûte $P(t,S)$ et rend $1$ : avec un euro, on en achète $1/P(t,S)$, et l'on a $1/P(t,S)$ en $S$. [ajout]
+
+Autre chemin : placer d'abord jusqu'en $T$, de la même façon, ce qui donne $1/P(t,T)$ en $T$ ; puis replacer ce montant de $T$ à $S$ à un taux $F$, en capitalisation continue, ce qui le multiplie par $e^{F(S-T)}$. [ajout]
+
+Le taux forward est le taux de la période $[T,S]$ qui rend les deux chemins équivalents : placer en deux temps doit rapporter autant que placer d'un coup. On égalise les deux montants, et le logarithme isole $F$. [ajout]
+
+$$\dfrac{1}{P(t,S)}=\dfrac{e^{F(S-T)}}{P(t,T)}\quad\Longleftrightarrow\quad F(t,T,S)=\dfrac{1}{S-T}\ln\dfrac{P(t,T)}{P(t,S)}$$ [§2.3]
+
 ## Ce qui la définit
 Un taux long est une moyenne pondérée de forwards : $R(t,S)(S-t)=R(t,T)(T-t)+F(t,T,S)(S-T)$. À la limite, $f(t,T)=-\partial\ln P/\partial T$ et $P(t,T)=\exp\left(-\int_t^T f(t,u)du\right)$ — la courbe entière est l’accumulation de ses forwards. [§2.3]
 

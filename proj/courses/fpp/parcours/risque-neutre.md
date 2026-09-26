@@ -6,7 +6,7 @@ source: poly, §5
 ---
 
 ## Point de départ
-L'action vaut 100 et le zéro-coupon à un an 0,9608 : son prix à terme à un an vaut 104,08, et il se lit sur le marché. Peut-on en tirer une façon de calculer le prix de n'importe quel flux futur, même non linéaire ? [ajout]
+L'action, qui ne verse pas de dividende, vaut 100 et le zéro-coupon à un an 0,9608 : son prix à terme à un an vaut 104,08, et il se lit sur le marché. Peut-on en tirer une façon de calculer le prix de n'importe quel flux futur, même non linéaire, c'est-à-dire qui ne suit pas l'action en ligne droite ? [ajout]
 
 ## À savoir avant
 - fpp/prix-a-terme : c'est ce que le marché cote, et c'est lui qui contraint la probabilité cherchée : sous elle, l'espérance du sous-jacent doit valoir son prix à terme. [Prop. 5, Prop. 6]
@@ -18,7 +18,7 @@ L'action vaut 100 et le zéro-coupon à un an 0,9608 : son prix à terme à un a
    Histoire : « le prix de n'importe quel flux futur » — Avant de choisir une règle, on peut dire ce que toute règle sans arbitrage respecte : elle associe à chaque flux futur un prix d'aujourd'hui ; deux flux détenus ensemble coûtent la somme de leurs prix ; un flux qui ne peut être que positif a un prix positif. [ajout]
 
 2. fpp/mesure-risque-neutre
-   Ces propriétés ont une conséquence inattendue : tout se calcule comme une moyenne, pourvu qu'on choisisse bien les poids, et le marché à terme les fixe. [Prop. 5, Prop. 6]
+   Ces propriétés ont une conséquence inattendue : tout se calcule comme une moyenne, pourvu qu'on choisisse bien les poids, et le marché à terme les contraint. [Prop. 5, Prop. 6]
    Histoire : « son prix à terme à un an vaut 104,08 » — Tout prix s'écrit comme une moyenne actualisée, $\Pi\big(g(S_T)\big)=P(t,T)\,\mathbb{E}^{\mathbb{Q}}\big[g(S_T)\big]$ : le prix d'un flux $g(S_T)$ versé en $T$ est sa moyenne sous une probabilité $\mathbb{Q}$, dite risque-neutre, ramenée à aujourd'hui. Le marché à terme la contraint : sous elle, l'action vaut en moyenne 104,08 dans un an, quoi que chacun croie de son rendement espéré. [ajout]
 
 3. fpp/contrat-derive
@@ -40,4 +40,4 @@ L'action vaut 100 et le zéro-coupon à un an 0,9608 : son prix à terme à un a
    Histoire : « Peut-on en tirer une façon de calculer le prix de n'importe quel flux futur » — Un logarithme gaussien, une variance qui grandit comme le temps et un taux constant donnent le modèle de Black et Scholes. Sous $\mathbb{Q}$, l'action y croît au taux sans risque : $\mathbb{E}^{\mathbb{Q}}(S_{t+1})=100\,e^{0{,}04}\approx104{,}08$, quelle que soit sa volatilité. [ajout]
 
 ## Point d'arrivée
-Un prix est une espérance actualisée sous la mesure risque-neutre ; avec une diffusion log-normale, cette espérance se calcule. Il reste à l'appliquer aux options. [ajout]
+Un prix est une espérance actualisée sous la mesure risque-neutre ; avec un logarithme gaussien pour l'action, cette espérance se calcule. Il reste à l'appliquer aux options. [ajout]

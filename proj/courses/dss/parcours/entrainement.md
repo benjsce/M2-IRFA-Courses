@@ -6,7 +6,7 @@ source: slides 164–202
 ---
 
 ## Point de départ
-Une régression à 19 prédicteurs passerait exactement par les 20 clients de la banque, sans rien avoir appris. [ajout]
+Une régression à 19 prédicteurs, soit 20 coefficients avec la constante, passerait exactement par les 20 clients de la banque, sans rien avoir appris. [ajout]
 
 Un réseau qui a plus de poids que d'exemples peut faire de même : apprendre par cœur ses exemples d'entraînement. Ce qu'on veut, c'est qu'il réponde juste sur des cas qu'il n'a jamais vus. [slide 165]
 
@@ -44,7 +44,7 @@ Un réseau qui a plus de poids que d'exemples peut faire de même : apprendre pa
 
 6. dss/protocole-d-entrainement
    Ces réglages se décident sur quelles données, et comment savoir qu'on ne s'est pas trompé en les choisissant ? [slide 180]
-   Histoire : « des cas qu'il n'a jamais vus » — Ces réglages se choisissent sur un jeu de test, et ne peuvent donc pas se juger sur lui : il faut un troisième jeu, jamais touché. Avec 20 clients, on ne peut pas en couper trois ; le cours recommande alors une validation croisée en dix blocs, qui donne dix modèles et une erreur moyenne. [ajout]
+   Histoire : « des cas qu'il n'a jamais vus » — Ces réglages se choisissent sur un jeu que le cours appelle de test, et ne peuvent donc pas se juger sur lui : il faut un troisième jeu, dit de production, jamais touché. Avec 20 clients, on ne peut pas en couper trois ; le cours recommande alors une validation croisée en dix blocs, qui donne dix modèles et une erreur moyenne. [ajout]
 
 7. dss/preparation-des-donnees
    Avant tout cela, les données doivent être mises en état d'être apprises. [slide 187]

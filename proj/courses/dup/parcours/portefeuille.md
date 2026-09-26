@@ -21,7 +21,7 @@ Un marché compte trois états, de probabilités 0,2, 0,3 et 0,5 ; le titre qui 
 
 2. dup/poids-de-decision
    Ce que pèse un état ne se lit plus sur sa probabilité, mais sur l'endroit où tombe son paiement dans le classement. [L4 slide 17]
-   Histoire : « il pondère les états par leur rang » — Si le premier état paie le moins et le troisième le plus, les probabilités cumulées valent 0,2, 0,5 et 1, et chaque état pèse le saut qu'y fait la déformation de la théorie cumulative des perspectives, $\varphi$ avec $\beta=0{,}7$ : $\varphi(0{,}2)=0{,}2560$, $\varphi(0{,}5)-\varphi(0{,}2)=0{,}2013$ et $1-\varphi(0{,}5)=0{,}5426$, au lieu de 0,2, 0,3 et 0,5. Le pire et le meilleur état pèsent plus que leur probabilité, celui du milieu moins. [ajout]
+   Histoire : « il pondère les états par leur rang » — Si le premier état paie le moins et le troisième le plus, les probabilités cumulées valent 0,2, 0,5 et 1, et chaque état pèse le saut qu'y fait la déformation de la théorie cumulative des perspectives, $\varphi$ avec $\beta=0{,}7$, appliquée ici comme dans la pondération par le rang, aux chances cumulées depuis le pire état : $\varphi(0{,}2)=0{,}2560$, $\varphi(0{,}5)-\varphi(0{,}2)=0{,}2013$ et $1-\varphi(0{,}5)=0{,}5426$, au lieu de 0,2, 0,3 et 0,5. Le pire et le meilleur état pèsent plus que leur probabilité, celui du milieu moins. [ajout]
 
 3. dup/prix-par-unite-de-poids
    Qu'est-ce qui décide alors de l'allocation entre les états, à la place du prix rapporté à la probabilité ? [L4 slide 28]
@@ -39,7 +39,7 @@ Un marché compte trois états, de probabilités 0,2, 0,3 et 0,5 ; le titre qui 
 6. dup/demande-cara-normale
    Seconde moitié, sur un marché : il faut d'abord la demande d'un investisseur ordinaire qui connaît la loi du paiement. [L4 slide 63]
    Suite : Passons à un marché plus simple : un actif risqué coûte 100 et paie en moyenne 110, avec un écart type de 20, selon une loi gaussienne. Combien en achète un investisseur qui connaît cette loi ? [ajout]
-   Histoire : « Combien en achète un investisseur qui connaît cette loi » — Avec une utilité exponentielle, son équivalent certain se calcule à la main, et la position optimale est l'écart entre la moyenne et le prix, divisé par la variance : $10/400=0{,}025$. [ajout]
+   Histoire : « Combien en achète un investisseur qui connaît cette loi » — Avec l'utilité exponentielle du cours, $u(W)=-e^{-W}$, dont l'aversion absolue vaut 1 à toute richesse, son équivalent certain se calcule à la main, et la position optimale est l'écart entre la moyenne et le prix, divisé par la variance fois cette aversion : $10/(1\times400)=0{,}025$. [L4 slide 63, ajout]
 
 7. dup/demande-sous-ambiguite
    Que devient cette demande quand l'investisseur ne connaît la moyenne du paiement qu'à un intervalle près ? [L4 slide 64, L4 slide 65]
