@@ -23,7 +23,7 @@ $$f(t,T)=\lim_{S\to T^+}F(t,T,S)=-\frac{\partial\ln P(t,T)}{\partial T},\qquad P
 $f(t,T)$ est lu en $t$, pour un emprunt qui commence en $T$ et dure un instant ; $u$ parcourt les dates entre $t$ et $T$. Le livre d'exercices écrit $f(t,T)$ pour un autre objet, le taux forward d'un emprunt de $t$ à $T$ : même écriture, pas le même taux. [§2.3, exo. 19]
 
 ## Retrouver la formule
-![Un taux forward instantané de 4 % la première année et de 6 % la seconde : l'aire sous la courbe sur deux ans vaut 0,04 + 0,06 = 0,10, et le zéro-coupon à deux ans vaut exp(−0,10).](figures/taux-forward-instantane.svg) [ajout]
+![Le taux forward instantané f(t,u) en fonction de la date u : l'aire sous la courbe de t à T vaut −ln P(t,T), donc P(t,T) = exp(−∫ f(t,u) du).](figures/taux-forward-instantane.svg) [ajout]
 
 Le taux forward entre $T$ et $S$ est une pente : $\big(\ln P(t,T)-\ln P(t,S)\big)/(S-T)$. Quand $S$ se rapproche de $T$, cette pente devient la dérivée de $-\ln P(t,T)$ par rapport à l'échéance. [§2.3]
 

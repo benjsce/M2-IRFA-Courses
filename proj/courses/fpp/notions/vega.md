@@ -28,7 +28,7 @@ Ce qui est **connu** : le prix de l'option pour la volatilité supposée. Ce qu'
 
 C'est la grecque de celui qui parie sur la volatilité : acheter un straddle, c'est acheter du véga. [exo. 15, ajout]
 
-![Le prix du call en fonction de la volatilité, et sa tangente à 20 % : la pente, 38,1, est le véga, soit 0,38 par point de volatilité.](figures/vega.svg) [ajout]
+![Le prix du call C(σ) en fonction de la volatilité, et sa tangente en σ₀ : la pente est le véga, 𝒱 = ∂C/∂σ = S n(d₁) √τ.](figures/vega.svg) [ajout]
 
 ## Le chemin jusqu'ici
 Les grecques dérivent le prix que calcule fpp/formule-black-scholes, et fpp/valeur-temps les décompose, avec fpp/valeur-intrinseque, en ce qui vient de l'aléa et ce qui n'en vient pas. [ajout]

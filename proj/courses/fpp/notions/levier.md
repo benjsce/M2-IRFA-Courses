@@ -28,7 +28,7 @@ On connaît les actifs et les capitaux propres ; le levier dit par combien une v
 
 Quand la dette varie aussi, le poly écrit $\dfrac{\Delta E_t}{E_t} = l_t\,\dfrac{\Delta A_t}{A_t} - (l_t-1)\,\dfrac{\Delta D_t}{D_t}$. [§1.3]
 
-![Avant et après le même choc : les actifs gagnent 10, la dette reste à 80, les capitaux propres passent de 20 à 30. Les actifs ont gagné 10 %, les capitaux propres 50 %, cinq fois plus.](figures/levier.svg) [ajout]
+![Avant et après un gain ΔA des actifs, dette inchangée : les capitaux propres gagnent aussi ΔA. En relatif, ΔA / E_t = (A_t / E_t) × ΔA / A_t = l_t × ΔA / A_t : le gain des actifs pèse l_t fois plus sur les capitaux propres.](figures/levier.svg) [ajout]
 
 ## Le chemin jusqu'ici
 fpp/bilan fait des capitaux propres ce qui reste une fois la dette déduite des actifs. Le levier mesure la minceur de cette couche restante par rapport à ce qu'elle porte : plus elle est mince, plus un mouvement des actifs pèse sur elle. [ajout]

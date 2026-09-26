@@ -26,7 +26,7 @@ $$\sigma^2(T)=\sigma^2\,T,\qquad \sigma(T)=\sigma\sqrt T$$ [§5.3]
 $Y(T)$ est le log-rendement cumulé de 0 à $T$, tel que $\tilde S_T=e^{Y(T)}$ ; $\sigma(T)$ est son écart type sur toute la durée $T$ ; $\sigma$ la volatilité sur une unité de temps, l'année, et $T$ la durée comptée en années. [§5.3]
 
 ## Retrouver la formule
-![L'enveloppe d'un écart type autour du log-prix, pour une volatilité de 20 % par an : elle s'ouvre comme la racine du temps. Au quart de l'année, elle ne vaut pas le quart de 20 % mais la moitié, 10 %.](figures/echelonnement-de-la-variance.svg) [ajout]
+![L'enveloppe d'un écart type autour du log-prix, ±σ√T : elle s'ouvre comme la racine du temps. Au quart de la durée, elle ne vaut pas σ√T / 4 mais σ√T / 2.](figures/echelonnement-de-la-variance.svg) [ajout]
 
 Découpons l'année en quatre trimestres. Le log-rendement de l'année est la somme des quatre log-rendements trimestriels : $Y(T)=\sum_i\Delta Y_i$. [§5.3]
 

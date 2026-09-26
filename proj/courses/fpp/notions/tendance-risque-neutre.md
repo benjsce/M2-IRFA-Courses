@@ -41,7 +41,7 @@ Ce qui est **connu** : le taux et le dividende. Ce qu'on **cherche** : la tendan
 
 Pour une devise, le poly trouve de même que l'espérance risque-neutre du change est le change à terme, et sa tendance l'écart entre le taux étranger et le taux local. Le livre d'exercices ajoute que le prix forward d'une action, lui, n'a aucune tendance sous $\mathbb Q$ : il y est une martingale. [§5.2.2, exo. 14]
 
-![Trois trajectoires moyennes de l'action à 100. Sous la probabilité historique, elle monte à 8 % ; sous la probabilité risque-neutre, à 4 % sans dividende, à 2 % avec un dividende de 2 %. Seules les deux dernières servent à calculer des prix.](figures/tendance-risque-neutre.svg) [ajout]
+![Trois trajectoires moyennes de l'action : S₀ e^(μt) sous la probabilité historique, S₀ e^(rt) sous la probabilité risque-neutre, S₀ e^((r − d)t) sous elle avec un dividende continu d. Seules les deux dernières servent à calculer des prix.](figures/tendance-risque-neutre.svg) [ajout]
 
 ## Le chemin jusqu'ici
 fpp/probabilite-risque-neutre impose que l'espérance d'un actif soit son prix forward ; fpp/taux-de-dividende dit ce que l'actif verse en route, et fpp/dividendes-intermediaires en était la version datée. [ajout]

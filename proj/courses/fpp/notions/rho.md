@@ -26,7 +26,7 @@ $\rho$ se lit en euros par unité de taux : pour un point de taux, on le divise 
 ## Ce qui la définit
 Ce qui est **connu** : le prix de l'option pour le taux du jour. Ce qu'on **cherche** : son effet sur le prix. Une hausse du taux relève le prix forward de l'action, donc la valeur intrinsèque du call, et réduit la valeur actuelle du strike à payer : le prix du call monte. Le poly note que la valeur temps, elle, baisse ; pour le put, tout baisse. [§8.2]
 
-![Le prix du call en fonction du taux d'intérêt, et sa tangente à 4 % : la pente, 51,9, est le rhô, soit 0,52 par point de taux.](figures/rho.svg) [ajout]
+![Le prix du call C(r) en fonction du taux d'intérêt, et sa tangente en r₀ : la pente est le rhô, ρ = ∂C/∂r = K τ e^(−rτ) N(d₂).](figures/rho.svg) [ajout]
 
 ## Le chemin jusqu'ici
 Les grecques dérivent le prix que calcule fpp/formule-black-scholes, et fpp/valeur-temps les décompose, avec fpp/valeur-intrinseque, en ce qui vient de l'aléa et ce qui n'en vient pas. [ajout]

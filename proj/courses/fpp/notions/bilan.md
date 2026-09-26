@@ -33,7 +33,7 @@ On connaît les actifs et la dette ; les capitaux propres sont **ce qui reste** 
 
 Le livre d'exercices l'appelle la loi fondamentale de la comptabilité et s'en sert pour valoriser la dette d'une entreprise une fois connue la valeur de ses capitaux propres. [exo. 16]
 
-![Le bilan de l'entreprise du cours : 100 d'actifs à gauche, financés à droite par 20 de capitaux propres et 80 de dette.](figures/bilan.svg) [§1.2, ajout]
+![Le bilan : les actifs A_t à gauche, financés à droite par les capitaux propres E_t et la dette D_t ; A_t = E_t + D_t.](figures/bilan.svg) [§1.2, ajout]
 
 ## Exemple minimal
 Des actifs de 100, une dette de 80 : les capitaux propres valent 20. [ajout]

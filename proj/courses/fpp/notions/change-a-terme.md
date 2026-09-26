@@ -32,7 +32,7 @@ $$K(t,T)=X_t\,\frac{P(t,T)}{P^f(t,T)}=X_t\,e^{\left(R^f(t,T)-R(t,T)\right)(T-t)}
 $K(t,T)$ s'exprime comme $X_t$, en unités étrangères pour une unité locale. $P^f(t,T)$ est le zéro-coupon étranger : ce que vaut en $t$, en devise étrangère, une unité étrangère payée en $T$. $R^f(t,T)$ est le taux zéro-coupon étranger ; l'exposant $f$ marque tout ce qui est étranger. [§2.4]
 
 ## Retrouver la formule
-![Le contrat de change à terme sur deux lignes, la devise étrangère en haut, la locale en bas. On paie 1 euro en T et on reçoit K dollars en T ; chaque flux revient en t par le zéro-coupon de sa propre devise, puis les dollars passent en euros au change du jour. Le contrat ne coûtant rien, les deux valeurs sont égales.](figures/change-a-terme.svg) [§2.4, ajout]
+![Le contrat de change à terme sur deux lignes, la devise étrangère en haut, la locale en bas. On paie 1 unité locale en T et on reçoit K unités étrangères en T ; chaque flux revient en t par le zéro-coupon de sa devise, P(t,T) ou P^f(t,T), puis on convertit au change du jour X_t. Le contrat ne coûtant rien, K · P^f(t,T) / X_t = P(t,T).](figures/change-a-terme.svg) [§2.4, ajout]
 
 Prenons l'euro comme devise locale, un change de 1,10 dollar par euro, un taux de 4 % sur l'euro et de 5 % sur le dollar, à un an. [ajout]
 

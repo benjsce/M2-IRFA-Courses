@@ -33,7 +33,7 @@ Ce qui est **connu** : le prix d'aujourd'hui, la volatilité et le taux. Le mod�
 
 Changer de probabilité change la tendance, $\mu$ sous $\mathbb P$, $r$ sous $\mathbb Q$, et pas la volatilité : $E^{\mathbb P}(S_t)=S_0\,e^{\mu t}$, $E^{\mathbb Q}(S_t)=S_0\,e^{rt}$. [§5.4]
 
-![La loi du prix de l'action dans un an sous la probabilité risque-neutre, avec σ = 20 % et r = 4 % : dissymétrique, étirée vers le haut ; la médiane vaut 102,02 et la moyenne, le prix forward, 104,08.](figures/modele-black-scholes.svg) [ajout]
+![La loi de S_T sous la probabilité risque-neutre dans le modèle de Black et Scholes : log-normale, étirée vers le haut ; la médiane vaut S₀ e^((r − σ²/2)T) et la moyenne S₀ e^(rT), le prix forward.](figures/modele-black-scholes.svg) [ajout]
 
 ## Le chemin jusqu'ici
 Chaque ingrédient du modèle vient d'une fiche. fpp/tendance-risque-neutre fixe la tendance sous $\mathbb Q$ au taux sans risque, diminué du fpp/taux-de-dividende quand l'action en verse ; cette tendance sortait de fpp/probabilite-risque-neutre, qui fait de l'espérance le prix de fpp/prix-forward. [ajout]

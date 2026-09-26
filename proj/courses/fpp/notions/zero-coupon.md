@@ -30,7 +30,7 @@ On connaît le flux, 1 en $T$ ; on cherche son prix aujourd'hui. Quand le taux n
 
 Tout flux certain de montant $X$ payé en $T$ vaut donc $X\,P(t,T)$ en $t$ : c'est $X$ zéro-coupons. [Déf. 4]
 
-![Deux zéro-coupons du cours : 1 payé dans un an vaut 0,9608 aujourd'hui, 1 payé dans deux ans vaut 0,9048. Plus le paiement est loin, moins il vaut.](figures/zero-coupon.svg) [ajout]
+![Deux zéro-coupons : 1 payé en T₁ vaut P(t,T₁) aujourd'hui, 1 payé en T₂ vaut P(t,T₂). Plus le paiement est loin, moins il vaut.](figures/zero-coupon.svg) [ajout]
 
 ## Le chemin jusqu'ici
 fpp/capitalisation transporte une somme entre deux dates avec un taux unique. Le zéro-coupon garde le transport et abandonne le taux unique : il donne un prix par échéance, que la courbe des taux traduira ensuite en taux. [ajout]

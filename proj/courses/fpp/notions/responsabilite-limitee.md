@@ -29,7 +29,7 @@ On connaît le levier ; on cherche quelle baisse des actifs efface les capitaux 
 
 Le poly annonce qu'il reviendra sur l'effet de ce plancher sur la valeur des capitaux propres et de la dette ; le livre d'exercices le fait avec le modèle de Merton, où ce plancher fait des capitaux propres une option. [§1.4, exo. 16]
 
-![Les capitaux propres à l'échéance en fonction des actifs, pour une dette de 80 : ils suivent les actifs au-dessus de 80 et restent à 0 en dessous, là où sans la règle ils deviendraient négatifs.](figures/responsabilite-limitee.svg) [ajout]
+![Les capitaux propres à l'échéance en fonction des actifs, pour une dette D : E = max(A − D, 0). Au-dessus de D, ils suivent les actifs ; en dessous, ils restent à 0, là où sans la règle ils vaudraient A − D < 0.](figures/responsabilite-limitee.svg) [ajout]
 
 ## Le chemin jusqu'ici
 fpp/bilan fait des capitaux propres la différence entre les actifs et la dette : rien, dans l'égalité seule, ne l'empêche d'être négative, et c'est ce que la règle interdit. [ajout]

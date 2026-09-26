@@ -34,7 +34,7 @@ Un euro aujourd'hui ne vaut pas un euro demain, comme un dollar ne vaut pas un e
 
 On connaît le taux, 5 %, et la durée, 2 ans ; on cherche ce que devient 1. Sans convention de versement des intérêts, la question n'a pas de réponse : 1,10 en linéaire, 1,1025 avec deux versements, 1,1052 en continu. Le poly retient le continu : c'est la limite de toutes les fréquences, il n'impose aucun pas minimal, et l'exponentielle se manipule mieux. [§2.1]
 
-![Le même taux de 5 % sur deux ans, selon le nombre de versements d'intérêts : 1,10 en linéaire, 1,1025 avec deux versements, et de plus en plus près de 1,1052, la capitalisation continue, quand les versements se multiplient.](figures/capitalisation.svg) [§2.1, ajout]
+![Le facteur de capitalisation C(t,n) = (1 + rt/n)^n selon le nombre n de versements d'intérêts : 1 + rt en linéaire, (1 + rt/2)² avec deux versements, et de plus en plus près de e^(rt), la capitalisation continue, quand n grandit.](figures/capitalisation.svg) [§2.1, ajout]
 
 ## Exemple minimal
 À 5 % pendant 2 ans, 1 devient 1,10 en linéaire, 1,1025 avec deux versements et $e^{0,1}\approx1{,}1052$ en continu. [§2.1, ajout]

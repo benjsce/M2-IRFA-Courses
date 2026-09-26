@@ -30,7 +30,7 @@ $$\mathrm{Price}\big(g(\tilde S(T))\big)=P(0,T)\,E^{\mathbb Q}\big(g(\tilde S(T)
 $\mathbb{Q}$ n'est la croyance de personne : c'est un outil de calcul des prix, fixé par les prix forward. $\mathbb{P}$, la probabilité historique, est celle du monde réel, et ce n'est pas sous elle qu'on calcule les prix. $\tilde S(T)$ est le prix aléatoire de l'actif en $T$, $g$ une fonction quelconque qui en fait un paiement, $F(T)$ son prix forward vu d'aujourd'hui, noté ailleurs $F(0,T)$. [Prop. 6, §6.1]
 
 ## Retrouver la formule
-![Deux états du monde dans un an, l'action à 80 ou à 130. Sous la probabilité historique, la hausse a 60 % de chances et la moyenne vaut 110. Sous la probabilité risque-neutre, elle n'en a que 48 %, juste ce qu'il faut pour que la moyenne tombe sur le prix forward, 104,08.](figures/probabilite-risque-neutre.svg) [ajout]
+![Deux états du monde en T, S_d et S_u. Sous la probabilité historique P, la hausse a la probabilité p, et la moyenne vaut E^P(S_T). Sous la probabilité risque-neutre Q, elle a la probabilité q = (F − S_d) / (S_u − S_d), juste ce qu'il faut pour que la moyenne tombe sur le prix forward : E^Q(S_T) = F(0,T).](figures/probabilite-risque-neutre.svg) [ajout]
 
 Le poly cherche une règle de prix de la forme $\mathrm{Price}(\tilde X_T)=k\,E^{\mathbb Q}(\tilde X_T)$, avec un nombre $k$ et une mesure $\mathbb Q$ à déterminer. [§5.1]
 

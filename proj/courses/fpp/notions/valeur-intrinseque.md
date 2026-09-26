@@ -29,7 +29,7 @@ Ce qui est **connu** : le prix forward de l'action, 104,08, et le payoff. Ce qu'
 
 Au sens du poly, un call dont le strike égale le prix comptant n'a pas une valeur intrinsèque nulle : elle se calcule sur le prix forward, pas sur le prix comptant. Le livre d'exercices la compare au gain d'un exercice immédiat. [Déf. 12, exo. 9, ajout]
 
-![La valeur intrinsèque d'un call de strike 100 : dans un monde sans aléa, l'action vaudrait à coup sûr son prix forward, 104,08, le call paierait 4,08 dans un an, et ce paiement vaut 3,92 aujourd'hui.](figures/valeur-intrinseque.svg) [ajout]
+![La valeur intrinsèque d'un call de strike K : dans un monde sans aléa, l'action vaudrait à coup sûr son prix forward F = E(S_T) ; le call paierait F − K en T, et ce paiement vaut IV = e^(−rT) (F − K)⁺ aujourd'hui.](figures/valeur-intrinseque.svg) [ajout]
 
 ## Le chemin jusqu'ici
 fpp/option fournit le payoff à évaluer, fpp/payoff sa forme coudée. fpp/probabilite-risque-neutre dit quelle espérance prendre, celle qui tombe sur fpp/prix-forward, et qu'il faut l'actualiser comme fpp/valeur-actuelle-nette le fait d'un flux certain. [ajout]

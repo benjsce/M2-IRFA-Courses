@@ -40,7 +40,7 @@ On connaît le levier et les deux statistiques des actifs ; on cherche celles de
 
 Le levier amplifie dans les deux sens : un actif dont la prime espérée est négative donne des capitaux propres dont la prime espérée est $l_t$ fois plus négative. [§1.3]
 
-![Les actifs et les capitaux propres dans le plan volatilité–prime : avec un levier de 5, le point des capitaux propres est cinq fois plus loin sur la même demi-droite issue de l'origine.](figures/effet-de-levier.svg) [ajout]
+![Les actifs et les capitaux propres dans le plan volatilité–prime : (σ_E, π_E) = (l_t σ_A, l_t π_A), le même point l_t fois plus loin sur la demi-droite issue de l'origine.](figures/effet-de-levier.svg) [ajout]
 
 ## Le chemin jusqu'ici
 fpp/bilan fournit l'égalité des variations, d'où toute la formule sort par une division. fpp/levier y apparaît comme le rapport qui convertit un mouvement des actifs en mouvement des capitaux propres. [ajout]

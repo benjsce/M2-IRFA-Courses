@@ -24,7 +24,7 @@ $P(t,r)$, qui vaut $e^{-rt}$, est ici une fonction d'une durée $t$ et d'un taux
 ## Ce qui la définit
 On connaît le prix et la durée ; on cherche de combien le prix bouge quand le taux bouge. La variation relative vaut $-t$ fois celle du taux : une variation instantanée du taux pèse sur toute la vie de l'obligation, et d'autant plus que cette vie est longue. [Déf. 5]
 
-![Le prix d'un zéro-coupon à deux ans en fonction de son taux, et sa tangente à 5 % : la pente vaut −2 × 0,9048.](figures/duration.svg) [ajout]
+![Le prix d'un zéro-coupon P(t,r) = e^(−rt) en fonction de son taux, et sa tangente en r₀ : la pente vaut ∂P/∂r = −t P(t,r₀).](figures/duration.svg) [ajout]
 
 ## Le chemin jusqu'ici
 fpp/taux-zero-coupon écrit le prix sous la forme $e^{-R(T-t)}$, où le taux et la durée apparaissent ensemble dans l'exposant ; dériver par rapport au taux fait descendre la durée. fpp/zero-coupon fournit le titre étudié et fpp/capitalisation la convention continue qui rend ce calcul si simple. [ajout]

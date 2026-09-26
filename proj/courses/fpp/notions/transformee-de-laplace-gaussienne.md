@@ -27,7 +27,7 @@ Ce qui est **connu** : la moyenne et la variance de $X$. Ce qu'on **cherche** : 
 
 Le poly s'en sert aussitôt : pour que $E\big(S_0\,e^{Y(T)}\big)=S_0\,e^{rT}$, il faut donner au log-rendement la moyenne $rT-\sigma^2T/2$ et non $rT$. [§5.4]
 
-![La courbe exponentielle et deux valeurs d'une variable, −0,2 et +0,2, de moyenne nulle : la moyenne des deux exponentielles, sur la corde, est au-dessus de exp(0) = 1.](figures/transformee-de-laplace-gaussienne.svg) [ajout]
+![La courbe exponentielle et deux valeurs d'une variable, μ − σ et μ + σ : la moyenne des deux exponentielles, sur la corde, est au-dessus de e^μ. Pour une gaussienne, E(e^X) = e^(μ + σ²/2).](figures/transformee-de-laplace-gaussienne.svg) [ajout]
 
 ## Exemple minimal
 Pour $X$ gaussienne de moyenne nulle et d'écart type 0,2, $E(e^{X})=e^{0,02}\approx1{,}0202$ et non 1. [ajout]

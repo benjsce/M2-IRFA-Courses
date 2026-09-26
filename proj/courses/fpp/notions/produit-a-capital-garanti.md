@@ -31,7 +31,7 @@ $$C_0=V_0\big(1-e^{-rT}\big),\qquad k=\frac{C_0}{V_0\,\mathrm{Call}(S_0=1,K=1)},
 $V_0$ est le montant investi et garanti. $C_0$, le coussin, est ce qui reste une fois acheté le zéro-coupon qui rendra $V_0$ ; ce n'est pas le prix d'un call. $k$ est la participation : la part de la hausse de l'action que le placement reverse. [exo. 17]
 
 ## Retrouver la formule
-![Un zéro-coupon qui rend 100 à coup sûr, plus 0,395 call à la monnaie, égale un paiement qui ne descend jamais sous 100 et reverse 39,5 % de la hausse de l'action.](figures/produit-a-capital-garanti.svg) [§9.2, ajout]
+![Un zéro-coupon qui rend V₀ en T, plus des calls, égale un paiement qui ne descend jamais sous V₀ et reverse une part k de la hausse. Le zéro-coupon coûte V₀ e^(−rT) ; le coussin qui reste, C₀ = V₀ (1 − e^(−rT)), achète les calls, d'où k = C₀ / (V₀ Call(S₀ = 1, K = 1)).](figures/produit-a-capital-garanti.svg) [§9.2, ajout]
 
 On investit 100 pour un an, avec un taux de 4 %. Rendre 100 dans un an coûte un zéro-coupon de 96,08 : le coussin vaut 3,92. [exo. 17, ajout]
 

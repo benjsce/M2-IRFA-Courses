@@ -1,56 +1,60 @@
 #!/usr/bin/env python3
 r"""
-taux-forward.svg — le FRA ramené en t, en trois étapes numérotées.
+taux-forward.svg — deux façons de placer 1 de t à S, connues toutes deux aujourd'hui.
 
-① La jambe variable : recevoir en S l'intérêt au taux R(T,S), c'est exactement ce que
-   donne 1 reçu en T et placé de T à S au taux du moment. Elle vaut donc 1 en T.
-② Chaque jambe revient en t par son zéro-coupon : 1 en T vaut P(t,T) = 0,9608 ;
-   e^{K(S−T)} payé en S vaut P(t,S)·e^{K} = 0,9048·e^{K}.
-③ Le contrat ne coûte rien : 0,9608 = 0,9048·e^{K}, donc K = 6 %.
-Courbe du cours : 4 % à un an, 5 % à deux ans ; T = t + 1, S = t + 2.
+① En une fois, au taux zéro-coupon R(t,S) : 1 devient e^{R(t,S)(S−t)}.
+② En deux temps : jusqu'à T au taux R(t,T), 1 devient e^{R(t,T)(T−t)} ; puis de T à S au
+   taux K fixé aujourd'hui par le FRA, il devient e^{R(t,T)(T−t)} · e^{K(S−T)}.
+③ Même mise, deux résultats certains : ils sont égaux. Les exposants s'ajoutent :
+   R(t,T)(T−t) + K(S−T) = R(t,S)(S−t), d'où K.
 
 Usage : python courses/fpp/figures/taux-forward.py > taux-forward.svg
 Dépendance : aucune.
 """
+import math
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "tools"))
-from figure import Figure, ACCENT, AJOUT, DOUX, ENCRE      # noqa: E402
+from figure import Figure, Planche, ACCENT, AJOUT, DOUX, ENCRE, PALE      # noqa: E402
 
-f = Figure(xmin=-1.25, xmax=3.05, ymin=-2.45, ymax=2.45, w=660, h=470, marges=(10, 10, 10, 10),
-           titre="Taux forward : chaque jambe du FRA ramenée en t, puis égalées parce que le contrat est gratuit")
-f.axe_temps(0, -0.05, 2.9, [(0, "t"), (1, "T = t + 1"), (2, "S = t + 2")])
-f.texte(-1.2, 1.9, "on reçoit", couleur=ACCENT, gras=True, taille=12)
-f.texte(-1.2, -1.95, "on paie", couleur=AJOUT, gras=True, taille=12)
+f = Figure(xmin=-0.45, xmax=3.2, ymin=-2.85, ymax=2.35, w=680, h=510, marges=(10, 10, 10, 10),
+           titre="Placer 1 de t à S en une fois ou en deux temps : même résultat, d'où le taux forward K")
+f.axe_temps(0, -0.3, 2.3, [(0, "t"), (1, "T"), (2, "S")])
 
-# ① la jambe variable équivaut à 1 en T
-f.fleche(1, 0.12, 1, 0.85, couleur=ACCENT, epaisseur=2.2)
-f.texte(1, 0.45, "1", couleur=ACCENT, dx=8, gras=True)
-f.fleche(1.06, 0.95, 1.96, 0.95, couleur=ACCENT, courbure=12, epaisseur=1.4)
-f.fleche(2, 0.12, 2, 0.85, couleur=ACCENT, epaisseur=2.2, pointilles="5 4")
-f.texte(2, 0.62, "e^{R(T,S)(S−T)}", couleur=ACCENT, dx=8, gras=True)
-f.texte(2, 0.62, "inconnu aujourd'hui", couleur=ACCENT, dx=8, dy=16, taille=11.5)
-f.texte(1.5, 0.95, "① 1 placé de T à S au taux du moment", couleur=ACCENT, ancre="middle", dy=-30, taille=12)
-f.texte(1.5, 0.95, "donne exactement ce montant", couleur=ACCENT, ancre="middle", dy=-15, taille=12)
 
-# ② chaque jambe revient en t
-f.fleche(0.95, 1.05, 0.12, 1.55, couleur=ACCENT, courbure=26, epaisseur=1.8)
-f.texte(0.55, 1.55, "② × P(t,T)", couleur=ACCENT, ancre="middle", dy=-26, gras=True, taille=12)
-f.texte(0, 1.55, "0,9608", couleur=ACCENT, ancre="end", dx=-8, dy=5, gras=True)
+def noeud(x, y, s, couleur, dy=-10):
+    f.point(x, y, couleur=couleur, r=4)
+    f.texte(x, y, s, couleur=couleur, ancre="middle", dy=dy, gras=True)
 
-f.fleche(2, -0.45, 2, -1.15, couleur=AJOUT, epaisseur=2.2)
-f.texte(2, -0.75, "e^{K(S−T)}", couleur=AJOUT, dx=8, gras=True)
-f.texte(2, -0.75, "fixé aujourd'hui", couleur=AJOUT, dx=8, dy=16, taille=11.5)
-f.fleche(1.95, -1.3, 0.12, -1.55, couleur=AJOUT, courbure=-30, epaisseur=1.8)
-f.texte(1.2, -1.45, "② × P(t,S)", couleur=AJOUT, ancre="middle", gras=True, taille=12)
-f.texte(0, -1.55, "0,9048 × e^{K}", couleur=AJOUT, ancre="end", dx=-8, dy=5, gras=True)
 
-# ③ les deux valeurs sont égales
-f.courbe([(-0.4, 1.3), (-0.4, 0.4)], couleur=ENCRE, epaisseur=1.4)
-f.courbe([(-0.4, -0.45), (-0.4, -1.3)], couleur=ENCRE, epaisseur=1.4)
-f.texte(-0.4, 0.0, "③ égales :", couleur=ENCRE, ancre="middle", dy=-3, gras=True, taille=13)
-f.texte(-0.4, 0.0, "le contrat est gratuit", couleur=DOUX, ancre="middle", dy=13, taille=11)
-f.texte(0.85, -2.33, "0,9608 = 0,9048 × e^{K}, d'où K = F(t,T,S) = ln(0,9608 / 0,9048) = 6 %",
-        couleur=ENCRE, ancre="middle", gras=True, taille=12.5)
+# ① en une fois
+noeud(0, 1.1, "1", ACCENT)
+noeud(2, 1.1, "e^{R(t,S)(S−t)}", ACCENT, dy=24)
+f.fleche(0.06, 1.18, 1.94, 1.18, couleur=ACCENT, courbure=30, epaisseur=2)
+f.texte(1, 1.18, "① en une fois, au taux R(t,S) :", couleur=ACCENT, ancre="middle", dy=-66, gras=True, taille=12.5)
+f.texte(1, 1.18, "× e^{R(t,S)(S−t)}", couleur=ACCENT, ancre="middle", dy=-48, taille=12.5)
+
+# ② en deux temps
+noeud(0, -1.2, "1", AJOUT)
+noeud(1, -1.2, "e^{R(t,T)(T−t)}", AJOUT)
+noeud(2, -1.2, "e^{R(t,T)(T−t)} · e^{K(S−T)}", AJOUT)
+f.fleche(0.06, -1.3, 0.94, -1.3, couleur=AJOUT, courbure=-22, epaisseur=2)
+f.fleche(1.06, -1.3, 1.94, -1.3, couleur=AJOUT, courbure=-22, epaisseur=2, pointilles="6 4")
+f.texte(0.5, -1.3, "② jusqu'à T, au taux R(t,T) :", couleur=AJOUT, ancre="middle", dy=62, gras=True, taille=12)
+f.texte(0.5, -1.3, "× e^{R(t,T)(T−t)}", couleur=AJOUT, ancre="middle", dy=79, taille=12)
+f.texte(1.5, -1.3, "puis de T à S, au taux K fixé", couleur=AJOUT, ancre="middle", dy=62, gras=True, taille=12)
+f.texte(1.5, -1.3, "aujourd'hui par le FRA : × e^{K(S−T)}", couleur=AJOUT, ancre="middle", dy=79, taille=12)
+
+# ③ égalité à l'arrivée
+f.courbe([(2.55, 1.0), (2.55, -1.1)], couleur=ENCRE, epaisseur=1.4)
+f.texte(2.55, 0.35, "③ égaux :", couleur=ENCRE, dx=8, gras=True, taille=12.5)
+f.texte(2.55, 0.35, "connus tous deux", couleur=DOUX, dx=8, dy=16, taille=11.5)
+f.texte(2.55, 0.35, "aujourd'hui, sinon", couleur=DOUX, dx=8, dy=31, taille=11.5)
+f.texte(2.55, 0.35, "arbitrage", couleur=DOUX, dx=8, dy=46, taille=11.5)
+
+f.texte(1.1, -2.5, "les exposants s'ajoutent : R(t,T)(T − t) + K(S − T) = R(t,S)(S − t)", couleur=ENCRE,
+        ancre="middle", gras=True, taille=12.5)
+f.texte(1.1, -2.5, "d'où K = F(t,T,S) = [R(t,S)(S − t) − R(t,T)(T − t)] / (S − T)", couleur=ENCRE,
+        ancre="middle", dy=21, taille=12.5)
 sys.stdout.write(f.svg())

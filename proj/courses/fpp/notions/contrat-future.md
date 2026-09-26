@@ -32,7 +32,7 @@ Ce qui est **connu** : le prix future du jour et le fait qu'il finira égal au p
 
 La différence ressemble, dit le poly, à celle qui sépare l'achat d'un zéro-coupon d'une suite de placements courts renouvelés. [§4.1]
 
-![Un prix future qui part de 104,08 et rejoint le prix comptant à l'échéance : chaque jour, la barre est le flux versé à l'acheteur, positif quand le prix monte, négatif quand il baisse.](figures/contrat-future.svg) [ajout]
+![Un prix future H qui part de H(t₀) et rejoint le prix comptant en T, H(T) = S(T) : chaque jour, la barre est le flux versé à l'acheteur, H(t_i+1) − H(t_i), positif quand le prix monte, négatif quand il baisse.](figures/contrat-future.svg) [ajout]
 
 ## Le chemin jusqu'ici
 fpp/prix-forward est le point de comparaison : même sous-jacent, même échéance, mais un seul paiement à la fin. Ce prix sort de fpp/cash-and-carry, qui porte l'action avec un emprunt évalué par fpp/zero-coupon dans la convention de fpp/capitalisation, et fpp/absence-d-arbitrage le rend unique. Le règlement quotidien casse ce montage : les flux arrivent en cours de route. [ajout]

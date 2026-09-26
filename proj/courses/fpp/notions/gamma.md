@@ -29,7 +29,7 @@ Ce qui est **connu** : le delta et sa pente. Ce qu'on **cherche** : de combien i
 
 Le tableau du poly le montre : la dérivée seconde de la valeur intrinsèque est nulle partout sauf au strike, où elle est infinie ; celles de la valeur temps et du prix montent puis redescendent, maximales près de la monnaie. [§8.2]
 
-![Le delta du call en fonction du prix de l'action, une courbe en S, et sa tangente en 100 : la pente, 0,019, est le gamma.](figures/gamma.svg) [ajout]
+![Le delta du call, N(d₁), en fonction du prix de l'action, une courbe en S, et sa tangente en S₀ : la pente est le gamma, γ = ∂²C/∂S² = n(d₁) / (S σ √τ).](figures/gamma.svg) [ajout]
 
 ## Le chemin jusqu'ici
 Les grecques dérivent le prix que calcule fpp/formule-black-scholes, et fpp/valeur-temps les décompose, avec fpp/valeur-intrinseque, en ce qui vient de l'aléa et ce qui n'en vient pas. [ajout]

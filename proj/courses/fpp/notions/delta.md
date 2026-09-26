@@ -30,7 +30,7 @@ Ce qui est **connu** : le prix du call en fonction du prix de l'action. Ce qu'on
 
 Quand l'action monte, le delta du call monte aussi : sa valeur intrinsèque augmente, sa valeur temps monte puis redescend, son prix augmente ; c'est l'inverse pour le put. [§8.2]
 
-![Le prix du call en fonction du prix de l'action, et sa tangente en 100 : la pente, 0,618, est le delta.](figures/delta.svg) [ajout]
+![Le prix du call C(S) en fonction du prix de l'action, et sa tangente en S₀ : la pente est le delta, δ = ∂C/∂S = N(d₁).](figures/delta.svg) [ajout]
 
 ## Le chemin jusqu'ici
 Les grecques dérivent le prix que calcule fpp/formule-black-scholes, et fpp/valeur-temps les décompose, avec fpp/valeur-intrinseque, en ce qui vient de l'aléa et ce qui n'en vient pas. [ajout]

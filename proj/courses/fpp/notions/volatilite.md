@@ -28,7 +28,7 @@ Le poly l'écrit sur la prime, $\sigma_E = \operatorname{stdev}(\tilde\pi_E)$ ; 
 ## Ce qui la définit
 On connaît une suite de rendements ; on cherche l'écart typique autour de leur moyenne. La volatilité le donne en un nombre, sans rien dire de la moyenne elle-même. [Déf. 2]
 
-![Vingt-quatre rendements fictifs autour de leur moyenne de 6 % : la plupart restent dans la bande de 4 points de part et d'autre, la volatilité.](figures/volatilite.svg) [ajout]
+![Des rendements fictifs autour de leur moyenne : la plupart restent dans la bande de largeur σ de part et d'autre, la volatilité.](figures/volatilite.svg) [ajout]
 
 ## Exemple minimal
 Des rendements annuels qui s'écartent d'ordinaire de 4 points de leur moyenne de 6 % : la volatilité vaut 4 %. [ajout]

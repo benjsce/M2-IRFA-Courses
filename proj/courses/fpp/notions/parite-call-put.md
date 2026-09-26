@@ -29,7 +29,7 @@ $$\mathrm{call}(S_0,K,T)-\mathrm{put}(S_0,K,T)=S_0-K\,P(0,T)=S_0-K\,e^{-rT}$$ [P
 $\mathrm{call}(S_0,K,T)$ et $\mathrm{put}(S_0,K,T)$ sont les prix d'aujourd'hui des deux options européennes de strike $K$ et de maturité $T$ ; $S_0$ est le prix de l'action ; $K\,P(0,T)$ ce que vaut aujourd'hui le strike payé en $T$. [Prop. 7]
 
 ## Retrouver la formule
-![Le payoff du call, moins celui du put de même strike 100, égale la droite du prix final moins 100 : le payoff d'un achat à terme au prix 100.](figures/parite-call-put.svg) [Prop. 7, ajout]
+![Le payoff du call, moins celui du put de même strike K, égale la droite S_T − K : le payoff d'un achat à terme au prix K. Mêmes paiements, mêmes prix : C − P = S₀ − K P(0,T).](figures/parite-call-put.svg) [Prop. 7, ajout]
 
 À l'échéance, quel que soit le prix final, $(S_T-K)^+-(K-S_T)^+=S_T-K$ : au-dessus du strike, le call paie et le put non ; en dessous, c'est l'inverse, et la différence vaut toujours $S_T-K$. [Prop. 7, exos éq. 1.1]
 

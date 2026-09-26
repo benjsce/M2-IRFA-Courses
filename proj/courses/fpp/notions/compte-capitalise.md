@@ -29,7 +29,7 @@ Ce qui est **connu** aujourd'hui : le prix du zéro-coupon qui couvre la premiè
 
 Si les taux sont connus d'avance, les deux coïncident : $B(t,T)=P(t,T)$. [Prop. 4]
 
-![Deux façons d'aller d'aujourd'hui à dans un an. En haut, un seul zéro-coupon, dont le prix est connu. En bas, deux placements de six mois : le premier est connu, le second ne le sera que dans six mois.](figures/compte-capitalise.svg) [ajout]
+![Deux façons d'aller de t₀ à t₂. En haut, un seul zéro-coupon, P(t₀,t₂), connu dès t₀. En bas, deux placements successifs : P(t₀,t₁) est connu, P(t₁,t₂) ne le sera qu'en t₁ ; leur produit est B(t₀,t₂).](figures/compte-capitalise.svg) [ajout]
 
 ## Le chemin jusqu'ici
 fpp/zero-coupon fournit chaque facteur, sur une période courte. Enchaîner ces périodes est de la capitalisation au sens de fpp/capitalisation, mais à des taux que l'on ne connaît pas encore. [ajout]

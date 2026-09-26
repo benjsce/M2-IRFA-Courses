@@ -33,7 +33,7 @@ $$\mathcal Lf=\frac{\partial f}{\partial t}+\mu(t,x)\frac{\partial f}{\partial x
 $X(t)$ est une diffusion, $dX=\mu(t,X)\,dt+\sigma(t,X)\,dW_t$, qui n'a rien d'un taux de change. $\mathcal{L}$, son générateur, prend une fonction et rend la dérive de $f(t,X_t)$. $Z_t$, égal à $f(t,X_t)$, est l'espérance, vue en $t$, du paiement final $F(X_T)$ ; ici $F$ est une fonction, pas un prix forward. $\mathcal F_t$ est l'information disponible en $t$. [éq. 17, éq. 18, éq. 19]
 
 ## Retrouver la formule
-![Le prix du call en fonction du prix de l'action, à un an, six mois et trois mois de l'échéance, puis à l'échéance, où il devient le payoff coudé : en remontant le temps, l'équation lisse le coude, comme la chaleur lisse une température.](figures/feynman-kac.svg) [ajout]
+![Le prix du call C(t,S) en fonction du prix de l'action pour trois durées restantes τ₁ > τ₂ > τ₃, puis en T, où il devient le payoff (S − K)⁺ : en remontant le temps, l'équation lisse le coude, comme la chaleur lisse une température.](figures/feynman-kac.svg) [ajout]
 
 Par la formule d'Itô, $df(t,X)=\mathcal Lf\,dt+\frac{\partial f}{\partial x}\sigma\,dW_t$. [§7.2.1]
 

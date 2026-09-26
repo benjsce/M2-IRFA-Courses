@@ -28,7 +28,7 @@ La rencontre ne se fait pas d'elle-même. Des intermédiaires, banques et géran
 
 Ce qui s'échange est un **titre** (security) : un contrat normalisé et transférable, là où un prêt sur mesure ne passe pas de main en main. [§1.1.3]
 
-![Les épargnants à gauche, ceux qui ont besoin d'argent à droite, en milliers de milliards de dollars : l'argent va de gauche à droite, les titres de droite à gauche.](figures/marche-financier.svg) [§1.1.1, §1.1.2, §1.1.3]
+![Les épargnants à gauche, ceux qui ont besoin d'argent à droite, selon les ordres de grandeur du poly : l'argent va de gauche à droite, les titres de droite à gauche.](figures/marche-financier.svg) [§1.1.1, §1.1.2, §1.1.3]
 
 ## Cesse d'être valide quand
 Les ordres de grandeur ne sont pas datés dans le poly : ils vieillissent, et ne valent que comme ordres de grandeur. [§1.1.1]

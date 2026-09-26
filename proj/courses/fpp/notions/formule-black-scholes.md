@@ -38,7 +38,7 @@ Avec un dividende continu $q$, $S_0$ devient $S_0\,e^{-qT}$ devant $N$, et $r$ d
 $C$ et $P$ sont les prix du call et du put ; ce $P$ n'est pas le zéro-coupon $P(0,T)$, ni le $C$ celui de la capitalisation. $N$ prend un nombre et rend la probabilité qu'une gaussienne centrée réduite tombe en dessous. $d_1$ et $d_2$ sont deux seuils sans unité, qui ne sont pas des dividendes. [éq. 3, éq. 5]
 
 ## Retrouver la formule
-![Le payoff du call décomposé : recevoir l'action si elle finit au-dessus de 100, moins recevoir 100 dans le même cas. Aujourd'hui, le premier vaut 61,79, le second 51,87, et le call leur différence, 9,93.](figures/formule-black-scholes.svg) [ajout]
+![Le payoff du call décomposé : recevoir l'action si S_T > K, qui vaut S₀ N(d₁) aujourd'hui, moins recevoir K dans le même cas, qui vaut K e^(−rT) N(d₂). Le call est leur différence : C = S₀ N(d₁) − K e^(−rT) N(d₂).](figures/formule-black-scholes.svg) [ajout]
 
 Le prix du call est son espérance actualisée sous $\mathbb Q$ : $C=e^{-rT}E^{\mathbb Q}\big((S_T-K)^+\big)$. Ce payoff se coupe en deux : recevoir l'action quand $S_T>K$, moins recevoir $K$ dans le même cas. [Prop. 6, ajout]
 

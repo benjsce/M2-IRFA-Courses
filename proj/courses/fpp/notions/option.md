@@ -30,7 +30,7 @@ Le prix $K$ s'appelle le strike, la date $T$ la maturité. Une option européenn
 
 Ce droit a une valeur : l'option se paie à la signature, alors qu'un contrat à terme ne coûte rien. Ce qui est **connu** : le strike, la maturité, le prix de l'action. Ce qu'on **cherche** : ce prix, appelé prime, qui est la question de tout le chapitre 6. [§6.1, ajout]
 
-![Un call de strike 100 à un an, dans deux scénarios. Si l'action finit à 120, le détenteur exerce, achète à 100 ce qui vaut 120 et gagne 20. Si elle finit à 80, il n'exerce pas et ne perd rien de plus que la prime.](figures/option.svg) [ajout]
+![Un call de strike K à maturité T, dans deux scénarios. Si S_T > K, le détenteur exerce et gagne S_T − K. Si S_T < K, il n'exerce pas et ne reçoit rien : il reçoit (S_T − K)⁺.](figures/option.svg) [ajout]
 
 ## Le chemin jusqu'ici
 fpp/payoff décrit un contrat par ce qu'il paie ; l'option est le contrat dont le payoff est coudé, parce que son détenteur choisit d'exercer ou non. [ajout]

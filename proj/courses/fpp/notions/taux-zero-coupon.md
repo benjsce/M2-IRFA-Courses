@@ -29,7 +29,7 @@ $R(T,S)$ est le même objet vu depuis une date future $T$ : aujourd'hui, il est 
 ## Ce qui la définit
 On connaît le prix du zéro-coupon ; on le relit en taux, parce qu'un taux se compare d'une échéance à l'autre alors qu'un prix dépend surtout de la durée. [§2.3, ajout]
 
-![Moins le logarithme du prix des deux zéro-coupons du cours, en fonction de l'échéance : le taux zéro-coupon est la pente de la corde issue de l'origine, 4 % jusqu'à un an, 5 % jusqu'à deux ans.](figures/taux-zero-coupon.svg) [ajout]
+![Moins le logarithme du prix du zéro-coupon en fonction de la durée : le taux zéro-coupon R(t,T) = −ln P(t,T) / (T − t) est la pente de la corde issue de l'origine.](figures/taux-zero-coupon.svg) [ajout]
 
 ## Le chemin jusqu'ici
 fpp/zero-coupon fournit le prix, fpp/capitalisation les deux conventions qui le transforment en taux. Le taux zéro-coupon n'apporte aucune information nouvelle : il change d'unité, du prix au taux. [ajout]

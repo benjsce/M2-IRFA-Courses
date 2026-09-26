@@ -29,7 +29,7 @@ $$E_0=e^{-rT}F_T\big(N(d_1)-l\,N(d_2)\big),\qquad s=-\frac1T\ln\Big(N(d_2)+\frac
 $l$, égal à $D/F_T$, rapporte le nominal $D$ de la dette, un zéro-coupon d'échéance $T$, à la valeur forward $F_T$ des actifs : 0 pour une entreprise sans dette, 1 pour une entreprise dont la dette absorbe tout. Ce n'est pas le levier $l_t=A_t/E_t$ du poly. $s$ est le spread de crédit : l'entreprise emprunte au taux $r+s$, et sa dette vaut $D\,e^{-(r+s)T}$. $\sigma$ est ici la volatilité des actifs, $E_0$ la valeur des capitaux propres aujourd'hui. [exo. 16]
 
 ## Retrouver la formule
-![La valeur des actifs à l'échéance, partagée entre créanciers et actionnaires pour une dette de nominal 80 : les créanciers reçoivent le plus petit de 80 et des actifs, les actionnaires le reste, le payoff d'un call de strike 80. Les deux parts s'empilent pour redonner les actifs.](figures/modele-de-merton.svg) [exo. 16, ajout]
+![La valeur des actifs à l'échéance partagée entre créanciers et actionnaires pour une dette de nominal D : les créanciers reçoivent min(S_T, D), les actionnaires (S_T − D)⁺, le payoff d'un call de strike D. Les deux parts s'empilent pour redonner S_T.](figures/modele-de-merton.svg) [exo. 16, ajout]
 
 À l'échéance, les créanciers sont payés d'abord : 80 si les actifs valent plus, tout sinon. Les actionnaires, protégés par la responsabilité limitée, reçoivent $(S_T-D)^+$ : un call sur les actifs, de strike la dette. [exo. 16]
 

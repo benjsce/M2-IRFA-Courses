@@ -24,7 +24,7 @@ Pour un call sur une action sans dividende, garder l'option vaut toujours plus. 
 
 Pour un call sur une devise dont le taux étranger est positif, le livre d'exercices montre que l'exercice anticipé peut être préférable : ce taux joue le rôle d'un dividende, que l'on ne touche qu'en détenant la devise. [exo. 9]
 
-![À gauche, un call sur l'action sans dividende : son prix reste partout au-dessus du gain d'un exercice immédiat. À droite, un call sur une devise qui rapporte plus que la devise locale : très dans la monnaie, son prix passe sous ce gain, et exercer tout de suite vaut mieux.](figures/option-americaine.svg) [ajout]
+![À gauche, un call sur l'action sans dividende : son prix reste partout au-dessus du gain d'un exercice immédiat, S − K. À droite, un call sur une devise dont le taux dépasse le taux local : très dans la monnaie, son prix passe sous X − K, et exercer tout de suite vaut mieux.](figures/option-americaine.svg) [ajout]
 
 ## Le chemin jusqu'ici
 fpp/valeur-temps donne l'argument : une option convexe vaut plus que sa valeur intrinsèque, calculée par fpp/valeur-intrinseque sur le prix forward. fpp/formule-black-scholes donne les prix de la figure, dans le fpp/modele-black-scholes où fpp/probabilite-risque-neutre et fpp/tendance-risque-neutre fixent la moyenne au prix de fpp/prix-forward, abaissé par le fpp/taux-de-dividende, limite continue des fpp/dividendes-intermediaires. C'est ce taux, pour une devise le taux étranger, qui peut rendre l'exercice anticipé intéressant. [ajout]

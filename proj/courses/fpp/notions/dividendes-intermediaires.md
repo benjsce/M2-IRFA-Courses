@@ -28,7 +28,7 @@ $$F(t,T)=\frac{S_t}{P(t,T)}\Big(1-\sum_i d_i\Big)\qquad\text{ou, pour des montan
 $T_i$ est la date du $i$-ième dividende, avant $T$. $d_i$ est une fraction : le dividende versé en $T_i$ vaut $d_i$ fois la valeur forward de l'action à cette date, $S_t/P(t,T_i)$. Ce ne sont ni les $d_1$, $d_2$ de la formule de Black et Scholes, ni le taux de dividende continu $d$. [§3.2, éq. 5, §5.2.1]
 
 ## Retrouver la formule
-![Le portage de l'action avec un dividende de 2 % dans six mois. Sans dividende, il faut rembourser 104,08 dans un an. Le dividende reçu dans six mois, 2,04, placé jusqu'à l'échéance, en rembourse 2,08 : le prix forward tombe à 102,00.](figures/dividendes-intermediaires.svg) [ajout]
+![Le portage de l'action avec un dividende en T₁, égal à d₁ S_t / P(t,T₁). Placé jusqu'en T, il vaut d₁ S_t / P(t,T) et rembourse d'autant l'emprunt S_t / P(t,T) : le prix forward tombe à S_t / P(t,T) × (1 − d₁).](figures/dividendes-intermediaires.svg) [ajout]
 
 Sans dividende, porter l'action un an coûte 104,08. [§3.1]
 

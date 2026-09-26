@@ -25,7 +25,7 @@ $$NPV(t)=\sum_i P(t,t_i)\,X_i,\qquad NPV(t_k)=\frac{NPV(t)}{P(t,t_k)}$$ [Déf. 4
 $X_i$ est le montant, certain, payé à la date $t_i$ ; le poly appelle $\tau$ l'ensemble des dates $t_1,\dots,t_n$, sans rapport avec la durée restante $\tau$ des grecques. $NPV(t)$ est la valeur de toute la suite en $t$ ; $NPV(t_k)$ la même valeur exprimée à une autre date $t_k$. [Déf. 4, §8.2]
 
 ## Retrouver la formule
-![Un titre qui paie 5 dans un an et 105 dans deux ans : chaque flux revient en t par le zéro-coupon de sa date, 4,80 et 95,01, et leur somme est la valeur actuelle nette, 99,81.](figures/valeur-actuelle-nette.svg) [ajout]
+![Un titre qui paie X₁ en t₁ et X₂ en t₂ : chaque flux revient en t multiplié par le zéro-coupon de sa date, et leur somme est la valeur actuelle nette, NPV(t) = P(t,t₁) X₁ + P(t,t₂) X₂.](figures/valeur-actuelle-nette.svg) [ajout]
 
 Le flux de 5 dans un an, ce sont 5 zéro-coupons à un an : il vaut $5\times0{,}9608=4{,}80$. Celui de 105 dans deux ans, ce sont 105 zéro-coupons à deux ans : $105\times0{,}9048=95{,}01$. [ajout]
 

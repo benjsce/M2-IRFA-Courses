@@ -27,7 +27,7 @@ Celui qui paie le fixe veut connaître dès aujourd'hui le taux d'un emprunt qu'
 
 Ce qui est **connu** à la signature : les trois dates et $K$. Ce qui reste **inconnu** : $R(T,S)$. Le contrat transforme un taux futur inconnu en un taux fixé aujourd'hui ; quel $K$ le rend gratuit, c'est la question du taux forward. [Déf. 7, §2.3]
 
-![Les flux du FRA sur l'échéancier : le taux variable est fixé en T et inconnu aujourd'hui ; en S, on reçoit l'intérêt variable et on paie l'intérêt fixe, écrit dès la signature.](figures/fra.svg) [Déf. 7, ajout]
+![Les flux du FRA sur l'échéancier : le taux variable R(T,S) est fixé en T et inconnu en t ; en S, on reçoit e^(R(T,S)(S−T)) et on paie e^(K(S−T)), écrit dès la signature.](figures/fra.svg) [Déf. 7, ajout]
 
 ## Le chemin jusqu'ici
 fpp/taux-zero-coupon définit $R(T,S)$, le même objet que $R(t,T)$ mais vu depuis une date future, et c'est cette date qui le rend inconnu. fpp/zero-coupon fournit l'unité empruntée de $T$ à $S$, et fpp/capitalisation la convention continue dans laquelle intérêts fixes et variables s'écrivent. [ajout]

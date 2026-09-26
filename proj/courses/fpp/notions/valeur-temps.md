@@ -27,7 +27,7 @@ Ce qui est **connu** : le prix de l'option et sa valeur intrinsèque. Ce qu'on *
 
 Pour le call de l'exemple, elle vaut $9{,}93-3{,}92=6{,}00$ : le prix du put de même strike. Ce n'est pas un hasard : quand le prix forward dépasse le strike, la parité call-put fait de la valeur temps du call exactement le prix du put. [ajout]
 
-![Le prix du call en fonction du prix de l'action, au-dessus de sa valeur intrinsèque, coudée en 96,08 : l'écart vertical est la valeur temps, la plus grande près du coude, et elle vaut 6,00 quand l'action est à 100.](figures/valeur-temps.svg) [ajout]
+![Le prix du call en fonction de S₀, au-dessus de sa valeur intrinsèque IV = (S₀ − K e^(−rT))⁺, coudée en K e^(−rT) : l'écart vertical est la valeur temps, TV = prix − IV, la plus grande près du coude.](figures/valeur-temps.svg) [ajout]
 
 ## Le chemin jusqu'ici
 fpp/valeur-intrinseque donne la partie du prix qui existerait sans aléa, fpp/formule-black-scholes le prix entier ; la valeur temps est leur écart. [ajout]

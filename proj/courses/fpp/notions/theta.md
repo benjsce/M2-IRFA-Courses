@@ -31,7 +31,7 @@ Ce qui est **connu** : le prix de l'option aujourd'hui. Ce qu'on **cherche** : c
 
 Le thêta paie le gamma. Dans l'équation de Black et Scholes, $\Theta+r\,S\,\delta+\tfrac12\sigma^2S^2\gamma=rC$ : ce que l'option perd avec le temps compense ce que sa convexité rapporte quand l'action bouge. [§7.1, ajout]
 
-![Le prix du call à la monnaie en fonction du temps restant, l'action restant à 100 : il fond de 9,93 à un an jusqu'à 0 à l'échéance, de plus en plus vite ; la pente à un an est le thêta.](figures/theta.svg) [ajout]
+![Le prix du call à la monnaie à mesure que le temps passe, l'action restant fixe : il fond jusqu'à (S − K)⁺ = 0 en T, de plus en plus vite ; la pente au départ est le thêta, Θ = ∂C/∂t.](figures/theta.svg) [ajout]
 
 ## Le chemin jusqu'ici
 Les grecques dérivent le prix que calcule fpp/formule-black-scholes, et fpp/valeur-temps les décompose, avec fpp/valeur-intrinseque, en ce qui vient de l'aléa et ce qui n'en vient pas. [ajout]

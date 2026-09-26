@@ -24,7 +24,7 @@ $G$ est le payoff en général : il prend des observables et rend un montant. $x
 ## Ce qui la définit
 Un payoff décrit un contrat par ce qu'il paie, indépendamment de son prix. Celui d'un achat à terme est la droite $S_T-K$, qui peut être négative ; ceux du call et du put sont coudés en $K$ et jamais négatifs. [Déf. 11, ajout]
 
-![Le payoff du call et celui du put de strike 100, en fonction du prix final de l'action : le call paie au-dessus de 100, le put en dessous, et aucun des deux ne paie jamais de montant négatif.](figures/payoff.svg) [Déf. 11, ajout]
+![Le payoff du call (S_T − K)⁺ et celui du put (K − S_T)⁺ : le call paie au-dessus de K, le put en dessous, et aucun ne paie jamais de montant négatif.](figures/payoff.svg) [Déf. 11, ajout]
 
 ## Exemple minimal
 L'action finit à 120 et le strike vaut 100 : le call paie 20, le put 0. [ajout]

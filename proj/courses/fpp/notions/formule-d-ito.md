@@ -29,7 +29,7 @@ Ce qui est **connu** : la dynamique de l'action. Ce qu'on **cherche** : celle de
 
 Le livre d'exercices l'applique au prix forward $F_t=S_t\,e^{r(T-t)}$ : sous la probabilité risque-neutre, $dF_t=F_t\,\sigma\,dW_t$, sans dérive. [exo. 14]
 
-![Le prix du call en fonction du prix de l'action, et sa tangente en 100 : un mouvement de ±10 fait gagner en moyenne plus que la tangente ne le prévoit, l'écart que mesure le terme en dérivée seconde.](figures/formule-d-ito.svg) [ajout]
+![Le prix du call C(S) et sa tangente en S : pour un mouvement ±ΔS, la moyenne de C(S − ΔS) et C(S + ΔS) dépasse C(S) de ½ ∂²C/∂S² ΔS², l'écart que la tangente ne voit pas et que la formule d'Itô ajoute.](figures/formule-d-ito.svg) [ajout]
 
 ## Le chemin jusqu'ici
 fpp/modele-black-scholes donne l'équation que suit l'action ; la formule d'Itô la propage à toute fonction de l'action. Le terme en $\sigma^2$ vient de ce que fpp/echelonnement-de-la-variance appliqué à fpp/volatilite fait croître la variance comme le temps. [ajout]
