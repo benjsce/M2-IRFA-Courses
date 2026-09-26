@@ -37,6 +37,8 @@ Ajouter un bruit de moyenne nulle est une opération sur les loteries ; qu'elle 
 ## Exemple minimal
 Ajouter $\pm 20$ à pile ou face à $\tilde x$ uniforme sur $\{40,60\}$ donne $\{20,40,60,80\}$ uniforme, de même moyenne 50. [L1 slide 24]
 
+![L'exemple dessiné comme un tirage en deux temps : chaque résultat de $\tilde x$ se sépare en deux, $+20$ ou $-20$ à pile ou face. Les deux flèches qui partent d'un même point s'écartent symétriquement, ce qui est $\mathbb{E}(\tilde\varepsilon\mid\tilde x)=0$ lu sur le dessin ; la moyenne reste 50.](figures/bruit-equitable.svg) [ajout]
+
 ## Geste de calcul type
 Chercher à écrire $\tilde y=\tilde x+\tilde\varepsilon$ avec $\mathbb{E}[\tilde\varepsilon\mid\tilde x]=0$ : sur l’exemple du cours, $\pm20$ à pile ou face ajouté à $\{40,60\}$ donne exactement $\{20,40,60,80\}$. [L1 slide 20, L1 slide 24]
 

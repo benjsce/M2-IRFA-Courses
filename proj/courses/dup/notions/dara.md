@@ -31,6 +31,8 @@ DARA est une hypothèse sur la façon dont $A(z)$ varie avec la richesse ; elle 
 ## Exemple minimal
 L’utilité logarithmique est DARA : $A(z)=1/z$ passe de $0{,}01$ à 100 à $0{,}001$ à 1000. [L1 slide 35]
 
+![L'aversion absolue de l'utilité logarithmique décroît avec la richesse ; celle de l'utilité quadratique croît, et explose au point de satiété. Pour la quadratique on a pris $c=100$, le point de satiété de l'exemple de la fiche sur l'utilité quadratique ; les deux courbes se croisent à 50.](figures/dara.svg) [ajout]
+
 ## Geste de calcul type
 Vérifier le signe de $A'(z)$. Si l’utilité est CRRA, la propriété est acquise : $A(z)=\gamma/z$ décroît toujours. [L1 slide 35]
 

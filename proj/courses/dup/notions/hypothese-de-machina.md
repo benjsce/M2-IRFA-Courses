@@ -26,6 +26,8 @@ Elle remplace l’équivalence de l’indépendance par une implication à sens 
 
 Graphiquement, elle impose que les courbes d’indifférence s’ouvrent en éventail. D’autres auteurs défendent un éventail mixte, où le motif s’inverse dans l’autre sens. [L2 slide 18]
 
+![Des courbes d'indifférence en éventail dans le triangle, avec la probabilité du pire résultat en abscisse et celle du meilleur en ordonnée. Plus on monte vers les meilleures loteries, plus elles sont raides, alors que sous l'utilité espérée elles seraient parallèles. Le point d'où elles partent et leurs pentes sont un choix de dessin, que le cours ne fixe pas.](figures/hypothese-de-machina.svg) [ajout]
+
 ## Le chemin jusqu'ici
 dup/loterie et dup/fonction-utilite définissent dup/utilite-esperee, et de là deux choses sont nécessaires : dup/effet-consequence-commune, le phénomène à expliquer, et dup/triangle-des-probabilites, l'endroit où on le lit. [ajout]
 

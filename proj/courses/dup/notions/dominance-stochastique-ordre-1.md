@@ -36,6 +36,8 @@ La dominance d'ordre 1 est le premier critère sur lequel **tous** les agents s'
 ## Exemple minimal
 $(0,\tfrac12;100,\tfrac12)$ domine au premier ordre $(0,\tfrac34;100,\tfrac14)$ : même support, plus de poids sur le bon résultat. [ajout]
 
+![Les deux fonctions de répartition de l'exemple. Entre 0 et 100, celle du pari dominant vaut ½ et l'autre ¾ ; ailleurs elles coïncident. Elle n'est donc jamais au-dessus, et l'écart d'un quart est la masse déplacée de 0 vers 100.](figures/dominance-stochastique-ordre-1.svg) [ajout]
+
 ## Geste de calcul type
 Comparer les deux fonctions de répartition : si l’une est partout au-dessous de l’autre, elle domine, et tout agent croissant est d’accord. Si elles se croisent, le critère ne conclut pas et il faut passer au second ordre. [L1 slide 6, L1 slide 18]
 

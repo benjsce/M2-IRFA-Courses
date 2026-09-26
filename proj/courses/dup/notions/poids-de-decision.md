@@ -38,6 +38,8 @@ dup/rdu rompt cette identification en déformant les probabilités cumulées. Le
 ## Exemple minimal
 Avec $\varphi(t)=\sqrt{t}$ et $p=1/4$, l'état bas pèse $\varphi(0{,}25)=0{,}5$ en position longue et $1-\varphi(0{,}75)=0{,}134$ en position courte. [ajout]
 
+![Le même quart de probabilité, pesé à deux endroits de la courbe $\varphi(t)=\sqrt t$. En position longue, l'état bas occupe le début des cumuls, de 0 à ¼, et pèse le saut 0,5 ; en position courte il en occupe la fin, de ¾ à 1, et ne pèse que 0,134. Les deux intervalles ont la même largeur, seule la hauteur du saut change.](figures/poids-de-decision.svg) [ajout]
+
 ## Geste de calcul type
 Repérer d'abord le rang du paiement total dans chaque état, cumuler les probabilités dans cet ordre, puis prendre les sauts de $\varphi$ sur ces cumuls. [L4 slide 26]
 

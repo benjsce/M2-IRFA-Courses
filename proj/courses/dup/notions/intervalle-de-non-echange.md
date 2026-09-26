@@ -31,6 +31,8 @@ L’intervalle n’est alors qu’un calcul, mais un calcul qui ne se pose pas a
 ## Exemple minimal
 Au prix 2, ni acheter, qui vaut $-0{,}2$, ni vendre, qui vaut $-0{,}4$, ne bat l’abstention. [L4 slide 62]
 
+![La valeur d'une unité achetée, $1{,}8-p$, et celle d'une unité vendue, $p-2{,}4$, selon le prix. Les deux sont négatives entre 1,8 et 2,4, sur la bande grisée ; au prix 2 elles valent $-0{,}2$ et $-0{,}4$.](figures/intervalle-de-non-echange.svg) [ajout]
+
 ## Geste de calcul type
 Calculer l’intégrale de Choquet de la position longue et celle de la position courte, puis lire l’intervalle des prix où les deux sont négatives. [L4 slide 62]
 

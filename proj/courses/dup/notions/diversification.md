@@ -33,6 +33,8 @@ La diversification est un fait sur les deux nombres du résumé, pas sur les pr�
 ## Exemple minimal
 Deux actifs à $\sigma=20\%$, de covariance nulle, à parts égales : $\sigma_p=14{,}1\%$. [ajout]
 
+![L'écart type du portefeuille selon la part du premier actif, pour deux actifs à 20 %. Sans covariance, la courbe descend jusqu'à 14,1 % à parts égales ; sous corrélation parfaite, en pointillé, l'écart type reste à 20 % partout et le gain disparaît.](figures/diversification.svg) [ajout]
+
 ## Geste de calcul type
 Calculer $\sigma_p^2$ par la formule à trois termes, puis faire varier $a$ : le minimum de variance se trouve là où la dérivée s’annule, et il est d’autant plus bas que la covariance est faible. [L1 slide 13]
 

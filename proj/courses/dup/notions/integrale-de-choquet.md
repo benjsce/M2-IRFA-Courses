@@ -34,6 +34,8 @@ Une capacité, à elle seule, ne permet pas encore d’évaluer un acte : l’es
 ## Exemple minimal
 Avec $X(L)=1$, $X(H)=3$, $u(x)=x$ et $\mu(H)=0{,}4$, l’intégrale vaut $1+(3-1)\times0{,}4=1{,}8$. [L4 slide 62]
 
+![L'escalier de l'exemple. La première marche, de 0 à 1, est franchie dans tous les états et compte pour 1 ; la seconde, de 1 à 3, ne l'est que dans $H$ et compte pour $\mu(H)=0{,}4$. L'aire totale est l'intégrale, $1+2\times0{,}4=1{,}8$.](figures/integrale-de-choquet.svg) [ajout]
+
 ## Geste de calcul type
 Ordonner les états par paiement croissant, écrire les événements emboîtés « à partir de ce rang », puis pondérer chaque marche par la capacité de l’événement correspondant. [L4 slide 57]
 

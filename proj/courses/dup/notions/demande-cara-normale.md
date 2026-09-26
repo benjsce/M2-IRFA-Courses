@@ -41,5 +41,7 @@ Avec $\hat v=110$, $p=100$ et $\hat\sigma=20$, la position optimale vaut $10/400
 ## Geste de calcul type
 Écrire l’équivalent certain comme une parabole en la position, puis la dériver et annuler : le sommet est la demande. [L4 slide 63]
 
+![L'équivalent certain de l'exemple, moins la richesse initiale, comme parabole en la position : $10\,x-200\,x^2$. Le gain espéré seul, en pointillé, croît sans fin ; la pénalité de variance finit par l'emporter, et le sommet, en $x=10/400=0{,}025$, est la demande.](figures/demande-cara-normale.svg) [ajout]
+
 ## Cesse d'être valide quand
 Le modèle suppose la loi connue — une seule moyenne, un seul écart type ; c’est cette unicité que l’ambiguïté lève. [L4 slide 64]

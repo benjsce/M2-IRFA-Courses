@@ -35,6 +35,8 @@ CPT est littéralement leur composition : la théorie des perspectives refaite a
 ## Exemple minimal
 Avec $\beta=0{,}7$ et $p=0{,}2$ : $\varphi(0{,}2)=0{,}2560$, soit une surpondération de plus d’un quart. [L3 slide 46]
 
+![La fonction du cours avec $\beta=0{,}7$, concave puis convexe. Près de 0 elle passe au-dessus de la diagonale, et la mesure verticale est la surpondération de l'exemple, $\varphi(0{,}2)=0{,}2560$ contre 0,2. Près de 1 elle passe au-dessous, de sorte que $1-\varphi$ dépasse $1-p$ : les bons résultats rares sont surpondérés à leur tour.](figures/cpt.svg) [ajout]
+
 ## Geste de calcul type
 Séparer gains et pertes, cumuler de part et d’autre du point de référence, appliquer $\varphi$ à chaque cumul, puis assembler. [L3 slide 38]
 

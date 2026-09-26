@@ -33,6 +33,8 @@ L'entropie ne regarde que les probabilités et ignore les montants : deux loteri
 ## Exemple minimal
 $(49,\tfrac12;51,\tfrac12)$ et $(0,\tfrac12;100,\tfrac12)$ ont la même entropie, alors que la seconde est bien plus dispersée. [L1 slide 17]
 
+![Pour une loterie à deux résultats, l'entropie ne dépend que de la probabilité $p$ du premier : l'axe horizontal n'a pas de place pour les montants. Les deux loteries de l'exemple tombent sur le même point, au sommet, là où les résultats sont également probables. L'axe vertical n'est pas gradué, la fiche ne fixant pas la base du logarithme.](figures/entropie.svg) [ajout]
+
 ## Geste de calcul type
 La calculer si l’on veut mesurer l’imprévisibilité d’un tirage ; ne pas la calculer si l’on veut mesurer un risque de paiement — elle ignore les montants. [L1 slide 17]
 

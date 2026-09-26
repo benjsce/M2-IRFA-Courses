@@ -35,6 +35,8 @@ Cette fiche est le point où les deux se rencontrent exactement : l'utilité qua
 ## Exemple minimal
 Avec $\alpha=1$ et $\beta=-0{,}005$, le pari $(0,\tfrac12;100,\tfrac12)$ vaut $25$. [ajout]
 
+![La parabole $U(x)=x-0{,}005\,x^2$ monte jusqu'au point de satiété $-\alpha/2\beta=100$, puis redescend, en pointillé. Le pari du cours vaut 25, au milieu de la corde, et son bon résultat tombe exactement sur le sommet.](figures/utilite-quadratique.svg) [ajout]
+
 ## Geste de calcul type
 Substituer $\mathbb{E}[U]=\alpha\mu+\beta(\mu^2+\sigma^2)$ : deux moments suffisent. Vérifier ensuite que la richesse reste sous le point de satiation $-\alpha/2\beta$, sans quoi l’utilité décroît. [L1 slide 14, L1 slide 15]
 

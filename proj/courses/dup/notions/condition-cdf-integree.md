@@ -33,5 +33,7 @@ Pour $\tilde x$ uniforme sur $\{40,60\}$ et $\tilde y$ uniforme sur $\{20,40,60,
 ## Geste de calcul type
 Tracer les deux répartitions, intégrer la différence de gauche à droite, vérifier que l’intégrale reste positive et s’annule au bout. C’est la seule méthode qui survive à plusieurs croisements. [L1 slide 22]
 
+![Le geste sur l'exemple. À gauche, la répartition $F$ de $\tilde x$ et la répartition $F^*$ de $\tilde y$ se croisent. À droite, l'intégrale de $F^*-F$ depuis 0 monte à 5 entre 20 et 40, reste à 5 jusqu'à 60, puis redescend et s'annule en 80 : positive avant, nulle au bout.](figures/condition-cdf-integree.svg) [ajout]
+
 ## Cesse d'être valide quand
 Énoncée sur un support borné $[0,M]$, avec égalité au bout : c’est cette égalité qui encode l’égalité des moyennes. [L1 slide 22]

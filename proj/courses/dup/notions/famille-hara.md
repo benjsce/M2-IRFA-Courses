@@ -33,6 +33,8 @@ Le cours énumère ces utilités sur une seule slide, avec leur $A$ en regard, e
 ## Exemple minimal
 Avec $\eta=0$ et $\gamma=4$ : $A(z)=4/z$, soit $0{,}04$ à une richesse de 100. [ajout]
 
+![Trois points de la famille, lus sur leur aversion absolue. Avec $\eta=0$, l'aversion décroît comme $\gamma/z$ : $\gamma=4$ est l'exemple, $\gamma=1$ l'utilité logarithmique. Quand $\gamma\to\infty$, elle devient la constante $1/\eta$ : avec $\eta=100$, c'est CARA de coefficient 0,01, qui a la même aversion que le logarithme à la richesse 100 et s'en écarte partout ailleurs.](figures/famille-hara.svg) [ajout]
+
 ## Geste de calcul type
 Fixer $\eta$ et $\gamma$, puis lire $A(z)=(\eta+z/\gamma)^{-1}$ : $\eta=0$ donne CRRA, $\gamma\to\infty$ donne CARA. [L1 slide 35]
 

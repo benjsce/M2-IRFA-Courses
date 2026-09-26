@@ -36,6 +36,8 @@ L'approximation est le pont entre les deux : pour un petit risque de moyenne nul
 ## Exemple minimal
 Un pari de $\pm10$ à pile ou face, à richesse 100 sous utilité logarithmique : $\pi\approx\tfrac12\times100\times0{,}01=0{,}5$. [ajout]
 
+![La prime exacte du pari de $\pm h$ à la richesse 100 sous utilité logarithmique, en trait plein, et son approximation $\tfrac12\,\mathrm{Var}\,A$, en pointillé. À $h=10$, l'exemple, les deux valent 0,50 ; à $h=50$ elles valent 13,4 et 12,5 : l'approximation se dégrade quand le pari n'est plus petit devant la richesse.](figures/approximation-arrow-pratt.svg) [ajout]
+
 ## Geste de calcul type
 Calculer la variance du pari, lire $A$ à la richesse initiale, multiplier, diviser par deux. Valable tant que le pari est petit devant la richesse. [L1 slide 32]
 

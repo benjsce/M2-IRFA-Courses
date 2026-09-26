@@ -39,6 +39,8 @@ L’ensemble de priors est une partie de ce simplexe, et ne se définit donc qu�
 ## Exemple minimal
 $K=\{p:0{,}2\le p_R\le0{,}6\}$ est la bande du triangle comprise entre les deux droites $p_R=0{,}2$ et $p_R=0{,}6$. [L4 slide 40]
 
+![Le triangle des probabilités sur trois états, dont les sommets sont les certitudes, avec $p_R$ en abscisse. L'ensemble de l'exemple est la bande comprise entre $p_R=0{,}2$ et $p_R=0{,}6$ : tous ses points sont plausibles, et aucun n'est plus crédible qu'un autre.](figures/ensemble-de-priors.svg) [ajout]
+
 ## Geste de calcul type
 Traduire l’information disponible en contraintes linéaires sur les $p_s$, puis lire l’ensemble obtenu comme une partie du simplexe : plus l’information est mince, plus la partie est large. [L4 slide 40]
 

@@ -37,5 +37,7 @@ Avec $\gamma=4$ et un pari de $\pm30\,\%$ de la richesse à pile ou face : la pr
 ## Geste de calcul type
 Poser l’équation $u(100(1-\pi))=\tfrac12u(100(1-\alpha))+\tfrac12u(100(1+\alpha))$ et résoudre en $\pi$ : c’est ainsi que le cours estime $\gamma$ sur une réponse individuelle. [L1 slide 36]
 
+![La prime demandée pour éviter un pari de $\pm30\,\%$ de la richesse, en fonction de $\gamma$. Le geste lit la courbe à l'envers : une réponse de 16,0 % place l'agent à $\gamma=4$, alors que le logarithme, $\gamma=1$, ne demanderait que 4,6 %.](figures/crra.svg) [ajout]
+
 ## Cesse d'être valide quand
 Elle est DARA, ce qui est souhaité, mais impose l’aversion relative constante, ce qui est une hypothèse forte et démentie par la comparaison des échelles de risque. [L1 slide 34, L2 slide 33]

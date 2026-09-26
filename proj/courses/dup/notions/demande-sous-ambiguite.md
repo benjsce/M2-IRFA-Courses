@@ -39,6 +39,8 @@ La fiche est l’application du second au premier : on garde le problème de por
 ## Exemple minimal
 Avec $v_{\min}=105$, $v_{\max}=115$ et $\sigma_{\max}=20$, l’investisseur ambigu reste à l’écart tant que le prix est compris entre 105 et 115, et achète $5/400=0{,}0125$ au prix 100. [ajout]
 
+![La demande de l'exemple selon le prix : l'investisseur achète au-dessous de 105, vend au-dessus de 115, et ne détient rien entre les deux. Au prix 100 il achète 0,0125.](figures/demande-sous-ambiguite.svg) [ajout]
+
 ## Geste de calcul type
 Situer le prix par rapport aux deux bornes de la moyenne ; hors de l’intervalle, appliquer la formule de la demande sous risque avec la borne la plus défavorable et l’écart type le plus élevé. [L4 slide 65]
 

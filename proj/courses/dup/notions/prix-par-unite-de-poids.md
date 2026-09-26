@@ -35,6 +35,8 @@ dup/portefeuille-rdu apporte l'autre moitié : un budget, des prix d'état et un
 ## Exemple minimal
 Sur le marché du cours, $q=(0{,}3;0{,}3;0{,}4)$ et $\pi=(0{,}2560;0{,}2013;0{,}5426)$ donnent $q_s/\pi_s=(1{,}17;1{,}49;0{,}74)$, là où $q_s/p_s$ valait $(1{,}5;1;0{,}8)$. [L4 slide 29, L4 slide 30]
 
+![Les deux rapports de l'exemple, état par état. Le premier état est le plus cher par unité de probabilité, le deuxième l'est par unité de poids : les deux rapports ne classent pas les états dans le même ordre.](figures/prix-par-unite-de-poids.svg) [ajout]
+
 ## Geste de calcul type
 Diviser chaque prix d'état par le poids de décision de son rang, classer les états par ce rapport croissant, et lire l'ordre des richesses que ce classement impose. [L4 slide 28]
 

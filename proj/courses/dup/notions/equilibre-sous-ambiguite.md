@@ -36,6 +36,8 @@ Cette fiche fait le pas qui manque : jusqu’ici le prix était donné, ici il s
 ## Exemple minimal
 Avec $\hat v=110$, $\hat\sigma=20$, une offre de 0,005 par investisseur et la moitié d’investisseurs ambigus, le prix d’abstention vaut 106 : s’il tombe dans $[105;115]$, les ambigus ne détiennent rien et 106 est le prix d’équilibre. [ajout]
 
+![La demande agrégée de l'exemple, moyenne des deux populations, garde les deux coudes de la demande ambiguë. L'offre de 0,005 la coupe à 106, dans l'intervalle où les ambigus s'abstiennent. Hors de l'intervalle, on a pris pour les ambigus l'écart type $\hat\sigma$, que l'exemple ne distingue pas ; le point d'équilibre n'en dépend pas.](figures/equilibre-sous-ambiguite.svg) [ajout]
+
 ## Geste de calcul type
 Calculer d’abord le prix d’abstention, puis le situer par rapport aux deux bornes de la moyenne ambiguë : le régime, et avec lui le prix, se lisent sur cette seule comparaison. [L4 slide 67]
 

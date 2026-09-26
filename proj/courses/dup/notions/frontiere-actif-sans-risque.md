@@ -34,6 +34,8 @@ Cela suffit parce que tout se passe dans le plan écart type–moyenne : c'est d
 ## Exemple minimal
 Avec $r_0=2\%$, $\mu_r=8\%$, $\sigma_r=20\%$ et $a=\tfrac12$ : $\mu_p=5\%$ et $\sigma_p=10\%$. [ajout]
 
+![La droite des mélanges de l'exemple, de $a=1$, tout sans risque à 2 %, jusqu'à $a=0$, tout risqué à 8 % pour un écart type de 20 %, en passant par $a=\tfrac12$. Au-delà, en pointillé, $a<0$ : l'agent emprunte au taux $r_0$ et la droite continue.](figures/frontiere-actif-sans-risque.svg) [ajout]
+
 ## Geste de calcul type
 Choisir la part risquée $1-a$, lire $\mu_p$ et $\sigma_p$ sur la droite : avec $r_0=2\,\%$, $\mu_r=8\,\%$ et $\sigma_r=20\,\%$, chaque point de $\sigma_p$ achète 0,3 point de $\mu_p$. [L1 slide 12]
 
