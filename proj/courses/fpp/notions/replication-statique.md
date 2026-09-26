@@ -19,6 +19,11 @@ Acheter le sous-jacent, le porter et le livrer, sans aucun geste entre-temps. [�
 ## Forme
 $$(S_T-K)-\left(S_T-\dfrac{S_t}{P(t,T)}\right)=\dfrac{S_t}{P(t,T)}-K$$ [§3.1]
 
+## Ce que les symboles modélisent
+$t$ est la date où l'on monte l'opération et $T$ l'échéance du contrat à terme. $S_t$ est le prix comptant de l'action en $t$, connu ; $S_T$ est son prix en $T$, aléatoire vu de $t$, et il disparaît de la différence. $K$ est le prix de livraison fixé dans le contrat, l'inconnue que le montage détermine. [§3.1, ajout]
+
+$P(t,T)$ est le prix en $t$ du zéro-coupon qui paie une unité en $T$ ; diviser par lui, c'est capitaliser, et $S_t/P(t,T)$ est ce qu'on rembourse en $T$ pour avoir emprunté $S_t$. Ce n'est pas le prix d'un put. [§3.1, ajout]
+
 ## Retrouver la formule
 ![Les quatre flux du montage. En $t$, l'emprunt paie l'action et le solde est nul ; en $T$, on livre l'action contre $K$ et on rembourse $S_t/P(t,T)$. Entre les deux, aucun geste. Un flux reçu monte, un flux payé descend.](figures/replication-statique.svg) [ajout]
 

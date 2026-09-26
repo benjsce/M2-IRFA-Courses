@@ -21,6 +21,11 @@ Une assurance à demi-prime qui ne couvre qu’une fois sur deux, refusée par 8
 ## Forme
 $$\begin{pmatrix}w-L&\pi/2\\ w-y&\pi/2\\ w-y/2&1-\pi\end{pmatrix}\ \succ\ \big(w-y\big)$$ [L2 slide 12]
 
+## Ce que les symboles modélisent
+$w$ est la richesse de l'assuré, $L$ la perte qu'il peut subir et $y$ la prime de l'assurance complète. Ici $\pi$ est la probabilité du sinistre, et non une prime de risque : le montant payé à l'assureur s'écrit $y$. [L2 slide 12]
+
+Les trois lignes de la loterie de gauche décrivent le contrat à demi-prime : sinistre survenu mais non couvert, sinistre survenu et couvert, absence de sinistre où l'assuré n'a versé que la moitié de la prime. À droite, $\big(w-y\big)$ est la richesse certaine de l'assuré entièrement couvert. [L2 slide 10, L2 slide 12]
+
 ## Ce qui la définit
 La démonstration est en deux temps. L’indépendance donne l’indifférence entre le mélange et l’assurance complète ; puis la branche risquée du mélange est remplacée par sa moyenne, ce qui est une contraction préservant la moyenne, donc préférée par tout agent averse. [L2 slide 12, L2 slide 13]
 

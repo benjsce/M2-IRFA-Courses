@@ -20,6 +20,11 @@ L'hyperplan qui sépare deux classes dans l'espace des attributs. [slide 135]
 ## Forme
 $$f(X)=w_0+w_1x_1+w_2x_2=0,\qquad f>0\Rightarrow A,\quad f<0\Rightarrow B$$ [slide 135]
 
+## Ce que les symboles modélisent
+$f$ prend un exemple, le point $X$ de coordonnées $x_1$ et $x_2$ dans l'espace des attributs, et rend un nombre réel dont seul le signe sert : positif, l'exemple va dans la classe $A$ ; négatif, dans la classe $B$. Sa valeur n'est pas une probabilité d'appartenance, et la frontière est l'ensemble des points où elle s'annule. [slide 135, ajout]
+
+$x_1$ et $x_2$ sont deux attributs mesurés sur chaque exemple ; sur la slide, l'âge et la taille. $w_1$ et $w_2$ fixent l'orientation de la frontière, $w_0$ la déplace sans la tourner. Ces trois poids sont les inconnues que l'apprentissage doit trouver. [slide 135, slide 136, ajout]
+
 ## Ce qui la définit
 Chaque exemple est un point de l'espace des attributs, chaque classe un amas de points. La fonction range un point selon le signe qu'elle y prend. [slide 134, slide 135]
 

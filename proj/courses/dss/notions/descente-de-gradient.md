@@ -19,6 +19,11 @@ Se déplacer dans l'espace des poids dans la direction où l'erreur décroît le
 ## Forme
 $$\Delta w_{ij}=-\eta\frac{\delta E}{\delta w_{ij}}$$ [slide 155]
 
+## Ce que les symboles modélisent
+$\frac{\delta E}{\delta w_{ij}}$ est la dérivée de l'erreur par rapport à un seul poids : le taux auquel $E$ change quand $w_{ij}$ change, les autres poids restant fixes. Le $\delta$ note ici une dérivée partielle ; ce n'est pas le signal d'erreur que la rétropropagation attache à chaque nœud. Le signe moins envoie le poids du côté où l'erreur baisse. [slide 160, ajout]
+
+$\eta$ est le taux d'apprentissage, c'est-à-dire la taille du pas, la même à chaque itération. $\Delta w_{ij}$ est la correction appliquée à un pas au poids de la connexion du nœud $i$ vers le nœud $j$, et non le poids lui-même. [slide 160, ajout]
+
 ## Ce qui la définit
 Le gradient est le taux auquel l'erreur change quand les poids changent ; le taux d'apprentissage $\eta$ est la taille du pas, et il est fixe. [slide 160]
 

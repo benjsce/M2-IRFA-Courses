@@ -18,6 +18,11 @@ Le tableau qui croise la condition réelle et la condition prédite, et dont se 
 ## Forme
 $$\begin{array}{c|cc} & \text{prédit }+ & \text{prédit }- \\ \hline \text{réel }+ & \mathrm{TP} & \mathrm{FN} \\ \text{réel }- & \mathrm{FP} & \mathrm{TN} \end{array}$$ [slide 11]
 
+## Ce que les symboles modélisent
+$\mathrm{TP}$ compte les positifs réels que le classifieur déclare positifs, les cas détectés ; $\mathrm{FN}$ les positifs réels qu'il déclare négatifs, les manqués. $\mathrm{FP}$ compte les négatifs réels déclarés positifs, les fausses alarmes ; $\mathrm{TN}$ les négatifs réels correctement rejetés. [slide 11]
+
+Ce sont des effectifs, pas des taux : un taux ne naît qu'en divisant par une marge. Dans chaque sigle, la première lettre dit si la prédiction est juste, la seconde ce qui a été prédit ; un faux négatif est donc un cas réellement positif. [ajout]
+
 ## Ce qui la définit
 Les quatre cases épuisent les cas : un positif correctement détecté, un négatif correctement rejeté, une fausse alarme et un manqué. Tout le reste est un rapport entre ces quatre nombres et leurs marges. [slide 10]
 

@@ -18,6 +18,11 @@ Une déformation des probabilités qui reste au-dessus de la diagonale, donc qui
 ## Forme
 $$\varphi(p)\ge p\ \ \forall p\qquad\Longrightarrow\qquad U(P)-\mathbb{E}[X]=\big[\varphi(p_1)-p_1\big](x_1-x_2)\le0$$ [L4 slide 14]
 
+## Ce que les symboles modélisent
+$\varphi$ prend une probabilité cumulée, comptée depuis le plus mauvais résultat, et rend le poids cumulé qui la remplace ; $p$ est donc une probabilité, pas un montant. [L4 slide 14, ajout]
+
+$U(P)$ est la valeur de la loterie sous pondération par rang, et non l'utilité d'un montant ; $\mathbb{E}$ est la moyenne objective des paiements $X$. $x_1$ et $x_2$ sont les deux résultats de la loterie binaire, $x_1$ le plus mauvais, et $p_1$ est la probabilité de $x_1$. [L4 slide 14, ajout]
+
 ## Ce qui la définit
 Avec la convention cumulative, $\varphi(p)\ge p$ signifie que le poids cumulé placé sur les mauvais résultats dépasse leur probabilité. Sur une loterie à deux résultats $x_1<x_2$ évaluée avec $u(x)=x$, la valeur tombe alors sous la moyenne : l'agent refuse le pari sans qu'aucune courbure de l'utilité y soit pour quelque chose. [L4 slide 14]
 

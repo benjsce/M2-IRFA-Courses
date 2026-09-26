@@ -90,7 +90,8 @@ Une fiche par notion nouvelle, au format de SPEC-MODELE §2. Règles de rédacti
   le déclarer `ajout: true` dans `notation.yml` d'abord.
 - **Un symbole enregistré s'explique en français.** Dès que `notation.yml` attribue un
   symbole à la fiche, celle-ci porte « Ce que les symboles modélisent » et les nomme tous
-  (SPEC-MODELE §2.1). Le `sens` du registre ne suffit pas : il sert à retrouver un symbole,
+  (SPEC-MODELE §2.1). Dès que la fiche porte une Forme, la rubrique est due aussi : elle
+  dit ce que modélise chaque lettre de la formule. Le `sens` du registre ne suffit pas : il sert à retrouver un symbole,
   pas à comprendre ce qu'il modélise.
 - **Une phrase pour « Ce que c'est ».** Si ça ne tient pas en une phrase, le grain est
   mauvais : scinder.

@@ -18,6 +18,11 @@ Sur des accroissements indépendants et stationnaires, la variance croît comme 
 ## Forme
 $$\sigma^2(t_1+t_2)=\sigma^2(t_1)+\sigma^2(t_2)\ \implies\ \sigma^2(T)=\sigma^2T,\qquad \sigma(T)=\sigma\sqrt{T}$$ [§5.3]
 
+## Ce que les symboles modélisent
+$\sigma^2(\cdot)$ est une fonction : elle prend une durée et rend la variance du log-rendement accumulé sur cette durée. $t_1$ et $t_2$ sont deux durées mises bout à bout, et $T$ est l'horizon total ; ce sont des longueurs d'intervalle, pas des dates. [§5.3, ajout]
+
+$\sigma$ sans argument est la volatilité par unité de temps, en général par an : c'est la constante que l'hypothèse de stationnarité permet de sortir. $\sigma(T)$, lui, est l'écart type sur tout l'horizon et ne porte plus d'unité de temps ; confondre les deux revient à oublier la racine. [§5.3, ajout]
+
 ## Ce qui la définit
 Deux hypothèses seulement : les accroissements sont tirés de la même loi, et ils sont indépendants. L’additivité de la variance suit, et la racine du temps avec elle. [§5.3]
 

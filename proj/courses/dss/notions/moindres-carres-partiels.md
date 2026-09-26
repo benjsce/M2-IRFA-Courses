@@ -24,6 +24,11 @@ La réduction de dimension où la réponse sert à choisir les directions. [slid
 ## Forme
 $$\hat\varphi_{mj}=\langle \mathbf{x}_j^{(m-1)},\mathbf{y}\rangle,\qquad \mathbf{z}_m=\sum_{j=1}^{p}\hat\varphi_{mj}\mathbf{x}_j^{(m-1)}$$ [slide 90]
 
+## Ce que les symboles modélisent
+$\hat\varphi_{mj}$ est le poids du prédicteur $j$ dans la direction $m$. Il est calculé à partir de la réponse $\mathbf{y}$, et c'est ce qui le sépare du poids d'une composante principale, qui ne regarde que les prédicteurs. Le produit scalaire $\langle\cdot,\cdot\rangle$ porte sur deux colonnes de données, prédicteurs standardisés : il mesure à quel point le prédicteur et la réponse varient ensemble sur les observations. [slide 90, ajout]
+
+$\mathbf{x}_j^{(m-1)}$ n'est pas le prédicteur $j$ d'origine, sauf à la première direction : c'est ce qui en reste une fois retiré ce que les directions déjà construites en expliquent. $\mathbf{z}_m$ est la direction obtenue, une colonne de valeurs, une par observation, et $p$ le nombre de prédicteurs. [slide 90]
+
 ## Ce qui la définit
 Le poids de chaque prédicteur dans la première direction est son produit scalaire avec la réponse : la méthode place donc le poids le plus fort sur les variables les plus liées à ce qu'on veut prédire. [slide 89, slide 90]
 

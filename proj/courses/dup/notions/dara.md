@@ -18,6 +18,9 @@ L’hypothèse, largement acceptée, que l’on devient moins averse au risque �
 ## Forme
 $$-\dfrac{u'''(z)}{u''(z)}\ \ge\ -\dfrac{u''(z)}{u'(z)}\qquad\text{pour tout }z$$ [L1 slide 34]
 
+## Ce que les symboles modélisent
+$z$ est un niveau de richesse, et la condition doit tenir en chacun. $u'$, $u''$ et $u'''$ sont les trois premières dérivées de l'utilité : à droite, le rapport est l'aversion absolue ; à gauche, c'est le même rapport pris une dérivée plus haut, qui mesure la prudence plutôt que l'aversion. [L1 slide 34, ajout]
+
 ## Ce qui la définit
 C’est exactement l’équivalent de « la prime de risque décroît avec la richesse initiale », et donc de « $A(w_0)$ décroît avec $w_0$ ». [L1 slide 34]
 

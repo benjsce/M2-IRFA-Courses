@@ -19,6 +19,9 @@ La valeur d’un résultat dépend de ce qu’on aurait obtenu en choisissant au
 ## Forme
 $$v(x,y)\quad\text{où }y\text{ est le résultat de l’option abandonnée dans le même état}$$ [L1 slide 58]
 
+## Ce que les symboles modélisent
+$v(x,y)$ prend deux résultats du même état — celui qu'on a obtenu, $x$, et celui que l'option abandonnée aurait donné, $y$ — et rend la valeur vécue du premier. Ce n'est pas une utilité ordinaire de $x$ : la même somme reçue vaut plus ou moins selon $y$. [L1 slide 58, ajout]
+
 ## Ce qui la définit
 Regret quand le résultat choisi est le moins bon, satisfaction quand il est le meilleur. Le choix dépend donc de la comparaison état par état, et non de la seule distribution marginale de chaque acte. [L1 slide 58]
 

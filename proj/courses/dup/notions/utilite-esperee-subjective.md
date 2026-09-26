@@ -21,6 +21,9 @@ La valeur d’un acte est l’espérance de l’utilité de ses conséquences so
 ## Forme
 $$V(f)=\sum_{s\in S}\pi(s)\,U\big(f(s)\big)$$ [L1 slide 59]
 
+## Ce que les symboles modélisent
+$f$ est un acte : il associe à chaque état $s$ de $S$ une conséquence $f(s)$. $U$ prend une conséquence et rend son utilité, la même quel que soit l'état. $\pi(s)$ est la probabilité que l'agent attribue à l'état $s$ ; elle se déduit de ses choix, et n'est pas une fréquence donnée avec le problème. [L1 slide 59, ajout]
+
 ## Ce qui la définit
 Deux objets sont inférés en même temps et à partir de la même donnée : $U$ représente les goûts, $\pi$ les croyances. Aucun des deux n’est supposé observable. [L1 slide 59]
 

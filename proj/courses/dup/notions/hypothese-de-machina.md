@@ -21,6 +21,11 @@ La restriction affaiblie qui autorise les renversements observés et interdit le
 ## Forme
 $$Q\succeq_{\text{FOSD}}R\ \implies\ \big[\alpha P+(1-\alpha)Q\succeq\alpha\delta_x+(1-\alpha)Q\ \Rightarrow\ \alpha P+(1-\alpha)R\succeq\alpha\delta_x+(1-\alpha)R\big]$$ [L2 slide 17]
 
+## Ce que les symboles modélisent
+$P$, $Q$ et $R$ sont des loteries ; $Q$ et $R$ jouent le rôle de la conséquence commune, et l'hypothèse ne s'applique que si $Q$ domine $R$ au premier ordre. $\delta_x$ est la loterie qui donne $x$ avec certitude. $\alpha$ est le poids du mélange, la part de probabilité qui n'est pas la conséquence commune. [L2 slide 17, ajout]
+
+$\succeq_{\text{FOSD}}$ compare deux lois par dominance stochastique du premier ordre, alors que $\succeq$ seul est la préférence de l'agent : les deux relations ne portent pas sur la même chose. [ajout]
+
 ## Ce qui la définit
 Elle remplace l’équivalence de l’indépendance par une implication à sens unique, orientée par la dominance stochastique de la conséquence commune. [L2 slide 17]
 

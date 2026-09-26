@@ -19,6 +19,11 @@ Pénaliser la croissance des poids inutiles en ajoutant leur somme des carrés �
 ## Forme
 $$E=\tfrac12\sum_j(t_j-o_j)^2+\frac{\lambda}{2}\sum_i w_{ij}^2\ \Longrightarrow\ \Delta w_{ij}=\Delta w_{ij}-\lambda w_{ij}$$ [slide 174]
 
+## Ce que les symboles modélisent
+$\lambda$ est le paramètre de coût des poids : le prix, en erreur, de chaque unité de poids au carré. Il joue le même rôle que le $\lambda$ de ridge sans être le même nombre, et il n'a rien à voir avec le rétrécissement du boosting ; le cours emploie la même lettre pour les trois. [slide 174, ajout]
+
+$w_{ij}$ est le poids de la connexion du nœud $i$ vers le nœud $j$ : la pénalité porte sur les poids, pas sur les sorties. $t_j$ et $o_j$ gardent leur sens, sortie désirée et sortie produite du nœud $j$. $\Delta w_{ij}$ est la correction que la rétropropagation calculait déjà ; dans la mise à jour, le signe égal se lit comme une affectation, et le terme retranché ne dépend que du poids lui-même, pas de l'erreur. [slide 174, ajout]
+
 ## Ce qui la définit
 C'est la pénalité de ridge, appliquée aux poids d'un réseau. Le cours fait le rapprochement lui-même, dans le chapitre sur ridge : pénaliser par la somme des carrés des paramètres est aussi employé en réseaux de neurones, où cela s'appelle décroissance des poids. [slide 49]
 

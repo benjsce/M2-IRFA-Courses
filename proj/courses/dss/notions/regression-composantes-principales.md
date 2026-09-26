@@ -24,6 +24,11 @@ Construire les $M$ premières composantes principales, puis les utiliser comme p
 ## Forme
 $$\hat{\mathbf{y}}^{\text{pcr}}_{(M)}=\bar y\mathbf{1}+\sum_{m=1}^{M}\hat\theta_m\mathbf{z}_m,\qquad \hat\theta_m=\frac{\langle \mathbf{z}_m,\mathbf{y}\rangle}{\langle \mathbf{z}_m,\mathbf{z}_m\rangle}$$ [slide 76]
 
+## Ce que les symboles modélisent
+$\mathbf{z}_m$ est la $m$-ième composante principale calculée sur les données, une colonne de valeurs, une par observation. $\hat\theta_m$ est le coefficient de la régression de $\mathbf{y}$ sur cette seule colonne ; les composantes étant orthogonales, il ne dépend pas des autres. [slide 76]
+
+$M$ est le nombre de composantes retenues, le seul réglage de la méthode : au-delà, les composantes sont écartées, pas rétrécies. $\bar y\mathbf{1}$ est la moyenne de la réponse répétée sur toutes les observations, la prédiction qu'on ferait sans aucun prédicteur, et $\hat{\mathbf{y}}^{\text{pcr}}_{(M)}$ le vecteur des prédictions obtenues avec $M$ composantes. [slide 76, ajout]
+
 ## Ce qui la définit
 Les composantes étant orthogonales, la régression se réduit à une somme de régressions univariées : chaque coefficient se calcule indépendamment des autres. [slide 76]
 

@@ -18,6 +18,9 @@ Une plage de prix sur laquelle l’agent ambigu ne prend ni position longue ni p
 ## Forme
 $$V(X)<p<-V(-X)\ \Longrightarrow\ \text{toute position non nulle est dominée par zéro}$$ [L4 slide 62]
 
+## Ce que les symboles modélisent
+$X$ est l'actif, décrit par son paiement dans chaque état, et $-X$ la position courte, qui paie l'opposé. $V$ prend une position et rend son intégrale de Choquet ; comme elle n'est pas linéaire, $-V(-X)$ ne coïncide pas avec $V(X)$. $p$ est le prix d'une unité de l'actif, le rendement brut sans risque étant normalisé à un. [L4 slide 62, ajout]
+
 ## Ce qui la définit
 La position longue et la position courte s’évaluent séparément, parce que l’évaluation n’est pas linéaire : le pire état n’est pas le même selon le sens de la position. Avec $X(L)=1$, $X(H)=3$, $u(x)=x$, $\mu(L)=0{,}3$ et $\mu(H)=0{,}4$, on obtient $V(X)=1{,}8$ et $V(-X)=-2{,}4$. [L4 slide 62]
 

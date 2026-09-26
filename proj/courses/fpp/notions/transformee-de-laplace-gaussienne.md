@@ -17,6 +17,11 @@ L’espérance de l’exponentielle d’une gaussienne s’écrit en forme ferm�
 ## Forme
 $$X\sim\mathcal{N}(\mu,\sigma^2)\ \implies\ \mathbb{E}\big(e^{\lambda X}\big)=e^{\lambda\mu+\frac{\lambda^2\sigma^2}{2}}$$ [Th. 1]
 
+## Ce que les symboles modélisent
+$X$ est une variable aléatoire gaussienne quelconque, d'espérance $\mu$ et de variance $\sigma^2$. Ces deux lettres sont ici des paramètres génériques : ce ne sont ni la dérive ni la volatilité du sous-jacent, même si l'application au modèle de Black et Scholes les remplace par des expressions qui en dépendent. [Th. 1, ajout]
+
+$\lambda$ est un réel quelconque, et $\mathbb{E}\big(e^{\lambda X}\big)$ est une fonction de $\lambda$ : elle prend ce réel et rend un nombre positif, l'espérance de l'exponentielle. Ce $\lambda$ n'est pas un paramètre de modèle ; dans l'application du cours, on le prend égal à un. [Th. 1, §5.4]
+
 ## Ce qui la définit
 C’est le seul calcul technique dont Black et Scholes ont besoin : il transforme une espérance de log-normale en exponentielle d’un polynôme. [Th. 1, §5.4]
 

@@ -25,6 +25,11 @@ Ajuster les arbres en séquence, chacun sur les résidus laissés par les préc�
 ## Forme
 $$\hat f(x)\leftarrow \hat f(x)+\lambda\hat f^{\,b}(x),\qquad r_i\leftarrow r_i-\lambda\hat f^{\,b}(x_i),\qquad \hat f(x)=\sum_{b=1}^{B}\lambda\hat f^{\,b}(x)$$ [slide 125]
 
+## Ce que les symboles modélisent
+$\hat f(x)$ prend un point $x$ de l'espace des prédicteurs et rend la prédiction de l'ensemble construit jusque-là. $\hat f^{\,b}$ est le seul arbre ajouté au pas $b$, ajusté non sur la réponse mais sur les résidus ; $B$ compte les arbres. $r_i$ est le résidu courant de l'observation $x_i$ : ce que le modèle actuel n'explique pas encore, et non l'erreur de l'arbre qu'on vient d'ajouter. [slide 124, slide 125]
+
+$\lambda$ est le paramètre de rétrécissement, un petit nombre positif : la fraction de chaque arbre qu'on ajoute réellement. Il ne contrôle que la vitesse d'apprentissage. Ce n'est pas le $\lambda$ de ridge ou du lasso, qui pèse une pénalité dans un critère, ni celui de la décroissance des poids : le cours emploie la même lettre pour les trois sans le signaler. [slide 126, ajout]
+
 ## Ce qui la définit
 Trois différences avec le bagging, et le cours les énumère : pas de tirage bootstrap, des arbres construits séquentiellement en utilisant l'information des précédents, et une combinaison d'un grand nombre d'arbres. [slide 123]
 

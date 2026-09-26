@@ -23,6 +23,11 @@ Un neurone artificiel qui somme ses entrées pondérées et produit une sortie s
 ## Forme
 $$y=f\Big[\sum_{i=0}^{n}w_ix_i\Big],\qquad f(a)=1 \text{ si } a>0,\quad f(a)=0 \text{ sinon}$$ [slide 143]
 
+## Ce que les symboles modélisent
+$w_i$ est le poids de la connexion qui porte l'entrée $x_i$ jusqu'au neurone, $n$ le nombre d'entrées réelles. L'indice commence à zéro parce que $x_0$ vaut toujours un et que $w_0$ est l'opposé du seuil : la somme contient donc déjà la soustraction du seuil. [slide 143]
+
+$f$ est la fonction d'activation, ici une fonction seuil : elle prend la somme pondérée $a$, un nombre réel, et rend 1 ou 0. $y$ est la sortie du neurone, et non la classe réelle de l'exemple, que la règle d'apprentissage lui compare ensuite. [slide 143, ajout]
+
 ## Ce qui la définit
 Le calcul est en trois temps : multiplier chaque composante de l'entrée par le poids de sa connexion, sommer et retrancher le seuil, transformer ce total par la fonction d'activation. [slide 140]
 

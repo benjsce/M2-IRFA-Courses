@@ -22,6 +22,11 @@ L’indépendance n’est exigée qu’entre actes comonotones, c’est-à-dire 
 ## Forme
 $$\big(z(s)-z(t)\big)\big(y(s)-y(t)\big)\ge0\ \ \forall s,t\in S;\qquad f\succsim g\iff\alpha f+(1-\alpha)h\succsim\alpha g+(1-\alpha)h$$ [L4 slide 59]
 
+## Ce que les symboles modélisent
+$z$ et $y$ sont deux fonctions réelles des états — dans l'usage qu'en fait l'axiome, les vecteurs d'utilité de deux actes —, et $s$, $t$ sont deux états quelconques de $S$. La condition dit qu'elles ne classent jamais deux états en sens contraires ; elle ne dit rien de leurs niveaux. [L4 slide 59]
+
+$f$, $g$ et $h$ sont des actes deux à deux comonotones, $h$ étant l'acte commun avec lequel on mélange, et $\alpha$ est le poids du mélange. Ici $t$ est un état, pas une date. [L4 slide 59, ajout]
+
 ## Ce qui la définit
 Deux fonctions réelles sont comonotones quand leurs écarts entre deux états sont toujours de même signe ; deux actes le sont quand leurs vecteurs d’utilité le sont. La condition ne dit pas qu’ils se ressemblent, seulement qu’ils s’accordent sur l’ordre des états. [L4 slide 59]
 

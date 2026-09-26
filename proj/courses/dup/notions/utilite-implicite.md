@@ -22,6 +22,9 @@ La compensation autorisée dépend maintenant de la loterie commune avec laquell
 ## Forme
 $$V(P)=\dfrac{\sum_i p_i w\big(x_i,V(P)\big)u(x_i)}{\sum_i p_i w\big(x_i,V(P)\big)}$$ [L3 slide 8]
 
+## Ce que les symboles modélisent
+$w$ prend un résultat et une valeur de loterie, et rend le poids positif de ce résultat ; c'est par son second argument, $V(P)$, que le poids dépend de la loterie entière. $V(P)$ figure donc des deux côtés, et la formule est une équation que la valeur doit satisfaire. $p_i$ est la probabilité du résultat $x_i$, et $u$ l'utilité ordinaire d'un montant. [L3 slide 8, ajout]
+
 ## Ce qui la définit
 La table du cours range les trois degrés : $\rho=\lambda$ pour l’indépendance, $\rho$ indépendant de $R$ pour l’utilité pondérée, $\rho=\rho(R)$ ici. [L3 slide 7]
 

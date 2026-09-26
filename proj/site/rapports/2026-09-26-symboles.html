@@ -1,0 +1,838 @@
+<!doctype html>
+<html lang="fr" data-rel="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rapport 2026-09-26-symboles · notions</title>
+<script>
+/* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
+   localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
+   cases « déjà su » ne peuvent donc pas traverser les pages par là. Ils voyagent dans
+   le fragment de l'URL, que tous les liens internes portent ; localStorage ne sert plus
+   que de mémoire locale, pour la page qu'on rouvre sans fragment.
+   Ce script s'exécute avant le rendu : sinon le thème clignote à chaque page. */
+(function(){
+var H={},h=(location.hash||'').replace(/^#/,'');
+h.split('~').forEach(function(p){var i=p.indexOf(':');if(i>0)H[p.slice(0,i)]=p.slice(i+1)});
+window.ETAT_URL=H;
+function loc(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+var t=H.t?(H.t==='d'?'dark':'light'):loc('notions.theme','');
+if(t)document.documentElement.setAttribute('data-theme',t);
+var a=(H.a!==undefined)?H.a:loc('notions.ajouts','1');
+if(a==='0')document.documentElement.classList.add('sans-ajouts');
+})();
+</script>
+<style>
+:root{
+  --bg:#fbfaf7; --bg2:#f3f0ea; --fg:#1b1a17; --mut:#6c675d; --fai:#8e887c;
+  --li:#e0dbd1; --li2:#cdc6b8; --card:#ffffff; --acc:#8a4f23; --acc2:#f3e7dc;
+  --ajo:#6d5a8c; --ajo2:#efe9f5; --lim:#9a3a2e; --ok:#3f6b46; --faute:#a8631a;
+  --r:8px; --w:min(72rem,100%);
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}}
+:root[data-theme="dark"]{
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}
+.fig{margin:.9rem 0;padding:.5rem .2rem .2rem;text-align:center}
+/* « > svg » et non « svg » : MathJax pose son propre <svg> dans la légende, et
+   une règle non ancrée en faisait un bloc qui coupait la phrase en trois. */
+.fig > svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig figcaption{margin-top:.35rem;font-family:var(--sans);font-size:.82rem;
+  color:var(--mut);text-align:center;line-height:1.45}
+@media print{.fig{break-inside:avoid}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
+  font-size:17px;line-height:1.62;overflow-wrap:break-word}
+a{color:var(--acc);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-style:dotted}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+.wrap{width:var(--w);margin:0 auto;padding:0 1rem}
+
+/* ---- barre du haut ---- */
+header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
+  border-bottom:1px solid var(--li);font-family:var(--sans)}
+.topin{width:var(--w);margin:0 auto;padding:.45rem 1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.brand{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--fg);letter-spacing:.02em}
+.fil{color:var(--mut);font-size:.82rem;flex:1 1 8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fil a{color:var(--mut)}
+.btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
+  border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+a.btn{text-decoration:none}
+.btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
+.rech{position:relative;flex:0 1 16rem;min-width:9rem}
+.rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
+  border:1px solid var(--li2);border-radius:var(--r);background:var(--card);color:var(--fg)}
+.res{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--li2);
+  border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.14);max-height:60vh;overflow:auto;padding:.2rem;margin:0;
+  list-style:none;display:none;z-index:50;min-width:18rem}
+.res.on{display:block}
+.res li a{display:block;padding:.3rem .45rem;border-radius:6px;text-decoration:none;color:var(--fg);font-size:.86rem}
+.res li a:hover,.res li.sel a{background:var(--acc2)}
+.res .sub{color:var(--mut);font-size:.76rem;font-family:var(--sans)}
+.res .vide{padding:.4rem .5rem;color:var(--mut);font-size:.84rem}
+
+main{padding:1.4rem 0 4rem}
+h1{font-size:1.75rem;line-height:1.24;margin:.2rem 0 .3rem}
+h2{font-size:1.06rem;font-family:var(--sans);font-weight:600;letter-spacing:.01em;margin:0}
+h3{font-size:.95rem;font-family:var(--sans);margin:1.2rem 0 .3rem}
+p{margin:.55rem 0}
+.ptag{font-family:var(--sans);font-size:.74rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .5rem}
+
+/* ---- métadonnées de fiche ---- */
+.meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;font-family:var(--sans);font-size:.75rem;color:var(--mut);margin:.4rem 0 1.1rem}
+.pill{border:1px solid var(--li2);border-radius:99px;padding:.06rem .5rem;background:var(--card);white-space:nowrap}
+.pill.ajout{color:var(--ajo);border-color:var(--ajo);background:var(--ajo2)}
+.pill.typ{background:var(--acc2);border-color:var(--acc)}
+.sym{font-family:var(--serif);font-size:1rem;color:var(--fg)}
+
+/* ---- sections ---- */
+.sec{border-top:1px solid var(--li);padding:.85rem 0}
+.sec.vide{display:none}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.45rem;padding:.1rem 0}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"›";color:var(--fai);font-family:var(--sans);display:inline-block;
+  transition:transform .12s ease;transform:rotate(0deg);width:.7em}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fai);font-weight:400}
+.corps{padding-top:.25rem}
+.gen{border-left:2px solid var(--li2);padding-left:.7rem}
+.chemin{border-left:3px solid var(--acc);background:var(--bg2);border-radius:0 var(--r) var(--r) 0;
+  padding:.5rem .8rem;margin:.2rem 0 .7rem}
+.chemin p{margin:.35rem 0;font-size:.95rem}
+.chemin p:first-child{margin-top:0}
+.chemin p:last-child{margin-bottom:0}
+.note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
+.parc{border:1px solid var(--li);border-left:3px solid var(--acc);border-radius:0 var(--r) var(--r) 0;
+  background:var(--bg2);padding:.5rem .8rem;margin:.6rem 0;font-size:.93rem}
+.parc-t{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin-bottom:.15rem}
+.parc p{margin:.2rem 0}
+.parc-h{border-left:2px solid var(--li);padding:.1rem 0 .1rem .6rem;margin:.3rem 0 .45rem;color:var(--mut)}
+.parc-h strong{color:var(--fg)}
+.parc-l{font-family:var(--sans);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--acc);margin-right:.25rem}
+.parc-lien{margin-top:.35rem;font-size:.92em}
+.parc-suite{border-left:2px solid var(--acc);padding:.1rem 0 .1rem .6rem;margin:.35rem 0;color:var(--fg);background:var(--acc2)}
+.parc-nav{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--sans);font-size:.8rem;margin-top:.35rem}
+.parc-nav .suiv{margin-left:auto;text-align:right}
+.etapes{list-style:none;padding:0;margin:.6rem 0 1.2rem;counter-reset:e}
+.etapes>li{counter-increment:e;position:relative;padding:0 0 1rem 1.7rem;border-left:2px solid var(--li);margin-left:.9rem}
+.etapes>li:last-child{border-left-color:transparent}
+.etapes>li::before{content:counter(e);position:absolute;left:-.95rem;top:0;width:1.75rem;height:1.75rem;
+  border-radius:99px;background:var(--card);border:1px solid var(--acc);color:var(--acc);
+  font-family:var(--sans);font-size:.78rem;display:flex;align-items:center;justify-content:center}
+.etapes>li>p{margin:.1rem 0 .35rem}
+.etapes .arr{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.45rem .75rem}
+.etapes .arr a.tit{font-weight:600;text-decoration:none}
+.etapes .arr p{margin:.15rem 0;font-size:.88rem;color:var(--mut)}
+.avant{list-style:none;padding:0;margin:.4rem 0 1rem}
+.avant>li{margin:.5rem 0}
+.avant>li p{margin:.1rem 0 0;font-size:.95rem}
+.avant a.tit{font-weight:600;text-decoration:none}
+.roles{list-style:none;padding:0;margin:.2rem 0 0}
+.roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
+.roles>li.cible{background:var(--acc2)}
+details.parc>summary{cursor:pointer}
+.sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
+.sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
+.sec.faute>summary h2{color:var(--faute)}
+.faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
+  margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.faute-b strong{color:var(--faute)}
+.sec.lim>summary h2{color:var(--lim)}
+.sec.lim>h2{color:var(--lim)}
+
+/* ---- marqueurs de traçabilité ---- */
+.marq{font-family:var(--sans);font-size:.7rem;color:var(--fai);white-space:nowrap;vertical-align:.12em}
+.marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
+.marqligne{margin:.15rem 0 0}
+html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
+.bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
+  color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
+
+/* ---- pastilles ---- */
+.pasts{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0;padding:0;list-style:none}
+.past{display:inline-block;font-family:var(--sans);font-size:.82rem;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--li2);border-radius:99px;padding:.12rem .6rem}
+.past:hover{border-color:var(--acc);color:var(--acc)}
+.past .cc{color:var(--fai);font-size:.74rem}
+.past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
+.past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
+.past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
+
+/* ---- socle ---- */
+.socle{list-style:none;padding:0;margin:.3rem 0}
+.socle li{display:flex;gap:.5rem;align-items:baseline;padding:.12rem 0;font-size:.92rem}
+.socle input{margin:0;accent-color:var(--ok)}
+.socle li.su a{color:var(--fai);text-decoration:line-through}
+.compteur{font-family:var(--sans);font-size:.78rem;color:var(--mut)}
+.grp{margin:.5rem 0}
+.grp>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--mut)}
+
+table{border-collapse:collapse;margin:.5rem 0;font-size:.9rem;display:block;overflow-x:auto;max-width:100%}
+th,td{border:1px solid var(--li);padding:.25rem .55rem;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-family:var(--sans);font-size:.78rem;font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+  background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
+ul{padding-left:1.1rem}
+hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
+
+/* ---- cartes d'accueil / carte du cours ---- */
+.cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
+.carte{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.65rem .8rem}
+.carte h3{margin:0 0 .2rem}
+.carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
+.carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
+.dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.vise{animation:vise 1.6s ease}
+@keyframes vise{from{background:var(--acc2)}to{background:transparent}}
+
+/* ---- orientation : ce qui s'adresse au lecteur qui arrive ---- */
+.entree{border:1px solid var(--li2);border-left:3px solid var(--acc);border-radius:var(--r);
+  padding:.7rem .9rem;margin:.8rem 0 1.4rem;background:var(--card)}
+.entree p{margin:.3rem 0;font-size:.92rem}
+.entree .quoi{font-size:1.02rem}
+.entree ul{margin:.5rem 0 .2rem;padding-left:1.1rem;font-family:var(--sans);font-size:.88rem}
+.entree li{margin:.2rem 0}
+.chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
+.chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
+.aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
+/* L'en-tête est collant : une ancre visée ne doit pas passer dessous. Mesuré :
+   il fait 48 px sur une ligne, 85 px quand il se replie en deux (écran étroit). */
+[id]{scroll-margin-top:6rem}
+.aide p,.aide ul,.aide table{max-width:42rem}
+.dette ul{margin:.3rem 0 0}
+footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
+
+/* ---- arbre ---- */
+.barre{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+.barre.plier{justify-content:flex-end;margin:.2rem 0 -.2rem}
+#scene{position:relative;border:1px solid var(--li);border-radius:var(--r);background:var(--bg2);
+  height:min(74vh,720px);overflow:hidden;touch-action:none;cursor:grab}
+#scene.drag{cursor:grabbing}
+#pan{position:absolute;transform-origin:0 0;top:0;left:0}
+#aretes{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+#aretes path{fill:none;stroke:var(--li2);stroke-width:1.5}
+.noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
+  padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
+.noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
+.noeud .nm{font-weight:600}
+.noeud .nm a{text-decoration:none;color:var(--fg)}
+.noeud .nm a:hover{color:var(--acc)}
+.noeud .pa{color:var(--mut);font-size:.72rem;display:block;margin-top:.1rem}
+.noeud .pli{font:inherit;font-size:.72rem;background:none;border:1px solid var(--li2);border-radius:4px;
+  color:var(--mut);cursor:pointer;padding:0 .3rem;margin-right:.25rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.4rem}
+  .rech{flex:1 1 100%;order:9}
+  #scene{height:66vh}
+}
+@media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="brand" href="../index.html">notions</a><span class="fil">rapport d’ingestion › 2026-09-26-symboles</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><article class="rapport"><h1>Rapport — symboles — 2026-09-26</h1><p>Session sur les quatre cours à la fois : le sujet remplace le code de cours dans le nom du
+rapport (SPEC-INGESTION, étape 6).</p><h2>Demande</h2><p>Sur <code>fpp/duration</code>, l'utilisateur ne comprenait pas $P(t,r)$ : « je pensais que les deux
+paramètres devaient être des dates ». Puis : « oui fais-le, et d'ailleurs ça devrait être
+une règle pour tous les cours, la rubrique "Ce que les symboles modélisent" quand c'est
+nécessaire. Ajoute-en dans les cours où ce n'est pas encore fait, puis push. »</p><p>Vérifié dans le poly : la Déf. 5 écrit bien $P(t,r)$, maturité et taux, là où la Déf. 3
+écrit $P(t,T)$, deux dates. C'est une collision interne à la source ; la fiche était
+fidèle, il lui manquait l'explication.</p><h2>Mesure</h2><p>Avant la session, la rubrique n'était due que si le registre attribuait un symbole à la
+fiche. 53 fiches portaient une Forme sans elle : 29 dans dup, 11 dans fpp, 3 dans pfo, 10
+dans dss. Après : aucune.</p><h2>Règle, registre, validateur</h2><p><strong><code>SPEC-MODELE.md</code></strong></p><p>```diff
+-| 3 | Ce que les symboles modélisent | tous | <strong>obligatoire dès que le registre attribue un symbole à la fiche</strong> ; elle les nomme tous |
++| 3 | Ce que les symboles modélisent | tous | <strong>obligatoire dès que le registre attribue un symbole à la fiche, ou que la fiche porte une Forme</strong> ; elle nomme tous les symboles du registre |
++<strong>Dès qu'il y a une formule, la rubrique est due</strong>, même si le registre n'attribue aucun
++symbole à la fiche. Une formule emploie des lettres que la fiche n'a pas toujours
++définies — les arguments d'une fonction, un paramètre, une variable muette —, et c'est là
++que le lecteur se perd : dans <code>fpp/duration</code>, $P(t,r)$ prend une durée et un taux, alors
++que $P(t,T)$ prenait deux dates. La rubrique dit alors ce que modélise chaque symbole de
++la Forme qui n'est pas déjà dit en français par « Ce que c'est ». *Demandé par
++l'utilisateur le 2026-09-26 : « ça devrait être une règle pour tous les cours, la rubrique
++"Ce que les symboles modélisent", quand c'est nécessaire ».*
++
+```</p><p><strong><code>SPEC-INGESTION.md</code></strong></p><p>```diff
+-  (SPEC-MODELE §2.1). Le <code>sens</code> du registre ne suffit pas : il sert à retrouver un symbole,
++  (SPEC-MODELE §2.1). Dès que la fiche porte une Forme, la rubrique est due aussi : elle
++  dit ce que modélise chaque lettre de la formule. Le <code>sens</code> du registre ne suffit pas : il sert à retrouver un symbole,
+```</p><p><strong><code>courses/fpp/notation.yml</code></strong></p><p>```diff
++- symbole: $P(t,r)$
++  notion: <a href="../fpp/n/duration.html">Sensibilité, duration</a>
++  ref: Déf. 5
++  sens: prix d'un zéro-coupon de maturité t sous un taux continu r, soit e^{-rt} ; le même objet que P(0,t)
++- symbole: $P(t,r)$
++  ici: zéro-coupon écrit en fonction de sa maturité t et du taux r (Déf. 5)
++  ailleurs:
++    fpp: $P(t,T)$, où les deux arguments sont deux dates (Déf. 3)
++  note: &gt;-
++    collision interne à la source, non signalée par le poly : la même lettre, deux
++    arguments dans les deux cas, mais le second est une date en Déf. 3 et un taux en
++    Déf. 5, et le premier une date d'un côté, une durée de l'autre
+```</p><p><strong><code>tools/validate.py</code></strong></p><p>```diff
+-        txt = dict(n["sections"]).get("Ce que les symboles modélisent")
++        secs = dict(n["sections"])
++        txt = secs.get("Ce que les symboles modélisent")
++        # Une formule sans explication de ses lettres : due elle aussi, registre ou non.
++        # Relevé le 2026-09-26 sur <a href="../fpp/n/duration.html">Sensibilité, duration</a>, où P(t,r) prend une durée et un taux.
++        if not attendus and "Forme" in secs and txt is None:
++            rap.w("A12", nid, "« Ce que les symboles modélisent » à écrire : la fiche porte "
++                              "une Forme dont aucune rubrique n'explique les symboles")
++            rap.dette["symboles à expliquer"] += 1
++            continue
+```</p><p><strong><code>tools/tests/test_garde_fous.py</code></strong></p><p>```diff
++def _forme(root, rubrique=""):
++    """Une fiche qui porte une formule, sans aucun symbole au registre."""
++    ecrire(root, "aa", [dict(slug="x", nom="Un")])
++    f = root / "courses" / "aa" / "notions" / "x.md"
++    t = f.read_text(encoding="utf-8").replace(
++        "## Ce qui la définit",
++        "## Forme\n$$P(t,r)=e^{-rt}$$ [p. 1]\n\n" + rubrique + "## Ce qui la définit")
++    f.write_text(t, encoding="utf-8", newline="\n")
++
++
++def forme_sans_rubrique(root):
++    """Une formule dont personne n'explique les lettres : signalée, registre ou non."""
++    _forme(root)
++
++
++def forme_avec_rubrique(root):
++    _forme(root, "## Ce que les symboles modélisent\n$t$ est une durée, $r$ un taux. [p. 1]\n\n")
++
++
++    cas("formule sans rubrique, rien au registre → signalée",
++        "une Forme dont aucune rubrique n'explique les symboles", forme_sans_rubrique)
++    cas("formule avec rubrique → silence",
++        "une Forme dont aucune rubrique n'explique les symboles", forme_avec_rubrique,
++        doit_apparaitre=False)
+```</p><h2>Méthode</h2><p><code>fpp/duration</code> et le registre de fpp ont été faits directement. Les 52 autres rubriques
+ont été rédigées par trois rédacteurs, un pour dup, un pour fpp et pfo, un pour dss, avec
+les règles de SPEC-MODELE §2.1 et l'interdiction de toucher autre chose. Chacun a relu les
+sources pour le sens des symboles, et a marqué <code>[ajout]</code> tout ce que la référence de la
+fiche ne portait pas. Contrôles faits ensuite : <code>git diff</code> ne compte que des lignes
+ajoutées dans les fiches ; le validateur ne signale plus aucune Forme sans rubrique ; les
+textes ont été relus et les références vérifiées là où un doute était signalé.</p><h2>Inventaire ajouté (à auditer par l'utilisateur)</h2><p>Aucun élément.</p><h2>Notations ajoutées ou en collision</h2><ul><li>fpp : $P(t,r)$ ajouté au registre (Déf. 5), rattaché à <code>fpp/duration</code> ; collision</li><li>interne avec $P(t,T)$ déclarée.</li></ul><h2>Fiches créées</h2><p>Aucune.</p><h2>Fiches modifiées</h2><p>Chaque fiche reçoit une rubrique nouvelle ; aucun texte existant n'est changé.</p><p><strong><code>dss/apprentissage-en-ligne-ou-par-lot</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $E$ est ici l'erreur de toute une époque et non celle d'un seul motif : la somme intérieure parcourt les nœuds de sortie $j$, la somme extérieure les motifs présentés. C'est ce second niveau de somme qui fait la méthode par lot ; en ligne, on corrige les poids après chaque motif, sur l'erreur de ce seul motif. [slide 163]
+&gt;
+&gt; $t_j$ est la sortie que l'on attendait du nœud $j$ pour un motif donné, $o_j$ celle que le réseau a effectivement produite pour ce même motif. Les deux changent d'un motif à l'autre ; c'est leur écart qu'on cumule. [slide 163, ajout]
+&gt;</p><p><strong><code>dss/boosting</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $\hat f(x)$ prend un point $x$ de l'espace des prédicteurs et rend la prédiction de l'ensemble construit jusque-là. $\hat f^{\,b}$ est le seul arbre ajouté au pas $b$, ajusté non sur la réponse mais sur les résidus ; $B$ compte les arbres. $r_i$ est le résidu courant de l'observation $x_i$ : ce que le modèle actuel n'explique pas encore, et non l'erreur de l'arbre qu'on vient d'ajouter. [slide 124, slide 125]
+&gt;
+&gt; $\lambda$ est le paramètre de rétrécissement, un petit nombre positif : la fraction de chaque arbre qu'on ajoute réellement. Il ne contrôle que la vitesse d'apprentissage. Ce n'est pas le $\lambda$ de ridge ou du lasso, qui pèse une pénalité dans un critère, ni celui de la décroissance des poids : le cours emploie la même lettre pour les trois sans le signaler. [slide 126, ajout]
+&gt;</p><p><strong><code>dss/composante-principale</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $v_1$ est une direction de l'espace des prédicteurs, un vecteur de poids de norme un : il dit dans quelle proportion chaque prédicteur entre dans la combinaison. $\mathbf{z}_1$ est ce que cette direction produit sur les données, un score par observation, obtenu en projetant chaque ligne de $\mathbf{X}$ sur $v_1$. La direction appartient aux variables, le score aux observations. [slide 61]
+&gt;
+&gt; $v$ est la variable sur laquelle on maximise ; la contrainte de norme un empêche de faire croître la variance en allongeant simplement le vecteur. $\mathrm{Var}$ est la variance empirique, calculée sur les observations de l'échantillon, et $\mathbf{X}$ la matrice des prédicteurs, une observation par ligne, centrée. [slide 61, ajout]
+&gt;</p><p><strong><code>dss/decroissance-des-poids</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $\lambda$ est le paramètre de coût des poids : le prix, en erreur, de chaque unité de poids au carré. Il joue le même rôle que le $\lambda$ de ridge sans être le même nombre, et il n'a rien à voir avec le rétrécissement du boosting ; le cours emploie la même lettre pour les trois. [slide 174, ajout]
+&gt;
+&gt; $w_{ij}$ est le poids de la connexion du nœud $i$ vers le nœud $j$ : la pénalité porte sur les poids, pas sur les sorties. $t_j$ et $o_j$ gardent leur sens, sortie désirée et sortie produite du nœud $j$. $\Delta w_{ij}$ est la correction que la rétropropagation calculait déjà ; dans la mise à jour, le signe égal se lit comme une affectation, et le terme retranché ne dépend que du poids lui-même, pas de l'erreur. [slide 174, ajout]
+&gt;</p><p><strong><code>dss/descente-de-gradient</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $\frac{\delta E}{\delta w_{ij}}$ est la dérivée de l'erreur par rapport à un seul poids : le taux auquel $E$ change quand $w_{ij}$ change, les autres poids restant fixes. Le $\delta$ note ici une dérivée partielle ; ce n'est pas le signal d'erreur que la rétropropagation attache à chaque nœud. Le signe moins envoie le poids du côté où l'erreur baisse. [slide 160, ajout]
+&gt;
+&gt; $\eta$ est le taux d'apprentissage, c'est-à-dire la taille du pas, la même à chaque itération. $\Delta w_{ij}$ est la correction appliquée à un pas au poids de la connexion du nœud $i$ vers le nœud $j$, et non le poids lui-même. [slide 160, ajout]
+&gt;</p><p><strong><code>dss/fonction-discriminante-lineaire</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $f$ prend un exemple, le point $X$ de coordonnées $x_1$ et $x_2$ dans l'espace des attributs, et rend un nombre réel dont seul le signe sert : positif, l'exemple va dans la classe $A$ ; négatif, dans la classe $B$. Sa valeur n'est pas une probabilité d'appartenance, et la frontière est l'ensemble des points où elle s'annule. [slide 135, ajout]
+&gt;
+&gt; $x_1$ et $x_2$ sont deux attributs mesurés sur chaque exemple ; sur la slide, l'âge et la taille. $w_1$ et $w_2$ fixent l'orientation de la frontière, $w_0$ la déplace sans la tourner. Ces trois poids sont les inconnues que l'apprentissage doit trouver. [slide 135, slide 136, ajout]
+&gt;</p><p><strong><code>dss/matrice-de-confusion</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $\mathrm{TP}$ compte les positifs réels que le classifieur déclare positifs, les cas détectés ; $\mathrm{FN}$ les positifs réels qu'il déclare négatifs, les manqués. $\mathrm{FP}$ compte les négatifs réels déclarés positifs, les fausses alarmes ; $\mathrm{TN}$ les négatifs réels correctement rejetés. [slide 11]
+&gt;
+&gt; Ce sont des effectifs, pas des taux : un taux ne naît qu'en divisant par une marge. Dans chaque sigle, la première lettre dit si la prédiction est juste, la seconde ce qui a été prédit ; un faux négatif est donc un cas réellement positif. [ajout]
+&gt;</p><p><strong><code>dss/moindres-carres-partiels</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $\hat\varphi_{mj}$ est le poids du prédicteur $j$ dans la direction $m$. Il est calculé à partir de la réponse $\mathbf{y}$, et c'est ce qui le sépare du poids d'une composante principale, qui ne regarde que les prédicteurs. Le produit scalaire $\langle\cdot,\cdot\rangle$ porte sur deux colonnes de données, prédicteurs standardisés : il mesure à quel point le prédicteur et la réponse varient ensemble sur les observations. [slide 90, ajout]
+&gt;
+&gt; $\mathbf{x}_j^{(m-1)}$ n'est pas le prédicteur $j$ d'origine, sauf à la première direction : c'est ce qui en reste une fois retiré ce que les directions déjà construites en expliquent. $\mathbf{z}_m$ est la direction obtenue, une colonne de valeurs, une par observation, et $p$ le nombre de prédicteurs. [slide 90]
+&gt;</p><p><strong><code>dss/perceptron</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $w_i$ est le poids de la connexion qui porte l'entrée $x_i$ jusqu'au neurone, $n$ le nombre d'entrées réelles. L'indice commence à zéro parce que $x_0$ vaut toujours un et que $w_0$ est l'opposé du seuil : la somme contient donc déjà la soustraction du seuil. [slide 143]
+&gt;
+&gt; $f$ est la fonction d'activation, ici une fonction seuil : elle prend la somme pondérée $a$, un nombre réel, et rend 1 ou 0. $y$ est la sortie du neurone, et non la classe réelle de l'exemple, que la règle d'apprentissage lui compare ensuite. [slide 143, ajout]
+&gt;</p><p><strong><code>dss/regression-composantes-principales</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $\mathbf{z}_m$ est la $m$-ième composante principale calculée sur les données, une colonne de valeurs, une par observation. $\hat\theta_m$ est le coefficient de la régression de $\mathbf{y}$ sur cette seule colonne ; les composantes étant orthogonales, il ne dépend pas des autres. [slide 76]
+&gt;
+&gt; $M$ est le nombre de composantes retenues, le seul réglage de la méthode : au-delà, les composantes sont écartées, pas rétrécies. $\bar y\mathbf{1}$ est la moyenne de la réponse répétée sur toutes les observations, la prédiction qu'on ferait sans aucun prédicteur, et $\hat{\mathbf{y}}^{\text{pcr}}_{(M)}$ le vecteur des prédictions obtenues avec $M$ composantes. [slide 76, ajout]
+&gt;</p><p><strong><code>dup/approximation-arrow-pratt</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $\pi(w_0,u,X)$ prend trois arguments — la richesse initiale $w_0$, la fonction d'utilité $u$ et le risque $X$ — et rend un montant : ce que l'agent paierait pour être débarrassé de $X$. Ce $\pi$ est une prime en unités de richesse, pas une probabilité. $X$ est un risque de moyenne nulle, supposé petit devant la richesse. [L1 slide 32, ajout]
+&gt;
+&gt; $\mathrm{Var}(X)$ ne dépend que du risque, $A(w_0)$ que de l'agent et de sa richesse : l'aversion absolue est lue au point de départ, et non en un point quelconque des résultats possibles de $X$. [L1 slide 32, ajout]
+&gt;</p><p><strong><code>dup/assurance-probabiliste</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $w$ est la richesse de l'assuré, $L$ la perte qu'il peut subir et $y$ la prime de l'assurance complète. Ici $\pi$ est la probabilité du sinistre, et non une prime de risque : le montant payé à l'assureur s'écrit $y$. [L2 slide 12]
+&gt;
+&gt; Les trois lignes de la loterie de gauche décrivent le contrat à demi-prime : sinistre survenu mais non couvert, sinistre survenu et couvert, absence de sinistre où l'assuré n'a versé que la moitié de la prime. À droite, $\big(w-y\big)$ est la richesse certaine de l'assuré entièrement couvert. [L2 slide 10, L2 slide 12]
+&gt;</p><p><strong><code>dup/aversion-a-la-deception-generalisee</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $c(P)$ prend une loterie et rend son équivalent certain, en monnaie ; comme il figure des deux côtés, la formule le définit implicitement. $\delta c(P)$ est le seuil sous lequel un résultat déçoit : une fraction de l'équivalent certain, en monnaie elle aussi. $x$ parcourt les résultats monétaires de $P$, et $u$ est l'utilité ordinaire d'un montant. [L3 slide 12, ajout]
+&gt;
+&gt; $\theta$ règle la force de la pénalité et $\delta$ l'endroit où elle commence ; aucun des deux n'est une probabilité. La partie positive $(\cdot)_+$ annule l'écart dès qu'il est négatif, si bien que seuls les résultats situés sous le seuil sont pénalisés. [L3 slide 12, ajout]
+&gt;</p><p><strong><code>dup/aversion-a-la-deception</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $V(P)$ prend une loterie et rend un nombre en unités d'utilité. Il figure aussi à droite, comme seuil de déception, ce qui fait de la formule une équation dont $V(P)$ est la solution plutôt qu'une définition explicite. $u(x)$ est l'utilité ordinaire du résultat $x$. [L3 slide 10, ajout]
+&gt;
+&gt; $\alpha$ mesure la pénalité supplémentaire infligée aux résultats décevants ; ce n'est ni une probabilité ni un poids de mélange. $(z)_+$ vaut l'écart quand il est positif et zéro sinon : un résultat au-dessus du seuil ne compte que par sa propre utilité. [L3 slide 10, ajout]
+&gt;</p><p><strong><code>dup/aversion-au-risque</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $\tilde x$ est une richesse aléatoire, et le tilde la distingue d'un montant certain. $U$ prend un montant et rend son utilité : à gauche elle s'applique à la moyenne, qui est un nombre certain ; à droite elle s'applique à chaque réalisation avant que l'on prenne la moyenne. [L1 slide 7, ajout]
+&gt;</p><p><strong><code>dup/aversion-forte-au-risque</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $U(X)$ est la valeur de la loterie $X$ sous utilité dépendante du rang : elle prend une loterie entière et rend un nombre. Il ne faut pas la confondre avec $u$, qui prend un montant et rend l'utilité de ce montant. [L4 slide 15, ajout]
+&gt;
+&gt; $\mathbb{E}_\varphi$ est une moyenne des résultats calculée avec les poids que produit la déformation $\varphi$ des probabilités cumulées, alors que $\mathbb{E}$ est la moyenne sous les probabilités objectives. [ajout]
+&gt;</p><p><strong><code>dup/aversion-premier-ordre</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $r(\sigma)$ prend la demi-largeur $\sigma$ d'un pari symétrique à pile ou face autour de la richesse et rend la prime qui laisse l'agent indifférent à ce pari. $\sigma$ est un écart en monnaie, pas une variance. [L3 slide 40, L3 slide 41]
+&gt;
+&gt; $\lambda$ est le coefficient d'aversion aux pertes, supérieur à un : il dit combien une petite perte pèse de plus qu'un gain de même taille. $\gamma$ règle la courbure de l'utilité de part et d'autre de zéro ; il ne crée pas à lui seul le premier ordre, qui vient du coude que $\lambda$ introduit en zéro. $k$ est le coefficient de proportionnalité qui en résulte entre la prime et $\sigma$. [L3 slide 41, ajout]
+&gt;</p><p><strong><code>dup/aversion-relative</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $u_1$ et $u_2$ sont les utilités de deux agents, et l'indice désigne l'agent, pas un ordre de dérivation. $w_0$ est la richesse de départ et $X$ un risque qui s'y ajoute ; la définition les quantifie tous deux, de sorte que la comparaison vaut à toute richesse et pour tout pari. [L1 slide 30, ajout]
+&gt;</p><p><strong><code>dup/ceu</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $f$ et $g$ sont des actes du cadre d'Anscombe-Aumann : chacun associe à un état $s$ de $S$ une loterie $f(s)$, et $u$ rend l'utilité de cette loterie. [L4 slide 60, ajout]
+&gt;
+&gt; $\mu$ est une capacité : elle prend un ensemble d'états et rend un poids entre zéro et un, croissant avec l'ensemble, sans que le poids de deux événements disjoints réunis soit la somme de leurs poids. Ce n'est donc pas une probabilité. L'exposant de $\int^{C}_S$ signale que l'intégrale est celle de Choquet, qui range les utilités par ordre avant de les pondérer. [ajout]
+&gt;</p><p><strong><code>dup/condition-cdf-integree</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $F$ et $F^*$ prennent un montant et rendent la probabilité d'obtenir au plus ce montant : ce sont des fonctions de répartition, pas des densités. $F^*$ est la loi candidate à être plus risquée, $F$ la loi de référence. [L1 slide 22, ajout]
+&gt;
+&gt; $t$ est la variable d'intégration, $x$ le point jusqu'où l'on cumule la différence, et $M$ la borne supérieure du support commun aux deux lois. [L1 slide 22, ajout]
+&gt;</p><p><strong><code>dup/cout-social-du-risque</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $c_t$ est la consommation par tête à la date $t$, égale au PIB par tête puisque le partage est équitable ; elle est connue au moment où l'on évalue. $X$ est le taux de croissance aléatoire du PIB par tête jusqu'à la date suivante. [L1 slide 38, ajout]
+&gt;
+&gt; $\pi$ est le coût social du risque : une retenue sur le taux de croissance, exprimée en points de pourcentage, et non un montant de consommation. $u$ est l'utilité d'un niveau de consommation par tête. [L1 slide 38, ajout]
+&gt;</p><p><strong><code>dup/couverture-de-l-ambiguite</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $\widehat{I}$ prend un vecteur d'utilités, un nombre par état, et rend la valeur de l'acte qui produirait ce vecteur ; elle prolonge à tous les vecteurs réels la fonctionnelle définie d'abord sur les seuls vecteurs d'utilité des actes. À cette étape de la démonstration, rien n'établit encore qu'elle s'écrit comme un minimum sur des priors : c'est ce que l'inégalité sert à obtenir. [ajout]
+&gt;
+&gt; $a$ et $b$ sont des vecteurs d'utilité, et non des actes ni des paiements en monnaie ; leur somme $a+b$ se forme état par état. [ajout]
+&gt;</p><p><strong><code>dup/cpt</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $\varphi$ prend une probabilité cumulée et rend le poids de décision cumulé qui la remplace ; son argument $p$ n'est pas un montant, et $\varphi(p)$ n'est pas une croyance de l'agent. [L3 slide 38, ajout]
+&gt;
+&gt; $\beta$ règle la forme de la déformation ; la formule redonnerait la diagonale en $\beta=1$, valeur que l'intervalle du cours exclut. Il n'a rien à voir avec l'exposant de la fonction de valeur, que le cours note aussi $\beta$ dans la diapositive suivante. [ajout]
+&gt;</p><p><strong><code>dup/dara</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $z$ est un niveau de richesse, et la condition doit tenir en chacun. $u'$, $u''$ et $u'''$ sont les trois premières dérivées de l'utilité : à droite, le rapport est l'aversion absolue ; à gauche, c'est le même rapport pris une dérivée plus haut, qui mesure la prudence plutôt que l'aversion. [L1 slide 34, ajout]
+&gt;</p><p><strong><code>dup/effet-consequence-commune</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $U(5)$, $U(1)$ et $U(0)$ sont les utilités de 5 millions, de 1 million et de rien : l'argument est un montant en millions de dollars, pas un numéro de loterie. $a_1$, $a_2$, $a_3$ et $a_4$ sont les quatre loteries du cours, comparées deux à deux. Les coefficients $.11$, $.10$ et $.01$ sont les probabilités qui subsistent une fois la conséquence commune effacée des deux côtés. [L1 slide 42, L1 slide 43]
+&gt;</p><p><strong><code>dup/hypothese-de-machina</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $P$, $Q$ et $R$ sont des loteries ; $Q$ et $R$ jouent le rôle de la conséquence commune, et l'hypothèse ne s'applique que si $Q$ domine $R$ au premier ordre. $\delta_x$ est la loterie qui donne $x$ avec certitude. $\alpha$ est le poids du mélange, la part de probabilité qui n'est pas la conséquence commune. [L2 slide 17, ajout]
+&gt;
+&gt; $\succeq_{\text{FOSD}}$ compare deux lois par dominance stochastique du premier ordre, alors que $\succeq$ seul est la préférence de l'agent : les deux relations ne portent pas sur la même chose. [ajout]
+&gt;</p><p><strong><code>dup/independance-comonotone</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $z$ et $y$ sont deux fonctions réelles des états — dans l'usage qu'en fait l'axiome, les vecteurs d'utilité de deux actes —, et $s$, $t$ sont deux états quelconques de $S$. La condition dit qu'elles ne classent jamais deux états en sens contraires ; elle ne dit rien de leurs niveaux. [L4 slide 59]
+&gt;
+&gt; $f$, $g$ et $h$ sont des actes deux à deux comonotones, $h$ étant l'acte commun avec lequel on mélange, et $\alpha$ est le poids du mélange. Ici $t$ est un état, pas une date. [L4 slide 59, ajout]
+&gt;</p><p><strong><code>dup/independance-de-certitude</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $f$ et $g$ sont des actes quelconques, et $\ell$ une loterie constante : elle donne la même loterie dans tous les états, ce qui la distingue d'un acte ordinaire. $\Delta(X)$ est l'ensemble des loteries sur les conséquences, et $\alpha$ le poids du mélange. [L4 slide 45, ajout]
+&gt;</p><p><strong><code>dup/intervalle-de-non-echange</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $X$ est l'actif, décrit par son paiement dans chaque état, et $-X$ la position courte, qui paie l'opposé. $V$ prend une position et rend son intégrale de Choquet ; comme elle n'est pas linéaire, $-V(-X)$ ne coïncide pas avec $V(X)$. $p$ est le prix d'une unité de l'actif, le rendement brut sans risque étant normalisé à un. [L4 slide 62, ajout]
+&gt;</p><p><strong><code>dup/paradoxe-d-ellsberg</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $f_1$, $f_2$, $f_3$ et $f_4$ sont les quatre paris sur l'urne, chacun payant 100 sur certaines couleurs et rien sur les autres. $\pi$ est la probabilité subjective que l'agent aurait s'il en avait une, additive par hypothèse ; ce n'est pas une fréquence connue. [L1 slide 62, L1 slide 63]
+&gt;
+&gt; $\pi(R)$, $\pi(B)$ et $\pi(J)$ sont ses valeurs sur le rouge, le noir et le jaune : $B$ désigne ici le noir, et non le bleu de la version du quatrième cours. [L1 slide 62, ajout]
+&gt;</p><p><strong><code>dup/paradoxe-rabin</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $l$ et $g$ sont la perte et le gain du petit pari à pile ou face que l'agent refuse, le gain étant supérieur à la perte ; ce sont des montants, et leur rapport $g/l$ est le facteur dont l'utilité marginale doit décroître à chaque pas. $w$ est une richesse quelconque, puisque le refus est supposé à toute richesse, et $u$ l'utilité croissante et concave de l'agent. [ajout]
+&gt;</p><p><strong><code>dup/pessimisme</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $\varphi$ prend une probabilité cumulée, comptée depuis le plus mauvais résultat, et rend le poids cumulé qui la remplace ; $p$ est donc une probabilité, pas un montant. [L4 slide 14, ajout]
+&gt;
+&gt; $U(P)$ est la valeur de la loterie sous pondération par rang, et non l'utilité d'un montant ; $\mathbb{E}$ est la moyenne objective des paiements $X$. $x_1$ et $x_2$ sont les deux résultats de la loterie binaire, $x_1$ le plus mauvais, et $p_1$ est la probabilité de $x_1$. [L4 slide 14, ajout]
+&gt;</p><p><strong><code>dup/statique-comparative-risque-accru</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $a$ est la variable de décision de l'agent et $x$ le résultat aléatoire ; $U(x,a)$ rend l'utilité du résultat $x$ quand on a choisi $a$. $F(x;r)$ est la loi de $x$, et $r$ un indice de risque : plus il est élevé, plus la loi est risquée. $a^*$ est le choix optimal. [L1 slide 26, ajout]
+&gt;
+&gt; Les indices notent des dérivées partielles : $U_a$ est le paiement marginal du choix, et $U_{xxa}$ la dérivée seconde en $x$ de ce paiement marginal, dont le signe dit s'il est concave ou convexe en $x$. [L1 slide 26, ajout]
+&gt;</p><p><strong><code>dup/theorie-du-regret</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $v(x,y)$ prend deux résultats du même état — celui qu'on a obtenu, $x$, et celui que l'option abandonnée aurait donné, $y$ — et rend la valeur vécue du premier. Ce n'est pas une utilité ordinaire de $x$ : la même somme reçue vaut plus ou moins selon $y$. [L1 slide 58, ajout]
+&gt;</p><p><strong><code>dup/utilite-dependante-de-l-etat</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $U_s$ prend une conséquence et rend son utilité dans l'état $s$ : il y a une fonction d'utilité par état, et l'indice n'est pas une dérivée. $\pi(s)$ est la probabilité subjective de l'état, et $f(s)$ la conséquence que l'acte $f$ y attache. [L1 slide 61, ajout]
+&gt;</p><p><strong><code>dup/utilite-esperee-subjective</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $f$ est un acte : il associe à chaque état $s$ de $S$ une conséquence $f(s)$. $U$ prend une conséquence et rend son utilité, la même quel que soit l'état. $\pi(s)$ est la probabilité que l'agent attribue à l'état $s$ ; elle se déduit de ses choix, et n'est pas une fréquence donnée avec le problème. [L1 slide 59, ajout]
+&gt;</p><p><strong><code>dup/utilite-implicite</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $w$ prend un résultat et une valeur de loterie, et rend le poids positif de ce résultat ; c'est par son second argument, $V(P)$, que le poids dépend de la loterie entière. $V(P)$ figure donc des deux côtés, et la formule est une équation que la valeur doit satisfaire. $p_i$ est la probabilité du résultat $x_i$, et $u$ l'utilité ordinaire d'un montant. [L3 slide 8, ajout]
+&gt;</p><p><strong><code>dup/utilite-logarithmique</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $z$ est un niveau de richesse, strictement positif pour que $\ln$, le logarithme népérien, soit défini. $A(z)$ rend l'aversion absolue à cette richesse ; elle est inversement proportionnelle à $z$, de sorte que l'aversion relative ne dépend pas de la richesse. [L1 slide 35, ajout]
+&gt;</p><p><strong><code>dup/utilite-ponderee</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $w$ prend un résultat et rend un poids strictement positif, propre à ce résultat et indépendant de la loterie où il figure ; ce n'est pas une probabilité, et seul le rapport des poids compte puisque la formule divise par leur moyenne. $p_i$ est la probabilité du résultat $x_i$, et $u$ l'utilité ordinaire d'un montant. [L3 slide 5, ajout]
+&gt;</p><p><strong><code>fpp/convention-capitalisation</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $r$ est le taux d'intérêt, constant et exprimé par an ; $t$ est la durée du placement, comptée en années, et non une date. $n$ est le nombre de fois qu'on capitalise les intérêts sur cette durée : $n=1$ redonne la convention linéaire, un $n$ fini la convention périodique. [§2.1]
+&gt;
+&gt; L'expression rend un facteur de capitalisation, ce que devient une unité placée pendant $t$ ; ce n'est pas un facteur d'actualisation, qui en est l'inverse. $e^{rt}$ est sa limite quand la capitalisation devient continue, et la flèche dit qu'un même $r$ ne désigne le même placement qu'une fois $n$ fixé. [§2.1]
+&gt;</p><p><strong><code>fpp/duration</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $P(t,r)$ est le prix d'un zéro-coupon, mais écrit autrement qu'avec deux dates : ses deux arguments sont une durée et un taux. $t$ est la maturité, la durée qui reste jusqu'au paiement, comptée depuis aujourd'hui ; $r$ est le taux continu, supposé le même pour toutes les maturités. On a donc $P(t,r)=e^{-rt}$, le même objet que $P(0,t)$ quand le taux zéro-coupon vaut $r$. [Déf. 5, ajout]
+&gt;
+&gt; Cette écriture fait du taux une variable, et c'est ce qu'il faut pour dériver par rapport à lui. Le $t$ qui sort de la dérivée, $\partial e^{-rt}/\partial r=-t\,e^{-rt}$, est la maturité : c'est elle qu'on lit dans la sensibilité relative. [ajout]
+&gt;</p><p><strong><code>fpp/echelonnement-de-la-variance</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $\sigma^2(\cdot)$ est une fonction : elle prend une durée et rend la variance du log-rendement accumulé sur cette durée. $t_1$ et $t_2$ sont deux durées mises bout à bout, et $T$ est l'horizon total ; ce sont des longueurs d'intervalle, pas des dates. [§5.3, ajout]
+&gt;
+&gt; $\sigma$ sans argument est la volatilité par unité de temps, en général par an : c'est la constante que l'hypothèse de stationnarité permet de sortir. $\sigma(T)$, lui, est l'écart type sur tout l'horizon et ne porte plus d'unité de temps ; confondre les deux revient à oublier la racine. [§5.3, ajout]
+&gt;</p><p><strong><code>fpp/edp-black-scholes</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $C$ est une fonction de deux variables : elle prend une date $t$ et un niveau $S$ du sous-jacent, et rend le prix de l'option à cette date si le sous-jacent vaut $S$. Ici $S$ est une variable, un point de l'axe des prix, et non la trajectoire aléatoire $S_t$ ; $\partial C/\partial t$ dérive à $S$ fixé, par rapport à la date et non à la durée restante. [§7.1, ajout]
+&gt;
+&gt; $r$ est le taux sans risque, constant, et $\sigma$ la volatilité du sous-jacent. $T$ est l'échéance de l'option et $K$ son strike ; $x$ est une variable muette, la valeur du sous-jacent à l'échéance. Seule la condition terminale dit de quelle option il s'agit : $(x-K)^+$ est le payoff du call, et la même équation, avec $(K-x)^+$, porte sur le put. [§7.1, ajout]
+&gt;</p><p><strong><code>fpp/equation-de-la-chaleur</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; Le $C$ de cette équation n'est plus le prix de l'option : c'est sa valeur forward, le prix multiplié par $e^{r(T-t)}$, vue comme une fonction de la date $t$ et de $x$. Et $x$ n'est plus le prix du sous-jacent : c'est le logarithme de son prix forward. La lettre est restée celle de l'équation de départ, mais la fonction a changé. [§7.2.2, ajout]
+&gt;
+&gt; À l'échéance $T$, le forward et le comptant coïncident, si bien que $e^x$ y est le prix du sous-jacent et que la condition terminale reste le payoff du call de strike $K$. $\sigma$ est la même volatilité qu'avant ; le taux $r$ a disparu de l'équation, absorbé par le passage au forward. [§7.2.2, ajout]
+&gt;</p><p><strong><code>fpp/parite-call-put</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $S_t$ est le prix comptant du sous-jacent en $t$, et $S_T$ son prix à l'échéance, inconnu en $t$ : la première égalité porte sur les payoffs, donc sur $S_T$, la seconde sur les prix, donc sur $S_t$. $(\cdot)^+$ rend la partie positive, zéro quand l'expression est négative. [ajout]
+&gt;
+&gt; $P(t,T)$, avec deux dates pour arguments, est le zéro-coupon : le prix en $t$ d'une unité payée en $T$. Ce n'est pas le put, noté $P_t$ ; le cours emploie la même lettre pour les deux, et c'est le nombre d'arguments qui les distingue. [ajout]
+&gt;</p><p><strong><code>fpp/produit-a-capital-protege</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; Les quatre mots de la forme désignent des positions, pas des prix. ZC est un zéro-coupon qui paie en $T$ le capital garanti ; Call est un call sur le sous-jacent, d'échéance $T$ ; Spot est le sous-jacent lui-même, acheté au comptant ; Put est un put de même échéance. [§9.2, ajout]
+&gt;
+&gt; Sur la figure, $K$ est la mise, celle que le produit rend à l'échéance, et $KP(t,T)$ ce qu'il faut en placer en $t$ pour la retrouver en $T$ : $P(t,T)$ y est le prix d'un zéro-coupon, et non celui d'un put. L'équivalence des deux écritures demande que le strike des options soit égal au nominal du zéro-coupon. [ajout]
+&gt;</p><p><strong><code>fpp/replication-dynamique</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $t_0$ est la date où l'on met en place la stratégie et $t_i$ la $i$-ième date de rééquilibrage, typiquement un jour après la précédente. Les contrats sont des contrats futures, dont les variations de prix sont versées à chaque date par l'appel de marge. [§4.2.2, ajout]
+&gt;
+&gt; $B(t_0,t_i)$ est le compte capitalisé : le produit des zéro-coupons à une période enchaînés de $t_0$ à $t_i$. Vu de $t_0$, il est aléatoire, parce que les taux des périodes à venir ne sont pas encore connus ; c'est pour cela que la position se recalcule à chaque pas au lieu d'être fixée d'avance. Ce n'est pas le zéro-coupon $P(t_0,t_i)$, avec lequel il ne coïncide que si les taux sont déterministes. [§4.2.2]
+&gt;</p><p><strong><code>fpp/replication-statique</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $t$ est la date où l'on monte l'opération et $T$ l'échéance du contrat à terme. $S_t$ est le prix comptant de l'action en $t$, connu ; $S_T$ est son prix en $T$, aléatoire vu de $t$, et il disparaît de la différence. $K$ est le prix de livraison fixé dans le contrat, l'inconnue que le montage détermine. [§3.1, ajout]
+&gt;
+&gt; $P(t,T)$ est le prix en $t$ du zéro-coupon qui paie une unité en $T$ ; diviser par lui, c'est capitaliser, et $S_t/P(t,T)$ est ce qu'on rembourse en $T$ pour avoir emprunté $S_t$. Ce n'est pas le prix d'un put. [§3.1, ajout]
+&gt;</p><p><strong><code>fpp/responsabilite-limitee</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $\pi_E$ et $\pi_A$ sont les rendements, sur la période, des capitaux propres et de l'actif, comptés en excès du rendement de la dette ; la source néglige ici ce dernier, si bien qu'ils se lisent comme de simples rendements. Il s'agit de variations réalisées, et non de leur espérance, même si la source garde la lettre de la prime de risque espérée. [§1.4, ajout]
+&gt;
+&gt; $l$ est le levier, le rapport de l'actif aux capitaux propres, au moins égal à un. Ce n'est pas le rapport de la dette à l'actif, compris entre zéro et un, que le livre d'exercices note de la même lettre dans le modèle de Merton. Un rendement de −100 % des capitaux propres est la perte de toute la mise. [§1.4, ajout]
+&gt;</p><p><strong><code>fpp/transformee-de-laplace-gaussienne</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $X$ est une variable aléatoire gaussienne quelconque, d'espérance $\mu$ et de variance $\sigma^2$. Ces deux lettres sont ici des paramètres génériques : ce ne sont ni la dérive ni la volatilité du sous-jacent, même si l'application au modèle de Black et Scholes les remplace par des expressions qui en dépendent. [Th. 1, ajout]
+&gt;
+&gt; $\lambda$ est un réel quelconque, et $\mathbb{E}\big(e^{\lambda X}\big)$ est une fonction de $\lambda$ : elle prend ce réel et rend un nombre positif, l'espérance de l'exponentielle. Ce $\lambda$ n'est pas un paramètre de modèle ; dans l'application du cours, on le prend égal à un. [Th. 1, §5.4]
+&gt;</p><p><strong><code>pfo/filtre-z-score-glissant</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $r_t$ est le rendement logarithmique du jour $t$, celui qu'on teste ; ce n'est pas un taux d'intérêt. $\mu$ et $\sigma$ sont la moyenne et l'écart type empiriques d'une fenêtre glissante qui se termine en $t$ et contient donc $r_t$ lui-même : ils changent chaque jour, et ce ne sont ni l'espérance ni la volatilité de la loi des rendements. [Listing 1.1, ajout]
+&gt;
+&gt; La flèche $r_t \leftarrow 0$ est une affectation, et non une égalité : le rendement observé est remplacé par zéro dans la série filtrée. [Listing 1.1]
+&gt;</p><p><strong><code>pfo/moment-standardise</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $r$ est le rendement vu comme une variable aléatoire, et non comme une série observée ; $\mu$ est son espérance et $\sigma$ son écart type. $E$ est l'espérance : la forme décrit une propriété de la loi, que les fonctions de Python estiment ensuite sur un échantillon. [§2.1.2, ajout]
+&gt;
+&gt; $k$ est l'ordre de la puissance, l'entier qui distingue les membres de la famille. La source ne l'écrit pas : elle pose séparément l'ordre 3 et l'ordre 4. [ajout]
+&gt;</p><p><strong><code>pfo/remplissage-des-valeurs-manquantes</code></strong> — ajout de la rubrique « Ce que les symboles modélisent », après « Forme »
+- ancien : rien
+- nouveau :</p><p>&gt; ## Ce que les symboles modélisent
+&gt; $\mathrm{NaN}$, « Not a Number », est la marque que pandas pose sur une valeur manquante : une case vide de la série, et non un zéro ni un prix nul. [p. 11]
+&gt;
+&gt; « Avant » et « après » s'entendent dans l'ordre des dates de la série : la dernière valeur connue avant est une observation passée, la première valeur connue après une observation future. La flèche dit ce que la case reçoit ; ce n'est pas une égalité. [p. 12, ajout]
+&gt;</p><h2>Abstractions créées / insérées</h2><p>Aucune.</p><h2>Abstractions en attente</h2><p>pfo : portefeuille de variance minimale globale ; estimateur de volatilité ; mesure de
+risque. dss : fonction d'activation ; indicateur de matrice de confusion. dup : dominance
+stochastique ; mesure de risque.</p><h2>Parcours</h2><p>Aucune modification.</p><h2>Dette</h2><p>« symboles à expliquer » : 0 (53 au moment où la règle a été étendue, en début de session).</p><p><strong>Avertissement</strong> : <code>fpp/feynman-kac</code>, dépendance redondante vers
+<code>fpp/mesure-risque-neutre</code> (A8).</p><h2>Contradictions source</h2><p>Voir les questions 1 et 3, à confirmer avant d'être inscrites comme contradictions.</p><h2>Questions pour l'utilisateur</h2><p>1. <strong>dss — source, slide 174</strong> : d'après le rédacteur, qui a lu l'image de la slide, les
+   deux étiquettes sous la formule de décroissance des poids sont inversées (« $w_{ij}$ =
+   weight-cost parameter », « $\lambda$ is decayed… »). La fiche suit le sens voulu. *À
+   vérifier sur la slide ; si c'est confirmé, le noter en contradiction de la source.*
+2. <strong>dss — deux graphies du même poids</strong> : le registre écrit $\phi_{mj}$ (slide 72), la Forme
+   des moindres carrés partiels $\hat\varphi_{mj}$ comme la slide 90. *Recommandation :
+   déclarer la variante au registre, sans rien renommer.*
+3. <strong>fpp — §7.1</strong> : le poly appelle $T$ « time to maturity », une durée, alors que la
+   condition terminale $C(T,x)$ en fait la date d'échéance. La rubrique écrit « échéance ».
+   <em>Recommandation : le porter en contradiction interne de la source.</em>
+4. <strong>fpp — §7.2.2</strong> : $C$ et $x$ sont réemployés après les changements de variables pour
+   d'autres objets (valeur forward, logarithme du forward) ; la rubrique le dit, en
+   <code>[ajout]</code>. <em>Recommandation : laisser ainsi.</em>
+5. <strong>fpp — §1.4</strong> : $\pi_E$ et $\pi_A$ sans tilde, lettre de l'espérance, pour des
+   variations réalisées. <em>Recommandation : laisser la rubrique dire la différence.</em>
+6. <strong>dup — collision interne de $\beta$</strong> : paramètre de la pondération de CPT (L3 slide
+   38) et exposant de la fonction de valeur à la slide suivante. *Recommandation : la
+   déclarer au registre de dup, dans une session sur les notations.*
+7. dss — un second tirage pour illustrer le rétrécissement ? Dans le monde des 20
+   clients, une variable de bruit est corrélée à la perte par hasard (0,50), et ridge ou
+   le lasso n'y battent pas les moindres carrés. *Recommandation : garder ce monde, et en
+   tirer un second, plus riche en prédicteurs de bruit, pour le seul parcours « Garder
+   toutes les variables » si l'utilisateur veut des gains chiffrés pour ridge.*
+8. En fin de parcours, le rappel accumule le départ et toutes les suites : sur
+   <code>dup/parcours-comparer</code>, six suites à la dernière étape. *Recommandation : le garder
+   ainsi ; replier les suites antérieures si l'utilisateur le trouve encombrant.*
+9. dss — les exemples des fiches de « rétrécir » restent sur les données Credit du
+   cours : les histoires ne les ont pas remplacés (voir la question 7).
+10. Les autres fiches de dss sans exemple : les compléter parcours par parcours.
+   Recommandation : oui.
+11. pfo — garder les arêtes vers dup (<code>depend_de: [fpp, dup]</code>) ? Recommandation : oui.
+12. pfo — une fiche à part pour le portefeuille de variance minimale globale ?
+   Recommandation : non tant qu'aucun chapitre ne le développe.
+13. pfo — calculer les parties A et B de l'exercice 3 sur données réelles ?
+14. fpp — corriger la note de collision de $l$ et la section « Contradiction » de
+    <code>fpp/ex-16</code> (le spread est fini en $l=1$) ? Recommandation : oui.
+15. fpp — le domaine de $l$ dans l'exercice 16 : à demander à l'enseignant.
+16. fpp — la convention $X_t$ : garder la collision déclarée.
+17. dss — les trois emplois de $\lambda$ : à demander à l'enseignant.
+18. dss — des fiches pour l'arbre de décision, la régression logistique, le SVM ? Attendre
+    un support.
+19. dup — un relevé des symboles LaTeX du corps absents du registre (avertissement), dans
+    une session dédiée au validateur.
+20. dup — <code>dup/maxmin-eu</code> reste la plus longue fiche du dépôt.
+21. <strong>dup — faute probable dans l'exemple de <code>dup/statique-comparative-risque-accru</code></strong> :
+    avec $U(x,a)=\ln(1+ax)$ et $x$ uniforme sur $\{40,60\}$, $U_a=x/(1+ax)&gt;0$ partout ;
+    la condition du premier ordre $\int U_a\,dF=0$ n'a pas de solution, et le $a$
+    optimal n'existe pas. Le lien du parcours ne s'appuie donc pas sur cet exemple.
+    *Recommandation : le remplacer par un paiement qui peut être négatif (un rendement en
+    excès), après accord ; l'exemple est un <code>[ajout]</code>, la source n'est pas en cause.*
+22. dup — la forme paramétrique de la courbe de la figure de pondération est un choix,
+    non un énoncé : laisser ainsi.
+23. pfo — contradictions de la source à confirmer auprès de l'enseignant : chapitre 2
+    (signe de l'éq. 2.25, α « niveau de confiance » Déf. 2.5.1, $F$ normale p. 34,
+    kurtosis p. 23, $K=3$ Table 2.1, légende Fig. 2.2) et chapitre 3 (légende Fig. 3.1,
+    $R_t$ logarithmique au §3.0.7, $W^T\mu$ sur rendements logarithmiques, vérification
+    de l'exercice 2).
+24. pfo — CVaR de Cornish-Fisher : garder 53 511, valeur du listing (grille tronquée à
+    0,0001), ou écrire aussi la valeur de l'intégrale complète, environ 53 940, dans
+    « Cesse d'être valide quand » ? *Recommandation : ajouter une phrase à cette rubrique,
+    qui dise que le chiffre dépend de la borne basse de la grille.*</p><h2>Validation</h2><p><code>263 notions · 0 erreur(s) · 1 avertissement(s)</code> (<code>fpp/feynman-kac</code>, A8) ; garde-fous :
+tous se déclenchent, dont deux nouveaux (formule sans rubrique → signalée ; formule avec
+rubrique → silence) ; site reconstruit.</p></article></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../aide.html">comment lire ce site</a> · <a href="../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../search-index.js"></script>
+<script>
+var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+        s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- l'état qui traverse les pages ----------------------------------------
+   Voir le commentaire de l'en-tête : en file://, seul le fragment traverse.
+   Forme du fragment :  #t:d~a:0~p:1-0--1...~s:<tampon>.<bits>~v:<ancre>
+     t  thème      d | l            (absent : celui du système)
+     a  ajouts     0                (absent : montrés)
+     p  pliage     un caractère par clé de CLES_PLI : 1 ouvert, 0 fermé, - inconnu
+     s  déjà su    un bit par notion, six bits par caractère, précédé d'un tampon
+     v  ancre      l'élément vers lequel défiler à l'arrivée
+   Le tampon est calculé sur la liste des identifiants : dès qu'une notion entre dans
+   le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
+   cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
+var ETAT=(function(){
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='90d4',
+    A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
+var pli={},su={};
+if(typeof H.p==='string'){
+  for(var i=0;i<CLES.length&&i<H.p.length;i++){var c=H.p.charAt(i);
+    if(c==='0'||c==='1')pli[CLES[i]]=(c==='1');}
+}else{
+  CLES.forEach(function(k){var v=LS.g('notions.pli.'+k,null);if(v!==null)pli[k]=(v==='1')});
+}
+function decode(t){var o={},q=t.indexOf('.');
+  if(q<0||t.slice(0,q)!==TAMPON)return o;
+  var b=t.slice(q+1);
+  for(var i=0;i<b.length;i++){var v=A64.indexOf(b.charAt(i));if(v<0)continue;
+    for(var j=0;j<6;j++){if(v&(1<<j)){var k=i*6+j;if(k<IDS.length)o[IDS[k]]=1}}}
+  return o;}
+function encode(){var o='';
+  for(var i=0;i<IDS.length;i+=6){var v=0;
+    for(var j=0;j<6;j++){if(su[IDS[i+j]])v|=1<<j}
+    o+=A64.charAt(v);}
+  return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
+if(typeof H.s==='string'){su=decode(H.s)}
+else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
+function frag(ancre,noeud){var p=[];
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t)p.push('t:'+(t==='dark'?'d':'l'));
+  if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
+  var q='';CLES.forEach(function(k){q+=(pli[k]===undefined?'-':(pli[k]?'1':'0'))});
+  if(/[01]/.test(q))p.push('p:'+q);
+  var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
+  if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
+  return p.length?'#'+p.join('~'):'';}
+function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
+function propager(){var f=frag();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';if(!interne(h))return;
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
+  /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
+     Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
+  try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
+  try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}}
+return{pli:function(k){return pli[k]===undefined?null:pli[k]},
+       setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
+       su:function(id){return !!su[id]},
+       setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
+       lien:function(u,v,n){return u+frag(v,n)},
+       ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
+       propager:propager};
+})();
+function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
+  var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
+  b.textContent=on?'masquer les ajouts':'ajouts masqués';}
+  document.querySelectorAll('.sec').forEach(function(s){
+    var c=s.querySelector('.corps');if(!c)return;var n=0;
+    c.querySelectorAll(':scope>*').forEach(function(el){
+      if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
+      if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
+      n++;});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='Cette rubrique existe, mais tout son contenu est un ajout : le filtre le masque. Elle reste visible pour que vous ne concluiez pas qu’elle est vide.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
+  if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var bt=document.getElementById('btheme');
+  if(bt)bt.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    var nx=(cur||sys)==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);
+    ETAT.propager();});
+  var ba=document.getElementById('bajout');
+  if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);ETAT.propager();});
+  majAjouts(!document.documentElement.classList.contains('sans-ajouts'));
+  /* les liens de la page portent l'état ; une ancre demandée est ouverte et visée */
+  ETAT.propager();
+  var an=ETAT.ancre();
+  if(an){var el=document.getElementById(an);
+    if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView();el.classList.add('vise')}}
+  /* --- recherche instantanée (règle 9) --- */
+  var inp=document.getElementById('q'),res=document.getElementById('qres');
+  if(!inp||!res||!window.SEARCH_INDEX)return;
+  var REL=document.documentElement.getAttribute('data-rel')||'';
+  var sel=-1,items=[];
+  function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+  function cherche(q){
+    var n=norm(q);if(!n)return [];
+    var out=[];
+    SEARCH_INDEX.forEach(function(e){
+      var sc=-1,ch=e.h||[];
+      for(var i=0;i<ch.length;i++){var p=norm(ch[i]).indexOf(n);
+        if(p===0){sc=Math.max(sc,3-(i>0?1:0))}else if(p>0){sc=Math.max(sc,1)}}
+      if(sc>=0)out.push([sc,e]);});
+    out.sort(function(a,b){return b[0]-a[0]||a[1].n.localeCompare(b[1].n)});
+    return out.slice(0,9).map(function(x){return x[1]});}
+  function rendre(){
+    items=cherche(inp.value);sel=-1;res.innerHTML='';
+    if(!inp.value){res.classList.remove('on');return}
+    if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
+    items.forEach(function(e,i){
+      var li=document.createElement('li');
+      var a=document.createElement('a');a.href=ETAT.lien(REL+e.u);a.id='qr'+i;
+      a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
+      li.appendChild(a);res.appendChild(li);});
+    res.classList.add('on');}
+  function bouge(d){if(!items.length)return;sel=(sel+d+items.length)%items.length;
+    Array.prototype.forEach.call(res.children,function(li,i){li.classList.toggle('sel',i===sel)});
+    inp.setAttribute('aria-activedescendant','qr'+sel);}
+  inp.addEventListener('input',rendre);
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();bouge(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();bouge(-1)}
+    else if(e.key==='Enter'){var a=res.querySelector(sel>=0?'li.sel a':'li a');if(a){e.preventDefault();location.href=a.href}}
+    else if(e.key==='Escape'){inp.value='';res.classList.remove('on')}});
+  document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
+  document.addEventListener('keydown',function(e){
+    if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
+});
+</script>
+</body>
+</html>

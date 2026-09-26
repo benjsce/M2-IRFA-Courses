@@ -19,6 +19,11 @@ Deux changements de variables ramènent l’équation de Black et Scholes à l�
 ## Forme
 $$\dfrac{\partial C}{\partial t}+\tfrac12\sigma^2\dfrac{\partial^2C}{\partial x^2}=0,\qquad C(T,x)=(e^x-K)^+$$ [éq. 20, éq. 21]
 
+## Ce que les symboles modélisent
+Le $C$ de cette équation n'est plus le prix de l'option : c'est sa valeur forward, le prix multiplié par $e^{r(T-t)}$, vue comme une fonction de la date $t$ et de $x$. Et $x$ n'est plus le prix du sous-jacent : c'est le logarithme de son prix forward. La lettre est restée celle de l'équation de départ, mais la fonction a changé. [§7.2.2, ajout]
+
+À l'échéance $T$, le forward et le comptant coïncident, si bien que $e^x$ y est le prix du sous-jacent et que la condition terminale reste le payoff du call de strike $K$. $\sigma$ est la même volatilité qu'avant ; le taux $r$ a disparu de l'équation, absorbé par le passage au forward. [§7.2.2, ajout]
+
 ## Ce qui la définit
 Trois gestes successifs : multiplier par $e^{r(T-t)}$ pour passer au prix forward, ce qui fait disparaître le terme $rC$ ; prendre le prix forward du sous-jacent au lieu du comptant ; prendre le logarithme du prix au lieu du prix. [§7.2.2]
 

@@ -22,6 +22,11 @@ $$(S_T-K)^+-(K-S_T)^+=S_T-K\ \implies\ C_t-P_t=S_t-KP(t,T)$$ [ajout]
 
 C'est la parité écrite à une date $t<T$ quelconque, $C_t$ et $P_t$ étant les prix en $t$ du call et du put de strike $K$ et d'échéance $T$. La source l'énonce en $t=0$ : $C(S_0,K,T)-P(S_0,K,T)=S_0-KP(0,T)$. [Prop. 7]
 
+## Ce que les symboles modélisent
+$S_t$ est le prix comptant du sous-jacent en $t$, et $S_T$ son prix à l'échéance, inconnu en $t$ : la première égalité porte sur les payoffs, donc sur $S_T$, la seconde sur les prix, donc sur $S_t$. $(\cdot)^+$ rend la partie positive, zéro quand l'expression est négative. [ajout]
+
+$P(t,T)$, avec deux dates pour arguments, est le zéro-coupon : le prix en $t$ d'une unité payée en $T$. Ce n'est pas le put, noté $P_t$ ; le cours emploie la même lettre pour les deux, et c'est le nombre d'arguments qui les distingue. [ajout]
+
 ## Retrouver la formule
 ![À chaque valeur du sous-jacent, le payoff du call moins celui du put tombe sur celui du forward : c'est ce que veut dire « vraie état par état ». Le strike vaut 100, comme dans l'exemple minimal, et aucun prix n'apparaît — l'actualisation vient après.](figures/parite-call-put.svg) [ajout]
 

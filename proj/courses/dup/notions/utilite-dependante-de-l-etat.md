@@ -17,6 +17,9 @@ La même conséquence n’a pas la même valeur selon l’état où elle survien
 ## Forme
 $$V(f)=\sum_s\pi(s)\,U_s\big(f(s)\big)$$ [L1 slide 61]
 
+## Ce que les symboles modélisent
+$U_s$ prend une conséquence et rend son utilité dans l'état $s$ : il y a une fonction d'utilité par état, et l'indice n'est pas une dérivée. $\pi(s)$ est la probabilité subjective de l'état, et $f(s)$ la conséquence que l'acte $f$ y attache. [L1 slide 61, ajout]
+
 ## Ce qui la définit
 Les choix observés confondent alors deux choses : un état jugé plus probable, et un état où les conséquences valent plus. Le produit $\pi(s)U_s$ est identifié, ses deux facteurs ne le sont pas. [L1 slide 61]
 

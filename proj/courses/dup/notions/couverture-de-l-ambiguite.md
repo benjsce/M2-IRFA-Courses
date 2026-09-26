@@ -20,6 +20,11 @@ Le pire prior dépend de la position, de sorte que combiner deux actes peut valo
 ## Forme
 $$\widehat{I}(a+b)\ \ge\ \widehat{I}(a)+\widehat{I}(b)$$ [L4 slide 52]
 
+## Ce que les symboles modélisent
+$\widehat{I}$ prend un vecteur d'utilités, un nombre par état, et rend la valeur de l'acte qui produirait ce vecteur ; elle prolonge à tous les vecteurs réels la fonctionnelle définie d'abord sur les seuls vecteurs d'utilité des actes. À cette étape de la démonstration, rien n'établit encore qu'elle s'écrit comme un minimum sur des priors : c'est ce que l'inégalité sert à obtenir. [ajout]
+
+$a$ et $b$ sont des vecteurs d'utilité, et non des actes ni des paiements en monnaie ; leur somme $a+b$ se forme état par état. [ajout]
+
 ## Ce qui la définit
 Sur la bande $K=\{p:0{,}2\le p_R\le0{,}6\}$ et avec $u(x)=x$, parier 100 sur rouge vaut 20, parier 100 contre rouge vaut 40, et les deux paris détenus ensemble paient 100 à coup sûr. Chaque pari est jugé sous son pire prior, et ces deux priors ne sont pas le même : la valeur n’est donc pas additive, même avec une utilité linéaire en monnaie. [L4 slide 41]
 

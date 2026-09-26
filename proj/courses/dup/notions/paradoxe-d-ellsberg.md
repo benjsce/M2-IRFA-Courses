@@ -20,6 +20,11 @@ Les choix courants sur l’urne à composition partiellement inconnue ne peuvent
 ## Forme
 $$f_1\succ f_2\Rightarrow\pi(R)>\pi(B),\qquad f_4\succ f_3\Rightarrow\pi(B)+\pi(J)>\pi(R)+\pi(J)\Rightarrow\pi(B)>\pi(R)$$ [L1 slide 63]
 
+## Ce que les symboles modélisent
+$f_1$, $f_2$, $f_3$ et $f_4$ sont les quatre paris sur l'urne, chacun payant 100 sur certaines couleurs et rien sur les autres. $\pi$ est la probabilité subjective que l'agent aurait s'il en avait une, additive par hypothèse ; ce n'est pas une fréquence connue. [L1 slide 62, L1 slide 63]
+
+$\pi(R)$, $\pi(B)$ et $\pi(J)$ sont ses valeurs sur le rouge, le noir et le jaune : $B$ désigne ici le noir, et non le bleu de la version du quatrième cours. [L1 slide 62, ajout]
+
 ## Ce qui la définit
 Les deux implications se contredisent, et la colonne jaune — commune aux deux actes de chaque paire — s’annule dans les deux cas. C’est donc bien le principe de la chose sûre qui casse. [L1 slide 63]
 

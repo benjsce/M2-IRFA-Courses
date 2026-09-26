@@ -22,6 +22,11 @@ Un filtre qui remplace par zéro tout rendement dont le score z, calculé sur un
 ## Forme
 $$\left|\dfrac{r_t - \mu}{\sigma}\right| > 3 \;\Longrightarrow\; r_t \leftarrow 0, \qquad \mu,\ \sigma \text{ calculés sur les vingt derniers rendements}$$ [Listing 1.1]
 
+## Ce que les symboles modélisent
+$r_t$ est le rendement logarithmique du jour $t$, celui qu'on teste ; ce n'est pas un taux d'intérêt. $\mu$ et $\sigma$ sont la moyenne et l'écart type empiriques d'une fenêtre glissante qui se termine en $t$ et contient donc $r_t$ lui-même : ils changent chaque jour, et ce ne sont ni l'espérance ni la volatilité de la loi des rendements. [Listing 1.1, ajout]
+
+La flèche $r_t \leftarrow 0$ est une affectation, et non une égalité : le rendement observé est remplacé par zéro dans la série filtrée. [Listing 1.1]
+
 ## Ce qui la définit
 Les flux de données réels contiennent des bad ticks, erreurs de saisie ou sauts de prix anormaux dus à des bugs d'interface logicielle. Le filtre les repère comme des rendements qui s'écartent de plus de trois écarts types de la moyenne locale. [§1.3.2]
 

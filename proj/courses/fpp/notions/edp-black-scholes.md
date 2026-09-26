@@ -20,6 +20,11 @@ L’équation que satisfait tout prix d’option quand on peut couvrir le risque
 ## Forme
 $$\dfrac{\partial C}{\partial t}+rS\dfrac{\partial C}{\partial S}+\tfrac12\sigma^2S^2\dfrac{\partial^2C}{\partial S^2}=rC,\qquad C(T,x)=(x-K)^+$$ [éq. 16]
 
+## Ce que les symboles modélisent
+$C$ est une fonction de deux variables : elle prend une date $t$ et un niveau $S$ du sous-jacent, et rend le prix de l'option à cette date si le sous-jacent vaut $S$. Ici $S$ est une variable, un point de l'axe des prix, et non la trajectoire aléatoire $S_t$ ; $\partial C/\partial t$ dérive à $S$ fixé, par rapport à la date et non à la durée restante. [§7.1, ajout]
+
+$r$ est le taux sans risque, constant, et $\sigma$ la volatilité du sous-jacent. $T$ est l'échéance de l'option et $K$ son strike ; $x$ est une variable muette, la valeur du sous-jacent à l'échéance. Seule la condition terminale dit de quelle option il s'agit : $(x-K)^+$ est le payoff du call, et la même équation, avec $(K-x)^+$, porte sur le put. [§7.1, ajout]
+
 ## Ce qui la définit
 Le geste est en trois temps : écrire $dC$ par la formule d’Itô, former le portefeuille d’une option et de $\delta$ actions, puis choisir $\delta=-\partial C/\partial S$ pour annuler le terme brownien. [§7.1]
 

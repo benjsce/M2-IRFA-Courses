@@ -18,6 +18,11 @@ De combien un prix bouge quand le taux bouge. [Déf. 5]
 ## Forme
 $$\dfrac{\partial P(t,r)}{P(t,r)\,\partial r}=-t$$ [Déf. 5]
 
+## Ce que les symboles modélisent
+$P(t,r)$ est le prix d'un zéro-coupon, mais écrit autrement qu'avec deux dates : ses deux arguments sont une durée et un taux. $t$ est la maturité, la durée qui reste jusqu'au paiement, comptée depuis aujourd'hui ; $r$ est le taux continu, supposé le même pour toutes les maturités. On a donc $P(t,r)=e^{-rt}$, le même objet que $P(0,t)$ quand le taux zéro-coupon vaut $r$. [Déf. 5, ajout]
+
+Cette écriture fait du taux une variable, et c'est ce qu'il faut pour dériver par rapport à lui. Le $t$ qui sort de la dérivée, $\partial e^{-rt}/\partial r=-t\,e^{-rt}$, est la maturité : c'est elle qu'on lit dans la sensibilité relative. [ajout]
+
 ## Ce qui la définit
 Une variation instantanée du taux agit sur toute la vie du titre : la sensibilité relative est la maturité elle-même. [Déf. 5]
 

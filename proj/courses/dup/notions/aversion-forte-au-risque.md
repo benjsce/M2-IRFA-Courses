@@ -21,6 +21,11 @@ Refuser tout étalement préservant la moyenne, et non seulement préférer la m
 ## Forme
 $$U(X)\le u\big(\mathbb{E}_\varphi[X]\big)\le u\big(\mathbb{E}[X]\big)$$ [L4 slide 15]
 
+## Ce que les symboles modélisent
+$U(X)$ est la valeur de la loterie $X$ sous utilité dépendante du rang : elle prend une loterie entière et rend un nombre. Il ne faut pas la confondre avec $u$, qui prend un montant et rend l'utilité de ce montant. [L4 slide 15, ajout]
+
+$\mathbb{E}_\varphi$ est une moyenne des résultats calculée avec les poids que produit la déformation $\varphi$ des probabilités cumulées, alors que $\mathbb{E}$ est la moyenne sous les probabilités objectives. [ajout]
+
 ## Ce qui la définit
 La forme faible ne met en balance qu'une loterie et sa moyenne certaine, et elle est acquise dès que $u$ est croissante concave et que la déformation est pessimiste — c'est la chaîne d'inégalités ci-dessus. La forme forte demande davantage : rejeter n'importe quel étalement préservant la moyenne, donc respecter la dominance stochastique du second ordre. [L4 slide 15]
 

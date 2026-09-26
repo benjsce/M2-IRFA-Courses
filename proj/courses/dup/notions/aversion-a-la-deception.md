@@ -22,6 +22,11 @@ Les résultats inférieurs à l’équivalent certain de la loterie elle-même s
 ## Forme
 $$V(P)=\mathbb{E}_P[u(x)]-\alpha\,\mathbb{E}_P\big[(V(P)-u(x))_+\big],\qquad (z)_+=\max\{z,0\}$$ [L3 slide 10]
 
+## Ce que les symboles modélisent
+$V(P)$ prend une loterie et rend un nombre en unités d'utilité. Il figure aussi à droite, comme seuil de déception, ce qui fait de la formule une équation dont $V(P)$ est la solution plutôt qu'une définition explicite. $u(x)$ est l'utilité ordinaire du résultat $x$. [L3 slide 10, ajout]
+
+$\alpha$ mesure la pénalité supplémentaire infligée aux résultats décevants ; ce n'est ni une probabilité ni un poids de mélange. $(z)_+$ vaut l'écart quand il est positif et zéro sinon : un résultat au-dessus du seuil ne compte que par sa propre utilité. [L3 slide 10, ajout]
+
 ## Ce qui la définit
 Le seuil de déception est endogène : c’est la valeur de la loterie choisie, pas un point de référence donné de l’extérieur. [L3 slide 10]
 

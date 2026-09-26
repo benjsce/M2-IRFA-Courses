@@ -147,6 +147,25 @@ def sym_rubrique_complete(root):
     f.write_text(t, encoding="utf-8", newline="\n")
 
 
+def _forme(root, rubrique=""):
+    """Une fiche qui porte une formule, sans aucun symbole au registre."""
+    ecrire(root, "aa", [dict(slug="x", nom="Un")])
+    f = root / "courses" / "aa" / "notions" / "x.md"
+    t = f.read_text(encoding="utf-8").replace(
+        "## Ce qui la définit",
+        "## Forme\n$$P(t,r)=e^{-rt}$$ [p. 1]\n\n" + rubrique + "## Ce qui la définit")
+    f.write_text(t, encoding="utf-8", newline="\n")
+
+
+def forme_sans_rubrique(root):
+    """Une formule dont personne n'explique les lettres : signalée, registre ou non."""
+    _forme(root)
+
+
+def forme_avec_rubrique(root):
+    _forme(root, "## Ce que les symboles modélisent\n$t$ est une durée, $r$ un taux. [p. 1]\n\n")
+
+
 def sym_non_declare(root):
     reg = "symboles:\n- symbole: $\\rho$\n  notion: %s/x\n  ref: p. 1\n  sens: un sens\n"
     ecrire(root, "aa", [dict(slug="x", nom="Un", extra="symbole: $\\rho$\n")], reg % "aa")
@@ -496,6 +515,11 @@ def main():
         "ne nomme pas 1 symbole(s) du registre", sym_rubrique_partielle)
     cas("rubrique qui les nomme tous → silence",
         "Ce que les symboles modélisent", sym_rubrique_complete, doit_apparaitre=False)
+    cas("formule sans rubrique, rien au registre → signalée",
+        "une Forme dont aucune rubrique n'explique les symboles", forme_sans_rubrique)
+    cas("formule avec rubrique → silence",
+        "une Forme dont aucune rubrique n'explique les symboles", forme_avec_rubrique,
+        doit_apparaitre=False)
 
     print("socle qui grandit sous une fiche déjà écrite")
     cas("la fiche elle-même → signalée",

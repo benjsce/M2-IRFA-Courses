@@ -22,6 +22,11 @@ Le remplacement de chaque valeur manquante d'une série par la dernière valeur 
 ## Forme
 $$\mathrm{NaN} \longrightarrow \begin{cases} \text{dernière valeur connue avant,} & \text{si elle existe,} \\ \text{première valeur connue après,} & \text{sinon.} \end{cases}$$ [p. 12]
 
+## Ce que les symboles modélisent
+$\mathrm{NaN}$, « Not a Number », est la marque que pandas pose sur une valeur manquante : une case vide de la série, et non un zéro ni un prix nul. [p. 11]
+
+« Avant » et « après » s'entendent dans l'ordre des dates de la série : la dernière valeur connue avant est une observation passée, la première valeur connue après une observation future. La flèche dit ce que la case reçoit ; ce n'est pas une égalité. [p. 12, ajout]
+
 ## Ce qui la définit
 Elle enchaîne deux opérations : `ffill()` propage vers l'avant la dernière observation disponible, puis `bfill()` comble en remontant les valeurs manquantes du début de série, que rien ne précède. L'expression `raw_prices.ffill().bfill()` rend ainsi une série sans valeur manquante dès qu'au moins une observation existe. [p. 11, p. 12]
 

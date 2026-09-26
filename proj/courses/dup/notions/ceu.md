@@ -22,6 +22,11 @@ Remplacer la probabilité additive par une capacité, qui pondère les événeme
 ## Forme
 $$f\succsim g\iff\int^{C}_S u\big(f(s)\big)\,\mathrm{d}\mu\ \ge\ \int^{C}_S u\big(g(s)\big)\,\mathrm{d}\mu$$ [L4 slide 60]
 
+## Ce que les symboles modélisent
+$f$ et $g$ sont des actes du cadre d'Anscombe-Aumann : chacun associe à un état $s$ de $S$ une loterie $f(s)$, et $u$ rend l'utilité de cette loterie. [L4 slide 60, ajout]
+
+$\mu$ est une capacité : elle prend un ensemble d'états et rend un poids entre zéro et un, croissant avec l'ensemble, sans que le poids de deux événements disjoints réunis soit la somme de leurs poids. Ce n'est donc pas une probabilité. L'exposant de $\int^{C}_S$ signale que l'intégrale est celle de Choquet, qui range les utilités par ordre avant de les pondérer. [ajout]
+
 ## Ce qui la définit
 Les poids de décision peuvent alors refléter la non-additivité des croyances et l’ambiguïté d’un événement, ce qu’une probabilité interdit par construction. [L1 slide 64]
 

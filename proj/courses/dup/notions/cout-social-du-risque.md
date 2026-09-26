@@ -19,6 +19,11 @@ Ce qu’une population homogène accepterait de céder, en points de croissance,
 ## Forme
 $$\mathbb{E}u\big(c_t(1+X)\big)=u\big(c_t(1+\mathbb{E}X-\pi)\big)$$ [L1 slide 38]
 
+## Ce que les symboles modélisent
+$c_t$ est la consommation par tête à la date $t$, égale au PIB par tête puisque le partage est équitable ; elle est connue au moment où l'on évalue. $X$ est le taux de croissance aléatoire du PIB par tête jusqu'à la date suivante. [L1 slide 38, ajout]
+
+$\pi$ est le coût social du risque : une retenue sur le taux de croissance, exprimée en points de pourcentage, et non un montant de consommation. $u$ est l'utilité d'un niveau de consommation par tête. [L1 slide 38, ajout]
+
 ## Ce qui la définit
 Le partage équitable du PIB fait de la consommation par tête la seule variable, et la prime se lit alors directement en points de taux de croissance. [L1 slide 38]
 

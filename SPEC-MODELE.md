@@ -97,7 +97,7 @@ l'échéance, exprimé en facteur et non en montant. [Déf. 5]
 |---|---|---|---|
 | 1 | Ce que c'est | tous | obligatoire ; **une phrase**, ≤ 220 caractères |
 | 2 | Forme | tous | si la notion a une formule |
-| 3 | Ce que les symboles modélisent | tous | **obligatoire dès que le registre attribue un symbole à la fiche** ; elle les nomme tous |
+| 3 | Ce que les symboles modélisent | tous | **obligatoire dès que le registre attribue un symbole à la fiche, ou que la fiche porte une Forme** ; elle nomme tous les symboles du registre |
 | 3 bis | Retrouver la formule | tous | facultatif ; la figure d'abord s'il y en a une, puis le raisonnement ; **finit sur la formule retrouvée**, en `$$…$$` |
 | 4 | Ce qui la définit / Ce que les membres partagent | tous | obligatoire |
 | 5 | Pourquoi ce niveau existe | abstraite | obligatoire |
@@ -131,6 +131,15 @@ symboles sur trois laisse le lecteur devant la question même que la rubrique ex
 Ce qu'elle ne fait pas : redire la formule, qui est en « Forme » ; redire ce qu'est la
 notion, qui est en « Ce que c'est » ; recopier le `sens` du registre, qui tient en une ligne
 parce qu'il sert à **retrouver** un symbole et non à le comprendre.
+
+**Dès qu'il y a une formule, la rubrique est due**, même si le registre n'attribue aucun
+symbole à la fiche. Une formule emploie des lettres que la fiche n'a pas toujours
+définies — les arguments d'une fonction, un paramètre, une variable muette —, et c'est là
+que le lecteur se perd : dans `fpp/duration`, $P(t,r)$ prend une durée et un taux, alors
+que $P(t,T)$ prenait deux dates. La rubrique dit alors ce que modélise chaque symbole de
+la Forme qui n'est pas déjà dit en français par « Ce que c'est ». *Demandé par
+l'utilisateur le 2026-09-26 : « ça devrait être une règle pour tous les cours, la rubrique
+"Ce que les symboles modélisent", quand c'est nécessaire ».*
 
 L'obligation est un **W** compté en dette, et non un **E**. Le jour où elle est écrite, elle
 porte sur 87 fiches ; les rendre toutes conformes d'un coup serait la réécriture en masse

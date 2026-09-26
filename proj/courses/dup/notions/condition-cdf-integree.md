@@ -19,6 +19,11 @@ Le critère analytique de l’accroissement de risque : l’aire sous la fonctio
 ## Forme
 $$\int_0^x\big[F^*(t)-F(t)\big]\,dt\ \ge\ 0\quad\forall x\in[0,M],\qquad\text{avec égalité en }x=M$$ [L1 slide 22]
 
+## Ce que les symboles modélisent
+$F$ et $F^*$ prennent un montant et rendent la probabilité d'obtenir au plus ce montant : ce sont des fonctions de répartition, pas des densités. $F^*$ est la loi candidate à être plus risquée, $F$ la loi de référence. [L1 slide 22, ajout]
+
+$t$ est la variable d'intégration, $x$ le point jusqu'où l'on cumule la différence, et $M$ la borne supérieure du support commun aux deux lois. [L1 slide 22, ajout]
+
 ## Ce qui la définit
 C’est la seule des formulations équivalentes qui survive à une suite quelconque d’étalements, quel que soit le nombre de croisements des répartitions. [L1 slide 22]
 

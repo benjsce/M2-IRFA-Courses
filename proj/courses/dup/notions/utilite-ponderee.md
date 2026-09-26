@@ -21,6 +21,9 @@ Chaque résultat porte un poids propre, qui déforme la probabilité avec laquel
 ## Forme
 $$V(P)=\dfrac{\sum_i p_i w(x_i)u(x_i)}{\sum_i p_i w(x_i)},\qquad w(x_i)>0$$ [L3 slide 5]
 
+## Ce que les symboles modélisent
+$w$ prend un résultat et rend un poids strictement positif, propre à ce résultat et indépendant de la loterie où il figure ; ce n'est pas une probabilité, et seul le rapport des poids compte puisque la formule divise par leur moyenne. $p_i$ est la probabilité du résultat $x_i$, et $u$ l'utilité ordinaire d'un montant. [L3 slide 5, ajout]
+
 ## Ce qui la définit
 L’axiome affaibli est l’indépendance faible : si $P\sim Q$, il existe pour chaque $\lambda$ une probabilité compensatrice $\rho$, qui peut différer de $\lambda$ mais doit être **la même pour toute** loterie commune $R$. [L3 slide 5]
 

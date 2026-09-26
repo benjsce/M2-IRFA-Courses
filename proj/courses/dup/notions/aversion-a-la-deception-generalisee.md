@@ -18,6 +18,11 @@ La déception ne commence qu’en dessous d’une fraction de l’équivalent ce
 ## Forme
 $$u\big(c(P)\big)=\mathbb{E}_P[u(x)]-\theta\,\mathbb{E}_P\big[\big(u(\delta c(P))-u(x)\big)_+\big],\qquad \theta\ge0,\ \delta\in(0,1]$$ [L3 slide 12]
 
+## Ce que les symboles modélisent
+$c(P)$ prend une loterie et rend son équivalent certain, en monnaie ; comme il figure des deux côtés, la formule le définit implicitement. $\delta c(P)$ est le seuil sous lequel un résultat déçoit : une fraction de l'équivalent certain, en monnaie elle aussi. $x$ parcourt les résultats monétaires de $P$, et $u$ est l'utilité ordinaire d'un montant. [L3 slide 12, ajout]
+
+$\theta$ règle la force de la pénalité et $\delta$ l'endroit où elle commence ; aucun des deux n'est une probabilité. La partie positive $(\cdot)_+$ annule l'écart dès qu'il est négatif, si bien que seuls les résultats situés sous le seuil sont pénalisés. [L3 slide 12, ajout]
+
 ## Ce qui la définit
 Deux paramètres séparent ce que le modèle de Gul confondait : $\theta$ dit la force de la pénalité, $\delta$ dit à partir d’où elle s’applique. [L3 slide 12]
 

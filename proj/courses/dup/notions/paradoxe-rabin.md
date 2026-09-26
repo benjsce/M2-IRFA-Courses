@@ -22,6 +22,9 @@ Refuser un petit pari favorable à tout niveau de richesse oblige à refuser des
 ## Forme
 $$u(w)-u(w-g)\ \ge\ \dfrac{g}{l}\big[u(w+g)-u(w)\big]$$ [L2 éq. 2]
 
+## Ce que les symboles modélisent
+$l$ et $g$ sont la perte et le gain du petit pari à pile ou face que l'agent refuse, le gain étant supérieur à la perte ; ce sont des montants, et leur rapport $g/l$ est le facteur dont l'utilité marginale doit décroître à chaque pas. $w$ est une richesse quelconque, puisque le refus est supposé à toute richesse, et $u$ l'utilité croissante et concave de l'agent. [ajout]
+
 ## Ce qui la définit
 L’hypothèse forte n’est pas le refus, c’est le « à **tout** niveau de richesse » : l’utilité marginale doit alors décroître d’un facteur $g/l$ à chaque pas de largeur $g$, et l’effet cumulé est gigantesque. [L2 slide 26]
 

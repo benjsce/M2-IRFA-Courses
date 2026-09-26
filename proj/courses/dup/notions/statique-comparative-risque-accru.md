@@ -18,6 +18,11 @@ Comment le choix optimal se déplace quand le risque augmente au sens de l’ord
 ## Forme
 $$\int U_a(x,a)\,dF(x;r)=0,\qquad U_{xxa}(x,a)<0\ \implies\ a^*\ \text{baisse}$$ [L1 slide 26, L1 slide 27]
 
+## Ce que les symboles modélisent
+$a$ est la variable de décision de l'agent et $x$ le résultat aléatoire ; $U(x,a)$ rend l'utilité du résultat $x$ quand on a choisi $a$. $F(x;r)$ est la loi de $x$, et $r$ un indice de risque : plus il est élevé, plus la loi est risquée. $a^*$ est le choix optimal. [L1 slide 26, ajout]
+
+Les indices notent des dérivées partielles : $U_a$ est le paiement marginal du choix, et $U_{xxa}$ la dérivée seconde en $x$ de ce paiement marginal, dont le signe dit s'il est concave ou convexe en $x$. [L1 slide 26, ajout]
+
 ## Ce qui la définit
 Ce n’est pas la concavité de $U$ en $x$ qui décide, mais celle du paiement marginal $U_a$ : si $U_a$ est concave en $x$, un accroissement de risque abaisse la condition du premier ordre, et avec $U_{aa}<0$ il faut baisser $a$ pour la rétablir. [L1 slide 26]
 

@@ -21,6 +21,11 @@ Pour un petit risque de moyenne nulle, la prime de risque vaut la moitié de la 
 ## Forme
 $$\pi(w_0,u,X)\approx\tfrac12\,\mathrm{Var}(X)\,A(w_0)$$ [L1 slide 32]
 
+## Ce que les symboles modélisent
+$\pi(w_0,u,X)$ prend trois arguments — la richesse initiale $w_0$, la fonction d'utilité $u$ et le risque $X$ — et rend un montant : ce que l'agent paierait pour être débarrassé de $X$. Ce $\pi$ est une prime en unités de richesse, pas une probabilité. $X$ est un risque de moyenne nulle, supposé petit devant la richesse. [L1 slide 32, ajout]
+
+$\mathrm{Var}(X)$ ne dépend que du risque, $A(w_0)$ que de l'agent et de sa richesse : l'aversion absolue est lue au point de départ, et non en un point quelconque des résultats possibles de $X$. [L1 slide 32, ajout]
+
 ## Ce qui la définit
 Le produit sépare exactement les deux ingrédients : $\mathrm{Var}(X)$ mesure le risque, $A(w_0)$ mesure l’aversion. Rien d’autre n’entre au premier ordre utile. [L1 slide 32]
 

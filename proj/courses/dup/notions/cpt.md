@@ -22,6 +22,11 @@ La théorie des perspectives refaite avec la pondération par rang, appliquée d
 ## Forme
 $$\varphi(p)=\dfrac{p^\beta}{\big(p^\beta+(1-p)^\beta\big)^{1/\beta}},\qquad \beta\in(0,1)$$ [L3 slide 38]
 
+## Ce que les symboles modélisent
+$\varphi$ prend une probabilité cumulée et rend le poids de décision cumulé qui la remplace ; son argument $p$ n'est pas un montant, et $\varphi(p)$ n'est pas une croyance de l'agent. [L3 slide 38, ajout]
+
+$\beta$ règle la forme de la déformation ; la formule redonnerait la diagonale en $\beta=1$, valeur que l'intervalle du cours exclut. Il n'a rien à voir avec l'exposant de la fonction de valeur, que le cours note aussi $\beta$ dans la diapositive suivante. [ajout]
+
 ## Ce qui la définit
 La loterie est décomposée en gains et en pertes, et la formule dépendante du rang est appliquée séparément aux probabilités cumulées de chaque côté. [L3 slide 38]
 

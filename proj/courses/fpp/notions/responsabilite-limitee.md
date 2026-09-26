@@ -17,6 +17,11 @@ La valeur des capitaux propres ne peut pas devenir négative : l’actionnaire n
 ## Forme
 $$\pi_E\le-100\%\iff l\,\pi_A\le-1\iff \pi_A\le-\dfrac{1}{l}$$ [§1.4]
 
+## Ce que les symboles modélisent
+$\pi_E$ et $\pi_A$ sont les rendements, sur la période, des capitaux propres et de l'actif, comptés en excès du rendement de la dette ; la source néglige ici ce dernier, si bien qu'ils se lisent comme de simples rendements. Il s'agit de variations réalisées, et non de leur espérance, même si la source garde la lettre de la prime de risque espérée. [§1.4, ajout]
+
+$l$ est le levier, le rapport de l'actif aux capitaux propres, au moins égal à un. Ce n'est pas le rapport de la dette à l'actif, compris entre zéro et un, que le livre d'exercices note de la même lettre dans le modèle de Merton. Un rendement de −100 % des capitaux propres est la perte de toute la mise. [§1.4, ajout]
+
 ## Ce qui la définit
 Quand l’actif passe sous la dette, les capitaux propres sont plancherisés à zéro et c’est la dette qui encaisse la perte : la faillite. [§1.4]
 

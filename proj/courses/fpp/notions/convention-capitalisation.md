@@ -14,6 +14,11 @@ La coordonnée dans laquelle on écrit un facteur d’actualisation : linéaire,
 ## Forme
 $$\left(1+\frac{rt}{n}\right)^{n}\xrightarrow[n\to\infty]{}e^{rt}$$ [§2.1]
 
+## Ce que les symboles modélisent
+$r$ est le taux d'intérêt, constant et exprimé par an ; $t$ est la durée du placement, comptée en années, et non une date. $n$ est le nombre de fois qu'on capitalise les intérêts sur cette durée : $n=1$ redonne la convention linéaire, un $n$ fini la convention périodique. [§2.1]
+
+L'expression rend un facteur de capitalisation, ce que devient une unité placée pendant $t$ ; ce n'est pas un facteur d'actualisation, qui en est l'inverse. $e^{rt}$ est sa limite quand la capitalisation devient continue, et la flèche dit qu'un même $r$ ne désigne le même placement qu'une fois $n$ fixé. [§2.1]
+
 ## Ce qui la définit
 Ce sont quatre écritures bijectives du même objet, sans aucun contenu économique. [§2.1]
 

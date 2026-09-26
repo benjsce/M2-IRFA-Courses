@@ -24,6 +24,9 @@ Remplacer une conséquence commune aux deux options par une autre renverse le ch
 ## Forme
 $$a_1\succ a_2\iff .11\,U(1)>.10\,U(5)+.01\,U(0),\qquad a_3\succ a_4\iff .10\,U(5)+.01\,U(0)>.11\,U(1)$$ [L1 slide 43]
 
+## Ce que les symboles modélisent
+$U(5)$, $U(1)$ et $U(0)$ sont les utilités de 5 millions, de 1 million et de rien : l'argument est un montant en millions de dollars, pas un numéro de loterie. $a_1$, $a_2$, $a_3$ et $a_4$ sont les quatre loteries du cours, comparées deux à deux. Les coefficients $.11$, $.10$ et $.01$ sont les probabilités qui subsistent une fois la conséquence commune effacée des deux côtés. [L1 slide 42, L1 slide 43]
+
 ## Ce qui la définit
 Les deux inégalités finales se contredisent exactement : le même terme apparaît des deux côtés avec le sens opposé. Aucune fonction $U$ ne peut satisfaire les deux. [L1 slide 43]
 

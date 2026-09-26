@@ -18,6 +18,9 @@ Un agent est plus averse qu’un autre s’il refuse toute loterie qui laisse l�
 ## Forme
 $$\forall X,w_0:\quad \mathbb{E}u_2(w_0+X)=u_2(w_0)\implies \mathbb{E}u_1(w_0+X)\le u_1(w_0)$$ [L1 slide 30]
 
+## Ce que les symboles modélisent
+$u_1$ et $u_2$ sont les utilités de deux agents, et l'indice désigne l'agent, pas un ordre de dérivation. $w_0$ est la richesse de départ et $X$ un risque qui s'y ajoute ; la définition les quantifie tous deux, de sorte que la comparaison vaut à toute richesse et pour tout pari. [L1 slide 30, ajout]
+
 ## Ce qui la définit
 La condition nécessaire et suffisante est l’existence d’une transformation concave : $u_1=\phi(u_2)$ avec $\phi$ concave. [L1 slide 30]
 

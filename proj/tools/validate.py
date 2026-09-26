@@ -401,7 +401,15 @@ def valider(root: Path, rap: Rapport):
     # SPEC-MODELE §2.1. Demandé par l'utilisateur le 2026-09-21.
     for nid, n in N.items():
         attendus = sym_de_notion.get(nid, [])
-        txt = dict(n["sections"]).get("Ce que les symboles modélisent")
+        secs = dict(n["sections"])
+        txt = secs.get("Ce que les symboles modélisent")
+        # Une formule sans explication de ses lettres : due elle aussi, registre ou non.
+        # Relevé le 2026-09-26 sur fpp/duration, où P(t,r) prend une durée et un taux.
+        if not attendus and "Forme" in secs and txt is None:
+            rap.w("A12", nid, "« Ce que les symboles modélisent » à écrire : la fiche porte "
+                              "une Forme dont aucune rubrique n'explique les symboles")
+            rap.dette["symboles à expliquer"] += 1
+            continue
         if not attendus:
             continue
         if txt is None:

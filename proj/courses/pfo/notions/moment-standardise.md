@@ -21,6 +21,11 @@ L'espérance d'une puissance de l'écart à la moyenne réduit par l'écart type
 ## Forme
 $$E\!\left[\left(\dfrac{r-\mu}{\sigma}\right)^{k}\right], \qquad k = 3 \text{ pour l'asymétrie}, \quad k = 4 \text{ pour la kurtosis}$$ [éq. 2.1, éq. 2.2]
 
+## Ce que les symboles modélisent
+$r$ est le rendement vu comme une variable aléatoire, et non comme une série observée ; $\mu$ est son espérance et $\sigma$ son écart type. $E$ est l'espérance : la forme décrit une propriété de la loi, que les fonctions de Python estiment ensuite sur un échantillon. [§2.1.2, ajout]
+
+$k$ est l'ordre de la puissance, l'entier qui distingue les membres de la famille. La source ne l'écrit pas : elle pose séparément l'ordre 3 et l'ordre 4. [ajout]
+
 ## Ce que les membres partagent
 Tous deux centrent l'écart sur la moyenne et le réduisent par l'écart type : ils sont sans unité et ne dépendent ni du niveau ni de la dispersion des rendements. Ils décrivent la forme de la loi, là où la moyenne et la variance décrivent sa position et sa taille. [§2.1.2]
 

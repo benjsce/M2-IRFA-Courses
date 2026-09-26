@@ -21,6 +21,9 @@ Préférer la moyenne certaine d’un pari au pari lui-même. [L1 slide 7]
 ## Forme
 $$U(\mathbb{E}[\tilde x])\ \ge\ \mathbb{E}[U(\tilde x)]$$ [L1 slide 7]
 
+## Ce que les symboles modélisent
+$\tilde x$ est une richesse aléatoire, et le tilde la distingue d'un montant certain. $U$ prend un montant et rend son utilité : à gauche elle s'applique à la moyenne, qui est un nombre certain ; à droite elle s'applique à chaque réalisation avant que l'on prenne la moyenne. [L1 slide 7, ajout]
+
 ## Ce qui la définit
 Par l’inégalité de Jensen, l’aversion vaut pour tout pari si et seulement si $U$ est concave ; la concavité stricte donne une préférence stricte pour tout pari non dégénéré. [L1 slide 7]
 

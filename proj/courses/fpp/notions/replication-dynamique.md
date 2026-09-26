@@ -20,6 +20,11 @@ Une stratégie autofinançante rééquilibrée à chaque pas, dont la valeur fin
 ## Forme
 détenir $1/B(t_0,t_i)$ contrats en $t_i$ [§4.2.2]
 
+## Ce que les symboles modélisent
+$t_0$ est la date où l'on met en place la stratégie et $t_i$ la $i$-ième date de rééquilibrage, typiquement un jour après la précédente. Les contrats sont des contrats futures, dont les variations de prix sont versées à chaque date par l'appel de marge. [§4.2.2, ajout]
+
+$B(t_0,t_i)$ est le compte capitalisé : le produit des zéro-coupons à une période enchaînés de $t_0$ à $t_i$. Vu de $t_0$, il est aléatoire, parce que les taux des périodes à venir ne sont pas encore connus ; c'est pour cela que la position se recalcule à chaque pas au lieu d'être fixée d'avance. Ce n'est pas le zéro-coupon $P(t_0,t_i)$, avec lequel il ne coïncide que si les taux sont déterministes. [§4.2.2]
+
 ## Ce qui la définit
 On ne connaît plus le coût de portage à l’avance : on le suit. La position est ajustée à chaque date pour que la valeur terminale reste celle visée. [§4.2.2]
 

@@ -19,6 +19,11 @@ La combinaison linéaire normalisée des prédicteurs de plus grande variance, p
 ## Forme
 $$\mathbf{z}_1=\mathbf{X}v_1,\qquad v_1=\arg\max_{\lVert v\rVert=1}\mathrm{Var}(\mathbf{X}v)$$ [slide 61, slide 74]
 
+## Ce que les symboles modélisent
+$v_1$ est une direction de l'espace des prédicteurs, un vecteur de poids de norme un : il dit dans quelle proportion chaque prédicteur entre dans la combinaison. $\mathbf{z}_1$ est ce que cette direction produit sur les données, un score par observation, obtenu en projetant chaque ligne de $\mathbf{X}$ sur $v_1$. La direction appartient aux variables, le score aux observations. [slide 61]
+
+$v$ est la variable sur laquelle on maximise ; la contrainte de norme un empêche de faire croître la variance en allongeant simplement le vecteur. $\mathrm{Var}$ est la variance empirique, calculée sur les observations de l'échantillon, et $\mathbf{X}$ la matrice des prédicteurs, une observation par ligne, centrée. [slide 61, ajout]
+
 ## Ce qui la définit
 Les directions $v_j$ sont exactement les colonnes de $\mathbf{V}$ de la décomposition en valeurs singulières, c'est-à-dire les vecteurs propres de $\mathbf{X}^T\mathbf{X}$. Le lien n'est pas une analogie : c'est la même décomposition, lue autrement. [slide 61]
 

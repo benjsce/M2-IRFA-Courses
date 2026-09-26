@@ -19,6 +19,9 @@ Le cas limite de CRRA quand l’aversion relative vaut un. [L1 slide 35]
 ## Forme
 $$u(z)=\ln z\ \implies\ A(z)=\dfrac{1}{z}$$ [L1 slide 35]
 
+## Ce que les symboles modélisent
+$z$ est un niveau de richesse, strictement positif pour que $\ln$, le logarithme népérien, soit défini. $A(z)$ rend l'aversion absolue à cette richesse ; elle est inversement proportionnelle à $z$, de sorte que l'aversion relative ne dépend pas de la richesse. [L1 slide 35, ajout]
+
 ## Ce qui la définit
 Elle sert de référence dans tout le cours : DARA, aversion relative égale à un, et une prime qui se calcule à la main. [L1 slide 35, ajout]
 

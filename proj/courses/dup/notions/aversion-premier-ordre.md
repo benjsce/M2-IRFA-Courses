@@ -19,6 +19,11 @@ La prime d’un petit pari de moyenne nulle proportionnelle à l’écart type l
 ## Forme
 $$r(\sigma)=\dfrac{\lambda^{\frac{1}{1-\gamma}}-1}{\lambda^{\frac{1}{1-\gamma}}+1}\,\sigma=k\sigma$$ [L3 slide 41]
 
+## Ce que les symboles modélisent
+$r(\sigma)$ prend la demi-largeur $\sigma$ d'un pari symétrique à pile ou face autour de la richesse et rend la prime qui laisse l'agent indifférent à ce pari. $\sigma$ est un écart en monnaie, pas une variance. [L3 slide 40, L3 slide 41]
+
+$\lambda$ est le coefficient d'aversion aux pertes, supérieur à un : il dit combien une petite perte pèse de plus qu'un gain de même taille. $\gamma$ règle la courbure de l'utilité de part et d'autre de zéro ; il ne crée pas à lui seul le premier ordre, qui vient du coude que $\lambda$ introduit en zéro. $k$ est le coefficient de proportionnalité qui en résulte entre la prime et $\sigma$. [L3 slide 41, ajout]
+
 ## Ce qui la définit
 Elle apparaît dès que la fonction de valeur présente un coude en zéro, ou que les probabilités sont déformées : la prime ne s’évanouit plus au second ordre quand le pari rétrécit. [L3 slide 41, L2 slide 21]
 
