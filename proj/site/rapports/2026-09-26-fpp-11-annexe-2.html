@@ -1,0 +1,926 @@
+<!doctype html>
+<html lang="fr" data-rel="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rapport 2026-09-26-fpp-11-annexe-2 · notions</title>
+<script>
+/* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
+   localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
+   cases « déjà su » ne peuvent donc pas traverser les pages par là. Ils voyagent dans
+   le fragment de l'URL, que tous les liens internes portent ; localStorage ne sert plus
+   que de mémoire locale, pour la page qu'on rouvre sans fragment.
+   Ce script s'exécute avant le rendu : sinon le thème clignote à chaque page. */
+(function(){
+var H={},h=(location.hash||'').replace(/^#/,'');
+h.split('~').forEach(function(p){var i=p.indexOf(':');if(i>0)H[p.slice(0,i)]=p.slice(i+1)});
+window.ETAT_URL=H;
+function loc(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+var t=H.t?(H.t==='d'?'dark':'light'):loc('notions.theme','');
+if(t)document.documentElement.setAttribute('data-theme',t);
+var a=(H.a!==undefined)?H.a:loc('notions.ajouts','1');
+if(a==='0')document.documentElement.classList.add('sans-ajouts');
+})();
+</script>
+<style>
+:root{
+  --bg:#fbfaf7; --bg2:#f3f0ea; --fg:#1b1a17; --mut:#6c675d; --fai:#8e887c;
+  --li:#e0dbd1; --li2:#cdc6b8; --card:#ffffff; --acc:#8a4f23; --acc2:#f3e7dc;
+  --ajo:#6d5a8c; --ajo2:#efe9f5; --lim:#9a3a2e; --ok:#3f6b46; --faute:#a8631a;
+  --r:8px; --w:min(72rem,100%);
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}}
+:root[data-theme="dark"]{
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}
+.fig{margin:.9rem 0;padding:.5rem .2rem .2rem;text-align:center}
+/* « > svg » et non « svg » : MathJax pose son propre <svg> dans la légende, et
+   une règle non ancrée en faisait un bloc qui coupait la phrase en trois. */
+.fig > svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig figcaption{margin-top:.35rem;font-family:var(--sans);font-size:.82rem;
+  color:var(--mut);text-align:center;line-height:1.45}
+@media print{.fig{break-inside:avoid}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
+  font-size:17px;line-height:1.62;overflow-wrap:break-word}
+a{color:var(--acc);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-style:dotted}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+.wrap{width:var(--w);margin:0 auto;padding:0 1rem}
+
+/* ---- barre du haut ---- */
+header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
+  border-bottom:1px solid var(--li);font-family:var(--sans)}
+.topin{width:var(--w);margin:0 auto;padding:.45rem 1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.brand{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--fg);letter-spacing:.02em}
+.fil{color:var(--mut);font-size:.82rem;flex:1 1 8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fil a{color:var(--mut)}
+.btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
+  border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+a.btn{text-decoration:none}
+.btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
+.rech{position:relative;flex:0 1 16rem;min-width:9rem}
+.rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
+  border:1px solid var(--li2);border-radius:var(--r);background:var(--card);color:var(--fg)}
+.res{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--li2);
+  border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.14);max-height:60vh;overflow:auto;padding:.2rem;margin:0;
+  list-style:none;display:none;z-index:50;min-width:18rem}
+.res.on{display:block}
+.res li a{display:block;padding:.3rem .45rem;border-radius:6px;text-decoration:none;color:var(--fg);font-size:.86rem}
+.res li a:hover,.res li.sel a{background:var(--acc2)}
+.res .sub{color:var(--mut);font-size:.76rem;font-family:var(--sans)}
+.res .vide{padding:.4rem .5rem;color:var(--mut);font-size:.84rem}
+
+main{padding:1.4rem 0 4rem}
+h1{font-size:1.75rem;line-height:1.24;margin:.2rem 0 .3rem}
+h2{font-size:1.06rem;font-family:var(--sans);font-weight:600;letter-spacing:.01em;margin:0}
+h3{font-size:.95rem;font-family:var(--sans);margin:1.2rem 0 .3rem}
+p{margin:.55rem 0}
+.ptag{font-family:var(--sans);font-size:.74rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .5rem}
+
+/* ---- métadonnées de fiche ---- */
+.meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;font-family:var(--sans);font-size:.75rem;color:var(--mut);margin:.4rem 0 1.1rem}
+.pill{border:1px solid var(--li2);border-radius:99px;padding:.06rem .5rem;background:var(--card);white-space:nowrap}
+.pill.ajout{color:var(--ajo);border-color:var(--ajo);background:var(--ajo2)}
+.pill.typ{background:var(--acc2);border-color:var(--acc)}
+.sym{font-family:var(--serif);font-size:1rem;color:var(--fg)}
+
+/* ---- sections ---- */
+.sec{border-top:1px solid var(--li);padding:.85rem 0}
+.sec.vide{display:none}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.45rem;padding:.1rem 0}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"›";color:var(--fai);font-family:var(--sans);display:inline-block;
+  transition:transform .12s ease;transform:rotate(0deg);width:.7em}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fai);font-weight:400}
+.corps{padding-top:.25rem}
+.gen{border-left:2px solid var(--li2);padding-left:.7rem}
+.chemin{border-left:3px solid var(--acc);background:var(--bg2);border-radius:0 var(--r) var(--r) 0;
+  padding:.5rem .8rem;margin:.2rem 0 .7rem}
+.chemin p{margin:.35rem 0;font-size:.95rem}
+.chemin p:first-child{margin-top:0}
+.chemin p:last-child{margin-bottom:0}
+.note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
+.parc{border:1px solid var(--li);border-left:3px solid var(--acc);border-radius:0 var(--r) var(--r) 0;
+  background:var(--bg2);padding:.5rem .8rem;margin:.6rem 0;font-size:.93rem}
+.parc-t{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin-bottom:.15rem}
+.parc p{margin:.2rem 0}
+.parc-h{border-left:2px solid var(--li);padding:.1rem 0 .1rem .6rem;margin:.3rem 0 .45rem;color:var(--mut)}
+.parc-h strong{color:var(--fg)}
+.parc-l{font-family:var(--sans);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--acc);margin-right:.25rem}
+.parc-lien{margin-top:.35rem;font-size:.92em}
+.parc-suite{border-left:2px solid var(--acc);padding:.1rem 0 .1rem .6rem;margin:.35rem 0;color:var(--fg);background:var(--acc2)}
+.parc-nav{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--sans);font-size:.8rem;margin-top:.35rem}
+.parc-nav .suiv{margin-left:auto;text-align:right}
+.etapes{list-style:none;padding:0;margin:.6rem 0 1.2rem;counter-reset:e}
+.etapes>li{counter-increment:e;position:relative;padding:0 0 1rem 1.7rem;border-left:2px solid var(--li);margin-left:.9rem}
+.etapes>li:last-child{border-left-color:transparent}
+.etapes>li::before{content:counter(e);position:absolute;left:-.95rem;top:0;width:1.75rem;height:1.75rem;
+  border-radius:99px;background:var(--card);border:1px solid var(--acc);color:var(--acc);
+  font-family:var(--sans);font-size:.78rem;display:flex;align-items:center;justify-content:center}
+.etapes>li>p{margin:.1rem 0 .35rem}
+.etapes .arr{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.45rem .75rem}
+.etapes .arr a.tit{font-weight:600;text-decoration:none}
+.etapes .arr p{margin:.15rem 0;font-size:.88rem;color:var(--mut)}
+.avant{list-style:none;padding:0;margin:.4rem 0 1rem}
+.avant>li{margin:.5rem 0}
+.avant>li p{margin:.1rem 0 0;font-size:.95rem}
+.avant a.tit{font-weight:600;text-decoration:none}
+.roles{list-style:none;padding:0;margin:.2rem 0 0}
+.roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
+.roles>li.cible{background:var(--acc2)}
+details.parc>summary{cursor:pointer}
+.sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
+.sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
+.sec.faute>summary h2{color:var(--faute)}
+.faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
+  margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.faute-b strong{color:var(--faute)}
+.sec.lim>summary h2{color:var(--lim)}
+.sec.lim>h2{color:var(--lim)}
+
+/* ---- marqueurs de traçabilité ---- */
+.marq{font-family:var(--sans);font-size:.7rem;color:var(--fai);white-space:nowrap;vertical-align:.12em}
+.marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
+.marqligne{margin:.15rem 0 0}
+html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
+.bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
+  color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
+
+/* ---- pastilles ---- */
+.pasts{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0;padding:0;list-style:none}
+.past{display:inline-block;font-family:var(--sans);font-size:.82rem;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--li2);border-radius:99px;padding:.12rem .6rem}
+.past:hover{border-color:var(--acc);color:var(--acc)}
+.past .cc{color:var(--fai);font-size:.74rem}
+.past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
+.past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
+.past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
+
+/* ---- socle ---- */
+.socle{list-style:none;padding:0;margin:.3rem 0}
+.socle li{display:flex;gap:.5rem;align-items:baseline;padding:.12rem 0;font-size:.92rem}
+.socle input{margin:0;accent-color:var(--ok)}
+.socle li.su a{color:var(--fai);text-decoration:line-through}
+.compteur{font-family:var(--sans);font-size:.78rem;color:var(--mut)}
+.grp{margin:.5rem 0}
+.grp>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--mut)}
+
+table{border-collapse:collapse;margin:.5rem 0;font-size:.9rem;display:block;overflow-x:auto;max-width:100%}
+th,td{border:1px solid var(--li);padding:.25rem .55rem;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-family:var(--sans);font-size:.78rem;font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+  background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
+ul{padding-left:1.1rem}
+hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
+
+/* ---- cartes d'accueil / carte du cours ---- */
+.cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
+.carte{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.65rem .8rem}
+.carte h3{margin:0 0 .2rem}
+.carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
+.carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
+.dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.vise{animation:vise 1.6s ease}
+@keyframes vise{from{background:var(--acc2)}to{background:transparent}}
+
+/* ---- orientation : ce qui s'adresse au lecteur qui arrive ---- */
+.entree{border:1px solid var(--li2);border-left:3px solid var(--acc);border-radius:var(--r);
+  padding:.7rem .9rem;margin:.8rem 0 1.4rem;background:var(--card)}
+.entree p{margin:.3rem 0;font-size:.92rem}
+.entree .quoi{font-size:1.02rem}
+.entree ul{margin:.5rem 0 .2rem;padding-left:1.1rem;font-family:var(--sans);font-size:.88rem}
+.entree li{margin:.2rem 0}
+.chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
+.chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
+.aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
+/* L'en-tête est collant : une ancre visée ne doit pas passer dessous. Mesuré :
+   il fait 48 px sur une ligne, 85 px quand il se replie en deux (écran étroit). */
+[id]{scroll-margin-top:6rem}
+.aide p,.aide ul,.aide table{max-width:42rem}
+.dette ul{margin:.3rem 0 0}
+footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
+
+/* ---- arbre ---- */
+.barre{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+.barre.plier{justify-content:flex-end;margin:.2rem 0 -.2rem}
+#scene{position:relative;border:1px solid var(--li);border-radius:var(--r);background:var(--bg2);
+  height:min(74vh,720px);overflow:hidden;touch-action:none;cursor:grab}
+#scene.drag{cursor:grabbing}
+#pan{position:absolute;transform-origin:0 0;top:0;left:0}
+#aretes{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+#aretes path{fill:none;stroke:var(--li2);stroke-width:1.5}
+.noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
+  padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
+.noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
+.noeud .nm{font-weight:600}
+.noeud .nm a{text-decoration:none;color:var(--fg)}
+.noeud .nm a:hover{color:var(--acc)}
+.noeud .pa{color:var(--mut);font-size:.72rem;display:block;margin-top:.1rem}
+.noeud .pli{font:inherit;font-size:.72rem;background:none;border:1px solid var(--li2);border-radius:4px;
+  color:var(--mut);cursor:pointer;padding:0 .3rem;margin-right:.25rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.4rem}
+  .rech{flex:1 1 100%;order:9}
+  #scene{height:66vh}
+}
+@media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="brand" href="../index.html">notions</a><span class="fil">rapport d’ingestion › 2026-09-26-fpp-11-annexe-2</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><article class="rapport"><h1>Annexe 2 au rapport fpp du 2026-09-26 (11)</h1><p>Modifications ligne à ligne des fiches (ancien texte en <code>-</code>, nouveau en <code>+</code>), séparées du
+rapport <code>2026-09-26-fpp-11</code> parce qu'une page du site ne dépasse pas 300 ko (SPEC-SITE §4).
+Raisons : dans les rendus des agents, au rapport principal.</p><p>Fiches : modele-black-scholes, modele-de-merton, operateur-de-prix, option, payoff, portage, prime-de-risque, prix-a-terme, prix-future, produit-a-capital-protege, put, replication-dynamique, replication-statique, replication, responsabilite-limitee, rho, sensibilite, strategie-optionnelle, taux-de-change, taux-zero-coupon, theta, transformee-de-laplace-gaussienne, valeur-actuelle-nette, valeur-intrinseque, valeur-temps, vega, volatilite.</p><p>```diff
+diff --git a/proj/courses/fpp/notions/modele-black-scholes.md b/proj/courses/fpp/notions/modele-black-scholes.md
+index 173fe6e..53a879d 100644
+--- a/proj/courses/fpp/notions/modele-black-scholes.md
++++ b/proj/courses/fpp/notions/modele-black-scholes.md
+@@ -22,12 +22,20 @@ Le sous-jacent suit une diffusion log-normale et le taux est constant. [§5.4]
+ $$dS_t=S_t\big(\mu\,dt+\sigma\,dW_t^{\mathbb{P}}\big)=S_t\big(r\,dt+\sigma\,dW_t^{\mathbb{Q}}\big)$$ [§5.4]</p><h2>Ce que les symboles modélisent</h2><p>-$\mu$ est la dérive du sous-jacent sous la probabilité <strong>historique</strong>, celle des fréquences observées : c'est précisément la grandeur qui disparaîtra du prix de l'option. $W_t$ est un mouvement brownien, le hasard élémentaire du modèle — de moyenne nulle, et de variance égale au temps écoulé. [§5.4]
++$\mu$ est la dérive du sous-jacent sous la probabilité <strong>historique</strong> $\mathbb{P}$, celle des fréquences observées : c'est précisément la grandeur qui disparaîtra du prix de l'option. $r$ est le taux sans risque, constant, et $\sigma$ la volatilité, la même sous les deux probabilités. [§5.4]
++
++$W_t$ est un mouvement brownien, le hasard élémentaire du modèle — de moyenne nulle, et de variance égale au temps écoulé. Les deux écritures de la Forme en emploient deux, $W^{\mathbb{P}}_t$ et $W^{\mathbb{Q}}_t$ : c'est le même prix décrit sous deux probabilités, et le brownien change pour absorber l'écart de dérive, $W^{\mathbb{Q}}_t=W^{\mathbb{P}}_t+\frac{\mu-r}{\sigma}\,t$. [§5.4, ajout]</p><h2>Ce qui la définit</h2><p>Le passage de $\mathbb{P}$ à $\mathbb{Q}$ ne change que la dérive, jamais la volatilité : $\mu$ devient $r$, et $\sigma$ reste. [§5.4]</p><p>-$$S_t=S_0e^{(\mu-\frac{\sigma^2}{2})t+\sigma W_t^{\mathbb{P}}},\qquad \mathbb{E}^{\mathbb{Q}}(S_t)=S_0e^{rt}$$ [§5.4]
++Le prix s'écrit donc de deux façons, une par probabilité ; seule la seconde sert à calculer un prix. [ajout]
++
++$$S_t=S_0e^{(\mu-\frac{\sigma^2}{2})t+\sigma W_t^{\mathbb{P}}}=S_0e^{(r-\frac{\sigma^2}{2})t+\sigma W_t^{\mathbb{Q}}}$$ [§5.4, ajout]
++
++Sous $\mathbb{Q}$, $\sigma W^{\mathbb{Q}}_t$ est gaussien de variance $\sigma^2t$. La transformée de Laplace gaussienne ajoute à l'exposant la moitié de cette variance, $\sigma^2t/2$, qui compense le $-\sigma^2t/2$ : $\mathbb{E}^{\mathbb{Q}}(S_t)=S_0e^{rt}$. [§5.4, Th. 1]
++
++Ce que le marché fixe, c'est cette moyenne, le prix forward, qui se lit sans modèle ; ce que le modèle <strong>ajoute</strong>, c'est la dispersion autour d'elle, $\sigma$. [Prop. 6, ajout]</p><h2>Le chemin jusqu'ici</h2><p>Trois fils entrent ici, et c'est le nœud du cours. [ajout]
+diff --git a/proj/courses/fpp/notions/modele-de-merton.md b/proj/courses/fpp/notions/modele-de-merton.md
+index 3c2a480..d4e54f6 100644
+--- a/proj/courses/fpp/notions/modele-de-merton.md
++++ b/proj/courses/fpp/notions/modele-de-merton.md
+@@ -23,18 +23,33 @@ Une lecture du bilan d'une entreprise endettée en options : les fonds propres s
+ $$E_0=e^{-rT}F_T\big[N(d_1)-l\,N(d_2)\big],\qquad s=-\frac{1}{T}\ln\!\Big(N(d_2)+\frac{1}{l}N(-d_1)\Big),\qquad d_{1,2}=\frac{-\ln l\pm\tfrac{\sigma^2T}{2}}{\sigma\sqrt T}$$ [exo. 16]</p><h2>Ce que les symboles modélisent</h2><p>-$F_T$ est la valeur forward de la firme à l'échéance de sa dette. $l$ rapporte à elle le notionnel $D$ de la dette, $l=D/F_T$ : c'est la mesure du levier dans ce modèle. [exos §2.1]
++$S_T$ n'est pas ici le cours d'une action, mais la valeur de toute la firme à l'échéance de sa dette, aléatoire ; $F_T$ est sa valeur forward, connue aujourd'hui. [exos §2.1]
++
++$D$ est le notionnel de la dette zéro-coupon, remboursé en $T$, et $l$, égal à $D/F_T$, le rapporte à la firme : c'est la mesure du levier dans ce modèle, nulle pour une firme sans dette. Ce n'est pas le levier $l_t=A_t/E_t$ du poly, qui vaut 1 pour une firme sans dette. [exos §2.1, ajout]</p><p>$E_0$ est la valeur des fonds propres aujourd'hui, et $D^r$ celle de la dette risquée, ce que les créanciers paient pour elle ; $s$ est le spread de crédit, l'écart entre le taux auquel la firme emprunte et le taux sans risque, tel que $D^r=De^{-(r+s)T}$. [exos §2.1, exo. 16]</p><p>-## Ce qui la définit
+-La firme vaut $S_T$ à l'échéance ; elle est financée par des fonds propres et par une seule dette zéro-coupon de notionnel $D$ ; elle fait faillite si $S_T&lt;D$. Les créanciers sont payés en premier : ils reçoivent $D$, ou toute la firme en cas de faillite. Les actionnaires reçoivent le reste, $(S_T-D)^+$. [exos §2.1]
++$P(T,F_T)$ est, dans le livre, le prix du put de strike $D$ sur la firme : malgré ses deux arguments, ce n'est pas un zéro-coupon $P(t,T)$. [exo. 16, ajout]
++
++## Retrouver la formule
++!<a href="figures/modele-de-merton.svg">La valeur finale de la firme partagée entre créanciers et actionnaires, avec une dette de 80 pour une firme de valeur forward 100. La bande du bas est la dette, qui reçoit au plus $D$ ; celle du haut, les fonds propres, a le payoff d'un call de strike $D$ ; leur somme est la diagonale, le bilan. En haut à gauche, le trou : ce que la dette perd sous $D$ en cas de faillite, $(D-S_T)^+$, le payoff d'un put vendu aux actionnaires.</a> [ajout]
++
++Ce qui est <strong>connu</strong> : la valeur forward de la firme, $F_T=100$ ; la dette promise, $D=80$, due dans un an ; la volatilité de la firme, 20 % ; un taux nul. Ce qu'on <strong>cherche</strong> : le spread $s$, le supplément de taux qui paie le risque de faillite. [exo. 16, ajout]
++
++La firme est financée par des fonds propres et par une seule dette zéro-coupon ; elle fait faillite si $S_T&lt;D$. Les créanciers sont payés en premier : $D$, ou toute la firme en cas de faillite. Les actionnaires reçoivent le reste, $(S_T-D)^+$ : le payoff d'un call de strike $D$ sur la firme. [exos §2.1, exo. 16]
++
++Les créanciers reçoivent donc $\min(S_T,D)$, que la figure lit comme la dette promise moins ce qu'elle perd sous $D$ : $D-(D-S_T)^+$. Détenir la dette risquée, c'est détenir la dette sans risque et avoir vendu aux actionnaires un put de strike $D$ ; ce put est le trou. [exo. 16]</p><p>-Ce reste est le payoff d'un call sur la valeur de la firme, de strike la dette, et la formule de Black et Scholes en donne la valeur. [exo. 16]
++Par la formule de Black et Scholes, ce put vaut 1,186. La dette risquée vaut donc $D^r=80-1{,}186=78{,}814$, au lieu des 80 qu'elle vaudrait sans risque de faillite. [ajout]</p><p>-L'identité du bilan force les créanciers à détenir le complément, $S_T-(S_T-D)^+$. La parité call-put le réécrit : détenir la dette risquée, c'est détenir la dette sans risque et avoir vendu un put aux actionnaires, $D^r=De^{-rT}-P(T,F_T)$. Le spread est le prix de ce put, réexprimé en taux. [exo. 16]
++Le spread est ce manque exprimé en taux : $80\,e^{-s}=78{,}814$, soit $s=\ln(80/78{,}814)=1{,}49\,\%$. [ajout]</p><p>-!<a href="figures/modele-de-merton.svg">La valeur finale de la firme partagée entre créanciers et actionnaires, avec une dette de 80 pour une firme de valeur forward 100. La bande du bas est la dette, qui reçoit au plus $D$ ; celle du haut, les fonds propres, a le payoff d'un call de strike $D$ ; leur somme est la diagonale, le bilan. Sous $D$, la faillite.</a> [ajout]
++En lettres : $D^r=De^{-rT}-P(T,F_T)$, avec $P(T,F_T)=e^{-rT}F_T\big[l\,N(-d_2)-N(-d_1)\big]$ par la formule de Black. On égale à $De^{-(r+s)T}$ et on divise par $De^{-rT}=e^{-rT}lF_T$ : $e^{-sT}=1-N(-d_2)+\frac{1}{l}N(-d_1)=N(d_2)+\frac{1}{l}N(-d_1)$. [exo. 16]
++
++$$s=-\frac{1}{T}\ln\!\Big(N(d_2)+\frac{1}{l}N(-d_1)\Big)$$ [exo. 16]
++
++## Ce qui la définit
++Le modèle n'invente aucun contrat : il lit le bilan en options. Les fonds propres sont un call de strike $D$ sur la firme, que la formule de Black et Scholes évalue en $E_0$ ; la dette risquée est la dette sans risque moins un put ; le spread est le prix de ce put, réexprimé en taux. [exo. 16]</p><h2>Le chemin jusqu'ici</h2><p>Trois fils du cours se rejoignent ici, et aucun outil nouveau ne s'y ajoute : le modèle reconnaît dans un bilan des contrats déjà connus. [ajout]
+@@ -64,8 +79,4 @@ Les actionnaires ont donc intérêt à ce que la firme prenne plus de risque, au
+ ## Cesse d'être valide quand
+ Le modèle suppose une dette unique, zéro-coupon, et une faillite qui ne peut survenir qu'à son échéance ; la valeur de la firme n'est pas observable, et sa volatilité non plus. [ajout]</p><p>-Le livre affirme que $l=1$ correspond à une firme infiniment endettée et que $s\to+\infty$ quand $l\to1$. [exos §2.1, exo. 16]
+-
+-Sa propre formule le dément : en $l=1$, $d_2=-d_1$ et le spread est fini. Il ne croît sans borne que quand $l\to\infty$, où il s'approche de $\ln l/T$. [ajout]
+-
+-Le symbole $l$ désigne ici $D/F_T$, et non le levier $l_t=A_t/E_t$ du poly, qui vaut 1 pour une firme sans dette. [ajout]
++Le livre affirme que $s\to+\infty$ quand $l\to1$ ; sa propre formule donne pourtant un spread fini en $l=1$, 8,3 % pour $\sigma=20\,\%$ et $T=1$, et ne diverge que quand $l\to\infty$, comme $\ln l/T$. [exo. 16, ajout]
+diff --git a/proj/courses/fpp/notions/operateur-de-prix.md b/proj/courses/fpp/notions/operateur-de-prix.md
+index 38ce9e1..21a4d6a 100644
+--- a/proj/courses/fpp/notions/operateur-de-prix.md
++++ b/proj/courses/fpp/notions/operateur-de-prix.md
+@@ -11,13 +11,20 @@ refs:
+ ---</p><h2>Ce que c'est</h2><p>-L’application qui associe un prix d’aujourd’hui à un flux futur. [ajout]
++L’application $\Pi_t$ qui associe à un flux payé plus tard son prix aujourd'hui, en $t$. [ajout]
++
++## Ce que les symboles modélisent
++$\Pi_t$ prend un flux, un montant payé à une date future et qui peut dépendre de ce qui se sera passé d'ici là, et rend un nombre : ce que coûte ce flux en $t$. On écrit $\Pi_t(X)$ pour le prix aujourd'hui du flux $X$. [§5.1, ajout]
++
++Le poly écrit ce prix « Price » au §5.1 et $\pi(S_0)$ au §6.2 ; le dépôt le note $\Pi_t$, parce que $\pi$ y désigne déjà la prime de risque, qui est un écart de rendement et non un prix. [§5.1, §6.2, ajout]</p><h2>Ce que les membres partagent</h2><p>-Linéarité et positivité, toutes deux imposées par l’absence d’arbitrage : un flux positif a un prix positif, et le prix d’une somme est la somme des prix. [ajout]
++Deux propriétés, toutes deux imposées par l’absence d’arbitrage. Linéarité : le prix d'une somme de flux est la somme de leurs prix, $\Pi_t(aX+bY)=a\,\Pi_t(X)+b\,\Pi_t(Y)$ ; sinon, acheter les morceaux et vendre le tout rapporterait sans mise. Positivité : un flux qui ne peut que rapporter, et rapporte dans au moins un état du monde, a un prix strictement positif. [§5.1, ajout]
++
++Deux exemples avec les chiffres du cours : l'euro certain payé dans un an, $\Pi_t(1)=P(t,t+1)=0{,}9608$ ; l'action sans dividende livrée dans un an, $\Pi_t(S_{t+1})=S_t=100$. [§5.1, ajout]</p><h2>Pourquoi ce niveau existe</h2><p>-Le cours ne fait jamais le rapprochement, et c’est dommage : la NPV est le cas dégénéré du prix risque-neutre, celui où $\mathbb{E}^{\mathbb{Q}}$ n’a rien à moyenner. Un seul opérateur, deux régimes. [ajout]
++La valeur actuelle nette et le prix risque-neutre sont le même opérateur : l'un sur des flux certains, l'autre sur des flux aléatoires. Le cours ne fait pas le rapprochement ; ce niveau le fait. [ajout]</p><h2>Cesse d'être valide quand</h2><p>rien dans le périmètre du cours [ajout]
+diff --git a/proj/courses/fpp/notions/option.md b/proj/courses/fpp/notions/option.md
+index 0a52800..d83ad90 100644
+--- a/proj/courses/fpp/notions/option.md
++++ b/proj/courses/fpp/notions/option.md
+@@ -20,17 +20,15 @@ refs:
+ Un contrat qui donne un droit d’échanger à prix fixé, sans l’obligation de l’exercer. [Déf. 9]</p><h2>Ce que les membres partagent</h2><p>-Le strike $K$ et la maturité $T$ sont fixés d’avance ; l’inconnue est la prime. C’est ce qui les sépare des contrats à prime nulle, où l’inconnue est le strike. [Déf. 9]
++Le strike $K$ et la maturité $T$ sont fixés d’avance. [Déf. 9]</p><p>-L’asymétrie du droit rend le payoff non linéaire, et c’est cette non-linéarité, et elle seule, qui interdit la réplication statique. [ajout]
++Le détenteur a le droit sans l'obligation : en $T$, il n'exerce que si l'échange lui rapporte, et laisse tomber sinon. Le payoff est donc celui de l'échange, coupé à zéro, $(S_T-K)^+$ ou $(K-S_T)^+$. [Déf. 9, Déf. 11]</p><h2>Pourquoi ce niveau existe</h2><p>-Le cours définit ces contrats dans la même phrase, et ils ne diffèrent que par le sens de l’échange, avec une relation exacte entre eux — la parité call-put. Les séparer sans les réunir ferait perdre cette relation. [Déf. 9, Prop. 7]
++Le cours définit le call, droit d'acheter, et le put, droit de vendre, dans la même définition, et ils ne diffèrent que par le sens de l’échange, avec une relation exacte entre eux — la parité call-put. Les séparer sans les réunir ferait perdre cette relation. [Déf. 9, Prop. 7]</p><h2>Le chemin jusqu'ici</h2><p>-Il n'y a qu'un prérequis, <a href="../fpp/n/payoff.html">Payoff</a>. Une option, c'est la possibilité de ne pas exercer — donc un payoff qui se coupe à zéro, ce que la partie positive $(\cdot)^+$ écrit. [ajout]
+-
+-C'est le seul prérequis parce qu'à ce stade rien n'est encore évalué : on décrit un contrat, on ne le price pas. [ajout]
++Il n'y a qu'un prérequis, <a href="../fpp/n/payoff.html">Payoff</a> : une option se décrit entièrement par ce qu'elle paie, et la partie positive $(\cdot)^+$ qu'il définit écrit la possibilité de ne pas exercer. À ce stade rien n'est encore évalué : on décrit un contrat, on ne le price pas. [ajout]</p><h2>Ce qui reste libre</h2><div class="tablebloc"><table><thead><tr><th>paramètre</th><th>cas</th><th>valeur</th></tr></thead><tbody><tr><td>@@ -40,4 +38,4 @@ C'est le seul prérequis parce qu'à ce stade rien n'est encore évalué : on d</td></tr></tbody></table></div><h2>Cesse d'être valide quand</h2><p>-Le style d’exercice est un second paramètre, orthogonal au sens du droit : le cours ne valorise que l’européenne, et l’américaine n’a pas de forme fermée. [Déf. 10]
++Le cours ne valorise que l'option européenne ; l'américaine, qu'on peut exercer à tout moment, n'a pas de forme fermée. [§6.2, ajout]
+diff --git a/proj/courses/fpp/notions/payoff.md b/proj/courses/fpp/notions/payoff.md
+index c8edb64..38fe649 100644
+--- a/proj/courses/fpp/notions/payoff.md
++++ b/proj/courses/fpp/notions/payoff.md
+@@ -17,23 +17,25 @@ refs:
+ La fonction qui dit combien le contrat paie, en fonction de ce qu’on a observé. [Déf. 11]</p><h2>Forme</h2><p>-$$\mathrm{Call}(S_T,K)=(S_T-K)^+,\qquad \mathrm{Put}(S_T,K)=(K-S_T)^+,\qquad x^+=\max(x,0)$$ [Déf. 11]
++$$\text{flux payé en }T=G(\text{ce qu'on a observé jusqu'en }T),\qquad\text{par exemple, pour un call : }G=(S_T-K)^+,\quad x^+=\max(x,0)$$ [Déf. 11]</p><h2>Ce que les symboles modélisent</h2><p>$G$ est une fonction et non un montant : elle prend ce qui a été observé et rend ce que le contrat paie. Tout le contenu d'un contrat tient en elle ; le prix et la couverture s'en déduisent, ils ne s'ajoutent pas à elle. [Déf. 11]</p><p>+$S_T$ est le prix du sous-jacent à la date $T$, et $K$ un prix écrit au contrat ; $x^+$, la partie positive, vaut $x$ s'il est positif et zéro sinon. [Déf. 9, Déf. 11]
++
+ ## Ce qui la définit
+-C’est une fonction de plusieurs observables : valeur finale, maximum, minimum, moyenne, franchissement d’une barrière. Le payoff est le contrat ; tout le reste est valorisation. [Déf. 11]
++Ce qu'on observe n'est pas seulement la valeur finale : le maximum, le minimum, la moyenne, le franchissement d’une barrière le sont aussi, et chaque contrat choisit ce qu'il lit. [Déf. 11]</p><p>-Les payoffs élémentaires se combinent : call spread, option digitale, straddle s’obtiennent par sommes et différences de calls et de puts. [§9.1]
++!<a href="figures/payoff.svg">Une seule trajectoire du sous-jacent, de $t$ à $T$, choisie pour le dessin : elle part de 100 et finit à 104,08. Cinq contrats la lisent, chacun à sa façon : la valeur finale, le maximum, le minimum, la moyenne, le franchissement de la barrière 115. Même trajectoire, cinq montants différents : le contrat, c'est la fonction $G$.</a> [ajout]</p><p>-!<a href="figures/payoff.svg">Un call et un put de même strike s'additionnent en straddle. Le payoff somme n'a qu'un point de rupture, au strike, et il faut une option de chaque côté pour le répliquer.</a> [ajout]
++Les payoffs élémentaires se combinent : un call spread et un straddle sont des sommes et différences de calls et de puts, et une option digitale est la limite d'un call spread de plus en plus serré. [§9.1, ajout]</p><h2>Exemple minimal</h2><p>Un call de strike 100 sur un sous-jacent qui finit à 104,08 paie 4,08. [ajout]</p><h2>Geste de calcul type</h2><p>-Tracer le payoff par morceaux avant de valoriser : le nombre de points de rupture donne le nombre de calls ou de puts nécessaires pour le répliquer. [§9.1]
++Pour un payoff qui ne dépend que de $S_T$, le tracer par morceaux avant de valoriser : chaque coude, au point $K$, se reproduit par des calls de strike $K$, en nombre égal au changement de pente, vendus si la pente baisse ; la partie linéaire qui reste se fait avec le sous-jacent et un zéro-coupon. [ajout]</p><h2>Cesse d'être valide quand</h2><p>La forme $(S_T-K)^+$ suppose un payoff qui ne dépend que de la valeur terminale ; dès qu’il dépend du chemin, il faut le dire dans $G$. [Déf. 11]
+diff --git a/proj/courses/fpp/notions/portage.md b/proj/courses/fpp/notions/portage.md
+index 1e2de25..bff82ee 100644
+--- a/proj/courses/fpp/notions/portage.md
++++ b/proj/courses/fpp/notions/portage.md
+@@ -14,32 +14,41 @@ refs:
+ ---</p><h2>Ce que c'est</h2><p>-La fraction de sous-jacent qu’il faut détenir aujourd’hui pour en avoir exactement une unité à l’échéance. [§3.2, §5.2.1]
++La part du prix comptant qui paie le sous-jacent livré à l'échéance, une fois retiré ce que son détenteur touche d'ici là. [§3.2]
++
++## Forme
++$$\Phi=1-\sum_i d_i$$ [§3.2]</p><h2>Ce que les symboles modélisent</h2><p>-$d_i$ est le taux de dividende proportionnel versé à la date $T_i$, et $q$ le même flux vu comme un rendement continu — la source écrit $d$ au §5.2 et $q$ au §6.4 pour un seul objet. [§3.2, §6.4]
++$\Phi$ est un facteur et non un montant : il prend le comptant $S_t$ et rend, en le multipliant, le prix aujourd'hui de l'action livrée en $T$ sans ses dividendes. Il vaut un quand le sous-jacent ne verse rien. C'est une lettre du dépôt ; le poly n'écrit que le résultat, $1-\sum_i d_i$. [§3.2, ajout]
++
++$d_i$ est le dividende versé à la date $T_i$, exprimé en proportion : le poly le fixe à $d_iS_t/P(t,T_i)$, un montant connu dès aujourd'hui, qui vaut donc $d_iS_t$ en $t$. $q$ est un dividende versé en continu, comme un rendement par an, sur la durée $\tau=T-t$ ; le poly l'écrit $d$ au §5.2.1 et $q$ au §6.4. [§3.2, §5.2.1, §6.4]</p><p>-$\Phi$ est un facteur et non un montant : la fraction d'unité qu'il faut détenir aujourd'hui pour en avoir exactement une à l'échéance. Il vaut un quand le sous-jacent ne rapporte rien entre-temps. [ajout]
++$D_i$ est un dividende donné en montant, et non en proportion ; il ne sert qu'au cas particulier de la fin de la fiche. [ajout]</p><h2>Retrouver la formule</h2><p>-!<a href="figures/portage.svg">Des dividendes en montant, ici deux. Le détenteur de l'action reçoit $D_1$ en $T_1$, $D_2$ en $T_2$, puis l'action ; ramenés en $t$ chacun par le zéro-coupon de sa date, ces trois flux font le comptant $S_t$. L'acheteur à terme ne reçoit que l'action : ce qui reste du comptant est ce qu'il doit payer, $F\,P(t,T)$ en valeur de $t$.</a> [ajout]
++!<a href="figures/portage.svg">Le détenteur d'une action reçoit un dividende en $T_1$, puis l'action en $T$. Ramenées en $t$, ces deux choses font le comptant, 100, connu. Le dividende, 2 % de la valeur, vaut 2 aujourd'hui, connu lui aussi. Le trou est la valeur aujourd'hui de l'action livrée en $T$ : ce qui reste, 98. Le portage est cette part, 0,98.</a> [ajout]</p><p>-La formule retrouvée ici est celle des dividendes en montant fixe, donnée dans « Cesse d'être valide quand » : c'est le cas où le portage cesse d'être un facteur. [ajout]
++Détenir une action de $t$ à $T$, c'est recevoir deux choses : le dividende en $T_1$, puis l'action elle-même en $T$. Ensemble, elles valent ce que coûte l'action aujourd'hui, le comptant $S_t=100$, <strong>connu</strong>. [ajout]</p><p>-Le détenteur d'une action reçoit $D_1$ en $T_1$, $D_2$ en $T_2$, puis garde l'action en $T$. Ces flux, ensemble, valent le comptant $S_t$. [ajout]
++Le dividende est <strong>connu</strong> lui aussi. Le poly le fixe à $d_1S_t/P(t,T_1)$, payé en $T_1$ ; ramené en $t$ par le zéro-coupon de sa date, il vaut $d_1S_t$, soit $2\,\%\times100=2$. [§3.2]</p><p>-Chaque dividende est un montant connu à une date connue : il vaut aujourd'hui $D_iP(t,T_i)$. L'action livrée en $T$, sans ses dividendes, vaut donc ce qui reste, $S_t-\sum_i D_iP(t,T_i)$. [ajout]
++Reste ce qu'on cherche, <strong>le trou</strong> : la valeur aujourd'hui de l'action livrée en $T$, sans son dividende. C'est ce qui reste du comptant, $100-2=98$. Le poly le dit ainsi : les dividendes touchés en route réduisent d'autant ce qu'il faut financer. [§3.2]</p><p>-L'acheteur à terme reçoit seulement l'action, et paie $F$ en $T$, soit $F\,P(t,T)$ en valeur d'aujourd'hui. Le contrat étant nul à la signature, les deux sont égaux. [ajout]
++Rapportée au comptant, cette part est le portage : $\Phi=98/100=0{,}98$. Avec plusieurs dividendes, on retire chacun, ramené en $t$ : $d_1S_t$, $d_2S_t$, et ainsi de suite. [ajout]</p><p>-$$F=\dfrac{S_t-\sum_i D_iP(t,T_i)}{P(t,T)}$$ [ajout]
++$$\Phi\,S_t=S_t-\sum_i d_iS_t\quad\Longleftrightarrow\quad\Phi=1-\sum_i d_i$$ [§3.2]</p><h2>Ce qui la définit</h2><p>-Un actif qui verse quelque chose pendant qu’on le détient allège son propre portage. [§3.2, §5.2.1]
++Un sous-jacent qui verse quelque chose pendant qu'on le détient coûte moins cher à porter jusqu'à l'échéance : le portage retire du comptant ce que le détenteur touchera d'ici là. [§3.2, §5.2.1]
++
++Comme $\Phi S_t$ est aussi le prix au comptant de $\Phi$ action, on lit $\Phi$ comme la fraction d'action à détenir aujourd'hui pour en avoir une à l'échéance. La lecture est exacte pour un rendement continu réinvesti en actions : $e^{-q\tau}$ action, grossie au rythme $q$, fait une action en $T$. [ajout]</p><p>-Le « dividende » d’une devise est son taux d’intérêt. [§2.4]
++## Exemple minimal
++Une action qui vaut 100 verse avant l'échéance un dividende de 2 % de sa valeur : son portage vaut 0,98. [ajout]</p><p>-Pour une matière première ce serait le convenience yield : la source ne le traite pas. [ajout]
++## Geste de calcul type
++Un moins la somme des dividendes en proportion : $1-0{,}02=0{,}98$. Pour un rendement continu de 2 % sur un an, $e^{-0{,}02}=0{,}9802$ : presque le même nombre. [ajout]</p><h2>Ce qui reste libre</h2><div class="tablebloc"><table><thead><tr><th>paramètre</th><th>cas</th><th>valeur</th></tr></thead><tbody><tr><td>@@ -47,16 +56,15 @@ Pour une matière première ce serait le convenience yield : la source ne le tra</td></tr><tr><td>ce que verse le sous-jacent</td><td>rien</td><td>$\Phi=1$</td></tr><tr><td>ce que verse le sous-jacent</td><td>dividendes proportionnels aux dates $T_i$</td><td>$\Phi=1-\sum_i d_i$</td></tr><tr><td>ce que verse le sous-jacent</td><td>rendement continu $q$</td><td>$\Phi=e^{-q\tau}$</td></tr><tr><td>-</td><td>ce que verse le sous-jacent</td><td>taux d’intérêt (devise)</td><td>$\Phi=P(t,T)$</td></tr><tr><td>+</td><td>ce que verse le sous-jacent</td><td>taux d'intérêt de la devise livrée</td><td>$\Phi$ = le zéro-coupon de cette devise ; au §2.4, où l'on livre la devise locale, $P(t,T)$</td></tr></tbody></table></div><h2>Cesse d'être valide quand</h2><p>-Le portage cesse d’être un scalaire si les dividendes sont en montant fixe : $F=\frac{S_t-\sum_i D_iP(t,T_i)}{P(t,T)}$, et les dates de détachement réapparaissent. [ajout]
++Les dividendes sont donnés en montants $D_i$ et non en proportions : on retire toujours du comptant chacun, ramené en $t$, $\Phi S_t=S_t-\sum_i D_iP(t,T_i)$, mais $\Phi$ dépend alors du prix du jour et des dates de versement. $D_i$ est un montant, à ne pas confondre avec le facteur $D$ du prix à terme. [ajout]</p><h2>Origine</h2><p>-- exercice <a href="../fpp/exercices/ex-01.html">fpp/ex-01</a> (c)(d) : « 8 % de la valeur de l'action » ne fixe pas la convention cum/ex ; $\Phi=1-d$ (cours) donne 59,97, $\Phi=1/(1+d)$ (corrigé) donne 59,59 [ajout]
+-- exercice <a href="../fpp/exercices/ex-02.html">fpp/ex-02</a> (c) : deuxième instance de l'ambiguïté cum/ex — $\Phi=1-d$ (cours, §3.2) donne 79,73, $\Phi=1/(1+d)$ (corrigé) donne 79,86. Ce n'est donc pas une coquille isolée mais la convention constante du livre d'exercices [exo. 1]
++- exercices <a href="../fpp/exercices/ex-01.html">fpp/ex-01</a> (c) et <a href="../fpp/exercices/ex-02.html">fpp/ex-02</a> (c)(d) : un dividende « en pourcentage de la valeur de l'action à cette date » ne fixe pas la convention. $\Phi=1-d$ (cours, §3.2) donne 79,73 et 59,97 ; $\Phi=1/(1+d)$, un dividende réinvesti en actions, donne 79,86 et 59,59, les réponses du corrigé. Le livre d'exercices tient la seconde convention d'un exercice à l'autre [exo. 1, exo. 2, ajout]
+ - exercice <a href="../fpp/exercices/ex-05.html">fpp/ex-05</a> : un dividende versé juste avant l'échéance ne s'actualise pas ; sa date n'entre pas dans le calcul, au contraire d'un montant versé en cours de vie [exo. 5]
+ - exercice <a href="../fpp/exercices/ex-07.html">fpp/ex-07</a> : un future ne coûte rien à porter, ce qui s'écrit $\Phi=e^{-r\tau}$ ; c'est le sens du « dividende = taux » du corrigé [exo. 7]
+ - exercice <a href="../fpp/exercices/ex-08.html">fpp/ex-08</a> : avec un dividende en montant, le retirer du comptant <strong>avant</strong> d'entrer dans la formule, jamais après [ajout]
+-- exercice <a href="../fpp/exercices/ex-13.html">fpp/ex-13</a> : une devise étrangère est un sous-jacent à rendement continu, $\Phi=e^{-r_f\tau}$ — le seul cas de la table où $\Phi$ est un taux et non un flux [exo. 13]
++- exercice <a href="../fpp/exercices/ex-13.html">fpp/ex-13</a> : la devise étrangère y est le sous-jacent livré, et son zéro-coupon fait le portage, $\Phi=e^{-r_f\tau}$ ; c'est la même règle que dans la table, dans la convention inverse de celle du poly [exo. 13]
+diff --git a/proj/courses/fpp/notions/prime-de-risque.md b/proj/courses/fpp/notions/prime-de-risque.md
+index 3451585..151dc42 100644
+--- a/proj/courses/fpp/notions/prime-de-risque.md
++++ b/proj/courses/fpp/notions/prime-de-risque.md
+@@ -15,29 +15,39 @@ refs:
+ ---</p><h2>Ce que c'est</h2><p>-Le rendement d’un actif au-delà de son coût de financement. [Déf. 2]
++Ce que rapporte un actif au-delà du rendement de la dette qui le finance, son coût de financement. [Déf. 2, §1.3]</p><h2>Forme</h2><p>$$\tilde\pi_E=l\times\tilde\pi_A,\qquad \pi_E=\mathbb{E}(\tilde\pi_E)=l\,\pi_A$$ [§1.3]</p><h2>Ce que les symboles modélisent</h2><p>-$\pi_A$ et $\pi_E$ sont des écarts de rendement, exprimés en taux et non en montants : ce que rapportent l'actif, puis les capitaux propres, au-delà de leur coût de financement. Le second est le premier vu à travers le levier. [Déf. 2, §1.3]
++$\pi$ désigne une prime de risque en général. Comme toute variation relative, elle s'exprime en pour cent par unité de temps, le plus souvent par an : une prime de 3 % veut dire 3 % par an. [§1.3, Rem. 1]
++
++Le tilde marque la prime <strong>réalisée</strong> sur la période, que l'on ne connaît qu'à la fin : $\tilde\pi_A=\frac{\Delta A_t}{A_t}-\frac{\Delta D_t}{D_t}$ pour l'actif, $\tilde\pi_E=\frac{\Delta E_t}{E_t}-\frac{\Delta D_t}{D_t}$ pour les capitaux propres. Sans tilde, c'est sa moyenne, l'espérance : $\pi=\mathbb{E}(\tilde\pi)$. [§1.3]
++
++$\pi_A$ est donc la prime espérée de l'actif, $\pi_E$ celle des capitaux propres ; $l$ est le levier, le rapport de l'actif aux capitaux propres. [§1.3, Déf. 1]</p><h2>Ce qui la définit</h2><p>-La moyenne prospective de cet excès est la prime de risque espérée ; le levier la multiplie exactement, comme il multiplie la volatilité. [Déf. 2, §1.3]
++La prime est l'excès de rendement sur la dette ; sa moyenne, $\pi$, est la prime espérée, et c'est elle qu'on appelle d'ordinaire prime de risque. Un actif qui rapporte moins que la dette a une prime négative. [Déf. 2, §1.3]</p><p>-## Le chemin jusqu'ici
+-fpp/bilan pose l'identité, <a href="../fpp/n/levier.html">Levier</a> en tire le rapport actif sur capitaux propres. [ajout]
++<strong>Connu</strong> : la prime de l'actif et le levier. <strong>Cherché</strong> : la prime des capitaux propres. Elle vaut $l$ fois la première : à chaque période, l'excès réalisé des capitaux propres est $l$ fois celui de l'actif, par l'identité du bilan ; leur moyenne l'est donc aussi. [§1.3]</p><p>-La prime de risque est ce que le levier multiplie. Un socle aussi court s'explique : on reste dans l'identité comptable, rien ici ne suppose un modèle de marché, seulement que la dette est sans risque — et c'est exactement là que la fiche cessera d'être valide. [ajout]
++!<a href="figures/prime-de-risque.svg">L'actif de l'exemple, à 6 % de volatilité et 3 % de prime, et ses capitaux propres, à 20 % et 10 %. Le levier multiplie les deux coordonnées par 3,33 : le point glisse sur une droite issue de l'origine, et le rapport de la prime à la volatilité reste 0,5.</a> [ajout]
++
++Le même argument multiplie l'écart type de la prime, la volatilité : $\sigma_E=l\,\sigma_A$. Prime et volatilité grandissent ensemble, et leur rapport ne change pas. [§1.3]
++
++## Le chemin jusqu'ici
++<a href="../fpp/n/bilan.html">Bilan</a> pose l'identité actif = capitaux propres + dette, et <a href="../fpp/n/levier.html">Levier</a> la réécrit en rendements : l'écart des capitaux propres sur la dette vaut $l$ fois celui de l'actif. La prime de risque ne fait que nommer ces écarts, puis en prendre la moyenne. [ajout]</p><h2>Exemple minimal</h2><p>Une prime d’actif de 3 % avec un levier de 3,33 donne une prime sur capitaux propres de 10 %. [ajout]</p><h2>Geste de calcul type</h2><p>-Multiplier la prime de l’actif par le levier ; la même multiplication vaut pour l’écart type, donc le rapport prime sur volatilité est inchangé par le levier. [§1.3]
+-
+-!<a href="figures/prime-de-risque.svg">L'actif de l'exemple, à 6 % de volatilité et 3 % de prime, et ses capitaux propres, à 20 % et 10 %. Le levier multiplie les deux coordonnées par 3,33 : le point glisse sur une droite issue de l'origine, et le rapport de la prime à la volatilité reste 0,5.</a> [ajout]
++Multiplier par le levier : $3{,}33\times3\,\%=10\,\%$ pour la prime, $3{,}33\times6\,\%=20\,\%$ pour la volatilité ; le rapport reste $3/6=10/20=0{,}5$. [§1.3]</p><h2>Cesse d'être valide quand</h2><p>-La linéarité suppose la dette sans risque ; dès que la dette peut faire défaut, la relation cesse d’être exacte. [§1.4]
++L'égalité des excès réalisés ne cesse jamais : c'est l'identité du bilan, à condition de mesurer les deux excès au-dessus de ce que la dette a effectivement rapporté. [§1.3]
++
++Ce qui cesse, c'est de lire ce rendement de la dette comme un coût fixé d'avance. Quand l'actif passe sous la dette, les capitaux propres sont plancherisés à zéro et c'est la dette qui encaisse la perte : son rendement devient aléatoire lui aussi, et la prime des capitaux propres n'est plus $l$ fois ce que l'actif rapporte au-delà d'un coût connu. [§1.4, ajout]
++
++Passer de l'égalité réalisée à celle des moyennes suppose aussi un levier constant : la source modélise les primes comme des variables aléatoires stationnaires. [§1.3, ajout]
+diff --git a/proj/courses/fpp/notions/prix-a-terme.md b/proj/courses/fpp/notions/prix-a-terme.md
+index 4065ca5..a3e0f74 100644
+--- a/proj/courses/fpp/notions/prix-a-terme.md
++++ b/proj/courses/fpp/notions/prix-a-terme.md
+@@ -25,18 +25,33 @@ refs:
+ Le prix fixé aujourd’hui pour un échange livré plus tard. [Prop. 2, Prop. 3, Déf. 8]</p><h2>Forme</h2><p>-$$K=\dfrac{S_t\,\Phi}{D}$$ [ajout]
++$$K=F=\dfrac{S_t\,\Phi}{D}$$ [ajout]</p><h2>Ce que les symboles modélisent</h2><p>-$F$ est le prix à terme qui rend le contrat de valeur nulle au moment où on le signe ; $K$ est le prix effectivement inscrit dedans, et les deux ne coïncident qu'à la signature. $H$ est le prix d'un future, dont le règlement est quotidien. [Déf. 8, §2.3, §4.2]
++$F$ est le prix à terme : celui qui rend le contrat de valeur nulle aujourd'hui, et c'est lui que donne la Forme. $K$ est le prix inscrit dans le contrat ; à la signature, on inscrit $K=F$. Ensuite $F$ bouge avec le marché, $K$ ne bouge plus. L'écart $F-S_t$ entre prix à terme et prix comptant s'appelle la base. [Déf. 8, §2.3]</p><p>-$D$ note le facteur d'actualisation appliqué au strike, sans que la source lui donne d'emplacement propre. [ajout]
++$H$ est le prix à terme d'un future, contrat réglé chaque jour par appels de marge ; son $D$ n'est pas connu aujourd'hui, et la Forme ne lui donne pas de valeur. [§4.2]
++
++$S_t$ est le prix comptant du sous-jacent. $\Phi$, le portage, dit quelle part de ce comptant paie la seule unité livrée en $T$ : le reste paie ce que la détention rapporte d'ici là (dividendes, intérêts d'une devise), que l'acheteur à terme ne touche pas. $D$ est le prix aujourd'hui d'une unité de la monnaie du règlement payée en $T$ : $P(t,T)$, $P^f(t,T)$ ou $B(t,T)$ selon le contrat. La Forme suppose $D$ connu en $t$. [§3.2, ajout]
++
++## Retrouver la formule
++Un contrat à terme a deux jambes : recevoir en $T$ une unité du sous-jacent, payer $K$ en $T$. <strong>Connus aujourd'hui</strong> : le comptant $S_t$, le portage $\Phi$ et le facteur $D$. <strong>Cherché</strong> : $K$. [ajout]
++
++Jambe sous-jacent : recevoir une unité en $T$ vaut aujourd'hui le comptant, moins ce que la détention rapporte d'ici là et que l'acheteur à terme ne touche pas, soit $S_t\Phi$. [§3.2, ajout]
++
++Jambe argent : $K$ payé en $T$ vaut aujourd'hui $KD$, puisque $D$ est le prix d'une unité payée en $T$. [ajout]
++
++Le contrat ne coûte rien à la signature : les deux jambes valent autant, $KD=S_t\Phi$. Le $K$ qui l'assure est, par définition, le prix à terme $F$. [§3.1, ajout]
++
++$$K=F=\dfrac{S_t\,\Phi}{D}$$ [ajout]</p><h2>Ce que les membres partagent</h2><p>-Tous sont le prix comptant d’un même objet : le payoff $S_T/D$. Le prix à terme n’est jamais une formule nouvelle, c’est un prix comptant amplifié par le coût de portage. [ajout]
++Tous sont le prix aujourd'hui d'un même flux : ce que coûte aujourd'hui le droit de recevoir $S_T/D$ en $T$. [Prop. 2, Prop. 3]
++
++Quand $D$ est connu en $t$, ce prix se retrouve par le geste ci-dessus, les deux jambes ramenées en $t$ et égalées à la signature, et s'écrit $S_t\Phi/D$ ; d'un contrat à l'autre, seuls changent $\Phi$ et $D$. Quand $D$ ne l'est pas, comme $B(t,T)$ pour un future, le prix reste défini, mais sans formule fermée. [Prop. 2, Prop. 3, ajout]</p><h2>Pourquoi ce niveau existe</h2><p>-Le cours présente ces contrats séparément, sur autant de sections, alors qu’ils ne diffèrent que par deux paramètres qui commutent. C’est l’abstraction la plus rentable de la branche. [ajout]
++Le cours présente ces contrats séparément, sur autant de sections, alors qu’ils ne diffèrent que par deux paramètres, le portage $\Phi$ et le facteur $D$. Les réunir, c'est apprendre un geste au lieu de plusieurs. [ajout]</p><h2>Le chemin jusqu'ici</h2><p>Plusieurs briques indépendantes se rejoignent ici. <a href="../fpp/n/replication-statique.html">Réplication statique</a> donne la méthode — acheter aujourd'hui, porter, livrer — et c'est elle qui fait du prix à terme un prix démontré et non un pari sur l'avenir. [ajout]
+@@ -46,7 +61,7 @@ Les deux autres chiffrent les deux jambes de cette réplication : fpp/facteur-ac
+ $K=S_t\Phi/D$ n'est donc que la mise en équation du raisonnement : le prix à terme est le comptant, corrigé du financement et du portage. [ajout]</p><h2>Exemple minimal</h2><p>-$S_t=100$, $\Phi=1$, $D=P(0,1)=0{,}9608$ : $K=104{,}08$. [ajout]
++$S_t=100$, $\Phi=1$, $D=P(t,t+1)=0{,}9608$ : $K=F=104{,}08$. [ajout]</p><h2>Geste de calcul type</h2><p>Identifier les deux paramètres avant de calculer : le portage $\Phi$ et le facteur $D$. Avec $\Phi=1$ et $D=0{,}9608$, $K=104{,}08$. La formule se lit dans les deux sens : $S_t=KD/\Phi$. [Prop. 2, Prop. 3]
+@@ -57,14 +72,14 @@ Identifier les deux paramètres avant de calculer : le portage $\Phi$ et le fact
+ | portage $\Phi$ | action sans dividende | $1$ |
+ | portage $\Phi$ | dividendes discrets | $1-\sum_i d_i$ |
+ | portage $\Phi$ | rendement continu $q$ | $e^{-q\tau}$ |
+-| portage $\Phi$ | devise | $P(t,T)$ |
++| portage $\Phi$ | devise livrée | son zéro-coupon : $P(t,T)$ si c'est la devise locale |
+ | facteur $D$ | règlement unique, devise locale | $P(t,T)$ |
+ | facteur $D$ | règlement unique, devise étrangère | $P^f(t,T)$ |
+-| facteur $D$ | appels de marge | $B(t,T)$ |
++| facteur $D$ | appels de marge | $B(t,T)$, inconnu en $t$ : pas de formule fermée |
+ [Prop. 2, Prop. 3, Déf. 8, §2.4, §3.2]</p><h2>Cesse d'être valide quand</h2><p>-Il y a deux ruptures : refinancement aléatoire (le future perd la forme fermée) ; sous-jacent et règlement dans deux devises différentes (quanto — la corrélation manque aux deux paramètres). La base $F-S$ n’est lisible comme coût de portage que hors de ces deux cas. [ajout]
++Quand $D$ n'est pas connu aujourd'hui, parce que les appels de marge sont replacés à des taux futurs, la Forme ne donne plus de nombre : il faut un modèle de taux. Quand le sous-jacent est coté dans une devise et réglé dans une autre, $\Phi$ et $D$ ne suffisent plus. [§4.2, ajout]</p><h2>Origine</h2><ul><li>exercice <a href="../fpp/exercices/ex-01.html">fpp/ex-01</a> : la fiche se lit à l'envers, $S_t=FD/\Phi$ [ajout]</li><li>diff --git a/proj/courses/fpp/notions/prix-future.md b/proj/courses/fpp/notions/prix-future.md</li><li>index 630fe96..2dfd321 100644</li><li>--- a/proj/courses/fpp/notions/prix-future.md</li><li>+++ b/proj/courses/fpp/notions/prix-future.md</li><li>@@ -21,15 +21,30 @@ refs:</li><li>Le prix d’un contrat à terme réglé par appels de marge quotidiens. [§4.2, Prop. 3, Prop. 4]</li></ul><h2>Forme</h2><p>-$$H_t=\Pi_t\!\left[\dfrac{S_T}{B(t,T)}\right]$$ [§4.2, Prop. 3, Prop. 4]
++$$H_t=\Pi_t\!\left(\dfrac{S_T}{B(t,T)}\right)$$ [§4.2, Prop. 3]</p><h2>Ce que les symboles modélisent</h2><p>$H_t$ est un prix qui se réajuste chaque jour, et non la valeur d'un contrat : c'est le niveau auquel les appels de marge se calculent. Un future vaut zéro juste après chaque règlement, et c'est ce qui le sépare d'un forward. [§4.2]</p><p>-## Ce qui la définit
+-Chaque variation est encaissée le jour même et doit être replacée à un taux inconnu : le facteur d’actualisation devient $B(t,T)$. [§4.2, Prop. 3, Prop. 4]
++$\Pi_t(X)$ se lit « le prix aujourd'hui du flux $X$ payé plus tard » : la Forme dit que $H_t$ est ce que coûte aujourd'hui le droit de recevoir $S_T/B(t,T)$ en $T$. $B(t,T)$ est le compte capitalisé, le produit des zéro-coupons courts de $t$ à $T$, dont seul le premier est connu en $t$. [Prop. 3, ajout]
++
++## Retrouver la formule
++!<a href="figures/prix-future.svg">En haut, le forward se règle en une fois, en $T$. En bas, la stratégie qui réplique le future : on place aujourd'hui $H_t$, le montant cherché ; à chaque règlement, un appel de marge de montant inconnu en $t$ est encaissé ou payé, puis replacé jusqu'en $T$ à un taux lui aussi inconnu en $t$ ; le nombre de contrats est ajusté à chaque règlement, et en $T$ le tout vaut $S_T/B(t,T)$. Les hauteurs ne viennent d'aucune donnée.</a> [ajout]
++
++<strong>Connus aujourd'hui</strong> : le comptant et le taux court de la première période. <strong>Inconnus</strong> : les appels de marge et les taux auxquels chacun sera replacé. <strong>Cherché</strong> : $H_t$. On ne peut donc pas, comme pour un forward, ramener en $t$ deux jambes connues ; on construit une stratégie dont on connaît le coût et la valeur finale. [§4.2, ajout]
++
++La stratégie : placer $H_t$ au taux court et tenir des futures, dont l'entrée ne coûte rien. Elle coûte donc $H_t$. [§4.2.2]
++
++Un pas, du règlement $t_i$ au suivant $t_{i+1}$. Si la richesse vaut $H_{t_i}/B(t,t_i)$, la placer une période au taux court la divise par $P(t_i,t_{i+1})$ : elle devient $H_{t_i}/B(t,t_{i+1})$. Tenir $1/B(t,t_{i+1})$ contrats y ajoute l'appel de marge $(H_{t_{i+1}}-H_{t_i})/B(t,t_{i+1})$. La richesse devient $H_{t_{i+1}}/B(t,t_{i+1})$ : même forme, un pas plus loin. Le nombre de contrats est connu en $t_i$, puisque seul le taux de la période qui commence y entre. [§4.2.2]</p><p>-!<a href="figures/prix-future.svg">En haut, le forward se règle en une fois, en $T$. En bas, le future règle chaque jour la variation de son prix, dans un sens ou dans l'autre, et chaque montant doit être replacé jusqu'en $T$ à un taux qu'on ne connaît pas en $t$. Les hauteurs ne viennent d'aucune donnée : seuls le nombre de flux et leurs dates comptent.</a> [ajout]
++Au départ, la richesse est $H_t$, soit $H_t/B(t,t)$. À l'échéance, le future vaut le comptant, $H_T=S_T$ : la stratégie vaut $S_T/B(t,T)$. [§4.2.2]
++
++Elle coûte $H_t$ aujourd'hui et paie $S_T/B(t,T)$ en $T$ : deux flux identiques ont le même prix, donc $H_t$ est le prix aujourd'hui de $S_T/B(t,T)$. [Prop. 3]
++
++$$H_t=\Pi_t\!\left(\dfrac{S_T}{B(t,T)}\right)$$ [Prop. 3]
++
++## Ce qui la définit
++Chaque variation est encaissée le jour même et doit être replacée à un taux inconnu : c'est pourquoi le facteur n'est plus le zéro-coupon $P(t,T)$, connu aujourd'hui, mais le compte capitalisé $B(t,T)$, qui ne l'est pas. [§4.2, Prop. 3]</p><h2>Le chemin jusqu'ici</h2><p><a href="../fpp/n/convention-capitalisation.html">Convention de capitalisation</a> et <a href="../fpp/n/facteur-actualisation.html">Facteur d’actualisation</a> fixent le prix du temps ; <a href="../fpp/n/compte-capitalise.html">Compte capitalisé</a> donne celui de l'argent réinvesti au jour le jour ; <a href="../fpp/n/replication-dynamique.html">Réplication dynamique</a> dit comment le répliquer. [ajout]
+@@ -37,15 +52,13 @@ <a href="../fpp/n/convention-capitalisation.html">Convention de capitalisation</a> et <a href="../fpp/n/facteur-actualisation.html">Facteur d’actualisation</a> fixent le prix du tem
+ Le future se distingue du forward par une seule chose : les appels de marge quotidiens, donc un réglage à chaque pas. C'est pourquoi son socle passe par le compte capitalisé alors que celui du forward n'en a pas besoin. Les deux prix coïncident quand les taux sont déterministes — et le socle montre exactement où cette hypothèse entre. [ajout]</p><h2>Exemple minimal</h2><p>-Sous-jacent à 100, taux déterministes, $B(0,1)=P(0,1)=0{,}9608$ : $H_0=104{,}08$, égal au forward. [ajout]
++Sous-jacent à 100, taux déterministes, $B(t,t+1)=P(t,t+1)=0{,}9608$ : $H_t=104{,}08$, égal au forward. [ajout]</p><h2>Geste de calcul type</h2><p>Vérifier d’abord si les taux sont déterministes : si oui, $B=P$ et le future vaut le forward, 104,08. Sinon il n’y a pas de forme fermée et il faut un modèle de taux. [Prop. 4]</p><h2>Cesse d'être valide quand</h2><p>-Pas de forme fermée : $H$ ne s’exprime pas en quantités observables en $t$, il faut un modèle de taux. [§4.2, §4.2.2]
+-
+-Égale le forward si les taux sont déterministes. [Prop. 4]
++La Forme suppose que chaque appel de marge peut être replacé au taux court du moment. Hors du cas de taux déterministes, elle ne se ramène plus au prix forward. [§4.2.2, Prop. 4]</p><h2>Origine</h2><ul><li>exercice <a href="../fpp/exercices/ex-07.html">fpp/ex-07</a> : une option sur future se price avec la formule du cours en posant $q=r$, sans rien redémontrer [exo. 7]</li><li>diff --git a/proj/courses/fpp/notions/produit-a-capital-protege.md b/proj/courses/fpp/notions/produit-a-capital-protege.md</li><li>index 2ccaa35..eb2f7e2 100644</li><li>--- a/proj/courses/fpp/notions/produit-a-capital-protege.md</li><li>+++ b/proj/courses/fpp/notions/produit-a-capital-protege.md</li><li>@@ -16,20 +16,33 @@ refs:</li><li>---</li></ul><h2>Ce que c'est</h2><p>-Un zéro-coupon qui rend la mise, plus un call qui donne la hausse. [§9.2]
++Un zéro-coupon qui rend la mise, plus les calls que le solde permet d'acheter, qui donnent une part de la hausse. [§9.2]</p><h2>Forme</h2><p>-$$\text{ZC}+\text{Call},\qquad \text{ou de façon équivalente}\qquad \text{Spot}+\text{Put}$$ [§9.2]
++$$\text{ZC}+k\,\text{Call},\qquad k=\dfrac{K-K\,P(t,T)}{C}$$ [§9.2, exo. 17]</p><p>-!<a href="figures/produit-a-capital-protege.svg">La mise $K$ coupée en deux. $KP(t,T)$ placés en zéro-coupon rendent $K$ en $T$ ; le solde achète des calls, dont le flux en $T$ est en pointillé parce qu'il est aléatoire et peut être nul.</a> [ajout]
++$$\text{à }k=1\ :\qquad\text{ZC}+\text{Call}\;=\;\text{Spot}+\text{Put}$$ [§9.2, Prop. 7]</p><h2>Ce que les symboles modélisent</h2><p>-Les quatre mots de la forme désignent des positions, pas des prix. ZC est un zéro-coupon qui paie en $T$ le capital garanti ; Call est un call sur le sous-jacent, d'échéance $T$ ; Spot est le sous-jacent lui-même, acheté au comptant ; Put est un put de même échéance. [§9.2, ajout]
++ZC, Call, Spot et Put désignent des positions, pas des prix. ZC est un zéro-coupon qui paie en $T$ le capital garanti ; Call est un call sur le sous-jacent, d'échéance $T$ ; Spot est le sous-jacent lui-même, acheté au comptant ; Put est un put de même échéance. [§9.2, ajout]</p><p>-Sur la figure, $K$ est la mise, celle que le produit rend à l'échéance, et $KP(t,T)$ ce qu'il faut en placer en $t$ pour la retrouver en $T$ : $P(t,T)$ y est le prix d'un zéro-coupon, et non celui d'un put. L'équivalence des deux écritures demande que le strike des options soit égal au nominal du zéro-coupon. [ajout]
++$K$ est la mise, celle que le produit rend à l'échéance ; on prend ici le strike des calls égal à la mise et au cours du jour, comme dans l'exercice 17. $K\,P(t,T)$ est ce qu'il faut en placer en $t$ pour la retrouver en $T$ : $P(t,T)$ y est le prix d'un zéro-coupon, et non celui d'un put. $C$ est le prix d'un call, et $k$ le nombre de calls achetés avec la mise ; comme la mise égale le cours du jour, c'est aussi la part de la hausse que touche l'épargnant : le taux de participation. [§9.2, exo. 17, ajout]
++
++## Retrouver la formule
++!<a href="figures/produit-a-capital-protege.svg">Deux lignes sur le même axe du temps, une par brique. En haut, 96,08 placés en zéro-coupon en $t$ rendent la mise, 100, en $T$ : tout y est connu aujourd'hui. En bas, le solde, 3,92, achète des calls à 9,93 : le trou est le nombre de calls, 3,92 / 9,93 = 0,395. En $T$, ils paient 0,395 fois la hausse au-delà de 100, en pointillé parce qu'elle est aléatoire et peut être nulle.</a> [ajout]
++
++<strong>Ce qui est connu aujourd'hui</strong> : la mise, 100 ; le prix du zéro-coupon à un an, $P(t,t+1)=0{,}9608$ ; le prix du call à un an de strike 100, 9,93. <strong>Ce qu'on cherche</strong> : la part de la hausse qu'on peut s'offrir. [ajout]
++
++Garantir la mise d'abord. Un zéro-coupon paie 1 en $T$ et coûte 0,9608 ; pour recevoir 100, il en faut 100, qui coûtent $100\times0{,}9608=96{,}08$. C'est le plancher : quoi qu'il arrive à l'action, ces 96,08 redeviennent 100. [§9.2, ajout]
++
++Il reste $100-96{,}08=3{,}92$, le coussin. C'est tout ce qu'on peut dépenser en hausse sans toucher à la garantie. [exo. 17]
++
++Un call coûte 9,93 et paie toute la hausse au-delà de 100. Avec 3,92, on n'en a pas les moyens : on en achète $3{,}92/9{,}93=0{,}395$, qui paient 0,395 fois cette hausse. C'est le taux de participation : 39,5 %. [exo. 17, ajout]
++
++$$K\,P(t,T)+k\,C=K\quad\Longleftrightarrow\quad k=\dfrac{K-K\,P(t,T)}{C}$$ [exo. 17]</p><h2>Ce qui la définit</h2><p>-Les deux écritures sont la même par la parité call-put : protéger le capital, c’est acheter une option de vente, que l’on écrive la protection du côté du zéro-coupon ou du côté du comptant. [§9.2, Prop. 7]
++Protéger le capital, c'est acheter un put : la parité call-put le montre. À quantités unitaires, $96{,}08+9{,}93=106{,}00=100+6{,}00$ : un zéro-coupon et un call valent l'action et un put. Le put, 6,00, est le prix de la protection. Avec une mise de 100, on n'a pas les moyens des 106,00 : on réduit la part de call, d'où $k&lt;1$. [§9.2, Prop. 7, ajout]</p><h2>Le chemin jusqu'ici</h2><p>Deux fils y mènent. Le premier va de <a href="../fpp/n/payoff.html">Payoff</a> à <a href="../fpp/n/call.html">Call</a> : c'est lui qui donne la hausse. Le second va de <a href="../fpp/n/convention-capitalisation.html">Convention de capitalisation</a> à <a href="../fpp/n/facteur-actualisation.html">Facteur d’actualisation</a> : c'est lui qui rend la mise. [ajout]
+@@ -37,14 +50,13 @@ Deux fils y mènent. Le premier va de <a href="../fpp/n/payoff.html">Payoff</a> à <a href="../fpp/n/call.html">Call</a> : c'est lui qui don
+ Le produit est exactement la somme des deux, et c'est tout le montage : un zéro-coupon garantit le capital, le solde achète l'optionalité. La fiche n'a besoin d'aucun modèle de prix, seulement de savoir que ces deux objets existent et s'additionnent. [ajout]</p><h2>Exemple minimal</h2><p>-96,08 placés en zéro-coupon à un an rendent 100 ; les 3,92 restants achètent une fraction de call. [ajout]
++96,08 placés en zéro-coupon à un an rendent 100 ; les 3,92 restants achètent 0,395 call de strike 100 : l'épargnant touche 39,5 % de la hausse au-delà de 100, et jamais moins que sa mise. [ajout]</p><h2>Geste de calcul type</h2><p>-Placer $KP(t,T)$ pour garantir $K$, puis dépenser le solde en calls : le nombre de calls achetés donne le taux de participation à la hausse. [ajout]
++Coussin sur prix du call : $k=(100-96{,}08)/9{,}93=0{,}395$. Si l'action finit à 120, le produit rend $100+0{,}395\times20=107{,}90$ ; si elle finit à 80, il rend 100. [exo. 17, ajout]</p><h2>Cesse d'être valide quand</h2><p>La protection vaut à l’échéance seulement, et elle coûte exactement la prime du put : il n’y a pas de protection gratuite. [ajout]</p><h2>Origine</h2><p>-- exercice <a href="../fpp/exercices/ex-17.html">fpp/ex-17</a> : le taux de participation est un rapport, coussin sur prime du call à la monnaie. Il monte avec le taux et la maturité, il descend avec la volatilité [exo. 17]
+-- exercice <a href="../fpp/exercices/ex-17.html">fpp/ex-17</a> : le jeu de paramètres du corrigé ($r=4\,\%$, $T=4$, $\sigma=15\,\%$, $d=1{,}88\,\%$) est calibré pour donner exactement 100 % de participation. C'est un calibrage, pas une loi [ajout]
++- exercice <a href="../fpp/exercices/ex-17.html">fpp/ex-17</a> : le taux de participation est un rapport, coussin sur prime du call à la monnaie. Il monte avec le taux et la maturité, il descend avec la volatilité ; le jeu de paramètres du corrigé ($r=4\,\%$, $T=4$, $\sigma=15\,\%$, $d=1{,}88\,\%$) est calibré pour donner exactement 100 % [exo. 17, ajout]
+diff --git a/proj/courses/fpp/notions/put.md b/proj/courses/fpp/notions/put.md
+index 42deb4a..e1faf7c 100644
+--- a/proj/courses/fpp/notions/put.md
++++ b/proj/courses/fpp/notions/put.md
+@@ -23,7 +23,7 @@ Le droit de vendre le sous-jacent au prix $K$ à la date $T$. [Déf. 9]
+ $$\mathrm{Put}(S_T,K)=(K-S_T)^+$$ [Déf. 11]</p><h2>Ce que les symboles modélisent</h2><p>-$P$ est le prix du droit de vendre : un montant payé aujourd'hui. La lettre est aussi celle du zéro-coupon $P(t,T)$, et seuls les arguments les distinguent — un prix d'option n'en porte pas. [§6.4]
++$P$ est le prix du droit de vendre : un montant payé aujourd'hui. La lettre est aussi celle du zéro-coupon $P(t,T)$, et seuls les arguments les distinguent — un prix d'option n'en porte pas. Une exception : le livre d'exercices note $P(T,F_T)$, avec deux arguments, un prix de put sur la valeur d'une firme. [§6.4, exo. 16]</p><h2>Ce qui la définit</h2><p>Symétrique du call par rapport au strike : le détenteur n’exerce que si $S_T&lt;K$, et le payoff est borné par $K$. [Déf. 11]
+@@ -31,16 +31,16 @@ Symétrique du call par rapport au strike : le détenteur n’exerce que si $S_T
+ ## Le chemin jusqu'ici
+ Le socle s'arrête à <a href="../fpp/n/payoff.html">Payoff</a>. Le put est le payoff $(K-S_T)^+$, le symétrique du call. [ajout]</p><p>-Il n'est pas <em>construit</em> sur le call : les deux sont deux payoffs élémentaires, définis en parallèle. Ce qui les relie viendra plus tard, avec la parité call-put, et c'est un résultat, pas une définition. [ajout]
++Il n'est pas <em>construit</em> sur le call : les deux sont deux payoffs élémentaires, définis en parallèle, et ce qui les relie est un résultat, pas une définition. [ajout]</p><h2>Exemple minimal</h2><p>Strike 100, sous-jacent à 96 à l’échéance : le put paie 4. [ajout]</p><h2>Geste de calcul type</h2><p>-Plutôt que de refaire le calcul, déduire le put du call par la parité : $P=C-S_0+KP(0,T)$. [Prop. 7]
++Plutôt que de refaire le calcul, déduire le put du call par la parité : $P=C-S_0+KP(0,T)$, où le premier $P$ est le put et le second le zéro-coupon. [Prop. 7]</p><h2>Cesse d'être valide quand</h2><p>-Le symbole $P$ sans argument est un prix de put, $P(t,T)$ avec deux arguments est un zéro-coupon — la source emploie les deux sans le signaler. [§6.4]
++Comme celui du call, le prix du put n'a de forme fermée que sous les hypothèses de Black et Scholes ; hors de là il reste une espérance à calculer. [§6.4]</p><h2>Origine</h2><ul><li>exercice <a href="../fpp/exercices/ex-18.html">fpp/ex-18</a> : le put est l'instrument naturel d'un exportateur exposé à la baisse d'une devise ; le §9 ne traite que les stratégies sur actions [exo. 18]</li><li>diff --git a/proj/courses/fpp/notions/replication-dynamique.md b/proj/courses/fpp/notions/replication-dynamique.md</li><li>index deec658..8071df1 100644</li><li>--- a/proj/courses/fpp/notions/replication-dynamique.md</li><li>+++ b/proj/courses/fpp/notions/replication-dynamique.md</li><li>@@ -15,29 +15,44 @@ refs:</li><li>---</li></ul><h2>Ce que c'est</h2><p>-Une stratégie autofinançante rééquilibrée à chaque pas, dont la valeur finale est le payoff. [§4.2.2]
++Une stratégie en futures, ajustée à chaque appel de marge, qui coûte aujourd'hui le prix future et vaut à l'échéance le cours de l'action divisé par le compte capitalisé. [§4.2.2]</p><h2>Forme</h2><p>-détenir $1/B(t_0,t_{i+1})$ contrats en $t_i$ [§4.2.2]
++$$\text{de }t_i\text{ à }t_{i+1},\ \text{détenir}\quad n_i=\dfrac{1}{B(t_0,t_{i+1})}\ \text{futures}\qquad\Longrightarrow\qquad H_{t_0}\ \text{aujourd'hui},\quad\dfrac{S_T}{B(t_0,T)}\ \text{à l'échéance}$$ [§4.2.2]</p><h2>Ce que les symboles modélisent</h2><p>-$t_0$ est la date où l'on met en place la stratégie et $t_i$ la $i$-ième date de rééquilibrage, typiquement un jour après la précédente. Les contrats sont des contrats futures, dont les variations de prix sont versées à chaque date par l'appel de marge. [§4.2.2, ajout]
++$t_0$ est aujourd'hui, $t_1,\dots,t_n=T$ les dates de règlement des appels de marge, en pratique chaque jour. $H_{t_i}$ est le prix future coté en $t_i$ : le niveau sur lequel se calcule l'appel de marge, qui verse $H_{t_{i+1}}-H_{t_i}$ par future détenu ; à l'échéance, il rejoint le cours de l'action, $H_T=S_T$. [§4.2, §4.2.2]</p><p>-$B(t_0,t_i)$ est le compte capitalisé : le produit des zéro-coupons à une période enchaînés de $t_0$ à $t_i$. Vu de $t_0$, il est aléatoire, parce que les taux des périodes à venir ne sont pas encore connus ; c'est pour cela que la position se recalcule à chaque pas au lieu d'être fixée d'avance. Ce n'est pas le zéro-coupon $P(t_0,t_i)$, avec lequel il ne coïncide que si les taux sont déterministes. [§4.2.2]
++$n_i$ est le nombre de futures détenus entre $t_i$ et $t_{i+1}$ ; le poly n'a pas de lettre pour lui. $B(t_0,t_{i+1})=P(t_0,t_1)\cdots P(t_i,t_{i+1})$ est le compte capitalisé : aléatoire vu d'aujourd'hui, mais <strong>connu en $t_i$</strong>, puisque le dernier facteur, le zéro-coupon de la période qui commence, est coté ce jour-là. C'est ce qui rend $n_i$ calculable au moment où il faut le détenir. [§4.2.2, ajout]
++
++## Retrouver la formule
++!<a href="figures/replication-dynamique.svg">Un échéancier à trois dates, un règlement par an, à 4 % puis 6 %. Le prix future passe de 110 à 115, puis rejoint l'action à 122. En t₀ on place 110. À chaque date, la barre pleine est ce placement grossi au taux de la période, connu dès son début ; le cadre pointillé est le trou, bouché par l'appel de marge multiplié par le nombre de futures, 1,0408 puis 1,1052. La richesse finale, 134,83, est 122 divisé par le compte capitalisé 0,9048.</a> [ajout]
++
++On cherche une stratégie qui coûte aujourd'hui le prix future $H_{t_0}$ et dont on sait dire la valeur finale. On la construit pour qu'à chaque date sa richesse soit $H_{t_i}/B(t_0,t_i)$ : c'est $H_{t_0}$ aujourd'hui, et $S_T/B(t_0,T)$ à l'échéance, où $H_T=S_T$. [§4.2.2]
++
++En chiffres : 4 % la première année, 6 % la seconde, et un prix future de 110 aujourd'hui. Les futures ne coûtent rien à prendre : la stratégie coûte les 110 qu'on place à un an. Dans un an, ils sont devenus $110/0{,}9608=114{,}49$, montant <strong>connu aujourd'hui</strong>. [ajout]
++
++Si le prix future est alors 115, on veut $115/0{,}9608=119{,}69$. Il manque $5{,}20$, c'est-à-dire $(115-110)/0{,}9608$ : l'appel de marge, 5, divisé par 0,9608. C'est le trou ; chaque future verse exactement l'appel de marge, il en faut donc $1/0{,}9608=1{,}0408$. [ajout]
++
++Deuxième année, même raisonnement. Les 119,69 placés à 6 % deviennent $127{,}09$ ; pour atteindre $122/0{,}9048=134{,}83$, il faut $1/(0{,}9608\times0{,}9418)=1/0{,}9048=1{,}1052$ futures. Ce nombre dépend du taux de la seconde année, inconnu aujourd'hui, mais connu au début de cette année-là : juste à temps. [ajout]
++
++En lettres. En $t_i$, la richesse $H_{t_i}/B(t_0,t_i)$ placée jusqu'en $t_{i+1}$ devient $H_{t_i}/B(t_0,t_{i+1})$, puisque $B(t_0,t_{i+1})=B(t_0,t_i)\,P(t_i,t_{i+1})$. Il manque $(H_{t_{i+1}}-H_{t_i})/B(t_0,t_{i+1})$ : l'appel de marge, divisé par $B(t_0,t_{i+1})$. [§4.2.2]
++
++$$n_i=\dfrac{1}{B(t_0,t_{i+1})}\quad\Longrightarrow\quad\text{richesse en }t_i=\dfrac{H_{t_i}}{B(t_0,t_i)},\ \text{donc}\ \dfrac{S_T}{B(t_0,T)}\ \text{en }T$$ [§4.2.2]</p><h2>Ce qui la définit</h2><p>-On ne connaît plus le coût de portage à l’avance : on le suit. La position est ajustée à chaque date pour que la valeur terminale reste celle visée. [§4.2.2]
++Chaque appel de marge est replacé au taux du moment ; pour que la richesse finale ne dépende que de $S_T$, on grossit la position au rythme du compte capitalisé. [§4.2.2]</p><p>-## Le chemin jusqu'ici
+-Il faut <a href="../fpp/n/convention-capitalisation.html">Convention de capitalisation</a>, puis <a href="../fpp/n/facteur-actualisation.html">Facteur d’actualisation</a>, puis <a href="../fpp/n/compte-capitalise.html">Compte capitalisé</a>, qui est la brique décisive. [ajout]
++La ligne générale du poly écrit $1/B(t_0,t_i)$ futures en $t_i$ ; ses deux premiers pas, $1/P(0,1)$ en $t_0$ puis $1/\big(P(0,1)P(1,2)\big)$ en $t_1$, donnent bien $1/B(t_0,t_{i+1})$, et c'est ce que la fiche suit. [§4.2.2]</p><p>-C'est le compte capitalisé qui rend la réplication <em>dynamique</em> possible : il donne le prix de l'argent réinvesti au jour le jour, donc la quantité à détenir à chaque pas. Sans lui on ne sait répliquer qu'en une fois, à l'achat, et c'est la réplication statique. [ajout]
++## Le chemin jusqu'ici
++Tout le calcul tient dans <a href="../fpp/n/compte-capitalise.html">Compte capitalisé</a> : ce que devient un euro replacé de période en période, à des taux qu'on n'apprend qu'au fur et à mesure. Il est lui-même un produit de zéro-coupons courts, les prix de <a href="../fpp/n/facteur-actualisation.html">Facteur d’actualisation</a>, et c'est <a href="../fpp/n/convention-capitalisation.html">Convention de capitalisation</a> qui permet de les enchaîner en les multipliant. [ajout]</p><h2>Exemple minimal</h2><p>-Trois pas à $P=0{,}99$ chacun : on détient successivement $1{,}0101$, $1{,}0203$ puis $1{,}0306$ contrats. [ajout]
++À 4 % la première année puis 6 % la seconde : 1,0408 futures la première année, 1,1052 la seconde. [ajout]</p><h2>Geste de calcul type</h2><p>-Suivre la position au lieu de la figer : détenir $1/B(t_0,t_{i+1})$ contrats en $t_i$, soit 1,0101 puis 1,0203 puis 1,0306 pour trois pas à 0,99. La position se recalcule à chaque date. [§4.2.2]
++Diviser 1 par le produit des zéro-coupons courts, celui de la période qui commence compris : $1/0{,}9608=1{,}0408$, puis $1/(0{,}9608\times0{,}9418)=1{,}1052$. [§4.2.2]</p><h2>Cesse d'être valide quand</h2><p>-Suppose des marchés sans friction et un rééquilibrage continu — l’hypothèse la plus fragile de tout l’édifice. [ajout]
++Suppose qu'à chaque date de règlement on puisse placer ou emprunter au taux de la période qui commence, et ajuster sans frais le nombre de futures. [ajout]
+diff --git a/proj/courses/fpp/notions/replication-statique.md b/proj/courses/fpp/notions/replication-statique.md
+index 92075d6..7830dac 100644
+--- a/proj/courses/fpp/notions/replication-statique.md
++++ b/proj/courses/fpp/notions/replication-statique.md
+@@ -14,35 +14,41 @@ refs:
+ ---</p><h2>Ce que c'est</h2><p>-Acheter le sous-jacent, le porter et le livrer, sans aucun geste entre-temps. [§3.1]
++Reproduire un contrat à terme en achetant le sous-jacent à crédit aujourd'hui, en le gardant et en le livrant à l'échéance, sans aucun geste entre-temps. [§3.1]</p><h2>Forme</h2><p>$$(S_T-K)-\left(S_T-\dfrac{S_t}{P(t,T)}\right)=\dfrac{S_t}{P(t,T)}-K$$ [§3.1]</p><h2>Ce que les symboles modélisent</h2><p>-$t$ est la date où l'on monte l'opération et $T$ l'échéance du contrat à terme. $S_t$ est le prix comptant de l'action en $t$, connu ; $S_T$ est son prix en $T$, aléatoire vu de $t$, et il disparaît de la différence. $K$ est le prix de livraison fixé dans le contrat, l'inconnue que le montage détermine. [§3.1, ajout]
++La Forme est la position d'un acheteur à terme qui fait, en face, le montage inverse. $(S_T-K)$ est ce que lui rapporte le contrat : recevoir l'action, qui vaut $S_T$, contre $K$. $\left(S_T-S_t/P(t,T)\right)$ est ce que rapporte l'action achetée à crédit, qui vaut $S_T$ et laisse une dette de $S_t/P(t,T)$ ; le signe moins dit qu'il en tient l'opposé. Leur différence ne contient plus $S_T$. [§3.1, ajout]
++
++$t$ est la date où l'on monte l'opération et $T$ l'échéance. $S_t$, le prix de l'action aujourd'hui, est connu ; $S_T$, son prix en $T$, est aléatoire vu de $t$. $K$ est le prix de livraison inscrit dans le contrat : c'est lui qu'on cherche. [§3.1, ajout]</p><p>$P(t,T)$ est le prix en $t$ du zéro-coupon qui paie une unité en $T$ ; diviser par lui, c'est capitaliser, et $S_t/P(t,T)$ est ce qu'on rembourse en $T$ pour avoir emprunté $S_t$. Ce n'est pas le prix d'un put. [§3.1, ajout]</p><h2>Retrouver la formule</h2><p>-!<a href="figures/replication-statique.svg">Les quatre flux du montage. En $t$, l'emprunt paie l'action et le solde est nul ; en $T$, on livre l'action contre $K$ et on rembourse $S_t/P(t,T)$. Entre les deux, aucun geste. Un flux reçu monte, un flux payé descend.</a> [ajout]
++!<a href="figures/replication-statique.svg">Le montage du vendeur à terme, celui qui livre. En $t$, il emprunte $S_t$ et achète l'action avec : solde nul. En $T$, il livre l'action contre $K$, le seul montant cherché, et rembourse $S_t/P(t,T)$, connu dès $t$. Entre les deux, aucun geste. Un flux reçu monte, un flux payé descend.</a> [ajout]
++
++On se place du côté du <strong>vendeur à terme</strong>, celui qui devra livrer l'action en $T$ contre $K$ ; son solde est l'opposé de celui de la Forme. <strong>Connus aujourd'hui</strong> : le prix de l'action $S_t$ et celui du zéro-coupon $P(t,T)$. <strong>Cherché</strong> : $K$. [ajout]
++
++En $t$, le vendeur emprunte $S_t$ et achète l'action avec : le montage ne lui coûte rien. [§3.1]</p><p>-En $t$ : emprunter $S_t$ et acheter l'action avec. Le montage ne coûte rien. [ajout]
++En $T$, il livre l'action contre $K$ et rembourse son emprunt. Chaque unité due en $T$ ne lui a rapporté que $P(t,T)$ en $t$ : pour avoir emprunté $S_t$, il doit donc $S_t/P(t,T)$. [ajout]</p><p>-En $T$ : livrer l'action contre $K$, rembourser $S_t/P(t,T)$. Le solde, $K-S_t/P(t,T)$, est connu dès $t$ : il ne dépend pas de $S_T$. C'est le montage du vendeur à terme ; l'acheteur a le solde opposé, celui de la forme. [ajout]
++Son solde en $T$, $K-S_t/P(t,T)$, ne dépend pas de ce que vaut alors l'action : il est connu dès $t$. [§3.1]</p><p>-Le P&amp;L est non aléatoire et le portefeuille coûte zéro : il vaut donc zéro, ce qui détermine $K$. [§3.1]
++Un solde certain, obtenu sans rien débourser, ne peut être que nul. Positif, ce serait un gain sans risque ni mise ; négatif, le montage inverse (vendre l'action à découvert, placer le produit, acheter à terme) en serait un. [§3.1]</p><p>$$K=\dfrac{S_t}{P(t,T)}$$ [§3.1]</p><h2>Ce qui la définit</h2><p>-Le P&amp;L est non aléatoire et le portefeuille coûte zéro : il vaut donc zéro, ce qui détermine $K$. [§3.1]
++Tout se décide en $t$ et rien ne se touche ensuite : c'est ce qui rend le solde de l'échéance connu dès aujourd'hui, et ce que dit le mot « statique ». [ajout]</p><h2>Exemple minimal</h2><p>-Action à 100, $P(0,1)=0{,}9608$ : acheter l’action à crédit et la livrer dans un an donne $K=104{,}08$. [ajout]
++Action à 100, $P(t,t+1)=0{,}9608$ : le vendeur emprunte 100, achète l'action et la livre dans un an contre $K=104{,}08$, exactement ce qu'il rembourse. [ajout]</p><h2>Geste de calcul type</h2><p>-Écrire le portefeuille qui reproduit le payoff, en compter le coût, l’égaler à zéro : acheter l’action à 100 en s’endettant et la livrer donne $K=100/0{,}9608=104{,}08$. [§3.1]
++Écrire le montage, en compter le solde à l'échéance, l'égaler à zéro : emprunter 100 pour acheter l'action et la livrer donne $K=100/0{,}9608=104{,}08$. [§3.1]</p><h2>Cesse d'être valide quand</h2><p>Exige un payoff linéaire <em>et</em> un refinancement connu dès $t$. La première condition tombe avec les options, la seconde avec les futures. [§3.1, §4.2.2]
+diff --git a/proj/courses/fpp/notions/replication.md b/proj/courses/fpp/notions/replication.md
+index 742fb3f..e15c7d2 100644
+--- a/proj/courses/fpp/notions/replication.md
++++ b/proj/courses/fpp/notions/replication.md
+@@ -12,13 +12,13 @@ refs:
+ ---</p><h2>Ce que c'est</h2><p>-Démontrer un prix en construisant un portefeuille qui reproduit le flux et dont on connaît le coût. [ajout]
++Trouver le prix d'un flux futur en le reconstruisant avec des actifs dont on connaît le prix : le flux coûte ce que coûte la reconstruction. [ajout]</p><h2>Ce que les membres partagent</h2><p>-Le même schéma : si un portefeuille reproduit le payoff dans tous les états, son coût est le prix du payoff — sinon, arbitrage. [ajout]
++<strong>Connu</strong> : le prix aujourd'hui des briques, l'action et le zéro-coupon. <strong>Cherché</strong> : le prix d'un flux futur. On assemble les briques pour qu'elles paient exactement ce flux, dans tous les états du monde ; deux flux identiques ayant le même prix, le flux coûte ce que coûtent les briques. [§3.1, §4.2.2]</p><h2>Pourquoi ce niveau existe</h2><p>-Le passage d’une méthode à l’autre est l’événement majeur du cours, et il survient deux fois, pour deux raisons distinctes. [ajout]
++Le cours change deux fois de montage, pour deux raisons distinctes : une fois parce que le refinancement n'est plus connu d'avance (les futures), une fois parce que le payoff n'est plus linéaire (les options). Les deux fois, il faut retoucher le montage en route ; ce niveau montre que la méthode, elle, ne change pas. [§4.2.2, ajout]</p><h2>Cesse d'être valide quand</h2><p>rien dans le périmètre du cours [ajout]
+diff --git a/proj/courses/fpp/notions/responsabilite-limitee.md b/proj/courses/fpp/notions/responsabilite-limitee.md
+index 5194ec4..49c0cec 100644
+--- a/proj/courses/fpp/notions/responsabilite-limitee.md
++++ b/proj/courses/fpp/notions/responsabilite-limitee.md
+@@ -18,28 +18,35 @@ La valeur des capitaux propres ne peut pas devenir négative : l’actionnaire n
+ $$\pi_E\le-100\%\iff l\,\pi_A\le-1\iff \pi_A\le-\dfrac{1}{l}$$ [§1.4]</p><h2>Ce que les symboles modélisent</h2><p>-$\pi_E$ et $\pi_A$ sont les rendements, sur la période, des capitaux propres et de l'actif, comptés en excès du rendement de la dette ; la source néglige ici ce dernier, si bien qu'ils se lisent comme de simples rendements. Il s'agit de variations réalisées, et non de leur espérance, même si la source garde la lettre de la prime de risque espérée. [§1.4, ajout]
++Ici, $\pi_E$ et $\pi_A$ sont de simples rendements réalisés sur la période, des capitaux propres et de l'actif : la source néglige le rendement de la dette. Un rendement de −100 % des capitaux propres est la perte de toute la mise. [§1.4, ajout]</p><p>-$l$ est le levier, le rapport de l'actif aux capitaux propres, au moins égal à un. Ce n'est pas le rapport de la dette à l'actif, compris entre zéro et un, que le livre d'exercices note de la même lettre dans le modèle de Merton. Un rendement de −100 % des capitaux propres est la perte de toute la mise. [§1.4, ajout]
++$l$ est le levier, le rapport de l'actif aux capitaux propres, au moins égal à un. [Déf. 1]
++
++## Retrouver la formule
++!<a href="figures/responsabilite-limitee.svg">Le rendement des capitaux propres selon celui de l'actif, avec le levier de l'exemple. La droite de pente 3,33 atteint $-100\,\%$ quand l'actif perd 30 % ; en dessous, l'actionnaire ne perd pas plus que sa mise, et le pointillé est la perte qu'il aurait subie sans la responsabilité limitée.</a> [ajout]
++
++Un actif de 100, financé par 30 de capitaux propres et 70 de dette, soit un levier de 3,33. <strong>Connu</strong> : ce bilan. <strong>Cherché</strong> : la baisse de l'actif qui efface les capitaux propres. [ajout]
++
++La dette ne bouge pas : l'actif peut descendre jusqu'à 70 avant qu'elle ne soit touchée. Il perd alors 30 sur 100, soit 30 %, exactement la part de l'actif payée par les actionnaires, $E/A=1/l$. [ajout]
++
++En rendements, les capitaux propres varient de $l$ fois ce que varie l'actif ; ils sont effacés quand ce rendement atteint −100 %, c'est-à-dire quand l'actif perd $1/l$. Au-delà, ils restent à zéro, et c'est la dette qui perd. [§1.4]
++
++$$\pi_E\le-100\%\iff\pi_A\le-\dfrac{1}{l}$$ [§1.4]</p><h2>Ce qui la définit</h2><p>Quand l’actif passe sous la dette, les capitaux propres sont plancherisés à zéro et c’est la dette qui encaisse la perte : la faillite. [§1.4]</p><h2>Le chemin jusqu'ici</h2><p>-fpp/bilan puis <a href="../fpp/n/levier.html">Levier</a> donnent l'amplification, et elle joue dans les deux sens. [ajout]
+-
+-La responsabilité limitée est ce qui l'arrête en bas : les capitaux propres ne passent pas sous zéro. Le seuil se lit directement sur le levier, $\pi_A=-1/l$. On n'a pas besoin de plus : c'est une contrainte juridique posée sur une identité comptable. [ajout]
++L'amplification vient de <a href="../fpp/n/levier.html">Levier</a>, qui la tire de l'identité de <a href="../fpp/n/bilan.html">Bilan</a> : les capitaux propres varient de $l$ fois ce que varie l'actif, à la baisse comme à la hausse. La responsabilité limitée l'arrête en bas, à la perte de la mise. C'est une contrainte juridique posée sur une identité comptable. [ajout]</p><h2>Exemple minimal</h2><p>Avec un levier de 3,33, une chute de l’actif de 30 % suffit à effacer les capitaux propres. [ajout]</p><p>-!<a href="figures/responsabilite-limitee.svg">Le rendement des capitaux propres selon celui de l'actif, avec le levier de l'exemple. La droite de pente 3,33 atteint $-100\,\%$ quand l'actif perd 30 % ; en dessous, l'actionnaire ne perd pas plus que sa mise, et le pointillé est la perte qu'il aurait subie sans la responsabilité limitée.</a> [ajout]
+-
+ ## Geste de calcul type
+-Le seuil de faillite est l’inverse du levier : $\pi_A=-1/l$. Plus le levier est grand, plus la marge est mince. [§1.4]
++Le seuil est l'inverse du levier, $1/l=E/A$ : avec 30 de capitaux propres sur 100 d'actif, 30 % ; avec 10 sur 100, un levier de 10, il suffit de 10 %. Plus le levier est grand, plus la marge est mince. [§1.4, ajout]</p><h2>Cesse d'être valide quand</h2><p>-Ce plancher est exactement une option de vente détenue par l’actionnaire sur l’actif de la firme ; le §1.4 ne le dit pas, mais toute la section 6 le permet. [ajout]
++Le seuil $-1/l$ néglige le rendement de la dette. Si les 70 de dette portent 2 % d'intérêt, l'actif doit valoir au moins 71,4 à la fin de la période : il ne peut perdre que 28,6 %, et non 30 %. [§1.4, ajout]</p><h2>Origine</h2><p>-- exercice <a href="../fpp/exercices/ex-16.html">fpp/ex-16</a> : ce que cette fiche avançait en <code>[ajout]</code> — « ce plancher est exactement une option de vente détenue par l'actionnaire » — est dit et nommé par la source : c'est le <strong>modèle de Merton</strong>. Les fonds propres sont un call sur la valeur de la firme, de strike la dette [exo. 16]
++- exercice <a href="../fpp/exercices/ex-16.html">fpp/ex-16</a> : les capitaux propres se comportent comme un call sur l'actif de la firme, de strike la dette ; c'est le <strong>modèle de Merton</strong> [exo. 16]
+diff --git a/proj/courses/fpp/notions/rho.md b/proj/courses/fpp/notions/rho.md
+index 9bc291d..35dd6e6 100644
+--- a/proj/courses/fpp/notions/rho.md
++++ b/proj/courses/fpp/notions/rho.md
+@@ -24,7 +24,7 @@ $$\rho=\dfrac{\partial P}{\partial r}$$ [§8.2]
+ $\rho$ dérive le prix par rapport à un taux : c'est donc un montant par point de taux, et non un nombre sans unité comme le delta. Deux sensibilités ne se comparent pas sans regarder ce qu'elles dérivent. [§8.2]</p><h2>Ce qui la définit</h2><p>-Positif pour un call, négatif pour un put : monter le taux abaisse la valeur actualisée du strike, donc renchérit le droit d’acheter. [§8.2]
++Positif pour un call, négatif pour un put : monter le taux abaisse la valeur actualisée du strike, donc renchérit le droit d’acheter à ce strike et déprécie le droit de vendre à ce strike. [§8.2, ajout]</p><h2>Le chemin jusqu'ici</h2><p>Le socle est celui de <a href="../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a>, la formule elle-même en plus : tout y sert à l'écrire, et cette fiche ne fait que la dériver. Trois fils y mènent. [ajout]
+@@ -35,13 +35,13 @@ Le socle est celui de <a href="../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a>, la formule elle-même en plus :</p><p><strong>Le contrat.</strong> <a href="../fpp/n/payoff.html">Payoff</a> puis <a href="../fpp/n/option.html">Option</a> disent ce qu'on évalue, et les trois se nouent dans <a href="../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a>. [ajout]</p><p>-Ce qui distingue les grecques entre elles, c'est la variable dérivée, pas le chemin — celui-ci est le même pour toutes et ne vaut la peine d'être lu qu'une fois. Le rhô est la dérivée par rapport au <strong>taux</strong>. C'est la plus faible d'entre elles sur des maturités courtes, et c'est une information : le taux entre dans la formule par l'actualisation, pas par l'aléa. [ajout]
++Ce qui distingue les grecques entre elles, c'est la variable dérivée, pas le chemin — celui-ci est le même pour toutes et ne vaut la peine d'être lu qu'une fois. Le rhô est la dérivée par rapport au <strong>taux</strong>, qui entre dans la formule par l'actualisation du strike, pas par l'aléa. [ajout]</p><h2>Exemple minimal</h2><p>-Si le taux tombe de 4 % à 3 %, le strike actualisé passe de 96,08 à 97,04 : le call perd et le put gagne. [ajout]
++Le call de l'exemple courant : action à 100, strike 100, volatilité 20 %, un an. Si le taux tombe de 4 % à 3 %, le strike actualisé passe de 96,08 à 97,04 ; le call passe de 9,93 à 9,41 et le put de 6,00 à 6,46. [ajout]</p><h2>Geste de calcul type</h2><p>-L’essentiel de l’effet passe par le seul terme $Ke^{-rT}N(d_2)$ : le dériver suffit à en lire le signe. [§8.2]
++Dériver la seule actualisation du strike, $N(d_2)$ tenu fixe : $\rho=KTe^{-rT}N(d_2)=100\times1\times0{,}9608\times0{,}540=51{,}9$ par unité de taux, soit 0,52 par point. Ce n'est pas une approximation : les effets du taux sur $d_1$ et sur $d_2$ s'annulent exactement. Le call de l'exemple perd 0,51 pour un point de baisse, l'écart venant de la courbure. [§8.2, ajout]</p><h2>Cesse d'être valide quand</h2><p>Le modèle suppose le taux déterministe : comme pour le vega, on dérive par rapport à ce qu’on a supposé fixe. [ajout]
+diff --git a/proj/courses/fpp/notions/sensibilite.md b/proj/courses/fpp/notions/sensibilite.md
+index 0320afd..389a446 100644
+--- a/proj/courses/fpp/notions/sensibilite.md
++++ b/proj/courses/fpp/notions/sensibilite.md
+@@ -19,12 +19,15 @@ refs:
+ La dérivée d’un prix par rapport à l’un des paramètres dont il dépend. [§8.1]</p><h2>Ce que les membres partagent</h2><p>-Toutes répondent à la même question posée sur une variable différente : de combien bouge le prix si ce paramètre bouge d’une unité. Et toutes se lisent comme la quantité à détenir en sens inverse pour se couvrir. [§8.1, §8.2]
++Toutes répondent à la même question posée sur une variable différente : de combien bouge le prix si ce paramètre bouge d’une unité. [§8.1, §8.2]</p><p>-La table du §8.2 les donne ensemble, avec pour chacune le sens de variation du prix, de la valeur intrinsèque et de la valeur temps. [§8.2]
++Chacune se couvre en prenant la position opposée dans un instrument qui a la même sensibilité : de l'action pour le delta, une autre option pour le vega, un autre titre de taux pour la duration. Seul le theta n'a rien à couvrir, car le temps n'est pas un aléa : il passe à coup sûr. [ajout]</p><h2>Pourquoi ce niveau existe</h2><p>-Le cours présente ces dérivées dans une seule table ; elles ne diffèrent que par la variable dérivée et se couvrent toutes de la même façon. Les séparer sans les réunir ferait perdre que couvrir est toujours le même geste. [§8.2]
++Le cours présente ces dérivées dans une seule table ; elles ne diffèrent que par la variable dérivée. Les séparer sans les réunir ferait perdre que, pour chaque risque, couvrir est le même geste. [§8.2]
++
++## Exemple minimal
++Le call de strike 100 à un an, sur une action à 100, avec un taux de 4 % et une volatilité de 20 %, vaut 9,93. Ses sensibilités : delta 0,618 par unité d'action, gamma 0,019, vega 0,38 par point de volatilité, theta −5,89 par an (−0,016 par jour), rho 0,52 par point de taux. [ajout]</p><h2>Cesse d'être valide quand</h2><p>Une sensibilité est locale : elle vaut au point où elle est calculée et se périme dès que le paramètre bouge. Le gamma mesure précisément cette péremption pour le delta. [ajout]
+diff --git a/proj/courses/fpp/notions/strategie-optionnelle.md b/proj/courses/fpp/notions/strategie-optionnelle.md
+index 8cf993d..ba74522 100644
+--- a/proj/courses/fpp/notions/strategie-optionnelle.md
++++ b/proj/courses/fpp/notions/strategie-optionnelle.md
+@@ -16,10 +16,10 @@ refs:
+ ---</p><h2>Ce que c'est</h2><p>-Assembler des options élémentaires pour obtenir un profil de gain qu’aucune ne donne seule. [§9.1]
++Assembler des options élémentaires, avec au besoin un zéro-coupon ou le sous-jacent, pour obtenir un profil de gain <strong>coudé</strong> qu’aucune ne donne seule. [§9.1, ajout]</p><h2>Ce que les membres partagent</h2><p>-Toutes se construisent par somme et différence de calls, de puts et de zéro-coupons ; toutes se valorisent donc par simple addition de prix, par linéarité de l’opérateur de prix. [§9.1, ajout]
++Toutes se construisent par somme et différence de calls, de puts et de zéro-coupons. Toutes se valorisent donc par simple addition : le prix d'une somme est la somme des prix. [§9.1, ajout]</p><h2>Pourquoi ce niveau existe</h2><p>Le §9 présente deux usages qui ne diffèrent que par le sens de la position : on achète l’optionalité pour se protéger, on la vend pour encaisser la prime. Les séparer sans les réunir ferait manquer que c’est la même mécanique lue à l’envers. [ajout]
+@@ -27,7 +27,7 @@ Le §9 présente deux usages qui ne diffèrent que par le sens de la position :
+ ## Le chemin jusqu'ici
+ <a href="../fpp/n/payoff.html">Payoff</a> suffit. Assembler des options revient à additionner des payoffs, et c'est l'additivité qui rend les profils coudés accessibles. [ajout]</p><p>-On n'a pas besoin des prix pour cela : le profil de gain se dessine avant qu'on sache ce qu'il coûte. C'est pourquoi le socle s'arrête si tôt. [ajout]
++Le profil se dessine sans les prix ; les prix, quand on les a, s'additionnent de la même façon. C'est pourquoi le socle s'arrête si tôt. [ajout]</p><h2>Cesse d'être valide quand</h2><p>L’addition de prix suppose qu’on peut traiter chaque jambe séparément, sans coût de transaction ni contrainte de marge. [ajout]
+diff --git a/proj/courses/fpp/notions/taux-de-change.md b/proj/courses/fpp/notions/taux-de-change.md
+index 0e8c3b1..ce680e2 100644
+--- a/proj/courses/fpp/notions/taux-de-change.md
++++ b/proj/courses/fpp/notions/taux-de-change.md
+@@ -15,14 +15,17 @@ refs:
+ Nombre d’unités de devise étrangère pour une unité de devise locale. [§2.4]</p><h2>Ce que les symboles modélisent</h2><p>-$X_t$ est un rapport entre deux monnaies, et son sens de lecture est une convention : ici, le nombre d'unités étrangères pour une unité locale. Inverser la convention inverse toutes les formules qui suivent. [§2.4]
++$X_t$ est un rapport entre deux monnaies, à la date $t$, et son sens de lecture est une convention : ici, le nombre d'unités étrangères pour une unité locale. Dans les exemples, l'euro est la devise locale et le dollar l'étrangère : $X_t$ est le nombre de dollars pour un euro. Inverser la convention inverse toutes les formules qui suivent. [§2.4, ajout]</p><h2>Ce qui la définit</h2><p>-Quand $X$ monte, la devise locale s’apprécie. C’est un facteur atomique : rien ne s’en décline. [§2.4]
++Quand $X$ monte, la devise locale s’apprécie : un euro achète plus de dollars. [§2.4]</p><p>Il ne convertit que des montants de la même date : $X_t$ est le taux d'aujourd'hui, et celui d'une date future, $X_T$, n'est pas connu en $t$. Un montant payé plus tard dans l'autre devise se ramène donc d'abord à aujourd'hui dans sa propre devise, puis se convertit au taux du jour. [ajout]</p><p>-!<a href="figures/taux-de-change.svg">Deux lignes de temps, dollars en haut, euros en bas. En $t$, passer des dollars aux euros, c'est diviser par $X_t$, connu. En $T$, il faudra diviser par $X_T$, que personne ne connaît aujourd'hui : d'où le pointillé.</a> [ajout]
++!<a href="figures/taux-de-change.svg">Deux lignes de temps, dollars en haut, la devise étrangère, et euros en bas, la devise locale. En $t$, passer des dollars aux euros, c'est diviser par $X_t=1{,}10$, connu : 110 dollars font 100 euros. En $T$, il faudra diviser par $X_T$, que personne ne connaît aujourd'hui : d'où le pointillé.</a> [ajout]
++
++## Exemple minimal
++$X_t=1{,}10$ : aujourd'hui, un euro s'échange contre 1,10 dollar, et 110 dollars contre 100 euros. [ajout]</p><h2>Cesse d'être valide quand</h2><p>rien dans le périmètre du cours [ajout]
+diff --git a/proj/courses/fpp/notions/taux-zero-coupon.md b/proj/courses/fpp/notions/taux-zero-coupon.md
+index 847045b..59e8ebf 100644
+--- a/proj/courses/fpp/notions/taux-zero-coupon.md
++++ b/proj/courses/fpp/notions/taux-zero-coupon.md
+@@ -12,27 +12,31 @@ refs:
+ ---</p><h2>Ce que c'est</h2><p>-Le facteur d’actualisation réécrit en rendement annualisé, pour être comparable d’une maturité à l’autre. [§2.3]
++Le prix d’un zéro-coupon réécrit en taux annuel, pour que des maturités différentes se comparent. [§2.3]</p><h2>Forme</h2><p>$$R(t,T)=-\dfrac{\ln P(t,T)}{T-t},\qquad P(t,S)=\dfrac{1}{1+(S-t)\,L(t,S)}$$ [§2.3]</p><h2>Ce que les symboles modélisent</h2><p>-$R(t,T)$ et $L(t,S)$ disent le même prix en rendement, de deux façons : la première par composition continue, la seconde linéairement, comme le fait le marché court. Ce sont deux conventions de lecture, pas deux marchés. [§2.3]
++$R(t,T)$ et $L(t,S)$ disent le même prix en taux, de deux façons : la première en capitalisation continue, la seconde linéairement, comme le fait le marché court. Ce sont deux conventions de lecture, pas deux marchés. [§2.3]
++
++$S$ est une échéance, comme $T$ ; la lettre suit le poly. Le poly imprime $S-T$ au dénominateur de $L$ : c'est une coquille, puisque la seule autre date de la formule est $t$. [§2.3, ajout]</p><h2>Ce qui la définit</h2><p>-La courbe s’affiche en taux linéaire $L$ sur le court terme et en taux continu $R$ sur le long terme : c’est une pure convention d’affichage. [Déf. 6]
++<strong>Connu</strong> : le prix $P(t,T)$, coté pour chaque maturité. <strong>Cherché</strong> : le taux annuel constant qui, appliqué pendant $T-t$, redonne ce prix. [§2.3]</p><p>-## Le chemin jusqu'ici
+-fpp/convention-capitalisation puis <a href="../fpp/n/facteur-actualisation.html">Facteur d’actualisation</a> donnent un prix, $P(t,T)$. [ajout]
++On en a besoin parce qu'un prix ne se compare pas d'une maturité à l'autre. Un euro dans un an coûte 0,9608, un euro dans deux ans 0,9048 : le second est moins cher, mais il immobilise l'argent deux fois plus longtemps. Rapporte-t-il plus par an ? En taux : 4 % contre 5 %, oui. [ajout]</p><p>-Un prix ne se compare pas d'une maturité à l'autre — 0,95 à un an et 0,90 à deux ans ne se lisent pas. Le taux zéro-coupon est ce prix réécrit en rendement annualisé, c'est-à-dire ramené dans une coordonnée où la comparaison a un sens. Aucune information nouvelle, un changement de repère. [ajout]
++La courbe des taux zéro-coupon s'affiche en taux linéaire $L$ jusqu'à un an et en taux continu $R$ au-delà : une convention d'affichage, les prix restent les mêmes. [Déf. 6]
++
++## Le chemin jusqu'ici
++<a href="../fpp/n/convention-capitalisation.html">Convention de capitalisation</a> fixe la règle qui relie un taux à un facteur ; <a href="../fpp/n/facteur-actualisation.html">Facteur d’actualisation</a> fournit les prix $P(t,T)$, un par maturité. Le taux zéro-coupon relit chacun de ces prix avec une convention choisie, continue ou linéaire : aucune information nouvelle, seulement une échelle commune. [ajout]</p><h2>Exemple minimal</h2><p>-$P(0,2)=0{,}9048$ : $R(0,2)=5\%$. [ajout]
++$P(t,t+2)=0{,}9048$ : $R(t,t+2)=5\,\%$. [ajout]</p><h2>Geste de calcul type</h2><p>-Pour comparer deux maturités, passer des prix aux taux : $P(0,1)=0{,}9608$ et $P(0,2)=0{,}9048$ donnent 4 % et 5 %. La courbe monte, ce qui se lira dans le forward. [§2.3]
++Passer des prix aux taux : $-\ln(0{,}9608)/1=4\,\%$ et $-\ln(0{,}9048)/2=5\,\%$. Le même prix à un an lu linéairement : $(1/0{,}9608-1)/1=4{,}08\,\%$, un peu plus que le taux continu, pour le même placement. [§2.3, ajout]</p><h2>Cesse d'être valide quand</h2><p>-Ne contient rien de plus que $P$ : c’est une coordonnée, pas une notion nouvelle. [ajout]
++rien dans le périmètre du cours ; le taux ne contient rien de plus que le prix [ajout]
+diff --git a/proj/courses/fpp/notions/theta.md b/proj/courses/fpp/notions/theta.md
+index 12cc604..e28d95a 100644
+--- a/proj/courses/fpp/notions/theta.md
++++ b/proj/courses/fpp/notions/theta.md
+@@ -21,10 +21,10 @@ De combien le prix bouge quand le temps passe. [§8.2]
+ $$\Theta=\dfrac{\partial P}{\partial t}$$ [§8.2]</p><h2>Ce que les symboles modélisent</h2><p>-$\Theta$ mesure ce que le seul passage du temps fait au prix, tout le reste étant tenu fixe. C'est la seule des sensibilités dont la variable ne soit pas un aléa : le temps passe à coup sûr. [§8.2]
++$\Theta$ mesure ce que le seul passage du temps fait au prix, tout le reste étant tenu fixe : $t$ est la date, et non le temps qui reste. C'est la seule des sensibilités dont la variable avance à coup sûr, et toujours dans le même sens. [§8.2, ajout]</p><h2>Ce qui la définit</h2><p>-Négatif pour l’acheteur d’option dans presque tous les cas : la valeur temps s’érode à mesure que l’échéance approche. [§8.2]
++Négatif pour un call ; pour un put, le plus souvent, mais pas toujours. À l'approche de l'échéance, le prix fond : pas seulement la valeur temps, mais aussi, à cours tenu fixe, la valeur intrinsèque au sens du cours, $S-Ke^{-r\tau}$, qui tend vers $S-K$. [§8.2, Déf. 12, ajout]</p><h2>Le chemin jusqu'ici</h2><p>Le socle est celui de <a href="../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a>, la formule elle-même en plus : tout y sert à l'écrire, et cette fiche ne fait que la dériver. Trois fils y mènent. [ajout]
+@@ -38,12 +38,14 @@ Le socle est celui de <a href="../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a>, la formule elle-même en plus :
+ Ce qui distingue les grecques entre elles, c'est la variable dérivée, pas le chemin — celui-ci est le même pour toutes et ne vaut la peine d'être lu qu'une fois. Le thêta est la dérivée par rapport au <strong>temps</strong> : ce que coûte l'attente. Il est le pendant du gamma, l'équation de Black et Scholes les liant terme à terme. [ajout]</p><h2>Exemple minimal</h2><p>-Le call à la monnaie de l’exemple courant porte 6,00 de valeur temps, qui s’annule entièrement à l’échéance. [ajout]
++Le call de l'exemple courant : action à 100, strike 100, taux 4 %, volatilité 20 %, un an ; il vaut 9,93. Sa valeur intrinsèque au sens du cours est $S-Ke^{-r\tau}=100-96{,}08=3{,}92$, et sa valeur temps 6,00. Si l'action reste à 100, les deux tombent à zéro à l'échéance : le theta vaut −5,89 par an au départ, soit −0,016 par jour. [Déf. 12, Déf. 13, ajout]</p><p>-!<a href="figures/theta.svg">Le call à la monnaie de l'exemple, sous-jacent tenu à 100, à mesure que le temps passe. Les 6,00 de valeur temps fondent jusqu'à zéro à l'échéance, et de plus en plus vite à la fin ; la pente de la courbe du prix est le theta.</a> [ajout]
++!<a href="figures/theta.svg">Le call à la monnaie de l'exemple, sous-jacent tenu à 100, à mesure que le temps passe. Tout le prix fond, de 9,93 à zéro : la valeur temps, 6,00, mais aussi la valeur intrinsèque, de 3,92 à zéro. La pente de la courbe du prix est le theta, −5,89 par an au départ, et de plus en plus raide à la fin.</a> [ajout]</p><h2>Geste de calcul type</h2><p>-Le theta est le loyer du gamma : ce qu’on paie chaque jour pour détenir de la convexité. [ajout]
++Pour un call, $\Theta=-\tfrac12\sigma^2S^2\gamma-rKe^{-r\tau}N(d_2)$. Sur l'exemple : $-\tfrac12\times0{,}04\times100^2\times0{,}019\,07=-3{,}81$, plus $-0{,}04\times96{,}08\times0{,}540=-2{,}07$, soit $-5{,}89$ par an. [ajout]
++
++La première part est le loyer du gamma : ce que l'acheteur perd, jour après jour, pour détenir de la convexité, qui lui rapporte quand l'action bouge. La seconde est le financement du strike. [ajout]</p><h2>Cesse d'être valide quand</h2><p>La table marque ce signe d’un astérisque, « presque toujours vrai » : les exceptions existent, notamment pour un put très en dedans. [§8.2]
+diff --git a/proj/courses/fpp/notions/transformee-de-laplace-gaussienne.md b/proj/courses/fpp/notions/transformee-de-laplace-gaussienne.md
+index a9e11dc..938828b 100644
+--- a/proj/courses/fpp/notions/transformee-de-laplace-gaussienne.md
++++ b/proj/courses/fpp/notions/transformee-de-laplace-gaussienne.md
+@@ -23,13 +23,15 @@ $X$ est une variable aléatoire gaussienne quelconque, d'espérance $\mu$ et de
+ $\lambda$ est un réel quelconque, et $\mathbb{E}\big(e^{\lambda X}\big)$ est une fonction de $\lambda$ : elle prend ce réel et rend un nombre positif, l'espérance de l'exponentielle. Ce $\lambda$ n'est pas un paramètre de modèle ; dans l'application du cours, on le prend égal à un. [Th. 1, §5.4]</p><h2>Ce qui la définit</h2><p>+L'espérance de $e^{X}$ n'est pas $e^{\mu}$ : il faut ajouter à l'exposant la moitié de la variance. [Th. 1]
++
+ C’est le seul calcul technique dont Black et Scholes ont besoin : il transforme une espérance de log-normale en exponentielle d’un polynôme. [Th. 1, §5.4]</p><h2>Exemple minimal</h2><p>-Avec $\mu=0$, $\sigma=1$ et $\lambda=1$ : $\mathbb{E}(e^X)=e^{0{,}5}=1{,}6487$. [ajout]
++Avec $\mu=0$, $\sigma=1$ et $\lambda=1$ : $\mathbb{E}(e^X)=e^{0{,}5}=1{,}6487$, et non $e^0=1$ : la moyenne de l'exponentielle dépasse l'exponentielle de la moyenne. [ajout]</p><h2>Geste de calcul type</h2><p>-Pour $S_T=S_0e^{Y}$ avec $Y\sim\mathcal N(rT-\tfrac{\sigma^2T}{2},\sigma^2T)$, appliquer le théorème avec $\lambda=1$ : le terme $-\sigma^2T/2$ annule exactement le $+\lambda^2\sigma^2/2$, et il reste $\mathbb{E}(S_T)=S_0e^{rT}$. [§5.4]
++Pour $S_T=S_0e^{Y}$ avec $Y\sim\mathcal N(rT-\tfrac{\sigma^2T}{2},\sigma^2T)$, appliquer le théorème avec $\lambda=1$ : il ajoute à la moyenne de $Y$, $rT-\sigma^2T/2$, la moitié de sa variance, $\sigma^2T/2$. Les deux termes en $\sigma^2$ s'annulent, et il reste $\mathbb{E}(S_T)=S_0e^{rT}$. [§5.4]</p><h2>Cesse d'être valide quand</h2><p>Vaut pour une gaussienne, et pour elle seule : c’est l’hypothèse de log-normalité qui entre ici dans le modèle. [Th. 1]
+diff --git a/proj/courses/fpp/notions/valeur-actuelle-nette.md b/proj/courses/fpp/notions/valeur-actuelle-nette.md
+index 632c4be..71abe2d 100644
+--- a/proj/courses/fpp/notions/valeur-actuelle-nette.md
++++ b/proj/courses/fpp/notions/valeur-actuelle-nette.md
+@@ -22,35 +22,39 @@ La somme d’un échéancier de flux certains, ramenés à une même date. [Déf
+ $$\mathrm{NPV}(t)=\sum_i P(t,t_i)X_i$$ [Déf. 4]</p><h2>Ce que les symboles modélisent</h2><p>-$\mathrm{NPV}$ est un montant rapporté à une date, obtenu en y ramenant des flux échelonnés. Elle suppose ces flux <strong>certains</strong> : l'actualisation y fait tout le travail, et aucune probabilité n'intervient. [Déf. 4]
++$\mathrm{NPV}$ est un montant rapporté à une date, obtenu en y ramenant des flux échelonnés. $X_i$ est le flux payé à la date $t_i$, et $P(t,t_i)$ le prix en $t$ d'un euro payé à cette date. Les flux sont supposés <strong>certains</strong> : l'actualisation y fait tout le travail, et aucune probabilité n'intervient. [Déf. 4]</p><h2>Retrouver la formule</h2><p>-!<a href="figures/valeur-actuelle-nette.svg">Chaque flux revient en $t$ par le facteur de sa propre date, puis les valeurs ramenées s'additionnent. Trois flux comme dans l'exemple minimal, sans ses nombres.</a> [ajout]
++!<a href="figures/valeur-actuelle-nette.svg">Deux flux de 100, dans un an et dans deux ans. Chacun revient en $t$ par le prix du zéro-coupon de sa propre date, 0,9608 et 0,9048, et vaut 96,08 et 90,48 ; l'échéancier vaut leur somme, 186,56.</a> [ajout]</p><p>-Un flux certain $X_i$ payé en $t_i$, ce sont $X_i$ zéro-coupons d'échéance $t_i$ : chacun vaut $P(t,t_i)$ aujourd'hui, le flux vaut donc $P(t,t_i)X_i$. [ajout]
++<strong>Connu</strong> : un placement qui paie 100 dans un an et 100 dans deux ans, et le prix aujourd'hui d'un euro payé à chacune de ces dates, $P(t,t+1)=0{,}9608$ et $P(t,t+2)=0{,}9048$. <strong>Cherché</strong> : ce que vaut le placement aujourd'hui. [ajout]</p><p>-L'échéancier est la somme de ces flux, et les prix s'additionnent : si l'ensemble valait plus que la somme de ses morceaux, on achèterait les morceaux pour revendre l'ensemble. [ajout]
++Un flux de 100 payé dans un an, ce sont 100 zéro-coupons d'échéance un an : il vaut $100\times0{,}9608=96{,}08$. De même, le flux de deux ans vaut $100\times0{,}9048=90{,}48$. Chaque flux a son propre prix, celui de sa date. [Déf. 3, ajout]
++
++Le placement est la somme de ces deux flux, et les prix s'additionnent : si l'ensemble valait plus que la somme de ses morceaux, on achèterait les morceaux pour revendre l'ensemble. Il vaut $96{,}08+90{,}48=186{,}56$. [ajout]</p><p>$$\mathrm{NPV}(t)=\sum_i P(t,t_i)X_i$$ [Déf. 4]</p><h2>Ce qui la définit</h2><p>-Elle se transporte à n’importe quelle date par une division : $\mathrm{NPV}(t_k)=\mathrm{NPV}(t)/P(t,t_k)$. [Déf. 4]
++Des flux certains, chacun évalué au prix du zéro-coupon de sa date, puis additionnés. [Déf. 4]
++
++Elle s'exprime à n'importe quelle autre date $t_k$ en la divisant par $P(t,t_k)$ : diviser par ce prix, c'est capitaliser de $t$ à $t_k$, comme pour un seul euro. [Déf. 4, ajout]</p><h2>Le chemin jusqu'ici</h2><p>-fpp/convention-capitalisation puis <a href="../fpp/n/facteur-actualisation.html">Facteur d’actualisation</a> donnent le prix d'un flux unique. [ajout]
++<a href="../fpp/n/convention-capitalisation.html">Convention de capitalisation</a> relie un taux affiché à ce que devient un euro placé, et <a href="../fpp/n/facteur-actualisation.html">Facteur d’actualisation</a> en tire le prix d'un flux unique. [ajout]</p><p>La valeur actuelle nette est l'étape où l'on passe d'un flux à un échéancier, et elle ne demande qu'une chose de plus : que les prix s'additionnent. C'est cette linéarité, et non une hypothèse nouvelle, qui autorise à sommer. [ajout]</p><h2>Exemple minimal</h2><p>-Trois flux de 100 en 1, 2 et 3 ans, courbe plate à 4 % : $\mathrm{NPV}(0)=277{,}08$. [ajout]
++100 dans un an et 100 dans deux ans, avec $P(t,t+1)=0{,}9608$ et $P(t,t+2)=0{,}9048$ : $\mathrm{NPV}(t)=186{,}56$. [ajout]</p><h2>Geste de calcul type</h2><p>-Actualiser flux par flux, puis sommer : trois flux de 100 à un, deux et trois ans sur une courbe plate à 4 % valent 277,08. Pour transporter la valeur en $t_k$, diviser par $P(t,t_k)$. [Déf. 4]
++Actualiser flux par flux, puis sommer : $100\times0{,}9608+100\times0{,}9048=186{,}56$. Pour exprimer la même valeur dans un an, diviser par $P(t,t+1)$ : $186{,}56/0{,}9608=194{,}17$, soit les 100 reçus ce jour-là plus 94,17 pour le flux qui reste. [Déf. 4, ajout]</p><h2>Cesse d'être valide quand</h2><p>Elle ne vaut que pour des flux certains. [Déf. 4]</p><p>-Dès qu’ils sont aléatoires, il faut passer sous $\mathbb{Q}$. [§5.1]
++Dès qu’ils sont aléatoires, il faut calculer l'espérance des flux sous la probabilité risque-neutre $\mathbb{Q}$. [§5.1]</p><h2>Origine</h2><ul><li>exercice <a href="../fpp/exercices/ex-19.html">fpp/ex-19</a> : la NPV d'une stratégie de refinancement ne dépend que du rapport $P(0,T)/\big(P(0,t)P(t,T)\big)$ ; les notionnels disparaissent [exo. 19]</li><li>diff --git a/proj/courses/fpp/notions/valeur-intrinseque.md b/proj/courses/fpp/notions/valeur-intrinseque.md</li><li>index 0136ac7..b2ad3d0 100644</li><li>--- a/proj/courses/fpp/notions/valeur-intrinseque.md</li><li>+++ b/proj/courses/fpp/notions/valeur-intrinseque.md</li><li>@@ -15,27 +15,33 @@ refs:</li><li>---</li></ul><h2>Ce que c'est</h2><p>-Ce que vaudrait le payoff dans un monde sans aléa, c’est-à-dire évalué en la moyenne au lieu de la moyenne de l’évaluation. [Déf. 12]
++Le payoff appliqué au prix forward, puis actualisé : ce que vaudrait l'option si le sous-jacent valait à coup sûr son prix forward. [Déf. 12]</p><h2>Forme</h2><p>$$\mathrm{IV}=e^{-rT}\,g\big(\mathbb{E}(S_T)\big)$$ [Déf. 12]</p><h2>Ce que les symboles modélisent</h2><p>-$\mathrm{IV}$ est ce que vaudrait le payoff si l'on remplaçait l'aléa par sa moyenne : on évalue en la moyenne au lieu de moyenner les évaluations. C'est un montant, et l'écart entre lui et le prix porte un nom à lui seul. [Déf. 12]
++$\mathrm{IV}$ est un montant d'aujourd'hui : la part du prix qui se calcule sans volatilité. [Déf. 12]
++
++$g$ est un payoff qui ne dépend que de $S_T$, un cas du $G$ général ; pour le call, $g(x)=(x-K)^+$. L'espérance est prise sous $\mathbb{Q}$, si bien que $\mathbb{E}(S_T)$ est le prix forward. [§6.2, Prop. 6]
++
++Ce n'est pas la « valeur intrinsèque » des salles de marché, $(S_0-K)^+$, le gain d'un exercice immédiat, qui est nulle pour le call à la monnaie de l'exemple ; celle du cours lit le payoff au forward et vaut 3,92. [ajout]</p><h2>Ce qui la définit</h2><p>-On échange l’ordre de $g$ et de l’espérance : c’est exactement le terme que l’inégalité de Jensen sépare du vrai prix. [Déf. 12]
++Le prix d'une option se coupe en deux : une part <strong>connue sans modèle</strong>, lue sur le prix forward, la valeur intrinsèque ; et un reste qui demande toute la loi de $S_T$, donc la volatilité. [Déf. 12, Déf. 13]</p><p>-## Le chemin jusqu'ici
+-Deux fils y mènent. L'un va de <a href="../fpp/n/replication-statique.html">Réplication statique</a>, <a href="../fpp/n/portage.html">Portage</a> et <a href="../fpp/n/facteur-actualisation.html">Facteur d’actualisation</a> (bâti sur <a href="../fpp/n/convention-capitalisation.html">Convention de capitalisation</a>) à <a href="../fpp/n/prix-a-terme.html">Prix à terme</a> puis <a href="../fpp/n/mesure-risque-neutre.html">Mesure risque-neutre</a> : de quoi évaluer. L'autre est <a href="../fpp/n/payoff.html">Payoff</a> : quoi évaluer. [ajout]
++Le prix est l'espérance du payoff, actualisée ; la valeur intrinsèque, le payoff de l'espérance. Pour un payoff coudé comme le call, la moyenne des payoffs dépasse le payoff de la moyenne : c'est l'inégalité de Jensen. [§6.2, Déf. 13]</p><p>-La valeur intrinsèque est ce qu'on obtient en intervertissant les deux : évaluer le payoff <em>en la moyenne</em> au lieu de prendre la moyenne des évaluations. Il fallait donc disposer des deux opérations pour pouvoir les échanger, et c'est l'écart entre elles qui portera un nom à la fiche suivante. [ajout]
++!<a href="figures/valeur-intrinseque.svg">Le payoff du call, lu de deux façons. Pour que l'écart se voie, la loi de $S_T$ est réduite à deux états équiprobables, 87,50 et 120,66, choisis pour le dessin : leur moyenne est le prix forward, 104,08, et le call y vaut 9,93 comme dans le modèle de Black et Scholes. Lu au forward, le payoff vaut 4,08, soit 3,92 actualisé : la valeur intrinsèque, qui ne demande que le forward. La moyenne des payoffs, sur la corde, vaut 10,33, soit 9,93 actualisé : le prix, qui demande la loi.</a> [ajout]
++
++## Le chemin jusqu'ici
++Deux fils y mènent. L'un va de <a href="../fpp/n/replication-statique.html">Réplication statique</a>, <a href="../fpp/n/portage.html">Portage</a> et <a href="../fpp/n/facteur-actualisation.html">Facteur d’actualisation</a> (bâti sur <a href="../fpp/n/convention-capitalisation.html">Convention de capitalisation</a>) à <a href="../fpp/n/prix-a-terme.html">Prix à terme</a>, puis à <a href="../fpp/n/mesure-risque-neutre.html">Mesure risque-neutre</a>, sous laquelle le prix forward est la moyenne de $S_T$ : c'est le point où l'on lit le payoff. L'autre est <a href="../fpp/n/payoff.html">Payoff</a>, ce qu'on lit en ce point. [ajout]</p><h2>Exemple minimal</h2><p>Call de strike 100, $\mathbb{E}^{\mathbb{Q}}(S_1)=104{,}08$, $P(0,1)=0{,}9608$ : $\mathrm{IV}=3{,}92$. [ajout]</p><h2>Geste de calcul type</h2><p>-Calculer d’abord le forward, y appliquer le payoff, puis actualiser — trois opérations, sans volatilité. Tout ce que la volatilité ajoute est la valeur temps. [Déf. 12, Déf. 13]
++Calculer d’abord le forward, y appliquer le payoff, puis actualiser — trois opérations, sans volatilité : $0{,}9608\times(104{,}08-100)=3{,}92$. Tout ce que la volatilité ajoute est la valeur temps. [Déf. 12, Déf. 13]</p><h2>Cesse d'être valide quand</h2><p>Ce n’est un prix que dans un modèle sans aléa ; dès qu’il y a de la volatilité, il manque la valeur temps. [Déf. 13]
+diff --git a/proj/courses/fpp/notions/valeur-temps.md b/proj/courses/fpp/notions/valeur-temps.md
+index 6a3a7a8..1b26ef5 100644
+--- a/proj/courses/fpp/notions/valeur-temps.md
++++ b/proj/courses/fpp/notions/valeur-temps.md
+@@ -22,12 +22,14 @@ $$\mathrm{Prix}=\mathrm{IV}+\mathrm{TV}$$ [Déf. 13]
+ $\mathrm{TV}$ est un écart et non un prix : ce que le prix contient au-delà de la valeur intrinsèque. Le nom induit en erreur — il ne mesure pas seulement le temps restant, mais tout ce que l'aléa ajoute à une évaluation faite en la moyenne. [Déf. 13]</p><h2>Ce qui la définit</h2><p>-Son signe est celui de la convexité de $g$ : positive quand $g$ est convexe, négative quand elle est concave. C’est Jensen, lu comme une décomposition de prix. [Déf. 13]
++Le prix est <strong>connu</strong>, lu sur le marché ou donné par Black et Scholes ; la valeur intrinsèque se calcule <strong>sans volatilité</strong>, sur le seul prix forward. La valeur temps est <strong>le reste</strong> : ce que paie l'aléa. [Déf. 13, ajout]
++
++Son signe est celui de la convexité de $g$, le payoff vu comme fonction de $S_T$ seul : positive quand $g$ est convexe, négative quand elle est concave. C’est Jensen, lu comme une décomposition de prix. [§6.2, Déf. 13]</p><h2>Le chemin jusqu'ici</h2><p>-Le socle est celui de <a href="../fpp/n/valeur-intrinseque.html">Valeur intrinsèque</a>, la valeur intrinsèque elle-même en plus. Deux fils y mènent : <a href="../fpp/n/replication-statique.html">Réplication statique</a> donne la méthode, <a href="../fpp/n/portage.html">Portage</a> et <a href="../fpp/n/facteur-actualisation.html">Facteur d’actualisation</a> (bâti sur <a href="../fpp/n/convention-capitalisation.html">Convention de capitalisation</a>) en chiffrent les deux jambes, d'où <a href="../fpp/n/prix-a-terme.html">Prix à terme</a> puis <a href="../fpp/n/mesure-risque-neutre.html">Mesure risque-neutre</a> d'un côté, <a href="../fpp/n/payoff.html">Payoff</a> de l'autre — de quoi évaluer, et quoi évaluer. [ajout]
++Il faut deux montants pour faire une différence. Le prix complet est l'espérance du payoff de <a href="../fpp/n/payoff.html">Payoff</a> sous <a href="../fpp/n/mesure-risque-neutre.html">Mesure risque-neutre</a>, actualisée ; cette mesure vient de <a href="../fpp/n/prix-a-terme.html">Prix à terme</a>, que <a href="../fpp/n/replication-statique.html">Réplication statique</a> établit à partir de <a href="../fpp/n/portage.html">Portage</a> et de <a href="../fpp/n/facteur-actualisation.html">Facteur d’actualisation</a> (bâti sur <a href="../fpp/n/convention-capitalisation.html">Convention de capitalisation</a>). L'autre montant est <a href="../fpp/n/valeur-intrinseque.html">Valeur intrinsèque</a>, le même payoff lu au prix forward. [ajout]</p><p>-C'est un socle de définition par différence : la valeur temps est ce qui reste quand on retire la valeur intrinsèque au prix. Elle n'ajoute aucun objet nouveau, seulement une soustraction — et c'est cette soustraction qui rend lisible ce que l'optionalité coûte. [ajout]
++La valeur temps n'ajoute aucun objet nouveau, seulement cette soustraction — et c'est elle qui rend lisible ce que l'optionalité coûte. [ajout]</p><h2>Exemple minimal</h2><p>Le call à la monnaie vaut 9,93 pour une valeur intrinsèque de 3,92 : la valeur temps est 6,00. [ajout]
+diff --git a/proj/courses/fpp/notions/vega.md b/proj/courses/fpp/notions/vega.md
+index e0be66c..c863008 100644
+--- a/proj/courses/fpp/notions/vega.md
++++ b/proj/courses/fpp/notions/vega.md
+@@ -18,15 +18,19 @@ refs:
+ De combien le prix bouge quand la volatilité bouge. [§8.2]</p><h2>Forme</h2><p>-$$\mathcal{V}=\dfrac{\partial P}{\partial\sigma}$$ [§8.2]
++$$\mathcal{V}=\dfrac{\partial P}{\partial\sigma}=S\,n(d_1)\sqrt{\tau}$$ [§8.2, ajout]</p><h2>Ce que les symboles modélisent</h2><p>-$\mathcal{V}$ dérive le prix par rapport à la volatilité, c'est-à-dire par rapport à un <strong>paramètre du modèle</strong> et non à une grandeur cotée sur le marché. C'est ce qui la sépare des autres sensibilités. [§8.2]
++$\mathcal{V}$ dérive le prix par rapport à la volatilité, c'est-à-dire par rapport à un <strong>paramètre du modèle</strong> et non à une grandeur cotée sur le marché. C'est ce qui la sépare du rho : le taux, lui aussi supposé constant par le modèle, se lit sur le marché ; la volatilité, non. [§8.2, ajout]
++
++$P$ est le prix de l'option, call ou put : les deux ont le même vega. $n$ est la densité de la loi normale centrée réduite, et non sa fonction de répartition $N$ ; $\tau=T-t$ est le temps qui reste jusqu'à l'échéance. [§8.2, ajout]</p><h2>Ce qui la définit</h2><p>Positif pour le call comme pour le put : plus d’incertitude vaut plus cher des deux côtés, parce que le payoff est convexe. [§8.2]</p><p>-La table écrit $SN(d_1)\sqrt{\tau}$ avec la fonction de répartition ; c’est la densité qu’il faut, $S\,n(d_1)\sqrt{\tau}$. Sur l’exemple courant la première donnerait 61,79, la seconde 38,14, et l’effet mesuré est 38,17 par unité de volatilité. [ajout]
++!<a href="figures/vega.svg">Le payoff du call de strike 100 et deux paires d'issues également probables, choisies pour le dessin. 90 ou 110 paient 0 ou 10, en moyenne 5 ; écartées à 80 ou 120, elles paient 0 ou 20, en moyenne 10. L'issue basse tombe sur le plancher et n'y perd rien ; l'issue haute gagne tout l'écart.</a> [ajout]
++
++Deux issues également probables, 90 ou 110 : le call de strike 100 paie 0 ou 10, en moyenne 5. Écartées à 80 ou 120, elles paient 0 ou 20, en moyenne 10. Le plancher coupe la perte, pas le gain : écarter les issues ne peut qu'ajouter. [ajout]</p><h2>Le chemin jusqu'ici</h2><p>Le socle est celui de <a href="../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a>, la formule elle-même en plus : tout y sert à l'écrire, et cette fiche ne fait que la dériver. Trois fils y mènent. [ajout]
+@@ -37,13 +41,15 @@ Le socle est celui de <a href="../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a>, la formule elle-même en plus :</p><p><strong>Le contrat.</strong> <a href="../fpp/n/payoff.html">Payoff</a> puis <a href="../fpp/n/option.html">Option</a> disent ce qu'on évalue, et les trois se nouent dans <a href="../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a>. [ajout]</p><p>-Ce qui distingue les grecques entre elles, c'est la variable dérivée, pas le chemin — celui-ci est le même pour toutes et ne vaut la peine d'être lu qu'une fois. Le véga est la dérivée par rapport à la <strong>volatilité</strong> — seule grecque à dériver par rapport à un paramètre que le modèle suppose constant, et c'est ce paradoxe qui en fait la plus employée. [ajout]
++Ce qui distingue les grecques entre elles, c'est la variable dérivée, pas le chemin — celui-ci est le même pour toutes et ne vaut la peine d'être lu qu'une fois. Le véga est la dérivée par rapport à la <strong>volatilité</strong>, un paramètre que le marché ne cote pas. [ajout]</p><h2>Exemple minimal</h2><p>-Passer la volatilité de 20 % à 21 % fait passer le call de 9,93 à 10,31 : le vega vaut 0,38 par point de volatilité. [ajout]
++Le call de l'exemple courant : action à 100, strike 100, taux 4 %, un an. Passer la volatilité de 20 % à 21 % le fait passer de 9,93 à 10,31 : le vega vaut 0,38 par point de volatilité. [ajout]</p><h2>Geste de calcul type</h2><p>-Multiplier le vega par la variation de volatilité exprimée en points : c’est ainsi qu’on lit une position en volatilité. [§8.2]
++La formule donne $S\,n(d_1)\sqrt{\tau}=100\times0{,}3814\times1=38{,}14$ par unité de volatilité, c'est-à-dire pour 100 points : soit 0,38 par point, le chiffre de l'exemple. On lit une position en volatilité en multipliant le vega par la variation de volatilité exprimée en points. [§8.2, ajout]
++
++La table du §8.2 écrit $SN(d_1)\sqrt{\tau}$, avec la fonction de répartition, ce qui donnerait 61,79 : c'est la densité $n$ qu'il faut. [§8.2, ajout]</p><h2>Cesse d'être valide quand</h2><p>Le paramètre dérivé est justement celui que le modèle suppose constant : dériver par rapport à lui, c’est déjà sortir du modèle. [ajout]
+diff --git a/proj/courses/fpp/notions/volatilite.md b/proj/courses/fpp/notions/volatilite.md
+index ecb5d53..d366afd 100644
+--- a/proj/courses/fpp/notions/volatilite.md
++++ b/proj/courses/fpp/notions/volatilite.md
+@@ -12,22 +12,28 @@ refs:
+ ---</p><h2>Ce que c'est</h2><p>-L’écart type du rendement d’un actif. [Déf. 2]
++L’écart type du rendement d’un actif : de combien ce rendement s’écarte d’ordinaire de sa moyenne. [Déf. 2, ajout]</p><h2>Forme</h2><p>-$$\sigma_E=\mathrm{stdev}(\tilde\pi_E)=l\,\sigma_A$$ [§1.3]
++$$\sigma=\mathrm{stdev}(\text{rendement})$$ [Déf. 2]</p><h2>Ce que les symboles modélisent</h2><p>-$\sigma$ est l'écart type d'un rendement : une grandeur annualisée, sans unité monétaire, et qui ne dit rien du niveau du prix. $\sigma_A$ est celle de l'actif au bilan, à distinguer de celle des capitaux propres, que le levier amplifie. [Déf. 2, §1.3]
++$\sigma$ est l'écart type d'un rendement, pas d'un prix : un pourcentage, donné d'ordinaire pour un an, qui ne dit rien du niveau du prix. Il mesure la dispersion autour de la moyenne, pas la moyenne elle-même : un titre peut être très volatil et rapporter peu. [Déf. 2, Rem. 1, ajout]
++
++$\sigma_A$ est la volatilité de l'actif d'une entreprise, c'est-à-dire du rendement de tout ce qu'elle possède. L'indice dit de quel rendement on parle : celle des capitaux propres de la même entreprise n'est pas la même. [§1.3]</p><h2>Ce qui la définit</h2><p>-C’est la seule mesure de dispersion que le cours retient, et elle est amplifiée par le levier exactement comme la prime. [Déf. 2, §1.3]
++Elle mesure le risque par la dispersion du rendement, sans regarder le sens des écarts : un écart à la hausse compte autant qu'un écart à la baisse. [Déf. 2, ajout]
++
++!<a href="figures/volatilite.svg">Deux titres qui rapportent en moyenne 5 % par an. Chaque année, le premier rapporte 5 % plus ou moins 10 points, le second 5 % plus ou moins 20 points, à parts égales. Même moyenne, écarts différents : leurs volatilités sont 10 % et 20 %.</a> [ajout]
++
++Elle se donne par an ; sur une durée plus courte, elle ne se réduit pas en proportion de la durée, mais comme sa racine carrée. [§5.3]</p><h2>Exemple minimal</h2><p>-Une volatilité d’actif de 6 % avec un levier de 3,33 donne 20 % sur les capitaux propres. [ajout]
++Deux titres rapportent en moyenne 5 % par an ; l'un s'écarte d'ordinaire de 10 points de cette moyenne, l'autre de 20 : leurs volatilités sont 10 % et 20 %. [ajout]</p><h2>Geste de calcul type</h2><p>-En temps continu, la volatilité porte une dimension $T^{-1/2}$ : une volatilité annuelle de 20 % vaut $20/\sqrt{12}=5{,}8\,\%$ par mois. [§5.3]
++Le second titre rapporte $+25\,\%$ ou $-15\,\%$, à parts égales. Moyenne : $5\,\%$. Écarts à la moyenne : $+20$ et $-20$ points. Écart type : la racine de la moyenne des carrés des écarts, $\sqrt{(20^2+20^2)/2}=20\,\%$. [ajout]</p><h2>Cesse d'être valide quand</h2><p>Elle ne décrit complètement le risque que si le rendement est gaussien ; sinon elle ignore l’asymétrie et les queues. [ajout]</p><p>```</p></article></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../aide.html">comment lire ce site</a> · <a href="../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../search-index.js"></script>
+<script>
+var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+        s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- l'état qui traverse les pages ----------------------------------------
+   Voir le commentaire de l'en-tête : en file://, seul le fragment traverse.
+   Forme du fragment :  #t:d~a:0~p:1-0--1...~s:<tampon>.<bits>~v:<ancre>
+     t  thème      d | l            (absent : celui du système)
+     a  ajouts     0                (absent : montrés)
+     p  pliage     un caractère par clé de CLES_PLI : 1 ouvert, 0 fermé, - inconnu
+     s  déjà su    un bit par notion, six bits par caractère, précédé d'un tampon
+     v  ancre      l'élément vers lequel défiler à l'arrivée
+   Le tampon est calculé sur la liste des identifiants : dès qu'une notion entre dans
+   le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
+   cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
+var ETAT=(function(){
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='90d4',
+    A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
+var pli={},su={};
+if(typeof H.p==='string'){
+  for(var i=0;i<CLES.length&&i<H.p.length;i++){var c=H.p.charAt(i);
+    if(c==='0'||c==='1')pli[CLES[i]]=(c==='1');}
+}else{
+  CLES.forEach(function(k){var v=LS.g('notions.pli.'+k,null);if(v!==null)pli[k]=(v==='1')});
+}
+function decode(t){var o={},q=t.indexOf('.');
+  if(q<0||t.slice(0,q)!==TAMPON)return o;
+  var b=t.slice(q+1);
+  for(var i=0;i<b.length;i++){var v=A64.indexOf(b.charAt(i));if(v<0)continue;
+    for(var j=0;j<6;j++){if(v&(1<<j)){var k=i*6+j;if(k<IDS.length)o[IDS[k]]=1}}}
+  return o;}
+function encode(){var o='';
+  for(var i=0;i<IDS.length;i+=6){var v=0;
+    for(var j=0;j<6;j++){if(su[IDS[i+j]])v|=1<<j}
+    o+=A64.charAt(v);}
+  return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
+if(typeof H.s==='string'){su=decode(H.s)}
+else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
+function frag(ancre,noeud){var p=[];
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t)p.push('t:'+(t==='dark'?'d':'l'));
+  if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
+  var q='';CLES.forEach(function(k){q+=(pli[k]===undefined?'-':(pli[k]?'1':'0'))});
+  if(/[01]/.test(q))p.push('p:'+q);
+  var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
+  if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
+  return p.length?'#'+p.join('~'):'';}
+function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
+function propager(){var f=frag();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';if(!interne(h))return;
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
+  /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
+     Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
+  try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
+  try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}}
+return{pli:function(k){return pli[k]===undefined?null:pli[k]},
+       setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
+       su:function(id){return !!su[id]},
+       setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
+       lien:function(u,v,n){return u+frag(v,n)},
+       ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
+       propager:propager};
+})();
+function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
+  var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
+  b.textContent=on?'masquer les ajouts':'ajouts masqués';}
+  document.querySelectorAll('.sec').forEach(function(s){
+    var c=s.querySelector('.corps');if(!c)return;var n=0;
+    c.querySelectorAll(':scope>*').forEach(function(el){
+      if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
+      if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
+      n++;});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='Cette rubrique existe, mais tout son contenu est un ajout : le filtre le masque. Elle reste visible pour que vous ne concluiez pas qu’elle est vide.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
+  if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var bt=document.getElementById('btheme');
+  if(bt)bt.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    var nx=(cur||sys)==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);
+    ETAT.propager();});
+  var ba=document.getElementById('bajout');
+  if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);ETAT.propager();});
+  majAjouts(!document.documentElement.classList.contains('sans-ajouts'));
+  /* les liens de la page portent l'état ; une ancre demandée est ouverte et visée */
+  ETAT.propager();
+  var an=ETAT.ancre();
+  if(an){var el=document.getElementById(an);
+    if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView();el.classList.add('vise')}}
+  /* --- recherche instantanée (règle 9) --- */
+  var inp=document.getElementById('q'),res=document.getElementById('qres');
+  if(!inp||!res||!window.SEARCH_INDEX)return;
+  var REL=document.documentElement.getAttribute('data-rel')||'';
+  var sel=-1,items=[];
+  function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+  function cherche(q){
+    var n=norm(q);if(!n)return [];
+    var out=[];
+    SEARCH_INDEX.forEach(function(e){
+      var sc=-1,ch=e.h||[];
+      for(var i=0;i<ch.length;i++){var p=norm(ch[i]).indexOf(n);
+        if(p===0){sc=Math.max(sc,3-(i>0?1:0))}else if(p>0){sc=Math.max(sc,1)}}
+      if(sc>=0)out.push([sc,e]);});
+    out.sort(function(a,b){return b[0]-a[0]||a[1].n.localeCompare(b[1].n)});
+    return out.slice(0,9).map(function(x){return x[1]});}
+  function rendre(){
+    items=cherche(inp.value);sel=-1;res.innerHTML='';
+    if(!inp.value){res.classList.remove('on');return}
+    if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
+    items.forEach(function(e,i){
+      var li=document.createElement('li');
+      var a=document.createElement('a');a.href=ETAT.lien(REL+e.u);a.id='qr'+i;
+      a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
+      li.appendChild(a);res.appendChild(li);});
+    res.classList.add('on');}
+  function bouge(d){if(!items.length)return;sel=(sel+d+items.length)%items.length;
+    Array.prototype.forEach.call(res.children,function(li,i){li.classList.toggle('sel',i===sel)});
+    inp.setAttribute('aria-activedescendant','qr'+sel);}
+  inp.addEventListener('input',rendre);
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();bouge(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();bouge(-1)}
+    else if(e.key==='Enter'){var a=res.querySelector(sel>=0?'li.sel a':'li a');if(a){e.preventDefault();location.href=a.href}}
+    else if(e.key==='Escape'){inp.value='';res.classList.remove('on')}});
+  document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
+  document.addEventListener('keydown',function(e){
+    if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
+});
+</script>
+</body>
+</html>
