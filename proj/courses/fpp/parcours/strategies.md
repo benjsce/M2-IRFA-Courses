@@ -19,12 +19,16 @@ Avec un zéro-coupon à un an à 0,9608, il lui suffit de 96,08 pour garantir se
 ## Étapes
 1. fpp/strategie-optionnelle
    Des briques élémentaires, on peut tirer des profils de gain qu'aucune ne donne seule, et leur prix s'additionne. [§9.1]
+   Histoire : « Aucun call ni aucun put ne lui donne cela seul » — Assemblés, avec un zéro-coupon ou l'action, ils peuvent le faire : le profil d'un assemblage est la somme des profils de ses briques, et son prix la somme de leurs prix. [ajout]
 
 2. fpp/produit-a-capital-protege
    Le produit du point de départ se construit avec deux de ces briques. [§9.2]
+   Histoire : « il lui reste 3,92 pour s'exposer à la hausse » — Les 96,08 placés en zéro-coupon rendent 100 dans un an ; les 3,92 achètent des calls de strike 100, à 9,93 l'unité, soit environ 0,39 call. L'épargnant reçoit ainsi 39 % de la hausse au-delà de 100, et jamais moins que sa mise. [ajout]
 
 3. fpp/amelioration-de-rendement
    Et du côté de celui qui vend ces briques, que gagne-t-on, et en échange de quoi ? [§9.3]
+   Suite : De l'autre côté, un investisseur qui détient déjà l'action accepterait de renoncer à une partie de la hausse contre un revenu certain, touché aujourd'hui. Que peut-il vendre, et que gagne-t-il ? [ajout]
+   Histoire : « Que peut-il vendre, et que gagne-t-il » — Il vend le call à la monnaie et encaisse 9,93 tout de suite ; en échange, il abandonne toute la hausse au-delà de 100. La hausse que l'épargnant achète d'un côté, c'est ce vendeur qui la cède de l'autre. [ajout]
 
 ## Point d'arrivée
 Un produit structuré se lit comme une somme de briques ; son prix est la somme de leurs prix, et ce qui est protégé d'un côté est porté de l'autre. [§9.1, §9.3]

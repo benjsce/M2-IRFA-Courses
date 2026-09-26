@@ -40,7 +40,7 @@ Le socle est celui de fpp/formule-black-scholes, la formule elle-même en plus :
 Ce qui distingue les grecques entre elles, c'est la variable dérivée, pas le chemin — celui-ci est le même pour toutes et ne vaut la peine d'être lu qu'une fois. Le véga est la dérivée par rapport à la **volatilité** — seule grecque à dériver par rapport à un paramètre que le modèle suppose constant, et c'est ce paradoxe qui en fait la plus employée. [ajout]
 
 ## Exemple minimal
-Passer la volatilité de 20 % à 21 % fait passer le call de 9,93 à 10,30 : le vega vaut 0,38 par point de volatilité. [ajout]
+Passer la volatilité de 20 % à 21 % fait passer le call de 9,93 à 10,31 : le vega vaut 0,38 par point de volatilité. [ajout]
 
 ## Geste de calcul type
 Multiplier le vega par la variation de volatilité exprimée en points : c’est ainsi qu’on lit une position en volatilité. [§8.2]

@@ -40,7 +40,7 @@ Trois fils se nouent ici, et c'est l'aboutissement du cours. [ajout]
 Autrement dit : tout était prêt pour calculer, il ne manquait que de dire *quoi*. L'espérance risque-neutre du payoff d'une option, sous la diffusion log-normale, se mène jusqu'au bout grâce à la transformée de Laplace gaussienne — et c'est pourquoi la formule a une forme fermée alors que la plupart des payoffs n'en ont pas. [ajout]
 
 ## Exemple minimal
-$S_0=100$, $K=100$, $r=4\%$, $\sigma=20\%$, $T=1$ : le call vaut 9,925 et le put 6,005. [ajout]
+$S_0=100$, $K=100$, $r=4\%$, $\sigma=20\%$, $T=1$ : le call vaut 9,925 et le put 6,004. [ajout]
 
 ## Geste de calcul type
 Calculer $d_1$, en déduire $d_2=d_1-\sigma\sqrt T$, lire $N(d_1)$ et $N(d_2)$, puis assembler. Pour un sous-jacent quelconque, utiliser la formule de Black avec le forward en entrée. [§6.4, §6.5]
