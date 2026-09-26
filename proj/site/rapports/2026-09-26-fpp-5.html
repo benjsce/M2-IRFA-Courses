@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="fr" data-rel="../../">
+<html lang="fr" data-rel="../">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mesure risque-neutre · notions</title>
+<title>Rapport 2026-09-26-fpp-5 · notions</title>
 <script>
 /* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
    localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
@@ -248,10 +248,88 @@ footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);f
 <script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
-<header class="top"><div class="topin"><a class="brand" href="../../index.html">notions</a><span class="fil"><a href="../../fpp/index.html">Financial Products and Introduction to Pricing</a> › Mesure risque-neutre</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
-<main><div class="wrap"><h1>Mesure risque-neutre</h1><div class="meta"><span class="pill sym">$\mathbb{Q}$</span><a class="pill typ" href="../../aide.html" data-v="types" title="un objet du cours, celui qu’on manipule">notion</a><a class="pill" href="../../fpp/index.html">fpp</a><a class="pill" href="../../aide.html" data-v="niveau" title="ordre de lecture : nombre de notions à traverser, au plus long, pour arriver jusqu’à celle-ci. Niveau 0 = ne dépend d’aucune autre.">niveau 3</a><a class="pill" href="../../fpp/arbre.html" data-noeud="fpp/mesure-risque-neutre" title="ouvrir l’arbre des familles sur cette notion">voir dans l’arbre</a><span class="pill">§5.1</span><span class="pill">Prop. 5</span><span class="pill">Prop. 6</span></div><p class="note">aussi : probabilité risque-neutre, risk neutral probability, mesure de pricing</p><div class="parc"><div class="parc-t"><a href="../../aide.html" data-v="parcours">Parcours</a> <a href="../../fpp/parcours/risque-neutre.html#e2">« Une probabilité pour calculer les prix »</a> · étape 2 sur 6</div><div class="parc-h"><p class="is-ajout">L'action vaut 100 et le zéro-coupon à un an 0,9608 : <strong>son prix à terme à un an vaut 104,08</strong>, et il se lit sur le marché. Peut-on en tirer une façon de calculer le prix de n'importe quel flux futur, même non linéaire ? <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div><p class="is-ajout"><span class="parc-l">Dans l’histoire</span> Tout prix s'écrit comme une moyenne actualisée, $\Pi\big(g(S_T)\big)=P(t,T)\,\mathbb{E}^{\mathbb{Q}}\big[g(S_T)\big]$, sous des poids $\mathbb{Q}$ que le marché à terme contraint : sous eux, l'action vaut en moyenne 104,08 dans un an, quoi que chacun croie de sa dérive. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p><span class="parc-l">Depuis l’étape précédente</span> Ces propriétés ont une conséquence inattendue : tout se calcule comme une moyenne, pourvu qu'on choisisse bien les poids, et le marché à terme les fixe. <span class="marq" title="référence à la source">[Prop. 5, Prop. 6]</span></p><div class="parc-nav"><a class="prec" href="../../fpp/n/operateur-de-prix.html">← Opérateur de prix</a><a class="suiv" href="../../fpp/n/contrat-derive.html">Contrat dérivé →</a></div></div><div class="parc"><div class="parc-t"><a href="../../aide.html" data-v="parcours">Parcours</a> · cette notion est supposée connue : voici le rôle qu’elle y joue</div><ul class="roles"><li id="p-options"><p><a href="../../fpp/parcours/options.html#avant">« Évaluer un droit sans obligation »</a> : c'est le moteur de valorisation du parcours ; la valeur d'une option y est l'espérance actualisée de son paiement. <span class="marq" title="référence à la source">[Prop. 6, §6.2]</span></p></li></ul></div><div class="barre plier"><button class="btn" type="button" id="tout-plier">tout déplier</button></div><section class="sec " data-oblig="1"><h2>Ce que c'est</h2><div class="corps"><p>La probabilité sous laquelle un prix est simplement l’espérance actualisée du flux. <span class="marq" title="référence à la source">[Prop. 5, Prop. 6]</span></p></div></section><section class="sec " data-oblig="1"><h2>Forme</h2><div class="corps"><p>$$\Pi\big(g(S_T)\big)=P(0,T)\,\mathbb{E}^{\mathbb{Q}}\big[g(S_T)\big]$$ <span class="marq" title="référence à la source">[Prop. 5, Prop. 6]</span></p></div></section><section class="sec "><h2>Ce que les symboles modélisent</h2><div class="corps"><p>$\mathbb{Q}$ est une probabilité, mais pas celle des fréquences observées : c'est un instrument de calcul sous lequel actualiser suffit à donner le prix. Elle ne prédit rien — deux agents en désaccord complet sur l'avenir peuvent s'accorder sur elle. <span class="marq" title="référence à la source">[§5.1]</span></p></div></section><section class="sec " data-oblig="1"><h2>Ce qui la définit</h2><div class="corps"><p>$\mathbb{Q}$ n’est pas choisie, elle est contrainte : $\mathbb{E}^{\mathbb{Q}}[S_T]=F(t,T)$. Le marché à terme la calibre. La positivité des prix d’états en fait une mesure positive, et le prix du flux certain 1 en fixe la constante à $P(0,T)$. <span class="marq" title="référence à la source">[§5.1, Prop. 5, Prop. 6]</span></p></div></section><details class="sec gen abs" data-k="casde"><summary><h2>Cas particulier de</h2><span class="cnt">autre relation</span></summary><div class="corps"><p class="note avert">Ce n’est pas un prérequis : on peut lire ce cas particulier sans avoir lu le cas général. Les prérequis, c’est « construite à partir de ».</p><ul class="pasts"><li><a class="past ajout" href="../../fpp/n/operateur-de-prix.html">Opérateur de prix</a></li></ul><p class="note">valeur pour le paramètre du parent : flux aléatoires</p></div></details><details class="sec " data-k="construite"><summary><h2>Construite à partir de</h2><span class="cnt">1 prérequis direct</span></summary><div class="corps"><ul class="pasts"><li><a class="past" href="../../fpp/n/prix-a-terme.html">Prix à terme<span class="nv">n2</span></a></li></ul><p class="note">Seulement ce dont cette fiche dépend directement. Le socle, juste en dessous, reprend ces notions-ci et y ajoute tout ce dont elles dépendent à leur tour.</p></div></details><details class="sec gen" data-k="socle"><summary><h2>Socle complet</h2><span class="cnt">5 prérequis en tout</span></summary><div class="corps"><div class="chemin"><p class="is-ajout">Le socle est en réalité une seule ligne. <a href="../../fpp/n/replication-statique.html">Réplication statique</a> donne la méthode, <a href="../../fpp/n/portage.html">Portage</a> et <a href="../../fpp/n/facteur-actualisation.html">Facteur d’actualisation</a> (bâti sur <a href="../../fpp/n/convention-capitalisation.html">Convention de capitalisation</a>) en chiffrent les deux jambes, et l'ensemble aboutit à <a href="../../fpp/n/prix-a-terme.html">Prix à terme</a>. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p class="is-ajout">La mesure risque-neutre est ce qu'on obtient en relisant ce prix à l'envers : si le prix à terme est le comptant capitalisé, alors il existe une probabilité sous laquelle tout prix est simplement l'espérance actualisée du flux. Aucune probabilité n'apparaît dans le socle — c'est la réplication qui l'engendre, pas une hypothèse. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div><p class="note">Tout ce qu’il faut avoir lu avant cette fiche, du plus élémentaire au plus construit. <strong>La liste est complète</strong> : la lire suffit, aucune de ces notions n’en appelle une autre qui manquerait ici. Cocher une case la barre sur toutes les pages. (<a href="../../aide.html" data-v="socle">en savoir plus</a>)</p><p class="compteur" data-cpt="socle"></p><ul class="socle"><li><input type="checkbox" data-su="fpp/convention-capitalisation" aria-label="déjà su : Convention de capitalisation"><a href="../../fpp/n/convention-capitalisation.html">Convention de capitalisation</a> <span class="marq">niveau 0</span></li><li><input type="checkbox" data-su="fpp/portage" aria-label="déjà su : Portage"><a href="../../fpp/n/portage.html">Portage</a> <span class="marq">niveau 0</span></li><li><input type="checkbox" data-su="fpp/replication-statique" aria-label="déjà su : Réplication statique"><a href="../../fpp/n/replication-statique.html">Réplication statique</a> <span class="marq">niveau 0</span></li><li><input type="checkbox" data-su="fpp/facteur-actualisation" aria-label="déjà su : Facteur d’actualisation"><a href="../../fpp/n/facteur-actualisation.html">Facteur d’actualisation</a> <span class="marq">niveau 1</span></li><li><input type="checkbox" data-su="fpp/prix-a-terme" aria-label="déjà su : Prix à terme"><a href="../../fpp/n/prix-a-terme.html">Prix à terme</a> <span class="marq">niveau 2</span></li></ul></div></details><details class="sec gen" data-k="sert"><summary><h2>Sert ensuite à</h2><span class="cnt">4</span></summary><div class="corps"><p class="note">Ce que cette notion permet d’aborder juste après. Seulement l’étape suivante, pas toute la suite : une notion très en amont ouvrirait sinon la moitié du cours.</p><p class="compteur" data-cpt="aval"></p><ul class="socle"><li class="is-ajout"><input type="checkbox" data-su="fpp/contrat-derive" aria-label="déjà su : Contrat dérivé"><a href="../../fpp/n/contrat-derive.html">Contrat dérivé</a> <span class="marq">niveau 4 · ajout</span></li><li class="is-ajout"><input type="checkbox" data-su="fpp/contrat-a-prime" aria-label="déjà su : Contrat à prime"><a href="../../fpp/n/contrat-a-prime.html">Contrat à prime</a> <span class="marq">niveau 4 · ajout</span></li><li><input type="checkbox" data-su="fpp/modele-black-scholes" aria-label="déjà su : Modèle de Black et Scholes"><a href="../../fpp/n/modele-black-scholes.html">Modèle de Black et Scholes</a> <span class="marq">niveau 4</span></li><li><input type="checkbox" data-su="fpp/valeur-intrinseque" aria-label="déjà su : Valeur intrinsèque"><a href="../../fpp/n/valeur-intrinseque.html">Valeur intrinsèque</a> <span class="marq">niveau 4</span></li></ul></div></details><details class="sec " data-k="exemple" data-oblig="1"><summary><h2>Exemple minimal</h2></summary><div class="corps"><p class="is-ajout">Action à 100 sans dividende, $P(0,1)=0{,}9608$ : $\mathbb{E}^{\mathbb{Q}}[S_1]=104{,}08$, quelle que soit la dérive historique. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div></details><details class="sec " data-k="geste" data-oblig="1"><summary><h2>Geste de calcul type</h2></summary><div class="corps"><p>Ne pas chercher $\mathbb{Q}$, la lire sur le marché à terme : $\mathbb{E}^{\mathbb{Q}}[S_T]=F(t,T)$. Puis actualiser l’espérance du payoff par $P(0,T)$, jamais par un taux ajusté du risque. <span class="marq" title="référence à la source">[Prop. 6]</span></p></div></details><details class="sec lim" data-k="limite" data-oblig="1"><summary><h2>Cesse d'être valide quand</h2></summary><div class="corps"><p class="is-ajout">Unique seulement en marché complet. Et elle ne dit rien de la probabilité historique $\mathbb{P}$ : les deux ne diffèrent que par la dérive. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div></details><details class="sec " data-k="origine"><summary><h2>Origine</h2></summary><div class="corps"><ul><li class="is-ajout">exercice <a href="../../fpp/exercices/ex-13.html">fpp/ex-13</a> : geste manquant — identifier le drift risque-neutre en écrivant « forward = espérance » et en résolvant, sans changement de mesure explicite <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></li></ul></div></details></div></main>
-<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../../aide.html">comment lire ce site</a> · <a href="../../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
-<script src="../../search-index.js"></script>
+<header class="top"><div class="topin"><a class="brand" href="../index.html">notions</a><span class="fil">rapport d’ingestion › 2026-09-26-fpp-5</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><article class="rapport"><h1>Rapport — fpp — 2026-09-26 (5)</h1><p>Cinquième session du jour sur fpp : suffixe <code>-5</code> (SPEC-INGESTION, étape 6).</p><h2>Matériau traité</h2><p>Aucun matériau nouveau. L'utilisateur a demandé ce qu'était l'avertissement restant sur
+<code>fpp/feynman-kac</code>, puis de le corriger : A8, dépendance redondante vers
+<code>fpp/mesure-risque-neutre</code>, déjà atteinte par
+<code>edp-black-scholes → modele-black-scholes → mesure-risque-neutre</code>.</p><p>Le retrait de l'arête a déclenché une erreur A15 : le parcours <code>couverture</code> citait
+<code>fpp/mesure-risque-neutre</code> en « à savoir avant », et plus aucune de ses étapes n'en
+dépendait directement. La ligne a été retirée : la notion est racontée au parcours
+<code>risque-neutre</code>, d'ordre 4, qui précède celui-ci (ordre 6), et elle reste dans le socle de
+l'étape Feynman-Kac ; l'histoire de cette étape rappelle d'ailleurs que le prix « avait été
+obtenu comme une espérance risque-neutre actualisée ».</p><h2>Inventaire ajouté (à auditer par l'utilisateur)</h2><p>Aucun élément.</p><h2>Notations ajoutées ou en collision</h2><p>Aucune.</p><h2>Fiches créées</h2><p>Aucune.</p><h2>Fiches modifiées</h2><p><strong><code>fpp/feynman-kac</code></strong> — en-tête, <code>construite_a_partir_de</code>
+- ancien : <code>[fpp/edp-black-scholes, fpp/mesure-risque-neutre]</code>
+- nouveau : <code>[fpp/edp-black-scholes]</code>
+- raison : A8, dépendance redondante. Le socle de la fiche est inchangé, et son « chemin
+  jusqu'ici », qui nomme la mesure risque-neutre, reste juste.</p><h2>Abstractions créées / insérées</h2><p>Aucune.</p><h2>Abstractions en attente</h2><p>pfo : portefeuille de variance minimale globale ; estimateur de volatilité ; mesure de
+risque. dss : fonction d'activation ; indicateur de matrice de confusion. dup : dominance
+stochastique ; mesure de risque.</p><h2>Parcours</h2><p><strong><code>fpp/parcours-couverture</code></strong> — « À savoir avant », ligne retirée
+- ancien : « - <a href="../fpp/n/mesure-risque-neutre.html">Mesure risque-neutre</a> : c'est l'autre façon de trouver le prix, par une espérance, que le parcours relie à l'équation. [§7.2.1] »
+- nouveau : rien
+- raison : A15 après la correction A8 ; la notion est racontée au parcours d'ordre 4.</p><p>Aucune étape ajoutée, retirée ni déplacée ; aucune transition ni histoire réécrite.</p><h2>Dette</h2><p>Aucune. Plus aucun avertissement : <code>fpp/feynman-kac</code> était le dernier.</p><h2>Contradictions source</h2><p>Aucune nouvelle.</p><h2>Questions pour l'utilisateur</h2><p>1. <strong>dss — source, slide 174</strong> : d'après le rédacteur, qui a lu l'image de la slide, les
+   deux étiquettes sous la formule de décroissance des poids sont inversées (« $w_{ij}$ =
+   weight-cost parameter », « $\lambda$ is decayed… »). La fiche suit le sens voulu. *À
+   vérifier sur la slide ; si c'est confirmé, le noter en contradiction de la source.*
+2. <strong>dss — deux graphies du même poids</strong> : le registre écrit $\phi_{mj}$ (slide 72), la Forme
+   des moindres carrés partiels $\hat\varphi_{mj}$ comme la slide 90. *Recommandation :
+   déclarer la variante au registre, sans rien renommer.*
+3. <strong>fpp — §7.1</strong> : le poly appelle $T$ « time to maturity », une durée, alors que la
+   condition terminale $C(T,x)$ en fait la date d'échéance. La rubrique écrit « échéance ».
+   <em>Recommandation : le porter en contradiction interne de la source.</em>
+4. <strong>fpp — §7.2.2</strong> : $C$ et $x$ sont réemployés après les changements de variables pour
+   d'autres objets (valeur forward, logarithme du forward) ; la rubrique le dit, en
+   <code>[ajout]</code>. <em>Recommandation : laisser ainsi.</em>
+5. <strong>fpp — §1.4</strong> : $\pi_E$ et $\pi_A$ sans tilde, lettre de l'espérance, pour des
+   variations réalisées. <em>Recommandation : laisser la rubrique dire la différence.</em>
+6. <strong>dup — collision interne de $\beta$</strong> : paramètre de la pondération de CPT (L3 slide
+   38) et exposant de la fonction de valeur à la slide suivante. *Recommandation : la
+   déclarer au registre de dup, dans une session sur les notations.*
+7. dss — un second tirage pour illustrer le rétrécissement ? Dans le monde des 20
+   clients, une variable de bruit est corrélée à la perte par hasard (0,50), et ridge ou
+   le lasso n'y battent pas les moindres carrés. *Recommandation : garder ce monde, et en
+   tirer un second, plus riche en prédicteurs de bruit, pour le seul parcours « Garder
+   toutes les variables » si l'utilisateur veut des gains chiffrés pour ridge.*
+8. En fin de parcours, le rappel accumule le départ et toutes les suites : sur
+   <code>dup/parcours-comparer</code>, six suites à la dernière étape. *Recommandation : le garder
+   ainsi ; replier les suites antérieures si l'utilisateur le trouve encombrant.*
+9. dss — les exemples des fiches de « rétrécir » restent sur les données Credit du
+   cours : les histoires ne les ont pas remplacés (voir la question 7).
+10. Les autres fiches de dss sans exemple : les compléter parcours par parcours.
+   Recommandation : oui.
+11. pfo — garder les arêtes vers dup (<code>depend_de: [fpp, dup]</code>) ? Recommandation : oui.
+12. pfo — une fiche à part pour le portefeuille de variance minimale globale ?
+   Recommandation : non tant qu'aucun chapitre ne le développe.
+13. pfo — calculer les parties A et B de l'exercice 3 sur données réelles ?
+14. fpp — corriger la note de collision de $l$ et la section « Contradiction » de
+    <code>fpp/ex-16</code> (le spread est fini en $l=1$) ? Recommandation : oui.
+15. fpp — le domaine de $l$ dans l'exercice 16 : à demander à l'enseignant.
+16. fpp — la convention $X_t$ : garder la collision déclarée.
+17. dss — les trois emplois de $\lambda$ : à demander à l'enseignant.
+18. dss — des fiches pour l'arbre de décision, la régression logistique, le SVM ? Attendre
+    un support.
+19. dup — un relevé des symboles LaTeX du corps absents du registre (avertissement), dans
+    une session dédiée au validateur.
+20. dup — <code>dup/maxmin-eu</code> reste la plus longue fiche du dépôt.
+21. <strong>dup — faute probable dans l'exemple de <code>dup/statique-comparative-risque-accru</code></strong> :
+    avec $U(x,a)=\ln(1+ax)$ et $x$ uniforme sur $\{40,60\}$, $U_a=x/(1+ax)&gt;0$ partout ;
+    la condition du premier ordre $\int U_a\,dF=0$ n'a pas de solution, et le $a$
+    optimal n'existe pas. Le lien du parcours ne s'appuie donc pas sur cet exemple.
+    *Recommandation : le remplacer par un paiement qui peut être négatif (un rendement en
+    excès), après accord ; l'exemple est un <code>[ajout]</code>, la source n'est pas en cause.*
+22. dup — la forme paramétrique de la courbe de la figure de pondération est un choix,
+    non un énoncé : laisser ainsi.
+23. pfo — contradictions de la source à confirmer auprès de l'enseignant : chapitre 2
+    (signe de l'éq. 2.25, α « niveau de confiance » Déf. 2.5.1, $F$ normale p. 34,
+    kurtosis p. 23, $K=3$ Table 2.1, légende Fig. 2.2) et chapitre 3 (légende Fig. 3.1,
+    $R_t$ logarithmique au §3.0.7, $W^T\mu$ sur rendements logarithmiques, vérification
+    de l'exercice 2).
+24. pfo — CVaR de Cornish-Fisher : garder 53 511, valeur du listing (grille tronquée à
+    0,0001), ou écrire aussi la valeur de l'intégrale complète, environ 53 940, dans
+    « Cesse d'être valide quand » ? *Recommandation : ajouter une phrase à cette rubrique,
+    qui dise que le chiffre dépend de la borne basse de la grille.*</p><h2>Validation</h2><p><code>263 notions · 0 erreur(s) · 0 avertissement(s)</code> ; garde-fous : tous se déclenchent ; site
+reconstruit.</p></article></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../aide.html">comment lire ce site</a> · <a href="../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../search-index.js"></script>
 <script>
 var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
         s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
@@ -396,42 +474,6 @@ document.addEventListener('DOMContentLoaded',function(){
   document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
   document.addEventListener('keydown',function(e){
     if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
-});
-</script>
-<script>
-document.addEventListener('DOMContentLoaded',function(){
-  /* pliage mémorisé par rubrique (règle 5), et transporté d'une page à l'autre */
-  var secs=document.querySelectorAll('details.sec[data-k]'),bp=document.getElementById('tout-plier');
-  function libelle(){
-    if(!bp)return;var ferme=false;
-    secs.forEach(function(d){if(!d.open)ferme=true});
-    bp.textContent=ferme?'tout déplier':'tout replier';bp.setAttribute('data-v',ferme?'1':'0');}
-  secs.forEach(function(d){
-    var k=d.getAttribute('data-k'),v=ETAT.pli(k);
-    if(v!==null)d.open=v;
-    d.addEventListener('toggle',function(){ETAT.setPli(k,d.open);libelle()});});
-  /* tout à la fois : ouvrir tout s'il reste une rubrique fermée, sinon tout refermer */
-  if(bp){if(!secs.length)bp.parentNode.style.display='none';
-    libelle();
-    bp.addEventListener('click',function(){
-      var v=bp.getAttribute('data-v')==='1';
-      secs.forEach(function(d){d.open=v});libelle();});}
-  /* amont et aval : même état « déjà su », un compteur par liste (règle 7) */
-  function compte(){
-    document.querySelectorAll('.sec').forEach(function(s){
-      var cpt=s.querySelector('[data-cpt]');if(!cpt)return;
-      var l=s.querySelectorAll('input[data-su]'),k=0;
-      l.forEach(function(c){if(c.checked)k++});
-      cpt.textContent=l.length+' notion'+(l.length>1?'s':'')+', '+(l.length-k)+' à voir';});}
-  document.querySelectorAll('input[data-su]').forEach(function(c){
-    var id=c.getAttribute('data-su');c.checked=ETAT.su(id);
-    c.closest('li').classList.toggle('su',c.checked);
-    c.addEventListener('change',function(){
-      ETAT.setSu(id,c.checked);
-      document.querySelectorAll('input[data-su="'+id+'"]').forEach(function(o){
-        o.checked=c.checked;o.closest('li').classList.toggle('su',c.checked);});
-      compte();});});
-  compte();
 });
 </script>
 </body>

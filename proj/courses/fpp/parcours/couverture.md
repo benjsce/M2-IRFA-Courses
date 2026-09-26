@@ -11,7 +11,6 @@ Une banque vend un call à un an de strike 100 sur l'action à 100 : elle encais
 ## À savoir avant
 - fpp/modele-black-scholes : c'est la dynamique du sous-jacent sur laquelle on écrit la variation du prix de l'option. [§7.1]
 - fpp/replication-dynamique : c'est le principe de la couverture : réajuster le portefeuille à chaque pas pour reproduire le payoff. [§7.1]
-- fpp/mesure-risque-neutre : c'est l'autre façon de trouver le prix, par une espérance, que le parcours relie à l'équation. [§7.2.1]
 - fpp/formule-black-scholes : c'est le prix qu'on dérive pour obtenir chaque sensibilité. [§8.2]
 
 ## Étapes

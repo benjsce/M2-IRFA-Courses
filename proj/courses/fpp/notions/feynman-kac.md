@@ -6,7 +6,6 @@ type: notion
 statut: source
 construite_a_partir_de:
 - fpp/edp-black-scholes
-- fpp/mesure-risque-neutre
 alias:
 - Feynman-Kac
 refs:
