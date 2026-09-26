@@ -14,54 +14,46 @@ refs:
 ---
 
 ## Ce que c'est
-Le taux d'une période future $[T,S]$ que les prix d'aujourd'hui impliquent, et qu'on peut donc s'assurer dès aujourd'hui. [§2.3]
+Le taux qu'il faut obtenir entre $T$ et $S$ pour que placer jusqu'en $T$, puis jusqu'en $S$, rapporte autant que placer d'un coup jusqu'en $S$. [§2.3]
 
 ## Forme
-$$F(t,T,S)=\dfrac{1}{S-T}\ln\dfrac{P(t,T)}{P(t,S)}$$ [§2.3]
+$$F(t,T,S)=\dfrac{R(t,S)\,(S-t)-R(t,T)\,(T-t)}{S-T}=\dfrac{1}{S-T}\ln\dfrac{P(t,T)}{P(t,S)}$$ [§2.3]
 
 ## Ce que les symboles modélisent
-$F(t,T,S)$ prend trois dates : $t$, aujourd'hui, d'où l'on parle ; $T$ et $S$, le début et la fin de la période future. Il rend un taux annualisé en capitalisation continue, comme le taux zéro-coupon $R(t,T)$. Ici $S$ est une date, pas le prix d'une action. [§2.3, ajout]
+$F(t,T,S)$ prend trois dates : $t$, aujourd'hui ; $T$ et $S$, le début et la fin de la période future. Il rend un taux par an, en capitalisation continue, comme le taux zéro-coupon $R(t,T)$ de $t$ à $T$. Ici $S$ est une date, pas le prix d'une action. [§2.3, ajout]
 
-$f(t,T)$ est ce même taux quand la période se réduit à un instant, $S$ tendant vers $T$ : un taux instantané. Il ne sert pas à calculer $F$ ; il sert à décrire toute la courbe d'un seul trait, à la fin de « Ce qui la définit ». [§2.3, ajout]
+$f(t,T)$ est le taux forward d'une période réduite à un instant ; on n'en a pas besoin pour calculer $F$. [§2.3]
 
 ## Retrouver la formule
-![Un euro placé en $t$ jusqu'en $S$, par deux chemins. En haut, d'un coup : il devient $1/P(t,S)$. En bas, jusqu'en $T$, où il devient $1/P(t,T)$, puis replacé de $T$ à $S$ au taux $F$ : il devient $e^{F(S-T)}/P(t,T)$. Le taux forward est celui qui fait arriver les deux chemins au même montant.](figures/taux-forward-retrouver.svg) [ajout]
+![Deux façons de placer de $t$ à $S$. Chaque bloc a pour largeur une durée et pour hauteur un taux ; son aire est ce qu'il rapporte. En haut, d'un coup : 5 % par an pendant deux ans, 10 %, connu aujourd'hui. En bas, 4 % la première année, connu aujourd'hui, puis un trou. Le taux forward $F$ est la hauteur du bloc qui bouche ce trou : pour que les deux lignes fassent 10 %, il faut 6 %.](figures/taux-forward.svg) [ajout]
 
-L'idée tient en une phrase : un euro placé de $t$ à $S$ doit rapporter autant, qu'on le place d'un coup ou en deux temps, en s'arrêtant en $T$. Sinon, on emprunterait par le chemin qui rapporte le moins pour placer par celui qui rapporte le plus, et l'on gagnerait sans risque. [ajout]
+Deux façons de placer un euro de $t$ à $S$. D'un coup, au taux zéro-coupon $R(t,S)$ : il rapporte $R(t,S)\,(S-t)$, un taux multiplié par une durée. Ce total est **connu aujourd'hui**. [ajout]
 
-Sur des chiffres d'abord. Placer deux ans d'un coup à 5 % par an rapporte 10 % ; placer un an à 4 %, puis un an au taux $F$, rapporte $4\,\%+F$, puisqu'en capitalisation continue les taux s'ajoutent d'une période à l'autre. D'où $F=10\,\%-4\,\%=6\,\%$. [ajout]
+En deux temps. Jusqu'en $T$, au taux $R(t,T)$ : il rapporte $R(t,T)\,(T-t)$, **connu aujourd'hui** lui aussi. De $T$ à $S$, il faudra le replacer à un taux que personne ne connaît encore : c'est le trou. Si on l'appelle $F$, cette seconde période rapporte $F\,(S-T)$, et, en capitalisation continue, les deux périodes s'additionnent. [ajout]
 
-En lettres maintenant. D'un coup : un zéro-coupon d'échéance $S$ coûte $P(t,S)$ et rend $1$ en $S$ ; avec un euro, on en achète $1/P(t,S)$, qui rendent $1/P(t,S)$. [ajout]
+Le taux forward est le $F$ qui bouche le trou : celui pour lequel les deux façons rapportent autant. On l'obtient en retirant du total la partie connue, puis en divisant par la durée du trou ; sur la figure, $(10\,\%-4\,\%)/1\text{ an}=6\,\%$. [§2.3]
 
-En deux temps : de la même façon, un euro devient $1/P(t,T)$ en $T$ ; placé ensuite pendant $S-T$ au taux continu $F$, ce montant est multiplié par $e^{F(S-T)}$. [ajout]
+Enfin, un prix de zéro-coupon s'écrit $P=e^{-\text{taux}\times\text{durée}}$ : taux fois durée vaut donc $-\ln P$, et la même formule s'écrit avec les deux prix. [ajout]
 
-Les deux montants sont égaux. On prend le logarithme des deux côtés, puis on divise par $S-T$. [ajout]
-
-$$\dfrac{1}{P(t,S)}=\dfrac{e^{F(S-T)}}{P(t,T)}\quad\Longleftrightarrow\quad F(t,T,S)=\dfrac{1}{S-T}\ln\dfrac{P(t,T)}{P(t,S)}$$ [§2.3]
+$$R(t,S)\,(S-t)=R(t,T)\,(T-t)+F\,(S-T)\quad\Longleftrightarrow\quad F(t,T,S)=\dfrac{1}{S-T}\ln\dfrac{P(t,T)}{P(t,S)}$$ [§2.3]
 
 ## Ce qui la définit
-Le taux forward n'est pas une prévision du taux qu'il fera en $T$ : il se lit dans les prix d'aujourd'hui, sans aucune hypothèse sur l'avenir. [ajout]
+Il se lit dans les prix d'aujourd'hui : ce n'est pas une prévision du taux qu'il fera en $T$. [ajout]
 
-La même égalité s'écrit avec les taux zéro-coupon au lieu des prix : puisque $P(t,T)=e^{-R(t,T)(T-t)}$, elle devient $R(t,S)(S-t)=R(t,T)(T-t)+F(t,T,S)(S-T)$. Le taux long est la moyenne des taux des périodes successives, pondérée par leurs durées : $5\,\%\times2=4\,\%\times1+6\,\%\times1$. [§2.3]
-
-![La même égalité, lue en aires : 4 % sur la première année et 6 % sur la seconde font la même aire que 5 % sur deux ans. Le forward est le taux qui complète l'aire du taux court jusqu'à celle du taux long.](figures/taux-forward.svg) [ajout]
-
-Pour aller plus loin, le taux instantané. En resserrant la période sur un instant, on obtient $f(t,T)=-\partial\ln P(t,T)/\partial T$ : la vitesse à laquelle le prix du zéro-coupon baisse quand l'échéance recule. Mis bout à bout, ces taux redonnent le prix de n'importe quelle échéance, $P(t,T)=\exp\left(-\int_t^T f(t,u)\,du\right)$ : toute la courbe est faite de ses forwards. [§2.3]
+Quand la période se réduit à un instant, on obtient le taux forward instantané, $f(t,T)=-\partial\ln P(t,T)/\partial T$ ; mis bout à bout, ces taux redonnent tout prix de zéro-coupon, $P(t,T)=\exp\big(-\int_t^T f(t,u)\,du\big)$. [§2.3]
 
 ## Le chemin jusqu'ici
-fpp/convention-capitalisation dit comment un taux devient un facteur, et pourquoi, en capitalisation continue, les taux s'ajoutent d'une période à l'autre. fpp/facteur-actualisation donne les prix $P(t,T)$, et fpp/taux-zero-coupon les réécrit en taux, un par échéance. [ajout]
-
-Le taux forward pose la question suivante : que dit cette courbe d'une période qui ne commence que plus tard ? [ajout]
+fpp/convention-capitalisation dit qu'en capitalisation continue, ce que rapportent deux périodes successives s'additionne ; fpp/facteur-actualisation donne les prix $P(t,T)$, et fpp/taux-zero-coupon les réécrit en taux $R(t,T)$ : ce sont les deux données connues de la figure. [ajout]
 
 ## Exemple minimal
-$P(0,1)=0{,}9608$ et $P(0,2)=0{,}9048$, soit des taux zéro-coupon de 4 % à un an et de 5 % à deux ans : le taux forward de la deuxième année vaut $F(0,1,2)=6\%$. [ajout]
+Aujourd'hui, le taux zéro-coupon vaut 4 % à un an et 5 % à deux ans : le taux forward de la deuxième année vaut 6 %. [ajout]
 
 ## Geste de calcul type
-Pour une période entre deux échéances cotées, diviser le prix court par le prix long, prendre le logarithme, puis diviser par la durée de la période : $\ln(0{,}9608/0{,}9048)/1\approx6\,\%$. Vérifier avec les taux : $5\,\%\times2-4\,\%\times1=6\,\%$. [§2.3]
+Total moins partie connue, divisé par la durée du trou : $(5\,\%\times2-4\,\%\times1)/1=6\,\%$. Avec les prix $P(t,t+1)=0{,}9608$ et $P(t,t+2)=0{,}9048$ : $\ln(0{,}9608/0{,}9048)/1\approx6\,\%$. [§2.3]
 
 ## Cesse d'être valide quand
-On ne peut s'assurer ce taux que si l'on peut prêter et emprunter aux deux échéances $T$ et $S$ ; sinon, il reste un nombre lu dans la courbe, sans moyen de l'obtenir. [ajout]
+Pour obtenir vraiment ce taux, et pas seulement le lire, il faut pouvoir prêter et emprunter aux deux échéances $T$ et $S$. [ajout]
 
 ## Origine
 - exercice fpp/ex-04 : un rapport de deux prix à terme de change est un rapport de facteurs d'actualisation forward [ajout]
-- exercice fpp/ex-19 : la matrice complète des forwards se remplit avec une seule formule, $\big(r(T)T-r(t)t\big)/(T-t)$, où $r$ est le taux zéro-coupon et où $t$ est une échéance, non la date d'aujourd'hui ; elle se lit comme le taux qu'il faudra réaliser pour qu'un refinancement soit neutre [exo. 19]
+- exercice fpp/ex-19 : toute la matrice des forwards se remplit par la même règle, total moins partie connue divisé par la durée, $\big(r(T)T-r(t)t\big)/(T-t)$, où $t$ est une échéance et non la date d'aujourd'hui [exo. 19]
