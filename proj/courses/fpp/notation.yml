@@ -7,6 +7,10 @@ symboles:
   notion: fpp/facteur-actualisation
   ref: Déf. 3
   sens: prix en t d’un flux de 1 payé en T (zéro-coupon)
+- symbole: $\mathcal{D}$
+  notion: fpp/duration
+  ajout: true
+  sens: duration d'un titre, date moyenne de ses flux pondérée par leurs valeurs actualisées ; le poly n'a pas de lettre pour elle
 - symbole: $P(t,r)$
   notion: fpp/duration
   ref: Déf. 5

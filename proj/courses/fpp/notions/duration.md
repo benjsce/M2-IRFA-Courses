@@ -23,8 +23,16 @@ $P(t,r)$ est le prix d'un zéro-coupon, mais écrit autrement qu'avec deux dates
 
 Cette écriture fait du taux une variable, et c'est ce qu'il faut pour dériver par rapport à lui. Le $t$ qui sort de la dérivée, $\partial e^{-rt}/\partial r=-t\,e^{-rt}$, est la maturité : c'est elle qu'on lit dans la sensibilité relative. [ajout]
 
+$\mathcal{D}$ est la duration d'un titre à plusieurs flux : une date moyenne, en années comptées depuis $t$, et non une sensibilité. Elle prend l'échéancier du titre et rend une durée ; le poly n'a pas de lettre pour elle, celle-ci est ajoutée. [ajout]
+
 ## Ce qui la définit
 Une variation instantanée du taux agit sur toute la vie du titre : la sensibilité relative est la maturité elle-même. [Déf. 5]
+
+Le poly intitule la définition « Duration » mais n'écrit que la sensibilité, qui en est distincte. La duration d'un titre qui paie $X_i$ aux dates $t_i$ est la moyenne des durées jusqu'à ses flux, chacune pondérée par la part de la valeur actualisée qui y tombe ; la sensibilité est la variation relative de son prix quand le taux bouge. [ajout]
+
+$$\mathcal{D}=\sum_i (t_i-t)\,\frac{P(t,t_i)\,X_i}{\mathrm{NPV}(t)},\qquad \frac{1}{\mathrm{NPV}}\frac{\partial\,\mathrm{NPV}}{\partial r}=-\mathcal{D}$$ [ajout]
+
+En capitalisation continue, dériver $\sum_i X_ie^{-r(t_i-t)}$ par rapport à $r$ fait sortir chaque durée pondérée par son flux actualisé : la sensibilité relative est exactement l'opposée de la duration. Pour un zéro-coupon il n'y a qu'un flux, la duration vaut la maturité, et duration et sensibilité se confondent — c'est ce qui permet au poly de les écrire sous le même titre. Pour une obligation à coupons, comme le bullet bond, les coupons arrivent avant l'échéance et la duration est plus courte que la maturité. [ajout]
 
 ## Le chemin jusqu'ici
 La chaîne est la même que pour un contrat à prime nulle : fpp/convention-capitalisation, puis fpp/facteur-actualisation, puis fpp/valeur-actuelle-nette qui somme l'échéancier. [ajout]
@@ -41,3 +49,5 @@ Multiplier la maturité par la variation de taux : un zéro-coupon à cinq ans p
 
 ## Cesse d'être valide quand
 Premier ordre seulement, et déplacement parallèle de la courbe. [ajout]
+
+En taux actuariels, comme dans l'exemple du bullet bond, la dérivée du prix $\sum_iX_i(1+r)^{-t_i}$ donne $-\mathcal{D}/(1+r)$ et non $-\mathcal{D}$ : c'est alors la duration modifiée, $\mathcal{D}/(1+r)$, qui mesure la sensibilité. [ajout]
