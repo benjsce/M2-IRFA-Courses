@@ -1,0 +1,1100 @@
+<!doctype html>
+<html lang="fr" data-rel="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rapport 2026-09-26-recits · notions</title>
+<script>
+/* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
+   localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
+   cases « déjà su » ne peuvent donc pas traverser les pages par là. Ils voyagent dans
+   le fragment de l'URL, que tous les liens internes portent ; localStorage ne sert plus
+   que de mémoire locale, pour la page qu'on rouvre sans fragment.
+   Ce script s'exécute avant le rendu : sinon le thème clignote à chaque page. */
+(function(){
+var H={},h=(location.hash||'').replace(/^#/,'');
+h.split('~').forEach(function(p){var i=p.indexOf(':');if(i>0)H[p.slice(0,i)]=p.slice(i+1)});
+window.ETAT_URL=H;
+function loc(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+var t=H.t?(H.t==='d'?'dark':'light'):loc('notions.theme','');
+if(t)document.documentElement.setAttribute('data-theme',t);
+var a=(H.a!==undefined)?H.a:loc('notions.ajouts','1');
+if(a==='0')document.documentElement.classList.add('sans-ajouts');
+})();
+</script>
+<style>
+:root{
+  --bg:#fbfaf7; --bg2:#f3f0ea; --fg:#1b1a17; --mut:#6c675d; --fai:#8e887c;
+  --li:#e0dbd1; --li2:#cdc6b8; --card:#ffffff; --acc:#8a4f23; --acc2:#f3e7dc;
+  --ajo:#6d5a8c; --ajo2:#efe9f5; --lim:#9a3a2e; --ok:#3f6b46; --faute:#a8631a;
+  --r:8px; --w:min(72rem,100%);
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}}
+:root[data-theme="dark"]{
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}
+.fig{margin:.9rem 0;padding:.5rem .2rem .2rem;text-align:center}
+/* « > svg » et non « svg » : MathJax pose son propre <svg> dans la légende, et
+   une règle non ancrée en faisait un bloc qui coupait la phrase en trois. */
+.fig > svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig figcaption{margin-top:.35rem;font-family:var(--sans);font-size:.82rem;
+  color:var(--mut);text-align:center;line-height:1.45}
+@media print{.fig{break-inside:avoid}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
+  font-size:17px;line-height:1.62;overflow-wrap:break-word}
+a{color:var(--acc);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-style:dotted}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+.wrap{width:var(--w);margin:0 auto;padding:0 1rem}
+
+/* ---- barre du haut ---- */
+header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
+  border-bottom:1px solid var(--li);font-family:var(--sans)}
+.topin{width:var(--w);margin:0 auto;padding:.45rem 1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.brand{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--fg);letter-spacing:.02em}
+.fil{color:var(--mut);font-size:.82rem;flex:1 1 8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fil a{color:var(--mut)}
+.btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
+  border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+a.btn{text-decoration:none}
+.btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
+.rech{position:relative;flex:0 1 16rem;min-width:9rem}
+.rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
+  border:1px solid var(--li2);border-radius:var(--r);background:var(--card);color:var(--fg)}
+.res{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--li2);
+  border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.14);max-height:60vh;overflow:auto;padding:.2rem;margin:0;
+  list-style:none;display:none;z-index:50;min-width:18rem}
+.res.on{display:block}
+.res li a{display:block;padding:.3rem .45rem;border-radius:6px;text-decoration:none;color:var(--fg);font-size:.86rem}
+.res li a:hover,.res li.sel a{background:var(--acc2)}
+.res .sub{color:var(--mut);font-size:.76rem;font-family:var(--sans)}
+.res .vide{padding:.4rem .5rem;color:var(--mut);font-size:.84rem}
+
+main{padding:1.4rem 0 4rem}
+h1{font-size:1.75rem;line-height:1.24;margin:.2rem 0 .3rem}
+h2{font-size:1.06rem;font-family:var(--sans);font-weight:600;letter-spacing:.01em;margin:0}
+h3{font-size:.95rem;font-family:var(--sans);margin:1.2rem 0 .3rem}
+p{margin:.55rem 0}
+.ptag{font-family:var(--sans);font-size:.74rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .5rem}
+
+/* ---- métadonnées de fiche ---- */
+.meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;font-family:var(--sans);font-size:.75rem;color:var(--mut);margin:.4rem 0 1.1rem}
+.pill{border:1px solid var(--li2);border-radius:99px;padding:.06rem .5rem;background:var(--card);white-space:nowrap}
+.pill.ajout{color:var(--ajo);border-color:var(--ajo);background:var(--ajo2)}
+.pill.typ{background:var(--acc2);border-color:var(--acc)}
+.sym{font-family:var(--serif);font-size:1rem;color:var(--fg)}
+
+/* ---- sections ---- */
+.sec{border-top:1px solid var(--li);padding:.85rem 0}
+.sec.vide{display:none}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.45rem;padding:.1rem 0}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"›";color:var(--fai);font-family:var(--sans);display:inline-block;
+  transition:transform .12s ease;transform:rotate(0deg);width:.7em}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fai);font-weight:400}
+.corps{padding-top:.25rem}
+.gen{border-left:2px solid var(--li2);padding-left:.7rem}
+.chemin{border-left:3px solid var(--acc);background:var(--bg2);border-radius:0 var(--r) var(--r) 0;
+  padding:.5rem .8rem;margin:.2rem 0 .7rem}
+.chemin p{margin:.35rem 0;font-size:.95rem}
+.chemin p:first-child{margin-top:0}
+.chemin p:last-child{margin-bottom:0}
+.note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
+.parc{border:1px solid var(--li);border-left:3px solid var(--acc);border-radius:0 var(--r) var(--r) 0;
+  background:var(--bg2);padding:.5rem .8rem;margin:.6rem 0;font-size:.93rem}
+.parc-t{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin-bottom:.15rem}
+.parc p{margin:.2rem 0}
+.parc-h{border-left:2px solid var(--li);padding:.1rem 0 .1rem .6rem;margin:.3rem 0 .45rem;color:var(--mut)}
+.parc-h strong{color:var(--fg)}
+.parc-l{font-family:var(--sans);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--acc);margin-right:.25rem}
+.parc-lien{margin-top:.35rem;font-size:.92em}
+.parc-suite{border-left:2px solid var(--acc);padding:.1rem 0 .1rem .6rem;margin:.35rem 0;color:var(--fg);background:var(--acc2)}
+.parc-nav{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--sans);font-size:.8rem;margin-top:.35rem}
+.parc-nav .suiv{margin-left:auto;text-align:right}
+.etapes{list-style:none;padding:0;margin:.6rem 0 1.2rem;counter-reset:e}
+.etapes>li{counter-increment:e;position:relative;padding:0 0 1rem 1.7rem;border-left:2px solid var(--li);margin-left:.9rem}
+.etapes>li:last-child{border-left-color:transparent}
+.etapes>li::before{content:counter(e);position:absolute;left:-.95rem;top:0;width:1.75rem;height:1.75rem;
+  border-radius:99px;background:var(--card);border:1px solid var(--acc);color:var(--acc);
+  font-family:var(--sans);font-size:.78rem;display:flex;align-items:center;justify-content:center}
+.etapes>li>p{margin:.1rem 0 .35rem}
+.etapes .arr{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.45rem .75rem}
+.etapes .arr a.tit{font-weight:600;text-decoration:none}
+.etapes .arr p{margin:.15rem 0;font-size:.88rem;color:var(--mut)}
+.avant{list-style:none;padding:0;margin:.4rem 0 1rem}
+.avant>li{margin:.5rem 0}
+.avant>li p{margin:.1rem 0 0;font-size:.95rem}
+.avant a.tit{font-weight:600;text-decoration:none}
+.roles{list-style:none;padding:0;margin:.2rem 0 0}
+.roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
+.roles>li.cible{background:var(--acc2)}
+details.parc>summary{cursor:pointer}
+.sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
+.sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
+.sec.faute>summary h2{color:var(--faute)}
+.faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
+  margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.faute-b strong{color:var(--faute)}
+.sec.lim>summary h2{color:var(--lim)}
+.sec.lim>h2{color:var(--lim)}
+
+/* ---- marqueurs de traçabilité ---- */
+.marq{font-family:var(--sans);font-size:.7rem;color:var(--fai);white-space:nowrap;vertical-align:.12em}
+.marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
+.marqligne{margin:.15rem 0 0}
+html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
+.bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
+  color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
+
+/* ---- pastilles ---- */
+.pasts{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0;padding:0;list-style:none}
+.past{display:inline-block;font-family:var(--sans);font-size:.82rem;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--li2);border-radius:99px;padding:.12rem .6rem}
+.past:hover{border-color:var(--acc);color:var(--acc)}
+.past .cc{color:var(--fai);font-size:.74rem}
+.past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
+.past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
+.past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
+
+/* ---- socle ---- */
+.socle{list-style:none;padding:0;margin:.3rem 0}
+.socle li{display:flex;gap:.5rem;align-items:baseline;padding:.12rem 0;font-size:.92rem}
+.socle input{margin:0;accent-color:var(--ok)}
+.socle li.su a{color:var(--fai);text-decoration:line-through}
+.compteur{font-family:var(--sans);font-size:.78rem;color:var(--mut)}
+.grp{margin:.5rem 0}
+.grp>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--mut)}
+
+table{border-collapse:collapse;margin:.5rem 0;font-size:.9rem;display:block;overflow-x:auto;max-width:100%}
+th,td{border:1px solid var(--li);padding:.25rem .55rem;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-family:var(--sans);font-size:.78rem;font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+  background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
+ul{padding-left:1.1rem}
+hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
+
+/* ---- cartes d'accueil / carte du cours ---- */
+.cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
+.carte{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.65rem .8rem}
+.carte h3{margin:0 0 .2rem}
+.carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
+.carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
+.dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.vise{animation:vise 1.6s ease}
+@keyframes vise{from{background:var(--acc2)}to{background:transparent}}
+
+/* ---- orientation : ce qui s'adresse au lecteur qui arrive ---- */
+.entree{border:1px solid var(--li2);border-left:3px solid var(--acc);border-radius:var(--r);
+  padding:.7rem .9rem;margin:.8rem 0 1.4rem;background:var(--card)}
+.entree p{margin:.3rem 0;font-size:.92rem}
+.entree .quoi{font-size:1.02rem}
+.entree ul{margin:.5rem 0 .2rem;padding-left:1.1rem;font-family:var(--sans);font-size:.88rem}
+.entree li{margin:.2rem 0}
+.chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
+.chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
+.aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
+/* L'en-tête est collant : une ancre visée ne doit pas passer dessous. Mesuré :
+   il fait 48 px sur une ligne, 85 px quand il se replie en deux (écran étroit). */
+[id]{scroll-margin-top:6rem}
+.aide p,.aide ul,.aide table{max-width:42rem}
+.dette ul{margin:.3rem 0 0}
+footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
+
+/* ---- arbre ---- */
+.barre{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+.barre.plier{justify-content:flex-end;margin:.2rem 0 -.2rem}
+#scene{position:relative;border:1px solid var(--li);border-radius:var(--r);background:var(--bg2);
+  height:min(74vh,720px);overflow:hidden;touch-action:none;cursor:grab}
+#scene.drag{cursor:grabbing}
+#pan{position:absolute;transform-origin:0 0;top:0;left:0}
+#aretes{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+#aretes path{fill:none;stroke:var(--li2);stroke-width:1.5}
+.noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
+  padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
+.noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
+.noeud .nm{font-weight:600}
+.noeud .nm a{text-decoration:none;color:var(--fg)}
+.noeud .nm a:hover{color:var(--acc)}
+.noeud .pa{color:var(--mut);font-size:.72rem;display:block;margin-top:.1rem}
+.noeud .pli{font:inherit;font-size:.72rem;background:none;border:1px solid var(--li2);border-radius:4px;
+  color:var(--mut);cursor:pointer;padding:0 .3rem;margin-right:.25rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.4rem}
+  .rech{flex:1 1 100%;order:9}
+  #scene{height:66vh}
+}
+@media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="brand" href="../index.html">notions</a><span class="fil">rapport d’ingestion › 2026-09-26-recits</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><article class="rapport"><h1>Rapport — récits de pfo et dss — 2026-09-26</h1><h2>Matériau traité</h2><p>Aucun matériau nouveau. Suite du rapport <code>2026-09-26-fpp-9</code> : l'utilisateur demande de
+retoucher les parcours de pfo et de suivre les recommandations pour dss (réécrire
+« Apprendre à partir de données », retoucher les autres), selon SPEC-MODELE §8.6.</p><h2>Inventaire ajouté (à auditer par l'utilisateur)</h2><p>Aucun élément.</p><h2>Notations ajoutées ou en collision</h2><p>Aucune.</p><h2>Fiches créées</h2><p>Aucune.</p><h2>Fiches modifiées</h2><p>Aucune. <code>courses/pfo/course.yml</code> et <code>courses/dss/course.yml</code> : entrée <code>refonte_du_recit</code>
+ajoutée (2026-09-26, raison écrite).</p><h2>Abstractions créées / insérées</h2><p>Aucune.</p><h2>Abstractions en attente</h2><p>pfo : portefeuille de variance minimale globale ; estimateur de volatilité ; mesure de
+risque. dss : fonction d'activation ; indicateur de matrice de confusion. dup : dominance
+stochastique ; mesure de risque.</p><h2>Parcours</h2><p>Méthode : SPEC-MODELE §8.6. Trois agents (pfo ; dss panorama et terrain ; dss sélection,
+rétrécir, arbres, entraînement, neurones), chacun avec le test de lecture ; relecture de
+l'opérateur par <code>tools/recit.py</code> (dss panorama et retrecir, pfo non-normalite et risque lus
+en entier). Correction de l'opérateur : pfo <code>risque</code>, étape 6, la dérivation de la CVaR
+gaussienne ramenée à une phrase ($\varphi(1{,}6449)/0{,}05=2{,}0626$ vérifié).
+Réordonnancements (refonte déclarée dans <code>course.yml</code> des deux cours, fil scellé à nouveau) :
+dss <code>panorama</code> (fouille et corrélation en tête ; scoring, matrice, ROC avant le domaine et
+l'interprétabilité), <code>arbres</code> (importance des variables après la forêt), <code>entrainement</code>
+(préparation et codage après l'architecture), <code>neurones</code> (apprentissage profond en dernier) ;
+pfo <code>non-normalite</code> (asymétrie négative avant la kurtosis), <code>volatilite</code> (covariance et
+corrélation en tête).</p><p>Test de lecture final : aucun arrêt dans les parcours touchés. Restent, signalés par les
+agents : dss <code>arbres</code>, l'importance des variables sans chiffre ; dss <code>entrainement</code>, « jeu de
+test » gardé au protocole (vocabulaire du cours, slide 180) ; dss <code>panorama</code>, trois détours
+courts (intelligence artificielle, non supervisé, renforcement), gardés par l'opérateur ;
+pfo, l'exemple de la fiche <code>pfo/norme-de-frobenius</code> n'a plus de lien avec le parcours.</p><h3>Rendu de l'agent — recits-pfo.md</h3><h4>Récits pfo — retouches selon SPEC-MODELE §8.6 (2026-09-26)</h4><p>Sauvegarde des fichiers avant retouche : <code>scratchpad/parcours-pfo-avant-recits/</code>.
+Validateur final : 0 erreur ; seul avertissement pfo = A17 « refonte du récit déclarée » (attendu, course.yml non touché).
+Nombres nouveaux recalculés en python3 (scripts <code>scratchpad/sw.py</code> pour Shapiro-Wilk, approximation de Royston).</p><h4>non-normalite (à retoucher, fait)</h4><p>(a) Paires outil/fait remises côte à côte (asymétrie → asymétrie négative, kurtosis → queues épaisses) : chaque fait stylisé
+répond maintenant « est-ce un trait des marchés ? » au lieu de redire le chiffre. Loi de Laplace annoncée par une Suite. La question
+des six rendements est tranchée : p-valeur simulée ≈ 0,03 (P(|asym| ≥ 1,37) sous la normale, n = 6 : 0,0278 sur 300 000 tirages),
+puis le test de normalité (étape 9) décide avec le seuil de 5 % : rejet — il n'est plus une redite abstraite. Jarque-Bera motivé
+(deux moments à la fois, loi connue d'avance mais seulement sur de longues séries → 1 000 rendements). Shapiro-Wilk : les p-valeurs
+0,20/0,03 sans origine remplacées par une série construite (5 × −1 %, 20 × 0 %, 5 × +1 %) d'asymétrie 0 et de kurtosis exactement 3 :
+JB = 0, p = 1 ; W ≈ 0,75, p ≪ 1 %. Transition de l'étape 1 sans méta-discours (« le chapitre part de… »).
+(b) 1 marches-non-gaussiens, 2 fait-stylise, 3 moment-standardise, 4 coefficient-d-asymetrie, <strong>5 kurtosis, 6 asymetrie-negative</strong>,
+7 queues-epaisses, … → … 4 coefficient-d-asymetrie, <strong>5 asymetrie-negative, 6 kurtosis</strong>, 7 queues-epaisses, 8–11 inchangés.
+(c) Test de lecture : aucun arrêt restant.</p><h4>risque (à retoucher, fait)</h4><p>(a) Réordonner était impossible (modele-de-risque et var-gaussienne dépendent de la CVaR, A14). J'ai donc retiré tout calcul
+gaussien des étapes 1–3 : quantile, VaR, CVaR y disent seulement ce qu'on cherche (VaR illustrée par « si le quantile valait −3 % : 30 000 »),
+l'étape 4 pose la question de l'hypothèse, et les chiffres 32 397 / 40 754 n'apparaissent qu'à l'étape 6 (var-gaussienne), avec
+l'origine de φ(1,6449)/0,05 ≈ 2,063 (∫x φ(x)dx = −φ(z) car φ' = −xφ, divisé par la probabilité de la queue). Étape 1 : « le poly
+emploie sans définir » supprimé. Étape 7 : pourquoi la kurtosis ramène le quantile (flancs plus minces ; z³−3z ne change de signe
+qu'à √3 ≈ 1,73). Étape 8 : phrase illisible coupée en trois ; 53 511 vérifié contre le Listing 2.2 (trapèzes sur [0,0001 ; 0,05] / α),
+queue complète 53 940 → « environ 430 » confirmé.
+(b) Ordre inchangé.
+(c) Test de lecture : aucun arrêt restant.</p><h4>volatilite (à retoucher, fait)</h4><p>(a) Le matériel de base (covariance, corrélation) passe en tête, puis les deux difficultés annoncées par le départ (temps, places) ;
+le départ dit maintenant « Une fois ces chiffres rangés, deux difficultés apparaissent ». Circularité de la corrélation assumée et
+expliquée (exemple 4 % → terme croisé doublé à lien égal ; « en pratique, c'est l'inverse »). Fil EWMA repris : « c'est 1,09 % et non
+1 % qu'il faudrait mettre dans la matrice ». Effet Epps chiffré par une Suite (corrélation 0,4 en journalier, 0,5 en hebdomadaire),
+et la norme de Frobenius en découle : seul le terme croisé diffère (0,0252 − 0,02016 = 0,00504), ‖·‖F = √(2·0,00504²) ≈ 0,0071 ;
+« l'étude de cas » et les écarts 0,001/−0,003/0,002 disparaissent. Rôle de <a href="../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance</a> (À savoir avant)
+réécrit : ×252 et ×52 (Listing 1.4), sans « étude de cas ».
+(b) 1 regroupement-de-volatilite, 2 ewma, 3 matrice-de-covariance, 4 matrice-de-correlation, 5 effet-epps, 6 norme-de-frobenius
+→ 1 matrice-de-covariance, 2 matrice-de-correlation, 3 regroupement-de-volatilite, 4 ewma, 5 effet-epps, 6 norme-de-frobenius.
+(c) Test de lecture : aucun arrêt restant.</p><h4>rendements (arrêts locaux, fait)</h4><p>(a) Départ : « le chapitre 1 commence par les trier » supprimé. Étape 2 : la réponse ne répète plus la transition. Étape 3 : « clôture »
+supprimée ; la transition annonce le changement de question (celui qui achète en quantité, dont les achats font bouger le prix) avant le
+fonds de 400 titres. Étape 4 : transition en question (« le prix lui-même, ou ses variations ? »), réponse sans « le cours ». Étape 6 :
+« tous les listings du cours » → « qu'on emploiera dans toute la suite ».
+(b) Ordre inchangé. (c) Aucun arrêt restant.</p><h4>portefeuille (arrêts locaux, fait)</h4><p>(a) Étape 1 : le ratio 0,40 par unité de volatilité retiré (il n'apparaît plus qu'à l'étape 6, qui l'introduit). Arrivée : renvoi à
+« l'exercice 3 » remplacé par la question elle-même (réf. [p. 54] gardée), double deux-points corrigé. Étapes 3 et 9 : la transition
+ne pose plus la même question que la Suite. L'annualisation reste un détour (étape obligatoire, ne peut être retirée), annoncé par sa Suite.
+(b) Ordre inchangé. (c) Aucun arrêt restant.</p><h4>nettoyage</h4><p>Test de lecture refait : aucun arrêt. Non modifié.</p><h4>À reporter au rapport de session</h4><p>Toutes les modifications ci-dessus sont des retouches de parcours (pas de fiche touchée). Nombres nouveaux, tous [ajout] :
+p-valeur simulée ≈ 0,03 ; série à trois paliers (JB = 0, W ≈ 0,75) ; corrélation journalière 0,4 et Frobenius ≈ 0,0071 ;
+exemple 4 % → 0,0504. Remarque : la fiche <a href="../pfo/n/norme-de-frobenius.html">Norme de Frobenius</a> garde son exemple minimal (0,001/−0,003/0,002), désormais
+sans lien avec le parcours — non touché (hors mandat).</p><h3>Rendu de l'agent — recits-dss-panorama.md</h3><h4>Récits dss — panorama et terrain</h4><p>Brouillon de l'histoire (écrit avant le fichier) : <code>scratchpad/brouillon-panorama-dss.md</code>.
+Calculs : <code>scratchpad/pano.py</code> (même générateur que <code>courses/dss/figures/surapprentissage.py</code>, graine 78).</p><h4>dss/parcours-panorama (ordre 1) — réécrit, histoire d'abord</h4><p>(a) Un seul personnage, la banque, et une seule question : que tirer de ses 20 dossiers, et comment savoir si c'est juste. La fouille range les dossiers et trouve que x3, un renseignement sans lien, suit la perte de plus près que l'endettement (corrélation 0,50 contre 0,46). La corrélation fallacieuse répond (sur 20 000 clients nouveaux, x3 ne sépare plus rien). Viennent ensuite l'objectif (prédire, pas décrire), l'apprentissage automatique, supervisé, puis la bascule vers le défaut (scoring), la matrice, la courbe ROC, les données plutôt que les algorithmes (domaine), et l'interprétabilité, qui passe au parcours 2 (« lesquels garder »). Nicolas Cage est sorti du départ et vient dans la réponse de l'étape 2. Plus de régulateur (il était repris au parcours 6). Plus de GINI 51,36 / 57,84 ni de forêt aléatoire : ces chiffres sont laissés à terrain. Le départ ne compte plus qu'un paragraphe, et l'arrivée répond au départ.</p><p>(b) Ordre avant → après :
+- avant : correlation-fallacieuse, science-des-donnees, fouille-de-donnees, apprentissage-automatique, intelligence-artificielle, apprentissage-supervise, apprentissage-non-supervise, apprentissage-par-renforcement, domaine-d-application, interpretabilite, matrice-de-confusion, courbe-roc, scoring-de-credit
+- après : fouille-de-donnees, correlation-fallacieuse, science-des-donnees, apprentissage-automatique, intelligence-artificielle, apprentissage-supervise, apprentissage-non-supervise, apprentissage-par-renforcement, scoring-de-credit, matrice-de-confusion, courbe-roc, domaine-d-application, interpretabilite
+(A14 respecté : domaine après apprentissage-automatique ; scoring et matrice après supervisé ; ROC après matrice.)</p><p>(c) Test de lecture (recit.py, lu d'une traite) : aucun arrêt restant sur le fil principal. Pour l'opérateur, trois fiches forment des <strong>branches</strong> et ne sont pas sur le fil. Chacune a maintenant un moment concret, mais la réponse se clôt par « le cours ne le développe pas » :
+- intelligence-artificielle (étape 5) : « et si l'économie change, faut-il un système qui réapprenne seul ? » ;
+- apprentissage-non-supervise (étape 7) : les clients en cours, dont la perte est inconnue ;
+- apprentissage-par-renforcement (étape 8) : apprendre en prêtant, avec une réponse différée.
+Ce ne sont plus des étapes « sans moment », mais ce sont des détours. Si l'opérateur veut un fil strictement linéaire, ce sont les candidates à <code>hors_parcours</code>, ce que je n'ai pas fait.</p><p>Nombres recalculés (python3) :
+- moyennes de perte, 10 plus endettés 4,36 / 10 autres 2,84 ; par x3, 4,19 / 3,01 ;
+- corrélations sur les 20 clients : x3 0,499, x1 0,459 ;
+- sur 20 000 clients nouveaux, moitiés par x3 : 3,03 / 2,97 ;
+- 90/100, 0/10, AUC 0,75 → GINI 0,50 : repris de la fiche.</p><p>Références vérifiées dans la source (pdftotext) : webscraping, « +10 % à 20 % de GINI et de profit », slide 14 ; phrase de l'interprétabilité, slide 13 ; SMOTE, slide 229 ; les trois questions de l'étude des biais, slide 227. Tout le reste est [ajout], sauf les marqueurs des transitions, qui sont gardés.</p><h4>dss/parcours-terrain (ordre 7) — retouché</h4><p>(a) Le départ « 30 défauts sur 1 000, 97 % » est retiré : c'était l'exemple de la matrice du panorama avec d'autres chiffres. Le nouveau départ pose une seule question, « parmi les modèles appris, laquelle choisir ? », sur le jeu du cours (12 544 entreprises, 343 variables), et l'étape 1 (comparaison) y répond. Ses GINI sont désormais donnés pour la première fois : ajout du boosting (44,16) et de l'apprentissage profond (44,92), tirés de la fiche. Le déséquilibre n'est plus posé au départ. Il arrive par une Suite à l'étape 2, dans la seconde étude : prédire le genre sur des groupes de tailles très inégales, ce qui est l'usage que la fiche SMOTE décrit (slide 227, 229). L'étape 3 (biais) répond à cette même question. Les transitions des étapes 1 et 2 sont réécrites pour ne pas redire le départ.</p><p>(b) Ordre inchangé : comparaison-de-modeles, smote, biais-societal. « À savoir avant » et arrivée inchangés.</p><p>(c) Test de lecture : aucun arrêt restant. Nombres vérifiés : 57,84 − 51,36 = 6,48 ; 51,36 − 28,38 = 22,98.</p><h4>Validateur</h4><p><code>python3 tools/validate.py</code> : 263 notions, 0 erreur. Il reste deux avertissements, tous deux des A17 « refonte du récit déclarée » (dss, attendu, et pfo, qui ne vient pas de moi). course.yml, fiches et autres parcours : non touchés. Pas de git.</p><h4>Hors de mon périmètre</h4><p>Le diagnostic du parcours 5 (neurones, étape 9) relevait « l'apprentissage profond qu'annonçait l'introduction ». Le panorama réécrit ne l'annonce toujours pas : l'agent qui s'occupe de neurones doit retirer ce renvoi.</p><h3>Rendu de l'agent — recits-dss-suite.md</h3><h4>Parcours dss retouchés : selection, retrecir, arbres, entrainement, neurones</h4><p>Les versions d'avant sont copiées dans <code>scratchpad/dss-parcours-avant/</code>. Tous les nombres ajoutés ont été recalculés sur le monde des 20 clients (graine 78, même générateur que <code>courses/dss/figures/*.py</code>). Les scripts sont <code>scratchpad/monde.py</code> pour la sélection et <code>scratchpad/retrecir_calc.py</code> pour ridge, le lasso, la validation croisée, la décomposition en valeurs singulières, la régression sur composantes principales et les moindres carrés partiels. Validateur : 0 erreur. Il reste un avertissement A17 « refonte du récit déclarée » pour dss, attendu. <code>test_garde_fous</code> : tous les garde-fous se déclenchent. Aucune fiche, aucun course.yml, aucun autre parcours n'a été touché.</p><h4>selection (« Choisir les variables d'une régression »)</h4><p>(a) Le but, retirer des prédicteurs, arrive maintenant dès les étapes 2 et 3. On se demande d'abord pourquoi en vouloir moins, puis on voit que la façon la plus directe est d'en retirer. Ensuite seulement vient la question de juger. L'étape « surapprentissage » ne redit plus les nombres de l'erreur de test : elle montre les coefficients 0,37, −0,25 et −0,38 que reçoivent les trois variables sans lien. Chaque critère est maintenant amené par ce qui manque au précédent :
+- le $C_p$ fixe un prix par prédicteur ;
+- l'AIC vaut hors des moindres carrés ;
+- le BIC fait monter le prix avec le nombre de clients ;
+- le $R^2$ ajusté corrige la mesure qu'on lit d'habitude ;
+- la validation croisée se passe de formule et de $\hat\sigma^2$.</p><p>Autres corrections :
+- L'étape 1 ne parle plus avec la voix du support.
+- À l'étape 12, le $C_p$ choisit entre les meilleurs sous-ensembles de chaque taille.
+- L'étape 13 ne pose plus la même question dans sa transition et dans sa suite.</p><p>(b) Ordre des étapes :
+- avant : mco, erreur-de-test, surapprentissage, critere-penalise, cp, aic, bic, r2-ajuste, validation-croisee, <strong>selection-de-variables, selection-de-sous-ensemble</strong>, meilleur-sous-ensemble, pas-a-pas, ascendante, descendante ;
+- après : mco, <strong>selection-de-variables, selection-de-sous-ensemble</strong>, erreur-de-test, surapprentissage, critere-penalise, cp, aic, bic, r2-ajuste, validation-croisee, meilleur-sous-ensemble, pas-a-pas, ascendante, descendante.</p><p>(c) Dernier test de lecture : plus aucun arrêt.</p><h4>retrecir (« Garder toutes les variables, mais les contraindre »)</h4><p>(a) J'ai corrigé le défaut de fond. L'arrivée dit maintenant ce que montre l'exemple : sur les 20 clients, l'échange biais-variance ne paie pas. Aucune méthode ne descend sous 1,8, loin du 1,16 de la sélection. Elle dit aussi pourquoi :
+- une variable de bruit, que le hasard a liée à la perte autant que l'endettement (0,62 contre 0,57), ne se distingue pas d'un vrai prédicteur ;
+- sur si peu de clients, la validation croisée choisit mal $\lambda$.</p><p>L'étape 5 le chiffre : pour ridge, $\lambda\approx5$ fait passer l'erreur de test de 1,83 à 2,43 ; pour le lasso, $\lambda\approx2{,}5$ donne 1,87. J'ai vérifié qu'aucune valeur de $\lambda$ ne descend sous 1,82. Pour les moindres carrés partiels, le minimum est 1,83.</p><p>Les 30 prédicteurs ont quitté le départ. Ils arrivent par une suite à l'étape « haute dimension », qui dit honnêtement que l'exemple ne chiffre pas ce cas. Le départ pose maintenant la question avec les nombres de la sélection.</p><p>Les étapes 6 à 8 portent désormais sur les cinq prédicteurs :
+- à l'étape 7, la décomposition en valeurs singulières donne d'abord les directions et leurs étirements (de 6,7 à 2,1), puis relit ridge (facteurs 0,90 et 0,47 à $\lambda\approx5$) ;
+- l'étape 8 ne commence plus par « Il désigne ».</p><p>J'ai aussi retiré l'affirmation « aucune [composante] ne domine » : la première porte 45 %.</p><p>(b) Ordre inchangé.</p><p>(c) Dernier test de lecture : plus aucun arrêt. Une limite est assumée : l'étape 12 (« dans ce régime ») illustre la haute dimension sur l'exemple à cinq prédicteurs, faute de données à 30 prédicteurs.</p><h4>arbres (« Des arbres à la forêt »)</h4><p>(a) L'importance des variables vient maintenant après la forêt. Elle devient la question née du récit : « La forêt prédit mieux qu'un arbre, mais on ne sait plus quelles variables comptent ». La question du départ (« que les arbres n'apprennent pas tous la même chose ») est résolue à l'étape 6 au lieu de la 9, et « Retour au bagging » disparaît. A14 est respecté : les prérequis de l'importance, le bagging et l'erreur hors du sac, restent avant.</p><p>(b) Ordre des étapes :
+- avant : ensemble, bootstrap, bagging, oob, <strong>importance, impureté, permutation</strong>, variance-moyenne-corrélée, forêt, boosting ;
+- après : ensemble, bootstrap, bagging, oob, variance-moyenne-corrélée, forêt, <strong>importance, impureté, permutation</strong>, boosting.</p><p>(c) Dernier test de lecture : plus d'arrêt sur les points confiés. Deux points restent tels quels, parce qu'ils n'étaient pas dans la consigne :
+- l'importance n'a toujours pas de chiffre (« si elle a bien appris… ») : il faudrait coder une forêt ;
+- le départ garde ses trois paragraphes.</p><h4>entrainement (« Entraîner un réseau qui généralise »)</h4><p>(a) La préparation et le codage des données ne viennent plus en « avant tout cela ». Ils arrivent juste après l'architecture, par la question « le nombre de poids dépend aussi du nombre d'entrées ». Le codage chiffre maintenant son effet :
+- avec la situation familiale codée un parmi $N$ et la tranche d'âge en thermomètre, le réseau passe de 5 à 11 entrées et de 141 à 261 poids, soit plus de 2 610 exemples ;
+- coder la tranche d'âge par un seul réel économise deux entrées, soit 40 poids.</p><p>Les « 20 entrées » sans origine sont remplacées par les cinq prédicteurs des clients. On a donc 141 poids et plus de 1 410 exemples à 10 %, au lieu de 441 et 4 410. La fiche garde son propre exemple 20-20-1 du cours. L'analyse post-entraînement ne reprend plus la question du régulateur : elle demande si le réseau s'appuie sur l'endettement et le revenu ou sur les variables sans lien, ce qui la rattache à la généralisation.</p><p>(b) Ordre des étapes :
+- avant : généralisation, pac, architecture, arrêt, décroissance, protocole, <strong>préparation, type, codage</strong>, analyse ;
+- après : généralisation, pac, architecture, <strong>préparation, type, codage</strong>, arrêt, décroissance, protocole, analyse.</p><p>(c) Dernier test de lecture : plus d'arrêt. Un point reste, qui n'était pas dans la consigne : à l'étape « protocole », le vocabulaire « jeu que le cours appelle de test » est gardé ; le texte signale déjà le conflit.</p><h4>neurones (« Du neurone au réseau qui apprend »)</h4><p>(a) La transition de l'activation pose maintenant la question née du récit : pour dépasser la limite, il faudra que plusieurs neurones apprennent ensemble, et un seuil sec ne se corrige pas par petits pas. A14 interdit de placer l'activation après la descente de gradient, puisque le réseau multicouche en dépend. Le réseau multicouche précise que des seuils suffisent au calcul à la main et que la sigmoïde servira à l'apprentissage.</p><p>L'apprentissage profond passe en dernière étape, sans « qu'annonçait l'introduction ». Le réseau à couche cachée enchaîne ainsi directement sur « comment trouver ces poids ». Enfin, le départ ne parle plus avec la voix du support : « Le bloc sur les réseaux… montre » devient une question, en [ajout].</p><p>(b) Ordre des étapes :
+- avant : …, limite, activation, multicouche, <strong>apprentissage-profond</strong>, descente-de-gradient, rétropropagation, inertie, en-ligne-ou-par-lot ;
+- après : …, limite, activation, multicouche, descente-de-gradient, rétropropagation, inertie, en-ligne-ou-par-lot, <strong>apprentissage-profond</strong>.</p><p>(c) Dernier test de lecture : plus aucun arrêt.</p><h4>À reporter au rapport du jour (modifications de parcours, pour mémoire)</h4><ul><li><strong>Nombres nouveaux</strong>, tous en [ajout] et recalculés :</li><li>selection : coefficients du bruit 0,37, −0,25 et −0,38 ; le $C_p$ retient la taille 2 parmi les meilleurs sous-ensembles ;</li><li>retrecir : $\lambda\approx5$ et 2,43 pour ridge, $\lambda\approx2{,}5$ et 1,87 pour le lasso, $d_j$ de 6,7 à 2,1, facteurs 0,90 et 0,47 ;</li><li>entrainement : 141, 261 et 221 poids, 1 410 et 2 610 exemples.</li><li><strong>Marqueurs changés</strong> : le départ de neurones passe de [slide 148] à [ajout], parce que le texte a été réécrit. L'arrivée de retrecir est scindée : [slide 53] pour la phrase sur le biais et la variance, [ajout] pour le constat sur l'exemple.</li></ul><h3>Modifications ligne à ligne</h3><p><strong><code>pfo/parcours-non-normalite</code></strong></p><p>```diff
+--- avant/non-normalite.md
++++ après/non-normalite.md
+@@ -16,2 +16,2 @@
+-   Le chapitre part de ce constat, et en fait un principe dont tout le reste découle. [p. 19, §2.1]
+-   Histoire : « qui n'aurait jamais dû arriver » — Sous une loi normale, une baisse de plus de vingt écarts types a une probabilité de l'ordre de $10^{-89}$ ; elle est pourtant arrivée. Le cours en fait un principe : les rendements réels ne sont pas gaussiens, et un modèle qui le suppose sous-estime les pertes extrêmes. [ajout]
++   Que faut-il conclure d'un jour pareil, que la loi normale déclarait impossible ? [p. 19, §2.1]
++   Histoire : « qui n'aurait jamais dû arriver » — Sous une loi normale, une baisse de plus de vingt écarts types a une probabilité de l'ordre de $10^{-89}$ ; elle est pourtant arrivée. Ce n'est donc pas le marché qui s'est trompé, c'est la loi : les rendements réels ne sont pas gaussiens, et un modèle qui le suppose sous-estime les pertes extrêmes. [ajout]
+@@ -21 +21 @@
+-   Histoire : « Le 19 octobre 1987 » — Ce krach n'est pas isolé : les rendements réels ont des pertes extrêmes trop fréquentes, des baisses plus violentes que les hausses, des périodes agitées qui se suivent. Mandelbrot et Fama ont dressé la liste de ces régularités, que la loi normale ne reproduit pas. [ajout]
++   Histoire : « Le 19 octobre 1987 » — Ce krach n'est pas isolé : les rendements réels ont des pertes extrêmes trop fréquentes, des baisses plus violentes que les hausses, des périodes agitées qui se suivent. Ce sont des régularités qu'on retrouve d'un marché à l'autre, et que la loi normale ne reproduit pas. [ajout]
+@@ -24 +24 @@
+-   Pour passer du constat à la mesure, le cours va au-delà de la moyenne et de la variance. [§2.1.2]
++   Pour passer du constat à la mesure, il faut aller au-delà de la moyenne et de la variance. [§2.1.2]
+@@ -32,2 +32,6 @@
+-5. <a href="../pfo/n/kurtosis.html">Kurtosis</a>
+-   Second outil : une puissance paire et élevée, qui efface le signe et grossit démesurément les écarts lointains. [§2.1.2, p. 22]
++5. <a href="../pfo/n/asymetrie-negative.html">Asymétrie négative</a>
++   Ce signe négatif est-il un accident de la petite série, ou un trait des marchés ? [§2.1.1, p. 21]
++   Histoire : « le Dow Jones perd 22,6 % » — Un trait des marchés, et le premier fait stylisé qui devienne un chiffre : sur les actions, les baisses sont plus brutales que les hausses, et les krachs sont des baisses. La queue des pertes est plus longue que celle des gains, ce que la volatilité ne voit pas et que le signe du coefficient d'asymétrie lit aussitôt. [ajout]
++
++6. <a href="../pfo/n/kurtosis.html">Kurtosis</a>
++   Le signe ne dit pas tout : le krach est aussi un écart trop lointain, dans quelque sens qu'il aille. Second outil : une puissance paire et élevée, qui efface le signe et grossit démesurément les écarts lointains. [§2.1.2, p. 22]
+@@ -36,4 +39,0 @@
+-6. <a href="../pfo/n/asymetrie-negative.html">Asymétrie négative</a>
+-   Avec le premier outil, un des faits stylisés devient un chiffre qu'on peut lire sur une série. [§2.1.1, p. 21]
+-   Histoire : « le Dow Jones perd 22,6 % » — Les krachs sont des baisses, pas des hausses : la queue des pertes est plus longue que celle des gains. Sur la petite série, cela se lit au signe du coefficient d'asymétrie, −1,37. [ajout]
+-
+@@ -41,2 +41,3 @@
+-   Avec le second, un autre fait stylisé devient mesurable, celui des krachs trop fréquents. [p. 23]
+-   Histoire : « un écart de plus de vingt écarts types » — Les écarts lointains arrivent bien plus souvent que la loi normale ne le dit. Une loi de Laplace, dont la densité décroît comme $e^{-|x|}$ et non comme $e^{-x^2/2}$, dépasse à variance égale trois écarts types avec une probabilité de 1,4 %, contre 0,27 % pour la loi normale ; sa kurtosis, qui mesure ce poids des queues, vaut 6 au lieu de 3. [ajout]
++   Une kurtosis au-dessus de 3, à quoi cela ressemble-t-il sur la loi elle-même ? [p. 23]
++   Suite : Comparons à la loi normale une loi de Laplace de même moyenne et de même variance, dont la densité décroît comme $e^{-|x|}$ et non comme $e^{-x^2/2}$ ; sa kurtosis vaut 6. Combien de fois plus souvent s'écarte-t-elle de plus de trois écarts types ? [ajout]
++   Histoire : « Combien de fois plus souvent s'écarte-t-elle de plus de trois écarts types » — Plus de cinq fois : elle dépasse trois écarts types avec une probabilité de 1,4 %, contre 0,27 % pour la loi normale. C'est ce qu'on appelle des queues épaisses, et c'est le second fait stylisé devenu mesurable : les écarts lointains, comme celui de 1987, arrivent bien plus souvent que la loi normale ne le dit. [ajout]
+@@ -45 +46 @@
+-   Mesurer un écart ne suffit pas : sur un échantillon fini, une asymétrie non nulle peut venir du hasard. Il faut une règle de décision. [p. 25]
++   Reste une objection : mesurer un écart ne suffit pas, car sur un échantillon fini une asymétrie non nulle peut venir du hasard. [p. 25]
+@@ -47 +48 @@
+-   Histoire : « peut-elle venir du seul hasard » — On calcule la probabilité, si la loi était normale, d'obtenir un écart au moins aussi grand : c'est la p-valeur. Sous 5 %, on rejette la normalité ; au-dessus, on ne peut pas conclure. [ajout]
++   Histoire : « peut-elle venir du seul hasard » — Pour le savoir, on suppose la loi normale et l'on calcule la probabilité d'obtenir un écart au moins aussi grand : c'est la p-valeur. En tirant un très grand nombre de séries de six rendements normaux, une asymétrie d'au moins 1,37, dans un sens ou dans l'autre, n'apparaît qu'environ trois fois sur cent : la p-valeur vaut à peu près 0,03. Le hasard l'explique mal, sans l'exclure. [ajout]
+@@ -50,2 +51,2 @@
+-   Appliquée à la question du chapitre, cette règle demande une hypothèse précise à éprouver. [éq. 2.13, éq. 2.14]
+-   Histoire : « même si la loi était normale » — L'hypothèse éprouvée est précise, $H_0:X\sim\mathcal{N}(\mu,\sigma^2)$. Le test ne prouve jamais qu'elle est vraie ; il dit seulement si les données permettent de la rejeter. [ajout]
++   Trois chances sur cent, est-ce assez peu pour abandonner la loi normale ? La réponse se fixe avant de regarder les données : l'hypothèse éprouvée, et le seuil. [éq. 2.13, éq. 2.14]
++   Histoire : « même si la loi était normale » — L'hypothèse éprouvée est $H_0:X\sim\mathcal{N}(\mu,\sigma^2)$, rejetée quand la p-valeur passe sous 5 %. Avec 0,03, la petite série la rejette : le seul krach y suffit. Au-dessus de 5 %, on aurait seulement dit qu'on ne la rejette pas, jamais que la loi est normale. [ajout]
+@@ -54,2 +55,2 @@
+-    Premier test : il réemploie directement les deux moments calculés aux étapes 4 et 5. [§2.3]
+-    Suite : Sur 1 000 rendements réels, on mesure une asymétrie de −0,5 et un excès de kurtosis de 3, c'est-à-dire une kurtosis de 6, dépassant de 3 celle d'une loi normale. La normalité tient-elle ? [ajout]
++    Ce calcul ne regardait que l'asymétrie, et il a fallu simuler sa loi. Un test usuel juge les deux écarts à la fois, avec une loi connue d'avance. [§2.3]
++    Suite : Cette loi ne vaut que sur de longues séries. Sur 1 000 rendements réels, on mesure une asymétrie de −0,5 et un excès de kurtosis de 3, c'est-à-dire une kurtosis de 6, dépassant de 3 celle d'une loi normale. La normalité tient-elle ? [ajout]
+@@ -59,3 +60,3 @@
+-    Second test : il regarde l'échantillon trié tout entier, et peut rejeter là où le premier ne voit rien. [§2.4, p. 31]
+-    Suite : Sur un autre échantillon, Jarque-Bera donne une p-valeur de 0,20. Faut-il en conclure que la loi est normale ? [ajout]
+-    Histoire : « Faut-il en conclure que la loi est normale » — Non : Shapiro-Wilk, qui compare l'échantillon trié aux positions qu'y occuperaient les observations d'une loi normale, peut rejeter là où Jarque-Bera ne voit rien, par exemple avec une p-valeur de 0,03 sur le même échantillon. [ajout]
++    Jarque-Bera ne regarde que ces deux nombres. Une série peut-elle avoir l'asymétrie et la kurtosis d'une loi normale sans en suivre la loi ? [§2.4, p. 31]
++    Suite : Prenons un titre peu échangé, dont le cours ne bouge que d'un cran : sur trente jours, cinq baisses de 1 %, vingt jours sans changement, cinq hausses de 1 %. Son asymétrie est nulle et sa kurtosis vaut exactement 3. Faut-il en conclure que la loi est normale ? [ajout]
++    Histoire : « Faut-il en conclure que la loi est normale » — Jarque-Bera ne voit rien : $JB=0$, p-valeur 1. Shapiro-Wilk compare l'échantillon trié aux positions qu'y occuperaient trente observations normales, et y voit trois paliers là où la loi normale mettrait une pente régulière : $W\approx0{,}75$, p-valeur bien en dessous de 1 %, la normalité est rejetée. [ajout]
+```</p><p><strong><code>pfo/parcours-portefeuille</code></strong></p><p>```diff
+--- avant/portefeuille.md
++++ après/portefeuille.md
+@@ -22 +22 @@
+-   Histoire : « hésite entre deux actifs » — Pris seul, le second rapporte plus et le premier risque moins ; au-delà des 2 % sans risque, chacun rapporte d'ailleurs 0,40 par unité de volatilité. La question n'est pas lequel choisir, mais ce que chacun apporte au mélange. [ajout]
++   Histoire : « hésite entre deux actifs » — Pris seul, le second rapporte plus et le premier risque moins : aucun des deux ne l'emporte sur l'autre sur les deux tableaux. La question n'est pas lequel choisir, mais ce que chacun apporte au mélange. [ajout]
+@@ -29 +29 @@
+-   Les prix arrivent jour par jour, les objectifs se fixent sur un an. Comment passer de l'un à l'autre sans fausser le risque ? [§3.0.7]
++   Les prix arrivent jour par jour, les objectifs se fixent sur un an, et passer de l'un à l'autre ne doit pas fausser le risque. [§3.0.7]
+@@ -54 +54 @@
+-   Avec deux actifs, tout se fait à la main. Avec des dizaines et des bornes sur chaque poids, comment l'ordinateur trouve-t-il la solution ? [§3.0.6]
++   Avec deux actifs, tout se fait à la main. Avec des dizaines, et des bornes sur chaque poids, plus aucune formule ne donne la solution. [§3.0.6]
+@@ -61 +61 @@
+-Tout repose sur des rendements espérés et des covariances estimés : le récit s'arrête là où commence la question de leur stabilité, que pose l'exercice 3. [p. 54]
++Tout repose sur des rendements espérés et des covariances estimés, et le récit s'arrête là où commence la question de leur stabilité : si ces estimations bougent, la répartition bouge-t-elle avec elles ? [p. 54]
+```</p><p><strong><code>pfo/parcours-rendements</code></strong></p><p>```diff
+--- avant/rendements.md
++++ après/rendements.md
+@@ -9 +9 @@
+-Une action est affichée à 99,90 à l'achat et à 100,10 à la vente. Quel est son prix ? Et quand ce prix passe de 100 à 110 puis à 99, de combien a-t-elle monté ? Les deux questions ont plusieurs réponses, et le chapitre 1 commence par les trier. [ajout]
++Une action est affichée à 99,90 à l'achat et à 100,10 à la vente. Quel est son prix ? Et quand ce prix passe de 100 à 110 puis à 99, de combien a-t-elle monté ? Les deux questions ont plusieurs réponses. [ajout]
+@@ -18 +18 @@
+-   Histoire : « Quel est son prix ? » — Un modèle veut un seul nombre. On retient le milieu de la fourchette, $(99{,}90+100{,}10)/2=100{,}00$. [ajout]
++   Histoire : « Quel est son prix ? » — On retient le milieu de la fourchette, $(99{,}90+100{,}10)/2=100{,}00$, à égale distance du prix auquel on peut vendre et de celui auquel on peut acheter. [ajout]
+@@ -21 +21 @@
+-   Pour un gros ordre, ni le prix affiché ni la clôture ne disent ce qu'on a vraiment payé : il faut tenir compte des quantités échangées. [§1.1.2]
++   Le prix milieu sert au modèle. Celui qui achète vraiment, et en quantité, a un autre souci : ses propres achats font bouger le prix, et ni le prix affiché ni le prix milieu ne disent ce qu'il a payé. Il faut tenir compte des quantités échangées. [§1.1.2]
+@@ -26,2 +26,2 @@
+-   Une fois le prix choisi, le cours cesse de le modéliser directement, pour une raison statistique. [§1.2]
+-   Histoire : « quand ce prix passe de 100 à 110 puis à 99 » — Le cours ne modélise pas ces prix eux-mêmes, qui n'ont pas de niveau stable dans le temps, mais leurs variations d'une période à l'autre, dont la loi, elle, reste stable. [ajout]
++   Une fois le prix choisi, que faut-il modéliser : le prix lui-même, ou ses variations ? [§1.2]
++   Histoire : « quand ce prix passe de 100 à 110 puis à 99 » — Ses variations. Ces prix n'ont pas de niveau stable dans le temps ; leurs variations d'une période à l'autre, elles, suivent une loi qui reste stable, et c'est elles qu'on modélise. [ajout]
+@@ -34 +34 @@
+-   La seconde façon règle ce problème d'enchaînement, et c'est elle que tous les listings du cours emploieront. [§1.2.1, p. 11]
++   Existe-t-il une mesure qui s'enchaîne en s'additionnant ? La seconde façon règle ce problème, et c'est elle qu'on emploiera dans toute la suite. [§1.2.1, p. 11]
+```</p><p><strong><code>pfo/parcours-risque</code></strong></p><p>```diff
+--- avant/risque.md
++++ après/risque.md
+@@ -17,2 +17,2 @@
+-   Toutes les mesures de ce parcours reposent sur un même objet, que le poly emploie partout sans jamais le définir. [ajout]
+-   Histoire : « Combien peut-il perdre en une mauvaise journée » — Une « mauvaise journée » doit se chiffrer : une des 5 % pires, par exemple. Le rendement qui sépare ces 5 % du reste est un quantile. Pour une loi normale, il se trouve toujours à 1,6449 écarts types sous la moyenne, valeur que donne la table de la loi normale ; pour des rendements de moyenne 0,05 % et d'écart type 2 %, il vaut $0{,}05\,\%-1{,}6449\times2\,\%\approx-3{,}24\,\%$. [ajout]
++   Avant de chiffrer, il faut dire ce qu'est une mauvaise journée. [ajout]
++   Histoire : « Combien peut-il perdre en une mauvaise journée » — Une mauvaise journée doit se chiffrer : une des 5 % pires, par exemple, soit une journée sur vingt. Le rendement qui sépare ces 5 % du reste est le quantile à 5 % de la loi des rendements. La moyenne et l'écart type ne suffisent pas à le situer : il dépend de toute la forme de la loi, et c'est lui qu'il va falloir trouver. [ajout]
+@@ -22 +22 @@
+-   Histoire : « Un portefeuille de 1 000 000 » — Rapporté au capital, ce quantile, $-3{,}2397\,\%$ avant arrondi, devient une perte : si ses rendements étaient normaux, le portefeuille ne perdrait plus de $0{,}032397\times1\,000\,000\approx32\,397$ qu'une journée sur vingt. C'est sa valeur à risque, ou VaR, à 95 % sur un jour. [ajout]
++   Histoire : « Un portefeuille de 1 000 000 » — Rapporté au capital, ce quantile devient une perte : la valeur à risque, ou VaR, à 95 % sur un jour, est la perte que le portefeuille ne dépasse qu'une journée sur vingt. Si le quantile valait −3 %, par exemple, elle serait de $0{,}03\times1\,000\,000=30\,000$. [ajout]
+@@ -27 +27 @@
+-   Histoire : « combien perd-il en moyenne » — C'est la CVaR, ou valeur à risque conditionnelle, la perte moyenne sur les 5 % de jours les pires. Si les rendements étaient normaux, la moyenne de ces pires rendements se trouverait à $\varphi(1{,}645)/0{,}05\approx2{,}063$ écarts types sous la moyenne, $\varphi$ étant la densité de la loi normale, plus loin que le seuil à 1,645 : $0{,}05\,\%-2{,}063\times2\,\%\approx-4{,}08\,\%$, soit une perte de 40 754, bien au-delà des 32 397 du seuil. [ajout]
++   Histoire : « combien perd-il en moyenne » — C'est la CVaR, ou valeur à risque conditionnelle : la perte moyenne sur les 5 % de jours les pires, toujours au moins égale à la VaR. Elle ne dépend plus seulement du quantile, mais de toute la queue de la loi au-delà. [ajout]
+@@ -31 +31 @@
+-   Histoire : « avec une asymétrie de −0,5 et un excès de kurtosis de 3 » — Ces deux chiffres disent que la loi n'est pas normale : les montants précédents dépendent de l'hypothèse faite sur elle. Le cours compare trois hypothèses : aucune, la loi normale, et une loi normale corrigée. [ajout]
++   Histoire : « avec une asymétrie de −0,5 et un excès de kurtosis de 3 » — Ces deux chiffres disent que la loi n'est pas normale ; or la VaR et la CVaR dépendent de la loi entière, pas seulement de sa moyenne et de son écart type. Le cours compare donc trois hypothèses : aucune, la loi normale, et une loi normale corrigée. [ajout]
+@@ -40 +40 @@
+-   Histoire : « de moyenne 0,05 % et d'écart type 2 % » — Deuxième hypothèse : ne garder que ces deux nombres et supposer la loi normale. On retrouve la VaR de 32 397 et la CVaR de 40 754 ; mais l'asymétrie et la kurtosis du portefeuille disent que cette hypothèse est fausse. [ajout]
++   Histoire : « de moyenne 0,05 % et d'écart type 2 % » — On ne garde que ces deux nombres et l'on suppose la loi normale. Son quantile à 5 % est toujours à 1,6449 écarts types sous la moyenne, valeur que donne la table : $0{,}05\,\%-1{,}6449\times2\,\%\approx-3{,}24\,\%$, soit une VaR de 32 397. La moyenne des 5 % pires jours est plus loin : pour une loi normale, elle se trouve à $\varphi(1{,}6449)/0{,}05\approx2{,}063$ écarts types sous la moyenne, $\varphi$ étant la densité de la loi normale ; cette formule fermée vient de ce que la dérivée de $\varphi$ en $x$ vaut $-x\varphi(x)$. D'où $0{,}05\,\%-2{,}063\times2\,\%\approx-4{,}08\,\%$ et une CVaR de 40 754. Mais l'asymétrie et la kurtosis du portefeuille disent que cette hypothèse est fausse. [ajout]
+@@ -44 +44 @@
+-   Histoire : « une asymétrie de −0,5 » — Le quantile gaussien, $z_\alpha=-1{,}645$, se corrige avec l'asymétrie $S=-0{,}5$ et l'excès de kurtosis $K=3$ : $q_\alpha\approx z_\alpha+\tfrac{S}{6}(z_\alpha^2-1)+\tfrac{K}{24}(z_\alpha^3-3z_\alpha)-\tfrac{S^2}{36}(2z_\alpha^3-5z_\alpha)$. L'asymétrie négative le pousse vers les pertes de $-0{,}142$ ; à ce seuil, la kurtosis le ramène de $+0{,}061$ et le dernier terme de $+0{,}005$ : il arrive à $-1{,}7217$. [ajout]
++   Histoire : « une asymétrie de −0,5 » — Le quantile gaussien, $z_\alpha=-1{,}645$, se corrige avec l'asymétrie $S=-0{,}5$ et l'excès de kurtosis $K=3$ : $q_\alpha\approx z_\alpha+\tfrac{S}{6}(z_\alpha^2-1)+\tfrac{K}{24}(z_\alpha^3-3z_\alpha)-\tfrac{S^2}{36}(2z_\alpha^3-5z_\alpha)$. L'asymétrie négative le pousse vers les pertes de $-0{,}142$. La kurtosis, elle, le ramène de $+0{,}061$ : une loi à queues épaisses a aussi des flancs plus minces que la loi normale, et à 1,645 écarts types on est encore sur le flanc ; son terme, $z_\alpha^3-3z_\alpha$, ne change de signe qu'à $\sqrt3\approx1{,}73$ écarts types. Avec le dernier terme, $+0{,}005$, le quantile arrive à $-1{,}7217$. [ajout]
+@@ -48 +48 @@
+-   Histoire : « un excès de kurtosis de 3 » — Avec le quantile corrigé, la VaR passe de 32 397 à $-(0{,}05\,\%-1{,}7217\times2\,\%)\times1\,000\,000\approx33\,935$. La CVaR, qui moyenne toute la queue, doit corriger chacun de ses quantiles avant d'en faire la moyenne, et bouge bien davantage, de 40 754 à 53 511, en moyennant comme le calcul du cours les niveaux de 0,01 % à 5 %, sans la toute extrémité de la queue qui ajouterait environ 430 : plus d'environ 1,73 écart type sous la moyenne, le terme de kurtosis change de signe et pousse fort vers les pertes. [ajout]
++   Histoire : « un excès de kurtosis de 3 » — Avec le quantile corrigé, la VaR passe de 32 397 à $-(0{,}05\,\%-1{,}7217\times2\,\%)\times1\,000\,000\approx33\,935$. La CVaR, elle, corrige chacun des quantiles de la queue, du niveau 5 % jusqu'au niveau 0,01 %, puis en fait la moyenne. Or au-delà de 1,73 écarts types, le terme de kurtosis change de signe et pousse fort vers les pertes : la CVaR passe de 40 754 à 53 511. Aller jusqu'au tout bout de la queue ajouterait encore environ 430. [ajout]
+```</p><p><strong><code>pfo/parcours-volatilite</code></strong></p><p>```diff
+--- avant/volatilite.md
++++ après/volatilite.md
+@@ -9 +9 @@
+-Les rendements sont propres. Il faut maintenant dire combien ils bougent et s'ils bougent ensemble : un actif varie de 1 % par jour, un autre de 2 %, avec une corrélation de 0,5. Deux difficultés apparaissent aussitôt, l'une dans le temps, l'autre entre les places. [ajout]
++Les rendements sont propres. Il faut maintenant dire combien ils bougent et s'ils bougent ensemble : un actif varie de 1 % par jour, un autre de 2 %, avec une corrélation de 0,5. Une fois ces chiffres rangés, deux difficultés apparaissent, l'une dans le temps, l'autre entre les places. [ajout]
+@@ -14 +14 @@
+-- <a href="../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance</a> : c'est lui qui justifie de multiplier une variance journalière par 252 pour l'annualiser, et l'étude de cas en éprouve l'hypothèse. [éq. 1.11]
++- <a href="../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance</a> : c'est lui qui justifie de multiplier une variance journalière par 252 pour la porter à l'année, et une variance hebdomadaire par 52 ; c'est ce qui permet, à la fin, de comparer deux estimations faites à des fréquences différentes. [éq. 1.11, Listing 1.4]
+@@ -17 +17,9 @@
+-1. <a href="../pfo/n/regroupement-de-volatilite.html">Regroupement de volatilité</a>
++1. <a href="../pfo/n/matrice-de-covariance.html">Matrice de variance-covariance</a>
++   Comment ranger ces chiffres pour les deux actifs ensemble ? Il faut une variance pour chacun, et un terme pour le couple. [§1.5]
++   Histoire : « un actif varie de 1 % par jour, un autre de 2 % » — On range dans une matrice les variances et la covariance, qui vaut la corrélation fois le produit des écarts types. Portées à l'année en multipliant par ses 252 séances : $0{,}01^2\times252=0{,}0252$ et $0{,}02^2\times252=0{,}1008$ sur la diagonale, $0{,}5\times0{,}01\times0{,}02\times252=0{,}0252$ hors de la diagonale. [ajout]
++
++2. <a href="../pfo/n/matrice-de-correlation.html">Matrice de corrélation</a>
++   Ces termes croisés sont dans l'unité d'un rendement au carré, donc illisibles seuls. Comment les rendre comparables d'un couple à l'autre ? [§1.5, p. 17]
++   Histoire : « s'ils bougent ensemble » — Le terme croisé, 0,0252, ne dit pas à lui seul si les actifs sont liés : si le second actif variait de 4 % par jour au lieu de 2 %, il doublerait, à 0,0504, sans que leur lien change. Divisé par le produit des écarts types, $0{,}0252/\sqrt{0{,}0252\times0{,}1008}=0{,}5$, il ne garde que le lien. Ici on connaissait la corrélation et l'on retombe sur 0,5 ; en pratique, c'est l'inverse : on estime les covariances sur les rendements, et c'est cette division qui donne les corrélations. [ajout]
++
++3. <a href="../pfo/n/regroupement-de-volatilite.html">Regroupement de volatilité</a>
+@@ -19 +27 @@
+-   Histoire : « combien ils bougent » — Ce 1 % par jour n'est qu'une moyenne sur la période : l'actif varie moins en temps calme, bien plus en crise, et les journées agitées se suivent. Un seul nombre fixe ne décrit pas cette alternance. [ajout]
++   Histoire : « combien ils bougent » — Ce 1 % par jour, rangé dans la matrice, n'est qu'une moyenne sur la période : l'actif varie moins en temps calme, bien plus en crise, et les journées agitées se suivent. Un seul nombre fixe ne décrit pas cette alternance. [ajout]
+@@ -21 +29 @@
+-2. <a href="../pfo/n/ewma.html">Variance EWMA</a>
++4. <a href="../pfo/n/ewma.html">Variance EWMA</a>
+@@ -24,9 +32 @@
+-   Histoire : « Que faut-il croire de sa volatilité aujourd'hui » — L'EWMA, moyenne mobile à pondération exponentielle, mélange la variance de la veille, $0{,}01^2=0{,}0001$ pour 1 % par jour, et le carré du dernier rendement, en donnant au passé le poids $\lambda=0{,}94$ usuel pour des données journalières : $0{,}94\times0{,}0001+0{,}06\times0{,}02^2=0{,}000118$, soit une volatilité de $\sqrt{0{,}000118}\approx1{,}09\,\%$. Elle monte, sans oublier le passé. [ajout]
+-
+-3. <a href="../pfo/n/matrice-de-covariance.html">Matrice de variance-covariance</a>
+-   Passer d'un actif à plusieurs : il faut une variance pour chacun, et un terme pour chaque couple. [§1.5]
+-   Histoire : « un actif varie de 1 % par jour, un autre de 2 % » — Pour les deux actifs ensemble, on range dans une matrice les variances et la covariance, qui vaut la corrélation fois le produit des écarts types. Portées à l'année en multipliant par ses 252 séances : $0{,}01^2\times252=0{,}0252$ et $0{,}02^2\times252=0{,}1008$ sur la diagonale, $0{,}5\times0{,}01\times0{,}02\times252=0{,}0252$ hors de la diagonale. [ajout]
+-
+-4. <a href="../pfo/n/matrice-de-correlation.html">Matrice de corrélation</a>
+-   Ces termes croisés sont dans l'unité d'un rendement au carré, donc illisibles seuls. Comment les rendre comparables d'un couple à l'autre ? [§1.5, p. 17]
+-   Histoire : « s'ils bougent ensemble » — Le terme croisé, 0,0252, ne se lit pas seul : il grandit avec l'agitation de chaque actif. Divisé par le produit des écarts types, $0{,}0252/\sqrt{0{,}0252\times0{,}1008}=0{,}5$, il redonne la corrélation, comparable d'un couple d'actifs à l'autre. [ajout]
++   Histoire : « Que faut-il croire de sa volatilité aujourd'hui » — L'EWMA, moyenne mobile à pondération exponentielle, mélange la variance de la veille, $0{,}01^2=0{,}0001$ pour 1 % par jour, et le carré du dernier rendement, en donnant au passé le poids $\lambda=0{,}94$ usuel pour des données journalières : $0{,}94\times0{,}0001+0{,}06\times0{,}02^2=0{,}000118$, soit une volatilité de $\sqrt{0{,}000118}\approx1{,}09\,\%$. Elle monte, sans oublier le passé : ce jour-là, c'est 1,09 % et non 1 % qu'il faudrait mettre dans la matrice. [ajout]
+@@ -36 +36,2 @@
+-   Histoire : « l'autre entre les places » — Si le premier actif cote à Tokyo et le second à Paris, une nouvelle tombée l'après-midi à Paris ne touche Tokyo que le lendemain. Calculée jour par jour, la corrélation mesurée tombe sous sa vraie valeur ; des rendements hebdomadaires la mesurent mieux. [ajout]
++   Suite : Supposons que le premier actif cote à Tokyo et le second à Paris. Calculée sur leurs rendements journaliers, leur corrélation ne sort qu'à 0,4 ; sur leurs rendements hebdomadaires, à 0,5. Laquelle croire ? [ajout]
++   Histoire : « Laquelle croire » — La seconde. Une nouvelle tombée l'après-midi à Paris ne touche Tokyo que le lendemain : les deux rendements d'un même jour ne portent pas les mêmes nouvelles, et la corrélation journalière tombe sous sa vraie valeur. Sur une semaine, ce décalage d'un jour ne pèse presque plus. [ajout]
+@@ -39,3 +40,3 @@
+-   L'étude de cas compare deux estimations de la même matrice, journalière et hebdomadaire. Il faut un seul nombre pour dire à quel point elles diffèrent. [§1.6, §1.6.1]
+-   Suite : Estimée sur des rendements journaliers puis hebdomadaires, la matrice des deux actifs change : ses termes diagonaux diffèrent de 0,001 et de −0,003, et son terme croisé de 0,002. De combien les deux estimations diffèrent-elles, en un seul nombre ? [ajout]
+-   Histoire : « en un seul nombre » — On additionne les carrés de tous les écarts, le terme croisé comptant deux fois puisqu'il figure deux fois dans la matrice, et l'on prend la racine : $\sqrt{0{,}001^2+0{,}003^2+2\times0{,}002^2}\approx0{,}0042$. [ajout]
++   Les deux fréquences donnent donc deux matrices de covariance différentes pour les mêmes actifs. De combien diffèrent-elles, en un seul nombre ? [§1.6, §1.6.1]
++   Suite : Portées à l'année, par 252 pour l'une et par 52 pour l'autre, les deux estimations ont les mêmes variances ; seul le terme croisé change : $0{,}4\times0{,}01\times0{,}02\times252=0{,}02016$ en journalier, contre 0,0252 en hebdomadaire. Quelle distance sépare les deux matrices ? [ajout]
++   Histoire : « Quelle distance sépare les deux matrices » — On additionne les carrés de tous les écarts terme à terme, le terme croisé comptant deux fois puisqu'il figure deux fois dans la matrice, et l'on prend la racine. Seul l'écart du terme croisé, $0{,}0252-0{,}02016=0{,}00504$, n'est pas nul : $\sqrt{2\times0{,}00504^2}\approx0{,}0071$. Toute la distance vient ici de l'effet Epps, qui ôte un cinquième au terme croisé. [ajout]
+```</p><p><strong><code>dss/parcours-arbres</code></strong></p><p>```diff
+--- avant/arbres.md
++++ après/arbres.md
+@@ -38,2 +38,11 @@
+-5. <a href="../dss/n/importance-des-variables.html">Importance des variables</a>
+-   L'ensemble prédit mieux qu'un arbre, mais on ne sait plus quelles variables comptent. [slide 104]
++5. <a href="../dss/n/variance-d-une-moyenne-correlee.html">Variance d'une moyenne corrélée</a>
++   Les 500 arbres ne sont pas indépendants les uns des autres. Est-ce grave ? [slide 108]
++   Suite : Les arbres sont bâtis sur des tirages des mêmes 20 clients, et se ressemblent. Moyenner des arbres qui se ressemblent réduit-il la variance autant qu'on l'espère ? [ajout]
++   Histoire : « Moyenner des arbres qui se ressemblent réduit-il la variance » — Non : si chaque arbre a une variance $\sigma^2$ et deux arbres une corrélation $\rho$, la moyenne de $B$ arbres a pour variance $\rho\,\sigma^2+(1-\rho)\,\sigma^2/B$. Le second terme s'efface quand $B$ grandit, pas le premier : à $\rho=0{,}5$, elle ne descend jamais sous la moitié de celle d'un arbre, même avec 500 arbres. [ajout]
++
++6. <a href="../dss/n/foret-aleatoire.html">Forêt aléatoire</a>
++   Si les arbres se ressemblent trop, comment les forcer à différer ? [slide 110, slide 111]
++   Histoire : « Comment faire pour que ces arbres n'apprennent pas tous la même chose » — À chaque coupure, on ne laisse candidats que quelques prédicteurs tirés au hasard, par exemple 2 des 5 : trois fois sur cinq, le prédicteur le plus fort n'est pas candidat, et les arbres cessent de se ressembler. [ajout]
++
++7. <a href="../dss/n/importance-des-variables.html">Importance des variables</a>
++   La forêt prédit mieux qu'un arbre, mais on ne sait plus quelles variables comptent. [slide 104]
+@@ -41 +50 @@
+-   Histoire : « Quelles variables comptent dans la perte qu'ils prédisent » — On attribue à chaque prédicteur une part du travail de l'ensemble. Si l'ensemble a bien appris, l'endettement et le revenu en reçoivent l'essentiel, et les trois variables sans lien presque rien. [ajout]
++   Histoire : « Quelles variables comptent dans la perte qu'ils prédisent » — On attribue à chaque prédicteur une part du travail de la forêt. Si elle a bien appris, l'endettement et le revenu en reçoivent l'essentiel, et les trois variables sans lien presque rien. [ajout]
+@@ -43 +52 @@
+-6. <a href="../dss/n/importance-par-impurete.html">Importance par impureté</a>
++8. <a href="../dss/n/importance-par-impurete.html">Importance par impureté</a>
+@@ -47 +56 @@
+-7. <a href="../dss/n/importance-par-permutation.html">Importance par permutation</a>
++9. <a href="../dss/n/importance-par-permutation.html">Importance par permutation</a>
+@@ -50,9 +58,0 @@
+-
+-8. <a href="../dss/n/variance-d-une-moyenne-correlee.html">Variance d'une moyenne corrélée</a>
+-   Retour au bagging : moyenner des arbres réduit-il la variance autant qu'on l'espère ? [slide 108]
+-   Suite : Les arbres sont bâtis sur des tirages des mêmes 20 clients, et se ressemblent. Moyenner des arbres qui se ressemblent réduit-il la variance autant qu'on l'espère ? [ajout]
+-   Histoire : « Moyenner des arbres qui se ressemblent réduit-il la variance » — Non : si chaque arbre a une variance $\sigma^2$ et deux arbres une corrélation $\rho$, la moyenne de $B$ arbres a pour variance $\rho\,\sigma^2+(1-\rho)\,\sigma^2/B$. Le second terme s'efface quand $B$ grandit, pas le premier : à $\rho=0{,}5$, elle ne descend jamais sous la moitié de celle d'un arbre, même avec 500 arbres. [ajout]
+-
+-9. <a href="../dss/n/foret-aleatoire.html">Forêt aléatoire</a>
+-   Si les arbres se ressemblent trop, comment les forcer à différer ? [slide 110, slide 111]
+-   Histoire : « Comment faire pour que ces arbres n'apprennent pas tous la même chose » — À chaque coupure, on ne laisse candidats que quelques prédicteurs tirés au hasard, par exemple 2 des 5 : trois fois sur cinq, le prédicteur le plus fort n'est pas candidat, et les arbres cessent de se ressembler. [ajout]
+```</p><p><strong><code>dss/parcours-entrainement</code></strong></p><p>```diff
+--- avant/entrainement.md
++++ après/entrainement.md
+@@ -30,2 +30,2 @@
+-   Suite : La banque envisage un réseau à 20 entrées et 20 neurones cachés pour prédire la perte. Combien de clients lui faudrait-il pour l'entraîner ? [ajout]
+-   Histoire : « Combien de clients lui faudrait-il pour l'entraîner » — Ce réseau compte 441 poids : chacun des 20 neurones cachés reçoit les 20 entrées plus un poids de seuil, soit 420 poids, et la sortie reçoit les 20 neurones cachés plus un seuil, soit 21. La règle du cours, $m&gt;W/\varepsilon$, demande un nombre d'exemples $m$ supérieur au nombre de poids $W$ divisé par la tolérance d'erreur $\varepsilon$ : pour 10 %, plus de $441/0{,}1=4\,410$ exemples. Les 20 clients de la banque en sont très loin. [ajout]
++   Suite : La banque envisage un réseau qui prenne en entrée les cinq prédicteurs de ses clients, l'endettement, le revenu et trois variables sans lien avec la perte, avec 20 neurones cachés. Combien de clients lui faudrait-il pour l'entraîner ? [ajout]
++   Histoire : « Combien de clients lui faudrait-il pour l'entraîner » — Ce réseau compte 141 poids : chacun des 20 neurones cachés reçoit les 5 entrées plus un poids de seuil, soit 120 poids, et la sortie reçoit les 20 neurones cachés plus un seuil, soit 21. La règle du cours, $m&gt;W/\varepsilon$, demande un nombre d'exemples $m$ supérieur au nombre de poids $W$ divisé par la tolérance d'erreur $\varepsilon$ : pour 10 %, plus de $141/0{,}1=1\,410$ exemples. Les 20 clients de la banque en sont très loin. [ajout]
+@@ -35 +35 @@
+-   Histoire : « 20 neurones cachés » — La borne pèse sur la forme du réseau : avec 20 clients, il faut un réseau de quelques poids seulement. Trop de poids exige trop d'exemples ; trop peu ne laisse pas la liberté d'apprendre la règle. [ajout]
++   Histoire : « 20 neurones cachés » — Vingt neurones cachés, c'est bien trop pour 20 clients : il leur faut un réseau de quelques poids seulement, donc peu de neurones cachés. Trop de poids exige trop d'exemples ; trop peu ne laisse pas la liberté d'apprendre la règle. [ajout]
+@@ -37,2 +37,15 @@
+-4. <a href="../dss/n/arret-precoce.html">Arrêt précoce</a>
+-   Pendant l'entraînement, à quel moment s'arrêter ? [slide 173]
++4. <a href="../dss/n/preparation-des-donnees.html">Préparation des données</a>
++   Le nombre de poids dépend aussi du nombre d'entrées, donc de ce qu'on donne au réseau et de la façon de le lui donner. [slide 187]
++   Suite : Aux dossiers de ses clients, la banque ajoute leur situation familiale et leur tranche d'âge. Que faut-il faire aux données avant de les donner au réseau ? [ajout]
++   Histoire : « Que faut-il faire aux données avant de les donner au réseau » — Les rassembler, les nettoyer, choisir ce qu'on garde, puis les transformer : un réseau entraîné par rétropropagation n'accepte que des nombres, typiquement entre 0 et 1. Choisir ce qu'on garde, c'est déjà choisir le nombre d'entrées. [ajout]
++
++5. <a href="../dss/n/type-de-donnee.html">Type de donnée</a>
++   Tous les attributs ne se traitent pas de la même façon : cela dépend de leur nature. [slide 188]
++   Histoire : « leur situation familiale et leur tranche d'âge » — Les deux ne sont pas de même nature. La situation familiale est nominale — célibataire, marié, divorcé —, sans ordre ; la tranche d'âge est ordinale — jeune, adulte, senior —, dans un ordre. L'endettement, lui, est continu. [ajout]
++
++6. <a href="../dss/n/codage-des-variables.html">Codage des variables</a>
++   Il faut ensuite les traduire en nombres, et la traduction n'est pas neutre. [slide 191]
++   Histoire : « situation familiale » — Elle se code un parmi $N$ : $N$ entrées, une par valeur possible, dont seule celle de la valeur prise vaut 1, pour n'imposer aucun ordre ; la tranche d'âge peut se coder en thermomètre, une entrée par tranche, allumées jusqu'à la sienne, ou par un seul réel, deux codages qui respectent son ordre ; l'endettement, par un seul réel ramené entre 0 et 1. La situation familiale prend ainsi trois entrées, et la tranche d'âge en thermomètre trois autres : le réseau passe de 5 à 11 entrées, et de 141 à 261 poids, soit plus de 2 610 exemples pour la même tolérance de 10 %. Coder la tranche d'âge par un seul réel économise deux entrées, et 40 poids. [ajout]
++
++7. <a href="../dss/n/arret-precoce.html">Arrêt précoce</a>
++   Les entrées fixées, reste l'entraînement lui-même : à quel moment s'arrêter ? [slide 173]
+@@ -41 +54 @@
+-5. <a href="../dss/n/decroissance-des-poids.html">Décroissance des poids</a>
++8. <a href="../dss/n/decroissance-des-poids.html">Décroissance des poids</a>
+@@ -45 +58 @@
+-6. <a href="../dss/n/protocole-d-entrainement.html">Protocole d'entraînement</a>
++9. <a href="../dss/n/protocole-d-entrainement.html">Protocole d'entraînement</a>
+@@ -49,13 +61,0 @@
+-7. <a href="../dss/n/preparation-des-donnees.html">Préparation des données</a>
+-   Avant tout cela, les données doivent être mises en état d'être apprises. [slide 187]
+-   Suite : Aux dossiers de ses clients, la banque ajoute leur situation familiale et leur tranche d'âge. Que faut-il faire aux données avant de les donner au réseau ? [ajout]
+-   Histoire : « Que faut-il faire aux données avant de les donner au réseau » — Les rassembler, les nettoyer, choisir ce qu'on garde, puis les transformer : un réseau entraîné par rétropropagation n'accepte que des nombres, typiquement entre 0 et 1. [ajout]
+-
+-8. <a href="../dss/n/type-de-donnee.html">Type de donnée</a>
+-   Tous les attributs ne se traitent pas de la même façon : cela dépend de leur nature. [slide 188]
+-   Histoire : « leur situation familiale et leur tranche d'âge » — Les deux ne sont pas de même nature. La situation familiale est nominale — célibataire, marié, divorcé —, sans ordre ; la tranche d'âge est ordinale — jeune, adulte, senior —, dans un ordre. L'endettement, lui, est continu. [ajout]
+-
+-9. <a href="../dss/n/codage-des-variables.html">Codage des variables</a>
+-   Il faut ensuite les traduire en nombres, et la traduction n'est pas neutre. [slide 191]
+-   Histoire : « situation familiale » — Elle se code un parmi $N$ : $N$ entrées, une par valeur possible, dont seule celle de la valeur prise vaut 1, pour n'imposer aucun ordre ; la tranche d'âge peut se coder en thermomètre, une entrée par tranche, allumées jusqu'à la sienne, ou par un seul réel, deux codages qui respectent son ordre ; l'endettement, par un seul réel ramené entre 0 et 1. [ajout]
+-
+@@ -64,2 +64,2 @@
+-    Suite : Le réseau entraîné, un régulateur demande à la banque pourquoi il juge un client risqué. Que peut-on lire dans ses poids ? [ajout]
+-    Histoire : « Que peut-on lire dans ses poids » — Peu de chose directement. On peut faire varier une entrée, l'endettement par exemple, et regarder la perte prédite bouger, ou retirer les attributs un à un et mesurer ce qu'on perd. Ces analyses donnent des vues du réseau, pas sa règle. [ajout]
++    Suite : Le réseau entraîné et vérifié, la banque veut savoir sur quoi il s'appuie : sur l'endettement et le revenu, ou sur les trois variables sans lien avec la perte ? Que peut-on lire dans ses poids ? [ajout]
++    Histoire : « Que peut-on lire dans ses poids » — Peu de chose directement. On peut faire varier une entrée, l'endettement par exemple, et regarder la perte prédite bouger, ou retirer les attributs un à un et mesurer ce qu'on perd : un réseau qui perdrait beaucoup sans une des variables sans lien aurait appris du bruit. Ces analyses donnent des vues du réseau, pas sa règle. [ajout]
+@@ -68 +68 @@
+-Un réseau utile est un réseau qui généralise : cela se décide dans sa taille, dans le moment où l'on arrête l'entraînement, dans la façon de préparer les données, et se vérifie sur des données réservées. [ajout]
++Un réseau utile est un réseau qui généralise : cela se décide dans sa taille, que fixe aussi le nombre d'entrées, donc la façon de préparer et de coder les données, puis dans le moment où l'on arrête l'entraînement, et se vérifie sur des données réservées. [ajout]
+```</p><p><strong><code>dss/parcours-neurones</code></strong></p><p>```diff
+--- avant/neurones.md
++++ après/neurones.md
+@@ -11 +11 @@
+-Le bloc sur les réseaux de neurones part d'un neurone unique et montre comment en assembler plusieurs pour dépasser cette limite. [slide 148]
++On part d'un neurone unique. Que sait-il faire seul, et comment en assembler plusieurs pour dépasser cette limite ? [ajout]
+@@ -43,2 +43,2 @@
+-   Pour aller plus loin, la sortie de chaque unité doit pouvoir être autre chose qu'un simple seuil. [slide 151]
+-   Histoire : « comment en assembler plusieurs » — Pour que des neurones assemblés apprennent ensemble, la fonction qui donne la sortie de chacun, sa fonction d'activation, doit être plus qu'un seuil sec : une fonction lisse de la somme pondérée $a$ de ses entrées, comme la sigmoïde $1/(1+e^{-a})$, qui varie un peu quand les poids varient un peu. [ajout]
++   Pour dépasser cette limite, il faudra assembler plusieurs neurones et leur faire apprendre leurs poids ensemble. Or, avec une sortie à seuil, corriger un peu un poids ne change rien, ou fait basculer la réponse d'un coup : que mettre à la place du seuil ? [slide 151]
++   Histoire : « comment en assembler plusieurs » — La fonction qui donne la sortie de chaque neurone, sa fonction d'activation, devient une fonction lisse de la somme pondérée $a$ de ses entrées, comme la sigmoïde $1/(1+e^{-a})$ : elle varie un peu quand les poids varient un peu, et chaque petite correction se voit à la sortie. [ajout]
+@@ -48 +48 @@
+-   Histoire : « pour dépasser cette limite » — Une couche cachée de deux neurones, placée entre les entrées et la sortie, suffit : l'un calcule le « ou », l'autre le « et », et la sortie répond 1 quand le premier dit oui et le second non. C'est exactement le « ou exclusif ». [ajout]
++   Histoire : « pour dépasser cette limite » — Une couche cachée de deux neurones, placée entre les entrées et la sortie, suffit : l'un calcule le « ou », l'autre le « et », et la sortie répond 1 quand le premier dit oui et le second non. C'est exactement le « ou exclusif ». Pour ce calcul à la main, des neurones à seuil suffisent ; la sigmoïde servira quand il faudra trouver ces poids. [ajout]
+@@ -50,3 +50,4 @@
+-9. <a href="../dss/n/apprentissage-profond.html">Apprentissage profond</a>
+-   Empiler davantage de couches donne l'apprentissage profond qu'annonçait l'introduction. [slide 8]
+-   Histoire : « en assembler plusieurs » — Empiler davantage de couches cachées, chacune combinant les sorties de la précédente, donne l'apprentissage profond : des caractéristiques de plus en plus élaborées, extraites couche après couche. [ajout]
++9. <a href="../dss/n/descente-de-gradient.html">Descente de gradient</a>
++   Comment entraîner un réseau dont la sortie dépend des poids de plusieurs couches ? D'abord, un principe général de minimisation. [slide 160]
++   Suite : Les poids de ce réseau à couche cachée, on vient de les donner à la main. Comment les trouver à partir des quatre exemples seuls ? [ajout]
++   Histoire : « Comment les trouver à partir des quatre exemples seuls » — On mesure l'erreur par la somme des carrés des écarts sur les quatre points, et l'on déplace chaque poids d'un petit pas dans la direction où elle baisse le plus vite, l'opposé de son gradient, qui rassemble, pour chaque poids, le taux auquel l'erreur change quand ce poids change. [slide 160, ajout]
+@@ -54,6 +55 @@
+-10. <a href="../dss/n/descente-de-gradient.html">Descente de gradient</a>
+-    Comment entraîner un réseau dont la sortie dépend des poids de plusieurs couches ? D'abord, un principe général de minimisation. [slide 160]
+-    Suite : Les poids de ce réseau à couche cachée, on vient de les donner à la main. Comment les trouver à partir des quatre exemples seuls ? [ajout]
+-    Histoire : « Comment les trouver à partir des quatre exemples seuls » — On mesure l'erreur par la somme des carrés des écarts sur les quatre points, et l'on déplace chaque poids d'un petit pas dans la direction où elle baisse le plus vite, l'opposé de son gradient, qui rassemble, pour chaque poids, le taux auquel l'erreur change quand ce poids change. [slide 160, ajout]
+-
+-11. <a href="../dss/n/retropropagation.html">Rétropropagation</a>
++10. <a href="../dss/n/retropropagation.html">Rétropropagation</a>
+@@ -63 +59 @@
+-12. <a href="../dss/n/descente-avec-inertie.html">Descente avec inertie</a>
++11. <a href="../dss/n/descente-avec-inertie.html">Descente avec inertie</a>
+@@ -68 +64 @@
+-13. <a href="../dss/n/apprentissage-en-ligne-ou-par-lot.html">Apprentissage en ligne ou par lot</a>
++12. <a href="../dss/n/apprentissage-en-ligne-ou-par-lot.html">Apprentissage en ligne ou par lot</a>
+@@ -71,0 +68,4 @@
++13. <a href="../dss/n/apprentissage-profond.html">Apprentissage profond</a>
++    Et si l'on empilait davantage de couches cachées ? [slide 8]
++    Histoire : « en assembler plusieurs » — Empiler davantage de couches cachées, chacune combinant les sorties de la précédente, donne l'apprentissage profond : des caractéristiques de plus en plus élaborées, extraites couche après couche. La rétropropagation les entraîne de la même façon, en renvoyant l'erreur d'une couche à la précédente. [ajout]
++
+```</p><p><strong><code>dss/parcours-panorama</code></strong></p><p>```diff
+--- avant/panorama.md
++++ après/panorama.md
+@@ -9,3 +9 @@
+-Le cours s'ouvre sur un avertissement : de 1999 à 2009, les noyades en piscine ont suivi le nombre de films où jouait Nicolas Cage, sans avoir rien à voir avec eux. [slide 4]
+-
+-Une banque dispose des dossiers de 20 anciens clients en défaut : leur endettement, leur revenu, et la perte qu'ils lui ont coûtée. Que peut-elle en apprendre, et comment saura-t-elle si ce qu'elle a appris est juste ? [ajout]
++Une banque a vu 20 de ses clients faire défaut. Le dossier de chacun donne son endettement, son revenu, trois autres renseignements, et la perte que son défaut a coûtée à la banque. Un nouveau client demande un prêt. Que peut-elle apprendre de ces 20 dossiers sur ce qu'il lui coûterait s'il faisait défaut, et comment saura-t-elle si ce qu'elle a appris est juste ? [ajout]
+@@ -14,3 +12,3 @@
+-1. <a href="../dss/n/correlation-fallacieuse.html">Corrélation fallacieuse</a>
+-   Premier réflexe à perdre : prendre une coïncidence statistique pour un lien. [slide 4]
+-   Histoire : « sans avoir rien à voir avec eux » — Deux séries peuvent monter et descendre ensemble par pure coïncidence. Si la banque trouve, parmi ce qu'elle sait de ses 20 clients, une variable qui suit la perte, elle devra se demander si le lien existe ou si le hasard l'a fabriqué. [ajout]
++1. <a href="../dss/n/fouille-de-donnees.html">Fouille de données</a>
++   Premier geste : ouvrir les 20 dossiers et les ranger. Qu'y voit-on, sans rien chercher à prédire ? [slide 6]
++   Histoire : « Le dossier de chacun donne son endettement, son revenu, trois autres renseignements » — Rangés par endettement, les dossiers parlent : les dix clients les plus endettés ont coûté en moyenne 4,36 milliers d'euros, les dix autres 2,84. Mais l'un des trois autres renseignements sépare presque aussi bien, 4,19 contre 3,01, et suit même la perte de plus près : sa corrélation avec elle vaut 0,50, celle de l'endettement 0,46. Ranger ainsi un jeu de données figé pour y repérer des motifs, sans rien prédire, c'est la fouille de données. [ajout]
+@@ -18,3 +16,3 @@
+-2. <a href="../dss/n/science-des-donnees.html">Science des données</a>
+-   Une fois prévenu, le cours dresse la carte du domaine selon ce qu'on attend des données. [slide 6]
+-   Histoire : « Que peut-elle en apprendre » — Tout dépend de ce qu'elle attend : décrire ses 20 dossiers, prédire la perte d'un nouveau client, ou laisser un système décider seul. Le cours range le domaine selon cet objectif. [ajout]
++2. <a href="../dss/n/correlation-fallacieuse.html">Corrélation fallacieuse</a>
++   Ce renseignement suit la perte de plus près que l'endettement. Faut-il croire qu'il la fait monter ? [slide 4]
++   Histoire : « comment saura-t-elle si ce qu'elle a appris est juste » — Pas sur la foi des 20 dossiers : deux séries peuvent monter et descendre ensemble sans que rien ne les relie, et rien dans les données ne distingue une coïncidence d'un lien. Le cours le montre par les noyades en piscine, qui ont suivi de 1999 à 2009 le nombre de films où jouait Nicolas Cage. Seuls d'autres clients peuvent trancher : sur 20 000 clients nouveaux, ce renseignement ne sépare plus rien, la moitié où il est le plus bas perd en moyenne 3,03, l'autre 2,97. [slide 4, ajout]
+@@ -22,3 +20,3 @@
+-3. <a href="../dss/n/fouille-de-donnees.html">Fouille de données</a>
+-   Au plus simple, on se contente d'ordonner un jeu de données figé et d'y repérer des motifs. [slide 6]
+-   Histoire : « Une banque dispose des dossiers de 20 anciens clients en défaut » — Au plus simple, elle ordonne ces dossiers tels qu'ils sont, sans rien prédire : repérer, par exemple, que les pertes les plus lourdes vont aux clients les plus endettés. [ajout]
++3. <a href="../dss/n/science-des-donnees.html">Science des données</a>
++   Décrire les 20 dossiers ne dit donc pas ce qui vaudra pour le client suivant. Qu'attendre, au juste, des données ? [slide 6]
++   Histoire : « sur ce qu'il lui coûterait s'il faisait défaut » — Le cours découpe le domaine sur un seul axe, ce qu'on attend que le système fasse seul : décrire un jeu de données figé, ce que la banque vient de faire ; apprendre une règle qui vaille pour des données qu'il n'a pas vues ; ou s'adapter seul à un monde qui change. Savoir ce que coûterait un client absent des dossiers relève du deuxième objectif. [ajout]
+@@ -27,2 +25,2 @@
+-   Un cran plus loin, le programme ne se contente plus de décrire : il s'améliore à partir des exemples. [slide 7]
+-   Histoire : « Que peut-elle en apprendre » — Un cran plus loin, un programme tire de ces 20 exemples une règle qui prédit la perte, et l'améliore quand de nouveaux dossiers arrivent. [ajout]
++   Cette règle, qui l'écrit ? [slide 7]
++   Histoire : « Que peut-elle apprendre de ces 20 dossiers » — Personne ne l'écrit : un programme la tire des 20 exemples, par exemple une formule qui donne la perte à partir de l'endettement et du revenu, et c'est sur des clients qu'il n'a pas vus, comme les 20 000 de tout à l'heure, qu'on voit si elle tient. Pendant qu'il apprend, les dossiers ne changent pas : l'environnement est fermé. C'est l'apprentissage automatique. [ajout]
+@@ -31,2 +29,2 @@
+-   À l'autre extrémité de la carte, le système devrait s'adapter seul à un environnement qui change. [slide 6]
+-   Histoire : L'histoire de la banque ne va pas jusque-là : à l'autre extrémité du domaine, un système accorderait seul les crédits et s'adapterait, sans intervention, quand l'économie change. Le cours le situe, puis s'en tient en deçà. [ajout]
++   Mais les emprunteurs de demain ne ressembleront pas forcément à ceux d'hier, si l'économie change. Faut-il un système qui réapprenne seul ? [slide 6]
++   Histoire : « Un nouveau client demande un prêt » — Un système qui accorderait seul les prêts et corrigerait sa règle, sans que personne n'intervienne, quand l'économie change, relèverait du troisième objectif, l'intelligence artificielle : l'environnement y est ouvert. Le cours la nomme pour situer le reste et n'en enseigne aucune méthode ; la banque apprendra sur des dossiers figés, et réapprendra elle-même quand il le faudra. [ajout]
+@@ -35,2 +33,2 @@
+-   Revenons à l'apprentissage automatique : tout dépend de ce qu'on fournit à l'algorithme avec chaque exemple. Premier cas, le plus fréquent dans le cours. [slide 7]
+-   Histoire : « leur endettement, leur revenu, et la perte qu'ils lui ont coûtée » — Chaque dossier donne une entrée, l'endettement et le revenu, et la réponse attendue, la perte : c'est un exemple étiqueté. Prédire la perte à partir de l'entrée est un apprentissage supervisé. [ajout]
++   Revenons aux 20 dossiers. Que reçoit le programme avec chacun, pour apprendre ? [slide 7]
++   Histoire : « et la perte que son défaut a coûtée à la banque » — Il reçoit une entrée, l'endettement, le revenu et les trois autres renseignements, et la réponse attendue, la perte. L'écart entre la perte qu'il prédit et la perte réelle lui dit de combien il se trompe, et c'est cet écart qu'il cherche à réduire. Apprendre sur des couples formés d'une entrée et de sa réponse, c'est l'apprentissage supervisé ; les composantes de l'entrée s'appellent les prédicteurs, et ce qu'on prédit, la réponse. [ajout]
+@@ -39,3 +37,3 @@
+-   Que peut-on apprendre si l'on ne dispose d'aucune réponse attendue ? [slide 7]
+-   Suite : Supposons que la banque n'ait que l'endettement et le revenu de ses clients, sans connaître leur perte. Que peut-elle encore apprendre ? [ajout]
+-   Histoire : « Que peut-elle encore apprendre » — Sans réponse à prédire, elle peut chercher une structure dans les entrées seules, par exemple des groupes de clients qui se ressemblent. [ajout]
++   Tous les dossiers de la banque n'ont pas de réponse. [slide 7]
++   Suite : La banque connaît aussi l'endettement et le revenu de milliers de clients qui remboursent encore, et pour qui aucune perte n'est connue. Que peut-elle en apprendre ? [ajout]
++   Histoire : « aucune perte n'est connue » — Sans réponse, pas d'écart à réduire : le programme ne peut chercher qu'une structure dans les entrées elles-mêmes, par exemple des groupes de clients qui se ressemblent. C'est l'apprentissage non supervisé ; le cours le situe sans le développer. [ajout]
+@@ -44,3 +42,3 @@
+-   Et si l'on n'a qu'un signal de réussite, qui arrive après coup ? [slide 9]
+-   Suite : Et si elle n'apprenait qu'en prêtant, et en découvrant des mois plus tard si le prêt a été remboursé ? [ajout]
+-   Histoire : « en découvrant des mois plus tard si le prêt a été remboursé » — Elle agirait, puis recevrait après coup un signal de réussite, et chercherait à rendre la somme de ces signaux la plus grande possible : c'est l'apprentissage par renforcement. [ajout]
++   Et si la réponse n'arrivait qu'après coup, comme la suite de ce que la banque a décidé ? [slide 9]
++   Suite : Peut-elle apprendre en prêtant, et en découvrant des mois plus tard si le prêt a été remboursé ? [ajout]
++   Histoire : « en découvrant des mois plus tard si le prêt a été remboursé » — Oui : elle agit, reçoit ensuite une récompense, prêt remboursé ou non, et cherche la conduite qui rend la somme de ces récompenses la plus grande. C'est l'apprentissage par renforcement ; le cours s'arrête à son schéma. [ajout]
+@@ -48,3 +46,4 @@
+-9. <a href="../dss/n/domaine-d-application.html">Domaine d'application</a>
+-   Où ces méthodes servent-elles concrètement ? Le cours fait le tour des secteurs avant d'entrer dans la technique. [slide 14]
+-   Histoire : « Une banque » — La banque n'est qu'un secteur parmi d'autres : le cours passe en revue ceux où ces méthodes servent, avant d'entrer dans la technique. [ajout]
++9. <a href="../dss/n/scoring-de-credit.html">Scoring de crédit</a>
++   Jusqu'ici, la banque prédit ce que coûte un client une fois le défaut arrivé. Avant de prêter, sa question est autre : ce demandeur fera-t-il défaut ? [slide 17]
++   Suite : Pour le prévoir, elle reprend les dossiers de tous ses anciens emprunteurs, ceux qui ont fait défaut comme ceux qui ont remboursé. Peut-elle apprendre à reconnaître les premiers ? [ajout]
++   Histoire : « ceux qui ont fait défaut comme ceux qui ont remboursé » — Oui, et l'apprentissage reste supervisé : la réponse n'est plus une perte mais une étiquette à deux valeurs, défaut ou non, et les prédicteurs décrivent l'emprunteur. Prévoir ainsi le défaut, pour décider d'un octroi, d'un suivi ou d'un recouvrement, c'est le scoring de crédit ; le cours y revient à sa toute fin. [slide 17, ajout]
+@@ -52,8 +51,3 @@
+-10. <a href="../dss/n/interpretabilite.html">Interprétabilité</a>
+-    Un modèle qui prédit bien ne suffit pas toujours : il faut parfois pouvoir expliquer pourquoi il prédit ce qu'il prédit. [slide 13]
+-    Suite : Un régulateur demande à la banque pourquoi un client est jugé plus risqué qu'un autre. Suffit-il que le modèle prédise bien ? [ajout]
+-    Histoire : « Suffit-il que le modèle prédise bien » — Non : il faut pouvoir lire dans le modèle l'effet des variables qui comptent, par exemple de combien la perte attendue monte quand l'endettement gagne un point. [ajout]
+-
+-11. <a href="../dss/n/matrice-de-confusion.html">Matrice de confusion</a>
+-    Pour juger un classifieur, un modèle qui range chaque cas dans une classe, il faut d'abord compter ses réussites et ses erreurs, en distinguant leurs sortes. [slide 10, ajout]
+-    Suite : La banque veut aussi décider, avant de prêter, si un demandeur fera défaut. Sur 100 dossiers passés, 10 ont fait défaut. Un modèle qui annonce toujours « pas de défaut » a raison 90 fois sur 100 : est-il bon ? [ajout]
++10. <a href="../dss/n/matrice-de-confusion.html">Matrice de confusion</a>
++    Un modèle qui range chaque demandeur dans une classe, défaut ou non, s'appelle un classifieur. Comment savoir s'il est bon ? [slide 10, ajout]
++    Suite : Sur 100 dossiers passés, 10 ont fait défaut. Un modèle qui annonce toujours « pas de défaut » a raison 90 fois sur 100 : est-il bon ? [ajout]
+@@ -62,2 +56,2 @@
+-12. <a href="../dss/n/courbe-roc.html">Courbe ROC</a>
+-    Ces comptes dépendent du seuil au-delà duquel le modèle annonce un défaut. Comment juger le classifieur sans en choisir un ? [slide 12, ajout]
++11. <a href="../dss/n/courbe-roc.html">Courbe ROC</a>
++    Ces comptes dépendent aussi du seuil au-delà duquel le modèle annonce un défaut. [slide 12, ajout]
+@@ -65 +59 @@
+-    Histoire : « Comment juger ce modèle sans choisir de seuil » — On trace, pour tous les seuils, la part des défauts détectés contre la part des bons clients refusés : c'est la courbe ROC. L'aire sous la courbe, l'AUC, la résume en un nombre : 0,5 pour un modèle qui tire au hasard, 1 pour un modèle qui sépare parfaitement. Le cours la réétale en $\text{GINI}=2\times\mathrm{AUC}-1$, pour que le hasard vaille 0 : une aire de 0,75, par exemple, donne un GINI de $2\times0{,}75-1=0{,}50$. [ajout]
++    Histoire : « Comment juger ce modèle sans choisir de seuil » — On trace, pour tous les seuils, la part des défauts détectés contre la part des bons clients refusés : c'est la courbe ROC. L'aire sous la courbe, l'AUC, la résume en un nombre : 0,5 pour un modèle qui tire au hasard, 1 pour un modèle qui sépare parfaitement. Le cours la réétale en $\text{GINI}=2\times\mathrm{AUC}-1$, pour que le hasard vaille 0 : si le modèle de la banque a une aire de 0,75, son GINI vaut $2\times0{,}75-1=0{,}50$. [ajout]
+@@ -67,3 +61,8 @@
+-13. <a href="../dss/n/scoring-de-credit.html">Scoring de crédit</a>
+-    L'application qui servira de fil au cours, jusqu'à l'article qui le conclut : accorder ou non un crédit. [slide 17]
+-    Histoire : « si un demandeur fera défaut » — C'est le scoring de crédit, fil du cours jusqu'à sa fin, jugé par le GINI qu'on vient de voir, que le cours exprime en pour cent. Sur le jeu de données du cours, deux modèles qu'il met en concurrence à la fin, la régression logistique, qui change une combinaison linéaire des variables en probabilité de défaut, et la forêt aléatoire, que le cours construit plus loin, atteignent un GINI de 51,36 et de 57,84 : la seconde ordonne mieux les demandeurs selon leur risque. [ajout]
++12. <a href="../dss/n/domaine-d-application.html">Domaine d'application</a>
++    Et pour faire mieux ? [slide 14]
++    Suite : Un GINI de 0,50 laisse de la marge. Pour le relever, la banque doit-elle chercher un meilleur algorithme, ou de meilleures données ? [ajout]
++    Histoire : « ou de meilleures données » — De meilleures données. Du texte à l'image, du risque opérationnel à la cybersécurité, de l'industrie à la pharmacie et au crédit, le cours attribue le succès de ces techniques à l'accès à des données nouvelles et à de meilleures infrastructures, plus qu'à des algorithmes nouveaux. Au crédit, collecter sur le web les données des comptes bancaires des nouveaux clients relève le GINI et le profit de 10 % à 20 % sur ce segment. [slide 14, slide 17, ajout]
++
++13. <a href="../dss/n/interpretabilite.html">Interprétabilité</a>
++    Des données nouvelles, ce sont aussi des variables en plus. Faut-il toutes les garder dans le modèle ? [slide 13]
++    Histoire : « trois autres renseignements » — Pas forcément. Quand les prédicteurs sont nombreux, beaucoup n'ont aucun effet sur la réponse, comme le renseignement des 20 dossiers qui suivait la perte par hasard, et les laisser dans le modèle rend plus difficile à voir l'effet de ceux qui comptent. Le modèle serait plus facile à interpréter si l'on retirait les variables sans importance, en mettant leurs coefficients à zéro. [slide 13, ajout]
+@@ -72 +71 @@
+-Apprendre, dans ce cours, c'est surtout prédire une réponse à partir d'exemples étiquetés, et juger la prédiction sur ses erreurs. Le reste du cours propose des façons de le faire. [ajout]
++Apprendre, dans ce cours, c'est surtout tirer d'exemples étiquetés une règle qui prédit, et la juger sur des cas qu'elle n'a pas vus, par ses erreurs et leurs sortes. Pour les 20 dossiers, une question reste ouverte : lesquels de leurs renseignements la règle doit-elle garder ? [ajout]
+```</p><p><strong><code>dss/parcours-retrecir</code></strong></p><p>```diff
+--- avant/retrecir.md
++++ après/retrecir.md
+@@ -9 +9 @@
+-Sur les 20 clients, sélectionner des prédicteurs donne à chacun soit son coefficient de moindres carrés, soit zéro : il est gardé ou jeté. Et si la banque décrivait ses 20 clients par 30 prédicteurs, les moindres carrés n'auraient même plus de solution unique. Peut-on garder tous les prédicteurs, et limiter autrement ce que le modèle apprend ? [ajout]
++Sur les 20 clients, sélectionner des prédicteurs donne à chacun soit son coefficient de moindres carrés, soit zéro : il est gardé ou jeté. Bien choisie, la sélection paie, puisque l'erreur de test vaut 1,16 avec l'endettement et le revenu seuls, contre 1,83 avec les cinq prédicteurs ; mal choisie, elle coûte, et la sélection ascendante s'y est trompée. Peut-on garder tous les prédicteurs, et limiter autrement ce que le modèle apprend ? [ajout]
+@@ -19 +19 @@
+-   L'idée qui rend possible tout ce parcours : un modèle volontairement moins exact peut prédire mieux. [slide 53]
++   Pourquoi un modèle volontairement moins exact pourrait-il prédire mieux ? [slide 53]
+@@ -23 +23 @@
+-   Première famille : ajouter à l'ajustement une contrainte sur la taille des coefficients. [slide 46]
++   Première façon de limiter ce qu'il apprend : contraindre la taille de ses coefficients. [slide 46]
+@@ -35,2 +35,2 @@
+-   Reste à décider à quel point contraindre. [slide 68]
+-   Histoire : « limiter autrement » — Reste à choisir la force de la contrainte. On retient la valeur de $\lambda$ qui minimise l'erreur estimée par validation croisée : les blocs de clients qui servaient à comparer des modèles servent ici à comparer des valeurs de $\lambda$. [ajout]
++   Ridge et le lasso dépendent de $\lambda$ : quelle valeur prendre ? [slide 68]
++   Histoire : « limiter autrement » — On retient la valeur de $\lambda$ qui minimise l'erreur estimée par validation croisée : les blocs de clients qui servaient à comparer des modèles servent ici à comparer des valeurs de $\lambda$. Sur les 20 clients, les mêmes cinq blocs de 4 retiennent pour ridge un $\lambda$ voisin de 5, et l'erreur de test monte de 1,83 à 2,43 ; pour le lasso, un $\lambda$ voisin de 2,5, et elle vaut 1,87. Sur si peu de clients, l'erreur estimée par validation croisée est elle-même bruitée : elle réclame une contrainte, et la contrainte dégrade la prédiction. [ajout]
+@@ -39,2 +39,2 @@
+-   Seconde famille : garder l'information de tous les prédicteurs, mais en fabriquer un plus petit nombre. [slide 71]
+-   Histoire : « si la banque décrivait ses 20 clients par 30 prédicteurs » — Seconde voie : résumer ces 30 prédicteurs en quelques combinaisons, par exemple trois, et régresser la perte sur elles. Il n'y a plus que 4 coefficients à estimer, constante comprise, au lieu de 31, ce que 20 clients permettent. [ajout]
++   Plutôt que de contraindre les coefficients, peut-on résumer les cinq prédicteurs en un plus petit nombre de prédicteurs nouveaux ? [slide 71]
++   Histoire : « Peut-on garder tous les prédicteurs » — Oui : on fabrique quelques combinaisons des cinq, par exemple deux, et l'on régresse la perte sur elles. Il n'y a plus que 3 coefficients à estimer, constante comprise, au lieu de 6, et aucun prédicteur n'est écarté : chacun entre dans les combinaisons. [ajout]
+@@ -43,2 +43,2 @@
+-   Pour fabriquer ces nouveaux prédicteurs, il faut un outil d'algèbre linéaire. [slide 58]
+-   Histoire : « les moindres carrés n'auraient même plus de solution unique » — Avec plus de prédicteurs que de clients, la matrice des prédicteurs a des directions sans aucune dispersion, le long desquelles les données ne fixent aucun coefficient : d'où les solutions multiples. Sa décomposition en valeurs singulières les met à nu : elle donne à chaque direction $j$ un étirement $d_j$, qui mesure la dispersion des clients le long d'elle et vaut zéro sur ces directions-là. Ridge rétrécit chaque direction d'un facteur $d_j^2/(d_j^2+\lambda)$ : presque pas quand $d_j^2$ est grand devant $\lambda$, entièrement quand $d_j$ est nul. [ajout]
++   Quelles combinaisons ? Il faut d'abord savoir dans quelles directions les 20 clients s'étalent, et de combien. [slide 58]
++   Histoire : « Sur les 20 clients » — La décomposition en valeurs singulières de la matrice des cinq prédicteurs, centrés et réduits, donne des directions de leur espace et, pour chacune, un étirement $d_j$ qui mesure la dispersion des clients le long d'elle : de 6,7 pour la plus étirée à 2,1 pour la moins étirée. Elle relit au passage ridge, qui rétrécit chaque direction d'un facteur $d_j^2/(d_j^2+\lambda)$ : avec le $\lambda$ voisin de 5 de la validation croisée, 0,90 pour la plus étirée, 0,47 pour la moins étirée. [ajout]
+@@ -47,2 +47,2 @@
+-   Il désigne des directions privilégiées dans le nuage des prédicteurs. [slide 74]
+-   Histoire : « Sur les 20 clients » — Les directions les plus dispersées du nuage des prédicteurs sont les composantes principales. Sur les cinq prédicteurs des 20 clients, tirés indépendamment les uns des autres, aucune ne domine vraiment : la première ne porte qu'environ 45 % de leur variance. [ajout]
++   Laquelle de ces directions garder pour résumer les cinq prédicteurs ? [slide 74]
++   Histoire : « Sur les 20 clients » — Les plus étirées : ce sont les composantes principales. Sur les 20 clients, la première porte environ 45 % de la dispersion des cinq prédicteurs, et elle les mêle tous les cinq, l'endettement comme les trois variables sans lien. [ajout]
+@@ -51,2 +51,2 @@
+-   Régresser sur ces directions est la première méthode de la famille. [slide 75]
+-   Histoire : « Peut-on garder tous les prédicteurs » — On régresse la perte sur les premières composantes. Sur les 20 clients, deux composantes laissent une erreur de test de 3,73, et il faut les cinq, c'est-à-dire ne rien réduire, pour retrouver 1,83 : les composantes résument les prédicteurs, pas ce qui explique la perte. [ajout]
++   Que vaut alors une régression de la perte sur les premières composantes ? [slide 75]
++   Histoire : « Peut-on garder tous les prédicteurs » — Peu de chose : sur les 20 clients, deux composantes laissent une erreur de test de 3,73, et il faut les cinq, c'est-à-dire ne rien réduire, pour retrouver 1,83 : les composantes résument les prédicteurs, pas ce qui explique la perte. [ajout]
+@@ -59,2 +59,3 @@
+-    Tout cela devient indispensable quand les prédicteurs sont aussi nombreux que les observations. [slide 91]
+-    Histoire : « par 30 prédicteurs » — Avec 30 prédicteurs pour 20 clients, il y a plus de variables que d'observations. Les moindres carrés passent alors exactement par tous les points, avec une erreur d'apprentissage nulle, et ne disent plus rien : seules les méthodes de ce parcours restent utilisables. [ajout]
++    Sur cinq prédicteurs, aucune de ces méthodes n'a approché le 1,16 de la sélection. Quand deviennent-elles indispensables ? [slide 91]
++    Suite : Si la banque décrivait ses 20 clients par 30 prédicteurs, que pourraient encore faire les moindres carrés ? [ajout]
++    Histoire : « Si la banque décrivait ses 20 clients par 30 prédicteurs » — Avec plus de variables que d'observations, les moindres carrés ont une infinité de solutions, qui passent toutes exactement par les 20 clients avec une erreur d'apprentissage nulle : ils ne disent plus rien. Ridge, le lasso et les composantes principales donnent encore une réponse. L'exemple des 20 clients ne va pas jusque-là, et ne chiffre pas ce qu'elles y gagneraient. [ajout]
+@@ -67 +68,3 @@
+-On peut garder toutes les variables et contraindre leurs coefficients, ou les résumer en quelques directions ; dans les deux cas, on échange un peu de biais contre beaucoup de variance. [slide 53]
++Contraindre les coefficients, ou résumer les prédicteurs en quelques directions, c'est accepter un peu de biais dans l'espoir de perdre davantage de variance. [slide 53]
++
++Sur les 20 clients, l'échange ne paie pas : aucune de ces méthodes ne ramène l'erreur de test sous 1,8, loin du 1,16 de la sélection. Une variable sans lien, que le hasard a liée à la perte autant que l'endettement, ne se distingue pas d'un vrai prédicteur sur ces 20 clients : ni rétrécir ni combiner ne sait la mettre à part, et la validation croisée, sur si peu de clients, choisit mal la force de la contrainte. Ces méthodes ne deviennent indispensables que lorsque les prédicteurs sont aussi nombreux que les clients, là où les moindres carrés ne répondent plus. [ajout]
+```</p><p><strong><code>dss/parcours-selection</code></strong></p><p>```diff
+--- avant/selection.md
++++ après/selection.md
+@@ -17 +17 @@
+-   Le point de départ de tout le bloc est le modèle linéaire le plus classique. [slide 25]
++   D'où viennent ces erreurs moyennes : que fait, au juste, une régression sur les 20 clients ? [slide 25]
+@@ -20,3 +20,3 @@
+-2. <a href="../dss/n/erreur-de-test.html">Erreur de test</a>
+-   Pour juger un modèle, l'erreur sur les données qui ont servi à l'ajuster est trompeuse. Laquelle regarder ? [slide 37]
+-   Histoire : « sur 20 000 clients nouveaux, elle se trompe davantage » — L'erreur qui compte est celle sur des clients que le modèle n'a pas vus : 1,16 pour le modèle à deux prédicteurs, 1,83 pour le modèle à cinq, quand leurs erreurs sur les 20 clients disaient l'inverse. [ajout]
++2. <a href="../dss/n/selection-de-variables.html">Sélection de variables</a>
++   Chaque prédicteur ajouté fait baisser l'erreur sur les 20 clients. Pourquoi alors vouloir en garder moins ? [slide 28]
++   Histoire : « Lesquels garder » — Pour deux raisons. La précision d'abord : le modèle à cinq prédicteurs se trompe davantage sur les clients nouveaux, parce que 20 clients, ce n'est pas beaucoup plus que ses six coefficients à estimer. La lecture ensuite : sur l'endettement et le revenu seuls, le modèle dit que la perte monte avec le premier et baisse avec le second ; trois coefficients de plus, sans objet, brouillent cette lecture. [ajout]
+@@ -24,3 +24,3 @@
+-3. <a href="../dss/n/surapprentissage.html">Surapprentissage</a>
+-   Le piège que cette erreur-là permet de voir : un modèle trop souple qui colle aux données. [slide 27]
+-   Histoire : « trois variables sans aucun lien avec la perte » — Le modèle à cinq prédicteurs s'en sert pour coller au bruit des 20 clients : son erreur d'apprentissage, celle qu'il fait sur les clients qui ont servi à l'ajuster, baisse de 1,12 à 0,98, et son erreur de test monte, de 1,16 à 1,83. [ajout]
++3. <a href="../dss/n/selection-de-sous-ensemble.html">Sélection de sous-ensemble</a>
++   La façon la plus directe d'en avoir moins : en retirer. [slide 28]
++   Histoire : « cinq prédicteurs » — Garder l'endettement et le revenu et écarter les trois autres revient à donner aux trois un coefficient nul, et aux deux premiers leurs coefficients de moindres carrés calculés sur eux seuls, 0,076 et −0,060. Chaque partie des cinq prédicteurs donne ainsi un modèle ; il reste à savoir laquelle garder. [ajout]
+@@ -28 +28,9 @@
+-4. <a href="../dss/n/critere-penalise.html">Critère pénalisé</a>
++4. <a href="../dss/n/erreur-de-test.html">Erreur de test</a>
++   Pour choisir quelle partie garder, il faut juger chaque modèle. L'erreur sur les clients qui ont servi à l'ajuster est trompeuse : laquelle regarder ? [slide 37]
++   Histoire : « sur 20 000 clients nouveaux, elle se trompe davantage » — L'erreur qui compte, l'erreur de test, est celle sur des clients que le modèle n'a pas vus : 1,16 pour le modèle à deux prédicteurs, 1,83 pour le modèle à cinq, quand leurs erreurs d'apprentissage, sur les 20 clients qui ont servi à les ajuster, disaient l'inverse. [ajout]
++
++5. <a href="../dss/n/surapprentissage.html">Surapprentissage</a>
++   Pourquoi le modèle à cinq prédicteurs, meilleur sur les 20 clients, est-il pire sur les nouveaux ? [slide 27]
++   Histoire : « trois variables sans aucun lien avec la perte » — Il a appris le bruit de ces 20 clients-là. Les trois variables sans lien y reçoivent des coefficients de 0,37, −0,25 et −0,38, alors que leur effet sur la perte est nul : le modèle a pris pour une règle des coïncidences propres à l'échantillon, qu'aucun client nouveau ne reproduit. Plus le modèle a de prédicteurs, plus il trouve de ces coïncidences à ajuster. [ajout]
++
++6. <a href="../dss/n/critere-penalise.html">Critère pénalisé</a>
+@@ -32,2 +40,2 @@
+-5. <a href="../dss/n/cp-de-mallows.html">Cp de Mallows</a>
+-   Première réponse, pour les moindres carrés. [slide 41]
++7. <a href="../dss/n/cp-de-mallows.html">Cp de Mallows</a>
++   Quel prix faire payer à chaque prédicteur ? Pour les moindres carrés, un premier critère le fixe à partir de la variance du bruit. [slide 41]
+@@ -36,2 +44,2 @@
+-6. <a href="../dss/n/aic.html">Critère d'information d'Akaike</a>
+-   Deuxième réponse, qui ne se limite pas à la régression linéaire. [slide 42]
++8. <a href="../dss/n/aic.html">Critère d'information d'Akaike</a>
++   Le $C_p$ repose sur la somme des carrés des erreurs, propre aux moindres carrés. Existe-t-il un prix qui vaille pour tout modèle ajusté, régression ou non ? [slide 42]
+@@ -40,2 +48,2 @@
+-7. <a href="../dss/n/bic.html">Critère d'information bayésien</a>
+-   Troisième réponse, plus sévère avec les grands modèles quand l'échantillon grandit. [slide 43]
++9. <a href="../dss/n/bic.html">Critère d'information bayésien</a>
++   Le $C_p$ et l'AIC font payer chaque prédicteur au même prix, quel que soit le nombre de clients. Quand les clients sont nombreux, ce prix suffit-il ? [slide 43]
+@@ -44,3 +52,3 @@
+-8. <a href="../dss/n/r2-ajuste.html">R2 ajusté</a>
+-   Quatrième réponse, la seule qui se lise à la hausse. [slide 44]
+-   Histoire : « ajuste mieux les 20 clients » — Le $R^2$ vaut $1-\mathrm{RSS}/\mathrm{TSS}$, où TSS est l'erreur qu'on ferait en prédisant toujours la perte moyenne : c'est la part de la dispersion de la perte que le modèle explique. Il monte de 0,49 à 0,55 quand on passe à cinq prédicteurs, parce qu'il ne regarde que l'ajustement. Le $R^2$ ajusté divise la RSS par $n-d-1$ et la TSS par $n-1$, ce qui fait payer chaque prédicteur : il descend de 0,43 à 0,40. [ajout]
++10. <a href="../dss/n/r2-ajuste.html">R2 ajusté</a>
++    Et le $R^2$, la mesure d'ajustement qu'on lit d'habitude, peut-il départager les deux modèles ? [slide 44]
++    Histoire : « ajuste mieux les 20 clients » — Le $R^2$ vaut $1-\mathrm{RSS}/\mathrm{TSS}$, où TSS est l'erreur qu'on ferait en prédisant toujours la perte moyenne : c'est la part de la dispersion de la perte que le modèle explique. Il monte de 0,49 à 0,55 quand on passe à cinq prédicteurs, parce qu'il ne regarde que l'ajustement. Le $R^2$ ajusté divise la RSS par $n-d-1$ et la TSS par $n-1$, ce qui fait payer chaque prédicteur : il descend de 0,43 à 0,40. [ajout]
+@@ -48,11 +56,3 @@
+-9. <a href="../dss/n/validation-croisee.html">Validation croisée</a>
+-   Plutôt que de corriger l'erreur d'apprentissage, on peut aussi estimer directement l'autre. [slide 45]
+-   Histoire : « quand on ne dispose pas des clients nouveaux » — On en fabrique : les 20 clients coupés en 5 blocs de 4, chaque modèle ajusté sur 16 et testé sur les 4 autres, cinq fois. L'erreur moyenne vaut 1,66 pour le modèle à deux prédicteurs, 2,22 pour le modèle complet. [ajout]
+-
+-10. <a href="../dss/n/selection-de-variables.html">Sélection de variables</a>
+-    Ces outils permettent enfin de comparer des modèles de tailles différentes. Première stratégie pour en réduire la taille. [slide 28]
+-    Histoire : « Lesquels garder » — Chaque critère désigne l'endettement et le revenu. Réduire le nombre de prédicteurs améliore la précision, l'erreur de test passant de 1,83 à 1,16, et la lisibilité du modèle. [ajout]
+-
+-11. <a href="../dss/n/selection-de-sous-ensemble.html">Sélection de sous-ensemble</a>
+-    La façon la plus directe : ne garder qu'une partie des prédicteurs. [slide 28]
+-    Histoire : « cinq prédicteurs » — Garder l'endettement et le revenu et écarter les trois autres revient à donner aux trois un coefficient nul, et aux deux premiers leurs coefficients de moindres carrés. [ajout]
++11. <a href="../dss/n/validation-croisee.html">Validation croisée</a>
++    Ces quatre critères corrigent l'erreur d'apprentissage par une formule, et le $C_p$ comme le BIC supposent connue la variance du bruit. Peut-on estimer l'erreur de test sans formule ? [slide 45]
++    Histoire : « quand on ne dispose pas des clients nouveaux » — On en fabrique : les 20 clients coupés en 5 blocs de 4, chaque modèle ajusté sur 16 et testé sur les 4 autres, cinq fois. L'erreur moyenne vaut 1,66 pour le modèle à deux prédicteurs, 2,22 pour le modèle complet : même verdict, sans aucune formule. [ajout]
+@@ -61,2 +61,2 @@
+-    Si l'on essaie toutes les parties possibles, lequel choisir ? [slide 29]
+-    Histoire : « Lesquels garder » — Avec cinq prédicteurs, chacun gardé ou écarté, il y a $2^5=32$ sous-ensembles à ajuster. Le meilleur à un prédicteur est, par hasard, une variable sans lien avec la perte ; le meilleur à deux est le bon, l'endettement et le revenu. [ajout]
++    Jusqu'ici, on n'a comparé que deux modèles. Mais il y a bien d'autres parties des cinq prédicteurs : faut-il les essayer toutes ? [slide 29]
++    Histoire : « Lesquels garder » — Avec cinq prédicteurs, chacun gardé ou écarté, il y a $2^5=32$ sous-ensembles à ajuster. On retient le meilleur de chaque taille : à un prédicteur, c'est par hasard une variable sans lien avec la perte ; à deux, le bon, l'endettement et le revenu. Entre ces meilleurs, le $C_p$ tranche pour celui à deux prédicteurs. [ajout]
+@@ -65 +65 @@
+-    Avec des dizaines de prédicteurs, le nombre de parties explose. Peut-on n'en visiter qu'une petite fraction ? [slide 32]
++    Essayer toutes les parties se fait avec cinq prédicteurs. Le peut-on encore avec des dizaines ? [slide 32]
+```</p><p><strong><code>dss/parcours-terrain</code></strong></p><p>```diff
+--- avant/terrain.md
++++ après/terrain.md
+@@ -9,3 +9 @@
+-Sur 1 000 demandes de crédit, 30 finissent en défaut : un modèle qui prédit toujours « pas de défaut » a raison dans 97 % des cas, et ne détecte aucun défaut. [ajout]
+-
+-Le cours se termine sur deux articles qui mettent ses méthodes à l'épreuve : l'un compare tous les modèles sur un même problème de crédit, l'autre montre ce qu'ils apprennent quand les données sont biaisées. [slide 204, slide 218]
++La banque sait maintenant apprendre à prévoir le défaut de plusieurs façons : modèles linéaires contraints, forêts d'arbres, boosting, réseaux de neurones. Le cours les met toutes en concurrence sur un même jeu de crédit, 12 544 entreprises du périmètre européen décrites par 343 variables, dont on sait si elles ont fait défaut. Laquelle choisir ? [slide 204, slide 205]
+@@ -25,2 +23,2 @@
+-   Sur un même jeu de risque de crédit, quel modèle du cours fait le mieux ? [slide 204, slide 205]
+-   Histoire : « l'un compare tous les modèles sur un même problème de crédit » — C'est le jeu du scoring de crédit : la forêt aléatoire y atteint un GINI de 57,84 contre 51,36 pour la régression logistique, soit 6,48 points de mieux, et le séparateur à vaste marge, ou SVM, qui sépare les deux classes par la frontière la plus éloignée des exemples de chacune, tombe à 28,38, soit 22,98 points de moins que la régression logistique. [ajout]
++   Tous sont jugés à la même mesure : le GINI, lu sur leurs courbes ROC superposées. [slide 204, slide 205]
++   Histoire : « Laquelle choisir » — Pas celle qu'on attend. La forêt aléatoire l'emporte avec 57,84, contre 51,36 pour la régression logistique, le modèle classique qui change une combinaison linéaire des variables en probabilité de défaut : 6,48 points de mieux. Mais le boosting tombe à 44,16, l'apprentissage profond à 44,92, et le séparateur à vaste marge, ou SVM, qui sépare les deux classes par la frontière la plus éloignée des exemples de chacune, à 28,38, soit 22,98 points sous la régression logistique. Plusieurs méthodes réputées avancées font moins bien que le modèle classique. [ajout]
+@@ -29,2 +27,3 @@
+-   Dans les données de crédit, les défauts sont rares. Comment apprendre une classe presque absente ? [slide 229]
+-   Histoire : « 30 finissent en défaut » — Avec 30 défauts pour 970 bons dossiers, un modèle apprend surtout à dire « pas de défaut ». SMOTE fabrique de nouveaux défauts, synthétiques, à partir de ceux qui existent, pour rééquilibrer les classes avant l'apprentissage. [ajout]
++   Bien classer les demandeurs ne dit pas ce qu'un modèle a appris d'autre que le risque. Le cours se termine sur une seconde étude qui le cherche, et bute d'abord sur une difficulté de données. [slide 229]
++   Suite : Elle veut savoir si les autres variables d'un client permettent de prédire son genre, ce qu'un modèle de crédit pourrait alors apprendre sans qu'on le lui donne. Mais les groupes à comparer sont de tailles très inégales : comment apprendre une classe bien plus rare que l'autre ? [slide 227, ajout]
++   Histoire : « comment apprendre une classe bien plus rare que l'autre » — Entraîné tel quel, un classifieur apprend surtout à prédire la classe nombreuse. SMOTE rééquilibre le jeu avant l'apprentissage en fabriquant, dans la classe rare, des observations synthétiques, chacune prise entre une observation rare et l'une de ses voisines rares ; aucune n'est recopiée, c'est ce qui le sépare d'un simple sur-échantillonnage. [slide 229, ajout]
+@@ -33,2 +32,2 @@
+-   Même bien entraîné, un modèle apprend ce que ses données contiennent, y compris ce qu'on ne voudrait pas qu'il reproduise. [slide 218]
+-   Histoire : « ce qu'ils apprennent quand les données sont biaisées » — Si les défauts passés reflètent un traitement inégal selon le genre, un modèle entraîné sans la variable de genre peut le reproduire : d'autres variables en portent l'information, au point qu'on peut prédire le genre du client à partir d'elles. [ajout]
++   Les groupes rendus comparables, le genre du client se lit-il dans ses autres variables ? [slide 218]
++   Histoire : « si les autres variables d'un client permettent de prédire son genre » — Oui : on peut prédire le genre à partir d'elles, si bien qu'un modèle entraîné sans la variable de genre peut reproduire le traitement inégal selon le genre que reflètent les défauts passés. Le cours en conclut que l'apprentissage fait prospérer les biais sociaux en répliquant les motifs qu'il apprend, et qu'un biais social devient sociétal quand il devient la norme. [slide 218, slide 233, slide 235, ajout]
+```</p><h2>Dette</h2><p>Aucune.</p><h2>Contradictions source</h2><ul><li><strong>fpp — §4.2.2</strong> : la ligne générale « at date $t_i$ go long $1/B(t_0,t_i)$ » contredit les étapes 1 et 2 écrites en toutes lettres ($1/P(0,1)$ en $t_0$, $1/(P(0,1)P(1,2))$ en $t_1$) et l'équation de richesse, qui exigent $1/B(t_0,t_{i+1})$. La fiche suit les étapes explicites. À signaler à l'enseignant.</li><li><strong>fpp — §2.3</strong> : « $P(t,S)=(1+(S-T)L(t,S))^{-1}$ » ; la durée du taux linéaire vu en</li><li>$t$ est $S-t$, et $T$ n'est pas défini à cet endroit. Coquille probable ; la fiche</li><li>écrit $S-t$.</li></ul><h2>Questions pour l'utilisateur</h2><p>Reste ouvert après la seconde relecture :</p><p><strong>fpp</strong></p><ul><li><strong>Contradiction dans la source, poly §4.2.2</strong> : la ligne générale « at date $t_i$ go long $1/B(t_0,t_i)$ » ne s'accorde ni avec les étapes 1 et 2 du poly, ni avec son équation de richesse, qui exige $1/B(t_0,t_{i+1})$. Recommandation : le signaler à l'enseignant. La fiche suit les étapes explicites et l'équation, qui sont justes.</li><li><code>terme</code>, étapes 10 et 11 : l'exemple du compte capitalisé est sur deux ans, alors que l'action du parcours est à un an. C'est désormais dit dans le texte (« prenons deux ans et des pas d'un an »). Pour un seul fil numérique, il faudrait un contrat future à deux ans, et donc changer les chiffres de l'étape 12. Recommandation : laisser ainsi.</li><li><code>bilan</code>, point d'arrivée : le mot « option » y arrive avant d'être défini. C'est une annonce du cours, laissée telle quelle. Recommandation : la garder.</li><li>Les « À savoir avant » de <code>terme</code> renvoient à « un contrat raconté plus loin » sans numéro d'étape, pour ne pas écrire un nombre calculé. L'opérateur voudra peut-être les harmoniser avec sa réécriture des étapes 8 et 9.</li></ul><p><strong>dss</strong></p><ul><li><code>dss/parcours-panorama</code>, étape 13 : la forêt aléatoire y est nommée avant d'être racontée (parcours <code>arbres</code>). J'ai seulement ajouté « que le cours construit plus loin ». Recommandation : laisser ainsi, car le GINI est le fil du cours.</li><li>Les GINI 51,36 / 57,84 / 28,38 portent <code>[ajout]</code>. Les slides 207 à 213 sont des images, et pdftotext n'en rend que les titres : je n'ai pas pu vérifier l'endroit exact. Recommandation : lire ces slides et remplacer le marqueur si les chiffres y figurent.</li><li>L'arbre de décision reste défini dans le parcours, sans fiche (question 18 du rapport précédent). Recommandation inchangée : attendre que le cours le développe.</li></ul><p><strong>dup</strong></p><ul><li>comparer, étape 14 (<code>dup/statique-comparative-risque-accru</code>) : le texte du parcours ne s'appuie pas sur l'exemple ln(1+ax) de la fiche, donc rien ne s'arrête dans le parcours lui-même. Mais la Suite pose exactement le cadre de cet exemple (une part a placée, un résultat x). L'étudiant qui ouvre la fiche depuis cette étape tombe sur un a optimal qui n'existe pas (U_a &gt; 0 partout) : c'est là que se trouve le point d'arrêt. Recommandation : trancher la question 21 déjà posée (un paiement qui peut être négatif, par exemple un rendement en excès). Fiche non touchée.</li><li>Collision de notation que le récit rend visible : dans poids, β désigne le paramètre de φ à l'étape 4 et l'exposant de la fonction de valeur à l'étape 10 (déjà signalé, question 6). Et γ = 0 (étape 9) et β = 1 (étape 10) disent tous deux « linéaire », dans deux paramétrisations du cours. Le texte le dit maintenant à chaque fois, mais un seul symbole serait plus clair. Recommandation : laisser comme dans le cours (A12) et garder la précision en mots.</li><li>portefeuille, étape 2 : on y applique la φ de la théorie cumulative des perspectives, sous sa forme de Tversky-Kahneman, aux chances cumulées depuis le pire état, comme en RDU, alors que L3 slide 38 l'applique « décumulée » aux gains. Le calcul est juste pour le modèle RDU du parcours, et la phrase le dit maintenant, mais ce choix est un <code>[ajout]</code> qui mêle les deux modèles. Recommandation : le garder, puisqu'il est déclaré en toutes lettres.</li></ul><p><strong>pfo</strong></p><ul><li>pfo/parcours-portefeuille, « À savoir avant » : <code>pfo/piege-d-agregation</code> dit que la moyenne pondérée n'est exacte qu'en rendements arithmétiques, alors que <code>pfo/rendement-logarithmique</code> dit que les données du récit sont logarithmiques. C'est la contradiction de la source déjà listée (question 23, $W^T\mu$ sur rendements logarithmiques) ; non tranchée ici. Recommandation : la trancher avec l'enseignant, puis ajouter une demi-phrase à l'un des deux rôles.</li><li>pfo/parcours-risque, point d'arrivée : garde 53 511 sans la précision de grille, donnée une fois à l'étape 8 ; recommandation : laisser tel quel.</li><li>Petits points non corrigés, jugés sans arrêt réel : « la clôture » (rendements, transition 3) sans définition ; « l'étude de cas » (volatilité, transition 6) sans renvoi ; 1,6449 et 1,645 employés tour à tour dans le parcours risque.</li></ul><p>Points de la première relecture, traités cette fois :</p><p><strong>fpp</strong></p><ul><li>Étape 3 de <code>bilan</code>, transition : réécrite dans le sens du levier (« combien d'euros d'actif reposent sur chaque euro mis par l'actionnaire »).</li><li>Étape 6 de <code>flux</code>, transition : « un mouvement de la courbe » devient « une hausse des taux d'intérêt ». L'histoire répond maintenant aussi pour le placement, qui perd entre 1 et 2 %.</li><li>Étape 10 de <code>terme</code> : le future est défini dans la transition. La Suite dit « l'action qui verse 2 % de dividende », et la citation de l'étape 12 suit ce changement.</li><li>Point de fond <code>fpp/replication-dynamique</code> : voir « Fiche modifiée ». L'histoire de l'étape 11 de <code>terme</code> est corrigée dans le même sens : 1,0408 puis 1,1052 contrats, valeur finale égale à l'action fois 1,105.</li><li>Séparation nombre / contrat hors des étapes réservées : les deux lignes « À savoir avant » de <code>terme</code> qui définissaient le taux forward et le taux de change par leur contrat (« le taux que le FRA fixe », « la grandeur que le forward de change fixe ») disent maintenant « un nombre lu dans la courbe » et « le prix d'une devise pour un échange fait aujourd'hui ». Ailleurs dans <code>flux</code> et <code>terme</code>, « taux forward » ne désigne plus que le nombre lu dans la courbe.</li></ul><h2></h2><p><strong>dss</strong></p><ul><li><code>dss/parcours-arbres</code>, point de départ : l'arbre de décision est défini en une phrase, dans un premier paragraphe du départ (questions à seuil sur les prédicteurs, puis perte moyenne des anciens clients qui ont répondu de même). Marqueur <code>[ajout]</code>, car la slide 97 ne le définit pas. Aucune fiche créée ; les citations des étapes 1 à 9 restent intactes.</li><li><code>dss/parcours-neurones</code>, étape 10 : le gradient est défini dans la ligne « Histoire : » par la phrase de la slide 160 (taux auquel l'erreur change quand chaque poids change), avec le marqueur <code>[slide 160, ajout]</code>.</li><li><code>dss/parcours-selection</code>, étape 1 : la citation devient « une régression sur les deux premiers », prise mot pour mot dans le départ. La ligne donne aussi la RSS du modèle à cinq (19,59, erreur 0,98), ce qui montre d'où vient le chiffre repris à l'étape 5.</li><li>Régression logistique et SVM : une demi-phrase à leur première apparition. Pour la régression logistique, à <code>panorama</code> étape 13 (elle change une combinaison linéaire des variables en probabilité de défaut). Pour le séparateur à vaste marge, à <code>terrain</code> étape 1 (la frontière la plus éloignée des exemples de chacune des deux classes). Marqueur <code>[ajout]</code> : la source ne fait que les nommer (slides 206, 207, 211).</li><li>Calculs revérifiés en Python sur le monde des 20 clients (graine 78, <code>courses/dss/figures/meilleur-sous-ensemble.py</code>) : RSS 22,43 et 19,59 ; σ̂² = 1,40 ; chemin ascendant bruit, bruit, revenu, endettement, avec un Cp minimal au pas 4 et une erreur de test de 1,77 ; chemin descendant jusqu'à l'endettement et au revenu (Cp 1,40) ; 2^40 ≈ 1,10 × 10^12. Aucune faute.</li></ul><p><strong>dup</strong></p><ul><li>poids, étape 2 : la Suite dit « achète le billet au prix de 2, plus que son espérance » ; aucune citation ne reprenait « le billet 2 » (les étapes 4 et 10 citent « il gagne 98… » et « perd 2 le reste du temps », inchangés), donc aucune citation à mettre à jour.</li><li>poids, étape 6 : la déformation de L4 slide 34 (vérifiée par pdftotext) est donnée, avec le calcul de 14,250 et 14,875 refait en python3. Marqueur passé de <code>[ajout]</code> à <code>[L4 slide 34, ajout]</code>, l'arithmétique intermédiaire restant un ajout.</li><li>poids, étape 8 : 945, 1 680 et 1 575 vérifiés sur L2 slide 27. Marqueur passé à <code>[L2 slide 27, ajout]</code>, la dernière phrase étant une interprétation.</li><li>ambiguite, étape 17 : l'agent est maintenant nommé : c'est celui des poids non additifs (« cet agent » de la transition, qui suit l'étape 16). Prix recalculés : 16,7 à l'achat, 50 à la vente, par le maxmin sur π(N) ∈ [1/6, 1/2] et par l'intégrale de Choquet. La citation de l'Histoire a été mise à jour.</li><li>portefeuille, étape 6 : l'utilité u(W) = −e^{−W} de L4 slide 63 (vérifiée) et son aversion absolue de 1 sont dites, et le calcul écrit 10/(1×400). Les étapes 7 et 8 restent cohérentes (5/400 ; p = 106).</li></ul><p><strong>pfo</strong></p><ul><li>portefeuille étape 3 : chiffres journaliers remplacés par ceux du second actif (0,0397 % et 1,26 %, recalculés), propagés dans l'histoire qui retombe sur 10 % et 20 % par an et dit d'où viennent les chiffres journaliers.</li><li>nettoyage étape 2 : l'histoire nomme le score z (« a un score z de −4 »). L'étape 3 garde sa formulation en écarts types, désormais cohérente avec ce nom.</li><li>non-normalite étape 10 : « excès de kurtosis » défini dans la Suite elle-même (kurtosis de 6, 3 de plus que la loi normale) ; la redite retirée de l'histoire. Le point de départ de pfo/parcours-risque, qui emploie le même terme, vient après ce parcours.</li><li>risque étape 8 : une demi-phrase dit que 53 511 moyenne les niveaux de 0,01 % à 5 %, comme le calcul du cours, et que la toute extrémité de la queue ajouterait environ 430 (53 941 sur la queue entière, vérifié en python3).</li></ul><p>Questions antérieures (les signalements de la première relecture sont traités plus haut) :</p><p>1. <strong>dss — source, slide 174</strong> : d'après le rédacteur, qui a lu l'image de la slide, les
+   deux étiquettes sous la formule de décroissance des poids sont inversées (« $w_{ij}$ =
+   weight-cost parameter », « $\lambda$ is decayed… »). La fiche suit le sens voulu. *À
+   vérifier sur la slide ; si c'est confirmé, le noter en contradiction de la source.*
+2. <strong>dss — deux graphies du même poids</strong> : le registre écrit $\phi_{mj}$ (slide 72), la Forme
+   des moindres carrés partiels $\hat\varphi_{mj}$ comme la slide 90. *Recommandation :
+   déclarer la variante au registre, sans rien renommer.*
+3. <strong>fpp — §7.1</strong> : le poly appelle $T$ « time to maturity », une durée, alors que la
+   condition terminale $C(T,x)$ en fait la date d'échéance. La rubrique écrit « échéance ».
+   <em>Recommandation : le porter en contradiction interne de la source.</em>
+4. <strong>fpp — §7.2.2</strong> : $C$ et $x$ sont réemployés après les changements de variables pour
+   d'autres objets (valeur forward, logarithme du forward) ; la rubrique le dit, en
+   <code>[ajout]</code>. <em>Recommandation : laisser ainsi.</em>
+5. <strong>fpp — §1.4</strong> : $\pi_E$ et $\pi_A$ sans tilde, lettre de l'espérance, pour des
+   variations réalisées. <em>Recommandation : laisser la rubrique dire la différence.</em>
+6. <strong>dup — collision interne de $\beta$</strong> : paramètre de la pondération de CPT (L3 slide
+   38) et exposant de la fonction de valeur à la slide suivante. *Recommandation : la
+   déclarer au registre de dup, dans une session sur les notations.*
+7. dss — un second tirage pour illustrer le rétrécissement ? Dans le monde des 20
+   clients, une variable de bruit est corrélée à la perte par hasard (0,50), et ridge ou
+   le lasso n'y battent pas les moindres carrés. *Recommandation : garder ce monde, et en
+   tirer un second, plus riche en prédicteurs de bruit, pour le seul parcours « Garder
+   toutes les variables » si l'utilisateur veut des gains chiffrés pour ridge.*
+8. En fin de parcours, le rappel accumule le départ et toutes les suites : sur
+   <code>dup/parcours-comparer</code>, six suites à la dernière étape. *Recommandation : le garder
+   ainsi ; replier les suites antérieures si l'utilisateur le trouve encombrant.*
+9. dss — les exemples des fiches de « rétrécir » restent sur les données Credit du
+   cours : les histoires ne les ont pas remplacés (voir la question 7).
+10. Les autres fiches de dss sans exemple : les compléter parcours par parcours.
+   Recommandation : oui.
+11. pfo — garder les arêtes vers dup (<code>depend_de: [fpp, dup]</code>) ? Recommandation : oui.
+12. pfo — une fiche à part pour le portefeuille de variance minimale globale ?
+   Recommandation : non tant qu'aucun chapitre ne le développe.
+13. pfo — calculer les parties A et B de l'exercice 3 sur données réelles ?
+14. fpp — corriger la note de collision de $l$ et la section « Contradiction » de
+    <code>fpp/ex-16</code> (le spread est fini en $l=1$) ? Recommandation : oui.
+15. fpp — le domaine de $l$ dans l'exercice 16 : à demander à l'enseignant.
+16. fpp — la convention $X_t$ : garder la collision déclarée.
+17. dss — les trois emplois de $\lambda$ : à demander à l'enseignant.
+18. dss — des fiches pour l'arbre de décision, la régression logistique, le SVM ? Attendre
+    un support.
+19. dup — un relevé des symboles LaTeX du corps absents du registre (avertissement), dans
+    une session dédiée au validateur.
+20. dup — <code>dup/maxmin-eu</code> reste la plus longue fiche du dépôt.
+21. ~~dup — exemple de <code>dup/statique-comparative-risque-accru</code>~~ : <strong>traité</strong> dans cette session (voir Fiches modifiées).
+22. dup — la forme paramétrique de la courbe de la figure de pondération est un choix,
+    non un énoncé : laisser ainsi.
+23. pfo — contradictions de la source à confirmer auprès de l'enseignant : chapitre 2
+    (signe de l'éq. 2.25, α « niveau de confiance » Déf. 2.5.1, $F$ normale p. 34,
+    kurtosis p. 23, $K=3$ Table 2.1, légende Fig. 2.2) et chapitre 3 (légende Fig. 3.1,
+    $R_t$ logarithmique au §3.0.7, $W^T\mu$ sur rendements logarithmiques, vérification
+    de l'exercice 2).
+24. pfo — CVaR de Cornish-Fisher : garder 53 511, valeur du listing (grille tronquée à
+    0,0001), ou écrire aussi la valeur de l'intégrale complète, environ 53 940, dans
+    « Cesse d'être valide quand » ? *Recommandation : ajouter une phrase à cette rubrique,
+    qui dise que le chiffre dépend de la borne basse de la grille.*</p><h2>Validation</h2><p><code>263 notions · 0 erreur(s) · 0 avertissement(s)</code> ; garde-fous : tous se déclenchent ; site
+reconstruit.</p></article></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../aide.html">comment lire ce site</a> · <a href="../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../search-index.js"></script>
+<script>
+var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+        s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- l'état qui traverse les pages ----------------------------------------
+   Voir le commentaire de l'en-tête : en file://, seul le fragment traverse.
+   Forme du fragment :  #t:d~a:0~p:1-0--1...~s:<tampon>.<bits>~v:<ancre>
+     t  thème      d | l            (absent : celui du système)
+     a  ajouts     0                (absent : montrés)
+     p  pliage     un caractère par clé de CLES_PLI : 1 ouvert, 0 fermé, - inconnu
+     s  déjà su    un bit par notion, six bits par caractère, précédé d'un tampon
+     v  ancre      l'élément vers lequel défiler à l'arrivée
+   Le tampon est calculé sur la liste des identifiants : dès qu'une notion entre dans
+   le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
+   cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
+var ETAT=(function(){
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='90d4',
+    A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
+var pli={},su={};
+if(typeof H.p==='string'){
+  for(var i=0;i<CLES.length&&i<H.p.length;i++){var c=H.p.charAt(i);
+    if(c==='0'||c==='1')pli[CLES[i]]=(c==='1');}
+}else{
+  CLES.forEach(function(k){var v=LS.g('notions.pli.'+k,null);if(v!==null)pli[k]=(v==='1')});
+}
+function decode(t){var o={},q=t.indexOf('.');
+  if(q<0||t.slice(0,q)!==TAMPON)return o;
+  var b=t.slice(q+1);
+  for(var i=0;i<b.length;i++){var v=A64.indexOf(b.charAt(i));if(v<0)continue;
+    for(var j=0;j<6;j++){if(v&(1<<j)){var k=i*6+j;if(k<IDS.length)o[IDS[k]]=1}}}
+  return o;}
+function encode(){var o='';
+  for(var i=0;i<IDS.length;i+=6){var v=0;
+    for(var j=0;j<6;j++){if(su[IDS[i+j]])v|=1<<j}
+    o+=A64.charAt(v);}
+  return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
+if(typeof H.s==='string'){su=decode(H.s)}
+else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
+function frag(ancre,noeud){var p=[];
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t)p.push('t:'+(t==='dark'?'d':'l'));
+  if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
+  var q='';CLES.forEach(function(k){q+=(pli[k]===undefined?'-':(pli[k]?'1':'0'))});
+  if(/[01]/.test(q))p.push('p:'+q);
+  var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
+  if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
+  return p.length?'#'+p.join('~'):'';}
+function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
+function propager(){var f=frag();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';if(!interne(h))return;
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
+  /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
+     Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
+  try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
+  try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}}
+return{pli:function(k){return pli[k]===undefined?null:pli[k]},
+       setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
+       su:function(id){return !!su[id]},
+       setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
+       lien:function(u,v,n){return u+frag(v,n)},
+       ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
+       propager:propager};
+})();
+function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
+  var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
+  b.textContent=on?'masquer les ajouts':'ajouts masqués';}
+  document.querySelectorAll('.sec').forEach(function(s){
+    var c=s.querySelector('.corps');if(!c)return;var n=0;
+    c.querySelectorAll(':scope>*').forEach(function(el){
+      if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
+      if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
+      n++;});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='Cette rubrique existe, mais tout son contenu est un ajout : le filtre le masque. Elle reste visible pour que vous ne concluiez pas qu’elle est vide.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
+  if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var bt=document.getElementById('btheme');
+  if(bt)bt.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    var nx=(cur||sys)==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);
+    ETAT.propager();});
+  var ba=document.getElementById('bajout');
+  if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);ETAT.propager();});
+  majAjouts(!document.documentElement.classList.contains('sans-ajouts'));
+  /* les liens de la page portent l'état ; une ancre demandée est ouverte et visée */
+  ETAT.propager();
+  var an=ETAT.ancre();
+  if(an){var el=document.getElementById(an);
+    if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView();el.classList.add('vise')}}
+  /* --- recherche instantanée (règle 9) --- */
+  var inp=document.getElementById('q'),res=document.getElementById('qres');
+  if(!inp||!res||!window.SEARCH_INDEX)return;
+  var REL=document.documentElement.getAttribute('data-rel')||'';
+  var sel=-1,items=[];
+  function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+  function cherche(q){
+    var n=norm(q);if(!n)return [];
+    var out=[];
+    SEARCH_INDEX.forEach(function(e){
+      var sc=-1,ch=e.h||[];
+      for(var i=0;i<ch.length;i++){var p=norm(ch[i]).indexOf(n);
+        if(p===0){sc=Math.max(sc,3-(i>0?1:0))}else if(p>0){sc=Math.max(sc,1)}}
+      if(sc>=0)out.push([sc,e]);});
+    out.sort(function(a,b){return b[0]-a[0]||a[1].n.localeCompare(b[1].n)});
+    return out.slice(0,9).map(function(x){return x[1]});}
+  function rendre(){
+    items=cherche(inp.value);sel=-1;res.innerHTML='';
+    if(!inp.value){res.classList.remove('on');return}
+    if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
+    items.forEach(function(e,i){
+      var li=document.createElement('li');
+      var a=document.createElement('a');a.href=ETAT.lien(REL+e.u);a.id='qr'+i;
+      a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
+      li.appendChild(a);res.appendChild(li);});
+    res.classList.add('on');}
+  function bouge(d){if(!items.length)return;sel=(sel+d+items.length)%items.length;
+    Array.prototype.forEach.call(res.children,function(li,i){li.classList.toggle('sel',i===sel)});
+    inp.setAttribute('aria-activedescendant','qr'+sel);}
+  inp.addEventListener('input',rendre);
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();bouge(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();bouge(-1)}
+    else if(e.key==='Enter'){var a=res.querySelector(sel>=0?'li.sel a':'li a');if(a){e.preventDefault();location.href=a.href}}
+    else if(e.key==='Escape'){inp.value='';res.classList.remove('on')}});
+  document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
+  document.addEventListener('keydown',function(e){
+    if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
+});
+</script>
+</body>
+</html>

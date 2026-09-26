@@ -47,15 +47,15 @@ Tirer 20 clients avec remise parmi les 20 de la banque en laisse en moyenne 7 de
 7. dss/importance-des-variables
    La forêt prédit mieux qu'un arbre, mais on ne sait plus quelles variables comptent. [slide 104]
    Suite : Cinq cents arbres ne se lisent pas comme une régression. Quelles variables comptent dans la perte qu'ils prédisent ? [ajout]
-   Histoire : « Quelles variables comptent dans la perte qu'ils prédisent » — On attribue à chaque prédicteur une part du travail de la forêt. Si elle a bien appris, l'endettement et le revenu en reçoivent l'essentiel, et les trois variables sans lien presque rien. [ajout]
+   Histoire : « Quelles variables comptent dans la perte qu'ils prédisent » — On attribue à chaque prédicteur une part du travail de la forêt. On espère que l'endettement et le revenu en reçoivent l'essentiel, et les trois variables sans lien presque rien ; sur les 20 clients, les deux mesures qui suivent diront si c'est le cas. [ajout]
 
 8. dss/importance-par-impurete
    Première réponse : additionner ce que chaque coupure sur une variable a apporté. [slide 104, slide 105]
-   Histoire : « Quelles variables comptent » — Chaque arbre coupe les clients en deux groupes selon un seuil sur un prédicteur, et chaque coupure rend les groupes plus homogènes : elle fait baisser leur impureté, ici la somme des carrés des erreurs. Première mesure : additionner, pour chaque prédicteur, la baisse obtenue à chaque coupure faite sur lui, et moyenner sur les 500 arbres. [ajout]
+   Histoire : « Quelles variables comptent » — Chaque arbre coupe les clients en deux groupes selon un seuil sur un prédicteur, et chaque coupure rend les groupes plus homogènes : elle fait baisser leur impureté, ici la somme des carrés des erreurs. Première mesure : additionner, pour chaque prédicteur, la baisse obtenue à chaque coupure faite sur lui, sur les 500 arbres. Sur les 20 clients, l'endettement en reçoit environ 21 % et le revenu 16 % ; les trois variables sans lien, plus de 60 % à elles trois, et la plus liée à la perte par hasard, 27 %, davantage que l'endettement. Des arbres poussés jusqu'au bout coupent aussi sur le bruit, et chaque coupure compte. [ajout]
 
 9. dss/importance-par-permutation
    Seconde réponse : brouiller une variable et regarder ce qu'on perd. [slide 106]
-   Histoire : « Cinq cents arbres ne se lisent pas comme une régression » — Seconde mesure : mélanger au hasard la colonne d'un prédicteur entre les clients hors du sac, et regarder de combien la prédiction se dégrade. Une variable sans lien avec la perte, même si elle a servi à couper, ne coûte rien quand on la brouille. [ajout]
+   Histoire : « Cinq cents arbres ne se lisent pas comme une régression » — Seconde mesure : mélanger au hasard la colonne d'un prédicteur entre les clients, et regarder de combien l'erreur hors du sac se dégrade. Une variable qui a servi à couper sans rien apprendre ne coûte presque rien quand on la brouille : c'est le cas de deux des trois variables sans lien. Sur les 20 clients, brouiller l'endettement fait monter l'erreur d'environ 0,2 ; brouiller la variable liée par hasard, de 0,1 à 0,2 selon la forêt ; le revenu, dont l'effet est réel mais plus faible, à peine. La permutation classe mieux que l'impureté, mais, comme la régression, elle ne peut pas distinguer une coïncidence d'un lien sur si peu de clients. [ajout]
 
 10. dss/boosting
     Une tout autre façon d'assembler des arbres : non plus en parallèle, mais les uns après les autres. [slide 122]

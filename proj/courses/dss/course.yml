@@ -24,3 +24,15 @@ refonte_du_recit:
     Parcours relus au test de lecture de SPEC-MODELE §8.6, à la demande de l'utilisateur :
     l'ordre des étapes suit désormais l'histoire, et non l'ordre du support, là où les deux
     divergeaient (détail au rapport du jour).
+hors_parcours:
+  dss/intelligence-artificielle: >-
+    Le cours la nomme pour situer l'apprentissage automatique (un environnement ouvert, qui
+    change) et n'en enseigne aucune méthode ; dans l'histoire de la banque, c'était un
+    détour refermé aussitôt. L'étape « science des données » du premier parcours en dit
+    l'objectif en une phrase.
+  dss/apprentissage-non-supervise: >-
+    Le cours le situe sans le développer ; dans l'histoire de la banque, un détour refermé
+    aussitôt.
+  dss/apprentissage-par-renforcement: >-
+    Le cours s'arrête à son schéma ; dans l'histoire de la banque, un détour refermé
+    aussitôt.

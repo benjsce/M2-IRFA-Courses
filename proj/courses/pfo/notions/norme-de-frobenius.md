@@ -29,13 +29,13 @@ Le cours l'introduit comme mesure de la distance globale entre deux matrices, po
 C'est la norme euclidienne ordinaire, appliquée à la matrice mise à plat en un seul vecteur de tous ses termes. [ajout]
 
 ## Exemple minimal
-Une matrice d'écarts de termes diagonaux 0,001 et −0,003 et de terme hors diagonale 0,002 a une norme de Frobenius de 0,0042. [ajout]
+Deux covariances annualisées des mêmes deux actifs, l'une tirée des rendements journaliers, l'autre des hebdomadaires, qui ont les mêmes variances et ne diffèrent que par leur terme hors diagonale, 0,02016 contre 0,0252 : leur distance de Frobenius vaut 0,0071. [ajout]
 
 ## Geste de calcul type
-$\sqrt{0{,}001^2 + 0{,}002^2 + 0{,}002^2 + 0{,}003^2} = \sqrt{18 \times 10^{-6}} = 0{,}0042$ : le terme hors diagonale compte deux fois, puisque la matrice est symétrique. [ajout]
+Seul l'écart hors diagonale, $0{,}0252-0{,}02016=0{,}00504$, n'est pas nul : $\sqrt{0^2 + 0{,}00504^2 + 0{,}00504^2 + 0^2} = \sqrt{2\times0{,}00504^2} \approx 0{,}0071$. Le terme hors diagonale compte deux fois, puisque la matrice est symétrique. [ajout]
 
 ## Cesse d'être valide quand
-Elle n'a pas d'échelle propre : une distance de 0,004 est grande entre des covariances de l'ordre de 0,02, négligeable entre des covariances de l'ordre de 1. La rapporter à la norme de l'une des deux matrices en fait un écart relatif. [ajout]
+Elle n'a pas d'échelle propre : une distance de 0,007 est grande entre des covariances de l'ordre de 0,02, négligeable entre des covariances de l'ordre de 1. La rapporter à la norme de l'une des deux matrices en fait un écart relatif. [ajout]
 
 Elle dit que deux matrices diffèrent, pas pourquoi : l'étude de cas laisse cette question aux questions de réflexion. [§1.6.2]
 

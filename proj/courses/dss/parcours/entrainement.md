@@ -57,7 +57,7 @@ Un réseau qui a plus de poids que d'exemples peut faire de même : apprendre pa
 
 9. dss/protocole-d-entrainement
    Ces réglages se décident sur quelles données, et comment savoir qu'on ne s'est pas trompé en les choisissant ? [slide 180]
-   Histoire : « des cas qu'il n'a jamais vus » — Ces réglages se choisissent sur un jeu que le cours appelle de test, et ne peuvent donc pas se juger sur lui : il faut un troisième jeu, dit de production, jamais touché. Avec 20 clients, on ne peut pas en couper trois ; le cours recommande alors une validation croisée en dix blocs, qui donne dix modèles et une erreur moyenne. [ajout]
+   Histoire : « des cas qu'il n'a jamais vus » — Ces réglages se choisissent sur un deuxième jeu de clients, que la slide appelle *validation test set* : un jeu qui sert à régler, pas à juger. Puisque les réglages ont été choisis pour lui, l'erreur qu'on y lit est trop optimiste ; l'erreur de test, sur des cas vraiment jamais vus, se mesure sur un troisième jeu, dit de production, que rien n'a touché. Avec 20 clients, on ne peut pas en couper trois ; le cours recommande alors une validation croisée en dix blocs, qui donne dix modèles et une erreur moyenne. [slide 180, ajout]
 
 10. dss/analyse-post-entrainement
     Le travail fini, reste une boîte de poids. Peut-on encore comprendre ce qu'elle a retenu ? [slide 194]
