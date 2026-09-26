@@ -23,12 +23,15 @@ Le cours se termine sur deux articles qui mettent ses méthodes à l'épreuve : 
 ## Étapes
 1. dss/comparaison-de-modeles
    Sur un même jeu de risque de crédit, quel modèle du cours fait le mieux ? [slide 204, slide 205]
+   Histoire : « l'un compare tous les modèles sur un même problème de crédit » — Sur un même jeu de crédit, la forêt aléatoire gagne 6,48 points de GINI sur la régression logistique, et le séparateur à vaste marge en perd 22,98. [ajout]
 
 2. dss/smote
    Dans les données de crédit, les défauts sont rares. Comment apprendre une classe presque absente ? [slide 229]
+   Histoire : « 30 finissent en défaut » — Avec 30 défauts pour 970 bons dossiers, un modèle apprend surtout à dire « pas de défaut ». SMOTE fabrique de nouveaux défauts, synthétiques, à partir de ceux qui existent, pour rééquilibrer les classes avant l'apprentissage. [ajout]
 
 3. dss/biais-societal
    Même bien entraîné, un modèle apprend ce que ses données contiennent, y compris ce qu'on ne voudrait pas qu'il reproduise. [slide 218]
+   Histoire : « ce qu'ils apprennent quand les données sont biaisées » — Si les défauts passés reflètent un traitement inégal selon le genre, un modèle entraîné sans la variable de genre peut le reproduire : d'autres variables en portent l'information, au point qu'on peut prédire le genre du client à partir d'elles. [ajout]
 
 ## Point d'arrivée
 Un modèle se juge sur des données réelles et contre les autres modèles ; et bien prédire n'est pas tout, puisqu'il reproduit fidèlement les biais de ce qu'il apprend. [ajout]
