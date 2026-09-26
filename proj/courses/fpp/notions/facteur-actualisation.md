@@ -24,7 +24,7 @@ Le prix aujourd’hui d’un euro payé en $T$, c’est-à-dire le prix d’un z
 $$P(t,T)=e^{-R(t,T)(T-t)}=C_t^{-1}$$ [§2.1, Déf. 3, §2.3]
 
 ## Ce que les symboles modélisent
-$P(t,T)$ prend deux dates et rend un **prix** : celui, en $t$, d'une unité payée en $T$. Ce n'est pas un taux — c'est un nombre positif, qu'on lit sur un titre échangé. Il est généralement inférieur à un, parce que les dépôts rapportent un intérêt ; il le dépasse quand les taux sont négatifs, puisqu'il faut alors payer plus d'une unité aujourd'hui pour en recevoir une en $T$. $\tau$ est la durée qui sépare les deux dates, et c'est par elle qu'un prix se convertit en rendement. [Déf. 3, §2.1, §3.1, ajout]
+$P(t,T)$ prend deux dates et rend un **prix** : celui, en $t$, d'une unité payée en $T$. Ce n'est pas un taux — c'est un nombre positif, qu'on lit sur un titre échangé. Il est généralement inférieur à un, parce que les dépôts rapportent un intérêt ; il le dépasse quand les taux sont négatifs, puisqu'il faut alors payer plus d'une unité aujourd'hui pour en recevoir une en $T$. $\tau$ est la durée qui sépare les deux dates, $T-t$, et c'est par elle qu'un prix se convertit en rendement. [Déf. 3, §2.1, §3.1, ajout]
 
 ## Ce qui la définit
 On capitalise en avançant dans le temps et l’on actualise en reculant : le facteur est le taux de change entre deux dates. [§2.1, Déf. 3]

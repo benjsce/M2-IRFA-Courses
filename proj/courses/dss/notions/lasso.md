@@ -27,7 +27,7 @@ La régularisation avec une pénalité en valeur absolue, qui met certains coeff
 $$\sum_{i=1}^{n}\Big(y_i-\beta_0-\sum_{j=1}^{p}\beta_jx_{ij}\Big)^2+\lambda\sum_{j=1}^{p}|\beta_j|=\mathrm{RSS}+\lambda\sum_{j=1}^{p}|\beta_j|$$ [slide 63]
 
 ## Ce que les symboles modélisent
-$\ell_1$ ne nomme pas la pénalité mais sa **forme** : la façon de mesurer la taille d'un vecteur de coefficients, ici par la somme des valeurs absolues. C'est cette forme, anguleuse en zéro, qui met des coefficients exactement à zéro au lieu de les en approcher. [slide 63]
+$\ell_1$ ne nomme pas la pénalité mais sa **forme** : la façon de mesurer la taille d'un vecteur de coefficients, ici par la somme des valeurs absolues. C'est cette forme, anguleuse en zéro, qui met des coefficients exactement à zéro au lieu de les en approcher. $\ell_2$, la somme des carrés, est la forme de la pénalité de ridge, arrondie en zéro. [slide 63]
 
 ## Ce qui la définit
 Un seul terme change par rapport à ridge, et il change tout : la pénalité $\ell_1$ force certains coefficients à valoir exactement zéro dès que $\lambda$ est assez grand. Le lasso fait donc de la sélection de variables, ce que ridge ne fait jamais. [slide 63]

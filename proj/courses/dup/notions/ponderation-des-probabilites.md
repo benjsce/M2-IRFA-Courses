@@ -22,6 +22,8 @@ La branche des généralisations qui laisse l’utilité tranquille et déforme 
 ## Ce que les membres partagent
 Le cours décompose le modèle de référence en trois ingrédients séparables : l’agrégation, la linéarité en probabilités, l’utilité des résultats. Ces modèles ne touchent qu’au deuxième. [L1 slide 55]
 
+La déformation est une fonction de $[0,1]$ dans lui-même : $\pi$ dans dup/theorie-des-perspectives, appliquée à chaque probabilité, et $\varphi$ dans dup/rdu et dup/cpt, appliquée aux probabilités cumulées. [L3 slide 21, L3 slide 27, L3 slide 38]
+
 Tous surpondèrent les petites probabilités, et c’est ce qui leur permet de rendre compte à la fois de l’assurance et du billet de loterie. [L3 slide 25, L3 slide 38]
 
 ## Pourquoi ce niveau existe

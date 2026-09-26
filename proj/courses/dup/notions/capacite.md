@@ -22,7 +22,7 @@ Une mesure des événements qui respecte l’ordre d’inclusion sans exiger que
 $$\mu(\varnothing)=0,\quad\mu(S)=1,\quad A\subseteq B\Rightarrow\mu(A)\le\mu(B)$$ [L4 slide 56]
 
 ## Ce que les symboles modélisent
-$\mu$ prend un événement — une partie de l'espace des états — et rend un nombre entre zéro et un. C'est une croyance, mais ce n'est pas une probabilité : rien n'oblige $\mu(A)$ et $\mu$ du complémentaire à faire un, et c'est ce jeu qui loge l'ambiguïté. $C(\mu)$ est son cœur : l'ensemble des probabilités ordinaires qui la majorent sur chaque événement, donc les lectures probabilistes compatibles avec elle. [L4 slide 56]
+$\mu$ prend un événement — une partie de l'espace des états — et rend un nombre entre zéro et un. C'est une croyance, mais ce n'est pas une probabilité : rien n'oblige $\mu(A)$ et $\mu$ du complémentaire à faire un, et c'est ce jeu qui loge l'ambiguïté. $C(\mu)$ est son cœur : l'ensemble des probabilités ordinaires qui la majorent sur chaque événement, $\{p\in\Delta(S):\ p(A)\ge\mu(A)\ \text{pour tout}\ A\subseteq S\}$, donc les lectures probabilistes compatibles avec elle. [L4 slide 56]
 
 ## Ce qui la définit
 Une capacité est dite convexe, ou supermodulaire, quand $\mu(A\cup B)+\mu(A\cap B)\ge\mu(A)+\mu(B)$ pour tous événements. Son cœur $C(\mu)$ rassemble les probabilités qui la majorent sur chaque événement ; pour une capacité convexe sur un espace d’états fini, ce cœur est non vide et l’intégrale de Choquet coïncide avec l’espérance minimale sur lui. [L4 slide 56]

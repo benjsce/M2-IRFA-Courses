@@ -20,7 +20,7 @@ Donner le même paiement à plusieurs états voisins quand l'ordre supposé ne t
 $$u'(z)=\eta\,\frac{\sum_{s\in B}q_s}{\sum_{s\in B}\pi_s},\qquad \sum_{s\in B}\pi_s=\varphi(P_b)-\varphi(P_{a-1})$$ [L4 slide 33]
 
 ## Ce que les symboles modélisent
-$\kappa_s$ est un multiplicateur de Lagrange : il vaut zéro tant que deux états voisins reçoivent des paiements différents, et devient positif quand la contrainte d'ordre mord. Sa valeur n'a pas de lecture économique directe ; c'est son annulation, ou non, qui dit si deux états forment un bloc. [L4 slide 27]
+$\kappa_s$ est le multiplicateur de Lagrange de la contrainte d'ordre $x_{s+1}-x_s\ge0$ entre deux états voisins. Il entre dans la condition du premier ordre $\pi_su'(x_s)=\eta q_s+\kappa_s-\kappa_{s-1}$, avec $\kappa_s\ge0$ et $\kappa_s(x_{s+1}-x_s)=0$ : il vaut zéro tant que deux états voisins reçoivent des paiements différents, et devient positif quand la contrainte d'ordre mord. Sa valeur n'a pas de lecture économique directe ; c'est son annulation, ou non, qui dit si deux états forment un bloc. [L4 slide 27]
 
 ## Ce qui la définit
 Quand des états consécutifs $B=\{a,\dots,b\}$ partagent le même paiement $z$, la somme de leurs conditions du premier ordre annule les multiplicateurs internes : il ne reste que le prix total du bloc rapporté à son poids total, pourvu que les contraintes aux bords du bloc ne soient pas actives. [L4 slide 33]
