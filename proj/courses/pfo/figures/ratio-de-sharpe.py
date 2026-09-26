@@ -37,7 +37,7 @@ for p, nom in ((A1, "actif 1"), (A2, "actif 2")):
     f.point(p[0], p[1], couleur=DOUX, r=4.2)
     f.texte(p[0], p[1], nom, couleur=DOUX, dx=8, dy=16, taille=11.5, gras=True)
 f.point(MIX[0], MIX[1], couleur=ACCENT, r=4.5)
-f.texte(MIX[0], MIX[1], "½ – ½", couleur=ACCENT, ancre="end", dx=-8, dy=-6, gras=True,
+f.texte(MIX[0], MIX[1], "parts égales", couleur=ACCENT, ancre="end", dx=-8, dy=-6, gras=True,
         fond=True)
 f.texte(15, RF + pente(A1) * 15, "pente " + fr(pente(A1)), couleur=DOUX, ancre="middle",
         dy=20, gras=True, fond=True)

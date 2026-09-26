@@ -28,7 +28,7 @@ JB = T / 6 * (S0 ** 2 + K0 ** 2 / 4)            # 416,7
 f = Figure(xmin=-0.8, xmax=0.8, ymin=-0.8, ymax=3.5, w=480, h=380, marges=(54, 16, 40, 18),
            titre="Le test ne laisse passer qu'une petite ellipse autour de la loi normale")
 f.axes(xlab="asymétrie S", ylab="excès de kurtosis", xticks=(-0.5, 0, 0.5), yticks=(1, 2, 3),
-       fmt=lambda t: ("%g" % t).replace(".", ","), fmt_y=lambda t: "%d" % t, croix=(0, 0))
+       fmt=lambda t: ("%g" % t).replace(".", ",").replace("-", "−"), fmt_y=lambda t: "%d" % t, croix=(0, 0))
 
 pts = [(AS * math.cos(2 * math.pi * k / 120), AK * math.sin(2 * math.pi * k / 120))
        for k in range(121)]
@@ -39,8 +39,10 @@ f.texte(AS, 0, "JB < 5,99", couleur=ACCENT, dx=8, dy=-10, gras=True, fond=True)
 f.point(0, 0, couleur=ENCRE)
 f.texte(0, 0, "loi normale", couleur=ENCRE, dx=-10, dy=-8, ancre="end", taille=11.5, fond=True)
 f.point(S0, K0, couleur=AJOUT, r=5)
-f.texte(S0, K0, "l'exemple : JB = " + ("%.1f" % JB).replace(".", ","), couleur=AJOUT, dx=10,
-        dy=4, gras=True, fond=True)
+# Deux lignes courtes à droite du point : elles s'arrêtent avant l'axe vertical, dont la
+# graduation « 3 » est à la même hauteur.
+f.texte(S0, K0, "l'exemple", couleur=AJOUT, dx=10, dy=-10, taille=11.5)
+f.texte(S0, K0, "JB = " + ("%.1f" % JB).replace(".", ","), couleur=AJOUT, dx=10, dy=8, gras=True)
 f.texte(0.78, 3.2, "T = 1 000", couleur=DOUX, ancre="end", taille=11.5)
 
 sys.stdout.write(f.svg())

@@ -22,8 +22,9 @@ XOU = {(0, 0): 0, (0, 1): 1, (1, 0): 1, (1, 1): 0}
 
 
 def cadre(titre, table, droites, couleur):
-    g = Figure(xmin=-0.5, xmax=1.6, ymin=-0.5, ymax=1.6, w=270, h=280, marges=(30, 30, 30, 10))
-    g.axes(xlab="x1", ylab="", xticks=(0, 1), yticks=(0, 1), fmt=lambda t: "%d" % t,
+    # marges gauche et basse assez larges pour les étiquettes d'axe « x2 » et « x1 »
+    g = Figure(xmin=-0.5, xmax=1.6, ymin=-0.5, ymax=1.6, w=290, h=290, marges=(50, 30, 40, 10))
+    g.axes(xlab="x1", ylab="x2", xticks=(0, 1), yticks=(0, 1), fmt=lambda t: "%d" % t,
            fmt_y=lambda t: "%d" % t, croix=(-0.5, -0.5))
     for c in droites:
         xa, xb = max(-0.5, c - 1.6), min(1.6, c + 0.5)      # la droite x1 + x2 = c, coupée au cadre

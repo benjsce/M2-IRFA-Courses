@@ -23,7 +23,7 @@ Passer des statistiques journalières des rendements à leurs valeurs annuelles 
 $$\mu_{\mathrm{annuel}}=252\times\mu_d,\qquad \sigma_{\mathrm{annuel}}^2=252\times\sigma_d^2,\qquad \sigma_{\mathrm{annuel}}=\sigma_d\sqrt{252},\qquad \boldsymbol{\Sigma}_{\mathrm{annuel}}=252\times\boldsymbol{\Sigma}_{\mathrm{journalière}}$$ [§3.0.7]
 
 ## Ce que les symboles modélisent
-$\mu_d$ est le rendement logarithmique espéré d'une seule séance, et $\sigma_d$ son écart type. $\mu_{\mathrm{annuel}}$ et $\sigma_{\mathrm{annuel}}$ sont les mêmes grandeurs pour une année de bourse ; les indices sont en français dans le poly anglais. [§3.0.7]
+$\mu_d$ est le rendement logarithmique espéré d'une seule séance, et $\sigma_d$ son écart type. $\mu_{\mathrm{annuel}}$ et $\sigma_{\mathrm{annuel}}$ sont les mêmes grandeurs pour une année de bourse. [§3.0.7]
 
 ## Ce qui la définit
 Les données de marché arrivent à fréquence journalière, alors que les performances, les mandats de gestion et les comparaisons d'actifs s'expriment sur un an. Une année de bourse compte environ 252 séances, hors week-ends et jours fériés. [§3.0.7]
@@ -40,7 +40,7 @@ La variance demande une hypothèse de plus, celle de fpp/echelonnement-de-la-var
 ## Exemple minimal
 Un rendement espéré journalier de 0,04 % et une volatilité journalière de 1 % deviennent 10,08 % et 15,87 % par an. [ajout]
 
-![Sur $n$ séances, la moyenne de l'exemple croît comme $n$ et l'écart type comme $\sqrt n$ : à 252 séances, 10,08 % et 15,87 %. Multiplier l'écart type par 252 au lieu de sa racine le porterait à 252 %, hors du cadre.](figures/annualisation.svg) [ajout]
+![Sur $n$ séances, la moyenne de l'exemple croît comme $n$ et l'écart type comme $\sqrt n$ : à 252 séances, 10,08 % et 15,87 %.](figures/annualisation.svg) [ajout]
 
 ## Geste de calcul type
 $\mu_{\mathrm{annuel}}=252\times0{,}04\,\%=10{,}08\,\%$ ; $\sigma_{\mathrm{annuel}}=1\,\%\times\sqrt{252}=1\,\%\times15{,}87=15{,}87\,\%$. Multiplier l'écart type par 252 au lieu de sa racine le gonflerait près de seize fois. [ajout]

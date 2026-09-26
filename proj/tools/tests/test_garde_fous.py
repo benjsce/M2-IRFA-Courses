@@ -211,6 +211,28 @@ def socle_grandit(root):
     ])
 
 
+def _chemin(root, phrase):
+    """Trois fiches : base, milieu, haut ; haut raconte son socle par `phrase`."""
+    ch = "\n## Le chemin jusqu'ici\n%s [p. 1]\n"
+    ecrire(root, "aa", [
+        dict(slug="base", nom="Base"),
+        dict(slug="milieu", nom="Milieu"),
+        dict(slug="haut", nom="Haut", dep="aa/base, aa/milieu", chemin=ch % phrase),
+    ])
+
+
+def arete_donnent(root):
+    _chemin(root, "aa/base et aa/milieu donnent le cadre.")
+
+
+def arete_liste_nue(root):
+    _chemin(root, "aa/base, aa/milieu.")
+
+
+def arete_francais(root):
+    _chemin(root, "aa/base pose le cadre, et aa/milieu donne la mesure qu'on y lit.")
+
+
 # ---------------------------------------------------------------- parcours (A14–A16)
 # Trois fiches en chaîne : base ← milieu ← haut. Le parcours raconte milieu puis haut,
 # et doit rattacher base à l'histoire, puisque milieu la suppose.
@@ -534,6 +556,14 @@ def main():
         "aa/milieu: « Le chemin jusqu'ici » ne nomme pas", socle_grandit)
     cas("sa descendance aussi → signalée",
         "aa/aval: « Le chemin jusqu'ici » ne nomme pas", socle_grandit)
+
+    print("arête transcrite dans « Le chemin jusqu'ici »")
+    cas("« X et Y donnent » → avertissement",
+        "transcrit une arête", arete_donnent)
+    cas("« X, Y. » en liste nue → avertissement",
+        "transcrit une arête", arete_liste_nue)
+    cas("des phrases qui disent ce que chacune apporte → silence",
+        "transcrit une arête", arete_francais, doit_apparaitre=False)
 
     print("documents de loi en double")
     cas("une copie retouchée seule → erreur",

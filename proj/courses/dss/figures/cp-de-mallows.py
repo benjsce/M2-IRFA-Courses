@@ -5,7 +5,8 @@ cp-de-mallows.svg — l'erreur d'apprentissage et la pénalité, empilées, pour
 Les 20 clients, et les modèles emboîtés du parcours : aucun prédicteur, puis l'endettement,
 le revenu, et les trois variables sans lien ajoutées une à une. Pour chaque taille $d$, la
 barre grise est $\mathrm{RSS}/n$, qui baisse toujours ; la barre colorée posée dessus est la
-pénalité $2d\hat\sigma^2/n$, qui monte toujours ; la hauteur totale est $C_p$. Avec
+pénalité $2d\hat\sigma^2/n$, qui monte toujours, violette à toutes les tailles ; la
+hauteur totale est $C_p$, et seule la valeur du minimum est marquée, en gras. Avec
 $\hat\sigma^2=1{,}40$ estimé sur le modèle complet, le total est le plus bas à $d=2$, 1,40,
 et vaut 1,68 pour le modèle complet — l'exemple de la fiche.
 
@@ -86,7 +87,7 @@ f.axes(xlab="nombre de prédicteurs d", ylab="Cp", xticks=(0, 1, 2, 3, 4, 5), yt
 for d in range(6):
     f.barre(d, err[d], 0.56, couleur=DOUX, opacite=0.5)
     if pen[d] > 0:
-        f.barre(d, cp[d], 0.56, couleur=AJOUT if d != meilleur else ACCENT, opacite=0.8, y0=err[d])
+        f.barre(d, cp[d], 0.56, couleur=AJOUT, opacite=0.8, y0=err[d])
     f.texte(d, cp[d], fr(cp[d]), couleur=ACCENT if d == meilleur else ENCRE, ancre="middle",
             dy=-6, taille=11.5, gras=d == meilleur)
 f.texte(0, 0.45, "RSS / n", couleur=ENCRE, ancre="middle", taille=11.5)

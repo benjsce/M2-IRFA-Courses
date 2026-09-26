@@ -4,8 +4,7 @@ annualisation.svg — la moyenne croît comme le temps, l'écart type comme sa r
 
 L'exemple de la fiche : un rendement espéré journalier de 0,04 % et une volatilité
 journalière de 1 %. Sur $n$ séances, la moyenne vaut $0{,}04\,\%\times n$ et l'écart type
-$1\,\%\times\sqrt n$ ; à 252 séances, 10,08 % et 15,87 %. Multiplier l'écart type par 252
-au lieu de sa racine le porterait à 252 %, hors du cadre.
+$1\,\%\times\sqrt n$ ; à 252 séances, 10,08 % et 15,87 %.
 
 Usage : python courses/pfo/figures/annualisation.py > annualisation.svg
 Dépendance : aucune.
@@ -30,8 +29,10 @@ f.fonction(lambda n: MU * n, 0, AN, couleur=AJOUT, epaisseur=2.4)
 f.segment(AN, 0, AN, SIG * math.sqrt(AN))
 f.point(AN, SIG * math.sqrt(AN), couleur=ACCENT)
 f.point(AN, MU * AN, couleur=AJOUT)
-f.texte(126, SIG * math.sqrt(126), "écart type : 1 % × √n", couleur=ACCENT, dy=20,
-        ancre="middle", gras=True, fond=True)
+# ancrée au-dessus et à gauche d'un point de la courbe : à gauche, la courbe concave
+# descend, le texte s'étend donc dans le vide, quelle que soit la police
+f.texte(180, SIG * math.sqrt(180), "écart type : 1 % × √n", couleur=ACCENT, ancre="end",
+        dx=-6, dy=-8, gras=True, fond=True)
 f.texte(160, MU * 160, "moyenne : 0,04 % × n", couleur=AJOUT, dx=6, dy=16, gras=True,
         fond=True)
 

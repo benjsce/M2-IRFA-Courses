@@ -32,7 +32,7 @@ Un réseau qui a plus de poids que d'exemples peut faire de même : apprendre pa
 
 3. dss/architecture-du-reseau
    Cette borne pèse sur un choix qu'on fait avant d'entraîner : la forme du réseau. [slide 176]
-   Histoire : « 20 neurones cachés » — Vingt neurones cachés, c'est bien trop pour 20 clients : il leur faut un réseau de quelques poids seulement, donc peu de neurones cachés. Trop de poids exige trop d'exemples ; trop peu ne laisse pas la liberté d'apprendre la règle. [ajout]
+   Histoire : « 20 neurones cachés » — Vingt neurones cachés, c'est bien trop pour 20 clients. La même règle, lue à l'envers, n'autorise même pas deux poids, puisque $20\times0{,}1=2$ : un seul neurone sur les cinq prédicteurs en a déjà six. La banque n'a pas assez de clients pour un réseau, quelle que soit sa forme ; avec plus d'exemples, la borne dit combien de neurones cachés on peut se permettre. Trop de poids exige trop d'exemples ; trop peu ne laisse pas la liberté d'apprendre la règle. [ajout]
 
 4. dss/preparation-des-donnees
    Le nombre de poids dépend aussi du nombre d'entrées, donc de ce qu'on donne au réseau et de la façon de le lui donner. [slide 187]

@@ -25,29 +25,26 @@ refs:
 ---
 
 ## Ce que c'est
-Un biais social que l'apprentissage reproduit parce qu'il en apprend le motif dans les données. [slide 218]
+Un biais social devenu la norme. [slide 218]
 
 ## Ce qui la définit
-La définition du cours est précise et courte : un biais social devient sociétal quand il devient la norme. Les écarts de rémunération par origine ethnique documentés par l'office statistique britannique en servent d'ancrage. [slide 218]
+La définition du cours est courte : un biais social devient sociétal quand il devient la norme. Les écarts de rémunération par origine ethnique documentés par l'office statistique britannique en servent d'ancrage. [slide 218]
 
-L'expérimentation se fait en trois questions, posées dans cet ordre : le jeu de données est-il réellement utilisable pour du scoring ; permet-il de prédire le genre ou le groupe ethnique du client ; et alors, qu'est-ce que cela implique. [slide 227]
+Ce que le cours montre ensuite, c'est que l'apprentissage automatique reproduit un tel biais. L'expérience est simple : on ne donne pas au modèle le genre ou le groupe ethnique du client, et l'on cherche s'il le retrouve quand même dans ses autres variables. Elle se fait en trois questions, dans cet ordre : le jeu de données est-il réellement utilisable pour du scoring ; permet-il de prédire le genre ou le groupe ethnique du client ; et alors, qu'est-ce que cela implique. [slide 227]
 
 La réponse du cours est double et tranchée. Oui, l'apprentissage fait prospérer les biais sociaux, en répliquant les motifs qu'il apprend. Et le modèle économique de la banque, ajouté aux règles prudentielles, semble empêcher de traiter le problème. [slide 235]
 
-La piste ouverte est le travail par sous-échantillons intermédiaires homogènes. Le cours la présente comme une recherche à mener, pas comme une solution. [slide 235]
-
-
 ## Le chemin jusqu'ici
-Le socle est le plus long du cours parce que l'étude se place après tout le reste. [ajout]
+Pour que la question ait un sens, il fallait des modèles de crédit qui marchent : dss/comparaison-de-modeles les a classés sur un même jeu, et l'étude sur les biais reprend les mêmes outils. [ajout]
 
-**Ce qui est mesuré.** dss/apprentissage-supervise donne dss/scoring-de-credit, et dss/matrice-de-confusion donne dss/courbe-roc ; dss/moindres-carres-ordinaires, dss/erreur-de-test et dss/compromis-biais-variance donnent dss/regression-ridge puis dss/lasso ; dss/bootstrap donne dss/bagging, d'où dss/variance-d-une-moyenne-correlee et dss/foret-aleatoire, tandis que dss/surapprentissage donne dss/boosting ; dss/apprentissage-inductif donne dss/fonction-discriminante-lineaire, qui avec dss/reseau-de-neurones-artificiel donne dss/perceptron, puis dss/limite-du-perceptron, dss/fonction-d-activation et dss/reseau-multicouche, que dss/regle-delta et dss/descente-de-gradient conduisent à dss/retropropagation. Le tout se referme dans dss/comparaison-de-modeles. [ajout]
+**Les modèles.** Le problème est le dss/scoring-de-credit, prévoir le défaut, un cas de dss/apprentissage-supervise ; les modèles se comparent sur la dss/courbe-roc, construite à partir de la dss/matrice-de-confusion. Concourent le dss/lasso, qui prolonge la dss/regression-ridge en rétrécissant les dss/moindres-carres-ordinaires au nom du dss/compromis-biais-variance, un arbitrage que tranche dss/erreur-de-test ; la dss/foret-aleatoire, qui reprend le dss/bagging d'arbres tirés par dss/bootstrap en les rendant moins semblables, puisque la dss/variance-d-une-moyenne-correlee ne baisse pas entre arbres trop proches ; et le dss/boosting, que guette le dss/surapprentissage. [ajout]
 
-**Ce qui sert à l'expérience.** dss/interpretabilite donne dss/importance-des-variables, qui dit quelles variables portent l'information ; dss/preparation-des-donnees donne dss/smote, qui rend comparables des sous-échantillons de tailles très inégales. [ajout]
+**Le réseau.** Il est entraîné par dss/retropropagation, par pas de dss/descente-de-gradient hérités de la dss/regle-delta. C'est un dss/reseau-multicouche, dont la couche cachée répond à la dss/limite-du-perceptron et que sa dss/fonction-d-activation rend entraînable ; ses nœuds reprennent le dss/perceptron, l'unité d'un dss/reseau-de-neurones-artificiel qui calcule une dss/fonction-discriminante-lineaire en apprenant d'exemples, au sens de dss/apprentissage-inductif. [ajout]
 
-L'étude ne conclut pas sur une méthode mais sur un constat : l'apprentissage reproduit les motifs qu'il apprend, biais compris. Il fallait donc disposer des modèles, de la mesure qui les classe, et des deux outils d'expérimentation. [ajout]
+**Les deux outils de l'expérience.** dss/importance-des-variables, issue de dss/interpretabilite, dit quelles variables portent l'information du genre ; dss/smote, une étape de dss/preparation-des-donnees, rend comparables des groupes de tailles très inégales. [ajout]
 
 ## Exemple minimal
-Si un modèle entraîné sans variable de genre prédit malgré tout le genre du client, c'est que d'autres variables en portent l'information. [slide 233]
+Sur le jeu « genre », une forêt aléatoire qui cherche le genre du client à partir de ses autres variables obtient un score F1 de 0,33 sur les données telles quelles, et de 0,86 une fois les groupes rééquilibrés par SMOTE, sur une échelle où 1 est une prédiction parfaite. [slide 233, ajout]
 
 ## Cesse d'être valide quand
-L'étude montre que le biais est reproduit ; elle ne montre pas comment l'enlever. Le cours conclut sur une piste de recherche et non sur un correctif. [slide 235]
+L'étude montre que le biais est reproduit ; elle ne montre pas comment l'enlever. Le cours conclut sur une piste de recherche, le travail par sous-échantillons intermédiaires homogènes, et non sur un correctif. [slide 235]

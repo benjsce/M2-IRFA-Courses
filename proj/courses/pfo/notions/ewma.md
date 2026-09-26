@@ -29,16 +29,20 @@ Une estimation récursive de la variance, où chaque date mélange la variance d
 $$\sigma_t^2 = \lambda\,\sigma_{t-1}^2 + (1-\lambda)\,r_{t-1}^2 = \alpha\, r_{t-1}^2 + \alpha(1-\alpha)\, r_{t-2}^2 + \alpha(1-\alpha)^2 r_{t-3}^2 + \cdots, \qquad \alpha = 1-\lambda$$ [éq. 1.10, p. 16]
 
 ## Ce que les symboles modélisent
-$\sigma_t^2$ est la variance conditionnelle du rendement de la date $t$, estimée avec les rendements connus jusqu'à la veille. $\widehat\sigma_t$ en est la racine carrée, la volatilité EWMA, encore journalière tant qu'on ne l'a pas annualisée. [éq. 1.10, p. 16]
+$\sigma_t^2$ est la variance du rendement de la date $t$, estimée avec les rendements connus jusqu'à la veille ; $\widehat\sigma_t$, sa racine carrée, est la volatilité EWMA, journalière tant qu'on ne l'a pas annualisée. [éq. 1.10, p. 16]
 
 $\lambda$ est la persistance, la part de l'estimation de la veille que l'on garde. $\alpha = 1-\lambda$ est le lissage, le poids du rendement le plus récent : plus $\alpha$ est grand, plus les observations récentes pèsent, et plus l'estimateur réagit vite. [éq. 1.10, p. 14, p. 16]
 
 Ce $\alpha$ n'a rien à voir avec le niveau d'un test ni avec le seuil de la VaR, que le cours note de la même lettre au chapitre 2. [ajout]
 
 ## Ce qui la définit
-Le cours l'introduit pour capturer le regroupement de volatilité ; c'est le modèle de RiskMetrics, avec $\lambda = 0{,}94$ pour des données journalières. Les observations récentes reçoivent les poids les plus forts. [§1.4, p. 16]
+Hier soir, on **connaît** la variance estimée pour hier, $\sigma_{t-1}^2$, et le rendement d'hier, $r_{t-1}$. On **cherche** la variance d'aujourd'hui, $\sigma_t^2$ : on garde 94 % de l'ancienne estimation et l'on ajoute 6 % du dernier rendement au carré. [éq. 1.10, ajout]
 
-En Python, `.pow(2).ewm(alpha=alpha_param, adjust=False).mean()` applique la récurrence : `adjust=False` impose la formule récursive stricte, sans renormaliser les premiers poids. La volatilité annualisée est ensuite `np.sqrt(ewma_variance * 252)`. [§1.4.1, Listing 1.2]
+Le cours l'introduit pour capturer le regroupement de volatilité ; c'est le modèle de RiskMetrics, avec $\lambda = 0{,}94$ pour des données journalières. [§1.4]
+
+En Python, `.pow(2).ewm(alpha=alpha_param, adjust=False).mean()` applique la même récurrence, avec `adjust=False` pour la formule récursive stricte, sans renormaliser les premiers poids ; la volatilité annualisée est ensuite `np.sqrt(ewma_variance * 252)`. [§1.4.1, Listing 1.2]
+
+À un détail près : la ligne $t$ de pandas inclut déjà $r_t^2$, le rendement du jour même. C'est donc la variance prévue pour le lendemain, le $\sigma_{t+1}^2$ de la Forme : un décalage d'un jour que le poly ne signale pas. [p. 16, ajout]
 
 ![Le poids de chaque rendement passé dans la variance du jour, $\alpha(1-\alpha)^{k-1}$ avec $\lambda=0{,}94$. Le rendement de la veille pèse 6 %, le poids diminue de moitié environ tous les onze jours, et les vingt derniers jours portent ensemble 71 % du total.](figures/ewma.svg) [ajout]
 
@@ -65,4 +69,4 @@ L'annualisation par $\sqrt{252}$ suppose la variance constante sur un an, alors 
 
 La persistance est fixée et non estimée : 0,94 est la valeur de RiskMetrics pour des données journalières, et rien ne garantit qu'elle convienne aussi bien au Bitcoin qu'à Apple. [ajout]
 
-Avec `adjust=False`, pandas démarre la récurrence au premier rendement au carré : les premières valeurs dépendent de ce point de départ arbitraire et ne s'interprètent pas. [ajout]
+Les premières valeurs dépendent du point de départ de la récurrence, le premier rendement au carré avec `adjust=False`, et ne s'interprètent pas. [ajout]

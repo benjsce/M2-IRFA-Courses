@@ -28,10 +28,21 @@ $$\mathrm{VaR}_\alpha = -\left(\mu + z_\alpha\,\sigma\right) \times \text{capita
 ## Ce que les symboles modélisent
 $z_\alpha$ est le quantile d'ordre $\alpha$ de la loi normale centrée réduite, `stats.norm.ppf(alpha)`, environ −1,6448 pour 5 %. C'est un nombre d'écarts types, négatif, et non un rendement : il le devient une fois multiplié par $\sigma$ et ajouté à $\mu$. [p. 33, Listing 2.2]
 
-$\varphi$ est la densité de la loi normale centrée réduite, `stats.norm.pdf`. Le rapport $\varphi(z_\alpha)/\alpha$ est la distance moyenne, en écarts types, d'une variable normale centrée réduite conditionnée à tomber sous $z_\alpha$. [Listing 2.2]
+$\varphi$ est la densité de la loi normale centrée réduite, `stats.norm.pdf`. Le rapport $\varphi(z_\alpha)/\alpha$ est, au signe près, la moyenne d'une variable normale centrée réduite $Z$ sachant qu'elle tombe sous $z_\alpha$ : 2,063 écarts types sous zéro, contre 1,645 pour le seuil. [Listing 2.2, ajout]
+
+## Retrouver la formule
+**Connus** : deux nombres seulement, la moyenne $\mu=0{,}05\,\%$ et l'écart type $\sigma=2\,\%$. **Il manque** la forme de la loi, et c'est elle qui situe la queue. On la suppose normale : le rendement s'écrit alors $\mu+\sigma Z$, où $Z$ suit la loi normale centrée réduite. Tout se lit sur $Z$, puis se ramène en rendement. [Listing 2.2, ajout]
+
+Le seuil. Le quantile à 5 % de $Z$ est donné par la table : $z_\alpha=-1{,}645$. Celui du rendement est $0{,}05\,\%-1{,}645\times2\,\%=-3{,}24\,\%$ ; changé de signe, c'est la VaR en rendement. [p. 33, Listing 2.2]
+
+La moyenne de la queue. La CVaR demande la moyenne de $Z$ sur ses 5 % les pires, $\tfrac1\alpha\int_{-\infty}^{z_\alpha}x\,\varphi(x)\,dx$. La dérivée de $\varphi$ en $x$ vaut $-x\,\varphi(x)$ : une primitive de $x\,\varphi(x)$ est donc $-\varphi(x)$, qui s'annule en $-\infty$, et l'intégrale vaut $-\varphi(z_\alpha)/\alpha=-0{,}1031/0{,}05=-2{,}063$. [ajout]
+
+Ramenée en rendement, cette moyenne vaut $0{,}05\,\%-2{,}063\times2\,\%=-4{,}08\,\%$. Changer de signe et multiplier par le capital donne les deux montants : [Listing 2.2]
+
+$$\mathrm{VaR}_\alpha=-\left(\mu+z_\alpha\,\sigma\right)\times\text{capital},\qquad\mathrm{CVaR}_\alpha=-\left(\mu-\sigma\,\dfrac{\varphi(z_\alpha)}{\alpha}\right)\times\text{capital}$$ [Listing 2.2]
 
 ## Ce qui la définit
-La méthode remplace la loi des rendements par la loi normale de même moyenne et de même écart type : la VaR se situe alors à $|z_\alpha|$ écarts types sous la moyenne, et la CVaR, moyenne de la queue gaussienne, un peu plus loin. [Listing 2.2]
+La méthode remplace la loi des rendements par la loi normale de même moyenne et de même écart type : la VaR se situe alors à 1,645 écart type sous la moyenne, et la CVaR, moyenne de la queue gaussienne, à 2,063. [Listing 2.2, ajout]
 
 ## Le chemin jusqu'ici
 pfo/valeur-a-risque demande un quantile et pfo/valeur-a-risque-conditionnelle une moyenne de queue. Sous l'hypothèse normale, les deux ont une formule fermée, et deux nombres, la moyenne et l'écart type, suffisent à les calculer. [ajout]

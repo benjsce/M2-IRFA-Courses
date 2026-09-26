@@ -16,22 +16,22 @@ refs:
 ---
 
 ## Ce que c'est
-Partir du modèle sans prédicteur et ajouter à chaque pas celui qui améliore le plus le modèle. [slide 33]
+Partir du modèle sans prédicteur et ajouter à chaque pas celui qui fait le plus baisser la RSS. [slide 33, slide 34]
 
 ## Ce qui la définit
-On s'arrête quand plus aucune addition n'améliore. Le chemin est déterminé par le point de départ : une variable écartée tôt peut ne jamais revenir, même si elle serait utile en présence d'une autre. [slide 33]
+Le cours donne deux façons de s'arrêter : quand plus aucune addition n'améliore le modèle, ou au bout du chemin. Dans la seconde, on va jusqu'au modèle complet, en appelant $\mathcal{M}_k$ le modèle atteint au $k$-ième pas, puis on choisit parmi $\mathcal{M}_0,\dots,\mathcal{M}_p$ par validation croisée, $C_p$, BIC ou $R^2$ ajusté ; c'est elle que suit l'exemple. [slide 33, slide 34]
+
+Une variable entrée n'en ressort jamais, même quand celles qui suivent la rendent inutile : le chemin dépend de ses premiers pas. [slide 33, ajout]
 
 
 ## Le chemin jusqu'ici
-dss/apprentissage-supervise, puis dss/moindres-carres-ordinaires : chaque pas ajuste un modèle de plus. [ajout]
-
-Ce qui distingue cette fiche dans sa famille tient à son abstraction et non à ses dépendances : le sens du parcours ne se construit sur rien, il se choisit. [ajout]
+Chaque pas ajuste par dss/moindres-carres-ordinaires un modèle par variable candidate, sur les exemples de dss/apprentissage-supervise, et garde celui dont la RSS est la plus basse. Rien d'autre n'est nécessaire : ce qui distingue ce sens de l'autre n'est pas un ingrédient, c'est le point de départ. [ajout]
 
 ## Exemple minimal
-Sur les 20 clients, elle fait entrer d'abord une variable sans lien avec la perte, la meilleure seule par hasard, puis une seconde, et n'atteint l'endettement qu'au quatrième pas ; le $C_p$ retient alors un modèle à quatre prédicteurs dont deux inutiles, d'erreur de test 1,77 contre 1,16. [ajout]
+Sur les 20 clients, elle fait entrer d'abord une variable sans lien avec la perte, la meilleure seule par hasard, puis une seconde, puis le revenu, et l'endettement seulement au quatrième pas ; le $C_p$ retient alors ce modèle à quatre prédicteurs dont deux inutiles, d'erreur de test 1,77 contre 1,16 pour l'endettement et le revenu seuls. [ajout]
 
 ## Geste de calcul type
-La préférer dès que $n<p$ : c'est le seul des deux sens qui reste calculable, puisqu'on n'a jamais besoin d'ajuster le modèle complet. [slide 36]
+La préférer dès que $n<p$ : elle reste calculable, puisqu'elle n'a jamais besoin d'ajuster le modèle complet. [slide 36]
 
 Avec $p=20$, elle ajuste 211 modèles là où le parcours exhaustif en demanderait plus d'un million. [ajout]
 

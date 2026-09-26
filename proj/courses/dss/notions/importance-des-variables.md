@@ -16,17 +16,14 @@ refs:
 Attribuer à chaque prédicteur une part du travail accompli par un ensemble d'arbres. [slide 104]
 
 ## Ce qui la définit
-Le problème est posé comme un échange : le bagging améliore la précision par rapport à un arbre unique, et il la paie en interprétabilité. Le modèle résultant est difficile à lire. [slide 104]
+Une mesure d'importance ne reconstruit pas le modèle : elle en classe les variables, et rend ainsi une partie de la lecture qu'un ensemble d'arbres, bagging ou forêt, a fait perdre. [slide 104, slide 106]
 
-Une mesure d'importance est ce qui rend une partie de cette lecture. Elle ne reconstruit pas le modèle, elle en donne un classement des variables. [slide 104]
-
-Le cours en donne deux, calculées à des endroits différents de la procédure, et qui ne mesurent pas la même chose. [slide 104, slide 106]
-
+Elle peut se lire pendant la construction des arbres, en additionnant ce que les coupures sur la variable ont fait gagner, ou après coup, sur les observations hors du sac, en mesurant ce que l'on perd quand on brouille la variable. Les classements obtenus ne coïncident pas. [slide 104, slide 106]
 
 ## Le chemin jusqu'ici
-Deux fils. dss/bootstrap, dss/apprentissage-supervise, dss/erreur-de-test et dss/compromis-biais-variance donnent dss/bagging ; dss/interpretabilite donne la raison de mesurer. [ajout]
+dss/interpretabilite pose la question dès le début du cours : un modèle qui prédit bien n'est pas pour autant un modèle qu'on sait expliquer. [ajout]
 
-Le bagging gagne en précision ce qu'il perd en lisibilité. Une mesure d'importance rend une partie de ce qui a été perdu : c'est exactement l'échange que la fiche sur l'interprétabilité annonçait au début du cours. [ajout]
+dss/bagging moyenne des arbres ajustés sur des tirages de dss/bootstrap. Il réduit ainsi la variance, comme le laissait espérer dss/compromis-biais-variance, et prédit mieux la perte des clients de dss/apprentissage-supervise qu'un arbre seul, au sens de dss/erreur-de-test. Mais il perd la lecture d'un arbre unique, et c'est cette lecture que la mesure d'importance rend en partie. [slide 104, ajout]
 
 ## Cesse d'être valide quand
 Un classement n'est pas un effet : il dit qu'une variable compte, jamais dans quel sens elle pousse la prédiction. [ajout]

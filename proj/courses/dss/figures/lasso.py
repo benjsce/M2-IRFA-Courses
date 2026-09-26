@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 r"""
-lasso.svg — la même ellipse de RSS, face au disque de ridge et au losange du lasso.
+lasso.svg — les mêmes courbes de niveau de la RSS, face au disque de ridge et au losange du lasso.
 
 La raison géométrique de la fiche. Deux coefficients ; l'estimation des moindres carrés est
-le point central, marqué MCO, et les ellipses sont les courbes de niveau de la RSS autour de lui. La
-solution contrainte est le premier point où une ellipse touche la région : à gauche le
-disque de ridge, $\beta_1^2+\beta_2^2\le1$, touché en un point quelconque de son bord, où
-aucun coefficient n'est nul ; à droite le losange du lasso, $|\beta_1|+|\beta_2|\le1$,
-touché en un coin, sur l'axe, où $\beta_2=0$ exactement. L'ellipse, son centre et son
-orientation sont choisis pour le dessin ; les points de contact sont calculés.
+le point central, marqué MCO, et les ellipses sont les courbes de niveau de la RSS autour de
+lui : les mêmes quatre dans les deux cadres. La solution contrainte est le point où la
+première d'entre elles, en partant du centre, touche la région : à gauche le disque de ridge,
+$\beta_1^2+\beta_2^2\le1$, touché en un point de son bord où aucun coefficient n'est nul
+(niveau 0,165) ; à droite le losange du lasso, $|\beta_1|+|\beta_2|\le1$, touché en un coin,
+sur l'axe, où $\beta_2=0$ exactement (niveau 0,323). Dans chaque cadre, l'ellipse de contact
+est en noir ; les autres restent grises. Les deux axes ont la même échelle, pour que le
+disque soit rond. L'ellipse, son centre et son orientation sont choisis pour le dessin ; les
+points et les niveaux de contact sont calculés.
 
 Usage : python courses/dss/figures/lasso.py > lasso.svg
 Dépendance : aucune.
@@ -57,29 +60,41 @@ def ellipse(niveau, n=160):
     return pts
 
 
-def cadre(titre, bord, couleur):
-    g = Figure(xmin=-1.4, xmax=3.0, ymin=-1.4, ymax=1.9, w=280, h=260, marges=(24, 30, 26, 10))
+def contact(bord):
+    return min((Q(bord(4 * k / 40000)), bord(4 * k / 40000)) for k in range(40000))
+
+
+QR, _ = contact(bord_disque)
+QL, _ = contact(bord_losange)
+NIVEAUX = (0.4 * QR, QR, QL, 1.7 * QL)            # les mêmes dans les deux cadres
+
+XMIN, XMAX, YMIN = -1.3, 2.6, -1.3
+W, H, MG, MH, MB, MD = 274, 270, 12, 30, 32, 12
+YMAX = YMIN + (H - MH - MB) * (XMAX - XMIN) / (W - MG - MD)      # même échelle sur les deux axes
+
+
+def cadre(titre, bord, couleur, legende):
+    g = Figure(xmin=XMIN, xmax=XMAX, ymin=YMIN, ymax=YMAX, w=W, h=H, marges=(MG, MH, MB, MD))
     g.axes(xlab="β1", ylab="", xticks=(), yticks=(), croix=(0, 0))
-    g.texte(0, 1.9, "β2", couleur=DOUX, dx=6, dy=10, taille=12)
+    g.texte(0, YMAX, "β2", couleur=DOUX, ancre="end", dx=-6, dy=12, taille=12)
     region = [bord(4 * k / 400) for k in range(401)]
     g._add('<path d="M%s Z" fill="%s" fill-opacity="0.25" stroke="none"/>'
            % (" L".join("%s %s" % (_n(g.px(x)), _n(g.py(y))) for x, y in region), couleur))
     g.courbe(region, couleur=couleur, epaisseur=2.0)
-    q, b = min((Q(bord(4 * k / 40000)), bord(4 * k / 40000)) for k in range(40000))
-    for m in (1.0, 2.2, 3.8):
-        g.courbe(ellipse(q * m if m > 1 else q), couleur=DOUX if m > 1 else ENCRE,
-                 epaisseur=1.2 if m > 1 else 1.8)
+    q, b = contact(bord)
+    for niv in NIVEAUX:
+        noir = abs(niv - q) < 1e-9
+        g.courbe(ellipse(niv), couleur=ENCRE if noir else DOUX, epaisseur=1.8 if noir else 1.1)
     g.point(*BH, couleur=ENCRE)
-    g.texte(*BH, "MCO", couleur=ENCRE, dx=6, dy=-4, taille=11, gras=True)
+    g.texte(*BH, "MCO", couleur=ENCRE, dx=6, dy=-4, taille=11, gras=True, fond=True)
     g.point(*b, couleur=AJOUT, r=5)
-    g.texte(0.45, 1.9, titre, couleur=couleur, ancre="middle", dy=-10, gras=True)
-    return g, b
+    g.texte((XMIN + XMAX) / 2, YMAX, titre, couleur=couleur, ancre="middle", dy=-12, gras=True)
+    g.texte((XMIN + XMAX) / 2, YMIN, legende, couleur=AJOUT, ancre="middle", dy=22, taille=11.5,
+            gras=True)
+    return g
 
 
-gr, br = cadre("ridge : un disque", bord_disque, ACCENT)
-gl, bl = cadre("lasso : un losange", bord_losange, AJOUT)
-gr.texte(0.8, -1.3, "le contact : aucun β nul", couleur=AJOUT, ancre="middle", taille=11.5, gras=True)
-gl.texte(0.8, -1.3, "le contact : un coin, β2 = 0", couleur=AJOUT, ancre="middle", taille=11.5,
-         gras=True)
+gr = cadre("ridge : un disque", bord_disque, ACCENT, "le contact : aucun β nul")
+gl = cadre("lasso : un losange", bord_losange, AJOUT, "le contact : un coin, β2 = 0")
 sys.stdout.write(Planche([gr, gl], ecart=30,
-                         titre="L'ellipse touche le disque sur son bord, le losange sur un coin").svg())
+                         titre="La première ellipse touche le disque sur son bord, le losange sur un coin").svg())

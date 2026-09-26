@@ -28,22 +28,26 @@ $$P(L > \mathrm{VaR}_\alpha) = \alpha$$ [éq. 2.23]
 ## Ce que les symboles modélisent
 $L$ est la perte du portefeuille sur l'horizon, comptée positivement : une perte de 50 000 s'écrit $L = 50\,000$. [Déf. 2.5.1, éq. 2.18]
 
-$\alpha$ est ici la probabilité de dépassement, 5 % pour une VaR dite à 95 % : c'est la valeur que prend `alpha` dans les listings, et celle qu'impose l'équation de la définition. La définition du cours l'appelle pourtant « niveau de confiance », qui serait 95 %. [éq. 2.20, éq. 2.23, Déf. 2.5.1, Listing 2.2]
+$\alpha$ est ici la probabilité de dépassement, 5 % pour une VaR dite à 95 %. La Déf. 2.5.1 l'appelle « niveau de confiance », qui serait plutôt 95 % ; les listings et l'équation de la définition la prennent à 5 %. [éq. 2.20, éq. 2.23, Déf. 2.5.1, Listing 2.2]
 
-$\mathrm{VaR}_\alpha$ est un montant de perte, positif, et non un rendement : les listings changent le signe du quantile de rendement et le multiplient par le capital. [Listing 2.2]
+$\mathrm{VaR}_\alpha$ est un montant de perte, positif, et non un rendement. [Listing 2.2]
 
 ## Ce qui la définit
-La VaR répond à une question : quel niveau de perte le portefeuille ne dépasse-t-il qu'avec une probabilité donnée, sur un horizon donné ? Elle se fixe par trois éléments, l'horizon, le niveau de confiance et la probabilité de dépassement, qui en est le complément. [§2.5, éq. 2.20]
+**On connaît** la loi des pertes sur l'horizon, ou à défaut un historique de rendements, et la probabilité qu'on accepte de voir dépassée, 5 %. **On cherche** un montant : le seuil de perte qui n'est dépassé qu'avec cette probabilité. [§2.5, éq. 2.23, ajout]
+
+Deux choix la fixent : l'horizon, et le niveau, 95 %, ou, ce qui revient au même, 5 % de probabilité de dépassement. [éq. 2.20]
 
 Elle ne fournit qu'un seuil : elle sépare les scénarios ordinaires des scénarios extrêmes, mais ne dit rien de l'ampleur de la perte une fois le seuil franchi. [éq. 2.21, p. 32]
-
-Le cours la range parmi les indicateurs de risque exigés par les cadres réglementaires de Bâle III et de Solvabilité II. [p. 19, §2.5]
 
 ## Exemple minimal
 Une VaR à 95 % sur un jour de 50 000 signifie que la perte d'une journée dépasse 50 000 avec une probabilité de 5 %. [p. 32, éq. 2.18]
 
 ## Geste de calcul type
-Lire la VaR comme un quantile : sur 1 000 rendements journaliers, `np.percentile(returns, 5)` renvoie le rendement que seules une cinquantaine d'observations, les pires, dépassent vers le bas ; changé de signe et multiplié par le capital, il rend la VaR en montant. [Listing 2.2, p. 32]
+Lire le quantile à 5 % des rendements, puis changer son signe et le multiplier par le capital. Pour des rendements journaliers de moyenne 0,05 % et d'écart type 2 %, supposés normaux, ce quantile vaut −3,24 % ; sur un capital de 1 000 000, $\mathrm{VaR} = -(-0{,}032397) \times 1\,000\,000 \approx 32\,397$. [Listing 2.2, ajout]
+
+![Mille rendements journaliers répartis comme la loi normale de l'exemple, un trait par jour, sur l'axe des rendements en haut. Les cinquante pires, 5 % des jours, sont en couleur ; le quantile à 5 %, −3,24 %, est leur bord. L'axe du bas lit les mêmes jours en pertes sur un capital de 1 000 000 : il va dans l'autre sens, et le bord devient la VaR, 32 397.](figures/valeur-a-risque.svg) [ajout]
+
+Sur un historique, `np.percentile(returns, 5)` fournit ce quantile : sur 1 000 rendements, une cinquantaine d'observations, les pires, sont en dessous. [Listing 2.2, p. 32]
 
 ## Cesse d'être valide quand
 Deux portefeuilles peuvent avoir la même VaR et des pertes extrêmes très différentes : la VaR est aveugle à ce qui se passe au-delà du seuil. [p. 32]

@@ -23,13 +23,15 @@ Trois étapes, dans cet ordre : consolidation et nettoyage, sélection et prétr
 
 Le nettoyage comprend l'élimination ou l'estimation des valeurs manquantes, le retrait des valeurs aberrantes, et la détermination des probabilités a priori des catégories pour traiter le biais de volume. [slide 189]
 
+Le biais de volume est le cas d'une catégorie bien plus fréquente que les autres, que le réseau apprendrait à prédire par défaut. [ajout]
+
 Le prétraitement réduit la dimension — retirer les attributs redondants ou corrélés, les combiner — et réduit l'étendue des valeurs. [slide 190]
 
 
 ## Le chemin jusqu'ici
-dss/apprentissage-supervise, puis dss/reseau-de-neurones-artificiel. [ajout]
+Le cours traite la préparation comme une contrainte du dss/reseau-de-neurones-artificiel et non comme une étape générale : c'est parce que le réseau n'accepte que des nombres continus que le codage devient un sujet à part entière. [ajout]
 
-Le cours traite la préparation comme une contrainte du réseau et non comme une étape générale : c'est parce que la rétropropagation n'accepte que du numérique continu que le codage devient un sujet à part entière. [ajout]
+Les données qu'on prépare sont des exemples étiquetés, au sens de dss/apprentissage-supervise : un objet d'entrée et la sortie désirée. Les deux se préparent, les entrées comme les catégories à prédire, dont le volume relatif compte. [ajout]
 
 ## Cesse d'être valide quand
 La formule que le cours met en tête est aussi sa limite : déchets à l'entrée, déchets à la sortie. Aucune préparation ne rattrape une donnée qui ne porte pas l'information. [slide 187]

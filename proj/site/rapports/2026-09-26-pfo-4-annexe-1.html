@@ -1,0 +1,984 @@
+<!doctype html>
+<html lang="fr" data-rel="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rapport 2026-09-26-pfo-4-annexe-1 · notions</title>
+<script>
+/* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
+   localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
+   cases « déjà su » ne peuvent donc pas traverser les pages par là. Ils voyagent dans
+   le fragment de l'URL, que tous les liens internes portent ; localStorage ne sert plus
+   que de mémoire locale, pour la page qu'on rouvre sans fragment.
+   Ce script s'exécute avant le rendu : sinon le thème clignote à chaque page. */
+(function(){
+var H={},h=(location.hash||'').replace(/^#/,'');
+h.split('~').forEach(function(p){var i=p.indexOf(':');if(i>0)H[p.slice(0,i)]=p.slice(i+1)});
+window.ETAT_URL=H;
+function loc(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+var t=H.t?(H.t==='d'?'dark':'light'):loc('notions.theme','');
+if(t)document.documentElement.setAttribute('data-theme',t);
+var a=(H.a!==undefined)?H.a:loc('notions.ajouts','1');
+if(a==='0')document.documentElement.classList.add('sans-ajouts');
+})();
+</script>
+<style>
+:root{
+  --bg:#fbfaf7; --bg2:#f3f0ea; --fg:#1b1a17; --mut:#6c675d; --fai:#8e887c;
+  --li:#e0dbd1; --li2:#cdc6b8; --card:#ffffff; --acc:#8a4f23; --acc2:#f3e7dc;
+  --ajo:#6d5a8c; --ajo2:#efe9f5; --lim:#9a3a2e; --ok:#3f6b46; --faute:#a8631a;
+  --r:8px; --w:min(72rem,100%);
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}}
+:root[data-theme="dark"]{
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}
+.fig{margin:.9rem 0;padding:.5rem .2rem .2rem;text-align:center}
+/* « > svg » et non « svg » : MathJax pose son propre <svg> dans la légende, et
+   une règle non ancrée en faisait un bloc qui coupait la phrase en trois. */
+.fig > svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig figcaption{margin-top:.35rem;font-family:var(--sans);font-size:.82rem;
+  color:var(--mut);text-align:center;line-height:1.45}
+@media print{.fig{break-inside:avoid}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
+  font-size:17px;line-height:1.62;overflow-wrap:break-word}
+a{color:var(--acc);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-style:dotted}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+.wrap{width:var(--w);margin:0 auto;padding:0 1rem}
+
+/* ---- barre du haut ---- */
+header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
+  border-bottom:1px solid var(--li);font-family:var(--sans)}
+.topin{width:var(--w);margin:0 auto;padding:.45rem 1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.brand{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--fg);letter-spacing:.02em}
+.fil{color:var(--mut);font-size:.82rem;flex:1 1 8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fil a{color:var(--mut)}
+.btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
+  border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+a.btn{text-decoration:none}
+.btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
+.rech{position:relative;flex:0 1 16rem;min-width:9rem}
+.rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
+  border:1px solid var(--li2);border-radius:var(--r);background:var(--card);color:var(--fg)}
+.res{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--li2);
+  border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.14);max-height:60vh;overflow:auto;padding:.2rem;margin:0;
+  list-style:none;display:none;z-index:50;min-width:18rem}
+.res.on{display:block}
+.res li a{display:block;padding:.3rem .45rem;border-radius:6px;text-decoration:none;color:var(--fg);font-size:.86rem}
+.res li a:hover,.res li.sel a{background:var(--acc2)}
+.res .sub{color:var(--mut);font-size:.76rem;font-family:var(--sans)}
+.res .vide{padding:.4rem .5rem;color:var(--mut);font-size:.84rem}
+
+main{padding:1.4rem 0 4rem}
+h1{font-size:1.75rem;line-height:1.24;margin:.2rem 0 .3rem}
+h2{font-size:1.06rem;font-family:var(--sans);font-weight:600;letter-spacing:.01em;margin:0}
+h3{font-size:.95rem;font-family:var(--sans);margin:1.2rem 0 .3rem}
+p{margin:.55rem 0}
+.ptag{font-family:var(--sans);font-size:.74rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .5rem}
+
+/* ---- métadonnées de fiche ---- */
+.meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;font-family:var(--sans);font-size:.75rem;color:var(--mut);margin:.4rem 0 1.1rem}
+.pill{border:1px solid var(--li2);border-radius:99px;padding:.06rem .5rem;background:var(--card);white-space:nowrap}
+.pill.ajout{color:var(--ajo);border-color:var(--ajo);background:var(--ajo2)}
+.pill.typ{background:var(--acc2);border-color:var(--acc)}
+.sym{font-family:var(--serif);font-size:1rem;color:var(--fg)}
+
+/* ---- sections ---- */
+.sec{border-top:1px solid var(--li);padding:.85rem 0}
+.sec.vide{display:none}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.45rem;padding:.1rem 0}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"›";color:var(--fai);font-family:var(--sans);display:inline-block;
+  transition:transform .12s ease;transform:rotate(0deg);width:.7em}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fai);font-weight:400}
+.corps{padding-top:.25rem}
+.gen{border-left:2px solid var(--li2);padding-left:.7rem}
+.chemin{border-left:3px solid var(--acc);background:var(--bg2);border-radius:0 var(--r) var(--r) 0;
+  padding:.5rem .8rem;margin:.2rem 0 .7rem}
+.chemin p{margin:.35rem 0;font-size:.95rem}
+.chemin p:first-child{margin-top:0}
+.chemin p:last-child{margin-bottom:0}
+.note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
+.parc{border:1px solid var(--li);border-left:3px solid var(--acc);border-radius:0 var(--r) var(--r) 0;
+  background:var(--bg2);padding:.5rem .8rem;margin:.6rem 0;font-size:.93rem}
+.parc-t{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin-bottom:.15rem}
+.parc p{margin:.2rem 0}
+.parc-h{border-left:2px solid var(--li);padding:.1rem 0 .1rem .6rem;margin:.3rem 0 .45rem;color:var(--mut)}
+.parc-h strong{color:var(--fg)}
+.parc-l{font-family:var(--sans);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--acc);margin-right:.25rem}
+.parc-lien{margin-top:.35rem;font-size:.92em}
+.parc-suite{border-left:2px solid var(--acc);padding:.1rem 0 .1rem .6rem;margin:.35rem 0;color:var(--fg);background:var(--acc2)}
+.parc-nav{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--sans);font-size:.8rem;margin-top:.35rem}
+.parc-nav .suiv{margin-left:auto;text-align:right}
+.etapes{list-style:none;padding:0;margin:.6rem 0 1.2rem;counter-reset:e}
+.etapes>li{counter-increment:e;position:relative;padding:0 0 1rem 1.7rem;border-left:2px solid var(--li);margin-left:.9rem}
+.etapes>li:last-child{border-left-color:transparent}
+.etapes>li::before{content:counter(e);position:absolute;left:-.95rem;top:0;width:1.75rem;height:1.75rem;
+  border-radius:99px;background:var(--card);border:1px solid var(--acc);color:var(--acc);
+  font-family:var(--sans);font-size:.78rem;display:flex;align-items:center;justify-content:center}
+.etapes>li>p{margin:.1rem 0 .35rem}
+.etapes .arr{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.45rem .75rem}
+.etapes .arr a.tit{font-weight:600;text-decoration:none}
+.etapes .arr p{margin:.15rem 0;font-size:.88rem;color:var(--mut)}
+.avant{list-style:none;padding:0;margin:.4rem 0 1rem}
+.avant>li{margin:.5rem 0}
+.avant>li p{margin:.1rem 0 0;font-size:.95rem}
+.avant a.tit{font-weight:600;text-decoration:none}
+.roles{list-style:none;padding:0;margin:.2rem 0 0}
+.roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
+.roles>li.cible{background:var(--acc2)}
+details.parc>summary{cursor:pointer}
+.sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
+.sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
+.sec.faute>summary h2{color:var(--faute)}
+.faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
+  margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.faute-b strong{color:var(--faute)}
+.sec.lim>summary h2{color:var(--lim)}
+.sec.lim>h2{color:var(--lim)}
+
+/* ---- marqueurs de traçabilité ---- */
+.marq{font-family:var(--sans);font-size:.7rem;color:var(--fai);white-space:nowrap;vertical-align:.12em}
+.marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
+.marqligne{margin:.15rem 0 0}
+html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
+.bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
+  color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
+
+/* ---- pastilles ---- */
+.pasts{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0;padding:0;list-style:none}
+.past{display:inline-block;font-family:var(--sans);font-size:.82rem;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--li2);border-radius:99px;padding:.12rem .6rem}
+.past:hover{border-color:var(--acc);color:var(--acc)}
+.past .cc{color:var(--fai);font-size:.74rem}
+.past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
+.past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
+.past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
+
+/* ---- socle ---- */
+.socle{list-style:none;padding:0;margin:.3rem 0}
+.socle li{display:flex;gap:.5rem;align-items:baseline;padding:.12rem 0;font-size:.92rem}
+.socle input{margin:0;accent-color:var(--ok)}
+.socle li.su a{color:var(--fai);text-decoration:line-through}
+.compteur{font-family:var(--sans);font-size:.78rem;color:var(--mut)}
+.grp{margin:.5rem 0}
+.grp>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--mut)}
+
+table{border-collapse:collapse;margin:.5rem 0;font-size:.9rem;display:block;overflow-x:auto;max-width:100%}
+th,td{border:1px solid var(--li);padding:.25rem .55rem;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-family:var(--sans);font-size:.78rem;font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+  background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
+ul{padding-left:1.1rem}
+hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
+
+/* ---- cartes d'accueil / carte du cours ---- */
+.cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
+.carte{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.65rem .8rem}
+.carte h3{margin:0 0 .2rem}
+.carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
+.carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
+.dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.vise{animation:vise 1.6s ease}
+@keyframes vise{from{background:var(--acc2)}to{background:transparent}}
+
+/* ---- orientation : ce qui s'adresse au lecteur qui arrive ---- */
+.entree{border:1px solid var(--li2);border-left:3px solid var(--acc);border-radius:var(--r);
+  padding:.7rem .9rem;margin:.8rem 0 1.4rem;background:var(--card)}
+.entree p{margin:.3rem 0;font-size:.92rem}
+.entree .quoi{font-size:1.02rem}
+.entree ul{margin:.5rem 0 .2rem;padding-left:1.1rem;font-family:var(--sans);font-size:.88rem}
+.entree li{margin:.2rem 0}
+.chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
+.chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
+.aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
+/* L'en-tête est collant : une ancre visée ne doit pas passer dessous. Mesuré :
+   il fait 48 px sur une ligne, 85 px quand il se replie en deux (écran étroit). */
+[id]{scroll-margin-top:6rem}
+.aide p,.aide ul,.aide table{max-width:42rem}
+.dette ul{margin:.3rem 0 0}
+footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
+
+/* ---- arbre ---- */
+.barre{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+.barre.plier{justify-content:flex-end;margin:.2rem 0 -.2rem}
+#scene{position:relative;border:1px solid var(--li);border-radius:var(--r);background:var(--bg2);
+  height:min(74vh,720px);overflow:hidden;touch-action:none;cursor:grab}
+#scene.drag{cursor:grabbing}
+#pan{position:absolute;transform-origin:0 0;top:0;left:0}
+#aretes{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+#aretes path{fill:none;stroke:var(--li2);stroke-width:1.5}
+.noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
+  padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
+.noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
+.noeud .nm{font-weight:600}
+.noeud .nm a{text-decoration:none;color:var(--fg)}
+.noeud .nm a:hover{color:var(--acc)}
+.noeud .pa{color:var(--mut);font-size:.72rem;display:block;margin-top:.1rem}
+.noeud .pli{font:inherit;font-size:.72rem;background:none;border:1px solid var(--li2);border-radius:4px;
+  color:var(--mut);cursor:pointer;padding:0 .3rem;margin-right:.25rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.4rem}
+  .rech{flex:1 1 100%;order:9}
+  #scene{height:66vh}
+}
+@media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="brand" href="../index.html">notions</a><span class="fil">rapport d’ingestion › 2026-09-26-pfo-4-annexe-1</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><article class="rapport"><h1>Annexe 1 au rapport pfo du 2026-09-26 (4)</h1><p>Modifications ligne à ligne des fiches (ancien texte en <code>-</code>, nouveau en <code>+</code>), séparées du
+rapport <code>2026-09-26-pfo-4</code> parce qu'une page du site ne dépasse pas 300 ko (SPEC-SITE §4).
+Raisons : dans les rendus des agents, au rapport principal.</p><p>Fiches : annualisation, asymetrie-negative, coefficient-d-asymetrie, developpement-de-cornish-fisher, effet-epps, ewma, filtre-z-score-glissant, fourchette-bid-ask, frontiere-efficiente, kurtosis, ligne-de-marche-des-capitaux, matrice-de-correlation, matrice-de-covariance, modele-de-risque, moment-standardise, moments-du-portefeuille, optimisation-de-portefeuille, p-valeur, paradigme-de-markowitz, passage-aux-rendements, piege-d-agregation, pipeline-d-ingestion, portefeuille-tangent, prix-milieu, quantile, queues-epaisses, regroupement-de-volatilite, remplissage-des-valeurs-manquantes, rendement-arithmetique, rendement-logarithmique, score-z, slsqp, test-de-jarque-bera, test-de-normalite, test-de-shapiro-wilk, valeur-a-risque, valeur-a-risque-conditionnelle, var-de-cornish-fisher, var-gaussienne, var-historique, vwap.</p><p>```diff
+diff --git a/proj/courses/pfo/notions/annualisation.md b/proj/courses/pfo/notions/annualisation.md
+index 056f857..5f0dea6 100644
+--- a/proj/courses/pfo/notions/annualisation.md
++++ b/proj/courses/pfo/notions/annualisation.md
+@@ -23,7 +23,7 @@ Passer des statistiques journalières des rendements à leurs valeurs annuelles
+ $$\mu_{\mathrm{annuel}}=252\times\mu_d,\qquad \sigma_{\mathrm{annuel}}^2=252\times\sigma_d^2,\qquad \sigma_{\mathrm{annuel}}=\sigma_d\sqrt{252},\qquad \boldsymbol{\Sigma}_{\mathrm{annuel}}=252\times\boldsymbol{\Sigma}_{\mathrm{journalière}}$$ [§3.0.7]</p><h2>Ce que les symboles modélisent</h2><p>-$\mu_d$ est le rendement logarithmique espéré d'une seule séance, et $\sigma_d$ son écart type. $\mu_{\mathrm{annuel}}$ et $\sigma_{\mathrm{annuel}}$ sont les mêmes grandeurs pour une année de bourse ; les indices sont en français dans le poly anglais. [§3.0.7]
++$\mu_d$ est le rendement logarithmique espéré d'une seule séance, et $\sigma_d$ son écart type. $\mu_{\mathrm{annuel}}$ et $\sigma_{\mathrm{annuel}}$ sont les mêmes grandeurs pour une année de bourse. [§3.0.7]</p><h2>Ce qui la définit</h2><p>Les données de marché arrivent à fréquence journalière, alors que les performances, les mandats de gestion et les comparaisons d'actifs s'expriment sur un an. Une année de bourse compte environ 252 séances, hors week-ends et jours fériés. [§3.0.7]
+@@ -40,7 +40,7 @@ La variance demande une hypothèse de plus, celle de fpp/echelonnement-de-la-var
+ ## Exemple minimal
+ Un rendement espéré journalier de 0,04 % et une volatilité journalière de 1 % deviennent 10,08 % et 15,87 % par an. [ajout]</p><p>-!<a href="figures/annualisation.svg">Sur $n$ séances, la moyenne de l'exemple croît comme $n$ et l'écart type comme $\sqrt n$ : à 252 séances, 10,08 % et 15,87 %. Multiplier l'écart type par 252 au lieu de sa racine le porterait à 252 %, hors du cadre.</a> [ajout]
++!<a href="figures/annualisation.svg">Sur $n$ séances, la moyenne de l'exemple croît comme $n$ et l'écart type comme $\sqrt n$ : à 252 séances, 10,08 % et 15,87 %.</a> [ajout]</p><h2>Geste de calcul type</h2><p>$\mu_{\mathrm{annuel}}=252\times0{,}04\,\%=10{,}08\,\%$ ; $\sigma_{\mathrm{annuel}}=1\,\%\times\sqrt{252}=1\,\%\times15{,}87=15{,}87\,\%$. Multiplier l'écart type par 252 au lieu de sa racine le gonflerait près de seize fois. [ajout]
+diff --git a/proj/courses/pfo/notions/asymetrie-negative.md b/proj/courses/pfo/notions/asymetrie-negative.md
+index b69ba85..27f7056 100644
+--- a/proj/courses/pfo/notions/asymetrie-negative.md
++++ b/proj/courses/pfo/notions/asymetrie-negative.md
+@@ -27,9 +27,9 @@ Les rendements des actifs risqués, des actions notamment, présentent souvent u</p><p>Deux actifs peuvent avoir même moyenne et même volatilité et des lois très différentes : l'un fait des gains et des pertes symétriques, l'autre beaucoup de petits gains et quelques très grosses pertes. Seul le second est asymétrique à gauche, et la volatilité ne le voit pas. [p. 21]</p><p>-Combinée à un excès de kurtosis positif, elle décrit la situation que la gestion des risques redoute le plus : des pertes extrêmes à la fois plus asymétriques et plus fréquentes que ne le dit la loi normale. [éq. 2.12, p. 25]
++!<a href="figures/asymetrie-negative.svg">Deux lois construites pour l'illustration, qui ne viennent pas du cours : à gauche $\pm1\,\%$ avec une chance sur deux, à droite $+\tfrac13\,\%$ avec probabilité 0,9 et $-3\,\%$ avec probabilité 0,1. Elles ont la même moyenne nulle et le même écart type de 1 %, et la volatilité ne les distingue pas ; leur coefficient d'asymétrie, lui, vaut 0 à gauche et −2,67 à droite.</a> [ajout]</p><p>-!<a href="figures/asymetrie-negative.svg">Deux lois construites pour l'illustration, qui ne viennent pas du cours : à gauche $\pm1\,\%$ avec une chance sur deux, à droite $+\tfrac13\,\%$ avec probabilité 0,9 et $-3\,\%$ avec probabilité 0,1. Elles ont la même moyenne nulle et le même écart type de 1 % ; seule la seconde est asymétrique à gauche, et la volatilité ne le voit pas.</a> [ajout]
++Combinée à un excès de kurtosis positif, elle décrit la situation que la gestion des risques redoute le plus : des pertes extrêmes à la fois plus asymétriques et plus fréquentes que ne le dit la loi normale. [éq. 2.12, p. 25]</p><h2>Le chemin jusqu'ici</h2><p><a href="../pfo/n/coefficient-d-asymetrie.html">Coefficient d'asymétrie</a> fournit le signe qui la définit ; l'asymétrie négative en est la lecture financière, du côté des pertes. [ajout]
+diff --git a/proj/courses/pfo/notions/coefficient-d-asymetrie.md b/proj/courses/pfo/notions/coefficient-d-asymetrie.md
+index ffbca4c..ca64928 100644
+--- a/proj/courses/pfo/notions/coefficient-d-asymetrie.md
++++ b/proj/courses/pfo/notions/coefficient-d-asymetrie.md
+@@ -32,20 +32,18 @@ $S$ est un nombre sans unité : nul pour une loi symétrique, positif quand la q
+ Ce $S$ n'est pas la fourchette $S_t$ du chapitre 1, ni l'espace des états du cours dup. [ajout]</p><h2>Ce qui la définit</h2><p>-Le cube garde le signe de l'écart à la moyenne : une observation au-dessus contribue positivement, une observation en dessous négativement, et le cube amplifie les observations lointaines. Quelques rendements très négatifs suffisent donc à rendre le coefficient nettement négatif. [p. 21]
+-
+-En Python, <code>stats.skew(array)</code> en calcule la version empirique ; une valeur négative signale une queue gauche étirée, donc davantage de pertes extrêmes latentes. [§2.2.1]
++Le cube garde le signe de l'écart à la moyenne : une observation au-dessus de la moyenne contribue positivement, une observation en dessous négativement, et le cube amplifie les observations lointaines. Quelques rendements très négatifs suffisent donc à rendre le coefficient nettement négatif. [p. 21]</p><h2>Le chemin jusqu'ici</h2><p><a href="../fpp/n/volatilite.html">Volatilité</a> fournit l'écart type par lequel on réduit l'écart à la moyenne. Sans cette réduction, le moment d'ordre 3 aurait l'unité d'un rendement au cube et changerait avec l'échelle ; réduit, il ne décrit plus que la forme. [ajout]</p><h2>Exemple minimal</h2><p>-La série de rendements {−2 %, −1 %, 0 %, 1 %, 2 %, −10 %} du cours a un coefficient d'asymétrie de −1,37 ; sans la perte de −10 %, elle est symétrique et son coefficient est nul. [ajout]
++La série de rendements {−2 %, −1 %, 0 %, 1 %, 2 %, −10 %} du cours a une moyenne de −1,67 %, un écart type de 3,94 % et un coefficient d'asymétrie de −1,37 ; sans la perte de −10 %, elle est symétrique et son coefficient est nul. [éq. 2.3, ajout]</p><p>-!<a href="figures/coefficient-d-asymetrie.svg">La contribution de chaque observation de l'exemple, le cube de son écart réduit. Cinq observations restent près de zéro ; celle de $-10\,\%$ vaut $-9{,}4$ à elle seule, et la moyenne des six, $-1{,}37$, est le coefficient.</a> [ajout]
++!<a href="figures/coefficient-d-asymetrie.svg">La contribution de chaque observation de l'exemple, le cube de son écart réduit. Les écarts se comptent depuis la moyenne de la série, −1,67 % : −2 % est presque dessus, −1 % et au-delà sont au-dessus et contribuent positivement. Celle de −10 % vaut −9,43 à elle seule, et la moyenne des six, −1,37, est le coefficient.</a> [ajout]</p><h2>Geste de calcul type</h2><p>-<code>stats.skew([-0.02, -0.01, 0, 0.01, 0.02, -0.10])</code> rend −1,37 : une seule observation lointaine, élevée au cube, emporte le signe de toute la série. [ajout]
++La moyenne vaut −1,67 % et l'écart type 3,94 %. L'écart réduit de −10 % est $(-10+1{,}67)/3{,}94=-2{,}11$, et son cube $-9{,}43$ ; les cinq autres cubes vont de 0 à 0,80 et totalisent 1,19. La moyenne des six cubes, $(-9{,}43+1{,}19)/6$, vaut $-1{,}37$. En Python, <code>stats.skew(array)</code> fait ce calcul et rend le même $-1{,}37$. [§2.2.1, ajout]</p><h2>Cesse d'être valide quand</h2><p>-Le coefficient empirique de scipy est la version biaisée, sans correction de petit échantillon, et il est dominé par les quelques observations extrêmes : il faut de longues séries pour qu'il soit stable. [ajout]
++Le coefficient empirique de scipy est la version biaisée, sans correction de petit échantillon. Sur l'exemple, la seule perte de −10 % en fournit plus que la totalité, $-9{,}43/6=-1{,}57$ sur $-1{,}37$ : une observation de plus ou de moins change le résultat du tout au tout. [ajout]
+diff --git a/proj/courses/pfo/notions/developpement-de-cornish-fisher.md b/proj/courses/pfo/notions/developpement-de-cornish-fisher.md
+index e689714..2aac7da 100644
+--- a/proj/courses/pfo/notions/developpement-de-cornish-fisher.md
++++ b/proj/courses/pfo/notions/developpement-de-cornish-fisher.md
+@@ -20,23 +20,31 @@ refs:
+ ---</p><h2>Ce que c'est</h2><p>-Une correction du quantile de la loi normale qui tient compte de l'asymétrie et de l'excès de kurtosis de la loi réelle. [p. 34, éq. 2.25]
++Le quantile d'une loi non normale, obtenu en corrigeant celui de la loi normale par l'asymétrie et l'excès de kurtosis de la loi réelle. [p. 34, éq. 2.25]</p><h2>Forme</h2><p>-$$q_\alpha \approx z_\alpha + \dfrac{S}{6}\left(z_\alpha^2 - 1\right) + \dfrac{K}{24}\left(z_\alpha^3 - 3z_\alpha\right) - \dfrac{S^2}{36}\left(2z_\alpha^3 - 5z_\alpha\right)$$ [éq. 2.25, Listing 2.2]
++$$q_\alpha\approx z_\alpha+\delta,\qquad \delta=\dfrac{S}{6}\left(z_\alpha^2-1\right)+\dfrac{K}{24}\left(z_\alpha^3-3z_\alpha\right)-\dfrac{S^2}{36}\left(2z_\alpha^3-5z_\alpha\right)$$ [p. 34, éq. 2.25, Listing 2.2]</p><h2>Ce que les symboles modélisent</h2><p>-$q_\alpha$ est le quantile d'ordre $\alpha$ corrigé, exprimé en écarts types comme $z_\alpha$ : il ne devient un rendement qu'une fois multiplié par l'écart type et ajouté à la moyenne. $\delta$ est la correction apportée par la non-normalité, l'écart $q_\alpha - z_\alpha$, et elle s'annule quand $S = 0$ et $K = 0$. [p. 34, éq. 2.27, éq. 2.28]
++$q_\alpha$ est le quantile d'ordre $\alpha$ de la loi réelle, centrée et réduite : le nombre qui vérifie $F(q_\alpha)=\alpha$, où $F$ est la fonction de répartition de cette loi réelle. Il s'exprime en écarts types, comme $z_\alpha$, et ne devient un rendement qu'une fois multiplié par l'écart type et ajouté à la moyenne. [p. 34, ajout]</p><p>-Dans cette formule, $K$ désigne l'excès de kurtosis et non la kurtosis de Pearson. [éq. 2.26]
++Le poly présente $F$ comme la répartition d'une loi normale standard, à tort : le quantile cherché serait alors $z_\alpha$ lui-même, et il n'y aurait rien à corriger. [p. 34, ajout]
++
++$\delta$ est la correction, l'écart $q_\alpha-z_\alpha$ ; elle s'annule quand $S=0$ et $K=0$. $z_\alpha$ est le quantile de la loi normale centrée réduite, $S$ l'asymétrie de la loi réelle, et $K$ son excès de kurtosis, non sa kurtosis de Pearson. [p. 34, éq. 2.26, éq. 2.27, éq. 2.28]</p><h2>Ce qui la définit</h2><p>-La formule dérive du développement d'Edgeworth, qui approche la fonction de répartition d'une loi non normale à partir de la loi normale : on développe autour de $z_\alpha$, puis on inverse approximativement la relation. Les polynômes $z^2 - 1$ et $z^3 - 3z$ qui y apparaissent sont des polynômes d'Hermite associés à la loi normale. [p. 34]
++<strong>Connu</strong> : le quantile normal $z_\alpha$, et deux nombres de la loi réelle, son asymétrie $S$ et son excès de kurtosis $K$. <strong>Cherché</strong> : le quantile $q_\alpha$ de cette loi réelle, dont on ne connaît pas la fonction de répartition. Le développement bouche ce trou par une correction $\delta$, somme de trois termes, qu'on ajoute à $z_\alpha$. [p. 34]
++
++!<a href="figures/developpement-de-cornish-fisher.svg">L'exemple, au seuil de 5 %, avec une asymétrie de −0,5 et un excès de kurtosis de 3. On part du quantile normal, connu. Chaque ligne ajoute un terme de la correction : l'asymétrie pousse vers les pertes, la kurtosis ramène un peu vers la moyenne, le terme en S² compte à peine. On arrive au quantile cherché ; le trou entre les deux est δ.</a> [ajout]</p><p>-Le terme en $S$ corrige l'asymétrie de la loi, le terme en $K$ l'épaisseur de ses queues. [p. 34]
++Le terme en $S$ déplace le quantile du côté de la queue la plus longue : avec une asymétrie négative, vers les pertes. [p. 34, ajout]
++
++Le terme en $K$ surprend : au seuil de 5 %, il est positif, et rapproche le quantile de la moyenne. Une loi à queues épaisses a aussi des flancs plus minces que la loi normale de même écart type ; à 1,645 écart type, on est encore sur le flanc, et le polynôme $z^3-3z$ ne change de signe qu'en $\pm\sqrt3\approx\pm1{,}73$. Plus loin dans la queue, ce terme pousse vers les pertes. [ajout]</p><p>Le terme en $S^2$ est une correction de second ordre de l'asymétrie. [ajout]</p><p>+La formule vient du développement d'Edgeworth, qui approche la répartition d'une loi non normale à partir de la normale, et qu'on inverse approximativement autour de $z_\alpha$ ; $z^2-1$ et $z^3-3z$ sont des polynômes d'Hermite. [p. 34]
++
+ ## Le chemin jusqu'ici
+ <a href="../pfo/n/coefficient-d-asymetrie.html">Coefficient d'asymétrie</a> et <a href="../pfo/n/kurtosis.html">Kurtosis</a> sont les deux seules informations sur la loi réelle que le développement utilise : de la non-normalité, il ne connaît que ces deux nombres. [ajout]</p><p>@@ -46,15 +54,9 @@ Tous deux sont réduits par l'écart type de <a href="../fpp/n/volatilite.html">Volatilité</a>, ce qui permet d'ajo
+ Pour un seuil de 5 %, une asymétrie de −0,5 et un excès de kurtosis de 3, le quantile passe de $z_\alpha = -1{,}645$ à $q_\alpha = -1{,}722$. [ajout]</p><h2>Geste de calcul type</h2><p>-Ajouter les trois termes à $z_\alpha = -1{,}6449$ : $\tfrac{-0{,}5}{6}(2{,}7055 - 1) = -0{,}1421$, puis $\tfrac{3}{24}(-4{,}4502 + 4{,}9346) = +0{,}0605$, puis $-\tfrac{0{,}25}{36}(-8{,}9004 + 8{,}2243) = +0{,}0047$, d'où $q_\alpha = -1{,}7217$. [ajout]
++Ajouter les trois termes à $z_\alpha = -1{,}6449$ : $\tfrac{-0{,}5}{6}(2{,}7055 - 1) = -0{,}1421$, puis $\tfrac{3}{24}(-4{,}4502 + 4{,}9346) = +0{,}0605$, puis $-\tfrac{0{,}25}{36}(-8{,}9004 + 8{,}2243) = +0{,}0047$ ; la correction vaut $\delta=-0{,}0769$, d'où $q_\alpha = -1{,}7217$. [ajout]</p><h2>Cesse d'être valide quand</h2><p>-L'équation 2.25 du poly omet le signe moins devant le terme en $S^2$ ; le listing 2.2 le porte, et c'est lui que suit cette fiche. [éq. 2.25, Listing 2.2]
+-
+-Avec le signe du poly, l'exemple ci-dessus donnerait −1,731 au lieu de −1,722. [ajout]
+-
+-Le poly présente $F$ comme la fonction de répartition d'une loi normale standard. [p. 34]
+-
+-C'est en réalité celle de la loi réelle, centrée et réduite : si $F$ était normale, le quantile cherché serait $z_\alpha$ lui-même, et il n'y aurait rien à corriger. [ajout]
++L'équation 2.25 du poly omet le signe moins devant le terme en $S^2$ ; le listing 2.2 le porte, et cette fiche le suit. Avec le signe du poly, l'exemple donnerait −1,731. [éq. 2.25, Listing 2.2, ajout]</p><p>C'est une approximation, bonne pour de petits écarts à la normale : pour une asymétrie ou une kurtosis fortes, le quantile corrigé peut cesser de croître avec $\alpha$, et la formule ne définit plus une fonction quantile. [ajout]
+diff --git a/proj/courses/pfo/notions/effet-epps.md b/proj/courses/pfo/notions/effet-epps.md
+index 16ce022..23a7af0 100644
+--- a/proj/courses/pfo/notions/effet-epps.md
++++ b/proj/courses/pfo/notions/effet-epps.md
+@@ -18,21 +18,19 @@ refs:
+ Le biais vers le bas des corrélations calculées sur des actifs dont les séances de cotation ne se recouvrent que partiellement. [§1.3.1]</p><h2>Ce qui la définit</h2><p>-Quand on optimise des actifs cotés dans des fuseaux horaires différents, Paris et New York par exemple, les fenêtres de cotation ne se chevauchent qu'en partie. Une matrice de corrélation journalière calculée sans ajustement a alors des coefficients artificiellement tirés vers le bas. [§1.3.1]
++Le cours le signale pour une matrice de corrélation journalière calculée sans ajustement, sur des places comme Paris et New York, dont les séances ne se recouvrent qu'en partie [§1.3.1]. Entre Tokyo et Paris, qui ne se recouvrent pas du tout, le décalage est entier : c'est le cas de la figure. [ajout]</p><p>-Le mécanisme est un décalage d'information. Une nouvelle tombée après la clôture de Tokyo se lit le jour même à New York et le lendemain seulement à Tokyo : les deux rendements d'une même date ne portent pas les mêmes nouvelles, et une partie de leur co-mouvement tombe sur deux dates différentes, que la corrélation du même jour ne voit pas. [ajout]
++Le mécanisme est un décalage d'information. Une nouvelle tombée l'après-midi à Paris, Tokyo étant fermé, se lit le jour même à Paris et le lendemain seulement à Tokyo : les deux rendements qu'elle fait bouger portent deux dates différentes, et la corrélation, qui ne rapproche que les rendements d'une même date, ne voit pas cette part de leur co-mouvement. [ajout]</p><p>-!<a href="figures/effet-epps.svg">Le mécanisme en schéma, sans l'échelle des horaires réels. Une nouvelle tombe après la clôture de Tokyo : New York la cote le jour même, Tokyo le lendemain, et les deux rendements qu'elle fait bouger portent deux dates différentes.</a> [ajout]
++!<a href="figures/effet-epps.svg">Le mécanisme en schéma, sans l'échelle des horaires réels. La séance de Tokyo est finie quand celle de Paris commence. Une nouvelle tombe l'après-midi à Paris : Paris la cote le jour même, Tokyo le lendemain, et les deux rendements qu'elle fait bouger portent deux dates différentes.</a> [ajout]</p><h2>Le chemin jusqu'ici</h2><p>L'objet biaisé est <a href="../pfo/n/matrice-de-correlation.html">Matrice de corrélation</a> : l'effet Epps n'est pas une propriété des actifs mais de la façon dont on mesure leurs co-mouvements. [ajout]</p><p>-Cette corrélation se lit dans <a href="../pfo/n/matrice-de-covariance.html">Matrice de variance-covariance</a>, dont les entrées sont des rendements de <a href="../pfo/n/rendement-logarithmique.html">Rendement logarithmique</a> et dont l'annualisation par 252 suppose, avec <a href="../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance</a>, que la variance croît comme le temps. <a href="../fpp/n/volatilite.html">Volatilité</a> fournit les écarts types par lesquels on divise les covariances. [ajout]
++Cette corrélation se lit dans <a href="../pfo/n/matrice-de-covariance.html">Matrice de variance-covariance</a>, estimée sur des rendements de <a href="../pfo/n/rendement-logarithmique.html">Rendement logarithmique</a>, annualisée par 252 parce que <a href="../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance</a> fait croître la variance comme le temps, puis réduite par les écarts types de <a href="../fpp/n/volatilite.html">Volatilité</a>. [ajout]</p><h2>Cesse d'être valide quand</h2><p>-Le cours pose, dans son étude de cas, la question de son effet sur une estimation hebdomadaire comparée à une estimation journalière. [§1.6.2]
+-
+-Il s'atténue quand la période de mesure s'allonge : sur des rendements hebdomadaires, un décalage de quelques heures entre deux clôtures ne pèse presque plus face à cinq séances de mouvements. [ajout]
++Il s'atténue quand la période de mesure s'allonge : sur des rendements hebdomadaires, une nouvelle comptée un jour plus tard à Tokyo tombe le plus souvent dans la même semaine qu'à Paris, et la corrélation la voit [ajout]. C'est la question que pose l'étude de cas, qui compare l'estimation hebdomadaire à l'estimation journalière. [§1.6.2]</p><h2>Origine</h2><ul><li>exercice <a href="../pfo/exercices/ex-01.html">pfo/ex-01</a> : l'effet Epps tire vers le bas les covariances journalières entre places désynchronisées, et contribue à l'écart entre les deux matrices [ajout]</li><li>diff --git a/proj/courses/pfo/notions/ewma.md b/proj/courses/pfo/notions/ewma.md</li><li>index 8c34e92..2ace932 100644</li><li>--- a/proj/courses/pfo/notions/ewma.md</li><li>+++ b/proj/courses/pfo/notions/ewma.md</li><li>@@ -29,16 +29,20 @@ Une estimation récursive de la variance, où chaque date mélange la variance d</li><li>$$\sigma_t^2 = \lambda\,\sigma_{t-1}^2 + (1-\lambda)\,r_{t-1}^2 = \alpha\, r_{t-1}^2 + \alpha(1-\alpha)\, r_{t-2}^2 + \alpha(1-\alpha)^2 r_{t-3}^2 + \cdots, \qquad \alpha = 1-\lambda$$ [éq. 1.10, p. 16]</li></ul><h2>Ce que les symboles modélisent</h2><p>-$\sigma_t^2$ est la variance conditionnelle du rendement de la date $t$, estimée avec les rendements connus jusqu'à la veille. $\widehat\sigma_t$ en est la racine carrée, la volatilité EWMA, encore journalière tant qu'on ne l'a pas annualisée. [éq. 1.10, p. 16]
++$\sigma_t^2$ est la variance du rendement de la date $t$, estimée avec les rendements connus jusqu'à la veille ; $\widehat\sigma_t$, sa racine carrée, est la volatilité EWMA, journalière tant qu'on ne l'a pas annualisée. [éq. 1.10, p. 16]</p><p>$\lambda$ est la persistance, la part de l'estimation de la veille que l'on garde. $\alpha = 1-\lambda$ est le lissage, le poids du rendement le plus récent : plus $\alpha$ est grand, plus les observations récentes pèsent, et plus l'estimateur réagit vite. [éq. 1.10, p. 14, p. 16]</p><p>Ce $\alpha$ n'a rien à voir avec le niveau d'un test ni avec le seuil de la VaR, que le cours note de la même lettre au chapitre 2. [ajout]</p><h2>Ce qui la définit</h2><p>-Le cours l'introduit pour capturer le regroupement de volatilité ; c'est le modèle de RiskMetrics, avec $\lambda = 0{,}94$ pour des données journalières. Les observations récentes reçoivent les poids les plus forts. [§1.4, p. 16]
++Hier soir, on <strong>connaît</strong> la variance estimée pour hier, $\sigma_{t-1}^2$, et le rendement d'hier, $r_{t-1}$. On <strong>cherche</strong> la variance d'aujourd'hui, $\sigma_t^2$ : on garde 94 % de l'ancienne estimation et l'on ajoute 6 % du dernier rendement au carré. [éq. 1.10, ajout]</p><p>-En Python, <code>.pow(2).ewm(alpha=alpha_param, adjust=False).mean()</code> applique la récurrence : <code>adjust=False</code> impose la formule récursive stricte, sans renormaliser les premiers poids. La volatilité annualisée est ensuite <code>np.sqrt(ewma_variance * 252)</code>. [§1.4.1, Listing 1.2]
++Le cours l'introduit pour capturer le regroupement de volatilité ; c'est le modèle de RiskMetrics, avec $\lambda = 0{,}94$ pour des données journalières. [§1.4]
++
++En Python, <code>.pow(2).ewm(alpha=alpha_param, adjust=False).mean()</code> applique la même récurrence, avec <code>adjust=False</code> pour la formule récursive stricte, sans renormaliser les premiers poids ; la volatilité annualisée est ensuite <code>np.sqrt(ewma_variance * 252)</code>. [§1.4.1, Listing 1.2]
++
++À un détail près : la ligne $t$ de pandas inclut déjà $r_t^2$, le rendement du jour même. C'est donc la variance prévue pour le lendemain, le $\sigma_{t+1}^2$ de la Forme : un décalage d'un jour que le poly ne signale pas. [p. 16, ajout]</p><p>!<a href="figures/ewma.svg">Le poids de chaque rendement passé dans la variance du jour, $\alpha(1-\alpha)^{k-1}$ avec $\lambda=0{,}94$. Le rendement de la veille pèse 6 %, le poids diminue de moitié environ tous les onze jours, et les vingt derniers jours portent ensemble 71 % du total.</a> [ajout]</p><p>@@ -65,4 +69,4 @@ L'annualisation par $\sqrt{252}$ suppose la variance constante sur un an, alors</p><p>La persistance est fixée et non estimée : 0,94 est la valeur de RiskMetrics pour des données journalières, et rien ne garantit qu'elle convienne aussi bien au Bitcoin qu'à Apple. [ajout]</p><p>-Avec <code>adjust=False</code>, pandas démarre la récurrence au premier rendement au carré : les premières valeurs dépendent de ce point de départ arbitraire et ne s'interprètent pas. [ajout]
++Les premières valeurs dépendent du point de départ de la récurrence, le premier rendement au carré avec <code>adjust=False</code>, et ne s'interprètent pas. [ajout]
+diff --git a/proj/courses/pfo/notions/filtre-z-score-glissant.md b/proj/courses/pfo/notions/filtre-z-score-glissant.md
+index 0e6d817..f2620af 100644
+--- a/proj/courses/pfo/notions/filtre-z-score-glissant.md
++++ b/proj/courses/pfo/notions/filtre-z-score-glissant.md
+@@ -30,18 +30,20 @@ La flèche $r_t \leftarrow 0$ est une affectation, et non une égalité : le ren
+ ## Ce qui la définit
+ Les flux de données réels contiennent des bad ticks, erreurs de saisie ou sauts de prix anormaux dus à des bugs d'interface logicielle. Le filtre les repère comme des rendements qui s'écartent de plus de trois écarts types de la moyenne locale. [§1.3.2]</p><p>-Dans le pipeline du cours, la moyenne et l'écart type sont glissants sur vingt jours, l'écart est pris en valeur absolue pour détecter les deux sens, et le rendement repéré est remplacé par 0, ce qui revient à supposer que le prix n'a pas bougé ce jour-là. [Listing 1.1, p. 11]
++Remplacer le rendement repéré par 0 revient à supposer que le prix n'a pas bougé ce jour-là. [Listing 1.1]</p><h2>Le chemin jusqu'ici</h2><p>Le filtre applique <a href="../pfo/n/score-z.html">Score z</a> non pas à une série quelconque mais aux rendements de <a href="../pfo/n/rendement-logarithmique.html">Rendement logarithmique</a> : un prix n'a pas de moyenne locale stable, un rendement si. [ajout]</p><p>-Ce que la fiche ajoute au score z est le choix du groupe de référence : non pas toute la série, mais les vingt derniers jours, pour que la moyenne et l'écart type suivent les changements de régime. [ajout]
++Ce que la fiche ajoute au score z est le choix du groupe de référence : non pas toute la série, mais une fenêtre récente, pour que la moyenne et l'écart type suivent les changements de régime. [ajout]</p><h2>Exemple minimal</h2><p>Dans une fenêtre qui, rendement testé compris, a une moyenne nulle et un écart type de 1 %, un rendement de −4 % a un score de 4 en valeur absolue et est remplacé par 0. [ajout]</p><h2>Geste de calcul type</h2><p>-Compter les rendements filtrés avec <code>(z_scores &gt; 3).sum().sum()</code> : le premier <code>sum()</code> compte les <code>True</code> de chaque colonne, le second additionne les colonnes. Sur une <code>Series</code>, un seul <code>sum()</code> suffit. [p. 13, p. 14]
++Moyenne et écart type sur la fenêtre, <code>log_rets.rolling(window=20).mean()</code> et <code>.std()</code> ; score en valeur absolue, <code>z_scores = np.abs((log_rets - rolling_mean) / rolling_std)</code> ; remplacement, <code>log_rets.mask(z_scores &gt; 3, 0)</code>. Sur l'exemple, $|(-0{,}04-0)/0{,}01|=4&gt;3$ : le rendement devient 0. [Listing 1.1, ajout]
++
++<code>(z_scores &gt; 3).sum().sum()</code> compte ensuite les rendements remplacés, colonne par colonne puis au total. [p. 13, p. 14]</p><h2>Cesse d'être valide quand</h2><p>La fenêtre de pandas contient le rendement testé lui-même : un saut isolé gonfle l'écart type qui sert à le juger. Sur une fenêtre de vingt rendements, le score d'une observation ne peut jamais dépasser $19/\sqrt{20} \approx 4{,}25$ ; un saut isolé reste détecté, mais deux sauts proches se masquent l'un l'autre. [ajout]
+diff --git a/proj/courses/pfo/notions/fourchette-bid-ask.md b/proj/courses/pfo/notions/fourchette-bid-ask.md
+index bfc8315..a7c9dbf 100644
+--- a/proj/courses/pfo/notions/fourchette-bid-ask.md
++++ b/proj/courses/pfo/notions/fourchette-bid-ask.md
+@@ -24,20 +24,22 @@ L'écart, à un instant donné, entre le prix le plus bas auquel un vendeur acce
+ $$S_t = P_t^{\mathrm{ask}} - P_t^{\mathrm{bid}}, \qquad P_t^{\mathrm{ask}} &gt; P_t^{\mathrm{bid}}$$ [éq. 1.1, §1.1.1]</p><h2>Ce que les symboles modélisent</h2><p>-$P_t^{\mathrm{bid}}$ est le meilleur prix d'achat affiché : c'est ce que l'on encaisse si l'on veut vendre tout de suite. $P_t^{\mathrm{ask}}$ est le meilleur prix de vente affiché : c'est ce que l'on paie si l'on veut acheter tout de suite. Aucun des deux n'est « le prix » de l'actif, et le cours insiste sur ce point : un prix unique n'existe pas sur un marché professionnel. [§1.1, §1.1.1]
++$P_t^{\mathrm{bid}}$ est le meilleur prix que les acheteurs affichent : si vous vendez tout de suite, c'est ce que vous touchez. $P_t^{\mathrm{ask}}$ est le meilleur prix que les vendeurs affichent : si vous achetez tout de suite, c'est ce que vous payez. Aucun des deux n'est « le prix » de l'actif : un prix unique n'existe pas sur un marché professionnel. [§1.1, §1.1.1, ajout]
++
++!<a href="figures/fourchette-bid-ask.svg">Le carnet affiche deux prix : l'ask, 100,10, en haut, et le bid, 99,90, en bas. Qui achète tout de suite paie l'ask ; qui vend tout de suite touche le bid ; la fourchette $S_t$, 0,20, est l'écart entre les deux.</a> [ajout]</p><p>$S_t$ est un écart de prix, de quelques centimes sur une action liquide, et non un prix. Il n'a rien à voir avec le prix comptant que le même symbole désigne dans le cours fpp. [ajout]</p><h2>Ce qui la définit</h2><p>À chaque instant, le marché présente deux flux de prix, et l'ask est toujours au-dessus du bid. La fourchette est leur différence, et le cours la lit comme un indicateur direct de l'illiquidité du marché. [§1.1.1]</p><p>-Elle se lit aussi comme un coût : acheter au prix vendeur et revendre aussitôt au prix acheteur fait perdre exactement la fourchette. Plus elle est large, plus il coûte cher de traiter immédiatement. [ajout]
++Elle se lit aussi comme un coût : acheter à l'ask et revendre aussitôt au bid fait perdre exactement la fourchette. Plus elle est large, plus il coûte cher de traiter immédiatement. [ajout]</p><h2>Exemple minimal</h2><p>-Une action affichée à 99,90 à l'achat et à 100,10 à la vente a une fourchette de 0,20. [ajout]
++Une action affichée avec un bid à 99,90 et un ask à 100,10 se vend tout de suite à 99,90 et s'achète tout de suite à 100,10 : sa fourchette vaut 0,20. [ajout]</p><h2>Geste de calcul type</h2><p>-Chiffrer un aller-retour immédiat : acheter à 100,10 et revendre à 99,90 coûte 0,20 par titre, soit 0,2 % du prix. [ajout]
++Chiffrer un aller-retour immédiat : acheter à l'ask, 100,10, et revendre au bid, 99,90, coûte 0,20 par titre, soit 0,2 % du prix. [ajout]</p><h2>Cesse d'être valide quand</h2><p>La fourchette affichée ne vaut que pour la quantité disponible au meilleur prix ; un ordre plus gros traverse plusieurs niveaux du carnet et paie davantage. [ajout]
+diff --git a/proj/courses/pfo/notions/frontiere-efficiente.md b/proj/courses/pfo/notions/frontiere-efficiente.md
+index 21db9af..7991ce4 100644
+--- a/proj/courses/pfo/notions/frontiere-efficiente.md
++++ b/proj/courses/pfo/notions/frontiere-efficiente.md
+@@ -31,13 +31,17 @@ $$\min_{W}\ \frac12W^T\boldsymbol{\Sigma}W\qquad\text{sous}\quad W^T\mu=\mu_0,\q
+ $\mu_0$ est le rendement cible, un niveau de rendement espéré qu'on impose au portefeuille avant de chercher le moins risqué de ceux qui l'atteignent. $\mu_p$ est le rendement espéré d'un portefeuille quelconque quand on le place dans le plan, en ordonnée, face à son risque $\sigma_p$ en abscisse. [§3.0.2, p. 39]</p><h2>Ce qui la définit</h2><p>-Chaque contrainte a une lecture économique : le portefeuille atteint exactement le rendement cible, tout le capital est investi, et la vente à découvert est interdite. Le facteur un demi ne change pas la solution ; il simplifie les dérivées. [§3.0.2]
++<strong>Connus</strong> : les rendements espérés $\mu$, la matrice de covariance $\boldsymbol{\Sigma}$ et une cible $\mu_0$. <strong>Cherchés</strong> : les poids $W$ les moins risqués parmi ceux qui atteignent la cible. Chaque cible donne un portefeuille, donc un point $(\sigma_p,\mu_p)$ ; en faisant varier $\mu_0$, ces points tracent la frontière efficiente. [§3.0.2, p. 39]</p><p>-Pour un rendement cible donné, le problème fournit le portefeuille de variance minimale parmi tous ceux qui l'atteignent. En faisant varier progressivement $\mu_0$, on obtient une suite de portefeuilles optimaux, chacun caractérisé par son couple $(\sigma_p,\mu_p)$ : leur tracé est la frontière efficiente. [§3.0.2, p. 39]
++Chaque contrainte a une lecture économique : le portefeuille atteint exactement le rendement cible, tout le capital est investi, et la vente à découvert est interdite. Le facteur un demi ne change pas la solution ; il simplifie les dérivées. [§3.0.2]</p><p>Graphiquement, la région des portefeuilles réalisables est un nuage dans le plan risque-rendement ; pour chaque cible, on retient le point réalisable le plus à gauche sur la droite horizontale $\mu_p=\mu_0$. [p. 39, Fig. 3.1]</p><p>-!<a href="figures/frontiere-efficiente.svg">Deux actifs non corrélés, de rendements 6 % et 10 % et de volatilités 10 % et 20 %. En faisant varier le poids du premier de 0 à 1, le portefeuille décrit une courbe ; le point le plus à gauche est le portefeuille de variance minimale globale. Seule la branche au-dessus de lui est efficiente : sous lui, on peut obtenir plus de rendement pour moins de risque.</a> [ajout]
++Avec deux actifs, il n'y a pas de nuage : la cible et la somme des poids à un fixent déjà les deux poids, et il ne reste rien à minimiser. La minimisation ne mord qu'à partir de trois actifs, quand la cible laisse un choix. [ajout]
++
++Le cours appelle « frontière efficiente » la courbe entière, branche basse comprise. Seule la partie située au-dessus du portefeuille de variance minimale globale est efficiente au sens strict : sous lui, un autre portefeuille offre à la fois plus de rendement et moins de risque. [ajout]
++
++!<a href="figures/frontiere-efficiente.svg">Deux actifs non corrélés, de rendements 6 % et 10 % et de volatilités 10 % et 20 %. En faisant varier le poids du premier de 0 à 1, le portefeuille décrit une courbe. La cible de 8 % la coupe en un seul point, les parts égales. Le point le plus à gauche est le portefeuille de variance minimale globale ; seule la branche au-dessus de lui est efficiente.</a> [ajout]</p><h2>Le chemin jusqu'ici</h2><p>La frontière est tracée point par point, et chaque point est un calcul de <a href="../pfo/n/moments-du-portefeuille.html">Rendement espéré et variance d'un portefeuille</a> : un rendement espéré imposé, une variance minimisée. [ajout]
+@@ -47,10 +51,12 @@ La variance vient de <a href="../pfo/n/matrice-de-covariance.html">Matrice de variance-covariance</a>, estimée sur pfo/rendement-logar
+ La forme de la courbe est celle de <a href="../dup/n/diversification.html">Diversification</a> : quand on mélange, la variance tombe sous celle des composants, et la frontière se creuse vers la gauche. <a href="../dup/n/moyenne-variance.html">Analyse moyenne-variance</a>, en réduisant chaque <a href="../dup/n/loterie.html">Loterie</a> à deux nombres, avait déjà dessiné le plan où elle se trace. [ajout]</p><h2>Exemple minimal</h2><p>-Avec les deux actifs non corrélés de rendements 6 % et 10 % et de volatilités 10 % et 20 %, le portefeuille de variance minimale globale place 80 % dans le premier : rendement 6,8 %, volatilité 8,94 %. [ajout]
++Avec les deux actifs non corrélés de rendements 6 % et 10 % et de volatilités 10 % et 20 %, une cible de 8 % impose des parts égales, pour une volatilité de 11,18 %. Le point le plus à gauche de la courbe, le portefeuille de variance minimale globale, place 80 % dans le premier actif : rendement 6,8 %, volatilité 8,94 %. [ajout]</p><h2>Geste de calcul type</h2><p>-Sans cible de rendement, pour deux actifs non corrélés, les poids de variance minimale sont proportionnels aux inverses des variances : $1/0{,}01=100$ et $1/0{,}04=25$, donc $W=(0{,}8;0{,}2)$. Alors $W^T\mu=0{,}8\times6\,\%+0{,}2\times10\,\%=6{,}8\,\%$ et $\sigma_p=\sqrt{0{,}64\times0{,}01+0{,}04\times0{,}04}=\sqrt{0{,}008}=8{,}94\,\%$. [ajout]
++Avec la cible : $w\times6\,\%+(1-w)\times10\,\%=8\,\%$ donne $w=\tfrac12$, d'où $\sigma_p=\sqrt{0{,}25\times0{,}01+0{,}25\times0{,}04}=11{,}18\,\%$. [ajout]
++
++Sans cible, pour deux actifs non corrélés, les poids de variance minimale sont proportionnels aux inverses des variances : $1/0{,}01=100$ et $1/0{,}04=25$, donc $W=(0{,}8;0{,}2)$. Alors $W^T\mu=0{,}8\times6\,\%+0{,}2\times10\,\%=6{,}8\,\%$ et $\sigma_p=\sqrt{0{,}64\times0{,}01+0{,}04\times0{,}04}=\sqrt{0{,}008}=8{,}94\,\%$. [ajout]</p><h2>Ce qui reste libre</h2><div class="tablebloc"><table><thead><tr><th>contrainte</th><th>cas</th><th>effet</th></tr></thead><tbody><tr><td>@@ -60,9 +66,7 @@ Sans cible de rendement, pour deux actifs non corrélés, les poids de variance</td></tr></tbody></table></div><h2>Cesse d'être valide quand</h2><p>-Faire varier $\mu_0$ sur toute sa plage trace la frontière de variance minimale entière, branche basse comprise. Seule la partie située au-dessus du portefeuille de variance minimale globale est efficiente : sous lui, un autre portefeuille offre à la fois plus de rendement et moins de risque. Le cours appelle « frontière efficiente » la courbe entière. [ajout]
+-
+-Dans l'exemple, une cible de 6 % impose tout le capital dans le premier actif, pour une volatilité de 10 % : le portefeuille de variance minimale globale fait mieux sur les deux tableaux. [ajout]
++Une cible sous le rendement du portefeuille de variance minimale globale donne un portefeuille inefficient. Dans l'exemple, une cible de 6 % impose tout le capital dans le premier actif, pour une volatilité de 10 % : le portefeuille de variance minimale globale fait mieux sur les deux tableaux. [ajout]</p><p>La légende de la figure 3.1 du poly, « illustration d'une distribution à asymétrie négative », est celle d'une figure du chapitre 2 ; la figure montre bien la construction de la frontière. [Fig. 3.1]</p><p>diff --git a/proj/courses/pfo/notions/kurtosis.md b/proj/courses/pfo/notions/kurtosis.md
+index 65ebaad..6c4565d 100644
+--- a/proj/courses/pfo/notions/kurtosis.md
++++ b/proj/courses/pfo/notions/kurtosis.md
+@@ -28,7 +28,7 @@ refs:
+ Le moment centré réduit d'ordre 4 des rendements, qui mesure le poids des observations éloignées de la moyenne, c'est-à-dire l'épaisseur des queues. [éq. 2.2, p. 22]</p><h2>Forme</h2><p>-$$K = E\!\left[\left(\dfrac{r-\mu}{\sigma}\right)^{4}\right] = \dfrac{\mathbb{E}\big[(r-\mu)^4\big]}{\sigma^4}, \qquad K_F = K_{\mathrm{ex}} = K - 3$$ [éq. 2.2, éq. 2.5, éq. 2.6]
++$$K = E\!\left[\left(\dfrac{r-\mu}{\sigma}\right)^{4}\right] = \dfrac{E\big[(r-\mu)^4\big]}{\sigma^4}, \qquad K_F = K_{\mathrm{ex}} = K - 3$$ [éq. 2.2, éq. 2.5, éq. 2.6]</p><h2>Ce que les symboles modélisent</h2><p>$K$ est la kurtosis de Pearson : elle vaut 3 pour toute loi normale, quelle que soit sa variance. $K_{\mathrm{ex}}$ et $K_F$ désignent le même nombre, l'excès sur la loi normale : 0 pour une loi normale, positif pour des queues plus épaisses, négatif pour des queues plus minces. [éq. 2.2, éq. 2.6, éq. 2.7, p. 23]
+@@ -38,10 +38,6 @@ Le cours emploie aussi $K$ seul pour désigner l'excès, dans le test de Jarque-
+ ## Ce qui la définit
+ La quatrième puissance donne un poids considérable aux observations lointaines : un écart de 4 à la moyenne compte 16 fois plus qu'un écart de 1 au carré, et 256 fois plus à la puissance quatre. [éq. 2.4]</p><p>-Deux conventions coexistent, celle de Pearson et celle de Fisher ; <code>stats.kurtosis(array, fisher=True)</code> rend celle de Fisher, l'excès. [p. 23]
+-
+-Kurtosis et asymétrie mesurent deux choses distinctes, et un actif peut présenter à la fois une asymétrie négative et un excès de kurtosis positif. [éq. 2.10, éq. 2.11, éq. 2.12]
+-
+ ## Le chemin jusqu'ici
+ <a href="../fpp/n/volatilite.html">Volatilité</a> fournit le $\sigma$ dont la quatrième puissance sert de dénominateur. C'est ce qui rend la kurtosis indépendante de l'échelle : elle compare l'épaisseur des queues de lois de même variance, et non leur dispersion. [ajout]</p><p>@@ -59,6 +55,4 @@ Fixer la convention avant de brancher le chiffre dans une formule : scipy rend $
+ [éq. 2.5, éq. 2.6, p. 23]</p><h2>Cesse d'être valide quand</h2><p>-La table 2.1 écrit « $K = 3$ sous normalité » pour le test de Jarque-Bera, dont la formule attend pourtant l'excès : c'est la collision de notation du cours, et non une contradiction sur le fond. [Table 2.1, §2.3]
+-
+-Sur un petit échantillon, la kurtosis empirique ne reflète pas les queues. La série du cours {−10 %, −1 %, 0 %, 1 %, 12 %}, présentée comme l'exemple de valeurs extrêmes qui augmentent la kurtosis, a un excès empirique de −0,52 : sur cinq points, les deux valeurs lointaines forment une grande part de la distribution et ne sont plus des queues. [ajout]
++Sur un petit échantillon, elle ne reflète pas les queues : la série {−10 %, −1 %, 0 %, 1 %, 12 %}, que le cours donne en exemple de valeurs extrêmes qui font monter la kurtosis, a un excès empirique de −0,52. [p. 23, ajout]
+diff --git a/proj/courses/pfo/notions/ligne-de-marche-des-capitaux.md b/proj/courses/pfo/notions/ligne-de-marche-des-capitaux.md
+index 4d47ffb..ba164c6 100644
+--- a/proj/courses/pfo/notions/ligne-de-marche-des-capitaux.md
++++ b/proj/courses/pfo/notions/ligne-de-marche-des-capitaux.md
+@@ -24,12 +24,12 @@ La droite qui relie l'actif sans risque au portefeuille tangent : tous les place
+ $$\mu_C=(1-\alpha)R_f+\alpha\,\mu_{W^*}=R_f+\alpha\,(\mu_{W^*}-R_f),\qquad \sigma_C=\alpha\,\sigma_{W^*}$$ [p. 41]</p><h2>Ce que les symboles modélisent</h2><p>-$\alpha$ est la part du capital placée dans le portefeuille tangent, le reste $1-\alpha$ allant à l'actif sans risque ; le cours la prend entre zéro et un. $\mu_C$ et $\sigma_C$ sont le rendement espéré et l'écart type du placement combiné. [p. 41]
++$\alpha$ est la part du capital placée dans le portefeuille tangent, le reste $1-\alpha$ allant à l'actif sans risque ; le cours la prend entre zéro et un. $\mu_C$ et $\sigma_C$ sont le rendement espéré et l'écart type du placement combiné ; $\mu_{W^*}$ et $\sigma_{W^*}$, ceux du portefeuille tangent. [p. 41]</p><p>Au chapitre 2, $\alpha$ désignait tour à tour le lissage EWMA, le niveau d'un test et le seuil de la VaR ; ici, c'est une part de capital. [ajout]</p><h2>Ce qui la définit</h2><p>-Une fois le portefeuille tangent déterminé, l'investisseur peut le combiner avec l'actif sans risque. Le rendement espéré et le risque du mélange sont tous deux linéaires en $\alpha$ : les combinaisons décrivent une droite dans le plan risque-rendement, la ligne de marché des capitaux. [p. 41]
++Une fois le portefeuille tangent déterminé, l'investisseur peut le combiner avec l'actif sans risque. Le rendement espéré du mélange est linéaire en $\alpha$, comme toute moyenne pondérée. Son risque l'est aussi, et c'est moins évident : l'actif sans risque n'a ni variance ni covariance, donc $\sigma_C^2=\alpha^2\sigma_{W^*}^2$, d'où $\sigma_C=\alpha\,\sigma_{W^*}$. Les combinaisons décrivent ainsi une droite dans le plan risque-rendement, la ligne de marché des capitaux. [p. 41, ajout]</p><p>Sa pente est le ratio de Sharpe du portefeuille tangent, $SR(W^*)=\max_W SR(W)$. [p. 40, Fig. 3.2]</p><p>diff --git a/proj/courses/pfo/notions/matrice-de-correlation.md b/proj/courses/pfo/notions/matrice-de-correlation.md
+index 2f762fe..8b7a038 100644
+--- a/proj/courses/pfo/notions/matrice-de-correlation.md
++++ b/proj/courses/pfo/notions/matrice-de-correlation.md
+@@ -21,12 +21,12 @@ refs:
+ La matrice des coefficients de corrélation de Pearson entre les rendements de chaque couple d'actifs, obtenue en divisant chaque covariance par le produit des deux écarts types. [§1.5, p. 17]</p><h2>Forme</h2><p>-$$\mathbf{R} = \mathbf{D}^{-1/2}\,\boldsymbol{\Sigma}\,\mathbf{D}^{-1/2}, \qquad \mathbf{D} = \mathrm{diag}\left(\sigma_1^2, \dots, \sigma_N^2\right), \qquad \rho_{ij} = \dfrac{\sigma_{ij}}{\sigma_i\,\sigma_j}$$ [p. 17]
++$$\rho_{ij} = \dfrac{\sigma_{ij}}{\sigma_i\,\sigma_j}, \qquad\text{soit, en matrice :}\qquad \mathbf{R} = \mathbf{D}^{-1/2}\,\boldsymbol{\Sigma}\,\mathbf{D}^{-1/2}, \qquad \mathbf{D} = \mathrm{diag}\left(\sigma_1^2, \dots, \sigma_N^2\right)$$ [p. 17]</p><h2>Ce que les symboles modélisent</h2><p>-$\sigma_{ij}$ est la covariance des rendements de $i$ et $j$, le terme courant de $\boldsymbol{\Sigma}$ ; $\rho_{ij}$ est la même information débarrassée de son unité. $\mathbf{D}$ ne contient que les variances, sur sa diagonale, et multiplier $\boldsymbol{\Sigma}$ des deux côtés par $\mathbf{D}^{-1/2}$ revient à diviser chaque terme par le produit des deux écarts types. [p. 17]
++$\sigma_{ij}$ est la covariance des rendements de $i$ et $j$, le terme courant de $\boldsymbol{\Sigma}$, et $\sigma_i=\sqrt{\sigma_{ii}}$ l'écart type de l'actif $i$ ; $\rho_{ij}$ est la même information que $\sigma_{ij}$, débarrassée de son unité. [p. 17, ajout]</p><p>-$\mathbf{R}$ a donc des 1 sur sa diagonale et des termes entre −1 et 1 ailleurs, que le listing affiche sur cette échelle. [Listing 1.3]
++$\mathbf{D}$ ne contient que les variances, sur sa diagonale, et multiplier $\boldsymbol{\Sigma}$ des deux côtés par $\mathbf{D}^{-1/2}$ revient à diviser chaque terme par le produit des deux écarts types. $\mathbf{R}$ a donc des 1 sur sa diagonale et des termes entre −1 et 1 ailleurs, que le listing affiche sur cette échelle. [p. 17, Listing 1.3]</p><h2>Ce qui la définit</h2><p>Le listing la calcule directement par <code>log_rets_filtered.corr()</code> et la visualise en carte de chaleur sous le titre de matrice des co-mouvements. [Listing 1.3]
+@@ -36,13 +36,13 @@ Contrairement à la covariance, elle ne dépend pas de l'échelle : annualiser o
+ ## Le chemin jusqu'ici
+ <a href="../pfo/n/matrice-de-covariance.html">Matrice de variance-covariance</a> porte l'information ; la corrélation n'en retient que le sens et l'intensité du co-mouvement, une fois retirée la taille des mouvements. [ajout]</p><p>-Derrière la covariance se trouvent <a href="../pfo/n/rendement-logarithmique.html">Rendement logarithmique</a> pour ses entrées, <a href="../fpp/n/volatilite.html">Volatilité</a> pour les écarts types qui servent ici de diviseurs, et <a href="../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance</a> pour le facteur 252 — qui disparaît justement dans le quotient. [ajout]
++Les écarts types qui servent de diviseurs sont ceux de <a href="../fpp/n/volatilite.html">Volatilité</a>, calculés sur les mêmes rendements de <a href="../pfo/n/rendement-logarithmique.html">Rendement logarithmique</a> que la covariance ; le facteur 252 de <a href="../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance</a>, présent en haut et en bas, disparaît dans le quotient. [ajout]</p><h2>Exemple minimal</h2><p>-Deux actifs de covariance annualisée 0,0252 et de variances 0,0252 et 0,1008 ont une corrélation de 0,5. [ajout]
++Deux actifs de covariance annualisée $\sigma_{12}=0{,}0252$ et de variances $\sigma_1^2=0{,}0252$ et $\sigma_2^2=0{,}1008$ ont une corrélation de 0,5. [ajout]</p><h2>Geste de calcul type</h2><p>-$\rho_{12} = 0{,}0252 / \sqrt{0{,}0252 \times 0{,}1008} = 0{,}0252 / 0{,}0504 = 0{,}5$. [ajout]
++Diviser le terme croisé par le produit des deux écarts types : $\sigma_1=\sqrt{0{,}0252}=0{,}159$, $\sigma_2=\sqrt{0{,}1008}=0{,}317$, dont le produit vaut 0,0504, d'où $\rho_{12}=\sigma_{12}/(\sigma_1\sigma_2)=0{,}0252/0{,}0504=0{,}5$. Que $\sigma_{12}$ et $\sigma_1^2$ valent tous deux 0,0252 est une coïncidence de l'exemple. [ajout]</p><h2>Cesse d'être valide quand</h2><p>Calculée sur des places désynchronisées, elle est biaisée vers le bas : c'est l'effet Epps. [§1.3.1]
+diff --git a/proj/courses/pfo/notions/matrice-de-covariance.md b/proj/courses/pfo/notions/matrice-de-covariance.md
+index a478272..efb4735 100644
+--- a/proj/courses/pfo/notions/matrice-de-covariance.md
++++ b/proj/courses/pfo/notions/matrice-de-covariance.md
+@@ -25,12 +25,12 @@ La matrice carrée qui porte, pour chaque couple d'actifs, la covariance de leur
+ $$\boldsymbol{\Sigma} = 252 \times \dfrac{1}{T-1} \sum_{t=1}^{T} (\mathbf{r}_t - \mu)(\mathbf{r}_t - \mu)^{\top}$$ [éq. 1.11]</p><h2>Ce que les symboles modélisent</h2><p>-$\mathbf{r}_t$ est le vecteur colonne des rendements des $N$ actifs à la date $t$, et $\mu$ ici le vecteur de leurs rendements moyens. $\boldsymbol{\Sigma}$ est de dimension $N \times N$. [éq. 1.11]
++$\mathbf{r}_t$ est le vecteur colonne des rendements des $N$ actifs à la date $t$, et $\mu$ ici le vecteur de leurs rendements moyens ; la somme court sur les $T$ dates de l'échantillon. $\boldsymbol{\Sigma}$ est de dimension $N \times N$. [éq. 1.11]</p><p>-Le terme $(i,j)$ de $\boldsymbol{\Sigma}$ dit si les actifs $i$ et $j$ montent et baissent ensemble, mais dans l'unité d'un rendement au carré, ce qui le rend difficile à lire seul : c'est le rôle de la corrélation. La matrice est symétrique, puisque la covariance de $i$ et $j$ est celle de $j$ et $i$. [ajout]
++Le terme $(i,j)$ de $\boldsymbol{\Sigma}$ dit si les actifs $i$ et $j$ montent et baissent ensemble, mais dans l'unité d'un rendement au carré, ce qui le rend difficile à lire seul. La matrice est symétrique, puisque la covariance de $i$ et $j$ est celle de $j$ et $i$. [ajout]</p><h2>Ce qui la définit</h2><p>-Le cours la présente comme l'espace des co-mouvements entre actifs. Le facteur 252 annualise des rendements journaliers ; en Python, <code>log_rets_filtered.cov() * 252</code>. Sur des rendements hebdomadaires, le facteur devient 52. [§1.5, éq. 1.11, Listing 1.3, Listing 1.4]
++Le facteur 252 annualise des rendements journaliers ; en Python, <code>log_rets_filtered.cov() * 252</code>. [§1.5, éq. 1.11, Listing 1.3]</p><p>Le diviseur $T-1$ plutôt que $T$ est celui de l'estimateur sans biais, et c'est aussi celui qu'emploie pandas. [ajout]</p><p>@@ -40,10 +40,14 @@ Les entrées de la matrice sont des rendements de <a href="../pfo/n/rendement-logarithmique.html">Rendement logarithmique</a>, c
+ Le facteur 252 est une application directe de <a href="../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance</a>. Il n'est juste que si les rendements journaliers sont indépendants d'un jour à l'autre ; sinon l'estimation journalière annualisée et l'estimation hebdomadaire annualisée divergent. [ajout]</p><h2>Exemple minimal</h2><p>-Deux actifs de volatilités journalières 1 % et 2 % et de corrélation 0,5 ont une matrice annualisée de diagonale 0,0252 et 0,1008, et de terme croisé 0,0252. [ajout]
++Deux actifs de volatilités journalières 1 % et 2 % et de corrélation 0,5 ont pour matrice annualisée : [ajout]
++
++$$\boldsymbol{\Sigma}=\begin{pmatrix}0{,}0252 &amp; 0{,}0252\\ 0{,}0252 &amp; 0{,}1008\end{pmatrix}$$ [ajout]</p><h2>Geste de calcul type</h2><p>-Multiplier chaque terme journalier par 252 : $0{,}01^2 \times 252 = 0{,}0252$, $0{,}02^2 \times 252 = 0{,}1008$, et $0{,}5 \times 0{,}01 \times 0{,}02 \times 252 = 0{,}0252$. [ajout]
++Multiplier chaque terme journalier par 252 : sur la diagonale, $0{,}01^2 \times 252 = 0{,}0252$ et $0{,}02^2 \times 252 = 0{,}1008$ ; hors de la diagonale, la corrélation fois le produit des écarts types, $0{,}5 \times 0{,}01 \times 0{,}02 \times 252 = 0{,}0252$. [ajout]
++
++Que le terme croisé égale la première variance est une coïncidence de l'exemple : $0{,}5 \times 0{,}02 = 0{,}01$, l'écart type du premier actif. [ajout]</p><h2>Ce qui reste libre</h2><div class="tablebloc"><table><thead><tr><th>fréquence des rendements</th><th>facteur d'annualisation</th></tr></thead><tbody><tr><td>diff --git a/proj/courses/pfo/notions/modele-de-risque.md b/proj/courses/pfo/notions/modele-de-risque.md</td></tr><tr><td>index 6b4930b..fe998d0 100644</td></tr><tr><td>--- a/proj/courses/pfo/notions/modele-de-risque.md</td></tr><tr><td>+++ b/proj/courses/pfo/notions/modele-de-risque.md</td></tr></tbody></table></div><p>La question qu'ils posent ensemble est celle du chapitre : combien la non-normalité des rendements change le risque mesuré. Séparés, ils ne montreraient plus que l'écart entre leurs chiffres est précisément l'effet des queues et de l'asymétrie. [ajout]</p><p>+Un exemple le fait voir. Pour des rendements journaliers de moyenne 0,05 %, d'écart type 2 %, d'asymétrie −0,5 et d'excès de kurtosis 3, sur un capital de 1 000 000, la VaR à 95 % vaut 32 397 sous l'hypothèse normale et 33 935 avec la correction de Cornish-Fisher ; la CVaR, 40 754 et 53 511. Le seuil bouge à peine, la moyenne de la queue de près d'un tiers. [ajout]
++
+ ## Le chemin jusqu'ici
+ <a href="../pfo/n/valeur-a-risque-conditionnelle.html">Valeur à risque conditionnelle</a> et, derrière elle, <a href="../pfo/n/valeur-a-risque.html">Valeur à risque</a> définissent ce que chaque modèle doit rendre ; le modèle ne dit que comment l'estimer. [ajout]</p><p>diff --git a/proj/courses/pfo/notions/moment-standardise.md b/proj/courses/pfo/notions/moment-standardise.md
+index 45220b1..93c92b6 100644
+--- a/proj/courses/pfo/notions/moment-standardise.md
++++ b/proj/courses/pfo/notions/moment-standardise.md
+@@ -32,7 +32,7 @@ Tous deux centrent l'écart sur la moyenne et le réduisent par l'écart type :
+ La puissance fait la différence. Impaire, elle garde le signe de l'écart et mesure l'asymétrie ; paire et élevée, elle efface le signe, amplifie les écarts lointains et mesure le poids des queues. [p. 21, p. 22, éq. 2.10, éq. 2.11]</p><h2>Pourquoi ce niveau existe</h2><p>-Le cours les introduit ensemble pour une seule raison, quantifier l'écart à la normalité, et les réutilise ensemble dans le test de Jarque-Bera et dans le développement de Cornish-Fisher. Ils ne diffèrent que par l'ordre de la puissance. [§2.1.2, §2.3, éq. 2.25]
++Le cours les introduit ensemble pour une seule raison, quantifier l'écart à la normalité, et les réutilise ensemble dans le test de Jarque-Bera et dans le développement de Cornish-Fisher. [§2.1.2, §2.3, éq. 2.25]</p><h2>Exemple minimal</h2><p>Pour une loi normale, le moment centré réduit d'ordre 3 vaut 0 et celui d'ordre 4 vaut 3. [§2.1.2]
+diff --git a/proj/courses/pfo/notions/moments-du-portefeuille.md b/proj/courses/pfo/notions/moments-du-portefeuille.md
+index c4e5718..2bf3360 100644
+--- a/proj/courses/pfo/notions/moments-du-portefeuille.md
++++ b/proj/courses/pfo/notions/moments-du-portefeuille.md
+@@ -34,19 +34,23 @@ $E(R_p)$ est le rendement espéré du portefeuille entier, et $\sigma_p$ son éc
+ Au chapitre 2, $W$ désignait la statistique de Shapiro-Wilk, et $\mu$ une moyenne scalaire ; ici, les deux sont des vecteurs. [ajout]</p><h2>Ce qui la définit</h2><p>-Pour un portefeuille entièrement investi et sans vente à découvert, les poids respectent deux contraintes structurelles : leur somme vaut un, et chacun est positif ou nul. [§3.0.1]
++Le rendement espéré est l'espérance de la somme pondérée des rendements ; la variance est une somme double sur tous les couples d'actifs, où le terme $\sigma_{ii}=\sigma_i^2$ est la variance de l'actif $i$, et les autres des covariances. [§3.0.1]</p><p>-Le rendement espéré est l'espérance de la somme pondérée des rendements ; la variance est une somme double sur tous les couples d'actifs, où le terme $\sigma_{ii}=\sigma_i^2$ est la variance de l'actif $i$. [§3.0.1]
++!<a href="figures/moments-du-portefeuille.svg">La variance de l'exemple, lue comme une grille : chaque case vaut $w_iw_j\sigma_{ij}$, et son carré coloré a une aire proportionnelle. La diagonale porte les variances, le reste les covariances. À gauche, les deux actifs de l'exemple, sans corrélation : les cases hors diagonale sont vides, la somme vaut 0,0125 et σp 11,18 %. À droite, les mêmes actifs parfaitement corrélés : ces cases se remplissent, la somme monte à 0,0225 et σp à 15 %, la moyenne des volatilités.</a> [ajout]
++
++La moyenne pondérée des volatilités n'est la volatilité du portefeuille que si les actifs sont parfaitement corrélés. Dans l'exemple, $\sigma_{12}$ vaudrait alors $0{,}10\times0{,}20=0{,}02$, chaque case hors diagonale $0{,}25\times0{,}02=0{,}005$, et la somme $0{,}0225$ aurait pour racine 15 %. Toute corrélation plus faible vide en partie ces cases, et $\sigma_p$ tombe sous la moyenne. [ajout]
++
++Les poids d'un portefeuille entièrement investi et sans vente à découvert somment à un et sont positifs ou nuls ; ces contraintes servent à l'optimisation, pas au calcul des deux moments. [§3.0.1]</p><h2>Le chemin jusqu'ici</h2><p>Le rendement du portefeuille est d'abord une moyenne pondérée : <a href="../pfo/n/piege-d-agregation.html">Piège d'agrégation</a> l'établissait pour <a href="../pfo/n/rendement-arithmetique.html">Rendement arithmétique</a>, en prévenant que <a href="../pfo/n/rendement-logarithmique.html">Rendement logarithmique</a> ne s'agrège pas ainsi entre actifs. L'espérance hérite de cette linéarité. [ajout]</p><p>Le risque demande davantage. <a href="../pfo/n/matrice-de-covariance.html">Matrice de variance-covariance</a> range les covariances des actifs, estimées sur leurs rendements et portées à l'année par <a href="../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance</a> ; sa diagonale porte le carré de <a href="../fpp/n/volatilite.html">Volatilité</a>. La variance du portefeuille est cette matrice lue à travers les poids. [ajout]</p><p>-Le cas de deux actifs était déjà écrit en décision : <a href="../dup/n/loterie.html">Loterie</a> réduite par <a href="../dup/n/moyenne-variance.html">Analyse moyenne-variance</a> à deux nombres, puis <a href="../dup/n/diversification.html">Diversification</a>, où l'écart type d'un mélange tombe sous celui de ses composants. La forme $W^T\boldsymbol{\Sigma}W$ généralise ce calcul à $N$ actifs. [ajout]
++Le cas de deux actifs était déjà écrit en décision : <a href="../dup/n/loterie.html">Loterie</a> réduite par <a href="../dup/n/moyenne-variance.html">Analyse moyenne-variance</a> à deux nombres, puis <a href="../dup/n/diversification.html">Diversification</a>, où l'écart type d'un mélange peut tomber sous celui de chacun de ses composants. La forme $W^T\boldsymbol{\Sigma}W$ généralise ce calcul à $N$ actifs. [ajout]</p><h2>Exemple minimal</h2><p>-Deux actifs non corrélés, de rendements espérés 6 % et 10 % et de volatilités 10 % et 20 %, à parts égales : $E(R_p)=8\,\%$ et $\sigma_p=11{,}18\,\%$, sous la volatilité de chacun. [ajout]
++Deux actifs non corrélés, de rendements espérés 6 % et 10 % et de volatilités 10 % et 20 %, à parts égales : $E(R_p)=8\,\%$ et $\sigma_p=11{,}18\,\%$, bien sous la moyenne des deux volatilités, 15 %. [ajout]</p><h2>Geste de calcul type</h2><p>Avec $W=(0{,}5;0{,}5)$ : $W^T\mu=0{,}5\times6\,\%+0{,}5\times10\,\%=8\,\%$. La covariance étant nulle, $W^T\boldsymbol{\Sigma}W=0{,}25\times0{,}01+0{,}25\times0{,}04=0{,}0125$, d'où $\sigma_p=\sqrt{0{,}0125}=11{,}18\,\%$. [ajout]
+diff --git a/proj/courses/pfo/notions/optimisation-de-portefeuille.md b/proj/courses/pfo/notions/optimisation-de-portefeuille.md
+index 9ec9421..0645e34 100644
+--- a/proj/courses/pfo/notions/optimisation-de-portefeuille.md
++++ b/proj/courses/pfo/notions/optimisation-de-portefeuille.md
+@@ -27,7 +27,7 @@ Elles diffèrent par ce qu'elles optimisent : la première fixe un rendement cib
+ ## Pourquoi ce niveau existe
+ Le cours pose les formulations ensemble, comme deux approches « étroitement liées » d'un même problème, et consacre une section entière à les relier : la première construit la frontière efficiente, la seconde choisit un point sur elle. [p. 38, §3.0.4, §3.0.5]</p><p>-Séparées, elles cacheraient ce qui les unit : le portefeuille de ratio de Sharpe maximal est lui-même un portefeuille efficient, celui où la fonction qui associe à chaque rendement cible le ratio de Sharpe du portefeuille efficient atteint son maximum. [§3.0.4]
++Séparées, elles cacheraient ce qui les unit : le portefeuille de ratio de Sharpe maximal est lui-même un portefeuille efficient : c'est le point de la frontière où le ratio de Sharpe est le plus élevé. [§3.0.4]</p><h2>Le chemin jusqu'ici</h2><p>Tout le problème s'écrit dans les deux moments de <a href="../pfo/n/moments-du-portefeuille.html">Rendement espéré et variance d'un portefeuille</a> : le rendement espéré, linéaire en les poids comme le veut <a href="../pfo/n/piege-d-agregation.html">Piège d'agrégation</a> pour <a href="../pfo/n/rendement-arithmetique.html">Rendement arithmétique</a>, et la variance, lue dans <a href="../pfo/n/matrice-de-covariance.html">Matrice de variance-covariance</a>. [ajout]
+@@ -41,7 +41,7 @@ Cette matrice est estimée sur <a href="../pfo/n/rendement-logarithmique.html">Rendement logarithmique</a>, annualisée par fpp/
+ | objectif | portefeuille tangent | maximiser $(W^T\mu-R_f)/\sqrt{W^T\boldsymbol{\Sigma}W}$ |
+ [§3.0.2, §3.0.3]</p><p>-L'exercice 1 du cours en ajoute un troisième cas, sans cible de rendement : minimiser la seule variance, ce qui donne le portefeuille de variance minimale globale. [p. 52]
++L'exercice 1 du cours en ajoute un troisième cas, sans cible de rendement : minimiser la seule variance, ce qui donne le portefeuille de variance minimale globale, le point le plus à gauche de la frontière. [p. 52]</p><h2>Cesse d'être valide quand</h2><p>Les formulations supposent un investisseur qui juge un portefeuille sur sa seule moyenne et sa seule variance, sur une seule période. Tout ce que le chapitre 2 a mesuré au-delà — asymétrie, queues épaisses — leur échappe. [ajout]
+diff --git a/proj/courses/pfo/notions/p-valeur.md b/proj/courses/pfo/notions/p-valeur.md
+index 285d10a..a074e83 100644
+--- a/proj/courses/pfo/notions/p-valeur.md
++++ b/proj/courses/pfo/notions/p-valeur.md
+@@ -22,23 +22,27 @@ refs:
+ La probabilité, si l'hypothèse nulle est vraie, d'observer une statistique de test au moins aussi extrême que celle que donne l'échantillon. [p. 26, p. 28]</p><h2>Forme</h2><p>-$$p &lt; \alpha = 0{,}05 \;\Longrightarrow\; H_0 \text{ est rejetée}, \qquad p \geq \alpha \;\Longrightarrow\; H_0 \text{ n'est pas rejetée}$$ [éq. 2.15, éq. 2.16, éq. 2.17, p. 29]
++$$p = P\big(\text{statistique au moins aussi extrême que celle observée} \mid H_0\big), \qquad p &lt; \alpha = 0{,}05 \;\Longrightarrow\; H_0 \text{ est rejetée}$$ [p. 26, p. 28, éq. 2.15, éq. 2.16, éq. 2.17]</p><h2>Ce que les symboles modélisent</h2><p>-$\alpha$ est le niveau de signification du test, fixé par le cours à 5 % : c'est le seuil sous lequel une p-valeur conduit à rejeter l'hypothèse nulle. [éq. 2.15, éq. 2.16]
++$p$ est la p-valeur, une probabilité calculée sous $H_0$, l'hypothèse nulle que le test éprouve. « Au moins aussi extrême » dépend du test : au moins aussi grande pour Jarque-Bera, au moins aussi petite pour Shapiro-Wilk. [p. 26, p. 28]</p><p>-Il représente le risque, accepté à l'avance, de rejeter une hypothèse nulle qui est vraie. Ce n'est ni le paramètre de lissage de l'EWMA ni le seuil de la VaR, que le cours note de la même lettre. [ajout]
++$\alpha$ est le niveau de signification, fixé par le cours à 5 % : le risque, accepté à l'avance, de rejeter une hypothèse nulle qui est vraie. Ce n'est ni le paramètre de lissage de l'EWMA ni le seuil de la VaR, que le cours note de la même lettre. [éq. 2.15, ajout]</p><h2>Ce qui la définit</h2><p>-Une p-valeur inférieure au niveau choisi signifie que les données présentent des caractéristiques significativement différentes de celles qu'impose l'hypothèse nulle, qui est rejetée. Supérieure, elle signifie que les données n'apportent pas assez de preuves pour la rejeter. [p. 25, p. 29]
++<strong>On connaît</strong> la statistique calculée sur l'échantillon, et la loi qu'elle suivrait si $H_0$ était vraie. <strong>On cherche</strong> la probabilité de tomber au moins aussi loin : c'est l'aire de la queue de cette loi au-delà de la valeur observée. [ajout]
++
++!<a href="figures/p-valeur.svg">La loi dessinée est celle du test de Jarque-Bera sous l'hypothèse nulle, $\chi^2(2)$, choisie pour l'illustration. L'aire colorée est la p-valeur, au-delà de la statistique observée ; l'aire grise est $\alpha=0{,}05$, au-delà du seuil 5,99. À gauche, statistique 1,83 : l'aire p = 0,40 contient l'aire α, on ne rejette pas. À droite, la queue grossie, statistique 7,01 : l'aire p = 0,03 tient dans l'aire α, on rejette.</a> [ajout]
++
++Comparer $p$ à $\alpha$ revient donc à regarder si la statistique observée dépasse le seuil : $\alpha$ est l'aire au-delà du seuil, $p$ l'aire au-delà de l'observée, et la seconde est la plus petite exactement quand l'observée est plus loin que le seuil. [ajout]
++
++Une p-valeur inférieure au niveau signifie que les données présentent des caractéristiques significativement différentes de celles qu'impose l'hypothèse nulle, qui est rejetée. Supérieure, elle signifie que les données n'apportent pas assez de preuves pour la rejeter. [p. 25, p. 29]</p><p>Ne pas rejeter n'est pas prouver : la formulation correcte est « on ne rejette pas l'hypothèse de normalité », jamais « les données sont normales ». [p. 29]</p><h2>Exemple minimal</h2><p>Au niveau de 5 %, une p-valeur de 0,03 conduit à rejeter l'hypothèse nulle, une p-valeur de 0,40 ne le permet pas. [ajout]</p><p>-!<a href="figures/p-valeur.svg">La p-valeur est l'aire de la queue au-delà de la statistique observée. La loi dessinée est celle du test de Jarque-Bera sous l'hypothèse nulle, $\chi^2(2)$, choisie pour l'illustration ; les p-valeurs 0,40 et 0,03 de l'exemple y correspondent aux statistiques 1,83 et 7,01, de part et d'autre du seuil 5,99 du niveau de 5 %.</a> [ajout]
+-
+ ## Geste de calcul type
+ Comparer la p-valeur au niveau, jamais la statistique brute : <code>if p_value &lt; 0.05:</code> on rejette, sinon on ne rejette pas. [Listing 2.1, p. 27]</p><p>diff --git a/proj/courses/pfo/notions/paradigme-de-markowitz.md b/proj/courses/pfo/notions/paradigme-de-markowitz.md
+index d96dd48..1b2a5f4 100644
+--- a/proj/courses/pfo/notions/paradigme-de-markowitz.md
++++ b/proj/courses/pfo/notions/paradigme-de-markowitz.md
+@@ -19,6 +19,8 @@ Un actif ne s'analyse pas isolément, mais par ce qu'il apporte à l'arbitrage e
+ ## Ce qui la définit
+ Publiée par Harry Markowitz en 1952, la théorie moderne du portefeuille fonde scientifiquement la diversification : l'investisseur combine des actifs dont la corrélation imparfaite réduit le risque global, mesuré par la variance, sans sacrifier proportionnellement le rendement espéré. [§3.0.1]</p><p>+Un chiffre le fait voir. Seul, un actif de volatilité 20 % est risqué ; mélangé à parts égales avec un actif de volatilité 10 %, sans corrélation, il donne un portefeuille de volatilité 11,18 %, bien sous la moyenne des deux, 15 %. Ce qu'il apporte au portefeuille n'est pas sa volatilité propre. [ajout]
++
+ L'objet de l'optimisation de portefeuille est d'en tirer une règle : comment répartir un capital entre plusieurs actifs pour obtenir le meilleur compromis possible entre rendement et risque. [p. 38]</p><p>Le chapitre 3 en fait tout son programme : écrire le rendement et le risque d'un portefeuille en fonction de ses poids, poser les problèmes d'optimisation correspondants, puis les résoudre numériquement. [§3.0.1, §3.0.5, §3.0.6]
+diff --git a/proj/courses/pfo/notions/passage-aux-rendements.md b/proj/courses/pfo/notions/passage-aux-rendements.md
+index 36359e1..aa8f8ce 100644
+--- a/proj/courses/pfo/notions/passage-aux-rendements.md
++++ b/proj/courses/pfo/notions/passage-aux-rendements.md
+@@ -16,13 +16,17 @@ refs:
+ On modélise les rendements et non les prix, parce que le prix suit un processus non stationnaire alors que ses rendements ont des propriétés statistiques stables dans le temps. [§1.2]</p><h2>Ce qui la définit</h2><p>-Le cours pose ce passage en ouverture de sa formalisation : l'évolution d'un prix est un processus stochastique non stationnaire, et c'est en passant aux rendements qu'on obtient des séries dont les propriétés statistiques restent invariantes dans le temps. [§1.2]
++Non stationnaire veut dire que les propriétés statistiques du prix changent avec le temps. [§1.2]</p><p>-Deux façons de passer du prix au rendement coexistent, l'arithmétique et la logarithmique. Elles ne se comportent pas de la même façon quand on agrège, dans le temps ou entre actifs, et c'est là tout l'enjeu des deux premières sous-sections. [§1.2.1, §1.2.2]
++Un prix qui passe de 100 à 1 000 en quelques années n'a ni le même niveau ni la même amplitude de variation au début et à la fin : une variation de 1 % y vaut 1 au départ et 10 à l'arrivée. Ses rendements du jour, eux, restent de l'ordre de quelques pour cent du premier au dernier jour : leurs propriétés restent invariantes, et c'est eux qu'on modélise. [§1.2, ajout]
++
++!<a href="figures/passage-aux-rendements.svg">Un prix simulé sur 750 jours, de 100 à 1 000, et ses rendements du jour. À gauche, le niveau monte et les variations grandissent avec lui ; à droite, les rendements restent dans la même bande de quelques pour cent, du premier au dernier jour.</a> [ajout]
++
++Deux façons de passer du prix au rendement coexistent, l'arithmétique et la logarithmique. Elles ne se comportent pas de la même façon quand on agrège, dans le temps ou entre actifs, et c'est ce qui les distingue. [§1.2.1, §1.2.2]</p><p>Tout ce que calcule ensuite le cours, moyennes, écarts types, corrélations, tests et mesures de risque, porte sur des rendements. [ajout]</p><h2>Cesse d'être valide quand</h2><p>Le cours constate lui-même que la volatilité des rendements n'est pas constante et se regroupe par épisodes. [§1.4, §2.1.1]</p><p>-Des rendements stationnaires en moyenne ne le sont donc pas forcément en variance : le passage aux rendements retire la tendance du prix, pas l'instabilité de sa dispersion, et c'est ce que l'estimateur EWMA vient traiter. [ajout]
++Des rendements stationnaires en moyenne ne le sont donc pas forcément en variance : le passage aux rendements retire la tendance du prix, pas l'instabilité de sa dispersion. [ajout]
+diff --git a/proj/courses/pfo/notions/piege-d-agregation.md b/proj/courses/pfo/notions/piege-d-agregation.md
+index b7443b6..3c4b84f 100644
+--- a/proj/courses/pfo/notions/piege-d-agregation.md
++++ b/proj/courses/pfo/notions/piege-d-agregation.md
+@@ -20,22 +20,24 @@ refs:
+ Le rendement logarithmique d'un portefeuille n'est pas la moyenne pondérée des rendements logarithmiques de ses actifs, alors que c'est vrai du rendement arithmétique. [§1.2.2]</p><h2>Forme</h2><p>-$$R_p = \sum_{i=1}^{N} w_i R_i \qquad\text{mais}\qquad r_p \neq \sum_{i=1}^{N} w_i r_i$$ [éq. 1.7, éq. 1.8]
++$$R_p = \sum_{i=1}^{N} w_i R_i, \qquad r_p = \ln(1+R_p) \;\neq\; \sum_{i=1}^{N} w_i r_i$$ [éq. 1.7, éq. 1.8, ajout]</p><h2>Ce que les symboles modélisent</h2><p>-$R_p$ est le rendement arithmétique du portefeuille entier, $r_p$ son rendement logarithmique, et $w_i$ le poids de l'actif $i$. [éq. 1.7, éq. 1.8]
++$R_p$ est le rendement arithmétique du portefeuille entier, $r_p$ son rendement logarithmique ; $R_i$ et $r_i$ sont ceux de l'actif $i$, et $w_i$ son poids. [éq. 1.7, éq. 1.8]</p><p>Le poids $w_i$ est la part de la valeur du portefeuille placée dans l'actif $i$ en début de période, et les poids somment à un. C'est parce que la valeur du portefeuille est une somme de valeurs que $R_p$ se décompose et que $r_p$ ne le fait pas. [ajout]</p><h2>Ce qui la définit</h2><p>-La raison est la non-linéarité du logarithme : le logarithme d'une somme n'est pas la somme des logarithmes. [§1.2.2]
++<strong>Connu</strong> : le rendement de chaque actif et son poids. <strong>Cherché</strong> : le rendement logarithmique $r_p$ du portefeuille. La moyenne pondérée des $r_i$, qui vient spontanément, est fausse ; la bonne route passe par l'arithmétique : $R_p$ d'abord, puis son logarithme. [éq. 1.7, éq. 1.8, ajout]
++
++La raison, que donne le cours, est la non-linéarité du logarithme ; ici, précisément, le logarithme d'une moyenne n'est pas la moyenne des logarithmes. Pour des poids positifs, le logarithme étant concave, la moyenne des $r_i$ tombe sous le vrai $r_p$, sauf si tous les actifs ont le même rendement. [§1.2.2, ajout]</p><p>Chaque rendement a donc son domaine d'agrégation : l'arithmétique s'agrège entre actifs, le logarithmique entre dates, et aucun des deux ne fait les deux. [ajout]</p><h2>Le chemin jusqu'ici</h2><p><a href="../pfo/n/rendement-arithmetique.html">Rendement arithmétique</a> s'agrège sans peine entre actifs mais se compose mal dans le temps ; <a href="../pfo/n/rendement-logarithmique.html">Rendement logarithmique</a> fait exactement l'inverse. [ajout]</p><p>-Le piège naît de la tentation de garder le second pour tout, parce qu'il est commode dans le temps et que tous les listings du cours le calculent. La fiche ne fait que croiser les deux propriétés : la linéarité en portefeuille du premier, la non-linéarité du logarithme qui définit le second. [ajout]
++Le piège naît de la tentation de garder le second pour tout, parce qu'il est commode dans le temps et que tous les listings du cours le calculent. [ajout]</p><h2>Exemple minimal</h2><p>Un portefeuille placé pour moitié dans un actif qui fait +10 % et pour moitié dans un actif qui fait −10 % a un rendement nul, alors que la moyenne de leurs rendements logarithmiques vaut −0,50 %. [ajout]
+diff --git a/proj/courses/pfo/notions/pipeline-d-ingestion.md b/proj/courses/pfo/notions/pipeline-d-ingestion.md
+index 66c0997..a91c9c2 100644
+--- a/proj/courses/pfo/notions/pipeline-d-ingestion.md
++++ b/proj/courses/pfo/notions/pipeline-d-ingestion.md
+@@ -25,14 +25,23 @@ La chaîne qui télécharge les prix de clôture ajustés, comble les trous, cal
+ ## Ce qui la définit
+ Le cours la motive par le principe « garbage in, garbage out » : des données d'entrée corrompues produisent des résultats anormaux dans tout modèle en aval, et les données de marché sont asynchrones, incomplètes, bruitées et soumises aux règles du carnet d'ordres. [p. 7]</p><p>-Le listing 1.1 en fixe les étapes. <code>yf.download(tickers, start, end)["Adj Close"]</code> ramène un tableau dont les lignes sont des dates et les colonnes des actifs ; <code>ffill().bfill()</code> comble les trous ; <code>np.log(prices / prices.shift(1)).dropna()</code> calcule les rendements et retire la première ligne, vide ; le filtre à vingt jours remplace par 0 les rendements de score supérieur à 3. [Listing 1.1, p. 10, p. 11, p. 14]
++Le listing 1.1 en fixe les étapes, dans cet ordre : [Listing 1.1]
++
++1. télécharger : <code>yf.download(tickers, start, end)["Adj Close"]</code> ramène un tableau, une ligne par date et une colonne par actif ; [p. 10, p. 11]
++2. combler les trous : <code>raw_prices.ffill().bfill()</code> ; [p. 11, Listing 1.1]
++3. calculer les rendements : <code>np.log(prices_cleaned / prices_cleaned.shift(1)).dropna()</code>, qui retire la première ligne, vide ; [Listing 1.1, p. 14]
++4. filtrer : <code>log_rets.mask(z_scores &gt; 3, 0)</code> remplace par 0 les rendements dont le score, sur une fenêtre de vingt lignes, dépasse 3. [Listing 1.1]</p><p>Le prix de clôture ajusté convient à l'analyse des rendements parce qu'il tient compte des dividendes et des divisions d'actions. [p. 11]</p><h2>Le chemin jusqu'ici</h2><p>-Le pipeline enchaîne deux traitements dans un ordre qui compte. <a href="../pfo/n/remplissage-des-valeurs-manquantes.html">Remplissage des valeurs manquantes</a> agit sur les prix, avant tout calcul, pour que chaque date ait une valeur pour chaque actif. [ajout]
++Le pipeline enchaîne ses traitements dans un ordre qui compte. <a href="../pfo/n/remplissage-des-valeurs-manquantes.html">Remplissage des valeurs manquantes</a> agit sur les prix, avant tout calcul, pour que chaque date ait une valeur pour chaque actif. [ajout]
++
++Le passage à <a href="../pfo/n/rendement-logarithmique.html">Rendement logarithmique</a> vient ensuite, et c'est sur ces rendements seulement que <a href="../pfo/n/filtre-z-score-glissant.html">Filtre par score z glissant</a> applique <a href="../pfo/n/score-z.html">Score z</a>. [ajout]
++
++Remplir les rendements au lieu des prix ne marcherait pas : un prix manquant laisse deux rendements vides, et les remettre à zéro effacerait la variation entre les deux prix connus, alors que remplir le prix la reporte tout entière sur le jour de la réouverture. [ajout]</p><p>-Le passage à <a href="../pfo/n/rendement-logarithmique.html">Rendement logarithmique</a> vient ensuite, et c'est sur ces rendements seulement que <a href="../pfo/n/filtre-z-score-glissant.html">Filtre par score z glissant</a> applique <a href="../pfo/n/score-z.html">Score z</a>. Inverser l'ordre ne marcherait pas : un prix manquant produit deux rendements manquants, et un filtre n'a rien à dire d'une valeur absente. [ajout]
++Filtrer des rendements encore troués ne marcherait pas non plus : dans pandas, un seul rendement vide rend vides la moyenne et l'écart type de chaque fenêtre qui le contient, et les vingt rendements jugés sur ces fenêtres échappent au filtre. [ajout]</p><h2>Ce qui reste libre</h2><div class="tablebloc"><table><thead><tr><th>élément</th><th>valeur du cours</th></tr></thead><tbody><tr><td>@@ -47,6 +56,6 @@ Le passage à <a href="../pfo/n/rendement-logarithmique.html">Rendement logarithmique</a> vient ensuite, et c'est sur ces rendem</td></tr><tr><td>## Cesse d'être valide quand</td></tr></tbody></table></div><p>-Le tableau réunit les dates de toutes les places. Le Bitcoin cotant tous les jours, l'index compte environ 365 lignes par an, et la fenêtre de vingt lignes couvre vingt jours calendaires, pas vingt séances. [ajout]
++Le Bitcoin cotant tous les jours, le tableau compte environ 365 lignes par an, et la fenêtre de vingt lignes couvre vingt jours calendaires, pas vingt séances. [ajout]</p><p>Les prix ajustés sont recalculés rétroactivement à chaque nouveau dividende : deux exécutions du même script à des dates différentes ne rendent pas exactement les mêmes séries. [ajout]
+diff --git a/proj/courses/pfo/notions/portefeuille-tangent.md b/proj/courses/pfo/notions/portefeuille-tangent.md
+index c2ba909..32450ee 100644
+--- a/proj/courses/pfo/notions/portefeuille-tangent.md
++++ b/proj/courses/pfo/notions/portefeuille-tangent.md
+@@ -38,14 +38,16 @@ $$SR(\mu_0)=\frac{\mu_0-R_f}{\sigma_p(\mu_0)},\qquad \mu_0^*=\arg\max_{\mu_0}SR(
+ $W^*$ est le vecteur des poids du portefeuille tangent. $SR(\mu_0)$ est une fonction du rendement cible : elle prend un niveau de rendement, cherche sur la frontière efficiente le portefeuille qui l'atteint avec le moins de risque, et rend son ratio de Sharpe. $\mu_0^*$ est le rendement cible où cette fonction culmine, celui du portefeuille tangent. [p. 40, §3.0.4]</p><h2>Ce qui la définit</h2><p>-Maximiser le ratio de Sharpe revient, dans le plan risque-rendement, à chercher parmi toutes les droites issues de l'actif sans risque celle de plus forte pente qui touche encore un portefeuille réalisable : elle touche la frontière efficiente en un point, le portefeuille tangent. [p. 40, Fig. 3.2]
++<strong>Connus</strong> : le point de l'actif sans risque, $(0,R_f)$, et la frontière efficiente. <strong>Cherchée</strong> : la droite la plus pentue issue de ce point qui touche encore un portefeuille réalisable. Le portefeuille tangent est le point de contact. [p. 40, Fig. 3.2]</p><p>-Les algorithmes de <code>scipy.optimize</code> minimisent ; on maximise donc le ratio en minimisant son opposé, $-SR(W)$, sous les mêmes contraintes. Le script du cours le fait avec la méthode SLSQP, en partant du portefeuille équipondéré. [p. 40, §3.0.8]
+-
+-Une troisième lecture relie les deux premières : le portefeuille tangent est le portefeuille efficient dont le ratio de Sharpe est le plus élevé le long de la frontière, le maximum de $SR(\mu_0)$. [§3.0.4, Fig. 3.3]
++C'est bien le portefeuille de ratio de Sharpe maximal : le ratio d'un portefeuille est la pente de la droite qui le relie à l'actif sans risque, et maximiser le ratio revient à chercher la plus pentue de ces droites. [p. 40]</p><p>!<a href="figures/portefeuille-tangent.svg">Les deux actifs non corrélés de l'exemple, avec un taux sans risque de 2 %. La courbe est la frontière des portefeuilles ; de toutes les droites issues du point (0 ; 2 %), la plus pentue qui touche encore la courbe la touche en T, le portefeuille tangent, et sa pente est le ratio de Sharpe maximal.</a> [ajout]</p><p>+Le même point se lit le long de la frontière : c'est le portefeuille efficient dont le ratio de Sharpe est le plus élevé, le maximum de $SR(\mu_0)$, atteint en $\mu_0^*$. [§3.0.4, Fig. 3.3]
++
++Les algorithmes de <code>scipy.optimize</code> minimisent : le script du cours maximise donc le ratio en minimisant $-SR(W)$, par la méthode SLSQP, en partant du portefeuille équipondéré. [p. 40, §3.0.8]
++
+ ## Le chemin jusqu'ici
+ Le portefeuille tangent est un point choisi sur une courbe par un critère. La courbe, c'est <a href="../pfo/n/frontiere-efficiente.html">Frontière efficiente</a> ; le critère, c'est <a href="../pfo/n/ratio-de-sharpe.html">Ratio de Sharpe</a>, la pente de la droite qui relie l'actif sans risque à chaque portefeuille. [ajout]</p><p>@@ -57,18 +59,16 @@ Sans <a href="../dup/n/diversification.html">Diversification</a>, il n'y aurait rien à choisir : mélanger n'améliorer
+ Avec les deux actifs non corrélés de rendements 6 % et 10 %, de volatilités 10 % et 20 %, et un taux sans risque de 2 %, le portefeuille tangent place deux tiers dans le premier : rendement 7,33 %, volatilité 9,43 %, ratio 0,566. [ajout]</p><h2>Geste de calcul type</h2><p>-Quand la contrainte $W\ge0$ ne mord pas, les poids tangents sont proportionnels à $\boldsymbol{\Sigma}^{-1}(\mu-R_f\mathbf{1})$. Ici $\boldsymbol{\Sigma}$ est diagonale : $(0{,}04/0{,}01\,;\,0{,}08/0{,}04)=(4\,;2)$, soit $W^*=(\tfrac23\,;\tfrac13)$. Alors $W^{*T}\mu=7{,}33\,\%$, $\sigma_p=\sqrt{\tfrac49\times0{,}01+\tfrac19\times0{,}04}=9{,}43\,\%$ et $SR=5{,}33/9{,}43=0{,}566$. [ajout]
++Quand la contrainte $W\ge0$ ne mord pas, les poids tangents sont proportionnels à $\boldsymbol{\Sigma}^{-1}(\mu-R_f\mathbf{1})$ : c'est ce que donne la condition du premier ordre du maximum de $SR(W)$. Pour $\boldsymbol{\Sigma}$ diagonale, chaque poids est donc proportionnel à la prime de l'actif, $\mu_i-R_f$, divisée par sa variance. [ajout]
++
++Ici : $(0{,}04/0{,}01\,;\,0{,}08/0{,}04)=(4\,;2)$, soit $W^*=(\tfrac23\,;\tfrac13)$. Alors $W^{*T}\mu=7{,}33\,\%$, $\sigma_p=\sqrt{\tfrac49\times0{,}01+\tfrac19\times0{,}04}=9{,}43\,\%$ et $SR=5{,}33/9{,}43=0{,}566$. [ajout]</p><h2>Ce qui reste libre</h2><div class="tablebloc"><table><thead><tr><th>paramètre</th><th>cas</th><th>valeur</th></tr></thead><tbody><tr><td>bornes des poids</td><td>sans vente à découvert</td><td>$0\le w_i\le1$</td></tr><tr><td>-</td><td>bornes des poids</td><td>limites d'allocation de l'exercice 2</td><td>$0{,}05\le w_i\le0{,}40$</td></tr><tr><td>-</td><td>bornes des poids</td><td>question 4 de l'exercice 3</td><td>$0{,}05\le w_i\le0{,}30$</td></tr><tr><td>taux sans risque</td><td>script du cours</td><td>$R_f=0$</td></tr><tr><td>-[§3.0.8, p. 53, p. 56]</td></tr><tr><td>-</td></tr><tr><td>-Des bornes ne sont compatibles que si $N$ fois la borne basse reste sous un et $N$ fois la borne haute au-dessus : avec deux actifs, des poids limités à 40 % ne peuvent pas sommer à un. [ajout]</td></tr></tbody></table></div><h2>Cesse d'être valide quand</h2><p>Les poids tangents dépendent des rendements espérés estimés, qui sont les paramètres les plus mal estimés : l'exercice 3 du cours demande de refaire l'optimisation sur des fenêtres de 12, 36 et 60 mois et d'en comparer les allocations. [p. 54, p. 55]
+diff --git a/proj/courses/pfo/notions/prix-milieu.md b/proj/courses/pfo/notions/prix-milieu.md
+index 62082d5..502ee02 100644
+--- a/proj/courses/pfo/notions/prix-milieu.md
++++ b/proj/courses/pfo/notions/prix-milieu.md
+@@ -33,7 +33,7 @@ <a href="../pfo/n/fourchette-bid-ask.html">Fourchette acheteur-vendeur</a> fournit les deux prix affichés, le bid et l'ask, dont le
+ Le prix milieu est ce qui reste de la fourchette quand on renonce à son écart : il garde le centre et jette la largeur, c'est-à-dire l'information sur l'illiquidité. [ajout]</p><h2>Exemple minimal</h2><p>-Avec 99,90 à l'achat et 100,10 à la vente, le prix milieu vaut 100,00. [ajout]
++Avec un bid à 99,90 et un ask à 100,10, le prix milieu vaut 100,00. [ajout]</p><h2>Geste de calcul type</h2><p>Pour chaque date, additionner les deux colonnes du carnet et diviser par deux : $(99{,}90 + 100{,}10)/2 = 100{,}00$. [ajout]
+diff --git a/proj/courses/pfo/notions/quantile.md b/proj/courses/pfo/notions/quantile.md
+index f910efd..3d702d0 100644
+--- a/proj/courses/pfo/notions/quantile.md
++++ b/proj/courses/pfo/notions/quantile.md
+@@ -22,29 +22,29 @@ refs:
+ La valeur sous laquelle tombe une proportion donnée des réalisations d'une variable aléatoire : le quantile d'ordre $\alpha$ laisse une probabilité $\alpha$ à sa gauche. [ajout]</p><h2>Forme</h2><p>-$$F^{-1}(\alpha) = \inf\{x : F(x) \geq \alpha\}$$ [ajout]
++$$F(q_\alpha) = \alpha, \qquad\text{et quand } F \text{ avance par paliers :}\quad q_\alpha = F^{-1}(\alpha) = \inf\{x : F(x) \geq \alpha\}$$ [p. 34, ajout]</p><h2>Ce que les symboles modélisent</h2><p>-Le poly note $F$ la fonction de répartition, dans la relation $F(q_\alpha) = \alpha$ qui définit le quantile que cherche le développement de Cornish-Fisher. [p. 34]
++$F$ est la fonction de répartition : elle prend un niveau et rend une probabilité, celle de tomber en dessous. Le poly la note ainsi dans la relation $F(q_\alpha) = \alpha$ qui définit le quantile que cherche le développement de Cornish-Fisher. Ce n'est ni le prix forward du cours fpp, ni l'ensemble des actes du cours dup. [p. 34, ajout]</p><p>-$F$ prend un niveau et rend une probabilité, celle de tomber en dessous. Le quantile fait le trajet inverse : il prend une probabilité et rend un niveau. Ce n'est ni le prix forward du cours fpp, ni l'ensemble des actes du cours dup. [ajout]
++$\alpha$ est l'ordre du quantile, une probabilité, et $q_\alpha$ le quantile lui-même, un niveau : le trajet inverse de $F$. [p. 34]</p><h2>Ce qui la définit</h2><p>-Le poly emploie le mot sans le définir : la VaR y est un quantile de la loi des pertes, <code>stats.norm.ppf</code> la fonction quantile, inverse de la fonction de répartition de la loi normale, et le développement de Cornish-Fisher une approximation de quantile. [Déf. 2.5.1, p. 33, §2.5.1]
++<strong>On connaît</strong> une probabilité, 5 %, et la loi des rendements. <strong>On cherche</strong> le niveau qui laisse exactement 5 % des rendements à sa gauche. La fonction de répartition fait l'aller, du niveau à la probabilité ; le quantile fait le retour. [ajout]</p><p>-Un centile est un quantile exprimé en pour cent : le 5e centile est le quantile d'ordre 0,05. <code>np.percentile</code> attend donc 5 et non 0,05, d'où le <code>alpha * 100</code> du listing. [p. 32, Listing 2.2]
++!<a href="figures/quantile.svg">Le bas de la fonction de répartition des rendements de l'exemple, grossi. On part du connu, 5 % sur l'axe vertical, on rejoint la courbe, puis on descend sur l'axe des rendements : le quantile cherché vaut −3,24 %.</a> [ajout]
++
++Le poly emploie le mot sans le définir : la VaR y est un quantile de la loi des pertes, <code>stats.norm.ppf</code> la fonction quantile, inverse de la fonction de répartition de la loi normale, et le développement de Cornish-Fisher une approximation de quantile. [Déf. 2.5.1, p. 33, p. 34]</p><p>-Le quantile est le seuil qu'on retrouve dans tout le chapitre 2 : <a href="../pfo/n/valeur-a-risque.html">Valeur à risque</a> en est un, <a href="../pfo/n/var-historique.html">VaR historique</a> le lit sur l'échantillon, <a href="../pfo/n/var-gaussienne.html">VaR gaussienne</a> le prend à la loi normale sous le nom $z_\alpha$, et <a href="../pfo/n/developpement-de-cornish-fisher.html">Développement de Cornish-Fisher</a> le corrige en $q_\alpha$. [ajout]
++Un centile est un quantile exprimé en pour cent : le 5e centile est le quantile d'ordre 0,05. <code>np.percentile</code> attend donc 5 et non 0,05, d'où le <code>alpha * 100</code> du listing. [p. 32, Listing 2.2]</p><h2>Exemple minimal</h2><p>Le quantile d'ordre 5 % de la loi normale centrée réduite vaut −1,6449 ; pour des rendements normaux de moyenne 0,05 % et d'écart type 2 %, il vaut −3,24 %. [ajout]</p><p>-!<a href="figures/quantile.svg">Lire le quantile d'ordre 5 % des rendements de l'exemple : partir de 0,05 sur l'axe vertical, rejoindre la courbe de répartition, puis descendre sur l'axe des rendements. On lit $-3{,}24\,\%$.</a> [ajout]
+-
+ ## Geste de calcul type
+ Sur un échantillon, trier et lire le rang voulu : sur 1 000 rendements, <code>np.percentile(r, 5)</code> interpole entre la 50e et la 51e plus petite valeur. Sur une loi connue, inverser la fonction de répartition : <code>stats.norm.ppf(0.05)</code> rend −1,6449, et $0{,}0005 - 1{,}6449 \times 0{,}02 = -3{,}24\,\%$. [ajout]</p><h2>Cesse d'être valide quand</h2><p>Sur un échantillon, $F$ avance par paliers : aucune valeur ne vérifie exactement $F(x) = \alpha$, ou bien plusieurs. La définition par l'infimum prend la plus petite, <code>np.percentile</code> interpole, et sur un petit échantillon les deux conventions divergent. [ajout]</p><p>-Le sens compte : le quantile d'ordre $\alpha$ des rendements, négatif, est l'opposé du quantile d'ordre $1-\alpha$ des pertes. C'est ce qui brouille la définition de la VaR du poly, qui parle d'« $\alpha$-quantile » de la perte tout en posant $P(L &gt; \mathrm{VaR}_\alpha) = \alpha$. [ajout]
++Le sens compte : le quantile d'ordre $\alpha$ des rendements, négatif, est l'opposé du quantile d'ordre $1-\alpha$ des pertes. [ajout]
+diff --git a/proj/courses/pfo/notions/queues-epaisses.md b/proj/courses/pfo/notions/queues-epaisses.md
+index 109fdb7..857a98d 100644
+--- a/proj/courses/pfo/notions/queues-epaisses.md
++++ b/proj/courses/pfo/notions/queues-epaisses.md
+@@ -24,11 +24,11 @@ refs:
+ Une loi a des queues épaisses quand elle produit plus d'observations très éloignées de sa moyenne que la loi normale de même moyenne et de même variance. [p. 23]</p><h2>Ce qui la définit</h2><p>-Les événements extrêmes, krachs ou envolées euphoriques, ont une probabilité bien plus forte que ne le prédit la loi normale : un rendement de −8 %, que le modèle gaussien juge presque impossible, est moins rare dans les données réelles. [§2.1.1, p. 24]
++Les événements extrêmes, krachs ou envolées euphoriques, ont une probabilité bien plus forte que ne le prédit la loi normale. [§2.1.1]</p><p>Le cours la formalise par la kurtosis. Une loi d'excès de kurtosis positif est dite leptokurtique : queues plus épaisses et pic central plus haut que la loi normale. D'excès nul, elle est mésokurtique ; d'excès négatif, platykurtique. [p. 20, p. 23, Fig. 2.2]</p><p>-!<a href="figures/queues-epaisses.svg">À variance égale, la loi leptokurtique a un pic plus haut, des flancs plus minces et des queues plus épaisses que la loi normale.</a> [ajout]
++!<a href="figures/queues-epaisses.svg">À variance égale, la loi de Laplace, leptokurtique, a un pic plus haut, des flancs plus minces et des queues plus épaisses que la loi normale. À droite, la queue grossie : au-delà de trois écarts types, la loi de Laplace garde 0,72 % de probabilité de chaque côté, la loi normale 0,135 % ; des deux côtés, 1,4 % contre 0,27 %, les chiffres de l'exemple.</a> [ajout]</p><h2>Le chemin jusqu'ici</h2><p><a href="../pfo/n/kurtosis.html">Kurtosis</a> fournit la mesure : c'est le moment d'ordre 4, qui pèse chaque écart par sa quatrième puissance et devient donc très sensible aux observations lointaines. Les queues épaisses sont la lecture de son excès positif, une fois retiré le 3 de la loi normale. [ajout]
+@@ -38,5 +38,9 @@ La réduction par l'écart type de <a href="../fpp/n/volatilite.html">Volatilité</a> est ce qui rend la comparaison
+ ## Exemple minimal
+ Une loi de Laplace de variance 1, d'excès de kurtosis 3, s'écarte de plus de trois écarts types de sa moyenne avec une probabilité de 1,4 %, contre 0,27 % pour la loi normale. [ajout]</p><p>+Le cours cite un rendement de −8 %, auquel un modèle gaussien attribue une probabilité très faible alors qu'il est moins rare dans les données réelles [p. 24]. Pour une volatilité journalière de 2 %, c'est un écart de quatre écarts types. [ajout]
++
+ ## Cesse d'être valide quand
+-L'excès de kurtosis n'est pas une mesure des queues seules : il monte aussi quand le pic central devient plus pointu, et une loi peut être leptokurtique sans que ses pertes extrêmes soient plus fréquentes que ses gains extrêmes. [ajout]
++Le pic plus haut accompagne ici les queues épaisses, mais ce n'est pas lui que mesure la kurtosis. À moins d'un écart type de la moyenne, l'écart réduit à la puissance quatre reste inférieur à 1 : cette zone ne fournit que 0,09 de la kurtosis de 6 de la loi de Laplace, moins encore que pour la loi normale, 0,11 ; tout le reste vient des écarts lointains. [ajout]
++
++Une loi peut être leptokurtique sans que ses pertes extrêmes soient plus fréquentes que ses gains extrêmes : la kurtosis ne dit pas de quel côté sont les écarts. [ajout]
+diff --git a/proj/courses/pfo/notions/regroupement-de-volatilite.md b/proj/courses/pfo/notions/regroupement-de-volatilite.md
+index e66b95c..98e677f 100644
+--- a/proj/courses/pfo/notions/regroupement-de-volatilite.md
++++ b/proj/courses/pfo/notions/regroupement-de-volatilite.md
+@@ -20,10 +20,17 @@ refs:
+ Le fait que la volatilité des rendements n'est pas constante mais alterne des épisodes de forte et de faible agitation. [§1.4, §2.1.1]</p><h2>Ce qui la définit</h2><p>-La volatilité des rendements présente des grappes de forte et de faible instabilité au lieu de rester à un niveau fixe, et elle se propage par épisodes. Le cours le range parmi les faits stylisés de Mandelbrot et Fama, et en fait la raison d'être de l'estimateur EWMA. [§1.4, §2.1.1]
++Une forte variation, à la hausse comme à la baisse, tend à être suivie d'autres fortes variations, et une journée calme d'autres journées calmes. [§1.4, ajout]
++
++Le cours le range parmi les faits stylisés relevés par Mandelbrot et Fama. [§2.1.1]</p><h2>Le chemin jusqu'ici</h2><p><a href="../fpp/n/volatilite.html">Volatilité</a> définit l'écart type du rendement comme un paramètre unique, fixe sur toute la période. Le regroupement de volatilité est le constat que ce paramètre bouge : il faudrait parler d'une volatilité à chaque date, et non d'une volatilité de l'actif. [ajout]</p><p>+## Exemple minimal
++Sur la série simulée de la figure, l'écart type de toute la période vaut 1 % par jour. Les 12 jours où le rendement sort de ± 2 écarts types tombent tous dans l'épisode agité, qui ne couvre qu'un jour sur cinq ; dans les épisodes calmes, ce même 1 % surestime la dispersion. [ajout]
++
++!<a href="figures/regroupement-de-volatilite.svg">250 jours de rendements simulés : un épisode calme, un épisode agité, puis un nouvel épisode calme. La bande pointillée est ± 2 fois l'écart type calculé sur toute la période, un seul nombre fixe ; les rendements qui en sortent, en couleur, sont tous groupés dans l'épisode agité.</a> [ajout]
++
+ ## Cesse d'être valide quand
+-Le cours le constate sans le mesurer : aucune statistique du cours ne teste qu'une série présente des grappes, et l'estimateur EWMA le suppose au lieu de le vérifier. [ajout]
++Le cours le constate sans le mesurer : aucune statistique du cours ne teste qu'une série présente des grappes. [ajout]
+diff --git a/proj/courses/pfo/notions/remplissage-des-valeurs-manquantes.md b/proj/courses/pfo/notions/remplissage-des-valeurs-manquantes.md
+index 86bdd78..9773210 100644
+--- a/proj/courses/pfo/notions/remplissage-des-valeurs-manquantes.md
++++ b/proj/courses/pfo/notions/remplissage-des-valeurs-manquantes.md
+@@ -38,6 +38,8 @@ La série [100, NaN, NaN, 105, NaN, 110] devient [100, 100, 100, 105, 105, 110]
+ ## Geste de calcul type
+ Sur [NaN, NaN, 100, 105, NaN], <code>ffill()</code> rend [NaN, NaN, 100, 105, 105] et laisse vides les deux premières valeurs, faute d'observation avant elles ; <code>bfill()</code> les remplit ensuite avec 100. [p. 12]</p><p>+!<a href="figures/remplissage-des-valeurs-manquantes.svg">La série du poly, NaN, NaN, 100, 105, NaN, et d'où vient chaque valeur recopiée. <code>ffill()</code> recopie 105 dans la case vide qui le suit ; les deux premières cases, que rien ne précède, restent vides ; <code>bfill()</code> y recopie 100, la première valeur connue après elles.</a> [ajout]
++
+ ## Cesse d'être valide quand
+ Le <code>bfill()</code> du début de série recopie une valeur future dans le passé : dans un backtest, c'est une information que personne ne possédait à cette date. [ajout]</p><p>diff --git a/proj/courses/pfo/notions/rendement-arithmetique.md b/proj/courses/pfo/notions/rendement-arithmetique.md
+index 9c02b20..c3fb33e 100644
+--- a/proj/courses/pfo/notions/rendement-arithmetique.md
++++ b/proj/courses/pfo/notions/rendement-arithmetique.md
+@@ -24,18 +24,21 @@ $$R_{0\to T} = \dfrac{P_T - P_0}{P_0} = \prod_{t=1}^{T}(1+R_t) - 1$$ [éq. 1.4]
+ ## Ce que les symboles modélisent
+ $P_t$ est le prix de l'actif à la date $t$ ; dans les listings du cours, c'est le prix de clôture ajusté des dividendes et des divisions d'actions, pas un prix affiché dans le carnet d'ordres. [§1.2, p. 11]</p><p>-$R_t$ est le rendement d'une seule sous-période, $R_{0\to T}$ celui de la période entière. Le second ne s'obtient pas en additionnant les premiers mais en composant les facteurs $1+R_t$. [éq. 1.4]
++$R_t$ est le rendement de la seule sous-période $t$, qui va de $t-1$ à $t$ : $R_t=(P_t-P_{t-1})/P_{t-1}$, et non $R_{0\to t}$. [ajout]</p><p>-La sous-période $t$ va de $t-1$ à $t$ : $R_t$ vaut $R_{t-1\to t}$, et non $R_{0\to t}$. [ajout]
++$R_{0\to T}$ est le rendement de la période entière, de $0$ à $T$. [éq. 1.4]</p><p>-$$R_t=\dfrac{P_t-P_{t-1}}{P_{t-1}},\qquad 1+R_t=\dfrac{P_t}{P_{t-1}}$$ [ajout]
++## Retrouver la formule
++<strong>Connu</strong> : le rendement de chaque sous-période. <strong>Cherché</strong> : celui de la période entière. Exemple : un prix passe de 100 à 110, puis à 99, soit +10 %, puis −10 %. [ajout]</p><p>-Le produit donne bien le rendement de la période entière parce qu'il se télescope : chaque prix intermédiaire apparaît une fois au numérateur et une fois au dénominateur. [ajout]
++Un rendement de +10 % multiplie le prix par 1,10 ; un rendement de −10 %, par 0,90. Sur les deux sous-périodes, le prix est donc multiplié par $1{,}10\times0{,}90=0{,}99$ : il finit à 99, et le rendement de l'ensemble vaut $0{,}99-1=-1\,\%$, et non la somme des deux, qui est nulle. [ajout]</p><p>-$$\prod_{t=1}^{T}(1+R_t)=\dfrac{P_1}{P_0}\cdot\dfrac{P_2}{P_1}\cdots\dfrac{P_T}{P_{T-1}}=\dfrac{P_T}{P_0}$$ [ajout]
++En général, chaque sous-période multiplie le prix par $1+R_t=P_t/P_{t-1}$. Le produit de ces rapports se télescope : chaque prix intermédiaire apparaît une fois au numérateur et une fois au dénominateur, et il ne reste que le dernier prix sur le premier. [ajout]
++
++$$\prod_{t=1}^{T}(1+R_t)=\dfrac{P_1}{P_0}\cdot\dfrac{P_2}{P_1}\cdots\dfrac{P_T}{P_{T-1}}=\dfrac{P_T}{P_0}\qquad\Longrightarrow\qquad R_{0\to T}=\prod_{t=1}^{T}(1+R_t)-1$$ [éq. 1.4, ajout]</p><h2>Ce qui la définit</h2><p>-Le rendement arithmétique n'est pas additif dans le temps : le rendement de la période entière est le produit des facteurs de croissance, moins un, et non la somme des rendements. [§1.2.1, éq. 1.4]
++Le rendement arithmétique n'est donc pas additif dans le temps : les rendements de sous-périodes successives se composent, ils ne s'additionnent pas. [§1.2.1, éq. 1.4]</p><p>En contrepartie, il s'agrège linéairement entre actifs : le rendement arithmétique d'un portefeuille est exactement la moyenne pondérée de ceux de ses composantes. [§1.2.2, éq. 1.7]</p><p>diff --git a/proj/courses/pfo/notions/rendement-logarithmique.md b/proj/courses/pfo/notions/rendement-logarithmique.md
+index 1f4f3d8..8a23305 100644
+--- a/proj/courses/pfo/notions/rendement-logarithmique.md
++++ b/proj/courses/pfo/notions/rendement-logarithmique.md
+@@ -18,20 +18,20 @@ refs:
+ ---</p><h2>Ce que c'est</h2><p>-Le logarithme du rapport de deux prix successifs. [éq. 1.5]
++Le logarithme du rapport de deux prix successifs ; contrairement au rendement arithmétique, ceux de périodes successives s'additionnent. [éq. 1.5, éq. 1.6]</p><h2>Forme</h2><p>$$r_t = \ln\!\left(\dfrac{P_t}{P_{t-1}}\right) = \ln(P_t) - \ln(P_{t-1}), \qquad r_{0\to T} = \ln\!\left(\dfrac{P_T}{P_0}\right) = \sum_{t=1}^{T} r_t$$ [éq. 1.5, éq. 1.6]</p><h2>Ce que les symboles modélisent</h2><p>-$r_t$ mesure la variation du prix sur une période en échelle logarithmique. Il se lit comme un rendement et reste proche du rendement arithmétique pour de petites variations — 0,995 % pour une hausse de 1 % — mais s'en écarte quand la variation grandit : 9,53 % pour une hausse de 10 %. [ajout]
++$r_t$ mesure la même variation du prix que le rendement arithmétique $R_t$, lue sur une autre échelle : $r_t=\ln(1+R_t)$. Les deux sont proches pour de petites variations, 0,995 % pour une hausse de 1 %, et s'écartent quand la variation grandit : 9,53 % pour une hausse de 10 %. [ajout]</p><p>-$r_{0\to T}$ est le rendement logarithmique de la période entière, et il vaut exactement la somme des rendements des sous-périodes. [éq. 1.6]
++$r_{0\to T}$ est le rendement logarithmique de la période entière, de $0$ à $T$. [éq. 1.6]</p><h2>Ce qui la définit</h2><p>-Sa propriété est l'additivité dans le temps : la somme des logarithmes de rapports successifs est télescopique et se réduit au logarithme du rapport entre le dernier et le premier prix. [§1.2.1, éq. 1.6]
++<strong>Connu</strong> : les rendements des sous-périodes. <strong>Cherché</strong> : celui de la période entière. Il suffit de les sommer : la somme des logarithmes de rapports successifs se télescope et se réduit au logarithme du rapport entre le dernier et le premier prix. [§1.2.1, éq. 1.6]</p><p>-C'est le rendement que le cours calcule ensuite dans chaque listing, sur les prix de clôture ajustés : filtrage, EWMA, covariances, tests de normalité et mesures de risque. [p. 11, Listing 1.1, Listing 2.1, Listing 2.2]
++C'est le rendement que le cours calcule dans chaque listing, sur les prix de clôture ajustés. [p. 11, Listing 1.1, Listing 2.1, Listing 2.2]</p><h2>Exemple minimal</h2><p>Un prix qui passe de 100 à 110 puis à 99 fait +9,53 %, puis −10,54 %, et −1,01 % sur l'ensemble, qui est bien la somme des deux. [ajout]
+@@ -40,4 +40,4 @@ Un prix qui passe de 100 à 110 puis à 99 fait +9,53 %, puis −10,54 %, et −
+ Sommer, puis revenir à l'échelle arithmétique si besoin : $0{,}0953 - 0{,}1054 = -0{,}0101$, et $e^{-0{,}0101} - 1 = -1\,\%$, le rendement arithmétique de la période. En Python, <code>np.log(prices / prices.shift(1)).dropna()</code>. [ajout]</p><h2>Cesse d'être valide quand</h2><p>-Il cesse de s'agréger entre actifs : le rendement logarithmique d'un portefeuille n'est pas la moyenne pondérée de ceux de ses composantes. C'est le piège d'agrégation. [§1.2.2, éq. 1.8]
++Il cesse de s'agréger entre actifs : le rendement logarithmique d'un portefeuille n'est pas la moyenne pondérée de ceux de ses composantes. [§1.2.2, éq. 1.8]
+diff --git a/proj/courses/pfo/notions/score-z.md b/proj/courses/pfo/notions/score-z.md
+index 7ac2999..f412b12 100644
+--- a/proj/courses/pfo/notions/score-z.md
++++ b/proj/courses/pfo/notions/score-z.md
+@@ -30,9 +30,11 @@ Le groupe de référence n'est pas fixé par la formule. Dans le filtre du cours
+ ## Ce qui la définit
+ Comparer un écart à la moyenne ne suffit pas : il faut le rapporter à la dispersion du groupe. Une note de 15 dans une classe de moyenne 13 et une note de 13 dans une classe de moyenne 10 ne se comparent qu'une fois divisées par les écarts types des deux classes. [p. 9]</p><p>+Avec des écarts types de 1 et de 3, les scores valent $(15-13)/1=2$ et $(13-10)/3=1$ : le 15 est la meilleure performance, alors que l'écart brut disait l'inverse, +2 contre +3. [ajout]
++
+ Pour une loi normale, environ 68 % des observations ont un score entre −1 et +1, environ 95 % entre −2 et +2, et un score au-delà de 3 en valeur absolue est très rare, ce qui en fait un détecteur d'anomalies. [p. 10]</p><p>-!<a href="figures/score-z.svg">La loi normale graduée en scores : la bande foncée contient environ 68 % des observations, la bande claire environ 95 %, et les verticales marquent le seuil de 3. Le rendement de l'exemple, $-4\,\%$ pour un écart type de 1 %, a un score de $-4$, hors du seuil.</a> [ajout]
++!<a href="figures/score-z.svg">La loi normale graduée en scores : la bande foncée, de −1 à +1, contient environ 68 % des observations ; avec la bande claire, de −2 à +2, on atteint environ 95 %. Les verticales marquent le seuil de 3. Le rendement de l'exemple, $-4\,\%$ pour un écart type de 1 %, a un score de $-4$, hors du seuil.</a> [ajout]</p><h2>Exemple minimal</h2><p>Un rendement journalier de −4 %, dans un groupe de moyenne nulle et d'écart type 1 %, a un score de −4. [ajout]
+diff --git a/proj/courses/pfo/notions/slsqp.md b/proj/courses/pfo/notions/slsqp.md
+index fd32aa7..1cb7609 100644
+--- a/proj/courses/pfo/notions/slsqp.md
++++ b/proj/courses/pfo/notions/slsqp.md
+@@ -36,22 +36,26 @@ $H_k$ est une matrice qui tient lieu de courbure : une approximation du hessien
+ Dans ce chapitre, $\lambda$ et $\mu$ ne sont ni la persistance EWMA ni un rendement espéré, et $\alpha_k$ n'est pas la part $\alpha$ de la ligne de marché des capitaux. [ajout]</p><h2>Ce qui la définit</h2><p>+À chaque itération, <strong>connus</strong> : le point $x_k$, la pente $\nabla f(x_k)$ et une courbure approchée $H_k$. <strong>Cherchés</strong> : le déplacement $d_k$, puis la longueur du pas $\alpha_k$. [éq. 3.3, éq. 3.5]
++
+ On part d'un point initial $x_0$ choisi par l'utilisateur. À l'itération $k$, on ne cherche pas directement le nouveau point, mais un déplacement $d$ : l'objectif est approché par son développement de Taylor au second ordre, les contraintes par leur linéarisation autour de $x_k$. Le terme $f(x_k)$, constant en $d$, disparaît, et il reste un problème de programmation quadratique. [éq. 3.2, éq. 3.3, éq. 3.4]</p><p>Sa solution $d_k$ donne une direction ; une recherche linéaire fixe la longueur du pas $\alpha_k$. [éq. 3.5]</p><p>$H_k$ porte l'information de courbure locale du problème. On l'initialise souvent à l'identité, $H_0=I$, puis on la met à jour au fil des itérations par une méthode de quasi-Newton, typiquement BFGS. [éq. 3.6, éq. 3.7]</p><p>-La descente de gradient n'utilise qu'une approximation du premier ordre et prend la direction $d_k=-\nabla f(x_k)$. SLSQP généralise cette idée aux problèmes contraints : elle cherche le meilleur déplacement local en tenant compte de la courbure par $H_k$ et des contraintes par leur linéarisation. [éq. 3.8, éq. 3.9, éq. 3.10, éq. 3.11]
++La descente de gradient, fondée sur une approximation du premier ordre, prend $d_k=-\nabla f(x_k)$, sans courbure ni contraintes ; SLSQP généralise cette idée aux problèmes contraints. [éq. 3.8, éq. 3.9, éq. 3.10, éq. 3.11]</p><h2>Exemple minimal</h2><p>-Pour minimiser $f(x)=(x-3)^2$ sous $x\ge0$ depuis $x_0=0$ avec $H_0=1$, le sous-problème propose le déplacement $d_0=6$ ; un pas $\alpha_0=\tfrac12$ mène à $x_1=3$, le minimum. [ajout]
++Pour minimiser $f(x)=(x-3)^2$ sous $x\ge0$ depuis $x_0=0$ avec $H_0=1$, le sous-problème propose le déplacement $d_0=6$ ; la recherche linéaire retient le pas $\alpha_0=\tfrac12$, qui mène à $x_1=3$, le minimum. [ajout]</p><p>!<a href="figures/slsqp.svg">Une itération de l'exemple. En pointillé, le modèle quadratique du sous-problème, construit en $x_0=0$ avec $H_0=1$ : deux fois plus plat que $f$, il atteint son minimum en $d_0=6$. Le pas $\alpha_0=\tfrac12$ ramène à $x_1=3$, le minimum de $f$.</a> [ajout]</p><h2>Geste de calcul type</h2><p>En $x_0=0$, $\nabla f=2(0-3)=-6$ et la contrainte $x\ge0$ linéarisée devient $d\ge0$. Le sous-problème $\min_d\,-6d+\tfrac12d^2$ est minimal en $d_0=6$, qui la respecte. Avec la vraie courbure, $f''=2$, il aurait proposé $d_0=3$ : l'identité, deux fois trop plate ici, allonge le pas, et c'est la recherche linéaire qui le ramène. [ajout]</p><p>+La recherche linéaire minimise $f$ le long de la direction : $f(0+6\alpha)=(6\alpha-3)^2$ est nul en $\alpha=\tfrac12$. Le pas entier, $\alpha=1$, mènerait à $x=6$, où $f$ vaut 9, comme au départ. [ajout]
++
+ ## Ce qui reste libre
+ | paramètre | cas | valeur |
+ |---|---|---|
+diff --git a/proj/courses/pfo/notions/test-de-jarque-bera.md b/proj/courses/pfo/notions/test-de-jarque-bera.md
+index 8d69cbc..e9b3705 100644
+--- a/proj/courses/pfo/notions/test-de-jarque-bera.md
++++ b/proj/courses/pfo/notions/test-de-jarque-bera.md
+@@ -26,14 +26,14 @@ Un test de normalité dont la statistique combine l'écart de l'asymétrie à z
+ $$JB = \dfrac{T}{6}\left(S^2 + \dfrac{K_{\mathrm{ex}}^2}{4}\right) \;\overset{a}{\sim}\; \chi^2(2), \qquad p = 1 - F_{\chi^2_2}(JB_{\mathrm{obs}})$$ [§2.3, p. 26]</p><h2>Ce que les symboles modélisent</h2><p>-$JB$ est une somme de deux carrés, donc toujours positive, et nulle seulement si l'échantillon a exactement l'asymétrie et la kurtosis d'une loi normale. $T$ est le nombre d'observations : à écarts de moments égaux, la statistique croît avec la taille de l'échantillon. [§2.3]
++$JB$ est une somme pondérée de deux carrés, donc jamais négative. $T$ est le nombre d'observations : à écarts de moments égaux, la statistique croît avec la taille de l'échantillon. [§2.3]</p><p>-$\chi^2(2)$ est la loi du khi-deux à deux degrés de liberté, que suit asymptotiquement $JB$ sous l'hypothèse de normalité ; c'est d'elle que vient la p-valeur. [p. 26]
++$\chi^2(2)$ est la loi du khi-deux à deux degrés de liberté, que suit asymptotiquement $JB$ sous l'hypothèse de normalité ; $F_{\chi^2_2}$ est sa fonction de répartition, et c'est d'elle que vient la p-valeur. [p. 26]</p><p>Ce $T$ n'est pas l'échéance du cours fpp, et au chapitre 1 la même lettre compte des sous-périodes. [ajout]</p><h2>Ce qui la définit</h2><p>-Pour une loi normale, $S = 0$ et $K_{\mathrm{ex}} = 0$, donc $JB = 0$ ; toute déviation de l'un ou l'autre moment fait grandir la statistique. La p-valeur est la probabilité, sous la loi $\chi^2(2)$, d'observer une statistique au moins aussi grande que celle de l'échantillon. [§2.3, p. 26]
++Pour une loi normale, $S = 0$ et $K_{\mathrm{ex}} = 0$, donc $JB = 0$ ; toute déviation de l'un ou l'autre moment fait grandir la statistique. [§2.3]</p><p>En Python, <code>stats.jarque_bera(x)</code> rend la statistique et la p-valeur ; le cours l'applique aux rendements du Bitcoin. [§2.3, Listing 2.1]</p><p>@@ -48,13 +48,11 @@ Sur 1 000 rendements d'asymétrie −0,5 et d'excès de kurtosis 3, $JB = 416{,}
+ !<a href="figures/test-de-jarque-bera.svg">Pour 1 000 rendements, les couples d'asymétrie et d'excès de kurtosis qui passent le test au niveau de 5 % forment la petite ellipse centrée sur la loi normale, où $JB&lt;5{,}99$. L'exemple, $S=-0{,}5$ et $K_{\mathrm{ex}}=3$, est très loin dehors.</a> [ajout]</p><h2>Geste de calcul type</h2><p>-$JB = \dfrac{1000}{6}\left(0{,}25 + \dfrac{9}{4}\right) = 166{,}7 \times 2{,}5 = 416{,}7$. Pour une loi $\chi^2(2)$, la p-valeur vaut exactement $e^{-JB/2}$, ici de l'ordre de $10^{-91}$ : la normalité est rejetée. [ajout]
++$JB = \dfrac{1000}{6}\left(0{,}25 + \dfrac{9}{4}\right) = 166{,}7 \times 2{,}5 = 416{,}7$. La p-valeur est $1-F_{\chi^2_2}(416{,}7)$, qui vaut exactement $e^{-JB/2}$ pour deux degrés de liberté : ici de l'ordre de $10^{-91}$, et la normalité est rejetée. [p. 26, ajout]</p><h2>Cesse d'être valide quand</h2><p>La loi $\chi^2(2)$ n'est qu'asymptotique : sur un petit échantillon, la p-valeur est approximative. [p. 26]</p><p>Il ne voit que deux moments : une loi non normale qui aurait l'asymétrie et la kurtosis d'une loi normale passerait le test, là où Shapiro-Wilk peut la détecter. [p. 31]</p><p>-La table 2.1 écrit « $S = 0$, $K = 3$ sous normalité », en kurtosis de Pearson, alors que la formule attend l'excès. [Table 2.1, §2.3]
+-
+-Brancher la kurtosis de Pearson dans la formule ferait valoir la statistique au moins $3T/8$ pour un échantillon parfaitement normal, et rejeter la normalité à tout coup. [ajout]
++Il attend l'excès de kurtosis. Brancher la kurtosis de Pearson, comme le suggère la table 2.1 en écrivant « $K = 3$ sous normalité », ferait valoir la statistique au moins $3T/8$ pour un échantillon parfaitement normal, et rejeter la normalité à tout coup. [Table 2.1, ajout]
+diff --git a/proj/courses/pfo/notions/test-de-normalite.md b/proj/courses/pfo/notions/test-de-normalite.md
+index 6b03735..fb0bc18 100644
+--- a/proj/courses/pfo/notions/test-de-normalite.md
++++ b/proj/courses/pfo/notions/test-de-normalite.md
+@@ -30,10 +30,12 @@ $H_0$ est l'hypothèse de normalité, la seule que le test puisse rejeter ; $H_1
+ ## Ce que les membres partagent
+ Même hypothèse nulle, même décision : une statistique, une p-valeur comparée à 5 %, et le rejet de la normalité si elle est inférieure. [Table 2.1, p. 30]</p><p>-Ils diffèrent par l'information qu'ils regardent : Jarque-Bera ne voit que l'asymétrie et la kurtosis, Shapiro-Wilk la structure entière de l'échantillon ordonné. Leurs conclusions peuvent donc diverger sans se contredire, et le cours les dit complémentaires plutôt que concurrents. [p. 31]
++Ils diffèrent par l'information qu'ils regardent : Jarque-Bera ne voit que l'asymétrie et la kurtosis, Shapiro-Wilk la structure entière de l'échantillon ordonné. [p. 31]</p><h2>Pourquoi ce niveau existe</h2><p>-La table 2.1 compare les deux tests terme à terme sur une même grille, et ce niveau est cette grille. Il porte aussi la règle de lecture conjointe : si les deux p-valeurs dépassent 5 %, aucun test ne rejette ; si les deux sont inférieures, l'écart à la normale est établi ; si seul Shapiro-Wilk rejette, l'écart vient d'une caractéristique que l'asymétrie et la kurtosis ne résument pas. [Table 2.1, p. 31]
++La table 2.1 compare les deux tests terme à terme sur une même grille, et ce niveau est cette grille. Il porte aussi la règle de lecture conjointe : si les deux p-valeurs dépassent 5 %, aucun test ne rejette ; si les deux sont inférieures, l'écart à la normale est établi. [Table 2.1, p. 31]
++
++Si un seul des deux rejette, ce n'est pas une contradiction : les deux tests n'utilisent pas la même information. Le cours cite comme causes possibles d'un tel désaccord une asymétrie marquée, des queues plus épaisses que la normale, des valeurs extrêmes, ou une autre forme d'écart, et conclut que les deux tests sont complémentaires plutôt que concurrents. [p. 31]</p><h2>Le chemin jusqu'ici</h2><p><a href="../pfo/n/p-valeur.html">p-valeur</a> fournit la règle de décision commune ; ce qui fait un test de normalité, c'est l'hypothèse nulle à laquelle on l'applique. [ajout]
+@@ -41,7 +43,7 @@ <a href="../pfo/n/p-valeur.html">p-valeur</a> fournit la règle de décision commune ; ce qui fait un test de nor
+ La p-valeur ne dit pas quelle statistique calculer : chaque membre en apporte une, et c'est la loi de cette statistique sous l'hypothèse nulle qui la rend calculable. [ajout]</p><h2>Exemple minimal</h2><p>-Sur un même échantillon, $p_{\mathrm{SW}} = 0{,}03$ et $p_{\mathrm{JB}} = 0{,}20$ : Shapiro-Wilk rejette la normalité, Jarque-Bera non. [ajout]
++Un titre peu échangé ne bouge que d'un cran : sur trente jours, cinq baisses de 1 %, vingt jours sans changement, cinq hausses de 1 %. Son asymétrie est nulle et sa kurtosis vaut exactement 3 : Jarque-Bera rend une p-valeur de 1 et ne rejette pas la normalité ; Shapiro-Wilk, qui voit trois paliers là où une loi normale mettrait une pente régulière, rend une p-valeur de l'ordre de 0,00001 et la rejette. [ajout]</p><h2>Geste de calcul type</h2><p>Lancer les deux tests sur la même série et lire les deux p-valeurs ensemble : <code>stats.jarque_bera(r)</code> et <code>stats.shapiro(r)</code> rendent chacun une statistique et une p-valeur. [Listing 2.1, p. 30]
+@@ -49,4 +51,4 @@ Lancer les deux tests sur la même série et lire les deux p-valeurs ensemble :
+ ## Cesse d'être valide quand
+ Ne pas rejeter la normalité ne la prouve pas. [p. 29]</p><p>-Sur un petit échantillon, aucun des deux tests n'a la puissance de rejeter : les dix rendements du listing de Shapiro-Wilk passent le test avec une p-valeur de 0,65. [ajout]
++Sur un petit échantillon, les deux tests ont peu de puissance : un écart réel à la loi normale peut ne pas être rejeté, d'autant que la loi de Jarque-Bera n'est qu'asymptotique. [p. 26, ajout]
+diff --git a/proj/courses/pfo/notions/test-de-shapiro-wilk.md b/proj/courses/pfo/notions/test-de-shapiro-wilk.md
+index d2063df..a7c266d 100644
+--- a/proj/courses/pfo/notions/test-de-shapiro-wilk.md
++++ b/proj/courses/pfo/notions/test-de-shapiro-wilk.md
+@@ -24,30 +24,36 @@ refs:
+ Un test de normalité qui compare l'échantillon rangé par ordre croissant aux positions qu'occuperaient en moyenne les observations d'une loi normale. [§2.4, p. 27]</p><h2>Forme</h2><p>-$$W = \dfrac{\left(\sum_{i=1}^{n} a_i X_{(i)}\right)^2}{\sum_{i=1}^{n} \left(X_i - \bar X\right)^2}, \qquad a = \dfrac{m^{\top} V^{-1}}{\sqrt{m^{\top} V^{-1} V^{-1} m}}$$ [p. 27, p. 29]
++$$W = \dfrac{\left(\sum_{i=1}^{n} a_i X_{(i)}\right)^2}{\sum_{i=1}^{n} \left(X_i - \bar X\right)^2}$$ [p. 27]</p><h2>Ce que les symboles modélisent</h2><p>-$X_{(i)}$ est la $i$-ème plus petite observation : les $X_{(i)}$ sont les statistiques d'ordre, l'échantillon trié. $m_i$ est la position moyenne qu'aurait la $i$-ème plus petite de $n$ observations normales centrées réduites, et $V$ la matrice de covariance de ces statistiques d'ordre, qui ne sont pas indépendantes. [p. 27, p. 28]
++$X_1,\dots,X_n$ sont les $n$ observations dans leur ordre d'arrivée, $\bar X$ leur moyenne, et $X_{(i)}$ la $i$-ème plus petite : les $X_{(i)}$ sont l'échantillon trié, ses statistiques d'ordre. [p. 27]</p><p>-$a_i$ est le poids donné à la $i$-ème observation ordonnée, construit à partir de $m$ et de $V$ pour que la comparaison avec la loi normale soit la plus efficace possible ; personne ne le calcule à la main. [p. 28, p. 29]
++$m_i$ est la position qu'aurait en moyenne la $i$-ème plus petite de $n$ observations normales centrées réduites, et $V$ la matrice de covariance de ces statistiques d'ordre, qui ne sont pas indépendantes. [p. 28]</p><p>-$W$ se lit comme le rapport entre la structure compatible avec la normalité et la variabilité totale. Il est en général compris entre 0 et 1, et proche de 1 quand l'échantillon ressemble à un échantillon normal. [p. 27, p. 29]
++$a_i$ est le poids donné à $X_{(i)}$ ; le cours le tire de $m$ et de $V$, $a = m^{\top}V^{-1}/\sqrt{m^{\top}V^{-1}V^{-1}m}$, et personne ne le calcule à la main. [p. 28, p. 29]
++
++$W$ est en général compris entre 0 et 1, et proche de 1 quand l'échantillon ressemble à un échantillon normal. [p. 27, p. 29]</p><h2>Ce qui la définit</h2><p>+Le test range l'échantillon et place chaque observation face à la position $m_i$ qu'elle aurait sous une loi normale : si l'échantillon est normal, les points s'alignent à peu près sur une droite. [p. 27, p. 28, ajout]
++
++!<a href="figures/test-de-shapiro-wilk.svg">L'échantillon de l'exemple, rangé, face aux positions qu'occuperaient en moyenne cinq observations rangées d'une loi normale centrée réduite : $\pm1{,}163$, $\pm0{,}495$ et 0. Les points sont presque alignés, et $W=0{,}951$. La droite pointillée est celle des moindres carrés, tracée pour guider l'œil.</a> [ajout]
++
++$W$ mesure, à peu près, cet alignement : proche de 1 quand les points sont sur une droite, plus petit quand ils s'en écartent. [ajout]
++
+ La décision se prend sur la p-valeur, probabilité sous l'hypothèse nulle d'obtenir une valeur de $W$ au moins aussi petite que celle observée. Le sens de l'inégalité compte : ce sont les petites valeurs de $W$ qui écartent de la normalité. [p. 28]</p><p>-La loi de $W$ sous l'hypothèse nulle dépend de la taille de l'échantillon et n'a pas de forme analytique simple : la p-valeur s'obtient par approximation numérique, et <code>scipy.stats.shapiro(x)</code> rend $W$ et la p-valeur. [p. 28, p. 29]
++La loi de $W$ sous l'hypothèse nulle dépend de la taille de l'échantillon et n'a pas de forme analytique simple : la p-valeur s'obtient par approximation numérique. [p. 28, p. 29]</p><h2>Le chemin jusqu'ici</h2><p>Le test tient tout entier dans <a href="../pfo/n/p-valeur.html">p-valeur</a> une fois sa statistique définie. Ce qu'il y apporte est une statistique dont la loi n'est connue que numériquement, si bien que la p-valeur vient du logiciel et non d'une table. [ajout]</p><h2>Exemple minimal</h2><p>-L'échantillon {3 %, −1 %, 2 %, 5 %, −2 %} a pour statistiques d'ordre $X_{(1)} = -2\,\%$, $X_{(2)} = -1\,\%$, $X_{(3)} = 2\,\%$, $X_{(4)} = 3\,\%$ et $X_{(5)} = 5\,\%$. [p. 27]
+-
+-!<a href="figures/test-de-shapiro-wilk.svg">L'échantillon de l'exemple, rangé, face aux positions qu'occuperaient en moyenne cinq observations rangées d'une loi normale centrée réduite : $\pm1{,}163$, $\pm0{,}495$ et 0. Le test compare ces deux colonnes, et pour un échantillon normal les points s'aligneraient sur une droite. La droite pointillée est celle des moindres carrés, tracée pour guider l'œil.</a> [ajout]
++L'échantillon {3 %, −1 %, 2 %, 5 %, −2 %} a pour statistiques d'ordre $X_{(1)} = -2\,\%$, $X_{(2)} = -1\,\%$, $X_{(3)} = 2\,\%$, $X_{(4)} = 3\,\%$ et $X_{(5)} = 5\,\%$ [p. 27]. Il donne $W = 0{,}951$ et une p-valeur de 0,74 : on ne rejette pas la normalité. [ajout]</p><h2>Geste de calcul type</h2><p>-<code>W, p_value = shapiro(returns)</code> sur les dix rendements du listing du cours rend $W = 0{,}948$ et une p-valeur de 0,65 : on ne rejette pas la normalité au niveau de 5 %. [ajout]
++<code>W, p_value = scipy.stats.shapiro(x)</code> rend la statistique et la p-valeur ; sur l'échantillon de l'exemple, 0,951 et 0,74. Sur les dix rendements du listing du cours, il rend 0,948 et 0,65 : on ne rejette pas non plus. [p. 29, p. 30, ajout]</p><h2>Cesse d'être valide quand</h2><p>Il rejette pour toute forme d'écart à la normale sans dire laquelle, et sur de longues séries financières il rejette presque toujours. [ajout]
+diff --git a/proj/courses/pfo/notions/valeur-a-risque-conditionnelle.md b/proj/courses/pfo/notions/valeur-a-risque-conditionnelle.md
+index bcd5ee6..a33fefd 100644
+--- a/proj/courses/pfo/notions/valeur-a-risque-conditionnelle.md
++++ b/proj/courses/pfo/notions/valeur-a-risque-conditionnelle.md
+@@ -29,20 +29,22 @@ $$\mathrm{CVaR}_\alpha = E\big[L \mid L &gt; \mathrm{VaR}_\alpha\big]$$ [éq. 2.24]
+ $\mathrm{CVaR}_\alpha$ est un montant de perte, comme la VaR, mais une moyenne et non un seuil : la moyenne des pertes de la queue de probabilité $\alpha$. Elle est donc toujours au moins égale à la VaR de même niveau. [éq. 2.22, éq. 2.24]</p><h2>Ce qui la définit</h2><p>-Elle répond à la question que la VaR laisse ouverte : quand la perte dépasse le seuil, quelle est son ampleur moyenne ? [p. 32]
++Elle répond à la question que la VaR laisse ouverte. <strong>Connu</strong> : le seuil, la VaR, que la perte ne dépasse que dans une proportion $\alpha$ des scénarios. <strong>Cherché</strong> : l'ampleur de la perte quand elle le dépasse. La CVaR est la moyenne de ces pertes-là. [p. 32]</p><p>-Deux portefeuilles de même VaR peuvent avoir des CVaR très différentes, et celui dont la CVaR est la plus haute est exposé à des pertes extrêmes plus lourdes. [p. 32]
++!<a href="figures/valeur-a-risque-conditionnelle.svg">La VaR dit où commence la queue ; la CVaR dit combien on y perd en moyenne. Elle tombe au centre de gravité de la zone colorée, les 5 % de jours les pires, et donc plus loin que la VaR.</a> [ajout]</p><p>-!<a href="figures/valeur-a-risque-conditionnelle.svg">La VaR est un seuil ; la CVaR est la moyenne des pertes qui le dépassent, plus loin dans la queue.</a> [ajout]
++Deux portefeuilles de même VaR peuvent avoir des CVaR très différentes, et celui dont la CVaR est la plus haute est exposé à des pertes extrêmes plus lourdes. [p. 32]</p><h2>Le chemin jusqu'ici</h2><p><a href="../pfo/n/valeur-a-risque.html">Valeur à risque</a> fournit le seuil qui délimite la queue ; la CVaR ne fait que moyenner ce qui se trouve au-delà. Elle hérite donc de toutes les conventions de la VaR : l'horizon, le niveau, et le signe de la perte. [ajout]</p><h2>Exemple minimal</h2><p>-Avec une VaR à 95 % sur un jour de 50 000 et une CVaR de 75 000, la perte moyenne des 5 % de jours les pires est de 75 000. [p. 32]
++Sur 100 jours, les cinq pires pertes valent 52, 60, 70, 85 et 108 milliers, et les 95 autres restent sous 50 000 : la VaR à 95 % sur un jour vaut 50 000, la CVaR 75 000. [p. 32, ajout]</p><h2>Geste de calcul type</h2><p>-En historique, prendre la moyenne des rendements inférieurs ou égaux au quantile, <code>log_returns[log_returns &lt;= var_hist_ret].mean()</code>, puis la changer de signe et la multiplier par le capital. [Listing 2.2, p. 33]
++Garder les pertes qui dépassent la VaR, puis les moyenner : $(52+60+70+85+108)/5=75$ milliers. [ajout]
++
++Sur un échantillon, le listing garde aussi une perte égale au seuil (<code>&lt;=</code>), là où la Forme écrit $L&gt;\mathrm{VaR}_\alpha$ ; pour une loi continue, cela ne change rien. [Listing 2.2, p. 33]</p><h2>Cesse d'être valide quand</h2><p>Elle repose sur les quelques observations de la queue : avec 1 000 rendements et $\alpha = 5\,\%$, elle moyenne une cinquantaine de valeurs, et son estimation est plus bruitée que celle de la VaR. [ajout]
+diff --git a/proj/courses/pfo/notions/valeur-a-risque.md b/proj/courses/pfo/notions/valeur-a-risque.md
+index 64b6a33..0b0db03 100644
+--- a/proj/courses/pfo/notions/valeur-a-risque.md
++++ b/proj/courses/pfo/notions/valeur-a-risque.md
+@@ -28,22 +28,26 @@ $$P(L &gt; \mathrm{VaR}_\alpha) = \alpha$$ [éq. 2.23]
+ ## Ce que les symboles modélisent
+ $L$ est la perte du portefeuille sur l'horizon, comptée positivement : une perte de 50 000 s'écrit $L = 50\,000$. [Déf. 2.5.1, éq. 2.18]</p><p>-$\alpha$ est ici la probabilité de dépassement, 5 % pour une VaR dite à 95 % : c'est la valeur que prend <code>alpha</code> dans les listings, et celle qu'impose l'équation de la définition. La définition du cours l'appelle pourtant « niveau de confiance », qui serait 95 %. [éq. 2.20, éq. 2.23, Déf. 2.5.1, Listing 2.2]
++$\alpha$ est ici la probabilité de dépassement, 5 % pour une VaR dite à 95 %. La Déf. 2.5.1 l'appelle « niveau de confiance », qui serait plutôt 95 % ; les listings et l'équation de la définition la prennent à 5 %. [éq. 2.20, éq. 2.23, Déf. 2.5.1, Listing 2.2]</p><p>-$\mathrm{VaR}_\alpha$ est un montant de perte, positif, et non un rendement : les listings changent le signe du quantile de rendement et le multiplient par le capital. [Listing 2.2]
++$\mathrm{VaR}_\alpha$ est un montant de perte, positif, et non un rendement. [Listing 2.2]</p><h2>Ce qui la définit</h2><p>-La VaR répond à une question : quel niveau de perte le portefeuille ne dépasse-t-il qu'avec une probabilité donnée, sur un horizon donné ? Elle se fixe par trois éléments, l'horizon, le niveau de confiance et la probabilité de dépassement, qui en est le complément. [§2.5, éq. 2.20]
++<strong>On connaît</strong> la loi des pertes sur l'horizon, ou à défaut un historique de rendements, et la probabilité qu'on accepte de voir dépassée, 5 %. <strong>On cherche</strong> un montant : le seuil de perte qui n'est dépassé qu'avec cette probabilité. [§2.5, éq. 2.23, ajout]</p><p>-Elle ne fournit qu'un seuil : elle sépare les scénarios ordinaires des scénarios extrêmes, mais ne dit rien de l'ampleur de la perte une fois le seuil franchi. [éq. 2.21, p. 32]
++Deux choix la fixent : l'horizon, et le niveau, 95 %, ou, ce qui revient au même, 5 % de probabilité de dépassement. [éq. 2.20]</p><p>-Le cours la range parmi les indicateurs de risque exigés par les cadres réglementaires de Bâle III et de Solvabilité II. [p. 19, §2.5]
++Elle ne fournit qu'un seuil : elle sépare les scénarios ordinaires des scénarios extrêmes, mais ne dit rien de l'ampleur de la perte une fois le seuil franchi. [éq. 2.21, p. 32]</p><h2>Exemple minimal</h2><p>Une VaR à 95 % sur un jour de 50 000 signifie que la perte d'une journée dépasse 50 000 avec une probabilité de 5 %. [p. 32, éq. 2.18]</p><h2>Geste de calcul type</h2><p>-Lire la VaR comme un quantile : sur 1 000 rendements journaliers, <code>np.percentile(returns, 5)</code> renvoie le rendement que seules une cinquantaine d'observations, les pires, dépassent vers le bas ; changé de signe et multiplié par le capital, il rend la VaR en montant. [Listing 2.2, p. 32]
++Lire le quantile à 5 % des rendements, puis changer son signe et le multiplier par le capital. Pour des rendements journaliers de moyenne 0,05 % et d'écart type 2 %, supposés normaux, ce quantile vaut −3,24 % ; sur un capital de 1 000 000, $\mathrm{VaR} = -(-0{,}032397) \times 1\,000\,000 \approx 32\,397$. [Listing 2.2, ajout]
++
++!<a href="figures/valeur-a-risque.svg">Mille rendements journaliers répartis comme la loi normale de l'exemple, un trait par jour, sur l'axe des rendements en haut. Les cinquante pires, 5 % des jours, sont en couleur ; le quantile à 5 %, −3,24 %, est leur bord. L'axe du bas lit les mêmes jours en pertes sur un capital de 1 000 000 : il va dans l'autre sens, et le bord devient la VaR, 32 397.</a> [ajout]
++
++Sur un historique, <code>np.percentile(returns, 5)</code> fournit ce quantile : sur 1 000 rendements, une cinquantaine d'observations, les pires, sont en dessous. [Listing 2.2, p. 32]</p><h2>Cesse d'être valide quand</h2><p>Deux portefeuilles peuvent avoir la même VaR et des pertes extrêmes très différentes : la VaR est aveugle à ce qui se passe au-delà du seuil. [p. 32]
+diff --git a/proj/courses/pfo/notions/var-de-cornish-fisher.md b/proj/courses/pfo/notions/var-de-cornish-fisher.md
+index 786af9a..178d07c 100644
+--- a/proj/courses/pfo/notions/var-de-cornish-fisher.md
++++ b/proj/courses/pfo/notions/var-de-cornish-fisher.md
+@@ -27,25 +27,29 @@ refs:
+ La VaR et la CVaR gaussiennes dans lesquelles le quantile normal est remplacé par le quantile corrigé de Cornish-Fisher. [Listing 2.2, §2.5.1]</p><h2>Forme</h2><p>-$$\mathrm{VaR}_\alpha^{CF} \approx -q_\alpha^{CF}, \qquad \mathrm{CVaR}_\alpha^{CF} \approx -\dfrac{1}{\alpha}\int_0^{\alpha} q_u^{CF}\,du, \qquad q_{u}^{CF} = \mu + \sigma\, z_{CF}(u)$$ [éq. 2.29, éq. 2.30, éq. 2.35]
++$$\mathrm{VaR}_\alpha^{CF} \approx -q_\alpha^{CF}\times\text{capital}, \qquad \mathrm{CVaR}_\alpha^{CF} \approx -\left(\dfrac{1}{\alpha}\int_0^{\alpha} q_u^{CF}\,du\right)\times\text{capital}, \qquad q_{u}^{CF} = \mu + \sigma\, z_{CF}(u)$$ [éq. 2.29, éq. 2.30, éq. 2.35, Listing 2.2]</p><h2>Ce que les symboles modélisent</h2><p>-$z_{CF}$ est le quantile centré réduit corrigé, ce que rend le développement de Cornish-Fisher pour un niveau donné ; $q_\alpha^{CF}$ est le même quantile ramené en rendement. Le premier se compare à $z_\alpha$, le second à un rendement observé. [éq. 2.29, éq. 2.35]
++$z_{CF}$ est le quantile centré réduit corrigé ; au niveau $u$, $z_{CF}(u)$ est le $q_u$ que rend <a href="../pfo/n/developpement-de-cornish-fisher.html">Développement de Cornish-Fisher</a>, sous le nom que le poly lui donne ici. $q_u^{CF}=\mu+\sigma\,z_{CF}(u)$ le ramène en rendement, et $q_\alpha^{CF}$ est ce rendement au seuil $\alpha$. Le premier se compare à $z_\alpha$, le second à un rendement observé. [éq. 2.29, éq. 2.35, ajout]
++
++Le poly écrit la VaR et la CVaR en rendement ; le listing les multiplie par le capital, comme la Forme ci-dessus. [éq. 2.29, éq. 2.30, Listing 2.2]</p><h2>Ce qui la définit</h2><p>-Pour la VaR, un seul quantile suffit : on remplace $z_\alpha$ par sa version corrigée. La CVaR demande tous les quantiles de la queue, de 0 à $\alpha$, parce qu'elle en est la moyenne ; le développement fournissant des quantiles et non une moyenne, il faut les intégrer. [§2.5.1, éq. 2.32, éq. 2.33]
++<strong>Connu</strong> : la moyenne $\mu$, l'écart type $\sigma$ et, à chaque niveau $u$, le quantile corrigé $z_{CF}(u)$. <strong>Cherché</strong> : la VaR, qui n'est qu'un de ces quantiles, celui du seuil $\alpha$ ; et la CVaR, qui est leur moyenne sur toute la queue, de 0 à $\alpha$. [§2.5.1, éq. 2.32, éq. 2.33]
++
++Pourquoi une moyenne de quantiles : tirer un rendement dans la queue revient à tirer un niveau $u$ uniformément entre 0 et $\alpha$, puis à lire le quantile $q_u$. La moyenne de la queue est donc la moyenne des quantiles, $\tfrac1\alpha\int_0^\alpha q_u\,du$. Le développement fournissant des quantiles et non une moyenne, il faut les intégrer. [ajout]</p><p>En Python, on construit une grille de probabilités $u_1, \dots, u_M$ sur $[0, \alpha]$, on calcule le quantile corrigé en chaque point, et l'on intègre par la méthode des trapèzes : <code>np.trapezoid(q_cf_values, u_values) / alpha</code>. [éq. 2.34, éq. 2.35, éq. 2.36, Listing 2.2]</p><h2>Le chemin jusqu'ici</h2><p>-pfo/var-gaussienne fournit le calcul, <a href="../pfo/n/developpement-de-cornish-fisher.html">Développement de Cornish-Fisher</a> le quantile à y substituer : la VaR de Cornish-Fisher est la VaR gaussienne dans laquelle $z_\alpha$ a été corrigé. Le développement lui-même repose sur <a href="../pfo/n/coefficient-d-asymetrie.html">Coefficient d'asymétrie</a> et <a href="../pfo/n/kurtosis.html">Kurtosis</a>, réduits par l'écart type de <a href="../fpp/n/volatilite.html">Volatilité</a>. [ajout]
++<a href="../pfo/n/var-gaussienne.html">VaR gaussienne</a> fournit le calcul, <a href="../pfo/n/developpement-de-cornish-fisher.html">Développement de Cornish-Fisher</a> le quantile à y substituer : la VaR de Cornish-Fisher est la VaR gaussienne dans laquelle $z_\alpha$ a été corrigé. Ce quantile ne sait de la loi réelle que deux nombres, <a href="../pfo/n/coefficient-d-asymetrie.html">Coefficient d'asymétrie</a> et <a href="../pfo/n/kurtosis.html">Kurtosis</a>, tous deux réduits par l'écart type de <a href="../fpp/n/volatilite.html">Volatilité</a>. [ajout]</p><p>Pour la CVaR, la substitution ne suffit plus. <a href="../pfo/n/valeur-a-risque-conditionnelle.html">Valeur à risque conditionnelle</a> est une moyenne de queue dont <a href="../pfo/n/valeur-a-risque.html">Valeur à risque</a> ne fixe que la borne : il faut corriger chaque quantile de la queue, puis les moyenner. [ajout]</p><h2>Exemple minimal</h2><p>Avec $\mu = 0{,}05\,\%$, $\sigma = 2\,\%$, une asymétrie de −0,5, un excès de kurtosis de 3 et un capital de 1 000 000, la VaR à 95 % passe de 32 397 en gaussien à 33 935 avec Cornish-Fisher, et la CVaR de 40 754 à 53 511. [ajout]</p><p>-!<a href="figures/var-de-cornish-fisher.svg">Les quantiles de la queue, de $u=0{,}0001$ à $u=0{,}05$, gaussiens et corrigés, pour les paramètres de l'exemple. La VaR se lit au bout de chaque courbe et bouge à peine ; la CVaR est la moyenne de toute la courbe, et la correction l'écarte surtout dans l'extrême queue, d'où le passage de $-4{,}08\,\%$ à $-5{,}35\,\%$.</a> [ajout]
++!<a href="figures/var-de-cornish-fisher.svg">Les quantiles de la queue, de $u=0{,}0001$ à $u=0{,}05$, gaussiens et corrigés, pour les paramètres de l'exemple. La VaR se lit au bout de chaque courbe et bouge à peine. La CVaR est la moyenne de toute la courbe. Au-delà de 1,73 écart type, soit sous $u=4{,}2\,\%$, le terme de kurtosis change de signe et pousse vers les pertes : la correction écarte surtout l'extrême queue, d'où le passage de $-4{,}08\,\%$ à $-5{,}35\,\%$.</a> [ajout]</p><h2>Geste de calcul type</h2><p>$z_{CF} = -1{,}7217$ au seuil de 5 %, donc $\mathrm{VaR} = -(0{,}0005 - 1{,}7217 \times 0{,}02) \times 10^6 = 33\,935$. La CVaR s'obtient en intégrant $q_u^{CF}$ sur la grille du listing, 1 000 points entre 0,0001 et 0,05. [ajout]
+@@ -54,5 +58,3 @@ $z_{CF} = -1{,}7217$ au seuil de 5 %, donc $\mathrm{VaR} = -(0{,}0005 - 1{,}7217
+ Elle hérite des limites du développement : pour une asymétrie ou une kurtosis fortes, les quantiles corrigés de l'extrême queue perdent leur ordre, et l'intégrale de la CVaR moyenne des valeurs qui ne sont plus des quantiles. [ajout]</p><p>La grille du listing commence à 0,0001 et non à 0, le quantile normal de 0 étant infini : l'intégrale néglige la toute première portion de la queue. [ajout]
+-
+-<code>np.trapezoid</code> n'existe qu'à partir de NumPy 2.0 ; avec une version antérieure, la fonction s'appelle <code>np.trapz</code>. [ajout]
+diff --git a/proj/courses/pfo/notions/var-gaussienne.md b/proj/courses/pfo/notions/var-gaussienne.md
+index 65f0b26..d9afe76 100644
+--- a/proj/courses/pfo/notions/var-gaussienne.md
++++ b/proj/courses/pfo/notions/var-gaussienne.md
+@@ -28,10 +28,21 @@ $$\mathrm{VaR}_\alpha = -\left(\mu + z_\alpha\,\sigma\right) \times \text{capita
+ ## Ce que les symboles modélisent
+ $z_\alpha$ est le quantile d'ordre $\alpha$ de la loi normale centrée réduite, <code>stats.norm.ppf(alpha)</code>, environ −1,6448 pour 5 %. C'est un nombre d'écarts types, négatif, et non un rendement : il le devient une fois multiplié par $\sigma$ et ajouté à $\mu$. [p. 33, Listing 2.2]</p><p>-$\varphi$ est la densité de la loi normale centrée réduite, <code>stats.norm.pdf</code>. Le rapport $\varphi(z_\alpha)/\alpha$ est la distance moyenne, en écarts types, d'une variable normale centrée réduite conditionnée à tomber sous $z_\alpha$. [Listing 2.2]
++$\varphi$ est la densité de la loi normale centrée réduite, <code>stats.norm.pdf</code>. Le rapport $\varphi(z_\alpha)/\alpha$ est, au signe près, la moyenne d'une variable normale centrée réduite $Z$ sachant qu'elle tombe sous $z_\alpha$ : 2,063 écarts types sous zéro, contre 1,645 pour le seuil. [Listing 2.2, ajout]
++
++## Retrouver la formule
++<strong>Connus</strong> : deux nombres seulement, la moyenne $\mu=0{,}05\,\%$ et l'écart type $\sigma=2\,\%$. <strong>Il manque</strong> la forme de la loi, et c'est elle qui situe la queue. On la suppose normale : le rendement s'écrit alors $\mu+\sigma Z$, où $Z$ suit la loi normale centrée réduite. Tout se lit sur $Z$, puis se ramène en rendement. [Listing 2.2, ajout]
++
++Le seuil. Le quantile à 5 % de $Z$ est donné par la table : $z_\alpha=-1{,}645$. Celui du rendement est $0{,}05\,\%-1{,}645\times2\,\%=-3{,}24\,\%$ ; changé de signe, c'est la VaR en rendement. [p. 33, Listing 2.2]
++
++La moyenne de la queue. La CVaR demande la moyenne de $Z$ sur ses 5 % les pires, $\tfrac1\alpha\int_{-\infty}^{z_\alpha}x\,\varphi(x)\,dx$. La dérivée de $\varphi$ en $x$ vaut $-x\,\varphi(x)$ : une primitive de $x\,\varphi(x)$ est donc $-\varphi(x)$, qui s'annule en $-\infty$, et l'intégrale vaut $-\varphi(z_\alpha)/\alpha=-0{,}1031/0{,}05=-2{,}063$. [ajout]
++
++Ramenée en rendement, cette moyenne vaut $0{,}05\,\%-2{,}063\times2\,\%=-4{,}08\,\%$. Changer de signe et multiplier par le capital donne les deux montants : [Listing 2.2]
++
++$$\mathrm{VaR}_\alpha=-\left(\mu+z_\alpha\,\sigma\right)\times\text{capital},\qquad\mathrm{CVaR}_\alpha=-\left(\mu-\sigma\,\dfrac{\varphi(z_\alpha)}{\alpha}\right)\times\text{capital}$$ [Listing 2.2]</p><h2>Ce qui la définit</h2><p>-La méthode remplace la loi des rendements par la loi normale de même moyenne et de même écart type : la VaR se situe alors à $|z_\alpha|$ écarts types sous la moyenne, et la CVaR, moyenne de la queue gaussienne, un peu plus loin. [Listing 2.2]
++La méthode remplace la loi des rendements par la loi normale de même moyenne et de même écart type : la VaR se situe alors à 1,645 écart type sous la moyenne, et la CVaR, moyenne de la queue gaussienne, à 2,063. [Listing 2.2, ajout]</p><h2>Le chemin jusqu'ici</h2><p><a href="../pfo/n/valeur-a-risque.html">Valeur à risque</a> demande un quantile et <a href="../pfo/n/valeur-a-risque-conditionnelle.html">Valeur à risque conditionnelle</a> une moyenne de queue. Sous l'hypothèse normale, les deux ont une formule fermée, et deux nombres, la moyenne et l'écart type, suffisent à les calculer. [ajout]
+diff --git a/proj/courses/pfo/notions/var-historique.md b/proj/courses/pfo/notions/var-historique.md
+index fd08678..487d2a0 100644
+--- a/proj/courses/pfo/notions/var-historique.md
++++ b/proj/courses/pfo/notions/var-historique.md
+@@ -21,7 +21,11 @@ refs:
+ La VaR et la CVaR lues directement sur les rendements passés, sans hypothèse sur leur loi : le quantile empirique, puis la moyenne des rendements qui lui sont inférieurs. [Listing 2.2, p. 32]</p><h2>Ce qui la définit</h2><p>-<code>np.percentile(log_returns, alpha * 100)</code> extrait le 5e centile des rendements, que l'on change de signe et multiplie par le capital. La CVaR historique est la moyenne des rendements inférieurs ou égaux à ce centile, traitée de la même façon. [Listing 2.2, p. 32, p. 33]
++<strong>Connu</strong> : un échantillon de rendements, rien de plus. <strong>Cherché</strong> : la VaR et la CVaR, sans rien supposer de la loi. La méthode bouche ce trou par un tri : on range les rendements du pire au meilleur, on lit le 5e centile, puis on moyenne ce qui est en dessous. [Listing 2.2, ajout]
++
++!<a href="figures/var-historique.svg">Un échantillon fictif de 1 000 rendements, triés du pire au meilleur ; seuls les 150 premiers sont tracés. Le 5e centile tombe entre le 50e et le 51e : −3,2 %, soit une VaR de 32 000 sur 1 000 000. Les 50 premiers, en couleur, valent en moyenne −4,5 %, soit une CVaR de 45 000.</a> [ajout]
++
++En Python, <code>np.percentile(log_returns, alpha * 100)</code> extrait le 5e centile ; la CVaR est la moyenne des rendements inférieurs ou égaux à ce centile. L'un et l'autre, changés de signe et multipliés par le capital, deviennent des montants de perte. [Listing 2.2, p. 32, p. 33]</p><p>C'est la méthode qui ne suppose rien : les queues épaisses et l'asymétrie de l'échantillon sont dans ses quantiles telles qu'elles ont été observées. [ajout]</p><p>@@ -29,7 +33,7 @@ C'est la méthode qui ne suppose rien : les queues épaisses et l'asymétrie de
+ <a href="../pfo/n/valeur-a-risque.html">Valeur à risque</a> définit le quantile à lire, <a href="../pfo/n/valeur-a-risque-conditionnelle.html">Valeur à risque conditionnelle</a> la moyenne à prendre au-delà. La méthode historique les lit sur l'échantillon tel quel, avec l'outil le plus simple qui soit, un tri. [ajout]</p><h2>Exemple minimal</h2><p>-Sur 1 000 rendements journaliers dont le 5e centile vaut −3,2 % et dont la moyenne des rendements inférieurs vaut −4,5 %, un capital de 1 000 000 porte une VaR de 32 000 et une CVaR de 45 000. [ajout]
++Sur 1 000 rendements journaliers triés, le 5e centile, entre le 50e et le 51e plus petit, vaut −3,2 %, et les 50 plus petits valent en moyenne −4,5 % : un capital de 1 000 000 porte une VaR de 32 000 et une CVaR de 45 000. [ajout]</p><h2>Cesse d'être valide quand</h2><p>Elle ne connaît que les pertes déjà vues : un krach plus fort que tout ce que contient la fenêtre est hors de sa portée, et le choix de la fenêtre change le résultat. [ajout]
+diff --git a/proj/courses/pfo/notions/vwap.md b/proj/courses/pfo/notions/vwap.md
+index ec11d20..aa2e3da 100644
+--- a/proj/courses/pfo/notions/vwap.md
++++ b/proj/courses/pfo/notions/vwap.md
+@@ -21,11 +21,13 @@ Le prix moyen des exécutions d'une période, chacune pesant pour le volume éch
+ $$P_{\mathrm{VWAP}} = \dfrac{\sum_{i=1}^{M} P_i \times V_i}{\sum_{i=1}^{M} V_i}$$ [éq. 1.3]</p><h2>Ce que les symboles modélisent</h2><p>-$V_i$ est le nombre de titres échangés lors de la $i$-ème exécution de la période, et $P_i$ son prix ; c'est $V_i$ qui fait qu'une grosse transaction pèse plus qu'une petite au même prix. [éq. 1.3]
++$V_i$ est le nombre de titres échangés lors de la $i$-ème exécution de la période, $P_i$ son prix, et $M$ le nombre d'exécutions de la période ; c'est $V_i$ qui fait qu'une grosse transaction pèse plus qu'une petite. [éq. 1.3, ajout]</p><p>-$P_{\mathrm{VWAP}}$ est un prix, pas un volume : c'est le prix moyen qu'aurait payé celui qui aurait participé à chaque exécution de la période au prorata de sa taille. [ajout]
++$P_{\mathrm{VWAP}}$ est un prix, pas un volume : le montant total échangé divisé par le nombre total de titres, c'est-à-dire le prix moyen payé par titre. [ajout]</p><h2>Ce qui la définit</h2><p>+<strong>Connu</strong> : le prix et le volume de chaque exécution de la période. <strong>Cherché</strong> : ce qu'un titre a coûté en moyenne. Chaque prix doit donc peser pour le nombre de titres qu'il a servis. [ajout]
++
+ Les bases de données quotidiennes, comme Yahoo Finance, fournissent un prix de clôture. Pour de gros volumes, les gérants de portefeuille lui préfèrent le VWAP, qui pondère chaque prix d'exécution par le volume échangé sur la période. [§1.1.2]</p><h2>Exemple minimal</h2><p>@@ -34,7 +36,7 @@ Les bases de données quotidiennes, comme Yahoo Finance, fournissent un prix de
+ !<a href="figures/vwap.svg">Les deux exécutions de l'exemple, chacune avec son volume. Le VWAP, 100,25, tombe près de la grosse exécution ; la moyenne simple des deux prix, 100,50, tombe au milieu, comme si les deux pesaient autant.</a> [ajout]</p><h2>Geste de calcul type</h2><p>-Multiplier chaque prix par son volume, sommer, diviser par le volume total : $(100 \times 300 + 101 \times 100)/400 = 40\,100/400 = 100{,}25$. La moyenne simple des deux prix, 100,50, surpondère la petite exécution. [ajout]
++Le montant total échangé, divisé par le nombre total de titres : $(100 \times 300 + 101 \times 100)/400 = 40\,100/400 = 100{,}25$. La moyenne simple des deux prix, 100,50, surpondère la petite exécution. [ajout]</p><h2>Cesse d'être valide quand</h2><p>Il ne dit rien de la dispersion des prix autour de lui, et il dépend de la période retenue : le VWAP d'une séance n'est pas celui de sa dernière heure. [ajout]
+```</p></article></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../aide.html">comment lire ce site</a> · <a href="../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../search-index.js"></script>
+<script>
+var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+        s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- l'état qui traverse les pages ----------------------------------------
+   Voir le commentaire de l'en-tête : en file://, seul le fragment traverse.
+   Forme du fragment :  #t:d~a:0~p:1-0--1...~s:<tampon>.<bits>~v:<ancre>
+     t  thème      d | l            (absent : celui du système)
+     a  ajouts     0                (absent : montrés)
+     p  pliage     un caractère par clé de CLES_PLI : 1 ouvert, 0 fermé, - inconnu
+     s  déjà su    un bit par notion, six bits par caractère, précédé d'un tampon
+     v  ancre      l'élément vers lequel défiler à l'arrivée
+   Le tampon est calculé sur la liste des identifiants : dès qu'une notion entre dans
+   le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
+   cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
+var ETAT=(function(){
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='90d4',
+    A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
+var pli={},su={};
+if(typeof H.p==='string'){
+  for(var i=0;i<CLES.length&&i<H.p.length;i++){var c=H.p.charAt(i);
+    if(c==='0'||c==='1')pli[CLES[i]]=(c==='1');}
+}else{
+  CLES.forEach(function(k){var v=LS.g('notions.pli.'+k,null);if(v!==null)pli[k]=(v==='1')});
+}
+function decode(t){var o={},q=t.indexOf('.');
+  if(q<0||t.slice(0,q)!==TAMPON)return o;
+  var b=t.slice(q+1);
+  for(var i=0;i<b.length;i++){var v=A64.indexOf(b.charAt(i));if(v<0)continue;
+    for(var j=0;j<6;j++){if(v&(1<<j)){var k=i*6+j;if(k<IDS.length)o[IDS[k]]=1}}}
+  return o;}
+function encode(){var o='';
+  for(var i=0;i<IDS.length;i+=6){var v=0;
+    for(var j=0;j<6;j++){if(su[IDS[i+j]])v|=1<<j}
+    o+=A64.charAt(v);}
+  return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
+if(typeof H.s==='string'){su=decode(H.s)}
+else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
+function frag(ancre,noeud){var p=[];
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t)p.push('t:'+(t==='dark'?'d':'l'));
+  if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
+  var q='';CLES.forEach(function(k){q+=(pli[k]===undefined?'-':(pli[k]?'1':'0'))});
+  if(/[01]/.test(q))p.push('p:'+q);
+  var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
+  if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
+  return p.length?'#'+p.join('~'):'';}
+function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
+function propager(){var f=frag();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';if(!interne(h))return;
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
+  /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
+     Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
+  try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
+  try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}}
+return{pli:function(k){return pli[k]===undefined?null:pli[k]},
+       setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
+       su:function(id){return !!su[id]},
+       setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
+       lien:function(u,v,n){return u+frag(v,n)},
+       ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
+       propager:propager};
+})();
+function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
+  var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
+  b.textContent=on?'masquer les ajouts':'ajouts masqués';}
+  document.querySelectorAll('.sec').forEach(function(s){
+    var c=s.querySelector('.corps');if(!c)return;var n=0;
+    c.querySelectorAll(':scope>*').forEach(function(el){
+      if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
+      if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
+      n++;});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='Cette rubrique existe, mais tout son contenu est un ajout : le filtre le masque. Elle reste visible pour que vous ne concluiez pas qu’elle est vide.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
+  if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var bt=document.getElementById('btheme');
+  if(bt)bt.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    var nx=(cur||sys)==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);
+    ETAT.propager();});
+  var ba=document.getElementById('bajout');
+  if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);ETAT.propager();});
+  majAjouts(!document.documentElement.classList.contains('sans-ajouts'));
+  /* les liens de la page portent l'état ; une ancre demandée est ouverte et visée */
+  ETAT.propager();
+  var an=ETAT.ancre();
+  if(an){var el=document.getElementById(an);
+    if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView();el.classList.add('vise')}}
+  /* --- recherche instantanée (règle 9) --- */
+  var inp=document.getElementById('q'),res=document.getElementById('qres');
+  if(!inp||!res||!window.SEARCH_INDEX)return;
+  var REL=document.documentElement.getAttribute('data-rel')||'';
+  var sel=-1,items=[];
+  function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+  function cherche(q){
+    var n=norm(q);if(!n)return [];
+    var out=[];
+    SEARCH_INDEX.forEach(function(e){
+      var sc=-1,ch=e.h||[];
+      for(var i=0;i<ch.length;i++){var p=norm(ch[i]).indexOf(n);
+        if(p===0){sc=Math.max(sc,3-(i>0?1:0))}else if(p>0){sc=Math.max(sc,1)}}
+      if(sc>=0)out.push([sc,e]);});
+    out.sort(function(a,b){return b[0]-a[0]||a[1].n.localeCompare(b[1].n)});
+    return out.slice(0,9).map(function(x){return x[1]});}
+  function rendre(){
+    items=cherche(inp.value);sel=-1;res.innerHTML='';
+    if(!inp.value){res.classList.remove('on');return}
+    if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
+    items.forEach(function(e,i){
+      var li=document.createElement('li');
+      var a=document.createElement('a');a.href=ETAT.lien(REL+e.u);a.id='qr'+i;
+      a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
+      li.appendChild(a);res.appendChild(li);});
+    res.classList.add('on');}
+  function bouge(d){if(!items.length)return;sel=(sel+d+items.length)%items.length;
+    Array.prototype.forEach.call(res.children,function(li,i){li.classList.toggle('sel',i===sel)});
+    inp.setAttribute('aria-activedescendant','qr'+sel);}
+  inp.addEventListener('input',rendre);
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();bouge(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();bouge(-1)}
+    else if(e.key==='Enter'){var a=res.querySelector(sel>=0?'li.sel a':'li a');if(a){e.preventDefault();location.href=a.href}}
+    else if(e.key==='Escape'){inp.value='';res.classList.remove('on')}});
+  document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
+  document.addEventListener('keydown',function(e){
+    if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
+});
+</script>
+</body>
+</html>

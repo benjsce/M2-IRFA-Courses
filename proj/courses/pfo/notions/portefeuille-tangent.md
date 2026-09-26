@@ -38,13 +38,15 @@ $$SR(\mu_0)=\frac{\mu_0-R_f}{\sigma_p(\mu_0)},\qquad \mu_0^*=\arg\max_{\mu_0}SR(
 $W^*$ est le vecteur des poids du portefeuille tangent. $SR(\mu_0)$ est une fonction du rendement cible : elle prend un niveau de rendement, cherche sur la frontière efficiente le portefeuille qui l'atteint avec le moins de risque, et rend son ratio de Sharpe. $\mu_0^*$ est le rendement cible où cette fonction culmine, celui du portefeuille tangent. [p. 40, §3.0.4]
 
 ## Ce qui la définit
-Maximiser le ratio de Sharpe revient, dans le plan risque-rendement, à chercher parmi toutes les droites issues de l'actif sans risque celle de plus forte pente qui touche encore un portefeuille réalisable : elle touche la frontière efficiente en un point, le portefeuille tangent. [p. 40, Fig. 3.2]
+**Connus** : le point de l'actif sans risque, $(0,R_f)$, et la frontière efficiente. **Cherchée** : la droite la plus pentue issue de ce point qui touche encore un portefeuille réalisable. Le portefeuille tangent est le point de contact. [p. 40, Fig. 3.2]
 
-Les algorithmes de `scipy.optimize` minimisent ; on maximise donc le ratio en minimisant son opposé, $-SR(W)$, sous les mêmes contraintes. Le script du cours le fait avec la méthode SLSQP, en partant du portefeuille équipondéré. [p. 40, §3.0.8]
-
-Une troisième lecture relie les deux premières : le portefeuille tangent est le portefeuille efficient dont le ratio de Sharpe est le plus élevé le long de la frontière, le maximum de $SR(\mu_0)$. [§3.0.4, Fig. 3.3]
+C'est bien le portefeuille de ratio de Sharpe maximal : le ratio d'un portefeuille est la pente de la droite qui le relie à l'actif sans risque, et maximiser le ratio revient à chercher la plus pentue de ces droites. [p. 40]
 
 ![Les deux actifs non corrélés de l'exemple, avec un taux sans risque de 2 %. La courbe est la frontière des portefeuilles ; de toutes les droites issues du point (0 ; 2 %), la plus pentue qui touche encore la courbe la touche en T, le portefeuille tangent, et sa pente est le ratio de Sharpe maximal.](figures/portefeuille-tangent.svg) [ajout]
+
+Le même point se lit le long de la frontière : c'est le portefeuille efficient dont le ratio de Sharpe est le plus élevé, le maximum de $SR(\mu_0)$, atteint en $\mu_0^*$. [§3.0.4, Fig. 3.3]
+
+Les algorithmes de `scipy.optimize` minimisent : le script du cours maximise donc le ratio en minimisant $-SR(W)$, par la méthode SLSQP, en partant du portefeuille équipondéré. [p. 40, §3.0.8]
 
 ## Le chemin jusqu'ici
 Le portefeuille tangent est un point choisi sur une courbe par un critère. La courbe, c'est pfo/frontiere-efficiente ; le critère, c'est pfo/ratio-de-sharpe, la pente de la droite qui relie l'actif sans risque à chaque portefeuille. [ajout]
@@ -57,18 +59,16 @@ Sans dup/diversification, il n'y aurait rien à choisir : mélanger n'améliorer
 Avec les deux actifs non corrélés de rendements 6 % et 10 %, de volatilités 10 % et 20 %, et un taux sans risque de 2 %, le portefeuille tangent place deux tiers dans le premier : rendement 7,33 %, volatilité 9,43 %, ratio 0,566. [ajout]
 
 ## Geste de calcul type
-Quand la contrainte $W\ge0$ ne mord pas, les poids tangents sont proportionnels à $\boldsymbol{\Sigma}^{-1}(\mu-R_f\mathbf{1})$. Ici $\boldsymbol{\Sigma}$ est diagonale : $(0{,}04/0{,}01\,;\,0{,}08/0{,}04)=(4\,;2)$, soit $W^*=(\tfrac23\,;\tfrac13)$. Alors $W^{*T}\mu=7{,}33\,\%$, $\sigma_p=\sqrt{\tfrac49\times0{,}01+\tfrac19\times0{,}04}=9{,}43\,\%$ et $SR=5{,}33/9{,}43=0{,}566$. [ajout]
+Quand la contrainte $W\ge0$ ne mord pas, les poids tangents sont proportionnels à $\boldsymbol{\Sigma}^{-1}(\mu-R_f\mathbf{1})$ : c'est ce que donne la condition du premier ordre du maximum de $SR(W)$. Pour $\boldsymbol{\Sigma}$ diagonale, chaque poids est donc proportionnel à la prime de l'actif, $\mu_i-R_f$, divisée par sa variance. [ajout]
+
+Ici : $(0{,}04/0{,}01\,;\,0{,}08/0{,}04)=(4\,;2)$, soit $W^*=(\tfrac23\,;\tfrac13)$. Alors $W^{*T}\mu=7{,}33\,\%$, $\sigma_p=\sqrt{\tfrac49\times0{,}01+\tfrac19\times0{,}04}=9{,}43\,\%$ et $SR=5{,}33/9{,}43=0{,}566$. [ajout]
 
 ## Ce qui reste libre
 | paramètre | cas | valeur |
 |---|---|---|
 | bornes des poids | sans vente à découvert | $0\le w_i\le1$ |
-| bornes des poids | limites d'allocation de l'exercice 2 | $0{,}05\le w_i\le0{,}40$ |
-| bornes des poids | question 4 de l'exercice 3 | $0{,}05\le w_i\le0{,}30$ |
 | taux sans risque | script du cours | $R_f=0$ |
-[§3.0.8, p. 53, p. 56]
-
-Des bornes ne sont compatibles que si $N$ fois la borne basse reste sous un et $N$ fois la borne haute au-dessus : avec deux actifs, des poids limités à 40 % ne peuvent pas sommer à un. [ajout]
+[§3.0.8]
 
 ## Cesse d'être valide quand
 Les poids tangents dépendent des rendements espérés estimés, qui sont les paramètres les plus mal estimés : l'exercice 3 du cours demande de refaire l'optimisation sur des fenêtres de 12, 36 et 60 mois et d'en comparer les allocations. [p. 54, p. 55]

@@ -25,14 +25,23 @@ La chaîne qui télécharge les prix de clôture ajustés, comble les trous, cal
 ## Ce qui la définit
 Le cours la motive par le principe « garbage in, garbage out » : des données d'entrée corrompues produisent des résultats anormaux dans tout modèle en aval, et les données de marché sont asynchrones, incomplètes, bruitées et soumises aux règles du carnet d'ordres. [p. 7]
 
-Le listing 1.1 en fixe les étapes. `yf.download(tickers, start, end)["Adj Close"]` ramène un tableau dont les lignes sont des dates et les colonnes des actifs ; `ffill().bfill()` comble les trous ; `np.log(prices / prices.shift(1)).dropna()` calcule les rendements et retire la première ligne, vide ; le filtre à vingt jours remplace par 0 les rendements de score supérieur à 3. [Listing 1.1, p. 10, p. 11, p. 14]
+Le listing 1.1 en fixe les étapes, dans cet ordre : [Listing 1.1]
+
+1. télécharger : `yf.download(tickers, start, end)["Adj Close"]` ramène un tableau, une ligne par date et une colonne par actif ; [p. 10, p. 11]
+2. combler les trous : `raw_prices.ffill().bfill()` ; [p. 11, Listing 1.1]
+3. calculer les rendements : `np.log(prices_cleaned / prices_cleaned.shift(1)).dropna()`, qui retire la première ligne, vide ; [Listing 1.1, p. 14]
+4. filtrer : `log_rets.mask(z_scores > 3, 0)` remplace par 0 les rendements dont le score, sur une fenêtre de vingt lignes, dépasse 3. [Listing 1.1]
 
 Le prix de clôture ajusté convient à l'analyse des rendements parce qu'il tient compte des dividendes et des divisions d'actions. [p. 11]
 
 ## Le chemin jusqu'ici
-Le pipeline enchaîne deux traitements dans un ordre qui compte. pfo/remplissage-des-valeurs-manquantes agit sur les prix, avant tout calcul, pour que chaque date ait une valeur pour chaque actif. [ajout]
+Le pipeline enchaîne ses traitements dans un ordre qui compte. pfo/remplissage-des-valeurs-manquantes agit sur les prix, avant tout calcul, pour que chaque date ait une valeur pour chaque actif. [ajout]
 
-Le passage à pfo/rendement-logarithmique vient ensuite, et c'est sur ces rendements seulement que pfo/filtre-z-score-glissant applique pfo/score-z. Inverser l'ordre ne marcherait pas : un prix manquant produit deux rendements manquants, et un filtre n'a rien à dire d'une valeur absente. [ajout]
+Le passage à pfo/rendement-logarithmique vient ensuite, et c'est sur ces rendements seulement que pfo/filtre-z-score-glissant applique pfo/score-z. [ajout]
+
+Remplir les rendements au lieu des prix ne marcherait pas : un prix manquant laisse deux rendements vides, et les remettre à zéro effacerait la variation entre les deux prix connus, alors que remplir le prix la reporte tout entière sur le jour de la réouverture. [ajout]
+
+Filtrer des rendements encore troués ne marcherait pas non plus : dans pandas, un seul rendement vide rend vides la moyenne et l'écart type de chaque fenêtre qui le contient, et les vingt rendements jugés sur ces fenêtres échappent au filtre. [ajout]
 
 ## Ce qui reste libre
 | élément | valeur du cours |
@@ -47,6 +56,6 @@ Le passage à pfo/rendement-logarithmique vient ensuite, et c'est sur ces rendem
 ## Cesse d'être valide quand
 Les versions récentes de `yfinance` ajustent les prix par défaut (`auto_adjust=True`) : la colonne `Close` est alors déjà ajustée et `"Adj Close"` n'existe plus, si bien que la ligne du cours échoue. Il faut passer `auto_adjust=False`, ou lire `Close`. [ajout]
 
-Le tableau réunit les dates de toutes les places. Le Bitcoin cotant tous les jours, l'index compte environ 365 lignes par an, et la fenêtre de vingt lignes couvre vingt jours calendaires, pas vingt séances. [ajout]
+Le Bitcoin cotant tous les jours, le tableau compte environ 365 lignes par an, et la fenêtre de vingt lignes couvre vingt jours calendaires, pas vingt séances. [ajout]
 
 Les prix ajustés sont recalculés rétroactivement à chaque nouveau dividende : deux exécutions du même script à des dates différentes ne rendent pas exactement les mêmes séries. [ajout]

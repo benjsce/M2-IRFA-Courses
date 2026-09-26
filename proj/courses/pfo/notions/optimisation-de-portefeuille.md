@@ -27,7 +27,7 @@ Elles diffèrent par ce qu'elles optimisent : la première fixe un rendement cib
 ## Pourquoi ce niveau existe
 Le cours pose les formulations ensemble, comme deux approches « étroitement liées » d'un même problème, et consacre une section entière à les relier : la première construit la frontière efficiente, la seconde choisit un point sur elle. [p. 38, §3.0.4, §3.0.5]
 
-Séparées, elles cacheraient ce qui les unit : le portefeuille de ratio de Sharpe maximal est lui-même un portefeuille efficient, celui où la fonction qui associe à chaque rendement cible le ratio de Sharpe du portefeuille efficient atteint son maximum. [§3.0.4]
+Séparées, elles cacheraient ce qui les unit : le portefeuille de ratio de Sharpe maximal est lui-même un portefeuille efficient : c'est le point de la frontière où le ratio de Sharpe est le plus élevé. [§3.0.4]
 
 ## Le chemin jusqu'ici
 Tout le problème s'écrit dans les deux moments de pfo/moments-du-portefeuille : le rendement espéré, linéaire en les poids comme le veut pfo/piege-d-agregation pour pfo/rendement-arithmetique, et la variance, lue dans pfo/matrice-de-covariance. [ajout]
@@ -41,7 +41,7 @@ Cette matrice est estimée sur pfo/rendement-logarithmique, annualisée par fpp/
 | objectif | portefeuille tangent | maximiser $(W^T\mu-R_f)/\sqrt{W^T\boldsymbol{\Sigma}W}$ |
 [§3.0.2, §3.0.3]
 
-L'exercice 1 du cours en ajoute un troisième cas, sans cible de rendement : minimiser la seule variance, ce qui donne le portefeuille de variance minimale globale. [p. 52]
+L'exercice 1 du cours en ajoute un troisième cas, sans cible de rendement : minimiser la seule variance, ce qui donne le portefeuille de variance minimale globale, le point le plus à gauche de la frontière. [p. 52]
 
 ## Cesse d'être valide quand
 Les formulations supposent un investisseur qui juge un portefeuille sur sa seule moyenne et sa seule variance, sur une seule période. Tout ce que le chapitre 2 a mesuré au-delà — asymétrie, queues épaisses — leur échappe. [ajout]

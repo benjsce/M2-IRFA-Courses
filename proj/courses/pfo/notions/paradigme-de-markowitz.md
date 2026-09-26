@@ -19,6 +19,8 @@ Un actif ne s'analyse pas isolément, mais par ce qu'il apporte à l'arbitrage e
 ## Ce qui la définit
 Publiée par Harry Markowitz en 1952, la théorie moderne du portefeuille fonde scientifiquement la diversification : l'investisseur combine des actifs dont la corrélation imparfaite réduit le risque global, mesuré par la variance, sans sacrifier proportionnellement le rendement espéré. [§3.0.1]
 
+Un chiffre le fait voir. Seul, un actif de volatilité 20 % est risqué ; mélangé à parts égales avec un actif de volatilité 10 %, sans corrélation, il donne un portefeuille de volatilité 11,18 %, bien sous la moyenne des deux, 15 %. Ce qu'il apporte au portefeuille n'est pas sa volatilité propre. [ajout]
+
 L'objet de l'optimisation de portefeuille est d'en tirer une règle : comment répartir un capital entre plusieurs actifs pour obtenir le meilleur compromis possible entre rendement et risque. [p. 38]
 
 Le chapitre 3 en fait tout son programme : écrire le rendement et le risque d'un portefeuille en fonction de ses poids, poser les problèmes d'optimisation correspondants, puis les résoudre numériquement. [§3.0.1, §3.0.5, §3.0.6]

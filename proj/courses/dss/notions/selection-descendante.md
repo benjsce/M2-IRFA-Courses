@@ -16,24 +16,22 @@ refs:
 ---
 
 ## Ce que c'est
-Partir du modèle contenant tous les prédicteurs et retirer à chaque pas celui dont le retrait améliore le plus le modèle. [slide 33]
+Partir du modèle contenant tous les prédicteurs et retirer à chaque pas le moins utile, celui dont le retrait fait le moins monter la RSS. [slide 33, slide 35]
 
 ## Ce qui la définit
-Elle commence par un ajustement complet, ce qui suppose que cet ajustement existe. C'est la seule différence de fond avec le sens ascendant, et elle est décisive. [slide 33, slide 36]
+Elle commence par ajuster le modèle complet, ce qui suppose $n>p$ : avec moins d'observations que de prédicteurs, les moindres carrés n'ont pas de solution unique. C'est la seule différence de fond avec le sens ascendant, qui s'en passe, et elle est décisive. [slide 36, ajout]
+
+Le cours donne deux façons de s'arrêter : quand plus aucun retrait n'améliore le modèle, ou au bout du chemin, en choisissant par validation croisée, $C_p$, BIC ou $R^2$ ajusté parmi les modèles $\mathcal{M}_p,\dots,\mathcal{M}_0$ atteints à chaque pas. L'exemple suit la seconde. [slide 33, slide 35]
 
 
 ## Le chemin jusqu'ici
-Même point de départ que le sens ascendant : dss/apprentissage-supervise, puis dss/moindres-carres-ordinaires. [ajout]
-
-La dépendance est ici plus contraignante qu'elle n'en a l'air, car la procédure commence par ajuster le modèle complet — et il faut donc que cet ajustement existe. [ajout]
+Le point de départ est un ajustement de dss/moindres-carres-ordinaires sur tous les prédicteurs à la fois, avec tous les exemples de dss/apprentissage-supervise ; chaque pas réajuste ensuite autant de modèles qu'il reste de variables. [ajout]
 
 ## Exemple minimal
 Sur les 20 clients, elle retire tour à tour les trois variables sans lien avec la perte et retombe sur l'endettement et le revenu, que le $C_p$ retient ; là où la sélection ascendante s'est trompée, elle trouve le bon modèle. [ajout]
 
 ## Geste de calcul type
-Vérifier $n>p$ avant de la lancer ; si l'inégalité ne tient pas, il faut passer au sens ascendant. [slide 36]
-
-Avec $n=50$ observations et $p=80$ prédicteurs, elle ne peut pas démarrer : le modèle complet n'a pas de solution unique. [ajout]
+Comparer $n$ et $p$ avant de la lancer : avec $n=50$ observations et $p=80$ prédicteurs, elle ne peut pas démarrer, et il faut passer au sens ascendant. [slide 36, ajout]
 
 ## Cesse d'être valide quand
-Exige $n>p$, là où la sélection ascendante s'en passe. [slide 36]
+Exige $n>p$. [slide 36]

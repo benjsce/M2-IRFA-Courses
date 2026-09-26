@@ -15,23 +15,19 @@ refs:
 ---
 
 ## Ce que c'est
-Remplacer l'ajustement par moindres carrés sur tous les prédicteurs par une procédure qui en réduit le nombre effectif. [slide 28]
+Remplacer l'ajustement par moindres carrés sur tous les prédicteurs par une procédure qui en réduit le nombre effectif. [slide 25, slide 28]
 
 ## Ce qui la définit
-Deux raisons, et elles ne sont pas de même nature : la précision de prédiction, qui se dégrade quand $n$ n'est pas beaucoup plus grand que $p$, et l'interprétabilité, qui se dégrade dès que des variables sans effet restent dans le modèle. [slide 25]
+Aux deux vrais prédicteurs des 20 clients, l'endettement et le revenu, on ajoute trois variables tirées au hasard. **Ce qui est connu** : l'erreur moyenne sur ces 20 clients, qui baisse à chaque variable ajoutée, de 1,12 à 0,98. **Ce qu'on cherche** : l'erreur sur des clients nouveaux, qu'on ne voit pas ; mesurée sur 20 000, elle monte de 1,16 à 1,83. Sélectionner, c'est choisir les variables sans voir ce trou. [ajout]
 
-Le cours en donne trois familles et les nomme sur une seule slide : retirer des prédicteurs, contraindre leurs coefficients, ou projeter l'espace des prédicteurs. Les trois arrivent au même endroit par des chemins qui ne se ressemblent pas. [slide 28]
+Le cours le dit ainsi : des variables bien choisies améliorent le modèle, trop de variables le font surapprendre. [slide 27]
 
-Une variable bien choisie améliore le modèle ; trop de variables le dégradent. Le chapitre entier consiste à rendre cette phrase opératoire. [slide 27]
+Deux raisons, et elles ne sont pas de même nature : la précision de prédiction, qui se dégrade quand $n$ n'est pas beaucoup plus grand que $p$, et l'interprétabilité, qui se dégrade dès que des variables sans effet restent dans le modèle. [slide 25, slide 26]
 
+Le cours range les méthodes en familles sur une seule slide, et toutes réduisent le nombre effectif de prédicteurs : en en retirant, en tirant leurs coefficients vers zéro, ou en projetant les prédicteurs sur quelques combinaisons. [slide 28]
 
 ## Le chemin jusqu'ici
-Deux fils y mènent. dss/apprentissage-supervise puis dss/moindres-carres-ordinaires donnent la méthode à améliorer ; dss/interpretabilite donne la seconde raison de le faire. [ajout]
-
-Les deux raisons ne sont pas de même nature et le cours les sépare : la précision se dégrade quand $n$ n'est pas beaucoup plus grand que $p$, l'interprétabilité se dégrade dès qu'une variable inutile reste dans le modèle. [ajout]
-
-## Exemple minimal
-Parmi les cinq prédicteurs des 20 clients, trois n'ont aucun lien avec la perte : les garder coûte en précision, l'erreur de test passant de 1,16 à 1,83, et en lisibilité. [ajout]
+Deux fils y mènent. dss/moindres-carres-ordinaires, ajustés sur les couples de prédicteurs et de réponse que fournit dss/apprentissage-supervise, sont la méthode à améliorer ; dss/interpretabilite apporte la seconde raison de le faire, la lecture du modèle. [ajout]
 
 ## Cesse d'être valide quand
-Aucune des trois familles ne garantit de trouver le meilleur sous-ensemble : ce sont des heuristiques ou des contraintes, pas des optimums. [slide 36]
+La sélection pas à pas ne garantit pas de trouver le meilleur sous-ensemble ; la recherche exhaustive, qui ajuste toutes les combinaisons, le garantit à chaque taille, mais son coût explose avec $p$. Dans tous les cas, le choix final repose sur une estimation de l'erreur de test. [slide 29, slide 36, slide 56, ajout]

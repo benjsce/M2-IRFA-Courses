@@ -2,9 +2,10 @@
 r"""
 compromis-biais-variance.svg — les deux erreurs qui se croisent, et leur somme en U.
 
-La fiche dit : « Quand le paramètre de pénalité augmente, le biais monte, la variance
-descend, et l'erreur quadratique moyenne passe par un minimum avant de remonter »
-[slide 54]. La source ne donne aucun chiffre, la figure n'en porte donc aucun : pas de
+La fiche dit : « Quand la contrainte sur les coefficients se resserre, le biais monte, la
+variance descend, et l'erreur quadratique moyenne passe par un minimum avant de
+remonter » [slide 54]. L'axe dit « contrainte » et non « pénalité » : la pénalité et son
+paramètre ne sont définis que par des fiches en aval. La source ne donne aucun chiffre, la figure n'en porte donc aucun : pas de
 graduation sur les deux axes, seulement les formes et l'endroit où la somme est minimale.
 Les courbes sont deux fonctions choisies pour avoir la bonne allure, pas un modèle.
 
@@ -29,7 +30,7 @@ LMIN = min((L0 + i * PAS for i in range(int((L1 - L0) / PAS) + 1)), key=somme)
 f = Figure(xmin=-0.15, xmax=4.5, ymin=0, ymax=10.4, w=560, h=330,
            titre="Le biais monte, la variance descend, et leur somme passe par un minimum")
 
-f.axes(xlab="pénalité", ylab="erreur")
+f.axes(xlab="contrainte sur les coefficients, de plus en plus forte →", ylab="erreur")
 
 f.segment(LMIN, 0, LMIN, somme(LMIN))
 

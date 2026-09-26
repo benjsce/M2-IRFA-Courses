@@ -8,6 +8,10 @@ deux actifs non corrélés de l'exemple (6 % et 10 % de rendement, 10 % et 20 % 
 volatilité), chaque poids du premier actif entre 0 et 1 donne un point ; le point le
 plus à gauche place 80 % dans le premier actif, à 8,94 % de volatilité pour 6,8 %.
 
+Une cible, 8 %, est tracée comme la droite horizontale μp = μ0 : avec deux actifs, elle
+coupe la courbe en un seul point, les parts égales, à 11,18 % de volatilité. Les
+étiquettes sont ancrées à des points de la courbe, du côté où elle s'éloigne.
+
 Usage : python courses/pfo/figures/frontiere-efficiente.py > frontiere-efficiente.svg
 Dépendance : aucune.
 """
@@ -54,7 +58,21 @@ f.point(sa, ma, couleur=DOUX)
 f.point(sb, mb, couleur=DOUX)
 f.texte(sa, ma, "actif 1", couleur=DOUX, dx=8, dy=4, taille=11.5)
 f.texte(sb, mb, "actif 2", couleur=DOUX, dx=7, dy=4, taille=11.5)
-f.texte(15.2, 8.6, "branche efficiente", couleur=ACCENT, taille=11.5, gras=True, fond=True)
-f.texte(12.5, 5.6, "branche inefficiente", couleur=DOUX, taille=11.5, fond=True)
+# sous la branche haute, concave : le texte s'étend à droite, sous la courbe
+se, me = point(0.3)
+f.texte(se, me, "branche efficiente", couleur=ACCENT, dx=8, dy=18, taille=11.5, gras=True,
+        fond=True)
+si, mi = point(0.93)
+f.texte(si, mi, "branche inefficiente", couleur=DOUX, ancre="end", dx=-10, dy=10, taille=11.5,
+        fond=True)
+
+# une cible : la droite μp = μ0 coupe la courbe en un seul point
+M0 = 8.0
+A0 = (M0 - MU[1]) / (MU[0] - MU[1])                        # ½
+S0, _ = point(A0)                                           # 11,18
+f.segment(0, M0, S0, M0, couleur=DOUX, epaisseur=1.2)
+f.point(S0, M0, couleur=ENCRE, r=4)
+f.texte(S0, M0, "cible μ_{0}\u00a0= 8 % : parts égales", couleur=ENCRE, ancre="end", dx=-10,
+        dy=-7, taille=11.5, fond=True)
 
 sys.stdout.write(f.svg())

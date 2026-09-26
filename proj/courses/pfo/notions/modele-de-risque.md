@@ -29,6 +29,8 @@ Le cours les nomme ensemble, « nos trois modèles de risque », et les impléme
 
 La question qu'ils posent ensemble est celle du chapitre : combien la non-normalité des rendements change le risque mesuré. Séparés, ils ne montreraient plus que l'écart entre leurs chiffres est précisément l'effet des queues et de l'asymétrie. [ajout]
 
+Un exemple le fait voir. Pour des rendements journaliers de moyenne 0,05 %, d'écart type 2 %, d'asymétrie −0,5 et d'excès de kurtosis 3, sur un capital de 1 000 000, la VaR à 95 % vaut 32 397 sous l'hypothèse normale et 33 935 avec la correction de Cornish-Fisher ; la CVaR, 40 754 et 53 511. Le seuil bouge à peine, la moyenne de la queue de près d'un tiers. [ajout]
+
 ## Le chemin jusqu'ici
 pfo/valeur-a-risque-conditionnelle et, derrière elle, pfo/valeur-a-risque définissent ce que chaque modèle doit rendre ; le modèle ne dit que comment l'estimer. [ajout]
 

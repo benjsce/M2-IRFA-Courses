@@ -38,6 +38,8 @@ La série [100, NaN, NaN, 105, NaN, 110] devient [100, 100, 100, 105, 105, 110] 
 ## Geste de calcul type
 Sur [NaN, NaN, 100, 105, NaN], `ffill()` rend [NaN, NaN, 100, 105, 105] et laisse vides les deux premières valeurs, faute d'observation avant elles ; `bfill()` les remplit ensuite avec 100. [p. 12]
 
+![La série du poly, NaN, NaN, 100, 105, NaN, et d'où vient chaque valeur recopiée. `ffill()` recopie 105 dans la case vide qui le suit ; les deux premières cases, que rien ne précède, restent vides ; `bfill()` y recopie 100, la première valeur connue après elles.](figures/remplissage-des-valeurs-manquantes.svg) [ajout]
+
 ## Cesse d'être valide quand
 Le `bfill()` du début de série recopie une valeur future dans le passé : dans un backtest, c'est une information que personne ne possédait à cette date. [ajout]
 

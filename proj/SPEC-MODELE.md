@@ -330,13 +330,18 @@ L'étalon est `fpp/taux-forward`. Toute fiche écrite ou réécrite se compare �
 - **Deux fiches voisines ne se répètent pas.** Si deux fiches racontent le même calcul, l'une
   dit ce qui la distingue de l'autre : le taux forward est un nombre lu dans la courbe, le
   FRA le contrat qui l'obtient.
+- **Le chemin se raconte, il ne se recopie pas.** « Le chemin jusqu'ici » dit ce que
+  chaque notion du socle apporte ici ; « X et Y donnent Z » ou « X, Y. » transcrivent le
+  graphe sans rien en dire. *Mesuré le 2026-09-26 : ces deux tournures se trouvaient dans
+  23 fiches de dss, et dans aucune de dup, fpp ni pfo ; le validateur les signale.*
+  « X donne la mesure de… », suivi de ce qu'elle donne, reste du français.
 - **Tout nombre est recalculé** avant d'être écrit, figure comprise.
 
 **Le test de lecture d'une fiche.** On lit la fiche entière, rendue sur le site, comme
 l'étudiant, sans ouvrir ses voisines ; chaque endroit où l'on s'arrête est à reprendre. Le
 rapport dit, fiche par fiche, que le test a été fait. Le validateur ne contrôle que le
-nombre de figures ; le reste ne se mesure pas, et c'est la lecture qui tranche, comme pour
-les parcours (§8.6).
+nombre de figures et les arêtes transcrites ; le reste ne se mesure pas, et c'est la
+lecture qui tranche, comme pour les parcours (§8.6).
 
 ## 3. Les axiomes de structure
 

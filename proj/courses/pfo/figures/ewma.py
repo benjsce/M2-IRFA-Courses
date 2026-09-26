@@ -32,7 +32,7 @@ f.axes(xlab="il y a k jours", ylab="poids", xticks=(1, 10, 20, 30, 40, 50, 60),
 for k, w in enumerate(poids, start=1):
     f.barre(k, w, 0.72, couleur=ACCENT if k <= 20 else DOUX, opacite=1 if k <= 20 else 0.5)
 
-f.texte(8, 0.061, "← la veille : 6 %", couleur=ENCRE, taille=11.5, fond=True)
+f.texte(1, poids[0], "← la veille : 6 %", couleur=ENCRE, taille=11.5, ancre="start", dx=9, dy=1)
 f.texte(40, 0.042, "les 20 derniers jours : %d %% du poids" % round(100 * VINGT),
         couleur=ACCENT, ancre="middle", gras=True, fond=True)
 f.texte(45, 0.015, "λ = 0,94", couleur=DOUX, ancre="middle", taille=11.5)

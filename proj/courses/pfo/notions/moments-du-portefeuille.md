@@ -34,19 +34,23 @@ $E(R_p)$ est le rendement espéré du portefeuille entier, et $\sigma_p$ son éc
 Au chapitre 2, $W$ désignait la statistique de Shapiro-Wilk, et $\mu$ une moyenne scalaire ; ici, les deux sont des vecteurs. [ajout]
 
 ## Ce qui la définit
-Pour un portefeuille entièrement investi et sans vente à découvert, les poids respectent deux contraintes structurelles : leur somme vaut un, et chacun est positif ou nul. [§3.0.1]
+Le rendement espéré est l'espérance de la somme pondérée des rendements ; la variance est une somme double sur tous les couples d'actifs, où le terme $\sigma_{ii}=\sigma_i^2$ est la variance de l'actif $i$, et les autres des covariances. [§3.0.1]
 
-Le rendement espéré est l'espérance de la somme pondérée des rendements ; la variance est une somme double sur tous les couples d'actifs, où le terme $\sigma_{ii}=\sigma_i^2$ est la variance de l'actif $i$. [§3.0.1]
+![La variance de l'exemple, lue comme une grille : chaque case vaut $w_iw_j\sigma_{ij}$, et son carré coloré a une aire proportionnelle. La diagonale porte les variances, le reste les covariances. À gauche, les deux actifs de l'exemple, sans corrélation : les cases hors diagonale sont vides, la somme vaut 0,0125 et σp 11,18 %. À droite, les mêmes actifs parfaitement corrélés : ces cases se remplissent, la somme monte à 0,0225 et σp à 15 %, la moyenne des volatilités.](figures/moments-du-portefeuille.svg) [ajout]
+
+La moyenne pondérée des volatilités n'est la volatilité du portefeuille que si les actifs sont parfaitement corrélés. Dans l'exemple, $\sigma_{12}$ vaudrait alors $0{,}10\times0{,}20=0{,}02$, chaque case hors diagonale $0{,}25\times0{,}02=0{,}005$, et la somme $0{,}0225$ aurait pour racine 15 %. Toute corrélation plus faible vide en partie ces cases, et $\sigma_p$ tombe sous la moyenne. [ajout]
+
+Les poids d'un portefeuille entièrement investi et sans vente à découvert somment à un et sont positifs ou nuls ; ces contraintes servent à l'optimisation, pas au calcul des deux moments. [§3.0.1]
 
 ## Le chemin jusqu'ici
 Le rendement du portefeuille est d'abord une moyenne pondérée : pfo/piege-d-agregation l'établissait pour pfo/rendement-arithmetique, en prévenant que pfo/rendement-logarithmique ne s'agrège pas ainsi entre actifs. L'espérance hérite de cette linéarité. [ajout]
 
 Le risque demande davantage. pfo/matrice-de-covariance range les covariances des actifs, estimées sur leurs rendements et portées à l'année par fpp/echelonnement-de-la-variance ; sa diagonale porte le carré de fpp/volatilite. La variance du portefeuille est cette matrice lue à travers les poids. [ajout]
 
-Le cas de deux actifs était déjà écrit en décision : dup/loterie réduite par dup/moyenne-variance à deux nombres, puis dup/diversification, où l'écart type d'un mélange tombe sous celui de ses composants. La forme $W^T\boldsymbol{\Sigma}W$ généralise ce calcul à $N$ actifs. [ajout]
+Le cas de deux actifs était déjà écrit en décision : dup/loterie réduite par dup/moyenne-variance à deux nombres, puis dup/diversification, où l'écart type d'un mélange peut tomber sous celui de chacun de ses composants. La forme $W^T\boldsymbol{\Sigma}W$ généralise ce calcul à $N$ actifs. [ajout]
 
 ## Exemple minimal
-Deux actifs non corrélés, de rendements espérés 6 % et 10 % et de volatilités 10 % et 20 %, à parts égales : $E(R_p)=8\,\%$ et $\sigma_p=11{,}18\,\%$, sous la volatilité de chacun. [ajout]
+Deux actifs non corrélés, de rendements espérés 6 % et 10 % et de volatilités 10 % et 20 %, à parts égales : $E(R_p)=8\,\%$ et $\sigma_p=11{,}18\,\%$, bien sous la moyenne des deux volatilités, 15 %. [ajout]
 
 ## Geste de calcul type
 Avec $W=(0{,}5;0{,}5)$ : $W^T\mu=0{,}5\times6\,\%+0{,}5\times10\,\%=8\,\%$. La covariance étant nulle, $W^T\boldsymbol{\Sigma}W=0{,}25\times0{,}01+0{,}25\times0{,}04=0{,}0125$, d'où $\sigma_p=\sqrt{0{,}0125}=11{,}18\,\%$. [ajout]

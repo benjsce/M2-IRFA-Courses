@@ -2,10 +2,10 @@
 r"""
 valeur-a-risque-conditionnelle.svg — le seuil et la moyenne au-delà du seuil.
 
-La fiche dit que la VaR est un seuil de perte, dépassé avec la probabilité α, et que la
-CVaR est la moyenne des pertes qui le dépassent, donc plus loin dans la queue. La figure
-trace une densité de perte, colore la queue de probabilité 5 % et place les deux
-nombres. La loi est normale et graduée en écarts types : c'est le cas le plus simple où
+Ce que la figure doit faire voir : la VaR dit où commence la queue, la CVaR combien on y
+perd en moyenne. La figure trace une densité de perte, colore la queue de probabilité
+5 % (les 5 % de jours les pires) et place les deux nombres : la CVaR tombe au centre de
+gravité de la zone colorée. La loi est normale et graduée en écarts types : c'est le cas le plus simple où
 les deux positions se calculent, 1,645 et φ(1,645)/0,05 = 2,063.
 
 Usage : python courses/pfo/figures/valeur-a-risque-conditionnelle.py > valeur-a-risque-conditionnelle.svg
@@ -48,7 +48,9 @@ f.point(CVAR, 0, couleur=ACCENT)
 
 f.texte(VAR, 0.30, "VaR", couleur=ENCRE, ancre="middle", dy=-6, taille=12, gras=True)
 f.texte(CVAR, 0.20, "CVaR", couleur=ACCENT, ancre="start", dx=4, dy=-6, taille=12, gras=True)
-f.texte(2.6, densite(2.6), "5 % des pertes", couleur=ACCENT, dx=8, dy=-10, taille=11.5, fond=True)
-f.texte(-1.4, 0.36, "scénarios ordinaires", couleur=DOUX, ancre="middle", taille=11.5)
+f.texte(2.6, densite(2.6), "5 % des jours", couleur=ACCENT, dx=8, dy=-10, taille=11.5, fond=True)
+# ancrée au flanc gauche de la courbe : le texte s'étend vers la gauche, où la courbe descend
+f.texte(-1.1, densite(-1.1), "scénarios ordinaires", couleur=DOUX, ancre="end", dx=-10,
+        dy=-4, taille=11.5)
 
 sys.stdout.write(f.svg())

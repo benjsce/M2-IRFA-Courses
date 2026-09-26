@@ -24,18 +24,21 @@ $$R_{0\to T} = \dfrac{P_T - P_0}{P_0} = \prod_{t=1}^{T}(1+R_t) - 1$$ [éq. 1.4]
 ## Ce que les symboles modélisent
 $P_t$ est le prix de l'actif à la date $t$ ; dans les listings du cours, c'est le prix de clôture ajusté des dividendes et des divisions d'actions, pas un prix affiché dans le carnet d'ordres. [§1.2, p. 11]
 
-$R_t$ est le rendement d'une seule sous-période, $R_{0\to T}$ celui de la période entière. Le second ne s'obtient pas en additionnant les premiers mais en composant les facteurs $1+R_t$. [éq. 1.4]
+$R_t$ est le rendement de la seule sous-période $t$, qui va de $t-1$ à $t$ : $R_t=(P_t-P_{t-1})/P_{t-1}$, et non $R_{0\to t}$. [ajout]
 
-La sous-période $t$ va de $t-1$ à $t$ : $R_t$ vaut $R_{t-1\to t}$, et non $R_{0\to t}$. [ajout]
+$R_{0\to T}$ est le rendement de la période entière, de $0$ à $T$. [éq. 1.4]
 
-$$R_t=\dfrac{P_t-P_{t-1}}{P_{t-1}},\qquad 1+R_t=\dfrac{P_t}{P_{t-1}}$$ [ajout]
+## Retrouver la formule
+**Connu** : le rendement de chaque sous-période. **Cherché** : celui de la période entière. Exemple : un prix passe de 100 à 110, puis à 99, soit +10 %, puis −10 %. [ajout]
 
-Le produit donne bien le rendement de la période entière parce qu'il se télescope : chaque prix intermédiaire apparaît une fois au numérateur et une fois au dénominateur. [ajout]
+Un rendement de +10 % multiplie le prix par 1,10 ; un rendement de −10 %, par 0,90. Sur les deux sous-périodes, le prix est donc multiplié par $1{,}10\times0{,}90=0{,}99$ : il finit à 99, et le rendement de l'ensemble vaut $0{,}99-1=-1\,\%$, et non la somme des deux, qui est nulle. [ajout]
 
-$$\prod_{t=1}^{T}(1+R_t)=\dfrac{P_1}{P_0}\cdot\dfrac{P_2}{P_1}\cdots\dfrac{P_T}{P_{T-1}}=\dfrac{P_T}{P_0}$$ [ajout]
+En général, chaque sous-période multiplie le prix par $1+R_t=P_t/P_{t-1}$. Le produit de ces rapports se télescope : chaque prix intermédiaire apparaît une fois au numérateur et une fois au dénominateur, et il ne reste que le dernier prix sur le premier. [ajout]
+
+$$\prod_{t=1}^{T}(1+R_t)=\dfrac{P_1}{P_0}\cdot\dfrac{P_2}{P_1}\cdots\dfrac{P_T}{P_{T-1}}=\dfrac{P_T}{P_0}\qquad\Longrightarrow\qquad R_{0\to T}=\prod_{t=1}^{T}(1+R_t)-1$$ [éq. 1.4, ajout]
 
 ## Ce qui la définit
-Le rendement arithmétique n'est pas additif dans le temps : le rendement de la période entière est le produit des facteurs de croissance, moins un, et non la somme des rendements. [§1.2.1, éq. 1.4]
+Le rendement arithmétique n'est donc pas additif dans le temps : les rendements de sous-périodes successives se composent, ils ne s'additionnent pas. [§1.2.1, éq. 1.4]
 
 En contrepartie, il s'agrège linéairement entre actifs : le rendement arithmétique d'un portefeuille est exactement la moyenne pondérée de ceux de ses composantes. [§1.2.2, éq. 1.7]
 

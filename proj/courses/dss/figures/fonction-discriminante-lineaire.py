@@ -35,6 +35,9 @@ f.point(0, 1, couleur=ENCRE)
 f.texte(0, 1, "−w0 / w2 = 1", couleur=ENCRE, dx=8, dy=-6, taille=11.5, fond=True)
 f.texte(1.2, 1.3, "f > 0 : classe A", couleur=ACCENT, ancre="middle", gras=True, fond=True)
 f.texte(0.15, 0.2, "f < 0 : classe B", couleur=AJOUT, ancre="middle", gras=True, fond=True)
-f.texte(1.45, -0.2, "x1 + x2 = 1", couleur=ENCRE, ancre="middle", taille=11.5, fond=True)
+# l'équation de la droite, ancrée à un point de la droite et posée au-dessus d'elle, du
+# côté où elle descend : loin de l'étiquette d'axe « x1 », et sans la toucher
+f.texte(0.62, 1 - 0.62, "x1 + x2 = 1", couleur=ENCRE, ancre="start", dx=10, dy=-2,
+        taille=11.5, fond=True)
 
 sys.stdout.write(f.svg())

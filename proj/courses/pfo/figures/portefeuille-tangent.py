@@ -50,6 +50,9 @@ f.point(S_T, M_T, couleur=ACCENT, r=4.5)
 f.texte(S_T, M_T, "T", couleur=ACCENT, dx=-10, dy=-8, ancre="end", taille=13, gras=True, fond=True)
 f.texte(4.5, RF + PENTE * 4.5, "pente = ratio de Sharpe maximal", couleur=ACCENT,
         dx=6, dy=18, taille=11.5, fond=True)
-f.texte(20, 10, "frontière", couleur=ENCRE, dx=-2, dy=20, ancre="end", taille=11.5, fond=True)
+# ancrée à un point de la courbe, au-dessous et à droite : la branche haute, concave,
+# s'éloigne vers le haut, le texte s'étend dans le vide
+sf, mf = point(0.3)
+f.texte(sf, mf, "frontière", couleur=ENCRE, dx=8, dy=18, taille=11.5, fond=True)
 
 sys.stdout.write(f.svg())

@@ -26,9 +26,7 @@ $$C_p=\frac{1}{n}\big(\mathrm{RSS}+2d\hat\sigma^2\big)$$ [slide 41]
 $d$ compte les prédicteurs du modèle qu'on évalue. $\hat\sigma^2$ estime la variance du bruit, et vient d'un modèle **complet** — pas de celui qu'on est en train de juger, sans quoi le critère se mordrait la queue. $C_p$ combine les deux pour estimer une erreur de test à partir d'une erreur d'apprentissage. [slide 41]
 
 ## Ce qui la définit
-La pénalité $2d\hat\sigma^2$ corrige exactement ce que l'erreur d'apprentissage sous-estime : plus le modèle porte de variables, plus la correction est forte. [slide 41]
-
-$\hat\sigma^2$ estime la variance de l'erreur associée à chaque mesure de la réponse ; il faut donc un modèle de référence pour l'obtenir. [slide 41]
+$\mathrm{RSS}/n$, l'erreur d'apprentissage, se calcule ; l'erreur de test, non. La pénalité $2d\hat\sigma^2/n$ est l'estimation de ce qui manque : elle corrige, en moyenne, ce que l'erreur d'apprentissage sous-estime, et d'autant plus que le modèle porte de variables. [slide 41]
 
 
 ## Le chemin jusqu'ici
@@ -37,9 +35,9 @@ dss/apprentissage-supervise fixe le cadre, dss/moindres-carres-ordinaires fourni
 La correction porte sur une quantité issue de l'ajustement lui-même, ce qui explique qu'aucun autre ingrédient ne soit nécessaire. [ajout]
 
 ## Exemple minimal
-Sur les 20 clients, avec $\hat\sigma^2=1{,}40$ estimé sur le modèle complet, $C_p$ vaut 1,40 pour le modèle à deux prédicteurs et 1,68 pour le modèle complet ; il est minimal au premier. [ajout]
+Sur les 20 clients, $\hat\sigma^2$ vient du modèle complet : sa RSS de 19,59, divisée par 20 clients moins ses six coefficients, vaut $19{,}59/14=1{,}40$. Le $C_p$ vaut alors 1,40 pour le modèle à l'endettement et au revenu — la coïncidence avec $\hat\sigma^2$ est fortuite — et 1,68 pour le modèle complet ; il est minimal au premier. Les vraies erreurs de test sont 1,16 et 1,83 : le $C_p$ surestime l'une et sous-estime l'autre, mais il les range dans le bon ordre. [ajout]
 
-![Pour chaque taille de modèle sur les 20 clients, la barre grise est $\mathrm{RSS}/n$, qui baisse toujours, et la barre posée dessus la pénalité $2d\hat\sigma^2/n$, qui monte toujours. Leur somme est $C_p$ : 1,40 à deux prédicteurs, le minimum, et 1,68 pour le modèle complet.](figures/cp-de-mallows.svg) [ajout]
+![Pour chaque taille de modèle sur les 20 clients, la barre grise est $\mathrm{RSS}/n$, l'erreur d'apprentissage, connue, qui baisse toujours ; la barre violette posée dessus est la pénalité $2d\hat\sigma^2/n$, qui estime ce qui lui manque pour faire l'erreur de test, et monte toujours. Leur somme est $C_p$ : 1,40 à deux prédicteurs, le minimum, et 1,68 pour le modèle complet.](figures/cp-de-mallows.svg) [ajout]
 
 ## Geste de calcul type
 Calculer $C_p$ pour chaque taille de modèle et retenir le plus petit : une petite valeur indique une erreur faible. [slide 40]

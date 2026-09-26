@@ -19,7 +19,7 @@ Un portefeuille de 1 000 000 affiche des rendements journaliers de moyenne 0,05 
 
 2. pfo/valeur-a-risque
    La réglementation pose une question précise : quelle perte ne sera dépassée qu'une fois sur vingt ? [§2.5]
-   Histoire : « Un portefeuille de 1 000 000 » — Rapporté au capital, ce quantile devient une perte : la valeur à risque, ou VaR, à 95 % sur un jour, est la perte que le portefeuille ne dépasse qu'une journée sur vingt. Si le quantile valait −3 %, par exemple, elle serait de $0{,}03\times1\,000\,000=30\,000$. [ajout]
+   Histoire : « Un portefeuille de 1 000 000 » — Rapporté au capital, ce quantile devient une perte : la valeur à risque, ou VaR, à 95 % sur un jour, est la perte que le portefeuille ne dépasse qu'une journée sur vingt. Si le quantile valait −3,24 %, par exemple, elle serait de $0{,}0324\times1\,000\,000=32\,400$. [ajout]
 
 3. pfo/valeur-a-risque-conditionnelle
    Ce seuil ne dit rien de ce qui se passe au-delà : deux portefeuilles de même VaR peuvent perdre très différemment les mauvais jours. [p. 32]

@@ -30,9 +30,11 @@ Le groupe de référence n'est pas fixé par la formule. Dans le filtre du cours
 ## Ce qui la définit
 Comparer un écart à la moyenne ne suffit pas : il faut le rapporter à la dispersion du groupe. Une note de 15 dans une classe de moyenne 13 et une note de 13 dans une classe de moyenne 10 ne se comparent qu'une fois divisées par les écarts types des deux classes. [p. 9]
 
+Avec des écarts types de 1 et de 3, les scores valent $(15-13)/1=2$ et $(13-10)/3=1$ : le 15 est la meilleure performance, alors que l'écart brut disait l'inverse, +2 contre +3. [ajout]
+
 Pour une loi normale, environ 68 % des observations ont un score entre −1 et +1, environ 95 % entre −2 et +2, et un score au-delà de 3 en valeur absolue est très rare, ce qui en fait un détecteur d'anomalies. [p. 10]
 
-![La loi normale graduée en scores : la bande foncée contient environ 68 % des observations, la bande claire environ 95 %, et les verticales marquent le seuil de 3. Le rendement de l'exemple, $-4\,\%$ pour un écart type de 1 %, a un score de $-4$, hors du seuil.](figures/score-z.svg) [ajout]
+![La loi normale graduée en scores : la bande foncée, de −1 à +1, contient environ 68 % des observations ; avec la bande claire, de −2 à +2, on atteint environ 95 %. Les verticales marquent le seuil de 3. Le rendement de l'exemple, $-4\,\%$ pour un écart type de 1 %, a un score de $-4$, hors du seuil.](figures/score-z.svg) [ajout]
 
 ## Exemple minimal
 Un rendement journalier de −4 %, dans un groupe de moyenne nulle et d'écart type 1 %, a un score de −4. [ajout]

@@ -25,12 +25,12 @@ La matrice carrée qui porte, pour chaque couple d'actifs, la covariance de leur
 $$\boldsymbol{\Sigma} = 252 \times \dfrac{1}{T-1} \sum_{t=1}^{T} (\mathbf{r}_t - \mu)(\mathbf{r}_t - \mu)^{\top}$$ [éq. 1.11]
 
 ## Ce que les symboles modélisent
-$\mathbf{r}_t$ est le vecteur colonne des rendements des $N$ actifs à la date $t$, et $\mu$ ici le vecteur de leurs rendements moyens. $\boldsymbol{\Sigma}$ est de dimension $N \times N$. [éq. 1.11]
+$\mathbf{r}_t$ est le vecteur colonne des rendements des $N$ actifs à la date $t$, et $\mu$ ici le vecteur de leurs rendements moyens ; la somme court sur les $T$ dates de l'échantillon. $\boldsymbol{\Sigma}$ est de dimension $N \times N$. [éq. 1.11]
 
-Le terme $(i,j)$ de $\boldsymbol{\Sigma}$ dit si les actifs $i$ et $j$ montent et baissent ensemble, mais dans l'unité d'un rendement au carré, ce qui le rend difficile à lire seul : c'est le rôle de la corrélation. La matrice est symétrique, puisque la covariance de $i$ et $j$ est celle de $j$ et $i$. [ajout]
+Le terme $(i,j)$ de $\boldsymbol{\Sigma}$ dit si les actifs $i$ et $j$ montent et baissent ensemble, mais dans l'unité d'un rendement au carré, ce qui le rend difficile à lire seul. La matrice est symétrique, puisque la covariance de $i$ et $j$ est celle de $j$ et $i$. [ajout]
 
 ## Ce qui la définit
-Le cours la présente comme l'espace des co-mouvements entre actifs. Le facteur 252 annualise des rendements journaliers ; en Python, `log_rets_filtered.cov() * 252`. Sur des rendements hebdomadaires, le facteur devient 52. [§1.5, éq. 1.11, Listing 1.3, Listing 1.4]
+Le facteur 252 annualise des rendements journaliers ; en Python, `log_rets_filtered.cov() * 252`. [§1.5, éq. 1.11, Listing 1.3]
 
 Le diviseur $T-1$ plutôt que $T$ est celui de l'estimateur sans biais, et c'est aussi celui qu'emploie pandas. [ajout]
 
@@ -40,10 +40,14 @@ Les entrées de la matrice sont des rendements de pfo/rendement-logarithmique, c
 Le facteur 252 est une application directe de fpp/echelonnement-de-la-variance. Il n'est juste que si les rendements journaliers sont indépendants d'un jour à l'autre ; sinon l'estimation journalière annualisée et l'estimation hebdomadaire annualisée divergent. [ajout]
 
 ## Exemple minimal
-Deux actifs de volatilités journalières 1 % et 2 % et de corrélation 0,5 ont une matrice annualisée de diagonale 0,0252 et 0,1008, et de terme croisé 0,0252. [ajout]
+Deux actifs de volatilités journalières 1 % et 2 % et de corrélation 0,5 ont pour matrice annualisée : [ajout]
+
+$$\boldsymbol{\Sigma}=\begin{pmatrix}0{,}0252 & 0{,}0252\\ 0{,}0252 & 0{,}1008\end{pmatrix}$$ [ajout]
 
 ## Geste de calcul type
-Multiplier chaque terme journalier par 252 : $0{,}01^2 \times 252 = 0{,}0252$, $0{,}02^2 \times 252 = 0{,}1008$, et $0{,}5 \times 0{,}01 \times 0{,}02 \times 252 = 0{,}0252$. [ajout]
+Multiplier chaque terme journalier par 252 : sur la diagonale, $0{,}01^2 \times 252 = 0{,}0252$ et $0{,}02^2 \times 252 = 0{,}1008$ ; hors de la diagonale, la corrélation fois le produit des écarts types, $0{,}5 \times 0{,}01 \times 0{,}02 \times 252 = 0{,}0252$. [ajout]
+
+Que le terme croisé égale la première variance est une coïncidence de l'exemple : $0{,}5 \times 0{,}02 = 0{,}01$, l'écart type du premier actif. [ajout]
 
 ## Ce qui reste libre
 | fréquence des rendements | facteur d'annualisation |

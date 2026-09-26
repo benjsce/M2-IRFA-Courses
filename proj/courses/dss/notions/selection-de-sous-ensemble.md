@@ -23,13 +23,11 @@ Tous produisent un modèle qui ne contient qu'une partie des prédicteurs, avec 
 Tous renvoient une suite de modèles indexée par le nombre de variables, et laissent à un critère extérieur — pénalisé ou par validation — le soin de choisir dans cette suite. [slide 29, slide 45]
 
 ## Pourquoi ce niveau existe
-Le cours nomme les deux méthodes ensemble, sur la même ligne, et construit la seconde entièrement contre la première : la sélection pas à pas existe parce que le parcours exhaustif est infaisable. Les séparer ferait perdre ce rapport. [slide 28, slide 32]
+Le cours nomme ensemble, sur la même ligne, le meilleur sous-ensemble et la sélection pas à pas, et construit la seconde entièrement contre le premier : la sélection pas à pas existe parce que le parcours exhaustif devient infaisable quand les prédicteurs sont nombreux. Les séparer ferait perdre ce rapport. [slide 28, slide 32]
 
 
 ## Le chemin jusqu'ici
-dss/apprentissage-supervise, puis dss/moindres-carres-ordinaires. [ajout]
-
-La famille garde l'ajustement intact et ne touche qu'à la liste des prédicteurs : les coefficients retenus sont des coefficients de moindres carrés, sans aucun rétrécissement. Le socle dit donc ce qui n'est pas modifié. [ajout]
+La famille ne touche qu'à la liste des prédicteurs que dss/apprentissage-supervise met en regard de la réponse. L'ajustement, lui, reste celui de dss/moindres-carres-ordinaires : les coefficients retenus sont des coefficients de moindres carrés, sans aucun rétrécissement. [ajout]
 
 ## Exemple minimal
 Sur les 20 clients, garder l'endettement et le revenu et écarter les trois autres prédicteurs revient à donner aux trois un coefficient nul, et aux deux premiers leurs coefficients de moindres carrés. [ajout]

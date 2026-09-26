@@ -2,8 +2,9 @@
 r"""
 composante-principale.svg — la direction de plus grande variance, et les distances à elle.
 
-Un nuage de deux variables corrélées, construit pour le dessin avec une graine fixée (les
-données de publicité du cours ne sont pas reproduites). La droite pleine est la première
+Un nuage de deux variables corrélées, construit pour le dessin avec une graine fixée, à
+l'image des données de publicité du cours (population et dépense publicitaire), qui ne sont
+pas reproduites : les axes portent leurs noms, pas leurs valeurs. La droite pleine est la première
 composante : la direction le long de laquelle les points s'étalent le plus. Les petits
 segments sont les distances perpendiculaires des points à cette droite ; la fiche dit
 qu'elle en minimise la somme des carrés. La droite pointillée, orthogonale, est la seconde
@@ -34,9 +35,9 @@ ang = 0.5 * math.atan2(2 * sxy, sxx - syy)           # direction propre principa
 u = (math.cos(ang), math.sin(ang))
 w = (-u[1], u[0])
 
-f = Figure(xmin=0, xmax=10, ymin=0.5, ymax=9.5, w=480, h=420, marges=(40, 16, 36, 16),
+f = Figure(xmin=0, xmax=10, ymin=0.5, ymax=9.5, w=480, h=420, marges=(52, 22, 36, 16),
            titre="La première composante suit l'étalement du nuage ; la seconde, ce qui reste")
-f.axes(xlab="variable 1", ylab="variable 2", xticks=(), yticks=())
+f.axes(xlab="population", ylab="dépense publicitaire", xticks=(), yticks=())
 for x, y in pts:
     s = (x - mx) * u[0] + (y - my) * u[1]
     f.courbe([(x, y), (mx + s * u[0], my + s * u[1])], couleur=AJOUT, epaisseur=1.0)

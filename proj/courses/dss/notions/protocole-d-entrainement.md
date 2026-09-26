@@ -14,33 +14,33 @@ refs:
 - slide 182
 - slide 183
 - slide 184
+- slide 185
 - slide 186
 - slide 198
 ---
 
 ## Ce que c'est
-L'organisation des jeux de données et des paramètres qui permet d'affirmer qu'un réseau est bien entraîné. [slide 180]
+Couper les exemples en trois jeux séparés, un pour apprendre, un pour régler, un pour juger, afin de pouvoir affirmer qu'un réseau est bien entraîné. [slide 180]
 
 ## Ce qui la définit
-Trois jeux, pas deux : un jeu d'apprentissage, un jeu de test pour régler, et un jeu de production séparé contre lequel valider. Le cours insiste sur cette séparation. [slide 180]
+Trois jeux, pas deux. Le jeu d'apprentissage sert à ajuster les poids ; le jeu de réglage (le *validation test set* de la slide) sert à choisir les réglages ; le jeu de production, séparé, sert à juger. Puisque les réglages ont été choisis pour lui, le jeu de réglage donne une erreur trop optimiste : seule l'erreur sur le jeu de production, que rien n'a touché, mesure la généralisation. [slide 180, ajout]
 
-Le protocole dépend de la quantité de données. Sur grand échantillon, un découpage aléatoire 70 / 30 suffit et ne produit qu'un modèle. Sur petit échantillon, une validation croisée en dix blocs produit dix modèles et donne l'erreur de généralisation par la moyenne et l'écart type des erreurs de test. [slide 181, slide 182]
+Le découpage dépend de la quantité de données. Sur grand échantillon, un seul tirage au hasard : 70 % des exemples pour l'apprentissage et le réglage, 30 % pour la production, et un seul modèle. Sur petit échantillon, une validation croisée en dix blocs : neuf pour apprendre et régler, un pour juger, dix fois de suite ; l'erreur de généralisation est la moyenne des dix erreurs, avec leur écart type. [slide 181, slide 182]
 
-Comparer deux architectures demande un test statistique, et lequel dépend du protocole : test de McNemar après un découpage sur grand échantillon, test $t$ apparié après validation croisée. [slide 183]
+![Les deux découpages du cours. En haut, grand échantillon : un seul tirage, 70 % pour apprendre et régler, 30 % pour le jeu de production. En bas, petit échantillon : dix blocs, neuf pour apprendre et régler, un pour juger, et chaque bloc juge à son tour. La part entre apprendre et régler n'est pas chiffrée par le cours ; elle est posée pour le dessin.](figures/protocole-d-entrainement.svg) [ajout]
 
+Pour départager deux architectures, il faut encore un test statistique : McNemar après un découpage unique, un test $t$ apparié après validation croisée. [slide 183]
+
+Les réglages eux-mêmes ont des valeurs typiques, un taux d'apprentissage de 0,1, une inertie de 0,8, un coût des poids de 0,1, et des poids de départ tirés au hasard dans une petite plage ; si l'erreur chute puis se fige, on réduit le taux ou l'inertie. Le cours conseille enfin d'essayer d'abord la meilleure méthode existante, et un réseau sans couche cachée. [slide 184, slide 185, slide 186, slide 198]
 
 ## Le chemin jusqu'ici
-Deux fils. dss/apprentissage-supervise, dss/apprentissage-inductif, dss/fonction-discriminante-lineaire, dss/reseau-de-neurones-artificiel, dss/perceptron, dss/limite-du-perceptron, dss/fonction-d-activation, dss/reseau-multicouche, dss/regle-delta et dss/descente-de-gradient donnent dss/retropropagation, ce qu'on entraîne ; dss/erreur-de-test et dss/validation-croisee donnent la façon de découper les données. [ajout]
+Le découpage en blocs vient de dss/validation-croisee, qui réserve tour à tour une part des données pour estimer l'erreur ; le protocole en fait la version petit échantillon de ses trois jeux. Ce qu'on estime ainsi est une dss/erreur-de-test, l'erreur sur des exemples qui n'ont pas servi à l'ajustement. [ajout]
 
-Le protocole est l'organisation de ce découpage : trois jeux plutôt que deux, et un test statistique quand il s'agit de départager deux architectures. [ajout]
+Ce qu'on entraîne, ce sont les poids d'un réseau par dss/retropropagation, dont les réglages, taux d'apprentissage et inertie, sont précisément ce que le jeu de réglage sert à choisir. Chaque correction est un pas de dss/descente-de-gradient, qui suit la pente de l'erreur comme la dss/regle-delta le faisait pour un seul neurone. [ajout]
 
-## Ce qui reste libre
-| paramètre | valeur typique | plage |
-|---|---|---|
-| taux d'apprentissage | 0,1 | 0,01 – 0,99 |
-| inertie | 0,8 | 0,1 – 0,9 |
-| coût des poids | 0,1 | 0,001 – 0,5 |
-[slide 184]
+Le réseau est un dss/reseau-multicouche, dont la couche cachée répond à la dss/limite-du-perceptron et dont la dss/fonction-d-activation lisse rend l'entraînement possible. Ses nœuds reprennent le dss/perceptron, l'unité d'un dss/reseau-de-neurones-artificiel qui calcule une dss/fonction-discriminante-lineaire. [ajout]
+
+Les exemples qu'on partage en trois jeux sont ceux de dss/apprentissage-inductif, étiquetés de la réponse attendue, au sens de dss/apprentissage-supervise : sans étiquette, aucun des trois jeux ne donnerait d'erreur. [ajout]
 
 ## Cesse d'être valide quand
-Le cours donne aussi une consigne d'ordre : essayer d'abord la meilleure méthode existante, et un réseau sans couche cachée, avant de complexifier. [slide 198]
+Sur petit échantillon, on ne peut plus réserver trois jeux fixes : le jeu de production devient un bloc qui tourne, et l'erreur annoncée est une moyenne sur dix modèles, non celle d'un modèle. Avec 20 clients, chaque bloc n'en compterait que deux. [slide 182, ajout]

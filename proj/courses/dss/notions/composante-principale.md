@@ -22,27 +22,27 @@ $$\mathbf{z}_1=\mathbf{X}v_1,\qquad v_1=\arg\max_{\lVert v\rVert=1}\mathrm{Var}(
 ## Ce que les symboles modélisent
 $v_1$ est une direction de l'espace des prédicteurs, un vecteur de poids de norme un : il dit dans quelle proportion chaque prédicteur entre dans la combinaison. $\mathbf{z}_1$ est ce que cette direction produit sur les données, un score par observation, obtenu en projetant chaque ligne de $\mathbf{X}$ sur $v_1$. La direction appartient aux variables, le score aux observations. [slide 61]
 
-$v$ est la variable sur laquelle on maximise ; la contrainte de norme un empêche de faire croître la variance en allongeant simplement le vecteur. $\mathrm{Var}$ est la variance empirique, calculée sur les observations de l'échantillon, et $\mathbf{X}$ la matrice des prédicteurs, une observation par ligne, centrée. [slide 61, ajout]
+$\mathbf{X}$ est la matrice centrée des prédicteurs, une observation par ligne, et $\mathrm{Var}$ la variance empirique des scores. La contrainte de norme un empêche de faire croître la variance en allongeant simplement $v$. [slide 61, ajout]
 
 ## Ce qui la définit
-Les directions $v_j$ sont exactement les colonnes de $\mathbf{V}$ de la décomposition en valeurs singulières, c'est-à-dire les vecteurs propres de $\mathbf{X}^T\mathbf{X}$. Le lien n'est pas une analogie : c'est la même décomposition, lue autrement. [slide 61]
+Le nuage des prédicteurs est connu ; on cherche la direction le long de laquelle il s'étale le plus. Cette direction est la première colonne de $\mathbf{V}$ dans la décomposition en valeurs singulières, et les suivantes sont les autres colonnes, c'est-à-dire les vecteurs propres de $\mathbf{X}^T\mathbf{X}$. Le lien n'est pas une analogie : c'est la même décomposition, lue autrement. [slide 61]
 
-La première direction minimise aussi la somme des distances perpendiculaires aux points, ce qui en donne une lecture géométrique. [slide 80]
+La première direction minimise aussi la somme des carrés des distances perpendiculaires des points à elle, ce qui en donne une lecture géométrique. [slide 80]
+
+![Un nuage de deux variables corrélées, construit pour le dessin à l'image des données de publicité du cours. La première composante suit la direction où les points s'étalent le plus, et les petits segments sont leurs distances perpendiculaires à elle, dont elle minimise la somme des carrés ; la seconde, orthogonale, porte ce qui reste de variation.](figures/composante-principale.svg) [ajout]
 
 Quand beaucoup de variables sont corrélées, un petit nombre de composantes capte l'essentiel de leur variation commune. [slide 74]
 
-![Un nuage de deux variables corrélées, construit pour le dessin. La première composante suit la direction où les points s'étalent le plus, et les petits segments sont leurs distances perpendiculaires à elle ; la seconde, orthogonale, porte ce qui reste de variation.](figures/composante-principale.svg) [ajout]
-
 ## Le chemin jusqu'ici
-dss/apprentissage-supervise, dss/moindres-carres-ordinaires, puis dss/decomposition-en-valeurs-singulieres. [ajout]
-
-La dernière est décisive : les directions principales sont exactement les colonnes de $\mathbf{V}$, et ce n'est pas une analogie mais une identité. [ajout]
+dss/decomposition-en-valeurs-singulieres fournit déjà les directions et leurs étirements : les composantes principales ne font que les ranger par variance décroissante. Cette décomposition porte sur la matrice des prédicteurs de dss/moindres-carres-ordinaires, une ligne par observation de dss/apprentissage-supervise. [ajout]
 
 ## Exemple minimal
-Sur les données de publicité, la première composante se lit fortement sur la population comme sur la dépense publicitaire ; la seconde ne se lit ni sur l'une ni sur l'autre. [slide 81, slide 82]
+Sur les données de publicité du cours, la première composante est fortement liée à la population comme à la dépense publicitaire ; la seconde, faiblement à l'une et à l'autre. [slide 81, slide 82]
+
+Sur les 20 clients, prédicteurs standardisés, la première composante porte environ 45 % de la dispersion des cinq prédicteurs, et elle les mêle tous les cinq, l'endettement comme les trois variables sans lien. [ajout]
 
 ## Geste de calcul type
-Standardiser, décomposer $\mathbf{X}^T\mathbf{X}$, ordonner les valeurs propres, et ne garder que les directions dont la valeur propre est grande. [slide 61, slide 77]
+Standardiser, décomposer $\mathbf{X}^T\mathbf{X}$, ordonner les valeurs propres, et garder les $M$ premières directions, $M$ choisi par validation croisée. [slide 61, slide 77, slide 85]
 
 ## Cesse d'être valide quand
 Les directions sont choisies sur la seule variation des prédicteurs : rien ne garantit qu'elles soient liées à la réponse. [slide 86]

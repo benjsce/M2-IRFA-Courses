@@ -53,7 +53,7 @@ Sur les 20 clients, sélectionner des prédicteurs donne à chacun soit son coef
 
 10. dss/moindres-carres-partiels
     Mais ces directions ont été choisies sans regarder la réponse. Et si on la regardait ? [slide 86, slide 87]
-    Histoire : « limiter autrement ce que le modèle apprend » — Les moindres carrés partiels choisissent les directions en regardant la perte : la première pèse chaque prédicteur selon son lien avec elle. Sur les 20 clients, elle donne un poids fort à l'endettement, 0,57, mais aussi à la variable de bruit que le hasard a liée à la perte, 0,62. [ajout]
+    Histoire : « limiter autrement ce que le modèle apprend » — Les moindres carrés partiels choisissent les directions en regardant la perte : la première pèse chaque prédicteur selon son lien avec elle. Sur les 20 clients, elle donne un poids fort à l'endettement, 13,6, et plus fort encore à la variable de bruit que le hasard a liée à la perte, 14,8. [ajout]
 
 11. dss/haute-dimension
     Sur cinq prédicteurs, aucune de ces méthodes n'a approché le 1,16 de la sélection. Quand deviennent-elles indispensables ? [slide 91]

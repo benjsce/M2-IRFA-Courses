@@ -20,22 +20,34 @@ from figure import Figure, ACCENT, DOUX, AJOUT, ENCRE      # noqa: E402
 
 phi = lambda z: math.exp(-z * z / 2) / math.sqrt(2 * math.pi)
 
-f = Figure(xmin=-5, xmax=5, ymin=0, ymax=0.47, w=560, h=320,
+f = Figure(xmin=-6, xmax=6, ymin=0, ymax=0.52, w=560, h=320,
            titre="Au-delà de trois écarts types, une observation est suspecte")
-f.axes(xlab="score Z", xticks=(-4, -3, -2, -1, 0, 1, 2, 3, 4), fmt=lambda t: "%d" % t)
+f.axes(xlab="score Z", xticks=(-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5), fmt=lambda t: "%d" % t)
 
 PAS = 0.05
 for k in range(-40, 40):
     z = (k + 0.5) * PAS
     op = 0.40 if abs(z) < 1 else 0.18
     f.barre(z, phi(z), PAS, couleur=ACCENT, opacite=op)
-f.fonction(phi, -4.8, 4.8, n=300, couleur=ENCRE, epaisseur=2.0)
-for s in (-3, 3):
-    f.segment(s, 0, s, 0.30, couleur=AJOUT, epaisseur=1.6)
+f.fonction(phi, -5.6, 5.6, n=300, couleur=ENCRE, epaisseur=2.0)
 f.texte(0, 0.18, "68 %", couleur=ENCRE, ancre="middle", gras=True)
-f.texte(0, 0.43, "95 % entre −2 et +2", couleur=ACCENT, ancre="middle", taille=11.5)
-f.texte(3, 0.30, "seuil 3", couleur=AJOUT, ancre="middle", dy=-6, taille=11.5, gras=True)
+
+# 95 % : une accolade de −2 à +2, reliée à la bande claire par deux verticales
+HAUT = 0.445
+for s_ in (-2, 2):
+    f.segment(s_, phi(s_), s_, HAUT, couleur=ACCENT, epaisseur=1.0, pointilles="3 3")
+f.courbe([(-2, HAUT - 0.012), (-2, HAUT), (2, HAUT), (2, HAUT - 0.012)], couleur=ACCENT,
+         epaisseur=1.4)
+f.texte(0, HAUT, "95 % entre −2 et +2", couleur=ACCENT, ancre="middle", dy=-7, taille=11.5)
+
+# le seuil de 3, des deux côtés
+for s_ in (-3, 3):
+    f.segment(s_, 0, s_, 0.14, couleur=AJOUT, epaisseur=1.6)
+f.texte(3, 0.14, "seuil 3", couleur=AJOUT, ancre="middle", dy=-6, taille=11.5, gras=True)
+
+# le rendement de l'exemple : un trait le relie à son étiquette, posée au-dessus du seuil
 f.point(-4, 0, couleur=AJOUT, r=5)
-f.texte(-4, 0, "−4 % : Z = −4", couleur=AJOUT, ancre="middle", dy=-12, gras=True, fond=True)
+f.segment(-4, 0.012, -4, 0.19, couleur=AJOUT, epaisseur=1.0, pointilles="2 3")
+f.texte(-4, 0.19, "−4 % : Z = −4", couleur=AJOUT, ancre="middle", dy=-6, gras=True)
 
 sys.stdout.write(f.svg())

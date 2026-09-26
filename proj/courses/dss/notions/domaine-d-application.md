@@ -23,15 +23,14 @@ refs:
 Les secteurs où le cours situe l'apprentissage automatique avant d'en exposer les méthodes. [slide 14, slide 22]
 
 ## Ce qui la définit
-Le fil commun est l'accès à une donnée nouvelle plutôt qu'un algorithme nouveau : le cours attribue le succès de ces techniques « re-nouvelées » à la disponibilité des données et à l'amélioration des infrastructures. [slide 17]
+Le fil commun est l'accès à des données nouvelles plutôt qu'à des algorithmes nouveaux : le cours attribue le succès de ces techniques « re-nouvelées » à la disponibilité des données et à l'amélioration des infrastructures, et tient pour clé de faire entrer des données nouvelles dans les modèles. [slide 14, slide 17]
 
-Deux chiffres reviennent : le webscraping de comptes bancaires de nouveaux clients augmente le GINI et le profit de 10 % à 20 % sur ce segment ; le passage d'un modèle classique à une forêt aléatoire fait passer le GINI de 51,36 à 57,84, soit +12,6 %. [slide 14, slide 17]
-
+Le chiffre qui le porte vient du crédit : collecter sur le web les données des comptes bancaires des nouveaux clients relève de 10 % à 20 %, sur ce segment, le profit et le GINI, la mesure qui note de 0, un tirage au hasard, à 1, une séparation parfaite, la capacité d'un score à ranger les défauts avant les autres. [slide 14, ajout]
 
 ## Le chemin jusqu'ici
 Il suffit de savoir ce qu'est dss/apprentissage-automatique : les applications arrivent avant toute méthode, dans l'ouverture du cours. [ajout]
 
-Elles ne se déduisent de rien et ne servent pas à démontrer : elles établissent que le résultat vient de la donnée nouvelle, non de l'algorithme nouveau. [ajout]
+Elles ne se déduisent de rien et ne servent pas à démontrer : elles montrent où le cours situe le gain, dans la donnée nouvelle plus que dans l'algorithme nouveau. [ajout]
 
 ## Ce qui reste libre
 | paramètre | cas | valeur |

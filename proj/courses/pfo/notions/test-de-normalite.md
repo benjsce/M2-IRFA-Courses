@@ -30,10 +30,12 @@ $H_0$ est l'hypothèse de normalité, la seule que le test puisse rejeter ; $H_1
 ## Ce que les membres partagent
 Même hypothèse nulle, même décision : une statistique, une p-valeur comparée à 5 %, et le rejet de la normalité si elle est inférieure. [Table 2.1, p. 30]
 
-Ils diffèrent par l'information qu'ils regardent : Jarque-Bera ne voit que l'asymétrie et la kurtosis, Shapiro-Wilk la structure entière de l'échantillon ordonné. Leurs conclusions peuvent donc diverger sans se contredire, et le cours les dit complémentaires plutôt que concurrents. [p. 31]
+Ils diffèrent par l'information qu'ils regardent : Jarque-Bera ne voit que l'asymétrie et la kurtosis, Shapiro-Wilk la structure entière de l'échantillon ordonné. [p. 31]
 
 ## Pourquoi ce niveau existe
-La table 2.1 compare les deux tests terme à terme sur une même grille, et ce niveau est cette grille. Il porte aussi la règle de lecture conjointe : si les deux p-valeurs dépassent 5 %, aucun test ne rejette ; si les deux sont inférieures, l'écart à la normale est établi ; si seul Shapiro-Wilk rejette, l'écart vient d'une caractéristique que l'asymétrie et la kurtosis ne résument pas. [Table 2.1, p. 31]
+La table 2.1 compare les deux tests terme à terme sur une même grille, et ce niveau est cette grille. Il porte aussi la règle de lecture conjointe : si les deux p-valeurs dépassent 5 %, aucun test ne rejette ; si les deux sont inférieures, l'écart à la normale est établi. [Table 2.1, p. 31]
+
+Si un seul des deux rejette, ce n'est pas une contradiction : les deux tests n'utilisent pas la même information. Le cours cite comme causes possibles d'un tel désaccord une asymétrie marquée, des queues plus épaisses que la normale, des valeurs extrêmes, ou une autre forme d'écart, et conclut que les deux tests sont complémentaires plutôt que concurrents. [p. 31]
 
 ## Le chemin jusqu'ici
 pfo/p-valeur fournit la règle de décision commune ; ce qui fait un test de normalité, c'est l'hypothèse nulle à laquelle on l'applique. [ajout]
@@ -41,7 +43,7 @@ pfo/p-valeur fournit la règle de décision commune ; ce qui fait un test de nor
 La p-valeur ne dit pas quelle statistique calculer : chaque membre en apporte une, et c'est la loi de cette statistique sous l'hypothèse nulle qui la rend calculable. [ajout]
 
 ## Exemple minimal
-Sur un même échantillon, $p_{\mathrm{SW}} = 0{,}03$ et $p_{\mathrm{JB}} = 0{,}20$ : Shapiro-Wilk rejette la normalité, Jarque-Bera non. [ajout]
+Un titre peu échangé ne bouge que d'un cran : sur trente jours, cinq baisses de 1 %, vingt jours sans changement, cinq hausses de 1 %. Son asymétrie est nulle et sa kurtosis vaut exactement 3 : Jarque-Bera rend une p-valeur de 1 et ne rejette pas la normalité ; Shapiro-Wilk, qui voit trois paliers là où une loi normale mettrait une pente régulière, rend une p-valeur de l'ordre de 0,00001 et la rejette. [ajout]
 
 ## Geste de calcul type
 Lancer les deux tests sur la même série et lire les deux p-valeurs ensemble : `stats.jarque_bera(r)` et `stats.shapiro(r)` rendent chacun une statistique et une p-valeur. [Listing 2.1, p. 30]
@@ -49,4 +51,4 @@ Lancer les deux tests sur la même série et lire les deux p-valeurs ensemble : 
 ## Cesse d'être valide quand
 Ne pas rejeter la normalité ne la prouve pas. [p. 29]
 
-Sur un petit échantillon, aucun des deux tests n'a la puissance de rejeter : les dix rendements du listing de Shapiro-Wilk passent le test avec une p-valeur de 0,65. [ajout]
+Sur un petit échantillon, les deux tests ont peu de puissance : un écart réel à la loi normale peut ne pas être rejeté, d'autant que la loi de Jarque-Bera n'est qu'asymptotique. [p. 26, ajout]

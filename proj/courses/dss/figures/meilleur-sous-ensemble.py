@@ -5,7 +5,8 @@ meilleur-sous-ensemble.svg — les 32 modèles des 20 clients, rangés par taill
 Chaque point est l'un des $2^5=32$ modèles possibles avec les cinq prédicteurs, placé à sa
 taille et à sa RSS d'apprentissage. À taille fixée, le plus bas est retenu : c'est
 $\mathcal{M}_k$, et la ligne les relie. Le meilleur à un prédicteur est, par hasard, une
-variable sans lien avec la perte ; le meilleur à deux est l'endettement et le revenu.
+variable sans lien avec la perte, x3 ; le meilleur à deux est l'endettement x1 et le
+revenu x2. Les étiquettes disent ce que sont ces variables, que la fiche nomme.
 La ligne descend toujours : la RSS ne peut pas départager des tailles différentes.
 
 Usage : python courses/dss/figures/meilleur-sous-ensemble.py > meilleur-sous-ensemble.svg
@@ -87,9 +88,13 @@ f.courbe([(k, meilleurs[k][0]) for k in range(6)], couleur=ACCENT, epaisseur=2.2
 for k in range(6):
     f.point(k, meilleurs[k][0], couleur=ACCENT, r=4.5)
 nom = lambda c: "{" + ", ".join(NOMS[j] for j in c) + "}" if c else "aucun"
-f.texte(1, meilleurs[1][0], nom(meilleurs[1][1]) + " : du bruit", couleur=AJOUT, dx=10, dy=4,
-        taille=11.5, gras=True, fond=True)
-f.texte(2, meilleurs[2][0], nom(meilleurs[2][1]) + " : les bons", couleur=ACCENT, dx=4, dy=24,
-        taille=11.5, gras=True, fond=True)
+# Les étiquettes se posent à gauche et sous leur point, là où la colonne précédente n'a
+# aucun modèle : rien ne passe dessous.
+f.texte(1, meilleurs[1][0], nom(meilleurs[1][1]) + " : sans lien", couleur=AJOUT, ancre="end",
+        dx=-8, dy=16, taille=11.5, gras=True, fond=True)
+f.texte(2, meilleurs[2][0], nom(meilleurs[2][1]) + " :", couleur=ACCENT,
+        ancre="end", dx=-8, dy=18, taille=11.5, gras=True, fond=True)
+f.texte(2, meilleurs[2][0], "endettement et revenu", couleur=ACCENT,
+        ancre="end", dx=-8, dy=33, taille=11.5, gras=True, fond=True)
 
 sys.stdout.write(f.svg())

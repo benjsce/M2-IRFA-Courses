@@ -21,14 +21,14 @@ refs:
 Ajuster un modèle contenant tous les prédicteurs, avec une contrainte qui rétrécit les coefficients vers zéro. [slide 46]
 
 ## Ce que les membres partagent
-Tous ajoutent à la RSS un terme de pénalité gouverné par un paramètre $\lambda\ge 0$ : à $\lambda=0$ on retrouve exactement les moindres carrés, à $\lambda$ grand tous les coefficients tendent vers le modèle nul. [slide 50]
+Tous ajoutent à la RSS un terme de pénalité gouverné par un paramètre $\lambda\ge 0$ : à $\lambda=0$ on retrouve exactement les moindres carrés, à $\lambda$ grand tous les coefficients tendent vers zéro, et le modèle vers le modèle nul. [slide 50]
 
 Tous échangent du biais contre de la variance, et tous demandent que les prédicteurs soient standardisés au préalable, puisque la pénalité porte sur l'échelle des coefficients. [slide 52, slide 53]
 
 Le cours présente la régularisation comme sa première arme contre le surapprentissage : elle contraint l'algorithme pour améliorer l'erreur hors échantillon, surtout en présence de bruit. [slide 47]
 
 ## Pourquoi ce niveau existe
-Le cours construit le lasso entièrement contre la régression ridge, en ne changeant qu'une chose : la norme pénalisée. Le paramètre est donc explicitement isolé par la source, sur la slide qui superpose les deux régions de contrainte, le losange et le disque. [slide 62, slide 66]
+Le cours construit le lasso entièrement contre la régression ridge, en ne changeant qu'une chose : la norme pénalisée. Le paramètre est donc explicitement isolé par la source, sur la slide qui superpose les deux régions de contrainte, le losange de la norme $\ell_1$ et le disque de la norme $\ell_2$. [slide 62, slide 66]
 
 
 ## Le chemin jusqu'ici

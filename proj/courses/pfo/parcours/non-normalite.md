@@ -49,7 +49,7 @@ Le 19 octobre 1987, le Dow Jones perd 22,6 % en une séance. Sous une loi normal
 
 9. pfo/test-de-normalite
    Trois chances sur cent, est-ce assez peu pour abandonner la loi normale ? La réponse se fixe avant de regarder les données : l'hypothèse éprouvée, et le seuil. [éq. 2.13, éq. 2.14]
-   Histoire : « même si la loi était normale » — L'hypothèse éprouvée est $H_0:X\sim\mathcal{N}(\mu,\sigma^2)$, rejetée quand la p-valeur passe sous 5 %. Avec 0,03, la petite série la rejette : le seul krach y suffit. Au-dessus de 5 %, on aurait seulement dit qu'on ne la rejette pas, jamais que la loi est normale. [ajout]
+   Histoire : « même si la loi était normale » — L'hypothèse éprouvée est $H_0:X\sim\mathcal{N}(\mu,\sigma^2)$, rejetée quand la p-valeur passe sous 5 %. Avec 0,03, ce test, qui ne regarde que l'asymétrie, la rejette : le seul krach y suffit. Au-dessus de 5 %, on aurait seulement dit qu'on ne la rejette pas, jamais que la loi est normale. [ajout]
 
 10. pfo/test-de-jarque-bera
     Ce calcul ne regardait que l'asymétrie, et il a fallu simuler sa loi. Un test usuel juge les deux écarts à la fois, avec une loi connue d'avance. [§2.3]

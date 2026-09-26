@@ -15,15 +15,15 @@ refs:
 La nature d'un attribut — nominale, ordinale, d'intervalle ou continue — qui décide de son codage. [slide 188]
 
 ## Ce qui la définit
-La contrainte est posée d'abord : un réseau entraîné par rétropropagation n'accepte que des valeurs numériques continues, typiquement dans l'intervalle de 0 à 1. [slide 188]
+La contrainte est posée d'abord : un réseau entraîné par rétropropagation n'accepte que des valeurs numériques continues, typiquement entre 0 et 1. [slide 188]
 
 Tout ce qui n'est pas déjà continu doit donc être transformé, et la transformation dépend du type. C'est le type qui décide, pas la commodité. [slide 188, slide 191]
 
 
 ## Le chemin jusqu'ici
-dss/apprentissage-supervise, dss/reseau-de-neurones-artificiel, puis dss/preparation-des-donnees. [ajout]
+Le type est la première question de dss/preparation-des-donnees, à l'étape de la transformation et du codage : avant de transformer un attribut, il faut savoir de quelle nature il est. [ajout]
 
-Le type ne devient un sujet que parce que le réseau impose du numérique continu : c'est cette contrainte, posée en amont, qui rend la typologie nécessaire. [ajout]
+Il ne devient un sujet que parce que le dss/reseau-de-neurones-artificiel impose du numérique continu : c'est cette contrainte, posée en amont, qui rend la typologie nécessaire. Les attributs typés sont les entrées des exemples de dss/apprentissage-supervise. [ajout]
 
 ## Ce qui reste libre
 | paramètre | cas | valeur |

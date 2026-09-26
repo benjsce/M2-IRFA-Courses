@@ -5,8 +5,11 @@ regression-ridge.svg — les coefficients standardisés des 20 clients, quand λ
 Les cinq prédicteurs sont standardisés, comme le demande la fiche, et la perte centrée. Pour
 chaque $\lambda$, $(\mathbf X^T\mathbf X+\lambda\mathbf I)^{-1}\mathbf X^T\mathbf y$. À gauche,
 $\lambda$ presque nul : les coefficients des moindres carrés. À droite, $\lambda$ très grand :
-tous tendent vers zéro, sans qu'aucun ne l'atteigne. L'endettement et le revenu, les deux
-vrais prédicteurs, restent les plus gros tout du long.
+tous tendent vers zéro, sans qu'aucun ne l'atteigne. Les coefficients ne rétrécissent pas
+tous au même rythme : celui de x3, la variable sans lien que le hasard a liée à la perte,
+commence par grandir (0,245 à λ=0,01, 0,338 à λ=5), rejoint celui de l'endettement vers
+λ=20 et le dépasse à λ=100 (0,111 contre 0,102). L'axe des λ est posé en bas du cadre, et
+un trait pâle marque zéro, le modèle nul.
 
 Usage : python courses/dss/figures/regression-ridge.py > regression-ridge.svg
 Dépendance : aucune.
@@ -88,19 +91,21 @@ chemins = [ridge(10 ** g) for g in grille]
 NOMS = ("x1 endettement", "x2 revenu")
 COUL = (ACCENT, AJOUT, DOUX, DOUX, DOUX)
 
-f = Figure(xmin=LMIN, xmax=LMAX + 1.3, ymin=-1.0, ymax=0.9, w=560, h=330,
-           titre="Plus λ grandit, plus tous les coefficients se rapprochent de zéro, sans l'atteindre")
+f = Figure(xmin=LMIN, xmax=LMAX + 1.3, ymin=-1.0, ymax=1.0, w=560, h=330,
+           titre="Quand λ devient très grand, tous les coefficients tendent vers zéro, sans l'atteindre")
 f.axes(xlab="λ, échelle logarithmique", ylab="coefficient standardisé",
-       xticks=(-2, 0, 2, 4), yticks=(-0.8, -0.4, 0.4, 0.8),
+       xticks=(-2, 0, 2, 4), yticks=(-0.8, -0.4, 0, 0.4, 0.8),
        fmt=lambda t: {-2: "0,01", 0: "1", 2: "100", 4: "10 000"}[t],
-       fmt_y=lambda t: ("%g" % t).replace(".", ","), croix=(LMIN, 0))
+       fmt_y=lambda t: ("%g" % t).replace(".", ","), croix=(LMIN, -1.0))
+f.segment(LMIN, 0, LMAX, 0, couleur=PALE, epaisseur=1.0, pointilles=None)
 for j in range(5):
     f.courbe([(g, c[j]) for g, c in zip(grille, chemins)], couleur=COUL[j],
              epaisseur=2.4 if j < 2 else 1.4)
 for j in range(2):
     f.texte(LMIN, chemins[0][j], NOMS[j], couleur=COUL[j], dx=6,
             dy=18 if chemins[0][j] > 0 else 16, taille=11.5, gras=True, fond=True)
-f.texte(-1.2, 0.55, "x3, x4, x5 : sans lien", couleur=DOUX, taille=11, fond=True)
+f.texte(LMIN, chemins[0][2], "x3, x4, x5 : sans lien", couleur=DOUX, dx=6, dy=-8, taille=11,
+        fond=True)
 f.texte(LMAX, 0, "le modèle nul", couleur=ENCRE, dx=6, dy=-8, taille=11.5)
 
 sys.stdout.write(f.svg())

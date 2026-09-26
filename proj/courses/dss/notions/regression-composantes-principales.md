@@ -34,19 +34,21 @@ Les composantes étant orthogonales, la régression se réduit à une somme de r
 
 L'hypothèse de fond est explicite et n'est pas garantie : on suppose que les directions où les prédicteurs varient le plus sont celles qui sont liées à la réponse. [slide 75]
 
-La parenté avec ridge est étroite, et la différence tient en un mot. Ridge rétrécit toutes les directions et n'en annule aucune ; la régression sur composantes principales, elle, ne rétrécit pas du tout ou annule complètement. [slide 77, slide 78]
+La parenté avec ridge est étroite, et la différence tient dans le facteur appliqué à la coordonnée de $\mathbf{y}$ sur la direction $j$ : ridge la multiplie par $d_j^2/(d_j^2+\lambda)$, qui rétrécit tout sans rien annuler ; la régression sur composantes principales, par 1 pour les $M$ premières directions et par 0 au-delà. [slide 77, slide 78]
 
 
 ## Le chemin jusqu'ici
-La chaîne est droite : dss/apprentissage-supervise, dss/moindres-carres-ordinaires, dss/decomposition-en-valeurs-singulieres, puis dss/composante-principale. [ajout]
-
-Chaque étape est un changement de base, jamais un changement de méthode : à l'arrivée on fait toujours des moindres carrés, mais sur les composantes au lieu des prédicteurs. [ajout]
+Chaque étape est un changement de base, jamais un changement de méthode. dss/decomposition-en-valeurs-singulieres réécrit la matrice des prédicteurs, dss/composante-principale en range les directions par variance décroissante, et l'on revient pour finir à dss/moindres-carres-ordinaires, mais sur les composantes au lieu des prédicteurs observés dans dss/apprentissage-supervise. [ajout]
 
 ## Exemple minimal
-Sur les données Credit, l'erreur de validation croisée ne chute franchement qu'à partir de la dixième composante. [slide 84]
+Sur les 20 clients, deux composantes laissent une erreur mesurée sur 20 000 clients nouveaux de 3,73 ; il faut les cinq, c'est-à-dire ne rien réduire, pour retrouver 1,83, celle des moindres carrés. [ajout]
+
+Sur les données de crédit du cours, l'erreur de validation croisée ne chute franchement qu'à la dixième composante, sur onze : presque aucune réduction, et la méthode n'y fait guère mieux que les moindres carrés. [slide 84]
 
 ## Geste de calcul type
 Standardiser, construire les composantes, faire varier $M$ et lire la courbe d'erreur de validation croisée : le biais baisse et la variance monte avec $M$. [slide 85]
 
 ## Cesse d'être valide quand
 Ce n'est pas une méthode de sélection de variables, le cours insiste. Et rien ne garantit que les premières composantes aient à voir avec la réponse. [slide 85, slide 86]
+
+Sur les 20 clients, les quatre premières laissent une erreur de test de 3,89 ; c'est la cinquième, la moins étirée, qui la fait tomber à 1,83, parce qu'elle oppose l'endettement à x3, la variable sans lien que le hasard a liée à l'endettement sur ces 20 clients. [ajout]

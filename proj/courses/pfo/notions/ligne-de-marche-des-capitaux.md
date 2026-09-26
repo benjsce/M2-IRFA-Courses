@@ -24,12 +24,12 @@ La droite qui relie l'actif sans risque au portefeuille tangent : tous les place
 $$\mu_C=(1-\alpha)R_f+\alpha\,\mu_{W^*}=R_f+\alpha\,(\mu_{W^*}-R_f),\qquad \sigma_C=\alpha\,\sigma_{W^*}$$ [p. 41]
 
 ## Ce que les symboles modélisent
-$\alpha$ est la part du capital placée dans le portefeuille tangent, le reste $1-\alpha$ allant à l'actif sans risque ; le cours la prend entre zéro et un. $\mu_C$ et $\sigma_C$ sont le rendement espéré et l'écart type du placement combiné. [p. 41]
+$\alpha$ est la part du capital placée dans le portefeuille tangent, le reste $1-\alpha$ allant à l'actif sans risque ; le cours la prend entre zéro et un. $\mu_C$ et $\sigma_C$ sont le rendement espéré et l'écart type du placement combiné ; $\mu_{W^*}$ et $\sigma_{W^*}$, ceux du portefeuille tangent. [p. 41]
 
 Au chapitre 2, $\alpha$ désignait tour à tour le lissage EWMA, le niveau d'un test et le seuil de la VaR ; ici, c'est une part de capital. [ajout]
 
 ## Ce qui la définit
-Une fois le portefeuille tangent déterminé, l'investisseur peut le combiner avec l'actif sans risque. Le rendement espéré et le risque du mélange sont tous deux linéaires en $\alpha$ : les combinaisons décrivent une droite dans le plan risque-rendement, la ligne de marché des capitaux. [p. 41]
+Une fois le portefeuille tangent déterminé, l'investisseur peut le combiner avec l'actif sans risque. Le rendement espéré du mélange est linéaire en $\alpha$, comme toute moyenne pondérée. Son risque l'est aussi, et c'est moins évident : l'actif sans risque n'a ni variance ni covariance, donc $\sigma_C^2=\alpha^2\sigma_{W^*}^2$, d'où $\sigma_C=\alpha\,\sigma_{W^*}$. Les combinaisons décrivent ainsi une droite dans le plan risque-rendement, la ligne de marché des capitaux. [p. 41, ajout]
 
 Sa pente est le ratio de Sharpe du portefeuille tangent, $SR(W^*)=\max_W SR(W)$. [p. 40, Fig. 3.2]
 

@@ -53,6 +53,11 @@ MARQ_TOUS = re.compile(r"\[[^\[\]]+\]")
 NOMBRE_DERIVE = re.compile(
     r"\b(deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze"
     r"|\d+)\s+(notions?|membres?|prérequis|fiches?)\b", re.I)
+# « X, Y et Z donnent » (sujet fait d'une liste de fiches) et « X, Y. » (liste nue en
+# tête de ligne) : les deux tournures d'une arête recopiée dans « Le chemin jusqu'ici ».
+_ID = r"[a-z]{2,4}/[a-z0-9-]+"
+ARETE_TRANSCRITE = re.compile(
+    rf"{_ID}(?:, {_ID})* et {_ID},? (?:qui )?donnent\b|^(?:{_ID}, )+(?:puis |et )?{_ID}\.", re.M)
 
 
 class Rapport:
@@ -452,6 +457,14 @@ def valider(root: Path, rap: Rapport):
             rap.w("A1", nid, "« Le chemin jusqu'ici » ne nomme pas %d notion(s) de son socle : %s"
                   % (len(oublie), ", ".join(oublie[:4]) + (" …" if len(oublie) > 4 else "")))
             rap.dette["chemin jusqu'ici incomplet"] += 1
+        # Une arête n'est pas une phrase : « X et Y donnent Z » ou « X, Y. » recopient le
+        # graphe sans dire ce que chaque notion apporte ici. Mesuré le 2026-09-26 : ces
+        # deux tournures ne se trouvaient que dans dss (23 fiches), jamais dans dup, fpp
+        # ni pfo ; « X donne <objet> » seul reste du français, et n'est pas visé.
+        for x in ARETE_TRANSCRITE.finditer(txt):
+            rap.w("A1", nid, "« Le chemin jusqu'ici » transcrit une arête : « %s » — dire ce "
+                             "que chaque notion apporte ici (SPEC-MODELE §2.5)" % x.group(0)[:70])
+            rap.dette["arête transcrite"] += 1
 
     # ---- nombres dérivés écrits en dur dans la prose
     for nid, n in N.items():

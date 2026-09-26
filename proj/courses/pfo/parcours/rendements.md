@@ -6,12 +6,12 @@ source: poly, §1.1–§1.2
 ---
 
 ## Point de départ
-Une action est affichée à 99,90 à l'achat et à 100,10 à la vente. Quel est son prix ? Et quand ce prix passe de 100 à 110 puis à 99, de combien a-t-elle monté ? Les deux questions ont plusieurs réponses. [ajout]
+Une action est affichée à deux prix : 99,90 pour qui la vend, 100,10 pour qui l'achète. Quel est son prix ? Et quand ce prix passe de 100 à 110 puis à 99, de combien a-t-elle monté ? Les deux questions ont plusieurs réponses. [ajout]
 
 ## Étapes
 1. pfo/fourchette-bid-ask
    Sur un marché professionnel, la question « quel est le prix ? » n'a pas de réponse unique : le carnet d'ordres en affiche deux à chaque instant. [§1.1]
-   Histoire : « affichée à 99,90 à l'achat et à 100,10 à la vente » — Ces deux prix forment la fourchette : on peut vendre à 99,90 et acheter à 100,10, et l'écart de 0,20 est ce que coûte un aller-retour immédiat. [ajout]
+   Histoire : « 99,90 pour qui la vend, 100,10 pour qui l'achète » — Ces deux prix forment la fourchette, le bid à 99,90 et l'ask à 100,10, et l'écart de 0,20 est ce que coûte un aller-retour immédiat. [ajout]
 
 2. pfo/prix-milieu
    Un modèle, lui, veut un seul nombre. Comment passer des deux prix affichés à un prix unique ? [§1.1.1]

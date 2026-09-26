@@ -139,6 +139,12 @@ collisions:
     dss: nombre de coupures par arbre (slide 126), signal d'erreur de la règle delta
       (slide 145)
   note: collision interne à la source
+- symbole: $d_j$
+  ici: valeur singulière de rang j (slide 59)
+  ailleurs:
+    dss: signal d'erreur du nœud j dans la rétropropagation, que la slide 159 écrit aussi
+      $EI_j$
+  note: collision interne à la source
 - symbole: $m$
   ici: prédicteurs tirés à chaque coupure (slide 113)
   ailleurs:

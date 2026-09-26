@@ -20,7 +20,7 @@ app = lambda t: 0.15 + 0.85 * math.exp(-t / 2.2)
 reg = lambda t: app(t) + 0.012 * t * t
 T = min((k / 100 for k in range(1, 1000)), key=reg)
 
-f = Figure(xmin=0, xmax=10.5, ymin=0, ymax=1.25, w=560, h=300,
+f = Figure(xmin=0, xmax=10.5, ymin=0, ymax=1.45, w=560, h=300,
            titre="L'erreur d'apprentissage ne dit jamais quand s'arrêter ; celle du réglage, si")
 f.axes(xlab="itérations d'entraînement", ylab="erreur", xticks=(), yticks=())
 f.segment(T, 0, T, 1.1, couleur=ACCENT, epaisseur=1.6)

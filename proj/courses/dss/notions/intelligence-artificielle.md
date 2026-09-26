@@ -13,7 +13,7 @@ refs:
 ---
 
 ## Ce que c'est
-Apprendre à ordonner un jeu de données dans un environnement ouvert et s'adapter dynamiquement aux changements sans intervention humaine. [slide 6]
+Apprendre à mettre en ordre un jeu de données dans un environnement ouvert et s'adapter dynamiquement aux changements sans intervention humaine. [slide 6]
 
 ## Ce qui la définit
 Ce qui la sépare de l'apprentissage automatique n'est pas la méthode mais l'ouverture de l'environnement : la distribution des données peut changer, et personne ne réentraîne. [slide 6]

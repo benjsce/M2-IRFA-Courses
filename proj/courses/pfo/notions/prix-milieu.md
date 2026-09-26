@@ -33,7 +33,7 @@ pfo/fourchette-bid-ask fournit les deux prix affichés, le bid et l'ask, dont le
 Le prix milieu est ce qui reste de la fourchette quand on renonce à son écart : il garde le centre et jette la largeur, c'est-à-dire l'information sur l'illiquidité. [ajout]
 
 ## Exemple minimal
-Avec 99,90 à l'achat et 100,10 à la vente, le prix milieu vaut 100,00. [ajout]
+Avec un bid à 99,90 et un ask à 100,10, le prix milieu vaut 100,00. [ajout]
 
 ## Geste de calcul type
 Pour chaque date, additionner les deux colonnes du carnet et diviser par deux : $(99{,}90 + 100{,}10)/2 = 100{,}00$. [ajout]

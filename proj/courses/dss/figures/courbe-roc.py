@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 r"""
-courbe-roc.svg — une courbe ROC d'AUC 0,75, entre le hasard et le parfait.
+courbe-roc.svg — une courbe ROC d'AUC 0,75 : chaque seuil est un point, l'aire les résume tous.
 
-La fiche place deux repères : le classifieur aléatoire est la diagonale, le classifieur
-parfait le coin supérieur gauche. La courbe dessinée a l'AUC de l'exemple, 0,75, soit un
-GINI de 0,50 ; sa forme est celle de deux scores gaussiens de même écart type, choisie
-pour le dessin, et l'aire grisée sous elle est l'AUC.
+Ce que la figure doit faire voir : le seuil, qu'on ne connaît pas, balaie la courbe. Trois
+seuils y sont marqués ; chacun donne une matrice de confusion, donc un point (taux de faux
+positifs, taux de vrais positifs), et baisser le seuil fait monter le long de la courbe.
+La diagonale est le hasard, le coin supérieur gauche le classifieur parfait, et l'aire
+grisée sous la courbe est l'AUC de l'exemple, 0,75, soit un GINI de 0,50. La forme de la
+courbe, celle de deux scores gaussiens de même écart type, est choisie pour le dessin.
 
 Usage : python courses/dss/figures/courbe-roc.py > courbe-roc.svg
 Dépendance : aucune.
@@ -45,8 +47,16 @@ f.courbe([(0, 0), (0, 1), (1, 1)], couleur=AJOUT, epaisseur=1.6, pointilles="2 4
 f.courbe(pts, couleur=ACCENT, epaisseur=2.6)
 f.point(0, 1, couleur=AJOUT, r=5)
 f.texte(0, 1, "parfait : AUC 1, GINI 1", couleur=AJOUT, dx=10, dy=16, taille=11.5, gras=True)
-f.texte(0.7, 0.7, "hasard : AUC ½, GINI 0", couleur=DOUX, dx=8, dy=14, taille=11.5, fond=True)
-f.texte(0.55, 0.35, "AUC 0,75", couleur=ACCENT, ancre="middle", gras=True)
-f.texte(0.55, 0.35, "GINI 2 × 0,75 − 1 = 0,50", couleur=ACCENT, ancre="middle", dy=16, taille=11.5)
+f.texte(0.99, 0.5, "hasard : AUC ½, GINI 0", couleur=DOUX, ancre="end", taille=11.5, fond=True)
+
+# trois seuils sur l'échelle du score : négatifs centrés en 0, positifs en D
+for seuil, nom, dx, dy in ((1.5, "seuil haut", 8, 5), (0.5, "seuil moyen", 8, 8),
+                           (-0.5, "seuil bas", 4, 20)):
+    x, y = 1 - N.cdf(seuil), 1 - N.cdf(seuil - D)
+    f.point(x, y, couleur=ENCRE, r=4.2)
+    f.texte(x, y, nom, dx=dx, dy=dy, taille=11.5, fond=True)
+
+f.texte(0.45, 0.2, "AUC 0,75", couleur=ACCENT, ancre="middle", gras=True)
+f.texte(0.45, 0.2, "GINI 2 × 0,75 − 1 = 0,50", couleur=ACCENT, ancre="middle", dy=16, taille=11.5)
 
 sys.stdout.write(f.svg())

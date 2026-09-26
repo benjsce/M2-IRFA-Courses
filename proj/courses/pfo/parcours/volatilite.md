@@ -32,7 +32,7 @@ Les rendements sont propres. Il faut maintenant dire combien ils bougent et s'il
    Histoire : « Que faut-il croire de sa volatilité aujourd'hui » — L'EWMA, moyenne mobile à pondération exponentielle, mélange la variance de la veille, $0{,}01^2=0{,}0001$ pour 1 % par jour, et le carré du dernier rendement, en donnant au passé le poids $\lambda=0{,}94$ usuel pour des données journalières : $0{,}94\times0{,}0001+0{,}06\times0{,}02^2=0{,}000118$, soit une volatilité de $\sqrt{0{,}000118}\approx1{,}09\,\%$. Elle monte, sans oublier le passé : ce jour-là, c'est 1,09 % et non 1 % qu'il faudrait mettre dans la matrice. [ajout]
 
 5. pfo/effet-epps
-   Seconde difficulté : Tokyo ferme avant que Paris ouvre. Une corrélation calculée jour par jour sur ces places est-elle fiable ? [§1.3.1]
+   Seconde difficulté : Tokyo ferme avant que Paris ouvre. Une corrélation calculée jour par jour sur ces places est-elle fiable ? [§1.3.1, ajout]
    Suite : Supposons que le premier actif cote à Tokyo et le second à Paris. Calculée sur leurs rendements journaliers, leur corrélation ne sort qu'à 0,4 ; sur leurs rendements hebdomadaires, à 0,5. Laquelle croire ? [ajout]
    Histoire : « Laquelle croire » — La seconde. Une nouvelle tombée l'après-midi à Paris ne touche Tokyo que le lendemain : les deux rendements d'un même jour ne portent pas les mêmes nouvelles, et la corrélation journalière tombe sous sa vraie valeur. Sur une semaine, ce décalage d'un jour ne pèse presque plus. [ajout]
 

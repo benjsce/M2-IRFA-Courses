@@ -21,8 +21,10 @@ from figure import Figure, Planche, ACCENT, ENCRE, DOUX, AJOUT      # noqa: E402
 
 def cadre(titre, trace, couleur):
     g = Figure(xmin=-6, xmax=6, ymin=-0.1, ymax=1.2, w=270, h=240, marges=(30, 30, 36, 10))
-    g.axes(xlab="a", xticks=(0,), yticks=(0.5, 1), fmt=lambda t: "0",
+    g.axes(xlab="a", xticks=(), yticks=(0.5, 1),
            fmt_y=lambda t: ("%g" % t).replace(".", ","), croix=(0, 0))
+    # le « 0 » de l'origine, posé à gauche de l'axe vertical pour qu'il ne le traverse pas
+    g.texte(0, 0, "0", couleur=DOUX, ancre="end", dx=-5, dy=16, taille=11.5)
     trace(g, couleur)
     g.texte(0, 1.2, titre, couleur=couleur, ancre="middle", dy=-10, gras=True)
     return g
@@ -38,7 +40,8 @@ def sigmoide(g, c):
     s = lambda a: 1 / (1 + math.exp(-a))
     g.fonction(s, -6, 6, n=200, couleur=c, epaisseur=2.6)
     g.fonction(lambda a: 0.5 + 0.25 * a, -1.6, 1.6, couleur=AJOUT, epaisseur=1.4)
-    g.texte(1.6, 0.9, "pente o(1 − o)", couleur=AJOUT, dx=4, taille=11)
+    # sous la courbe, à droite du bout de la tangente : ni la courbe ni la tangente ne le croisent
+    g.texte(1.7, 0.55, "pente o(1 − o)", couleur=AJOUT, dx=4, taille=11, fond=True)
 
 
 p = Planche([cadre("seuil : un saut", seuil, DOUX), cadre("sigmoïde : dérivable", sigmoide, ACCENT)],
