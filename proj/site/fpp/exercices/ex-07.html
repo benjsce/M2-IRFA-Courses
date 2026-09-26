@@ -219,6 +219,7 @@ footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);f
 
 /* ---- arbre ---- */
 .barre{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+.barre.plier{justify-content:flex-end;margin:.2rem 0 -.2rem}
 #scene{position:relative;border:1px solid var(--li);border-radius:var(--r);background:var(--bg2);
   height:min(74vh,720px);overflow:hidden;touch-action:none;cursor:grab}
 #scene.drag{cursor:grabbing}
@@ -403,10 +404,21 @@ document.addEventListener('DOMContentLoaded',function(){
 <script>
 document.addEventListener('DOMContentLoaded',function(){
   /* pliage mémorisé par rubrique (règle 5), et transporté d'une page à l'autre */
-  document.querySelectorAll('details.sec[data-k]').forEach(function(d){
+  var secs=document.querySelectorAll('details.sec[data-k]'),bp=document.getElementById('tout-plier');
+  function libelle(){
+    if(!bp)return;var ferme=false;
+    secs.forEach(function(d){if(!d.open)ferme=true});
+    bp.textContent=ferme?'tout déplier':'tout replier';bp.setAttribute('data-v',ferme?'1':'0');}
+  secs.forEach(function(d){
     var k=d.getAttribute('data-k'),v=ETAT.pli(k);
     if(v!==null)d.open=v;
-    d.addEventListener('toggle',function(){ETAT.setPli(k,d.open)});});
+    d.addEventListener('toggle',function(){ETAT.setPli(k,d.open);libelle()});});
+  /* tout à la fois : ouvrir tout s'il reste une rubrique fermée, sinon tout refermer */
+  if(bp){if(!secs.length)bp.parentNode.style.display='none';
+    libelle();
+    bp.addEventListener('click',function(){
+      var v=bp.getAttribute('data-v')==='1';
+      secs.forEach(function(d){d.open=v});libelle();});}
   /* amont et aval : même état « déjà su », un compteur par liste (règle 7) */
   function compte(){
     document.querySelectorAll('.sec').forEach(function(s){

@@ -42,6 +42,10 @@ Ces règles sont des contraintes du générateur, pas des conseils.
 5. **Divulgation progressive.** À l'ouverture d'une fiche : « Ce que c'est », « Forme »,
    « Ce qui la définit ». Les autres rubriques sont repliées, dans l'ordre, et se
    déplient d'un clic. L'état de pliage est mémorisé par navigateur (`localStorage`).
+   Un bouton, en tête des rubriques, les déplie toutes à la fois, ou les replie toutes
+   quand elles sont déjà ouvertes ; son intitulé dit ce qu'il fera, et suit le pliage fait
+   à la main. *Demandé par l'utilisateur le 2026-09-26 : « un petit bouton qui permet de
+   déplier ou replier les sections, tout à la fois ».*
 6. **Le socle est clos, et il le dit.** Lire le socle d'une fiche suffit : aucune de ses
    notions ne renvoie à une notion absente de la liste (SPEC-MODELE §6). La page l'écrit,
    parce que c'est ce qui autorise le lecteur à s'arrêter. Le fait que le niveau soit le
