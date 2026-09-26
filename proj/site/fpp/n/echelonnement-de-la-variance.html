@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="fr" data-rel="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Échelonnement de la variance · notions</title>
+<script>
+/* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
+   localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
+   cases « déjà su » ne peuvent donc pas traverser les pages par là. Ils voyagent dans
+   le fragment de l'URL, que tous les liens internes portent ; localStorage ne sert plus
+   que de mémoire locale, pour la page qu'on rouvre sans fragment.
+   Ce script s'exécute avant le rendu : sinon le thème clignote à chaque page. */
+(function(){
+var H={},h=(location.hash||'').replace(/^#/,'');
+h.split('~').forEach(function(p){var i=p.indexOf(':');if(i>0)H[p.slice(0,i)]=p.slice(i+1)});
+window.ETAT_URL=H;
+function loc(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+var t=H.t?(H.t==='d'?'dark':'light'):loc('notions.theme','');
+if(t)document.documentElement.setAttribute('data-theme',t);
+var a=(H.a!==undefined)?H.a:loc('notions.ajouts','1');
+if(a==='0')document.documentElement.classList.add('sans-ajouts');
+})();
+</script>
+<style>
+:root{
+  --bg:#fbfaf7; --bg2:#f3f0ea; --fg:#1b1a17; --mut:#6c675d; --fai:#8e887c;
+  --li:#e0dbd1; --li2:#cdc6b8; --card:#ffffff; --acc:#8a4f23; --acc2:#f3e7dc;
+  --ajo:#6d5a8c; --ajo2:#efe9f5; --lim:#9a3a2e; --ok:#3f6b46; --faute:#a8631a;
+  --r:8px; --w:min(72rem,100%);
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}}
+:root[data-theme="dark"]{
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}
+.fig{margin:.9rem 0;padding:.5rem .2rem .2rem;text-align:center}
+/* « > svg » et non « svg » : MathJax pose son propre <svg> dans la légende, et
+   une règle non ancrée en faisait un bloc qui coupait la phrase en trois. */
+.fig > svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig figcaption{margin-top:.35rem;font-family:var(--sans);font-size:.82rem;
+  color:var(--mut);text-align:center;line-height:1.45}
+@media print{.fig{break-inside:avoid}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
+  font-size:17px;line-height:1.62;overflow-wrap:break-word}
+a{color:var(--acc);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-style:dotted}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+.wrap{width:var(--w);margin:0 auto;padding:0 1rem}
+
+/* ---- barre du haut ---- */
+header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
+  border-bottom:1px solid var(--li);font-family:var(--sans)}
+.topin{width:var(--w);margin:0 auto;padding:.45rem 1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.brand{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--fg);letter-spacing:.02em}
+.fil{color:var(--mut);font-size:.82rem;flex:1 1 8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fil a{color:var(--mut)}
+.btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
+  border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+a.btn{text-decoration:none}
+.btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
+.rech{position:relative;flex:0 1 16rem;min-width:9rem}
+.rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
+  border:1px solid var(--li2);border-radius:var(--r);background:var(--card);color:var(--fg)}
+.res{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--li2);
+  border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.14);max-height:60vh;overflow:auto;padding:.2rem;margin:0;
+  list-style:none;display:none;z-index:50;min-width:18rem}
+.res.on{display:block}
+.res li a{display:block;padding:.3rem .45rem;border-radius:6px;text-decoration:none;color:var(--fg);font-size:.86rem}
+.res li a:hover,.res li.sel a{background:var(--acc2)}
+.res .sub{color:var(--mut);font-size:.76rem;font-family:var(--sans)}
+.res .vide{padding:.4rem .5rem;color:var(--mut);font-size:.84rem}
+
+main{padding:1.4rem 0 4rem}
+h1{font-size:1.75rem;line-height:1.24;margin:.2rem 0 .3rem}
+h2{font-size:1.06rem;font-family:var(--sans);font-weight:600;letter-spacing:.01em;margin:0}
+h3{font-size:.95rem;font-family:var(--sans);margin:1.2rem 0 .3rem}
+p{margin:.55rem 0}
+.ptag{font-family:var(--sans);font-size:.74rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .5rem}
+
+/* ---- métadonnées de fiche ---- */
+.meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;font-family:var(--sans);font-size:.75rem;color:var(--mut);margin:.4rem 0 1.1rem}
+.pill{border:1px solid var(--li2);border-radius:99px;padding:.06rem .5rem;background:var(--card);white-space:nowrap}
+.pill.ajout{color:var(--ajo);border-color:var(--ajo);background:var(--ajo2)}
+.pill.typ{background:var(--acc2);border-color:var(--acc)}
+.sym{font-family:var(--serif);font-size:1rem;color:var(--fg)}
+
+/* ---- sections ---- */
+.sec{border-top:1px solid var(--li);padding:.85rem 0}
+.sec.vide{display:none}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.45rem;padding:.1rem 0}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"›";color:var(--fai);font-family:var(--sans);display:inline-block;
+  transition:transform .12s ease;transform:rotate(0deg);width:.7em}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fai);font-weight:400}
+.corps{padding-top:.25rem}
+.gen{border-left:2px solid var(--li2);padding-left:.7rem}
+.chemin{border-left:3px solid var(--acc);background:var(--bg2);border-radius:0 var(--r) var(--r) 0;
+  padding:.5rem .8rem;margin:.2rem 0 .7rem}
+.chemin p{margin:.35rem 0;font-size:.95rem}
+.chemin p:first-child{margin-top:0}
+.chemin p:last-child{margin-bottom:0}
+.note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
+.parc{border:1px solid var(--li);border-left:3px solid var(--acc);border-radius:0 var(--r) var(--r) 0;
+  background:var(--bg2);padding:.5rem .8rem;margin:.6rem 0;font-size:.93rem}
+.parc-t{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin-bottom:.15rem}
+.parc p{margin:.2rem 0}
+.parc-h{border-left:2px solid var(--li);padding:.1rem 0 .1rem .6rem;margin:.3rem 0 .45rem;color:var(--mut)}
+.parc-h strong{color:var(--fg)}
+.parc-l{font-family:var(--sans);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--acc);margin-right:.25rem}
+.parc-lien{margin-top:.35rem;font-size:.92em}
+.parc-suite{border-left:2px solid var(--acc);padding:.1rem 0 .1rem .6rem;margin:.35rem 0;color:var(--fg);background:var(--acc2)}
+.parc-nav{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--sans);font-size:.8rem;margin-top:.35rem}
+.parc-nav .suiv{margin-left:auto;text-align:right}
+.etapes{list-style:none;padding:0;margin:.6rem 0 1.2rem;counter-reset:e}
+.etapes>li{counter-increment:e;position:relative;padding:0 0 1rem 1.7rem;border-left:2px solid var(--li);margin-left:.9rem}
+.etapes>li:last-child{border-left-color:transparent}
+.etapes>li::before{content:counter(e);position:absolute;left:-.95rem;top:0;width:1.75rem;height:1.75rem;
+  border-radius:99px;background:var(--card);border:1px solid var(--acc);color:var(--acc);
+  font-family:var(--sans);font-size:.78rem;display:flex;align-items:center;justify-content:center}
+.etapes>li>p{margin:.1rem 0 .35rem}
+.etapes .arr{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.45rem .75rem}
+.etapes .arr a.tit{font-weight:600;text-decoration:none}
+.etapes .arr p{margin:.15rem 0;font-size:.88rem;color:var(--mut)}
+.avant{list-style:none;padding:0;margin:.4rem 0 1rem}
+.avant>li{margin:.5rem 0}
+.avant>li p{margin:.1rem 0 0;font-size:.95rem}
+.avant a.tit{font-weight:600;text-decoration:none}
+.avant span.tit.venir{font-weight:600;color:var(--fai);cursor:default}
+.roles{list-style:none;padding:0;margin:.2rem 0 0}
+.roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
+.roles>li.cible{background:var(--acc2)}
+details.parc>summary{cursor:pointer}
+.sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
+.sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
+.sec.faute>summary h2{color:var(--faute)}
+.faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
+  margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.faute-b strong{color:var(--faute)}
+.sec.lim>summary h2{color:var(--lim)}
+.sec.lim>h2{color:var(--lim)}
+
+/* ---- marqueurs de traçabilité ---- */
+.marq{font-family:var(--sans);font-size:.7rem;color:var(--fai);white-space:nowrap;vertical-align:.12em}
+.marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
+.marqligne{margin:.15rem 0 0}
+html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
+.bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
+  color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
+
+/* ---- pastilles ---- */
+.pasts{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0;padding:0;list-style:none}
+.past{display:inline-block;font-family:var(--sans);font-size:.82rem;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--li2);border-radius:99px;padding:.12rem .6rem}
+.past:hover{border-color:var(--acc);color:var(--acc)}
+.past .cc{color:var(--fai);font-size:.74rem}
+.past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
+.past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
+.past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
+
+/* ---- socle ---- */
+.socle{list-style:none;padding:0;margin:.3rem 0}
+.socle li{display:flex;gap:.5rem;align-items:baseline;padding:.12rem 0;font-size:.92rem}
+.socle input{margin:0;accent-color:var(--ok)}
+.socle li.su a{color:var(--fai);text-decoration:line-through}
+.compteur{font-family:var(--sans);font-size:.78rem;color:var(--mut)}
+.grp{margin:.5rem 0}
+.grp>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--mut)}
+
+table{border-collapse:collapse;margin:.5rem 0;font-size:.9rem;display:block;overflow-x:auto;max-width:100%}
+th,td{border:1px solid var(--li);padding:.25rem .55rem;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-family:var(--sans);font-size:.78rem;font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+  background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
+ul{padding-left:1.1rem}
+hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
+
+/* ---- cartes d'accueil / carte du cours ---- */
+.cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
+.carte{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.65rem .8rem}
+.carte h3{margin:0 0 .2rem}
+.carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
+.carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
+.dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.vise{animation:vise 1.6s ease}
+@keyframes vise{from{background:var(--acc2)}to{background:transparent}}
+
+/* ---- orientation : ce qui s'adresse au lecteur qui arrive ---- */
+.entree{border:1px solid var(--li2);border-left:3px solid var(--acc);border-radius:var(--r);
+  padding:.7rem .9rem;margin:.8rem 0 1.4rem;background:var(--card)}
+.entree p{margin:.3rem 0;font-size:.92rem}
+.entree .quoi{font-size:1.02rem}
+.entree ul{margin:.5rem 0 .2rem;padding-left:1.1rem;font-family:var(--sans);font-size:.88rem}
+.entree li{margin:.2rem 0}
+.chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
+.chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
+.aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
+/* L'en-tête est collant : une ancre visée ne doit pas passer dessous. Mesuré :
+   il fait 48 px sur une ligne, 85 px quand il se replie en deux (écran étroit). */
+[id]{scroll-margin-top:6rem}
+.aide p,.aide ul,.aide table{max-width:42rem}
+.dette ul{margin:.3rem 0 0}
+footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
+
+/* ---- arbre ---- */
+.barre{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+.barre.plier{justify-content:flex-end;margin:.2rem 0 -.2rem}
+#scene{position:relative;border:1px solid var(--li);border-radius:var(--r);background:var(--bg2);
+  height:min(74vh,720px);overflow:hidden;touch-action:none;cursor:grab}
+#scene.drag{cursor:grabbing}
+#pan{position:absolute;transform-origin:0 0;top:0;left:0}
+#aretes{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+#aretes path{fill:none;stroke:var(--li2);stroke-width:1.5}
+.noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
+  padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
+.noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
+.noeud .nm{font-weight:600}
+.noeud .nm a{text-decoration:none;color:var(--fg)}
+.noeud .nm a:hover{color:var(--acc)}
+.noeud .pa{color:var(--mut);font-size:.72rem;display:block;margin-top:.1rem}
+.noeud .pli{font:inherit;font-size:.72rem;background:none;border:1px solid var(--li2);border-radius:4px;
+  color:var(--mut);cursor:pointer;padding:0 .3rem;margin-right:.25rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.4rem}
+  .rech{flex:1 1 100%;order:9}
+  #scene{height:66vh}
+}
+@media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="brand" href="../../index.html">notions</a><span class="fil"><a href="../../fpp/index.html">Financial Products and Introduction to Pricing</a> › Échelonnement de la variance</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><h1>Échelonnement de la variance</h1><div class="meta"><span class="pill sym">$\sigma(T)$, $Y(T)$</span><a class="pill typ" href="../../aide.html" data-v="types" title="un objet du cours, celui qu’on manipule">notion</a><a class="pill" href="../../fpp/index.html">fpp</a><a class="pill" href="../../aide.html" data-v="niveau" title="ordre de lecture : nombre de notions à traverser, au plus long, pour arriver jusqu’à celle-ci. Niveau 0 = ne dépend d’aucune autre.">niveau 1</a><a class="pill" href="../../fpp/arbre.html" data-noeud="fpp/echelonnement-de-la-variance" title="cette notion n’est rangée sous aucune famille">arbre du cours</a><span class="pill">§5.3</span><span class="pill">Rem. 1</span><span class="pill">exo. 18</span></div><p class="note">aussi : scaling of variance, racine du temps, square root of time</p><div class="parc"><div class="parc-t"><a href="../../aide.html" data-v="parcours">Parcours</a> <a href="../../fpp/parcours/risque-neutre.html#e4">« Donner un prix à un paiement aléatoire »</a> · étape 4 sur 6</div><div class="parc-h"><p class="is-ajout">Une banque doit coter un contrat qui paiera dans un an l'excédent de l'action sur 100, si elle le dépasse ; l'action vaut 100 aujourd'hui. Le taux à un an est de 4 %. Ses analystes attendent une hausse moyenne de 8 %. Quelle moyenne prendre pour fixer le prix ? <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p class="is-ajout">La banque cote aussi un autre titre, qui vaut 100 et verse en continu un dividende de 2 % par an. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><div class="parc-suite"><p class="is-ajout"><span class="parc-l">L’histoire continue</span> Il faut aussi savoir de combien l'action peut s'écarter de sa moyenne : sa volatilité est de 20 % par an. Le contrat dure un an ; <strong>un contrat voisin dure trois mois</strong>. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div></div><p class="is-ajout"><span class="parc-l">Dans l’histoire</span> Sur trois mois, l'écart type du log-rendement vaut $20\,\%\times\sqrt{0{,}25}=10\,\%$ : la moitié de celui d'un an, et non le quart. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p><span class="parc-l">Depuis l’étape précédente</span> Comment passer de la dispersion sur un an à la dispersion sur une autre durée ? <span class="marq" title="référence à la source">[§5.3]</span></p><div class="parc-nav"><a class="prec" href="../../fpp/n/tendance-risque-neutre.html">← Tendance risque-neutre</a><a class="suiv" href="../../fpp/n/transformee-de-laplace-gaussienne.html">Transformée de Laplace gaussienne →</a></div></div><details class="parc"><summary class="parc-t"><a href="../../aide.html" data-v="parcours">Parcours</a> · cette notion est supposée connue par 2 parcours : voici le rôle qu’elle y joue</summary><ul class="roles"><li id="p-portefeuille"><p><a href="../../pfo/parcours/portefeuille.html#avant">« Répartir un capital entre plusieurs actifs »</a> <span class="cc">(pfo, références de ce cours)</span> : c'est l'hypothèse qui autorise à multiplier une variance journalière par le nombre de séances. <span class="marq" title="référence à la source">[§3.0.7]</span></p></li><li id="p-volatilite"><p><a href="../../pfo/parcours/volatilite.html#avant">« Mesurer la volatilité et les co-mouvements »</a> <span class="cc">(pfo, références de ce cours)</span> : c'est lui qui justifie de multiplier une variance journalière par 252 pour la porter à l'année, et une variance hebdomadaire par 52 ; c'est ce qui permet, à la fin, de comparer deux estimations faites à des fréquences différentes. <span class="marq" title="référence à la source">[éq. 1.11, Listing 1.4]</span></p></li></ul></details><script>(function(){var h=location.hash;if(h.indexOf('#p-')!==0)return;var e=document.getElementById(h.slice(1));if(!e)return;var d=e.closest('details');if(d)d.open=true;e.classList.add('cible');})();</script><div class="barre plier"><button class="btn" type="button" id="tout-plier">tout déplier</button></div><section class="sec " data-oblig="1"><h2>Ce que c'est</h2><div class="corps"><p>Quand les accroissements du log-prix sont indépendants et de même loi, la variance croît comme le temps et l'écart type comme sa racine. <span class="marq" title="référence à la source">[§5.3]</span></p></div></section><section class="sec " data-oblig="1"><h2>Forme</h2><div class="corps"><p>$$\sigma^2(T)=\sigma^2\,T,\qquad \sigma(T)=\sigma\sqrt T$$ <span class="marq" title="référence à la source">[§5.3]</span></p></div></section><section class="sec "><h2>Ce que les symboles modélisent</h2><div class="corps"><p>$Y(T)$ est le log-rendement cumulé de 0 à $T$, tel que $\tilde S_T=e^{Y(T)}$ ; $\sigma(T)$ est son écart type sur toute la durée $T$ ; $\sigma$ la volatilité sur une unité de temps, l'année, et $T$ la durée comptée en années. <span class="marq" title="référence à la source">[§5.3]</span></p></div></section><details class="sec " data-k="retrouver"><summary><h2>Retrouver la formule</h2></summary><div class="corps"><figure class="fig is-ajout"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 320" width="100%" height="auto" role="img" style="color:var(--fg);max-width:560px;height:auto"><title>L'écart type croît comme la racine du temps : 10 % en trois mois, 20 % en un an</title><path d="M54 16 L54 280 M54 148 L542 148" fill="none" stroke="var(--mut)" stroke-width="1.2"/><path d="M54 148 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="54" y="165" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0</text><path d="M170.19 148 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="170.19" y="165" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0,25</text><path d="M286.38 148 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="286.38" y="165" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0,5</text><path d="M402.57 148 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="402.57" y="165" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0,75</text><path d="M518.76 148 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="518.76" y="165" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">1</text><path d="M54 258 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="46" y="262" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">-20</text><path d="M54 203 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="46" y="207" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">-10</text><path d="M54 148 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="46" y="152" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0</text><path d="M54 93 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="46" y="97" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">+10</text><path d="M54 38 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="46" y="42" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">+20</text><text x="542" y="181" text-anchor="end" font-size="12" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">années</text><text x="10" y="10" text-anchor="start" font-size="12" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">log-rendement, en %</text><path d="M54 148 L518.76 38" fill="none" stroke="var(--li2)" stroke-width="1.4" stroke-dasharray="5 4" stroke-linecap="round" stroke-linejoin="round"/><path d="M54 148 L518.76 258" fill="none" stroke="var(--li2)" stroke-width="1.4" stroke-dasharray="5 4" stroke-linecap="round" stroke-linejoin="round"/><path d="M54 148 L56.32 140.22 L58.65 137 L60.97 134.53 L63.3 132.44 L65.62 130.61 L67.94 128.95 L70.27 127.42 L72.59 126 L74.91 124.67 L77.24 123.4 L79.56 122.2 L81.89 121.06 L84.21 119.96 L86.53 118.9 L88.86 117.88 L91.18 116.89 L93.5 115.93 L95.83 115 L98.15 114.1 L100.48 113.21 L102.8 112.36 L105.12 111.52 L107.45 110.7 L109.77 109.89 L112.1 109.11 L114.42 108.34 L116.74 107.58 L119.07 106.84 L121.39 106.11 L123.71 105.4 L126.04 104.69 L128.36 104 L130.69 103.32 L133.01 102.65 L135.33 101.98 L137.66 101.33 L139.98 100.69 L142.3 100.05 L144.63 99.43 L146.95 98.81 L149.28 98.2 L151.6 97.59 L153.92 97 L156.25 96.41 L158.57 95.82 L160.9 95.25 L163.22 94.68 L165.54 94.11 L167.87 93.55 L170.19 93 L172.51 92.45 L174.84 91.91 L177.16 91.37 L179.49 90.84 L181.81 90.32 L184.13 89.79 L186.46 89.28 L188.78 88.76 L191.1 88.25 L193.43 87.75 L195.75 87.25 L198.08 86.75 L200.4 86.26 L202.72 85.77 L205.05 85.29 L207.37 84.81 L209.7 84.33 L212.02 83.86 L214.34 83.39 L216.67 82.92 L218.99 82.46 L221.31 82 L223.64 81.54 L225.96 81.09 L228.29 80.64 L230.61 80.19 L232.93 79.75 L235.26 79.31 L237.58 78.87 L239.9 78.43 L242.23 78 L244.55 77.57 L246.88 77.14 L249.2 76.71 L251.52 76.29 L253.85 75.87 L256.17 75.45 L258.5 75.03 L260.82 74.62 L263.14 74.21 L265.47 73.8 L267.79 73.39 L270.11 72.99 L272.44 72.59 L274.76 72.19 L277.09 71.79 L279.41 71.39 L281.73 71 L284.06 70.61 L286.38 70.22 L288.7 69.83 L291.03 69.44 L293.35 69.06 L295.68 68.68 L298 68.3 L300.32 67.92 L302.65 67.54 L304.97 67.17 L307.3 66.79 L309.62 66.42 L311.94 66.05 L314.27 65.68 L316.59 65.32 L318.91 64.95 L321.24 64.59 L323.56 64.23 L325.89 63.87 L328.21 63.51 L330.53 63.15 L332.86 62.79 L335.18 62.44 L337.5 62.09 L339.83 61.74 L342.15 61.39 L344.48 61.04 L346.8 60.69 L349.12 60.34 L351.45 60 L353.77 59.66 L356.1 59.32 L358.42 58.97 L360.74 58.64 L363.07 58.3 L365.39 57.96 L367.71 57.63 L370.04 57.29 L372.36 56.96 L374.69 56.63 L377.01 56.3 L379.33 55.97 L381.66 55.64 L383.98 55.31 L386.3 54.99 L388.63 54.66 L390.95 54.34 L393.28 54.02 L395.6 53.69 L397.92 53.37 L400.25 53.06 L402.57 52.74 L404.9 52.42 L407.22 52.1 L409.54 51.79 L411.87 51.48 L414.19 51.16 L416.51 50.85 L418.84 50.54 L421.16 50.23 L423.49 49.92 L425.81 49.61 L428.13 49.31 L430.46 49 L432.78 48.69 L435.1 48.39 L437.43 48.09 L439.75 47.79 L442.08 47.48 L444.4 47.18 L446.72 46.88 L449.05 46.59 L451.37 46.29 L453.7 45.99 L456.02 45.69 L458.34 45.4 L460.67 45.1 L462.99 44.81 L465.31 44.52 L467.64 44.23 L469.96 43.94 L472.29 43.64 L474.61 43.36 L476.93 43.07 L479.26 42.78 L481.58 42.49 L483.9 42.21 L486.23 41.92 L488.55 41.64 L490.88 41.35 L493.2 41.07 L495.52 40.79 L497.85 40.5 L500.17 40.22 L502.5 39.94 L504.82 39.66 L507.14 39.38 L509.47 39.11 L511.79 38.83 L514.11 38.55 L516.44 38.28 L518.76 38" fill="none" stroke="var(--acc)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M54 148 L56.32 155.78 L58.65 159 L60.97 161.47 L63.3 163.56 L65.62 165.39 L67.94 167.05 L70.27 168.58 L72.59 170 L74.91 171.33 L77.24 172.6 L79.56 173.8 L81.89 174.94 L84.21 176.04 L86.53 177.1 L88.86 178.12 L91.18 179.11 L93.5 180.07 L95.83 181 L98.15 181.9 L100.48 182.79 L102.8 183.64 L105.12 184.48 L107.45 185.3 L109.77 186.11 L112.1 186.89 L114.42 187.66 L116.74 188.42 L119.07 189.16 L121.39 189.89 L123.71 190.6 L126.04 191.31 L128.36 192 L130.69 192.68 L133.01 193.35 L135.33 194.02 L137.66 194.67 L139.98 195.31 L142.3 195.95 L144.63 196.57 L146.95 197.19 L149.28 197.8 L151.6 198.41 L153.92 199 L156.25 199.59 L158.57 200.18 L160.9 200.75 L163.22 201.32 L165.54 201.89 L167.87 202.45 L170.19 203 L172.51 203.55 L174.84 204.09 L177.16 204.63 L179.49 205.16 L181.81 205.68 L184.13 206.21 L186.46 206.72 L188.78 207.24 L191.1 207.75 L193.43 208.25 L195.75 208.75 L198.08 209.25 L200.4 209.74 L202.72 210.23 L205.05 210.71 L207.37 211.19 L209.7 211.67 L212.02 212.14 L214.34 212.61 L216.67 213.08 L218.99 213.54 L221.31 214 L223.64 214.46 L225.96 214.91 L228.29 215.36 L230.61 215.81 L232.93 216.25 L235.26 216.69 L237.58 217.13 L239.9 217.57 L242.23 218 L244.55 218.43 L246.88 218.86 L249.2 219.29 L251.52 219.71 L253.85 220.13 L256.17 220.55 L258.5 220.97 L260.82 221.38 L263.14 221.79 L265.47 222.2 L267.79 222.61 L270.11 223.01 L272.44 223.41 L274.76 223.81 L277.09 224.21 L279.41 224.61 L281.73 225 L284.06 225.39 L286.38 225.78 L288.7 226.17 L291.03 226.56 L293.35 226.94 L295.68 227.32 L298 227.7 L300.32 228.08 L302.65 228.46 L304.97 228.83 L307.3 229.21 L309.62 229.58 L311.94 229.95 L314.27 230.32 L316.59 230.68 L318.91 231.05 L321.24 231.41 L323.56 231.77 L325.89 232.13 L328.21 232.49 L330.53 232.85 L332.86 233.21 L335.18 233.56 L337.5 233.91 L339.83 234.26 L342.15 234.61 L344.48 234.96 L346.8 235.31 L349.12 235.66 L351.45 236 L353.77 236.34 L356.1 236.68 L358.42 237.03 L360.74 237.36 L363.07 237.7 L365.39 238.04 L367.71 238.37 L370.04 238.71 L372.36 239.04 L374.69 239.37 L377.01 239.7 L379.33 240.03 L381.66 240.36 L383.98 240.69 L386.3 241.01 L388.63 241.34 L390.95 241.66 L393.28 241.98 L395.6 242.31 L397.92 242.63 L400.25 242.94 L402.57 243.26 L404.9 243.58 L407.22 243.9 L409.54 244.21 L411.87 244.52 L414.19 244.84 L416.51 245.15 L418.84 245.46 L421.16 245.77 L423.49 246.08 L425.81 246.39 L428.13 246.69 L430.46 247 L432.78 247.31 L435.1 247.61 L437.43 247.91 L439.75 248.21 L442.08 248.52 L444.4 248.82 L446.72 249.12 L449.05 249.41 L451.37 249.71 L453.7 250.01 L456.02 250.31 L458.34 250.6 L460.67 250.9 L462.99 251.19 L465.31 251.48 L467.64 251.77 L469.96 252.06 L472.29 252.36 L474.61 252.64 L476.93 252.93 L479.26 253.22 L481.58 253.51 L483.9 253.79 L486.23 254.08 L488.55 254.36 L490.88 254.65 L493.2 254.93 L495.52 255.21 L497.85 255.5 L500.17 255.78 L502.5 256.06 L504.82 256.34 L507.14 256.62 L509.47 256.89 L511.79 257.17 L514.11 257.45 L516.44 257.72 L518.76 258" fill="none" stroke="var(--acc)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M170.19 203 L170.19 93" fill="none" stroke="var(--li2)" stroke-width="1.2" stroke-dasharray="4 3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="170.19" cy="93" r="3.6" fill="var(--acc)"/><circle cx="170.19" cy="203" r="3.6" fill="var(--acc)"/><text x="164.19" y="85" text-anchor="end" font-size="12.5" fill="var(--acc)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">±10 %</text><text x="512.76" y="30" text-anchor="end" font-size="12.5" fill="var(--acc)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">±20 %</text><circle cx="170.19" cy="120.5" r="3" fill="var(--mut)"/><text x="178.19" y="124.5" text-anchor="start" font-size="12" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">et non ±5 %</text><text x="249.2" y="182.1" text-anchor="start" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">pointillé : si les écarts types s'additionnaient</text></svg><figcaption>L'enveloppe d'un écart type autour du log-prix, pour une volatilité de 20 % par an : elle s'ouvre comme la racine du temps. Au quart de l'année, elle ne vaut pas le quart de 20 % mais la moitié, 10 %. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></figcaption></figure><p>Découpons l'année en quatre trimestres. Le log-rendement de l'année est la somme des quatre log-rendements trimestriels : $Y(T)=\sum_i\Delta Y_i$. <span class="marq" title="référence à la source">[§5.3]</span></p><p>Première hypothèse : les quatre accroissements ont la même loi, donc la même variance. Seconde hypothèse : ils sont indépendants, donc leurs variances s'additionnent, ce que ne font pas leurs écarts types. <span class="marq" title="référence à la source">[§5.3]</span></p><p class="is-ajout">La variance de l'année, $0{,}2^2=0{,}04$, est donc la somme de quatre variances égales de $0{,}01$ ; l'écart type d'un trimestre vaut $\sqrt{0{,}01}=10\,\%$, la moitié de celui de l'année. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p>En général, $\sigma^2(t_1+t_2)=\sigma^2(t_1)+\sigma^2(t_2)$ : la variance est proportionnelle à la durée. <span class="marq" title="référence à la source">[§5.3]</span></p><p>$$\sigma^2(T)=\sigma^2T,\qquad\sigma(T)=\sigma\sqrt T$$ <span class="marq" title="référence à la source">[§5.3]</span></p></div></details><section class="sec " data-oblig="1"><h2>Ce qui la définit</h2><div class="corps"><p>Ce qui est <strong>connu</strong> : la volatilité sur une unité de temps. Ce qu'on <strong>cherche</strong> : la dispersion sur une autre durée. Les écarts types ne s'additionnent pas, les variances si ; le livre d'exercices l'applique à une exposition de change sur trois mois, dont la volatilité est la moitié de la volatilité annuelle, 5 % pour 10 %. <span class="marq" title="référence à la source">[§5.3, exo. 18]</span></p><p>La convention de jours compte : une année de 256 jours donne une volatilité journalière de $\sigma/16$, une année de 365 jours $\sigma/\sqrt{365}$. <span class="marq" title="référence à la source">[Rem. 1, ajout]</span></p></div></section><details class="sec " data-k="construite"><summary><h2>Construite à partir de</h2><span class="cnt">1 prérequis direct</span></summary><div class="corps"><ul class="pasts"><li><a class="past" href="../../fpp/n/volatilite.html">Volatilité<span class="nv">n0</span></a></li></ul><p class="note">Seulement ce dont cette fiche dépend directement. Le socle, juste en dessous, reprend ces notions-ci et y ajoute tout ce dont elles dépendent à leur tour.</p></div></details><details class="sec gen" data-k="socle"><summary><h2>Socle complet</h2><span class="cnt">1 prérequis</span></summary><div class="corps"><div class="chemin"><p class="is-ajout"><a href="../../fpp/n/volatilite.html">Volatilité</a> donne l'écart type du rendement sur une période ; l'échelonnement dit comment ce nombre change quand la période change, pourvu que les périodes successives se ressemblent et ne s'influencent pas. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div><p class="note">Tout ce qu’il faut avoir lu avant cette fiche, du plus élémentaire au plus construit. <strong>La liste est complète</strong> : la lire suffit, aucune de ces notions n’en appelle une autre qui manquerait ici. Cocher une case la barre sur toutes les pages. (<a href="../../aide.html" data-v="socle">en savoir plus</a>)</p><p class="compteur" data-cpt="socle"></p><ul class="socle"><li><input type="checkbox" data-su="fpp/volatilite" aria-label="déjà su : Volatilité"><a href="../../fpp/n/volatilite.html">Volatilité</a> <span class="marq">niveau 0</span></li></ul></div></details><details class="sec gen" data-k="sert"><summary><h2>Sert ensuite à</h2><span class="cnt">4</span></summary><div class="corps"><p class="note">Ce que cette notion permet d’aborder juste après. Seulement l’étape suivante, pas toute la suite : une notion très en amont ouvrirait sinon la moitié du cours.</p><p class="compteur" data-cpt="aval"></p><ul class="socle"><li><input type="checkbox" data-su="pfo/annualisation" aria-label="déjà su : Annualisation des statistiques"><a href="../../pfo/n/annualisation.html">Annualisation des statistiques</a> <span class="marq">niveau 2</span></li><li><input type="checkbox" data-su="pfo/matrice-de-covariance" aria-label="déjà su : Matrice de variance-covariance"><a href="../../pfo/n/matrice-de-covariance.html">Matrice de variance-covariance</a> <span class="marq">niveau 2</span></li><li><input type="checkbox" data-su="pfo/ewma" aria-label="déjà su : Variance EWMA"><a href="../../pfo/n/ewma.html">Variance EWMA</a> <span class="marq">niveau 2</span></li><li><input type="checkbox" data-su="fpp/modele-black-scholes" aria-label="déjà su : Modèle de Black et Scholes"><a href="../../fpp/n/modele-black-scholes.html">Modèle de Black et Scholes</a> <span class="marq">niveau 7</span></li></ul></div></details><details class="sec " data-k="exemple" data-oblig="1"><summary><h2>Exemple minimal</h2></summary><div class="corps"><p class="is-ajout">Une volatilité de 20 % par an donne 10 % sur trois mois et 1,25 % par jour, sur une année de 256 jours. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div></details><details class="sec " data-k="geste" data-oblig="1"><summary><h2>Geste de calcul type</h2></summary><div class="corps"><p>Annualiser une volatilité journalière en la multipliant par la racine du nombre de jours : $1{,}25\,\%\times\sqrt{256}=20\,\%$. <span class="marq" title="référence à la source">[Rem. 1, ajout]</span></p></div></details><details class="sec lim" data-k="limite" data-oblig="1"><summary><h2>Cesse d'être valide quand</h2></summary><div class="corps"><p>Si les accroissements se corrèlent d'une période à l'autre, ou si leur volatilité change, les variances ne s'additionnent plus simplement et la racine du temps se trompe. La moyenne, elle, croît comme le temps et non comme sa racine. <span class="marq" title="référence à la source">[§5.3, ajout]</span></p></div></details></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../../aide.html">comment lire ce site</a> · <a href="../../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../../search-index.js"></script>
+<script>
+var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+        s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- l'état qui traverse les pages ----------------------------------------
+   Voir le commentaire de l'en-tête : en file://, seul le fragment traverse.
+   Forme du fragment :  #t:d~a:0~p:1-0--1...~s:<tampon>.<bits>~v:<ancre>
+     t  thème      d | l            (absent : celui du système)
+     a  ajouts     0                (absent : montrés)
+     p  pliage     un caractère par clé de CLES_PLI : 1 ouvert, 0 fermé, - inconnu
+     s  déjà su    un bit par notion, six bits par caractère, précédé d'un tampon
+     v  ancre      l'élément vers lequel défiler à l'arrivée
+   Le tampon est calculé sur la liste des identifiants : dès qu'une notion entre dans
+   le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
+   cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
+var ETAT=(function(){
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='a71e',
+    A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
+var pli={},su={};
+if(typeof H.p==='string'){
+  for(var i=0;i<CLES.length&&i<H.p.length;i++){var c=H.p.charAt(i);
+    if(c==='0'||c==='1')pli[CLES[i]]=(c==='1');}
+}else{
+  CLES.forEach(function(k){var v=LS.g('notions.pli.'+k,null);if(v!==null)pli[k]=(v==='1')});
+}
+function decode(t){var o={},q=t.indexOf('.');
+  if(q<0||t.slice(0,q)!==TAMPON)return o;
+  var b=t.slice(q+1);
+  for(var i=0;i<b.length;i++){var v=A64.indexOf(b.charAt(i));if(v<0)continue;
+    for(var j=0;j<6;j++){if(v&(1<<j)){var k=i*6+j;if(k<IDS.length)o[IDS[k]]=1}}}
+  return o;}
+function encode(){var o='';
+  for(var i=0;i<IDS.length;i+=6){var v=0;
+    for(var j=0;j<6;j++){if(su[IDS[i+j]])v|=1<<j}
+    o+=A64.charAt(v);}
+  return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
+if(typeof H.s==='string'){su=decode(H.s)}
+else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
+function frag(ancre,noeud){var p=[];
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t)p.push('t:'+(t==='dark'?'d':'l'));
+  if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
+  var q='';CLES.forEach(function(k){q+=(pli[k]===undefined?'-':(pli[k]?'1':'0'))});
+  if(/[01]/.test(q))p.push('p:'+q);
+  var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
+  if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
+  return p.length?'#'+p.join('~'):'';}
+function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
+function propager(){var f=frag();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';if(!interne(h))return;
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
+  /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
+     Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
+  try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
+  try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}}
+return{pli:function(k){return pli[k]===undefined?null:pli[k]},
+       setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
+       su:function(id){return !!su[id]},
+       setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
+       lien:function(u,v,n){return u+frag(v,n)},
+       ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
+       propager:propager};
+})();
+function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
+  var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
+  b.textContent=on?'masquer les ajouts':'ajouts masqués';}
+  document.querySelectorAll('.sec').forEach(function(s){
+    var c=s.querySelector('.corps');if(!c)return;var n=0;
+    c.querySelectorAll(':scope>*').forEach(function(el){
+      if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
+      if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
+      n++;});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='Cette rubrique existe, mais tout son contenu est un ajout : le filtre le masque. Elle reste visible pour que vous ne concluiez pas qu’elle est vide.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
+  if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var bt=document.getElementById('btheme');
+  if(bt)bt.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    var nx=(cur||sys)==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);
+    ETAT.propager();});
+  var ba=document.getElementById('bajout');
+  if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);ETAT.propager();});
+  majAjouts(!document.documentElement.classList.contains('sans-ajouts'));
+  /* les liens de la page portent l'état ; une ancre demandée est ouverte et visée */
+  ETAT.propager();
+  var an=ETAT.ancre();
+  if(an){var el=document.getElementById(an);
+    if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView();el.classList.add('vise')}}
+  /* --- recherche instantanée (règle 9) --- */
+  var inp=document.getElementById('q'),res=document.getElementById('qres');
+  if(!inp||!res||!window.SEARCH_INDEX)return;
+  var REL=document.documentElement.getAttribute('data-rel')||'';
+  var sel=-1,items=[];
+  function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+  function cherche(q){
+    var n=norm(q);if(!n)return [];
+    var out=[];
+    SEARCH_INDEX.forEach(function(e){
+      var sc=-1,ch=e.h||[];
+      for(var i=0;i<ch.length;i++){var p=norm(ch[i]).indexOf(n);
+        if(p===0){sc=Math.max(sc,3-(i>0?1:0))}else if(p>0){sc=Math.max(sc,1)}}
+      if(sc>=0)out.push([sc,e]);});
+    out.sort(function(a,b){return b[0]-a[0]||a[1].n.localeCompare(b[1].n)});
+    return out.slice(0,9).map(function(x){return x[1]});}
+  function rendre(){
+    items=cherche(inp.value);sel=-1;res.innerHTML='';
+    if(!inp.value){res.classList.remove('on');return}
+    if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
+    items.forEach(function(e,i){
+      var li=document.createElement('li');
+      var a=document.createElement('a');a.href=ETAT.lien(REL+e.u);a.id='qr'+i;
+      a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
+      li.appendChild(a);res.appendChild(li);});
+    res.classList.add('on');}
+  function bouge(d){if(!items.length)return;sel=(sel+d+items.length)%items.length;
+    Array.prototype.forEach.call(res.children,function(li,i){li.classList.toggle('sel',i===sel)});
+    inp.setAttribute('aria-activedescendant','qr'+sel);}
+  inp.addEventListener('input',rendre);
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();bouge(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();bouge(-1)}
+    else if(e.key==='Enter'){var a=res.querySelector(sel>=0?'li.sel a':'li a');if(a){e.preventDefault();location.href=a.href}}
+    else if(e.key==='Escape'){inp.value='';res.classList.remove('on')}});
+  document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
+  document.addEventListener('keydown',function(e){
+    if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  /* pliage mémorisé par rubrique (règle 5), et transporté d'une page à l'autre */
+  var secs=document.querySelectorAll('details.sec[data-k]'),bp=document.getElementById('tout-plier');
+  function libelle(){
+    if(!bp)return;var ferme=false;
+    secs.forEach(function(d){if(!d.open)ferme=true});
+    bp.textContent=ferme?'tout déplier':'tout replier';bp.setAttribute('data-v',ferme?'1':'0');}
+  secs.forEach(function(d){
+    var k=d.getAttribute('data-k'),v=ETAT.pli(k);
+    if(v!==null)d.open=v;
+    d.addEventListener('toggle',function(){ETAT.setPli(k,d.open);libelle()});});
+  /* tout à la fois : ouvrir tout s'il reste une rubrique fermée, sinon tout refermer */
+  if(bp){if(!secs.length)bp.parentNode.style.display='none';
+    libelle();
+    bp.addEventListener('click',function(){
+      var v=bp.getAttribute('data-v')==='1';
+      secs.forEach(function(d){d.open=v});libelle();});}
+  /* amont et aval : même état « déjà su », un compteur par liste (règle 7) */
+  function compte(){
+    document.querySelectorAll('.sec').forEach(function(s){
+      var cpt=s.querySelector('[data-cpt]');if(!cpt)return;
+      var l=s.querySelectorAll('input[data-su]'),k=0;
+      l.forEach(function(c){if(c.checked)k++});
+      cpt.textContent=l.length+' notion'+(l.length>1?'s':'')+', '+(l.length-k)+' à voir';});}
+  document.querySelectorAll('input[data-su]').forEach(function(c){
+    var id=c.getAttribute('data-su');c.checked=ETAT.su(id);
+    c.closest('li').classList.toggle('su',c.checked);
+    c.addEventListener('change',function(){
+      ETAT.setSu(id,c.checked);
+      document.querySelectorAll('input[data-su="'+id+'"]').forEach(function(o){
+        o.checked=c.checked;o.closest('li').classList.toggle('su',c.checked);});
+      compte();});});
+  compte();
+});
+</script>
+</body>
+</html>

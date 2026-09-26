@@ -30,20 +30,19 @@ rapports/          un rapport par ingestion
 
 ## État (2026-09-26)
 
-Cinq cours. `fpp` a été vidé le 2026-09-26 pour être réécrit de zéro : il ne garde que ses
-sources et son `course.yml` (rapport `2026-09-26-fpp-13.md`).
+Cinq cours. `fpp` a été vidé le 2026-09-26, puis réécrit de zéro le 2026-09-27 (rapport
+`2026-09-27-fpp.md`) ; ses exercices restent à rédiger.
 
 | cours | fiches | principes | abstraites | inventaire | source |
 |---|---|---|---|---|---|
-| `fpp` — Financial Products (Gaussel) | — | — | — | — | poly, 16 p. ; livre d'exercices, 28 p. — **en attente de réécriture** |
+| `fpp` — Financial Products (Gaussel) | 54 | 3 | 2 | 127 éléments, dont 24 exercices à venir | poly, 16 p. ; livre d'exercices, 28 p. |
 | `dup` — Decision under Uncertainty (Qu) | 86 | 4 | 7 | 225 éléments, couverts | 4 jeux de slides, 220 slides |
 | `dss` — Data Science Software (Hassani) | 76 | 5 | 5 | 237 éléments, couverts | slides, 237 slides |
 | `pfo` — Python for Finance and Optimisation (Mrad) | 45 | 3 | 5 | 126 éléments, couverts | poly, chapitres 1 à 3, 56 p. |
 | `ods` — Optimization for Data Science (Vaiter, Gramfort) | 46 | 1 | 0 | 97 éléments, couverts | notes, 14 p. ; slides, 32 ; 5 notebooks |
 
-Le validateur passe à 0 erreur. Les avertissements restants sont la dette de la refonte de
-`fpp` : le cours lui-même, en attente d'écriture, et les liens de `pfo` vers
-`fpp/volatilite` et `fpp/echelonnement-de-la-variance`, déclarés à venir.
+Le validateur passe à 0 erreur. Les avertissements restants sont la dette de `fpp` : les
+24 exercices et sections d'exercices de son livre, inventoriés mais pas encore rédigés.
 
 ## Ce qui reste ouvert
 

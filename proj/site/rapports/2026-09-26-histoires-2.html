@@ -293,14 +293,14 @@ risque. dss : fonction d'activation ; indicateur de matrice de confusion. dup : 
 stochastique ; mesure de risque.</p><h2>Parcours</h2><p><strong><code>fpp/parcours-flux</code></strong>, étape 8 (<code>fpp/taux-forward</code>), transition, « Suite : » et « Histoire : »
 - ancien :
 ```
-8. fpp/taux-forward
+8. <a href="../fpp/n/taux-forward.html">Taux forward</a>
    Cette courbe contient davantage que ce qu'elle affiche : on peut y lire le coût d'un emprunt qui ne commencera que plus tard. [§2.3]
    Suite : Une entreprise sait qu'elle devra emprunter dans un an, pour un an. Peut-elle fixer dès aujourd'hui le taux de cet emprunt ? [ajout]
    Histoire : « Peut-elle fixer dès aujourd'hui le taux de cet emprunt » — Oui. Un taux <em>forward</em>, « à terme » en français, est exactement cela : un taux convenu aujourd'hui pour une période qui ne commence que plus tard. La courbe de l'étape précédente suffit à le trouver. Placer pour deux ans d'un coup rapporte 5 % par an, soit 10 % sur les deux ans, puisqu'en capitalisation continue les taux s'ajoutent d'une année à l'autre. Placer un an à 4 %, puis un an au taux fixé aujourd'hui, doit rapporter autant, sinon on gagnerait sans risque à faire l'un et à défaire l'autre. Ce taux vaut donc $10\,\%-4\,\%=6\,\%$ : c'est le taux forward $F(t,t+1,t+2)$. Pour le verrouiller, l'entreprise achète aujourd'hui le zéro-coupon à un an, qui lui versera 1 dans un an, et paie ses 0,9608 en vendant des zéro-coupons à deux ans à 0,9048 pièce : il lui en faut $0{,}9608/0{,}9048\approx1{,}0619$, qu'elle remboursera dans deux ans. Elle reçoit 1 dans un an, rend 1,0619 un an plus tard, et $\ln1{,}0619\approx6\,\%$. [ajout]
 ```
 - nouveau :
 ```
-8. fpp/taux-forward
+8. <a href="../fpp/n/taux-forward.html">Taux forward</a>
    Cette courbe contient davantage que ce qu'elle affiche : que dit-elle d'une année qui ne commence que dans un an ? [§2.3]
    Suite : Pour placer un euro pendant deux ans, on peut le placer d'un coup à 5 % par an, ou le placer un an à 4 % et le replacer pour la seconde année. Quel taux la seconde année devrait-elle offrir pour que les deux façons se valent ? [ajout]
    Histoire : « Quel taux la seconde année devrait-elle offrir » — En capitalisation continue, les taux s'ajoutent d'une année à l'autre : d'un coup, 5 % par an font 10 % sur les deux ans ; en deux temps, la première année apporte 4 %. La seconde doit donc apporter $10\,\%-4\,\%=6\,\%$. Ce taux s'appelle le taux <em>forward</em> de la seconde année, « à terme » en français, noté $F(t,t+1,t+2)$ : un taux qui porte sur une période future, mais qu'on calcule dès aujourd'hui, avec les seuls prix de l'étape précédente, $\ln(0{,}9608/0{,}9048)\approx6\,\%$. Ce n'est qu'un nombre lu dans la courbe : personne ne s'est encore engagé à le payer. [ajout]
@@ -311,13 +311,13 @@ stochastique ; mesure de risque.</p><h2>Parcours</h2><p><strong><code>fpp/parcou
   parcours « Fixer aujourd'hui le prix d'un échange futur ».</p><p><strong><code>fpp/parcours-flux</code></strong>, étape 9 (<code>fpp/taux-de-change</code>), « Suite : » ajoutée et « Histoire : »
 - ancien :
 ```
-9. fpp/taux-de-change
+9. <a href="../fpp/n/taux-de-change.html">Taux de change</a>
    Reste l'autre coordonnée, la devise, et le nombre qui fait passer de l'une à l'autre. [§2.4]
    Histoire : « 100 dollars dans six mois » — Pour les dollars, il faut une seconde conversion : le taux de change dit combien de dollars vaut un euro. Ramenés à aujourd'hui en dollars, puis divisés par ce taux, les 100 dollars deviennent des euros d'aujourd'hui, comparables aux deux autres flux. [ajout]
 ```
 - nouveau :
 ```
-9. fpp/taux-de-change
+9. <a href="../fpp/n/taux-de-change.html">Taux de change</a>
    Reste l'autre coordonnée, la devise, et le nombre qui fait passer de l'une à l'autre. [§2.4]
    Suite : Le dollar se place à 2 % par an, et un euro s'échange aujourd'hui contre 1,10 dollar. Que valent, en euros d'aujourd'hui, les 100 dollars dans six mois ? [ajout]
    Histoire : « Que valent, en euros d'aujourd'hui, les 100 dollars dans six mois » — Deux conversions, dans cet ordre. D'abord la date, dans la devise du flux : au taux dollar de 2 % continu, un dollar payé dans six mois vaut aujourd'hui $e^{-0{,}02\times0{,}5}\approx0{,}990$ dollar, donc les 100 dollars en valent 99,0 aujourd'hui. Ensuite la devise, au taux de change du jour, $X_t=1{,}10$ dollar pour un euro : $99{,}0/1{,}10=90{,}0$ euros. Le taux de change ne convertit que des montants de la même date ; celui qui s'appliquera dans six mois n'est pas connu aujourd'hui, c'est pourquoi on ramène d'abord les dollars à aujourd'hui. La question du départ est tranchée : 100 euros aujourd'hui, 99,92 pour les 104 dans un an, 90,0 pour les dollars. [ajout]
@@ -351,11 +351,11 @@ stochastique ; mesure de risque.</p><h2>Parcours</h2><p><strong><code>fpp/parcou
 - ancien :    Histoire : « 0,9048 un euro payé dans deux ans » — Un titre qui verse un seul flux, 1 à une date fixée, s'appelle un zéro-coupon, et ces prix sont les siens. Des prix à un an et à deux ans se comparent mal ; on les réécrit en taux annualisé, le taux continu qui redonne le prix : $0{,}9048=e^{-2R}$ donne $R(t,t+2)=-\ln(0{,}9048)/2\approx5\,\%$, et de même $R(t,t+1)=4\,\%$. C'est le taux zéro-coupon, et sa courbe monte. [ajout]
 - nouveau :    Histoire : « 0,9048 un euro payé dans deux ans » — Un titre qui verse un seul flux, 1 à une date fixée, s'appelle un zéro-coupon, et ces prix sont les siens. Des prix à un an et à deux ans se comparent mal ; on les réécrit en taux annualisé, le taux continu qui redonne le prix : $0{,}9048=e^{-2R}$ donne $R(t,t+2)=-\ln(0{,}9048)/2\approx5\,\%$, et de même $R(t,t+1)=4\,\%$. C'est le taux zéro-coupon, et sa courbe, tracée selon la maturité, monte. [ajout]
 - raison : « sa courbe » : on ne disait pas en fonction de quoi elle est tracée ; l'étape 8 s'appuie sur « cette courbe ».</p><p><strong><code>fpp/parcours-terme</code></strong>, à savoir avant (<code>fpp/taux-forward</code>)
-- ancien : - fpp/taux-forward : c'est le taux que le FRA fixe aujourd'hui pour un emprunt futur. [§2.3, Déf. 7]
-- nouveau : - fpp/taux-forward : c'est le taux d'un emprunt futur, un nombre lu dans la courbe au parcours précédent ; un contrat raconté plus loin permet de se l'assurer. [§2.3, Déf. 7]
+- ancien : - <a href="../fpp/n/taux-forward.html">Taux forward</a> : c'est le taux que le FRA fixe aujourd'hui pour un emprunt futur. [§2.3, Déf. 7]
+- nouveau : - <a href="../fpp/n/taux-forward.html">Taux forward</a> : c'est le taux d'un emprunt futur, un nombre lu dans la courbe au parcours précédent ; un contrat raconté plus loin permet de se l'assurer. [§2.3, Déf. 7]
 - raison : « le taux que le FRA fixe » nommait un sigle inconnu à cet endroit et faisait du taux forward un produit du contrat ; il est maintenant un nombre lu dans la courbe, et le contrat vient plus loin.</p><p><strong><code>fpp/parcours-terme</code></strong>, à savoir avant (<code>fpp/taux-de-change</code>)
-- ancien : - fpp/taux-de-change : c'est la grandeur que le forward de change fixe à terme. [§2.4]
-- nouveau : - fpp/taux-de-change : c'est le prix d'une devise pour un échange fait aujourd'hui ; un contrat raconté plus loin en fixe un pour un échange futur. [§2.4]
+- ancien : - <a href="../fpp/n/taux-de-change.html">Taux de change</a> : c'est la grandeur que le forward de change fixe à terme. [§2.4]
+- nouveau : - <a href="../fpp/n/taux-de-change.html">Taux de change</a> : c'est le prix d'une devise pour un échange fait aujourd'hui ; un contrat raconté plus loin en fixe un pour un échange futur. [§2.4]
 - raison : « la grandeur que le forward de change fixe » : même confusion nombre/contrat, et contrat pas encore connu.</p><p><strong><code>fpp/parcours-terme</code></strong>, étape 6 (<code>fpp/prix-a-terme</code>), « Histoire : »
 - ancien :    Histoire : « à l'acheter dans un an » — La réponse tient en une formule, $K=S_t\Phi/D$ : le prix comptant, multiplié par le portage, et transporté jusqu'à l'échéance par le facteur d'actualisation. Sans dividende, $100\times1/0{,}9608\approx104{,}08$. [ajout]
 - nouveau :    Histoire : « à l'acheter dans un an » — La réponse tient en une formule, $K=S_t\Phi/D$ : le prix comptant $S_t$, multiplié par le portage $\Phi$, et divisé par le facteur d'actualisation $D$, qui le transporte jusqu'à l'échéance. Sans dividende, $\Phi=1$ et $D=0{,}9608$ : $100\times1/0{,}9608\approx104{,}08$. [ajout]
@@ -605,7 +605,7 @@ var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}ca
    le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
    cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
 var ETAT=(function(){
-var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='2df8',
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='a71e',
     A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
 var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
 var pli={},su={};

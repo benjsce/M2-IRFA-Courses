@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="fr" data-rel="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Modèle de Black et Scholes · notions</title>
+<script>
+/* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
+   localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
+   cases « déjà su » ne peuvent donc pas traverser les pages par là. Ils voyagent dans
+   le fragment de l'URL, que tous les liens internes portent ; localStorage ne sert plus
+   que de mémoire locale, pour la page qu'on rouvre sans fragment.
+   Ce script s'exécute avant le rendu : sinon le thème clignote à chaque page. */
+(function(){
+var H={},h=(location.hash||'').replace(/^#/,'');
+h.split('~').forEach(function(p){var i=p.indexOf(':');if(i>0)H[p.slice(0,i)]=p.slice(i+1)});
+window.ETAT_URL=H;
+function loc(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+var t=H.t?(H.t==='d'?'dark':'light'):loc('notions.theme','');
+if(t)document.documentElement.setAttribute('data-theme',t);
+var a=(H.a!==undefined)?H.a:loc('notions.ajouts','1');
+if(a==='0')document.documentElement.classList.add('sans-ajouts');
+})();
+</script>
+<style>
+:root{
+  --bg:#fbfaf7; --bg2:#f3f0ea; --fg:#1b1a17; --mut:#6c675d; --fai:#8e887c;
+  --li:#e0dbd1; --li2:#cdc6b8; --card:#ffffff; --acc:#8a4f23; --acc2:#f3e7dc;
+  --ajo:#6d5a8c; --ajo2:#efe9f5; --lim:#9a3a2e; --ok:#3f6b46; --faute:#a8631a;
+  --r:8px; --w:min(72rem,100%);
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}}
+:root[data-theme="dark"]{
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}
+.fig{margin:.9rem 0;padding:.5rem .2rem .2rem;text-align:center}
+/* « > svg » et non « svg » : MathJax pose son propre <svg> dans la légende, et
+   une règle non ancrée en faisait un bloc qui coupait la phrase en trois. */
+.fig > svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig figcaption{margin-top:.35rem;font-family:var(--sans);font-size:.82rem;
+  color:var(--mut);text-align:center;line-height:1.45}
+@media print{.fig{break-inside:avoid}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
+  font-size:17px;line-height:1.62;overflow-wrap:break-word}
+a{color:var(--acc);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-style:dotted}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+.wrap{width:var(--w);margin:0 auto;padding:0 1rem}
+
+/* ---- barre du haut ---- */
+header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
+  border-bottom:1px solid var(--li);font-family:var(--sans)}
+.topin{width:var(--w);margin:0 auto;padding:.45rem 1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.brand{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--fg);letter-spacing:.02em}
+.fil{color:var(--mut);font-size:.82rem;flex:1 1 8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fil a{color:var(--mut)}
+.btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
+  border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+a.btn{text-decoration:none}
+.btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
+.rech{position:relative;flex:0 1 16rem;min-width:9rem}
+.rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
+  border:1px solid var(--li2);border-radius:var(--r);background:var(--card);color:var(--fg)}
+.res{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--li2);
+  border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.14);max-height:60vh;overflow:auto;padding:.2rem;margin:0;
+  list-style:none;display:none;z-index:50;min-width:18rem}
+.res.on{display:block}
+.res li a{display:block;padding:.3rem .45rem;border-radius:6px;text-decoration:none;color:var(--fg);font-size:.86rem}
+.res li a:hover,.res li.sel a{background:var(--acc2)}
+.res .sub{color:var(--mut);font-size:.76rem;font-family:var(--sans)}
+.res .vide{padding:.4rem .5rem;color:var(--mut);font-size:.84rem}
+
+main{padding:1.4rem 0 4rem}
+h1{font-size:1.75rem;line-height:1.24;margin:.2rem 0 .3rem}
+h2{font-size:1.06rem;font-family:var(--sans);font-weight:600;letter-spacing:.01em;margin:0}
+h3{font-size:.95rem;font-family:var(--sans);margin:1.2rem 0 .3rem}
+p{margin:.55rem 0}
+.ptag{font-family:var(--sans);font-size:.74rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .5rem}
+
+/* ---- métadonnées de fiche ---- */
+.meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;font-family:var(--sans);font-size:.75rem;color:var(--mut);margin:.4rem 0 1.1rem}
+.pill{border:1px solid var(--li2);border-radius:99px;padding:.06rem .5rem;background:var(--card);white-space:nowrap}
+.pill.ajout{color:var(--ajo);border-color:var(--ajo);background:var(--ajo2)}
+.pill.typ{background:var(--acc2);border-color:var(--acc)}
+.sym{font-family:var(--serif);font-size:1rem;color:var(--fg)}
+
+/* ---- sections ---- */
+.sec{border-top:1px solid var(--li);padding:.85rem 0}
+.sec.vide{display:none}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.45rem;padding:.1rem 0}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"›";color:var(--fai);font-family:var(--sans);display:inline-block;
+  transition:transform .12s ease;transform:rotate(0deg);width:.7em}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fai);font-weight:400}
+.corps{padding-top:.25rem}
+.gen{border-left:2px solid var(--li2);padding-left:.7rem}
+.chemin{border-left:3px solid var(--acc);background:var(--bg2);border-radius:0 var(--r) var(--r) 0;
+  padding:.5rem .8rem;margin:.2rem 0 .7rem}
+.chemin p{margin:.35rem 0;font-size:.95rem}
+.chemin p:first-child{margin-top:0}
+.chemin p:last-child{margin-bottom:0}
+.note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
+.parc{border:1px solid var(--li);border-left:3px solid var(--acc);border-radius:0 var(--r) var(--r) 0;
+  background:var(--bg2);padding:.5rem .8rem;margin:.6rem 0;font-size:.93rem}
+.parc-t{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin-bottom:.15rem}
+.parc p{margin:.2rem 0}
+.parc-h{border-left:2px solid var(--li);padding:.1rem 0 .1rem .6rem;margin:.3rem 0 .45rem;color:var(--mut)}
+.parc-h strong{color:var(--fg)}
+.parc-l{font-family:var(--sans);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--acc);margin-right:.25rem}
+.parc-lien{margin-top:.35rem;font-size:.92em}
+.parc-suite{border-left:2px solid var(--acc);padding:.1rem 0 .1rem .6rem;margin:.35rem 0;color:var(--fg);background:var(--acc2)}
+.parc-nav{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--sans);font-size:.8rem;margin-top:.35rem}
+.parc-nav .suiv{margin-left:auto;text-align:right}
+.etapes{list-style:none;padding:0;margin:.6rem 0 1.2rem;counter-reset:e}
+.etapes>li{counter-increment:e;position:relative;padding:0 0 1rem 1.7rem;border-left:2px solid var(--li);margin-left:.9rem}
+.etapes>li:last-child{border-left-color:transparent}
+.etapes>li::before{content:counter(e);position:absolute;left:-.95rem;top:0;width:1.75rem;height:1.75rem;
+  border-radius:99px;background:var(--card);border:1px solid var(--acc);color:var(--acc);
+  font-family:var(--sans);font-size:.78rem;display:flex;align-items:center;justify-content:center}
+.etapes>li>p{margin:.1rem 0 .35rem}
+.etapes .arr{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.45rem .75rem}
+.etapes .arr a.tit{font-weight:600;text-decoration:none}
+.etapes .arr p{margin:.15rem 0;font-size:.88rem;color:var(--mut)}
+.avant{list-style:none;padding:0;margin:.4rem 0 1rem}
+.avant>li{margin:.5rem 0}
+.avant>li p{margin:.1rem 0 0;font-size:.95rem}
+.avant a.tit{font-weight:600;text-decoration:none}
+.avant span.tit.venir{font-weight:600;color:var(--fai);cursor:default}
+.roles{list-style:none;padding:0;margin:.2rem 0 0}
+.roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
+.roles>li.cible{background:var(--acc2)}
+details.parc>summary{cursor:pointer}
+.sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
+.sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
+.sec.faute>summary h2{color:var(--faute)}
+.faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
+  margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.faute-b strong{color:var(--faute)}
+.sec.lim>summary h2{color:var(--lim)}
+.sec.lim>h2{color:var(--lim)}
+
+/* ---- marqueurs de traçabilité ---- */
+.marq{font-family:var(--sans);font-size:.7rem;color:var(--fai);white-space:nowrap;vertical-align:.12em}
+.marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
+.marqligne{margin:.15rem 0 0}
+html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
+.bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
+  color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
+
+/* ---- pastilles ---- */
+.pasts{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0;padding:0;list-style:none}
+.past{display:inline-block;font-family:var(--sans);font-size:.82rem;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--li2);border-radius:99px;padding:.12rem .6rem}
+.past:hover{border-color:var(--acc);color:var(--acc)}
+.past .cc{color:var(--fai);font-size:.74rem}
+.past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
+.past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
+.past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
+
+/* ---- socle ---- */
+.socle{list-style:none;padding:0;margin:.3rem 0}
+.socle li{display:flex;gap:.5rem;align-items:baseline;padding:.12rem 0;font-size:.92rem}
+.socle input{margin:0;accent-color:var(--ok)}
+.socle li.su a{color:var(--fai);text-decoration:line-through}
+.compteur{font-family:var(--sans);font-size:.78rem;color:var(--mut)}
+.grp{margin:.5rem 0}
+.grp>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--mut)}
+
+table{border-collapse:collapse;margin:.5rem 0;font-size:.9rem;display:block;overflow-x:auto;max-width:100%}
+th,td{border:1px solid var(--li);padding:.25rem .55rem;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-family:var(--sans);font-size:.78rem;font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+  background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
+ul{padding-left:1.1rem}
+hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
+
+/* ---- cartes d'accueil / carte du cours ---- */
+.cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
+.carte{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.65rem .8rem}
+.carte h3{margin:0 0 .2rem}
+.carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
+.carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
+.dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.vise{animation:vise 1.6s ease}
+@keyframes vise{from{background:var(--acc2)}to{background:transparent}}
+
+/* ---- orientation : ce qui s'adresse au lecteur qui arrive ---- */
+.entree{border:1px solid var(--li2);border-left:3px solid var(--acc);border-radius:var(--r);
+  padding:.7rem .9rem;margin:.8rem 0 1.4rem;background:var(--card)}
+.entree p{margin:.3rem 0;font-size:.92rem}
+.entree .quoi{font-size:1.02rem}
+.entree ul{margin:.5rem 0 .2rem;padding-left:1.1rem;font-family:var(--sans);font-size:.88rem}
+.entree li{margin:.2rem 0}
+.chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
+.chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
+.aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
+/* L'en-tête est collant : une ancre visée ne doit pas passer dessous. Mesuré :
+   il fait 48 px sur une ligne, 85 px quand il se replie en deux (écran étroit). */
+[id]{scroll-margin-top:6rem}
+.aide p,.aide ul,.aide table{max-width:42rem}
+.dette ul{margin:.3rem 0 0}
+footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
+
+/* ---- arbre ---- */
+.barre{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+.barre.plier{justify-content:flex-end;margin:.2rem 0 -.2rem}
+#scene{position:relative;border:1px solid var(--li);border-radius:var(--r);background:var(--bg2);
+  height:min(74vh,720px);overflow:hidden;touch-action:none;cursor:grab}
+#scene.drag{cursor:grabbing}
+#pan{position:absolute;transform-origin:0 0;top:0;left:0}
+#aretes{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+#aretes path{fill:none;stroke:var(--li2);stroke-width:1.5}
+.noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
+  padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
+.noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
+.noeud .nm{font-weight:600}
+.noeud .nm a{text-decoration:none;color:var(--fg)}
+.noeud .nm a:hover{color:var(--acc)}
+.noeud .pa{color:var(--mut);font-size:.72rem;display:block;margin-top:.1rem}
+.noeud .pli{font:inherit;font-size:.72rem;background:none;border:1px solid var(--li2);border-radius:4px;
+  color:var(--mut);cursor:pointer;padding:0 .3rem;margin-right:.25rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.4rem}
+  .rech{flex:1 1 100%;order:9}
+  #scene{height:66vh}
+}
+@media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="brand" href="../../index.html">notions</a><span class="fil"><a href="../../fpp/index.html">Financial Products and Introduction to Pricing</a> › Modèle de Black et Scholes</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><h1>Modèle de Black et Scholes</h1><div class="meta"><span class="pill sym">$W_t$</span><a class="pill typ" href="../../aide.html" data-v="types" title="un objet du cours, celui qu’on manipule">notion</a><a class="pill" href="../../fpp/index.html">fpp</a><a class="pill" href="../../aide.html" data-v="niveau" title="ordre de lecture : nombre de notions à traverser, au plus long, pour arriver jusqu’à celle-ci. Niveau 0 = ne dépend d’aucune autre.">niveau 7</a><a class="pill" href="../../fpp/arbre.html" data-noeud="fpp/modele-black-scholes" title="cette notion n’est rangée sous aucune famille">arbre du cours</a><span class="pill">§5.4</span><span class="pill">§5.3</span><span class="pill">éq. 15</span></div><p class="note">aussi : Black and Scholes model, modèle log-normal, diffusion log-normale, mouvement brownien géométrique</p><div class="parc"><div class="parc-t"><a href="../../aide.html" data-v="parcours">Parcours</a> <a href="../../fpp/parcours/risque-neutre.html#e6">« Donner un prix à un paiement aléatoire »</a> · étape 6 sur 6</div><div class="parc-h"><p class="is-ajout">Une banque doit coter un contrat qui paiera dans un an l'excédent de l'action sur 100, si elle le dépasse ; l'action vaut 100 aujourd'hui. Le taux à un an est de 4 %. Ses analystes attendent une hausse moyenne de 8 %. Quelle moyenne prendre pour fixer le prix ? <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p class="is-ajout">La banque cote aussi un autre titre, qui vaut 100 et verse en continu un dividende de 2 % par an. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p class="is-ajout">Il faut aussi savoir de combien l'action peut s'écarter de sa moyenne : sa volatilité est de 20 % par an. Le contrat dure un an ; un contrat voisin dure trois mois. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p class="is-ajout">La banque écrit le prix de l'action dans un an <strong>sous la forme $100\,e^{Y}$</strong>, avec $Y$ gaussien d'écart type 20 %. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div><p class="is-ajout"><span class="parc-l">Dans l’histoire</span> C'est le modèle de Black et Scholes : sous $\mathbb Q$, le prix dans un an a pour médiane 102,02 et pour moyenne 104,08, le prix forward. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p><span class="parc-l">Depuis l’étape précédente</span> Quelle loi, au complet, décrit alors le prix de l'action dans un an ? <span class="marq" title="référence à la source">[§5.4]</span></p><div class="parc-nav"><a class="prec" href="../../fpp/n/transformee-de-laplace-gaussienne.html">← Transformée de Laplace gaussienne</a><span class="suiv"><a href="../../fpp/parcours/risque-neutre.html">« Donner un prix à un paiement aléatoire »</a></span></div></div><details class="parc"><summary class="parc-t"><a href="../../aide.html" data-v="parcours">Parcours</a> · cette notion est supposée connue par 2 parcours : voici le rôle qu’elle y joue</summary><ul class="roles"><li id="p-couverture"><p><a href="../../fpp/parcours/couverture.html#avant">« Vendre une option sans parier sur l'action »</a> : il dit comment l'action bouge d'un instant à l'autre, et c'est cette dynamique que la banque propage au prix de ses calls. <span class="marq" title="référence à la source">[§5.4]</span></p></li><li id="p-options"><p><a href="../../fpp/parcours/options.html#avant">« Ce que vaut le droit d'acheter »</a> : il fournit la loi du prix dans un an, contre laquelle on intègre le paiement du droit. <span class="marq" title="référence à la source">[§5.4]</span></p></li></ul></details><script>(function(){var h=location.hash;if(h.indexOf('#p-')!==0)return;var e=document.getElementById(h.slice(1));if(!e)return;var d=e.closest('details');if(d)d.open=true;e.classList.add('cible');})();</script><div class="barre plier"><button class="btn" type="button" id="tout-plier">tout déplier</button></div><section class="sec " data-oblig="1"><h2>Ce que c'est</h2><div class="corps"><p>Le modèle où le prix de l'action est une diffusion log-normale et où le taux d'intérêt est constant. <span class="marq" title="référence à la source">[§5.4]</span></p></div></section><section class="sec " data-oblig="1"><h2>Forme</h2><div class="corps"><p>$$dS_t=S_t\big(\mu\,dt+\sigma\,dW_t^{\mathbb P}\big)=S_t\big(r\,dt+\sigma\,dW_t^{\mathbb Q}\big),\qquad S_t=S_0\,e^{\left(\mu-\frac{\sigma^2}{2}\right)t+\sigma W_t^{\mathbb P}}$$ <span class="marq" title="référence à la source">[§5.4, éq. 15]</span></p></div></section><section class="sec "><h2>Ce que les symboles modélisent</h2><div class="corps"><p>$W_t$ est un mouvement brownien : un bruit dont les accroissements sont gaussiens, indépendants, de variance égale à leur durée ; $W_t^{\mathbb P}$ et $W_t^{\mathbb Q}$ sont ce bruit décrit sous chacune des deux probabilités. $\mu$ est la tendance réelle, $\sigma$ la volatilité, $r$ le taux constant. <span class="marq" title="référence à la source">[§5.4]</span></p></div></section><section class="sec " data-oblig="1"><h2>Ce qui la définit</h2><div class="corps"><p>Ce qui est <strong>connu</strong> : le prix d'aujourd'hui, la volatilité et le taux. Le modèle donne alors toute la loi du prix futur : sous $\mathbb Q$, son logarithme suit $Y(T)\sim\mathcal N\big(rT-\tfrac12\sigma^2T,\ \sigma^2T\big)$. <span class="marq" title="référence à la source">[§5.4]</span></p><p>Changer de probabilité change la tendance, $\mu$ sous $\mathbb P$, $r$ sous $\mathbb Q$, et pas la volatilité : $E^{\mathbb P}(S_t)=S_0\,e^{\mu t}$, $E^{\mathbb Q}(S_t)=S_0\,e^{rt}$. <span class="marq" title="référence à la source">[§5.4]</span></p><figure class="fig is-ajout"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 320" width="100%" height="auto" role="img" style="color:var(--fg);max-width:560px;height:auto"><title>Sous Q, le prix dans un an : médiane 102,02, moyenne 104,08, étirée vers le haut</title><path d="M54 16 L54 280 M54 280 L542 280" fill="none" stroke="var(--mut)" stroke-width="1.2"/><path d="M84.5 280 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="84.5" y="297" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">50</text><path d="M237 280 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="237" y="297" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">100</text><path d="M389.5 280 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="389.5" y="297" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">150</text><path d="M542 280 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="542" y="297" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">200</text><text x="542" y="313" text-anchor="end" font-size="12" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">prix de l'action dans un an</text><path d="M57.05 279.98 L58.66 279.98 L60.26 279.97 L61.87 279.96 L63.48 279.95 L65.08 279.94 L66.69 279.93 L68.29 279.91 L69.9 279.88 L71.51 279.85 L73.11 279.82 L74.72 279.77 L76.33 279.72 L77.93 279.66 L79.54 279.59 L81.14 279.5 L82.75 279.4 L84.36 279.28 L85.96 279.14 L87.57 278.98 L89.18 278.8 L90.78 278.58 L92.39 278.34 L94 278.07 L95.6 277.75 L97.21 277.4 L98.81 277 L100.42 276.56 L102.03 276.06 L103.63 275.5 L105.24 274.89 L106.85 274.21 L108.45 273.46 L110.06 272.64 L111.67 271.74 L113.27 270.76 L114.88 269.69 L116.48 268.53 L118.09 267.28 L119.7 265.93 L121.3 264.47 L122.91 262.91 L124.52 261.25 L126.12 259.47 L127.73 257.58 L129.34 255.57 L130.94 253.45 L132.55 251.21 L134.15 248.84 L135.76 246.36 L137.37 243.76 L138.97 241.04 L140.58 238.2 L142.19 235.25 L143.79 232.18 L145.4 229 L147 225.71 L148.61 222.31 L150.22 218.81 L151.82 215.22 L153.43 211.54 L155.04 207.77 L156.64 203.92 L158.25 200 L159.86 196.01 L161.46 191.96 L163.07 187.86 L164.67 183.71 L166.28 179.53 L167.89 175.32 L169.49 171.09 L171.1 166.84 L172.71 162.6 L174.31 158.35 L175.92 154.13 L177.52 149.92 L179.13 145.75 L180.74 141.62 L182.34 137.54 L183.95 133.51 L185.56 129.55 L187.16 125.66 L188.77 121.86 L190.38 118.14 L191.98 114.52 L193.59 111 L195.19 107.59 L196.8 104.3 L198.41 101.13 L200.01 98.08 L201.62 95.17 L203.23 92.4 L204.83 89.77 L206.44 87.28 L208.05 84.94 L209.65 82.75 L211.26 80.72 L212.86 78.85 L214.47 77.13 L216.08 75.57 L217.68 74.18 L219.29 72.95 L220.9 71.87 L222.5 70.96 L224.11 70.21 L225.72 69.63 L227.32 69.2 L228.93 68.92 L230.53 68.81 L232.14 68.84 L233.75 69.03 L235.35 69.36 L236.96 69.84 L238.57 70.46 L240.17 71.22 L241.78 72.11 L243.38 73.13 L244.99 74.28 L246.6 75.55 L248.2 76.94 L249.81 78.44 L251.42 80.05 L253.02 81.77 L254.63 83.58 L256.24 85.49 L257.84 87.49 L259.45 89.58 L261.05 91.74 L262.66 93.98 L264.27 96.29 L265.87 98.67 L267.48 101.11 L269.09 103.6 L270.69 106.15 L272.3 108.75 L273.9 111.39 L275.51 114.06 L277.12 116.77 L278.72 119.51 L280.33 122.28 L281.94 125.07 L283.54 127.88 L285.15 130.7 L286.76 133.53 L288.36 136.37 L289.97 139.22 L291.57 142.06 L293.18 144.91 L294.79 147.74 L296.39 150.57 L298 153.39 L299.61 156.19 L301.21 158.98 L302.82 161.75 L304.43 164.49 L306.03 167.22 L307.64 169.92 L309.24 172.59 L310.85 175.24 L312.46 177.85 L314.06 180.44 L315.67 182.99 L317.28 185.5 L318.88 187.98 L320.49 190.43 L322.1 192.83 L323.7 195.2 L325.31 197.53 L326.91 199.82 L328.52 202.07 L330.13 204.28 L331.73 206.44 L333.34 208.57 L334.95 210.65 L336.55 212.7 L338.16 214.7 L339.76 216.65 L341.37 218.57 L342.98 220.44 L344.58 222.27 L346.19 224.06 L347.8 225.81 L349.4 227.51 L351.01 229.18 L352.62 230.8 L354.22 232.39 L355.83 233.93 L357.43 235.43 L359.04 236.9 L360.65 238.32 L362.25 239.71 L363.86 241.06 L365.47 242.38 L367.07 243.65 L368.68 244.89 L370.28 246.1 L371.89 247.27 L373.5 248.41 L375.1 249.51 L376.71 250.58 L378.32 251.62 L379.92 252.63 L381.53 253.61 L383.14 254.55 L384.74 255.47 L386.35 256.36 L387.95 257.22 L389.56 258.05 L391.17 258.86 L392.77 259.64 L394.38 260.39 L395.99 261.13 L397.59 261.83 L399.2 262.51 L400.81 263.17 L402.41 263.81 L404.02 264.43 L405.62 265.02 L407.23 265.6 L408.84 266.15 L410.44 266.68 L412.05 267.2 L413.66 267.7 L415.26 268.18 L416.87 268.64 L418.47 269.09 L420.08 269.52 L421.69 269.93 L423.29 270.33 L424.9 270.72 L426.51 271.09 L428.11 271.45 L429.72 271.79 L431.33 272.12 L432.93 272.44 L434.54 272.75 L436.14 273.04 L437.75 273.33 L439.36 273.6 L440.96 273.86 L442.57 274.12 L444.18 274.36 L445.78 274.59 L447.39 274.82 L449 275.03 L450.6 275.24 L452.21 275.44 L453.81 275.63 L455.42 275.81 L457.03 275.99 L458.63 276.16 L460.24 276.32 L461.85 276.48 L463.45 276.63 L465.06 276.77 L466.67 276.91 L468.27 277.04 L469.88 277.17 L471.48 277.29 L473.09 277.41 L474.7 277.52 L476.3 277.63 L477.91 277.73 L479.52 277.83 L481.12 277.92 L482.73 278.01 L484.33 278.1 L485.94 278.18 L487.55 278.26 L489.15 278.34 L490.76 278.41 L492.37 278.48 L493.97 278.55 L495.58 278.61 L497.19 278.67 L498.79 278.73 L500.4 278.79 L502 278.84 L503.61 278.89 L505.22 278.94 L506.82 278.99 L508.43 279.03 L510.04 279.08 L511.64 279.12 L513.25 279.16 L514.86 279.2 L516.46 279.23 L518.07 279.27 L519.67 279.3 L521.28 279.33 L522.89 279.36 L524.49 279.39 L526.1 279.42 L527.71 279.44 L529.31 279.47 L530.92 279.49 L532.52 279.52 L534.13 279.54 L535.74 279.56 L537.34 279.58 L538.95 279.6" fill="none" stroke="var(--acc)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M243.16 280 L243.16 72.98" fill="none" stroke="var(--li2)" stroke-width="1.2" stroke-dasharray="4 3" stroke-linecap="round" stroke-linejoin="round"/><path d="M249.45 280 L249.45 43.46" fill="none" stroke="var(--ajo)" stroke-width="1.5" stroke-dasharray="5 3" stroke-linecap="round" stroke-linejoin="round"/><defs><filter id="fond-etiquette" x="-0.03" y="-0.12" width="1.06" height="1.24"><feFlood style="flood-color:var(--card)"/></filter></defs><text x="235.16" y="186.84" text-anchor="end" font-size="12" fill="none" filter="url(#fond-etiquette)" font-family="ui-sans-serif,system-ui,sans-serif">médiane 102,02</text><text x="235.16" y="186.84" text-anchor="end" font-size="12" fill="var(--fg)" font-family="ui-sans-serif,system-ui,sans-serif">médiane 102,02</text><text x="255.45" y="47.46" text-anchor="start" font-size="12" fill="var(--ajo)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">moyenne 104,08 = prix forward</text></svg><figcaption>La loi du prix de l'action dans un an sous la probabilité risque-neutre, avec σ = 20 % et r = 4 % : dissymétrique, étirée vers le haut ; la médiane vaut 102,02 et la moyenne, le prix forward, 104,08. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></figcaption></figure></div></section><details class="sec " data-k="construite"><summary><h2>Construite à partir de</h2><span class="cnt">3 prérequis directs</span></summary><div class="corps"><ul class="pasts"><li><a class="past" href="../../fpp/n/tendance-risque-neutre.html">Tendance risque-neutre<span class="nv">n6</span></a></li><li><a class="past" href="../../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance<span class="nv">n1</span></a></li><li><a class="past" href="../../fpp/n/transformee-de-laplace-gaussienne.html">Transformée de Laplace gaussienne<span class="nv">n0</span></a></li></ul><p class="note">Seulement ce dont cette fiche dépend directement. Le socle, juste en dessous, reprend ces notions-ci et y ajoute tout ce dont elles dépendent à leur tour.</p></div></details><details class="sec gen" data-k="socle"><summary><h2>Socle complet</h2><span class="cnt">13 prérequis en tout</span></summary><div class="corps"><div class="chemin"><p class="is-ajout">Chaque ingrédient du modèle vient d'une fiche. <a href="../../fpp/n/tendance-risque-neutre.html">Tendance risque-neutre</a> fixe la tendance sous $\mathbb Q$ au taux sans risque, diminué du <a href="../../fpp/n/taux-de-dividende.html">Taux de dividende continu</a> quand l'action en verse ; cette tendance sortait de <a href="../../fpp/n/probabilite-risque-neutre.html">Probabilité risque-neutre</a>, qui fait de l'espérance le prix de <a href="../../fpp/n/prix-forward.html">Prix forward</a>. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p class="is-ajout"><a href="../../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance</a>, appliqué à <a href="../../fpp/n/volatilite.html">Volatilité</a>, donne la variance $\sigma^2T$ du log-prix ; <a href="../../fpp/n/transformee-de-laplace-gaussienne.html">Transformée de Laplace gaussienne</a> dit pourquoi sa moyenne doit être $rT-\sigma^2T/2$ pour que l'espérance du prix soit bien $S_0\,e^{rT}$. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p class="is-ajout">En amont restent le portage de <a href="../../fpp/n/cash-and-carry.html">Arbitrage cash-and-carry</a>, les <a href="../../fpp/n/dividendes-intermediaires.html">Dividendes intermédiaires</a> dont le taux continu est la limite, et l'actualisation de <a href="../../fpp/n/valeur-actuelle-nette.html">Valeur actuelle nette</a> par <a href="../../fpp/n/zero-coupon.html">Zéro-coupon</a> dans la convention de <a href="../../fpp/n/capitalisation.html">Capitalisation et actualisation</a>, sous la contrainte de <a href="../../fpp/n/absence-d-arbitrage.html">Absence d'opportunité d'arbitrage</a>. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div><p class="note">Tout ce qu’il faut avoir lu avant cette fiche, du plus élémentaire au plus construit. <strong>La liste est complète</strong> : la lire suffit, aucune de ces notions n’en appelle une autre qui manquerait ici. Cocher une case la barre sur toutes les pages. (<a href="../../aide.html" data-v="socle">en savoir plus</a>)</p><p class="compteur" data-cpt="socle"></p><details class="grp" open><summary>niveau 0 (4)</summary><ul class="socle"><li><input type="checkbox" data-su="fpp/absence-d-arbitrage" aria-label="déjà su : Absence d'opportunité d'arbitrage"><a href="../../fpp/n/absence-d-arbitrage.html">Absence d'opportunité d'arbitrage</a></li><li><input type="checkbox" data-su="fpp/capitalisation" aria-label="déjà su : Capitalisation et actualisation"><a href="../../fpp/n/capitalisation.html">Capitalisation et actualisation</a></li><li><input type="checkbox" data-su="fpp/transformee-de-laplace-gaussienne" aria-label="déjà su : Transformée de Laplace gaussienne"><a href="../../fpp/n/transformee-de-laplace-gaussienne.html">Transformée de Laplace gaussienne</a></li><li><input type="checkbox" data-su="fpp/volatilite" aria-label="déjà su : Volatilité"><a href="../../fpp/n/volatilite.html">Volatilité</a></li></ul></details><details class="grp" open><summary>niveau 1 (2)</summary><ul class="socle"><li><input type="checkbox" data-su="fpp/zero-coupon" aria-label="déjà su : Zéro-coupon"><a href="../../fpp/n/zero-coupon.html">Zéro-coupon</a></li><li><input type="checkbox" data-su="fpp/echelonnement-de-la-variance" aria-label="déjà su : Échelonnement de la variance"><a href="../../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance</a></li></ul></details><details class="grp" open><summary>niveau 2 (2)</summary><ul class="socle"><li><input type="checkbox" data-su="fpp/cash-and-carry" aria-label="déjà su : Arbitrage cash-and-carry"><a href="../../fpp/n/cash-and-carry.html">Arbitrage cash-and-carry</a></li><li><input type="checkbox" data-su="fpp/valeur-actuelle-nette" aria-label="déjà su : Valeur actuelle nette"><a href="../../fpp/n/valeur-actuelle-nette.html">Valeur actuelle nette</a></li></ul></details><details class="grp" open><summary>niveau 3 (1)</summary><ul class="socle"><li><input type="checkbox" data-su="fpp/prix-forward" aria-label="déjà su : Prix forward"><a href="../../fpp/n/prix-forward.html">Prix forward</a></li></ul></details><details class="grp" open><summary>niveau 4 (2)</summary><ul class="socle"><li><input type="checkbox" data-su="fpp/dividendes-intermediaires" aria-label="déjà su : Dividendes intermédiaires"><a href="../../fpp/n/dividendes-intermediaires.html">Dividendes intermédiaires</a></li><li><input type="checkbox" data-su="fpp/probabilite-risque-neutre" aria-label="déjà su : Probabilité risque-neutre"><a href="../../fpp/n/probabilite-risque-neutre.html">Probabilité risque-neutre</a></li></ul></details><details class="grp" open><summary>niveau 5 (1)</summary><ul class="socle"><li><input type="checkbox" data-su="fpp/taux-de-dividende" aria-label="déjà su : Taux de dividende continu"><a href="../../fpp/n/taux-de-dividende.html">Taux de dividende continu</a></li></ul></details><details class="grp" open><summary>niveau 6 (1)</summary><ul class="socle"><li><input type="checkbox" data-su="fpp/tendance-risque-neutre" aria-label="déjà su : Tendance risque-neutre"><a href="../../fpp/n/tendance-risque-neutre.html">Tendance risque-neutre</a></li></ul></details></div></details><details class="sec gen" data-k="sert"><summary><h2>Sert ensuite à</h2><span class="cnt">2</span></summary><div class="corps"><p class="note">Ce que cette notion permet d’aborder juste après. Seulement l’étape suivante, pas toute la suite : une notion très en amont ouvrirait sinon la moitié du cours.</p><p class="compteur" data-cpt="aval"></p><ul class="socle"><li><input type="checkbox" data-su="fpp/formule-d-ito" aria-label="déjà su : Formule d'Itô"><a href="../../fpp/n/formule-d-ito.html">Formule d'Itô</a> <span class="marq">niveau 8</span></li><li><input type="checkbox" data-su="fpp/formule-black-scholes" aria-label="déjà su : Formule de Black et Scholes"><a href="../../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a> <span class="marq">niveau 8</span></li></ul></div></details><details class="sec " data-k="exemple" data-oblig="1"><summary><h2>Exemple minimal</h2></summary><div class="corps"><p class="is-ajout">L'action à 100, une volatilité de 20 %, un taux de 4 % : sous $\mathbb Q$, le prix dans un an a pour médiane 102,02 et pour moyenne 104,08. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div></details><details class="sec " data-k="geste" data-oblig="1"><summary><h2>Geste de calcul type</h2></summary><div class="corps"><p>Écrire le prix futur comme $S_T=S_0\,e^{(r-\sigma^2/2)T+\sigma\sqrt T\,Z}$ avec $Z$ gaussienne centrée réduite, puis calculer l'espérance d'un paiement sur cette loi. <span class="marq" title="référence à la source">[§5.4, ajout]</span></p></div></details><details class="sec lim" data-k="limite" data-oblig="1"><summary><h2>Cesse d'être valide quand</h2></summary><div class="corps"><p>La volatilité et le taux sont supposés constants, et le prix sans saut ; les rendements réels ont des queues plus épaisses que la loi normale. Le poly s'arrête sur un « à suivre ». <span class="marq" title="référence à la source">[§5.4, ajout]</span></p></div></details></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../../aide.html">comment lire ce site</a> · <a href="../../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../../search-index.js"></script>
+<script>
+var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+        s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- l'état qui traverse les pages ----------------------------------------
+   Voir le commentaire de l'en-tête : en file://, seul le fragment traverse.
+   Forme du fragment :  #t:d~a:0~p:1-0--1...~s:<tampon>.<bits>~v:<ancre>
+     t  thème      d | l            (absent : celui du système)
+     a  ajouts     0                (absent : montrés)
+     p  pliage     un caractère par clé de CLES_PLI : 1 ouvert, 0 fermé, - inconnu
+     s  déjà su    un bit par notion, six bits par caractère, précédé d'un tampon
+     v  ancre      l'élément vers lequel défiler à l'arrivée
+   Le tampon est calculé sur la liste des identifiants : dès qu'une notion entre dans
+   le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
+   cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
+var ETAT=(function(){
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='a71e',
+    A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
+var pli={},su={};
+if(typeof H.p==='string'){
+  for(var i=0;i<CLES.length&&i<H.p.length;i++){var c=H.p.charAt(i);
+    if(c==='0'||c==='1')pli[CLES[i]]=(c==='1');}
+}else{
+  CLES.forEach(function(k){var v=LS.g('notions.pli.'+k,null);if(v!==null)pli[k]=(v==='1')});
+}
+function decode(t){var o={},q=t.indexOf('.');
+  if(q<0||t.slice(0,q)!==TAMPON)return o;
+  var b=t.slice(q+1);
+  for(var i=0;i<b.length;i++){var v=A64.indexOf(b.charAt(i));if(v<0)continue;
+    for(var j=0;j<6;j++){if(v&(1<<j)){var k=i*6+j;if(k<IDS.length)o[IDS[k]]=1}}}
+  return o;}
+function encode(){var o='';
+  for(var i=0;i<IDS.length;i+=6){var v=0;
+    for(var j=0;j<6;j++){if(su[IDS[i+j]])v|=1<<j}
+    o+=A64.charAt(v);}
+  return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
+if(typeof H.s==='string'){su=decode(H.s)}
+else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
+function frag(ancre,noeud){var p=[];
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t)p.push('t:'+(t==='dark'?'d':'l'));
+  if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
+  var q='';CLES.forEach(function(k){q+=(pli[k]===undefined?'-':(pli[k]?'1':'0'))});
+  if(/[01]/.test(q))p.push('p:'+q);
+  var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
+  if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
+  return p.length?'#'+p.join('~'):'';}
+function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
+function propager(){var f=frag();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';if(!interne(h))return;
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
+  /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
+     Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
+  try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
+  try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}}
+return{pli:function(k){return pli[k]===undefined?null:pli[k]},
+       setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
+       su:function(id){return !!su[id]},
+       setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
+       lien:function(u,v,n){return u+frag(v,n)},
+       ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
+       propager:propager};
+})();
+function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
+  var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
+  b.textContent=on?'masquer les ajouts':'ajouts masqués';}
+  document.querySelectorAll('.sec').forEach(function(s){
+    var c=s.querySelector('.corps');if(!c)return;var n=0;
+    c.querySelectorAll(':scope>*').forEach(function(el){
+      if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
+      if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
+      n++;});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='Cette rubrique existe, mais tout son contenu est un ajout : le filtre le masque. Elle reste visible pour que vous ne concluiez pas qu’elle est vide.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
+  if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var bt=document.getElementById('btheme');
+  if(bt)bt.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    var nx=(cur||sys)==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);
+    ETAT.propager();});
+  var ba=document.getElementById('bajout');
+  if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);ETAT.propager();});
+  majAjouts(!document.documentElement.classList.contains('sans-ajouts'));
+  /* les liens de la page portent l'état ; une ancre demandée est ouverte et visée */
+  ETAT.propager();
+  var an=ETAT.ancre();
+  if(an){var el=document.getElementById(an);
+    if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView();el.classList.add('vise')}}
+  /* --- recherche instantanée (règle 9) --- */
+  var inp=document.getElementById('q'),res=document.getElementById('qres');
+  if(!inp||!res||!window.SEARCH_INDEX)return;
+  var REL=document.documentElement.getAttribute('data-rel')||'';
+  var sel=-1,items=[];
+  function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+  function cherche(q){
+    var n=norm(q);if(!n)return [];
+    var out=[];
+    SEARCH_INDEX.forEach(function(e){
+      var sc=-1,ch=e.h||[];
+      for(var i=0;i<ch.length;i++){var p=norm(ch[i]).indexOf(n);
+        if(p===0){sc=Math.max(sc,3-(i>0?1:0))}else if(p>0){sc=Math.max(sc,1)}}
+      if(sc>=0)out.push([sc,e]);});
+    out.sort(function(a,b){return b[0]-a[0]||a[1].n.localeCompare(b[1].n)});
+    return out.slice(0,9).map(function(x){return x[1]});}
+  function rendre(){
+    items=cherche(inp.value);sel=-1;res.innerHTML='';
+    if(!inp.value){res.classList.remove('on');return}
+    if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
+    items.forEach(function(e,i){
+      var li=document.createElement('li');
+      var a=document.createElement('a');a.href=ETAT.lien(REL+e.u);a.id='qr'+i;
+      a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
+      li.appendChild(a);res.appendChild(li);});
+    res.classList.add('on');}
+  function bouge(d){if(!items.length)return;sel=(sel+d+items.length)%items.length;
+    Array.prototype.forEach.call(res.children,function(li,i){li.classList.toggle('sel',i===sel)});
+    inp.setAttribute('aria-activedescendant','qr'+sel);}
+  inp.addEventListener('input',rendre);
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();bouge(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();bouge(-1)}
+    else if(e.key==='Enter'){var a=res.querySelector(sel>=0?'li.sel a':'li a');if(a){e.preventDefault();location.href=a.href}}
+    else if(e.key==='Escape'){inp.value='';res.classList.remove('on')}});
+  document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
+  document.addEventListener('keydown',function(e){
+    if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  /* pliage mémorisé par rubrique (règle 5), et transporté d'une page à l'autre */
+  var secs=document.querySelectorAll('details.sec[data-k]'),bp=document.getElementById('tout-plier');
+  function libelle(){
+    if(!bp)return;var ferme=false;
+    secs.forEach(function(d){if(!d.open)ferme=true});
+    bp.textContent=ferme?'tout déplier':'tout replier';bp.setAttribute('data-v',ferme?'1':'0');}
+  secs.forEach(function(d){
+    var k=d.getAttribute('data-k'),v=ETAT.pli(k);
+    if(v!==null)d.open=v;
+    d.addEventListener('toggle',function(){ETAT.setPli(k,d.open);libelle()});});
+  /* tout à la fois : ouvrir tout s'il reste une rubrique fermée, sinon tout refermer */
+  if(bp){if(!secs.length)bp.parentNode.style.display='none';
+    libelle();
+    bp.addEventListener('click',function(){
+      var v=bp.getAttribute('data-v')==='1';
+      secs.forEach(function(d){d.open=v});libelle();});}
+  /* amont et aval : même état « déjà su », un compteur par liste (règle 7) */
+  function compte(){
+    document.querySelectorAll('.sec').forEach(function(s){
+      var cpt=s.querySelector('[data-cpt]');if(!cpt)return;
+      var l=s.querySelectorAll('input[data-su]'),k=0;
+      l.forEach(function(c){if(c.checked)k++});
+      cpt.textContent=l.length+' notion'+(l.length>1?'s':'')+', '+(l.length-k)+' à voir';});}
+  document.querySelectorAll('input[data-su]').forEach(function(c){
+    var id=c.getAttribute('data-su');c.checked=ETAT.su(id);
+    c.closest('li').classList.toggle('su',c.checked);
+    c.addEventListener('change',function(){
+      ETAT.setSu(id,c.checked);
+      document.querySelectorAll('input[data-su="'+id+'"]').forEach(function(o){
+        o.checked=c.checked;o.closest('li').classList.toggle('su',c.checked);});
+      compte();});});
+  compte();
+});
+</script>
+</body>
+</html>

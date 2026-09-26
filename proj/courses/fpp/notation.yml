@@ -1,0 +1,333 @@
+# Registre des notations de fpp (A12). Réécrit de zéro le 2026-09-26 à partir des deux
+# sources ; première occurrence dans le poly, sinon dans le livre d'exercices (« exo. n »).
+# Le poly réemploie plusieurs lettres pour des objets différents (C, P, B, d, τ, X, F, l) :
+# chaque sens a sa propre entrée, sous l'écriture exacte de la source, et le rapport
+# 2026-09-27-fpp.md les liste.
+symboles:
+# --- chapitre 1 : bilan, levier, risque
+- symbole: $A_t$
+  notion: fpp/bilan
+  ref: §1.3
+  sens: valeur des actifs de l'entreprise à la date t
+- symbole: $E_t$
+  notion: fpp/bilan
+  ref: §1.3
+  sens: valeur des capitaux propres (equity) à la date t
+- symbole: $D_t$
+  notion: fpp/bilan
+  ref: §1.3
+  sens: valeur de la dette à la date t
+- symbole: $l_t$
+  notion: fpp/levier
+  ref: Déf. 1
+  sens: levier, rapport des actifs aux capitaux propres, A_t / E_t
+- symbole: $\tilde\pi_A$
+  notion: fpp/prime-de-risque
+  ref: §1.3
+  sens: prime de risque aléatoire des actifs, rendement des actifs moins celui de la dette
+- symbole: $\tilde\pi_E$
+  notion: fpp/prime-de-risque
+  ref: §1.3
+  sens: prime de risque aléatoire des capitaux propres
+- symbole: $\pi_A$
+  notion: fpp/prime-de-risque
+  ref: §1.3
+  sens: prime de risque espérée des actifs
+- symbole: $\pi_E$
+  notion: fpp/prime-de-risque
+  ref: §1.3
+  sens: prime de risque espérée des capitaux propres
+- symbole: $\sigma$
+  notion: fpp/volatilite
+  ref: §1.3
+  sens: volatilité, écart type du rendement, par an sauf mention contraire
+- symbole: $\sigma_A$
+  notion: fpp/effet-de-levier
+  ref: §1.3
+  sens: volatilité de la prime de risque des actifs
+- symbole: $\sigma_E$
+  notion: fpp/effet-de-levier
+  ref: §1.3
+  sens: volatilité de la prime de risque des capitaux propres
+# --- chapitre 2 : taux, actualisation
+- symbole: $r$
+  notion: fpp/capitalisation
+  ref: §2.1
+  sens: taux d'intérêt constant, par an
+- symbole: $C(t,n)$
+  notion: fpp/capitalisation
+  ref: §2.1
+  sens: facteur de capitalisation sur une durée t, intérêts versés n fois
+- symbole: $C(t)$
+  notion: fpp/capitalisation
+  ref: §2.1
+  sens: facteur de capitalisation continue, e^{rt}
+- symbole: $B_t$
+  notion: fpp/capitalisation
+  ref: §2.1
+  sens: facteur d'actualisation, valeur vue de 0 d'un flux de 1 payé en t
+- symbole: $r_a$
+  notion: fpp/capitalisation
+  ref: §2.1
+  sens: taux actuariel, e^r − 1
+- symbole: $P(t,T)$
+  notion: fpp/zero-coupon
+  ref: Déf. 3
+  sens: valeur en t du zéro-coupon qui paie 1 en T
+- symbole: $NPV(t)$
+  notion: fpp/valeur-actuelle-nette
+  ref: Déf. 4
+  sens: valeur actuelle nette en t d'une suite de flux
+- symbole: $X_i$
+  notion: fpp/valeur-actuelle-nette
+  ref: Déf. 4
+  sens: montant du flux payé à la date t_i
+- symbole: $P(t,r)$
+  notion: fpp/duration
+  ref: Déf. 5
+  sens: prix d'un zéro-coupon vu comme fonction d'une durée t et d'un taux r
+- symbole: $B(r^*,r)$
+  notion: fpp/obligation-in-fine
+  ref: Ex. 1
+  sens: prix, pour 1 de nominal, d'une obligation de coupon r* quand les taux valent r
+- symbole: $r^*$
+  notion: fpp/obligation-in-fine
+  ref: Ex. 1
+  sens: taux du coupon versé chaque année par l'obligation
+- symbole: $R(t,T)$
+  notion: fpp/taux-zero-coupon
+  ref: §2.3
+  sens: taux zéro-coupon de t à T, capitalisation continue
+- symbole: $L(t,S)$
+  notion: fpp/taux-zero-coupon
+  ref: §2.3
+  sens: taux zéro-coupon à capitalisation linéaire
+- symbole: $K$
+  notion: fpp/prix-a-terme
+  ref: Déf. 7
+  sens: montant ou taux fixé dans le contrat à la signature (taux du FRA, change à terme, prix à terme, strike)
+- symbole: $F(t,T,S)$
+  notion: fpp/taux-forward
+  ref: §2.3
+  sens: taux forward continu vu en t, pour un placement de T à S
+- symbole: $f(t,T)$
+  notion: fpp/taux-forward-instantane
+  ref: §2.3
+  sens: taux forward instantané vu en t pour la date T
+- symbole: $X_t$
+  notion: fpp/taux-de-change
+  ref: §2.4
+  sens: nombre d'unités de devise étrangère que vaut 1 unité de devise locale en t
+- symbole: $K(t,T)$
+  notion: fpp/change-a-terme
+  ref: §2.4
+  sens: change à terme, fixé en t pour un échange en T
+- symbole: $P^f(t,T)$
+  notion: fpp/change-a-terme
+  ref: §2.4
+  sens: zéro-coupon étranger, valeur en t (en devise étrangère) de 1 unité étrangère payée en T
+- symbole: $R^f(t,T)$
+  notion: fpp/change-a-terme
+  ref: §2.4
+  sens: taux zéro-coupon étranger
+# --- chapitres 3 et 4 : prix à terme, futures
+- symbole: $S_t$
+  notion: fpp/cash-and-carry
+  ref: §3.1
+  sens: prix comptant de l'action en t
+- symbole: $F(t,T)$
+  notion: fpp/prix-forward
+  ref: §3.1
+  sens: prix forward en t de l'action livrée en T
+- symbole: $d_i$
+  notion: fpp/dividendes-intermediaires
+  ref: §3.2
+  sens: dividende versé en T_i, en proportion de la valeur forward à cette date
+- symbole: $T_i$
+  notion: fpp/dividendes-intermediaires
+  ref: §3.2
+  sens: date de versement d'un dividende intermédiaire
+- symbole: $H_t$
+  notion: fpp/contrat-future
+  ref: §4.2
+  sens: prix future en t
+- symbole: $B(t_i,t_j)$
+  notion: fpp/compte-capitalise
+  ref: §4.2.2
+  sens: produit des zéro-coupons courts successifs entre t_i et t_j
+# --- chapitre 5 : probabilité risque-neutre, modèle
+- symbole: $\mathbb{Q}$
+  notion: fpp/probabilite-risque-neutre
+  ref: §5.1
+  sens: probabilité risque-neutre, sous laquelle l'espérance d'un actif est son prix forward
+- symbole: $\mathbb{P}$
+  notion: fpp/probabilite-risque-neutre
+  ref: §5.4
+  sens: probabilité historique, celle du monde réel
+- symbole: $d$
+  notion: fpp/taux-de-dividende
+  ref: §5.2.1
+  sens: taux de dividende continu
+- symbole: $q$
+  notion: fpp/taux-de-dividende
+  ref: éq. 7
+  sens: taux de dividende continu, dans la formule de Black et Scholes
+- symbole: $\mu$
+  notion: fpp/tendance-risque-neutre
+  ref: §3.1
+  sens: tendance (dérive) du sous-jacent, par an
+- symbole: $\sigma(T)$
+  notion: fpp/echelonnement-de-la-variance
+  ref: §5.3
+  sens: écart type du log-rendement sur une durée T
+- symbole: $Y(T)$
+  notion: fpp/echelonnement-de-la-variance
+  ref: §5.3
+  sens: log-rendement cumulé de 0 à T, somme des accroissements
+- symbole: $\lambda$
+  notion: fpp/transformee-de-laplace-gaussienne
+  ref: Th. 1
+  sens: argument réel de la transformée de Laplace
+- symbole: $W_t$
+  notion: fpp/modele-black-scholes
+  ref: §5.4
+  sens: mouvement brownien
+# --- chapitre 6 : options
+- symbole: $G$
+  notion: fpp/payoff
+  ref: Déf. 11
+  sens: fonction qui donne le montant payé à partir des observables
+- symbole: $x^+$
+  notion: fpp/payoff
+  ref: Déf. 11
+  sens: partie positive, max(x, 0)
+- symbole: $IV$
+  notion: fpp/valeur-intrinseque
+  ref: Déf. 12
+  sens: valeur intrinsèque d'un payoff
+- symbole: $TV$
+  notion: fpp/valeur-temps
+  ref: Déf. 13
+  sens: valeur temps d'un payoff, prix moins valeur intrinsèque
+- symbole: $C$
+  notion: fpp/formule-black-scholes
+  ref: éq. 3
+  sens: prix d'un call européen
+- symbole: $P$
+  notion: fpp/formule-black-scholes
+  ref: éq. 4
+  sens: prix d'un put européen
+- symbole: $N$
+  notion: fpp/formule-black-scholes
+  ref: éq. 3
+  sens: fonction de répartition de la loi normale centrée réduite
+- symbole: $d_1$
+  notion: fpp/formule-black-scholes
+  ref: éq. 5
+  sens: argument de N devant le sous-jacent
+- symbole: $d_2$
+  notion: fpp/formule-black-scholes
+  ref: éq. 6
+  sens: argument de N devant le strike, d_1 − σ√T
+- symbole: $F$
+  notion: fpp/formule-de-black
+  ref: éq. 11
+  sens: prix forward du sous-jacent, entrée de la formule de Black
+# --- chapitres 7 et 8 : couverture, EDP, grecques
+- symbole: $V$
+  notion: fpp/edp-black-scholes
+  ref: §7.1
+  sens: valeur du portefeuille fait d'une option et de δ actions
+- symbole: $\mathcal{L}$
+  notion: fpp/feynman-kac
+  ref: éq. 18
+  sens: générateur infinitésimal du processus X
+- symbole: $X(t)$
+  notion: fpp/feynman-kac
+  ref: éq. 17
+  sens: processus de diffusion, solution de l'équation 17
+- symbole: $Z_t$
+  notion: fpp/feynman-kac
+  ref: éq. 19
+  sens: espérance conditionnelle en t du paiement final, f(t, X_t)
+- symbole: $\tau$
+  notion: fpp/grecque
+  ref: §8.2
+  sens: durée restant à courir jusqu'à l'échéance, T − t
+- symbole: $\delta$
+  notion: fpp/delta
+  ref: §7.1
+  sens: delta, dérivée du prix de l'option par rapport au sous-jacent
+- symbole: $\gamma$
+  notion: fpp/gamma
+  ref: §8.2
+  sens: gamma, dérivée seconde du prix de l'option par rapport au sous-jacent
+- symbole: $n$
+  notion: fpp/gamma
+  ref: §8.2
+  sens: densité de la loi normale centrée réduite
+- symbole: $\mathcal{V}$
+  notion: fpp/vega
+  ref: §8.2
+  sens: véga, dérivée du prix de l'option par rapport à la volatilité
+- symbole: $\Theta$
+  notion: fpp/theta
+  ref: §8.2
+  sens: thêta, dérivée du prix de l'option par rapport au temps
+- symbole: $\rho$
+  notion: fpp/rho
+  ref: §8.2
+  sens: rhô, dérivée du prix de l'option par rapport au taux d'intérêt
+# --- livre d'exercices : notions qui n'apparaissent pas dans le poly
+- symbole: $l$
+  notion: fpp/modele-de-merton
+  ref: exo. 16
+  sens: rapport de la dette à la valeur forward de l'entreprise, D / F_T (autre sens que l_t)
+- symbole: $s$
+  notion: fpp/modele-de-merton
+  ref: exo. 16
+  sens: spread de crédit, écart entre le taux payé par l'entreprise et le taux sans risque
+- symbole: $V_0$
+  notion: fpp/produit-a-capital-garanti
+  ref: exo. 17
+  sens: montant investi au départ, que le produit garantit
+- symbole: $C_0$
+  notion: fpp/produit-a-capital-garanti
+  ref: exo. 17
+  sens: coussin, ce qui reste du montant investi une fois la garantie achetée
+- symbole: $k$
+  notion: fpp/produit-a-capital-garanti
+  ref: exo. 17
+  sens: taux de participation à la hausse du sous-jacent
+collisions:
+- symbole: $\lambda$
+  ici: argument réel de la transformée de Laplace gaussienne (Th. 1)
+  ailleurs:
+    dss: paramètre de pénalité de ridge et du lasso
+    dup: coefficient d'aversion aux pertes
+    ods: paramètre de régularisation, et poids d'un mélange convexe
+    pfo: paramètre de persistance EWMA, et multiplicateurs des contraintes d'égalité
+- symbole: $V$
+  ici: valeur du portefeuille option plus actions qui sert à obtenir l'équation de Black et Scholes (§7.1)
+  ailleurs:
+    ods: matrice des vecteurs singuliers à droite, et matrice de la correction de Woodbury
+    pfo: matrice de covariance des statistiques d'ordre d'une normale
+- symbole: $\mathbb{P}$
+  ici: probabilité historique, celle du monde réel, sous laquelle on ne calcule pas les prix (§5.4)
+  ailleurs:
+    ods: la mesure de probabilité qui engendre les couples (x, y)
+- symbole: $d$
+  ici: taux de dividende continu (§5.2.1)
+  ailleurs:
+    dss: nombre de prédicteurs du modèle ajusté
+- symbole: $n$
+  ici: densité de la loi normale centrée réduite (§8.2)
+  ailleurs:
+    dss: nombre d'observations
+homonymes:
+- nom: Prime de risque
+  entre: [dup/prime-de-risque, fpp/prime-de-risque]
+  note: >-
+    deux grandeurs distinctes sous le même mot. Dans dup, un montant que l'agent abandonne
+    sur la moyenne d'un pari pour ne plus courir le risque ; dans fpp, un rendement, celui
+    d'un actif au-delà du coût de son financement.

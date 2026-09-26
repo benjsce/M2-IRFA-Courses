@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="fr" data-rel="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rapport 2026-09-27-fpp · notions</title>
+<script>
+/* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
+   localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
+   cases « déjà su » ne peuvent donc pas traverser les pages par là. Ils voyagent dans
+   le fragment de l'URL, que tous les liens internes portent ; localStorage ne sert plus
+   que de mémoire locale, pour la page qu'on rouvre sans fragment.
+   Ce script s'exécute avant le rendu : sinon le thème clignote à chaque page. */
+(function(){
+var H={},h=(location.hash||'').replace(/^#/,'');
+h.split('~').forEach(function(p){var i=p.indexOf(':');if(i>0)H[p.slice(0,i)]=p.slice(i+1)});
+window.ETAT_URL=H;
+function loc(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+var t=H.t?(H.t==='d'?'dark':'light'):loc('notions.theme','');
+if(t)document.documentElement.setAttribute('data-theme',t);
+var a=(H.a!==undefined)?H.a:loc('notions.ajouts','1');
+if(a==='0')document.documentElement.classList.add('sans-ajouts');
+})();
+</script>
+<style>
+:root{
+  --bg:#fbfaf7; --bg2:#f3f0ea; --fg:#1b1a17; --mut:#6c675d; --fai:#8e887c;
+  --li:#e0dbd1; --li2:#cdc6b8; --card:#ffffff; --acc:#8a4f23; --acc2:#f3e7dc;
+  --ajo:#6d5a8c; --ajo2:#efe9f5; --lim:#9a3a2e; --ok:#3f6b46; --faute:#a8631a;
+  --r:8px; --w:min(72rem,100%);
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}}
+:root[data-theme="dark"]{
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}
+.fig{margin:.9rem 0;padding:.5rem .2rem .2rem;text-align:center}
+/* « > svg » et non « svg » : MathJax pose son propre <svg> dans la légende, et
+   une règle non ancrée en faisait un bloc qui coupait la phrase en trois. */
+.fig > svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig figcaption{margin-top:.35rem;font-family:var(--sans);font-size:.82rem;
+  color:var(--mut);text-align:center;line-height:1.45}
+@media print{.fig{break-inside:avoid}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
+  font-size:17px;line-height:1.62;overflow-wrap:break-word}
+a{color:var(--acc);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-style:dotted}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+.wrap{width:var(--w);margin:0 auto;padding:0 1rem}
+
+/* ---- barre du haut ---- */
+header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
+  border-bottom:1px solid var(--li);font-family:var(--sans)}
+.topin{width:var(--w);margin:0 auto;padding:.45rem 1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.brand{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--fg);letter-spacing:.02em}
+.fil{color:var(--mut);font-size:.82rem;flex:1 1 8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fil a{color:var(--mut)}
+.btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
+  border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+a.btn{text-decoration:none}
+.btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
+.rech{position:relative;flex:0 1 16rem;min-width:9rem}
+.rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
+  border:1px solid var(--li2);border-radius:var(--r);background:var(--card);color:var(--fg)}
+.res{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--li2);
+  border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.14);max-height:60vh;overflow:auto;padding:.2rem;margin:0;
+  list-style:none;display:none;z-index:50;min-width:18rem}
+.res.on{display:block}
+.res li a{display:block;padding:.3rem .45rem;border-radius:6px;text-decoration:none;color:var(--fg);font-size:.86rem}
+.res li a:hover,.res li.sel a{background:var(--acc2)}
+.res .sub{color:var(--mut);font-size:.76rem;font-family:var(--sans)}
+.res .vide{padding:.4rem .5rem;color:var(--mut);font-size:.84rem}
+
+main{padding:1.4rem 0 4rem}
+h1{font-size:1.75rem;line-height:1.24;margin:.2rem 0 .3rem}
+h2{font-size:1.06rem;font-family:var(--sans);font-weight:600;letter-spacing:.01em;margin:0}
+h3{font-size:.95rem;font-family:var(--sans);margin:1.2rem 0 .3rem}
+p{margin:.55rem 0}
+.ptag{font-family:var(--sans);font-size:.74rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .5rem}
+
+/* ---- métadonnées de fiche ---- */
+.meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;font-family:var(--sans);font-size:.75rem;color:var(--mut);margin:.4rem 0 1.1rem}
+.pill{border:1px solid var(--li2);border-radius:99px;padding:.06rem .5rem;background:var(--card);white-space:nowrap}
+.pill.ajout{color:var(--ajo);border-color:var(--ajo);background:var(--ajo2)}
+.pill.typ{background:var(--acc2);border-color:var(--acc)}
+.sym{font-family:var(--serif);font-size:1rem;color:var(--fg)}
+
+/* ---- sections ---- */
+.sec{border-top:1px solid var(--li);padding:.85rem 0}
+.sec.vide{display:none}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.45rem;padding:.1rem 0}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"›";color:var(--fai);font-family:var(--sans);display:inline-block;
+  transition:transform .12s ease;transform:rotate(0deg);width:.7em}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fai);font-weight:400}
+.corps{padding-top:.25rem}
+.gen{border-left:2px solid var(--li2);padding-left:.7rem}
+.chemin{border-left:3px solid var(--acc);background:var(--bg2);border-radius:0 var(--r) var(--r) 0;
+  padding:.5rem .8rem;margin:.2rem 0 .7rem}
+.chemin p{margin:.35rem 0;font-size:.95rem}
+.chemin p:first-child{margin-top:0}
+.chemin p:last-child{margin-bottom:0}
+.note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
+.parc{border:1px solid var(--li);border-left:3px solid var(--acc);border-radius:0 var(--r) var(--r) 0;
+  background:var(--bg2);padding:.5rem .8rem;margin:.6rem 0;font-size:.93rem}
+.parc-t{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin-bottom:.15rem}
+.parc p{margin:.2rem 0}
+.parc-h{border-left:2px solid var(--li);padding:.1rem 0 .1rem .6rem;margin:.3rem 0 .45rem;color:var(--mut)}
+.parc-h strong{color:var(--fg)}
+.parc-l{font-family:var(--sans);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--acc);margin-right:.25rem}
+.parc-lien{margin-top:.35rem;font-size:.92em}
+.parc-suite{border-left:2px solid var(--acc);padding:.1rem 0 .1rem .6rem;margin:.35rem 0;color:var(--fg);background:var(--acc2)}
+.parc-nav{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--sans);font-size:.8rem;margin-top:.35rem}
+.parc-nav .suiv{margin-left:auto;text-align:right}
+.etapes{list-style:none;padding:0;margin:.6rem 0 1.2rem;counter-reset:e}
+.etapes>li{counter-increment:e;position:relative;padding:0 0 1rem 1.7rem;border-left:2px solid var(--li);margin-left:.9rem}
+.etapes>li:last-child{border-left-color:transparent}
+.etapes>li::before{content:counter(e);position:absolute;left:-.95rem;top:0;width:1.75rem;height:1.75rem;
+  border-radius:99px;background:var(--card);border:1px solid var(--acc);color:var(--acc);
+  font-family:var(--sans);font-size:.78rem;display:flex;align-items:center;justify-content:center}
+.etapes>li>p{margin:.1rem 0 .35rem}
+.etapes .arr{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.45rem .75rem}
+.etapes .arr a.tit{font-weight:600;text-decoration:none}
+.etapes .arr p{margin:.15rem 0;font-size:.88rem;color:var(--mut)}
+.avant{list-style:none;padding:0;margin:.4rem 0 1rem}
+.avant>li{margin:.5rem 0}
+.avant>li p{margin:.1rem 0 0;font-size:.95rem}
+.avant a.tit{font-weight:600;text-decoration:none}
+.avant span.tit.venir{font-weight:600;color:var(--fai);cursor:default}
+.roles{list-style:none;padding:0;margin:.2rem 0 0}
+.roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
+.roles>li.cible{background:var(--acc2)}
+details.parc>summary{cursor:pointer}
+.sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
+.sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
+.sec.faute>summary h2{color:var(--faute)}
+.faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
+  margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.faute-b strong{color:var(--faute)}
+.sec.lim>summary h2{color:var(--lim)}
+.sec.lim>h2{color:var(--lim)}
+
+/* ---- marqueurs de traçabilité ---- */
+.marq{font-family:var(--sans);font-size:.7rem;color:var(--fai);white-space:nowrap;vertical-align:.12em}
+.marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
+.marqligne{margin:.15rem 0 0}
+html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
+.bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
+  color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
+
+/* ---- pastilles ---- */
+.pasts{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0;padding:0;list-style:none}
+.past{display:inline-block;font-family:var(--sans);font-size:.82rem;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--li2);border-radius:99px;padding:.12rem .6rem}
+.past:hover{border-color:var(--acc);color:var(--acc)}
+.past .cc{color:var(--fai);font-size:.74rem}
+.past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
+.past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
+.past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
+
+/* ---- socle ---- */
+.socle{list-style:none;padding:0;margin:.3rem 0}
+.socle li{display:flex;gap:.5rem;align-items:baseline;padding:.12rem 0;font-size:.92rem}
+.socle input{margin:0;accent-color:var(--ok)}
+.socle li.su a{color:var(--fai);text-decoration:line-through}
+.compteur{font-family:var(--sans);font-size:.78rem;color:var(--mut)}
+.grp{margin:.5rem 0}
+.grp>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--mut)}
+
+table{border-collapse:collapse;margin:.5rem 0;font-size:.9rem;display:block;overflow-x:auto;max-width:100%}
+th,td{border:1px solid var(--li);padding:.25rem .55rem;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-family:var(--sans);font-size:.78rem;font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+  background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
+ul{padding-left:1.1rem}
+hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
+
+/* ---- cartes d'accueil / carte du cours ---- */
+.cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
+.carte{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.65rem .8rem}
+.carte h3{margin:0 0 .2rem}
+.carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
+.carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
+.dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.vise{animation:vise 1.6s ease}
+@keyframes vise{from{background:var(--acc2)}to{background:transparent}}
+
+/* ---- orientation : ce qui s'adresse au lecteur qui arrive ---- */
+.entree{border:1px solid var(--li2);border-left:3px solid var(--acc);border-radius:var(--r);
+  padding:.7rem .9rem;margin:.8rem 0 1.4rem;background:var(--card)}
+.entree p{margin:.3rem 0;font-size:.92rem}
+.entree .quoi{font-size:1.02rem}
+.entree ul{margin:.5rem 0 .2rem;padding-left:1.1rem;font-family:var(--sans);font-size:.88rem}
+.entree li{margin:.2rem 0}
+.chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
+.chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
+.aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
+/* L'en-tête est collant : une ancre visée ne doit pas passer dessous. Mesuré :
+   il fait 48 px sur une ligne, 85 px quand il se replie en deux (écran étroit). */
+[id]{scroll-margin-top:6rem}
+.aide p,.aide ul,.aide table{max-width:42rem}
+.dette ul{margin:.3rem 0 0}
+footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
+
+/* ---- arbre ---- */
+.barre{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+.barre.plier{justify-content:flex-end;margin:.2rem 0 -.2rem}
+#scene{position:relative;border:1px solid var(--li);border-radius:var(--r);background:var(--bg2);
+  height:min(74vh,720px);overflow:hidden;touch-action:none;cursor:grab}
+#scene.drag{cursor:grabbing}
+#pan{position:absolute;transform-origin:0 0;top:0;left:0}
+#aretes{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+#aretes path{fill:none;stroke:var(--li2);stroke-width:1.5}
+.noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
+  padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
+.noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
+.noeud .nm{font-weight:600}
+.noeud .nm a{text-decoration:none;color:var(--fg)}
+.noeud .nm a:hover{color:var(--acc)}
+.noeud .pa{color:var(--mut);font-size:.72rem;display:block;margin-top:.1rem}
+.noeud .pli{font:inherit;font-size:.72rem;background:none;border:1px solid var(--li2);border-radius:4px;
+  color:var(--mut);cursor:pointer;padding:0 .3rem;margin-right:.25rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.4rem}
+  .rech{flex:1 1 100%;order:9}
+  #scene{height:66vh}
+}
+@media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="brand" href="../index.html">notions</a><span class="fil">rapport d’ingestion › 2026-09-27-fpp</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><article class="rapport"><h1>Rapport d'ingestion — fpp — 2026-09-27</h1><p>Réécriture de zéro du cours fpp, supprimé le 2026-09-26 (rapport <code>2026-09-26-fpp-13.md</code>,
+le seul rapport fpp lu, sur consigne de l'utilisateur). La session a commencé le 26 au
+soir et se termine le 27 : le rapport porte la date du jour de sa rédaction. Aucune version
+antérieure de fpp ni l'historique git n'ont été consultés ; rien n'est hérité des rapports
+fpp antérieurs, clos par la refonte.</p><p>Consignes de l'utilisateur pour cette session : ingestion depuis l'étape 1 de
+SPEC-INGESTION, parcours écrits l'histoire d'abord (SPEC-MODELE §8.6) ; recréer
+<code>fpp/volatilite</code> et <code>fpp/echelonnement-de-la-variance</code>, attendus par pfo, si le poly les
+justifie ; <strong>ne pas rédiger les exercices</strong>, mais porter dans les fiches les notions que le
+livre d'exercices ajoute au poly ; figures dans le style des échéanciers montrés par
+l'utilisateur (deux photos : le change à terme sur deux lignes de devises, le FRA ramené en
+t), ou sous une forme meilleure quand la notion le demande.</p><h2>Matériau traité</h2><ul><li><code>sources/financial_products_lecture_notes.pdf</code>, 16 pages, lu en entier (texte, et en</li><li>image les pages à figures ou à tableau : p. 2, 5, 6, 13, 15).</li><li><code>sources/exercises_book_v2.pdf</code>, 28 pages, lu en entier ; exercices inventoriés, non</li><li>rédigés.</li></ul><p>Les deux ids attendus par pfo sont justifiés par le poly : la volatilité est définie en
+Déf. 2 (« The standard deviation of the return of an asset is called its volatility »),
+l'échelonnement de la variance est le §5.3 (« The scaling of variance »). Ils sont recréés
+sous ces identifiants.</p><h2>Inventaire ajouté (à auditer par l'utilisateur)</h2><p>127 éléments, dans l'ordre des deux documents : 41 notions, 60 absorbés, 2 exclus, 24 à
+venir (les exercices et les sections d'exercices).</p><ul><li>§1 · General concepts of finance and accounting · absorbe <a href="../fpp/n/bilan.html">Bilan</a></li><li>§1.1 · Quick introduction about financial markets · notion <a href="../fpp/n/marche-financier.html">Marché financier</a></li><li>§1.1.1 · Those who need money · absorbe <a href="../fpp/n/marche-financier.html">Marché financier</a></li><li>§1.1.2 · Those who save money · absorbe <a href="../fpp/n/marche-financier.html">Marché financier</a></li><li>§1.1.3 · Intermediaries (the added value of financial markets, notion of security) · absorbe <a href="../fpp/n/marche-financier.html">Marché financier</a></li><li>§1.2 · Double entry accounting system (Figure 1, Asset and Liability representation) · absorbe <a href="../fpp/n/bilan.html">Bilan</a></li><li>Prop. 1 · Assets = Liabilities · notion <a href="../fpp/n/bilan.html">Bilan</a></li><li>§1.3 · Joint dynamics of Assets, Equity and Debts · absorbe <a href="../fpp/n/effet-de-levier.html">Effet de levier</a></li><li>Déf. 1 · Leverage · notion <a href="../fpp/n/levier.html">Levier</a></li><li>Déf. 2 · Risk premium, expected risk premium, volatility · notion <a href="../fpp/n/prime-de-risque.html">Prime de risque</a></li><li>Rem. 1 · Time units of relative variations · absorbe <a href="../fpp/n/prime-de-risque.html">Prime de risque</a></li><li>§1.4 · Limited liabilities · notion <a href="../fpp/n/responsabilite-limitee.html">Responsabilité limitée</a></li><li>§2 · FIC Forward contracts · absorbe <a href="../fpp/n/prix-a-terme.html">Prix à terme</a></li><li>§2.1 · Linear vs continuous rates · notion <a href="../fpp/n/capitalisation.html">Capitalisation et actualisation</a></li><li>§2.2 · Compounding/discounting · absorbe <a href="../fpp/n/zero-coupon.html">Zéro-coupon</a></li><li>Déf. 3 · Zero Coupon Bond · notion <a href="../fpp/n/zero-coupon.html">Zéro-coupon</a></li><li>Déf. 4 · Net Present Value · notion <a href="../fpp/n/valeur-actuelle-nette.html">Valeur actuelle nette</a></li><li>Déf. 5 · Duration · notion <a href="../fpp/n/duration.html">Duration</a></li><li>Ex. 1 · Bullet bond · notion <a href="../fpp/n/obligation-in-fine.html">Obligation in fine</a></li><li>éq. 1 · Bullet bond price as a sum of discounted flows · absorbe <a href="../fpp/n/obligation-in-fine.html">Obligation in fine</a></li><li>éq. 2 · Bullet bond price in closed form · absorbe <a href="../fpp/n/obligation-in-fine.html">Obligation in fine</a></li><li>§2.3 · Forward Rate Agreements (zero-coupon rate R, linear rate L) · absorbe <a href="../fpp/n/taux-zero-coupon.html">Taux zéro-coupon</a></li><li>Déf. 6 · Zero-coupon curve (yield curve) · notion <a href="../fpp/n/courbe-des-taux.html">Courbe des taux</a></li><li>Déf. 7 · Forward Rate Agreement · notion <a href="../fpp/n/fra.html">Forward Rate Agreement</a></li><li>Ex. 2 · Flat rate curve; the forward as weighted average between two rates · absorbe <a href="../fpp/n/taux-forward.html">Taux forward</a></li><li>§2.4 · Forward Exchange Rate · notion <a href="../fpp/n/change-a-terme.html">Change à terme</a></li><li>Ex. 3 · Multi currency business plan · absorbe <a href="../fpp/n/change-a-terme.html">Change à terme</a></li><li>§3 · Equity forward contract · absorbe <a href="../fpp/n/prix-forward.html">Prix forward</a></li><li>§3.1 · One date Cash and Carry arbitrage · notion <a href="../fpp/n/cash-and-carry.html">Arbitrage cash-and-carry</a></li><li>Déf. 8 · Forward value of the asset, basis · notion <a href="../fpp/n/prix-forward.html">Prix forward</a></li><li>§3.2 · Intermediate dividends · notion <a href="../fpp/n/dividendes-intermediaires.html">Dividendes intermédiaires</a></li><li>§4 · Futures contracts · absorbe <a href="../fpp/n/contrat-future.html">Contrat future</a></li><li>§4.1 · Introduction (margining) · notion <a href="../fpp/n/contrat-future.html">Contrat future</a></li><li>§4.2 · Characterisation of the Future price · absorbe <a href="../fpp/n/prix-future.html">Prix future</a></li><li>§4.2.1 · Characterization of Forward Prices · absorbe <a href="../fpp/n/prix-future.html">Prix future</a></li><li>Prop. 2 · The forward price is the spot price of a payoff S(T)/P(t,T) · absorbe <a href="../fpp/n/prix-future.html">Prix future</a></li><li>§4.2.2 · Extension to Future prices (accumulated bank account) · notion <a href="../fpp/n/compte-capitalise.html">Compte capitalisé</a></li><li>Prop. 3 · The future price is the spot price of a payoff S(T)/B(t,T) · notion <a href="../fpp/n/prix-future.html">Prix future</a></li><li>Prop. 4 · Deterministic rates, future and forward prices equal · absorbe <a href="../fpp/n/prix-future.html">Prix future</a></li><li>§5 · Pricing models, Risk Neutral Probability · absorbe <a href="../fpp/n/probabilite-risque-neutre.html">Probabilité risque-neutre</a></li><li>§5.1 · Risk neutral probability · absorbe <a href="../fpp/n/probabilite-risque-neutre.html">Probabilité risque-neutre</a></li><li>Prop. 5 · No Arbitrage · notion <a href="../fpp/n/absence-d-arbitrage.html">Absence d'opportunité d'arbitrage</a></li><li>Prop. 6 · Fundamental Pricing Theorem · notion <a href="../fpp/n/probabilite-risque-neutre.html">Probabilité risque-neutre</a></li><li>§5.2 · Examples · notion <a href="../fpp/n/tendance-risque-neutre.html">Tendance risque-neutre</a></li><li>§5.2.1 · Stocks (continuous dividend yield, risk neutral trend r − d) · notion <a href="../fpp/n/taux-de-dividende.html">Taux de dividende continu</a></li><li>§5.2.2 · Currencies · absorbe <a href="../fpp/n/tendance-risque-neutre.html">Tendance risque-neutre</a></li><li>§5.3 · The scaling of variance · notion <a href="../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance</a></li><li>§5.4 · The Black and Scholes model · notion <a href="../fpp/n/modele-black-scholes.html">Modèle de Black et Scholes</a></li><li>Th. 1 · Gaussian Laplace Transform · notion <a href="../fpp/n/transformee-de-laplace-gaussienne.html">Transformée de Laplace gaussienne</a></li><li>§6 · Option pricing as discounting expected cash flows · absorbe <a href="../fpp/n/option.html">Option</a></li><li>§6.1 · Definitions and properties · absorbe <a href="../fpp/n/option.html">Option</a></li><li>Déf. 9 · Call option, strike price, maturity, put option · notion <a href="../fpp/n/option.html">Option</a></li><li>Déf. 10 · European option, American option · notion <a href="../fpp/n/option-americaine.html">Option américaine</a></li><li>Déf. 11 · Payoff · notion <a href="../fpp/n/payoff.html">Payoff</a></li><li>Prop. 7 · Call put parity · notion <a href="../fpp/n/parite-call-put.html">Parité call-put</a></li><li>§6.2 · Factors affecting option prices · absorbe <a href="../fpp/n/valeur-intrinseque.html">Valeur intrinsèque</a></li><li>Déf. 12 · Intrinsic value · notion <a href="../fpp/n/valeur-intrinseque.html">Valeur intrinsèque</a></li><li>Déf. 13 · Time value · notion <a href="../fpp/n/valeur-temps.html">Valeur temps</a></li><li>§6.3 · Example of strategies involving options (renvoi à un document externe) · absorbe <a href="../fpp/n/combinaison-d-options.html">Combinaison d'options</a></li><li>§6.4 · B&amp;S formulas · notion <a href="../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a></li><li>éq. 3 · B&amp;S call without dividends · absorbe <a href="../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a></li><li>éq. 4 · B&amp;S put without dividends · absorbe <a href="../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a></li><li>éq. 5 · d1 without dividends · absorbe <a href="../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a></li><li>éq. 6 · d2 without dividends · absorbe <a href="../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a></li><li>éq. 7 · B&amp;S call with dividends · absorbe <a href="../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a></li><li>éq. 8 · B&amp;S put with dividends · absorbe <a href="../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a></li><li>éq. 9 · d1 with dividends · absorbe <a href="../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a></li><li>éq. 10 · d2 with dividends · absorbe <a href="../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a></li><li>éq. 11 · Black formula, call · absorbe <a href="../fpp/n/formule-de-black.html">Formule de Black</a></li><li>éq. 12 · Black formula, put · absorbe <a href="../fpp/n/formule-de-black.html">Formule de Black</a></li><li>éq. 13 · d1 of the Black formula · absorbe <a href="../fpp/n/formule-de-black.html">Formule de Black</a></li><li>éq. 14 · d2 of the Black formula · absorbe <a href="../fpp/n/formule-de-black.html">Formule de Black</a></li><li>§6.5 · Options on different underlyings · notion <a href="../fpp/n/formule-de-black.html">Formule de Black</a></li><li>§7 · Option pricing from hedging, the Black &amp; Scholes approach · absorbe <a href="../fpp/n/edp-black-scholes.html">Équation de Black et Scholes</a></li><li>§7.1 · A PDE for option prices · notion <a href="../fpp/n/edp-black-scholes.html">Équation de Black et Scholes</a></li><li>éq. 15 · Stochastic differential equation of the spot · absorbe <a href="../fpp/n/formule-d-ito.html">Formule d'Itô</a></li><li>éq. 16 · Black and Scholes equation · absorbe <a href="../fpp/n/edp-black-scholes.html">Équation de Black et Scholes</a></li><li>§7.2 · Solving the PDE · absorbe <a href="../fpp/n/feynman-kac.html">Feynman-Kac</a></li><li>§7.2.1 · The Feynman-Kac equivalence · notion <a href="../fpp/n/feynman-kac.html">Feynman-Kac</a></li><li>éq. 17 · Diffusion process X · absorbe <a href="../fpp/n/feynman-kac.html">Feynman-Kac</a></li><li>éq. 18 · Infinitesimal generator · absorbe <a href="../fpp/n/feynman-kac.html">Feynman-Kac</a></li><li>éq. 19 · Conditional expectation Z_t = f(t, X_t) · absorbe <a href="../fpp/n/feynman-kac.html">Feynman-Kac</a></li><li>§7.2.2 · Application to the B&amp;S PDE · absorbe <a href="../fpp/n/feynman-kac.html">Feynman-Kac</a></li><li>éq. 20 · Heat equation · absorbe <a href="../fpp/n/feynman-kac.html">Feynman-Kac</a></li><li>éq. 21 · Terminal condition of the heat equation · absorbe <a href="../fpp/n/feynman-kac.html">Feynman-Kac</a></li><li>§8 · Hedging and the greeks · notion <a href="../fpp/n/couverture.html">Couverture</a></li><li>§8.1 · Definition and representation (plan seulement) · absorbe <a href="../fpp/n/grecque.html">Grecque</a></li><li>§8.2 · Synthetic summary (Table 1, sensitivities) · notion <a href="../fpp/n/grecque.html">Grecque</a></li><li>§8.3 · Different approaches (plan seulement) · absorbe <a href="../fpp/n/grecque.html">Grecque</a></li><li>§9 · Options Use Cases · absorbe <a href="../fpp/n/combinaison-d-options.html">Combinaison d'options</a></li><li>§9.1 · Building different payoffs (call spread, digital, straddle) · notion <a href="../fpp/n/combinaison-d-options.html">Combinaison d'options</a></li><li>§9.2 · Principal Protected Products · notion <a href="../fpp/n/produit-a-capital-garanti.html">Produit à capital garanti</a></li><li>§9.3 · Return enhancement (selling calls, selling puts) · absorbe <a href="../fpp/n/combinaison-d-options.html">Combinaison d'options</a></li><li>p. 16 · Appendix, some reliable data sources (Table 2) · exclu « liste de sites de données, sans notion de cours »</li><li>exos avant-propos · Foreword · exclu « présentation du recueil, sans contenu de cours »</li><li>exos ch. 1 · Exercises (convention, taux continus et par an) · absorbe <a href="../fpp/n/capitalisation.html">Capitalisation et actualisation</a></li><li>exos §1.1 · Forward contracts · a_venir 2026-10</li><li>exo. 1 · Forward price with no dividend, a cash dividend, a proportional dividend · a_venir 2026-10</li><li>exo. 2 · Spot price implied by a forward price, with dividends · a_venir 2026-10</li><li>exo. 3 · US rate implied by a USD/SEK forward · a_venir 2026-10</li><li>exo. 4 · US rate implied by two USD/EUR forwards · a_venir 2026-10</li><li>exo. 5 · Dividend implied by an S&amp;P forward · a_venir 2026-10</li><li>exo. 6 · Air France hedging a USD payable (forward vs money market) · a_venir 2026-10</li><li>exos §1.2 · Options · a_venir 2026-10</li><li>exo. 7 · Futures call on crude oil (Black formula) · a_venir 2026-10</li><li>exo. 8 · Call on a share, without and with a cash dividend · a_venir 2026-10</li><li>exo. 9 · Forward and options on the USD/EUR rate, early exercise · a_venir 2026-10</li><li>exo. 10 · Strike implied by call-put parity · a_venir 2026-10</li><li>exo. 11 · Securing a forward purchase with a call and a put · a_venir 2026-10</li><li>exo. 12 · Arbitrage in an inconsistent option price table · a_venir 2026-10</li><li>exo. 13 · Forward and options on a foreign currency · a_venir 2026-10</li><li>exo. 14 · Call-put parity, drift of the forward, parity on the forward · a_venir 2026-10</li><li>exos éq. 1.1 · Pointwise identity behind the call-put parity · absorbe <a href="../fpp/n/parite-call-put.html">Parité call-put</a></li><li>exos éq. 1.2 · Put expectation as a Black put · absorbe <a href="../fpp/n/formule-de-black.html">Formule de Black</a></li><li>exos éq. 1.3 · d1 written with the forward · absorbe <a href="../fpp/n/formule-de-black.html">Formule de Black</a></li><li>exo. 15 · Speculating on volatility (strangle, straddle, butterfly) · a_venir 2026-10</li><li>exos ch. 2 · Problems · a_venir 2026-10</li><li>exos §2.1 · The Merton model of the firm · notion <a href="../fpp/n/modele-de-merton.html">Modèle de Merton</a></li><li>exo. 16 · Equity as a call, risky debt and credit spread · a_venir 2026-10</li><li>exos §2.2 · Structured Products · absorbe <a href="../fpp/n/produit-a-capital-garanti.html">Produit à capital garanti</a></li><li>exo. 17 · Principal protection with a zero-coupon and calls on the S&amp;P 500 · a_venir 2026-10</li><li>exos §2.3 · Hedging a Corporate FX Exposure · absorbe <a href="../fpp/n/produit-a-capital-garanti.html">Produit à capital garanti</a></li><li>exo. 18 · Forward, put and full hedge of a USD receivable · a_venir 2026-10</li><li>exos §2.4 · Multi-period / multi-currency financing · absorbe <a href="../fpp/n/taux-forward.html">Taux forward</a></li><li>exo. 19 · Rolling loans vs a long loan, borrowing in yen · a_venir 2026-10</li><li>exos §2.5 · Benefiting from the Abenomics · a_venir 2026-10</li><li>exo. 20 · Nikkei and yen strategies of a US investor (solution à écrire dans la source) · a_venir 2026-10</li></ul><p>Éléments du poly non inventoriés, parce qu'ils ne sont ni numérotés ni titrés : la
+figure 1 (absorbée dans <code>fpp/bilan</code>, qui la reproduit), les deux schémas du §2.3 et du §2.4
+(reproduits dans les figures de <code>fpp/taux-forward</code> et <code>fpp/change-a-terme</code>), le tableau 1
+(porté par <code>fpp/grecque</code>), les paragraphes en gras « The added value of financial
+markets » et « Notion of security » (dans <code>fpp/marche-financier</code>). Dans le livre : les
+tableaux 2.1 à 2.3 et les figures 2.1 et 2.2, qui appartiennent aux exercices 16, 18 et 19.</p><h2>Notations ajoutées ou en collision</h2><p>Registre <code>courses/fpp/notation.yml</code> réécrit : 72 symboles, dont 5 venus du livre
+d'exercices ($l$, $s$, $V_0$, $C_0$, $k$). Aucun symbole introduit par l'opérateur.</p><p>$A_t$ (bilan), $E_t$ (bilan), $D_t$ (bilan), $l_t$ (levier), $\tilde\pi_A$ (prime-de-risque), $\tilde\pi_E$ (prime-de-risque), $\pi_A$ (prime-de-risque), $\pi_E$ (prime-de-risque), $\sigma$ (volatilite), $\sigma_A$ (effet-de-levier), $\sigma_E$ (effet-de-levier), $r$ (capitalisation), $C(t,n)$ (capitalisation), $C(t)$ (capitalisation), $B_t$ (capitalisation), $r_a$ (capitalisation), $P(t,T)$ (zero-coupon), $NPV(t)$ (valeur-actuelle-nette), $X_i$ (valeur-actuelle-nette), $P(t,r)$ (duration), $B(r^*,r)$ (obligation-in-fine), $r^*$ (obligation-in-fine), $R(t,T)$ (taux-zero-coupon), $L(t,S)$ (taux-zero-coupon), $K$ (prix-a-terme), $F(t,T,S)$ (taux-forward), $f(t,T)$ (taux-forward-instantane), $X_t$ (taux-de-change), $K(t,T)$ (change-a-terme), $P^f(t,T)$ (change-a-terme), $R^f(t,T)$ (change-a-terme), $S_t$ (cash-and-carry), $F(t,T)$ (prix-forward), $d_i$ (dividendes-intermediaires), $T_i$ (dividendes-intermediaires), $H_t$ (contrat-future), $B(t_i,t_j)$ (compte-capitalise), $\mathbb{Q}$ (probabilite-risque-neutre), $\mathbb{P}$ (probabilite-risque-neutre), $d$ (taux-de-dividende), $q$ (taux-de-dividende), $\mu$ (tendance-risque-neutre), $\sigma(T)$ (echelonnement-de-la-variance), $Y(T)$ (echelonnement-de-la-variance), $\lambda$ (transformee-de-laplace-gaussienne), $W_t$ (modele-black-scholes), $G$ (payoff), $x^+$ (payoff), $IV$ (valeur-intrinseque), $TV$ (valeur-temps), $C$ (formule-black-scholes), $P$ (formule-black-scholes), $N$ (formule-black-scholes), $d_1$ (formule-black-scholes), $d_2$ (formule-black-scholes), $F$ (formule-de-black), $V$ (edp-black-scholes), $\mathcal{L}$ (feynman-kac), $X(t)$ (feynman-kac), $Z_t$ (feynman-kac), $\tau$ (grecque), $\delta$ (delta), $\gamma$ (gamma), $n$ (gamma), $\mathcal{V}$ (vega), $\Theta$ (theta), $\rho$ (rho), $l$ (modele-de-merton), $s$ (modele-de-merton), $V_0$ (produit-a-capital-garanti), $C_0$ (produit-a-capital-garanti), $k$ (produit-a-capital-garanti)</p><p><strong>Collisions entre cours.</strong> Les registres de dss, dup, ods et pfo déclaraient déjà, côté
+eux, les collisions avec fpp sur $F$, $\pi$, $P$, $\mu$, $\sigma$, $\gamma$, $K$, $S_t$,
+$\delta$, $\rho$, $B$, $C$, $q$. Le validateur en a signalé cinq de plus, déclarées dans
+<code>fpp/notation.yml</code> en nommant tous les cours concernés : $\lambda$ (dss, dup, ods, pfo),
+$V$ (ods, pfo), $\mathbb{P}$ (ods), $d$ (dss), $n$ (dss).</p><p><strong>Homonymie déclarée</strong> : « Prime de risque », entre <code>dup/prime-de-risque</code> et
+<code>fpp/prime-de-risque</code> (un montant dans dup, un rendement excédentaire dans fpp).</p><p><strong>Réemplois de lettres dans le cours lui-même</strong> (A12 : à déclarer, pas à résoudre seul).
+Le poly et le livre donnent plusieurs sens à la même lettre. Chaque sens a son entrée, sous
+l'écriture exacte de la source, et les fiches concernées le disent dans « Ce que les
+symboles modélisent » :</p><ul><li>$C$ : facteur de capitalisation $C(t,n)$ (§2.1) et prix du call (éq. 3) ;</li><li>$P$ : zéro-coupon $P(t,T)$, prix d'un zéro-coupon en fonction d'une durée $P(t,r)$, prix</li><li>du put (éq. 4), et prix d'une option en général dans le tableau 1 ;</li><li>$B$ : facteur d'actualisation $B_t$ (§2.1), prix d'obligation $B(r^*,r)$ (Ex. 1), compte</li><li>capitalisé $B(t_i,t_j)$ (§4.2.2) ;</li><li>$d$ : dividendes $d_i$ (§3.2), taux de dividende continu $d$ (§5.2.1), noté aussi $q$</li><li>(éq. 7), et $d_1$, $d_2$ de la formule de Black et Scholes ;</li><li>$\tau$ : ensemble des dates de flux (Déf. 4) et durée restante (tableau 1) ;</li><li>$X$ : taux de change $X_t$ (§2.4) et diffusion $X(t)$ (éq. 17) ;</li><li>$F$ : taux forward $F(t,T,S)$, prix forward $F(t,T)$, $F$ de la formule de Black,</li><li>fonction terminale $F(x)$ et prix forward de l'option $F(t,x)$ (§7.2) ;</li><li>$f$ : taux forward instantané $f(t,T)$ (§2.3) et, dans l'exercice 19, taux forward</li><li>d'un emprunt de $t$ à $T$ ;</li><li>$l$ : levier $l_t=A_t/E_t$ (Déf. 1) et rapport dette sur valeur forward $l=D/F_T$</li><li>(exo. 16) ;</li><li>$\mu$ : tendance historique (§3.1, §5.4) et « risk neutral trend » (§5.2.1).</li></ul><h2>Fiches créées</h2><p>54 fiches : 3 principes, 2 abstraites, 49 notions ; toutes de statut <code>source</code>, aucune <code>ajout</code>
+(la seule notion née du livre d'exercices, le modèle de Merton, est tracée sur lui).</p><div class="tablebloc"><table><thead><tr><th>id</th><th>nom</th><th>type</th><th>cas_de</th><th>construite_a_partir_de</th></tr></thead><tbody><tr><td><a href="../fpp/n/absence-d-arbitrage.html">Absence d'opportunité d'arbitrage</a></td><td>Absence d'opportunité d'arbitrage</td><td>principe</td><td>—</td><td>—</td></tr><tr><td><a href="../fpp/n/bilan.html">Bilan</a></td><td>Bilan</td><td>principe</td><td>—</td><td>—</td></tr><tr><td><a href="../fpp/n/capitalisation.html">Capitalisation et actualisation</a></td><td>Capitalisation et actualisation</td><td>notion</td><td>—</td><td>—</td></tr><tr><td><a href="../fpp/n/cash-and-carry.html">Arbitrage cash-and-carry</a></td><td>Arbitrage cash-and-carry</td><td>notion</td><td>—</td><td><a href="../fpp/n/zero-coupon.html">Zéro-coupon</a>, <a href="../fpp/n/absence-d-arbitrage.html">Absence d'opportunité d'arbitrage</a></td></tr><tr><td><a href="../fpp/n/change-a-terme.html">Change à terme</a></td><td>Change à terme</td><td>notion</td><td><a href="../fpp/n/prix-a-terme.html">Prix à terme</a></td><td><a href="../fpp/n/taux-de-change.html">Taux de change</a>, <a href="../fpp/n/taux-zero-coupon.html">Taux zéro-coupon</a></td></tr><tr><td><a href="../fpp/n/combinaison-d-options.html">Combinaison d'options</a></td><td>Combinaison d'options</td><td>notion</td><td>—</td><td><a href="../fpp/n/option.html">Option</a></td></tr><tr><td><a href="../fpp/n/compte-capitalise.html">Compte capitalisé</a></td><td>Compte capitalisé</td><td>notion</td><td>—</td><td><a href="../fpp/n/zero-coupon.html">Zéro-coupon</a></td></tr><tr><td><a href="../fpp/n/contrat-future.html">Contrat future</a></td><td>Contrat future</td><td>notion</td><td>—</td><td><a href="../fpp/n/prix-forward.html">Prix forward</a></td></tr><tr><td><a href="../fpp/n/courbe-des-taux.html">Courbe des taux</a></td><td>Courbe des taux</td><td>notion</td><td>—</td><td><a href="../fpp/n/taux-zero-coupon.html">Taux zéro-coupon</a></td></tr><tr><td><a href="../fpp/n/couverture.html">Couverture</a></td><td>Couverture</td><td>principe</td><td>—</td><td>—</td></tr><tr><td><a href="../fpp/n/delta.html">Delta</a></td><td>Delta</td><td>notion</td><td><a href="../fpp/n/grecque.html">Grecque</a></td><td><a href="../fpp/n/valeur-temps.html">Valeur temps</a></td></tr><tr><td><a href="../fpp/n/dividendes-intermediaires.html">Dividendes intermédiaires</a></td><td>Dividendes intermédiaires</td><td>notion</td><td>—</td><td><a href="../fpp/n/prix-forward.html">Prix forward</a></td></tr><tr><td><a href="../fpp/n/duration.html">Duration</a></td><td>Duration</td><td>notion</td><td>—</td><td><a href="../fpp/n/taux-zero-coupon.html">Taux zéro-coupon</a></td></tr><tr><td><a href="../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance</a></td><td>Échelonnement de la variance</td><td>notion</td><td>—</td><td><a href="../fpp/n/volatilite.html">Volatilité</a></td></tr><tr><td><a href="../fpp/n/edp-black-scholes.html">Équation de Black et Scholes</a></td><td>Équation de Black et Scholes</td><td>notion</td><td><a href="../fpp/n/couverture.html">Couverture</a></td><td><a href="../fpp/n/formule-d-ito.html">Formule d'Itô</a></td></tr><tr><td><a href="../fpp/n/effet-de-levier.html">Effet de levier</a></td><td>Effet de levier</td><td>notion</td><td>—</td><td><a href="../fpp/n/levier.html">Levier</a>, <a href="../fpp/n/prime-de-risque.html">Prime de risque</a>, <a href="../fpp/n/volatilite.html">Volatilité</a></td></tr><tr><td><a href="../fpp/n/feynman-kac.html">Feynman-Kac</a></td><td>Feynman-Kac</td><td>notion</td><td>—</td><td><a href="../fpp/n/edp-black-scholes.html">Équation de Black et Scholes</a></td></tr><tr><td><a href="../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a></td><td>Formule de Black et Scholes</td><td>notion</td><td>—</td><td><a href="../fpp/n/modele-black-scholes.html">Modèle de Black et Scholes</a>, <a href="../fpp/n/option.html">Option</a></td></tr><tr><td><a href="../fpp/n/formule-d-ito.html">Formule d'Itô</a></td><td>Formule d'Itô</td><td>notion</td><td>—</td><td><a href="../fpp/n/modele-black-scholes.html">Modèle de Black et Scholes</a></td></tr><tr><td><a href="../fpp/n/formule-de-black.html">Formule de Black</a></td><td>Formule de Black</td><td>notion</td><td>—</td><td><a href="../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a>, <a href="../fpp/n/prix-a-terme.html">Prix à terme</a></td></tr><tr><td><a href="../fpp/n/fra.html">Forward Rate Agreement</a></td><td>Forward Rate Agreement</td><td>notion</td><td>—</td><td><a href="../fpp/n/taux-zero-coupon.html">Taux zéro-coupon</a></td></tr><tr><td><a href="../fpp/n/gamma.html">Gamma</a></td><td>Gamma</td><td>notion</td><td><a href="../fpp/n/grecque.html">Grecque</a></td><td><a href="../fpp/n/valeur-temps.html">Valeur temps</a></td></tr><tr><td><a href="../fpp/n/grecque.html">Grecque</a></td><td>Grecque</td><td>abstraite</td><td><a href="../fpp/n/couverture.html">Couverture</a></td><td><a href="../fpp/n/valeur-temps.html">Valeur temps</a></td></tr><tr><td><a href="../fpp/n/levier.html">Levier</a></td><td>Levier</td><td>notion</td><td>—</td><td><a href="../fpp/n/bilan.html">Bilan</a></td></tr><tr><td><a href="../fpp/n/marche-financier.html">Marché financier</a></td><td>Marché financier</td><td>notion</td><td>—</td><td>—</td></tr><tr><td><a href="../fpp/n/modele-black-scholes.html">Modèle de Black et Scholes</a></td><td>Modèle de Black et Scholes</td><td>notion</td><td>—</td><td><a href="../fpp/n/tendance-risque-neutre.html">Tendance risque-neutre</a>, <a href="../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance</a>, <a href="../fpp/n/transformee-de-laplace-gaussienne.html">Transformée de Laplace gaussienne</a></td></tr><tr><td><a href="../fpp/n/modele-de-merton.html">Modèle de Merton</a></td><td>Modèle de Merton</td><td>notion</td><td>—</td><td><a href="../fpp/n/responsabilite-limitee.html">Responsabilité limitée</a>, <a href="../fpp/n/formule-de-black.html">Formule de Black</a>, <a href="../fpp/n/parite-call-put.html">Parité call-put</a></td></tr><tr><td><a href="../fpp/n/obligation-in-fine.html">Obligation in fine</a></td><td>Obligation in fine</td><td>notion</td><td>—</td><td><a href="../fpp/n/valeur-actuelle-nette.html">Valeur actuelle nette</a></td></tr><tr><td><a href="../fpp/n/option-americaine.html">Option américaine</a></td><td>Option américaine</td><td>notion</td><td>—</td><td><a href="../fpp/n/valeur-temps.html">Valeur temps</a></td></tr><tr><td><a href="../fpp/n/option.html">Option</a></td><td>Option</td><td>notion</td><td>—</td><td><a href="../fpp/n/payoff.html">Payoff</a></td></tr><tr><td><a href="../fpp/n/parite-call-put.html">Parité call-put</a></td><td>Parité call-put</td><td>notion</td><td><a href="../fpp/n/absence-d-arbitrage.html">Absence d'opportunité d'arbitrage</a></td><td><a href="../fpp/n/option.html">Option</a>, <a href="../fpp/n/zero-coupon.html">Zéro-coupon</a></td></tr><tr><td><a href="../fpp/n/payoff.html">Payoff</a></td><td>Payoff</td><td>notion</td><td>—</td><td>—</td></tr><tr><td><a href="../fpp/n/prime-de-risque.html">Prime de risque</a></td><td>Prime de risque</td><td>notion</td><td>—</td><td><a href="../fpp/n/bilan.html">Bilan</a></td></tr><tr><td><a href="../fpp/n/prix-a-terme.html">Prix à terme</a></td><td>Prix à terme</td><td>abstraite</td><td><a href="../fpp/n/absence-d-arbitrage.html">Absence d'opportunité d'arbitrage</a></td><td><a href="../fpp/n/zero-coupon.html">Zéro-coupon</a></td></tr><tr><td><a href="../fpp/n/prix-forward.html">Prix forward</a></td><td>Prix forward</td><td>notion</td><td><a href="../fpp/n/prix-a-terme.html">Prix à terme</a></td><td><a href="../fpp/n/cash-and-carry.html">Arbitrage cash-and-carry</a></td></tr><tr><td><a href="../fpp/n/prix-future.html">Prix future</a></td><td>Prix future</td><td>notion</td><td>—</td><td><a href="../fpp/n/contrat-future.html">Contrat future</a>, <a href="../fpp/n/compte-capitalise.html">Compte capitalisé</a></td></tr><tr><td><a href="../fpp/n/probabilite-risque-neutre.html">Probabilité risque-neutre</a></td><td>Probabilité risque-neutre</td><td>notion</td><td><a href="../fpp/n/absence-d-arbitrage.html">Absence d'opportunité d'arbitrage</a></td><td><a href="../fpp/n/prix-forward.html">Prix forward</a>, <a href="../fpp/n/valeur-actuelle-nette.html">Valeur actuelle nette</a></td></tr><tr><td><a href="../fpp/n/produit-a-capital-garanti.html">Produit à capital garanti</a></td><td>Produit à capital garanti</td><td>notion</td><td>—</td><td><a href="../fpp/n/parite-call-put.html">Parité call-put</a>, <a href="../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a></td></tr><tr><td><a href="../fpp/n/responsabilite-limitee.html">Responsabilité limitée</a></td><td>Responsabilité limitée</td><td>notion</td><td>—</td><td><a href="../fpp/n/effet-de-levier.html">Effet de levier</a></td></tr><tr><td><a href="../fpp/n/rho.html">Rhô</a></td><td>Rhô</td><td>notion</td><td><a href="../fpp/n/grecque.html">Grecque</a></td><td><a href="../fpp/n/valeur-temps.html">Valeur temps</a></td></tr><tr><td><a href="../fpp/n/taux-de-change.html">Taux de change</a></td><td>Taux de change</td><td>notion</td><td>—</td><td>—</td></tr><tr><td><a href="../fpp/n/taux-de-dividende.html">Taux de dividende continu</a></td><td>Taux de dividende continu</td><td>notion</td><td>—</td><td><a href="../fpp/n/dividendes-intermediaires.html">Dividendes intermédiaires</a></td></tr><tr><td><a href="../fpp/n/taux-forward-instantane.html">Taux forward instantané</a></td><td>Taux forward instantané</td><td>notion</td><td>—</td><td><a href="../fpp/n/taux-forward.html">Taux forward</a></td></tr><tr><td><a href="../fpp/n/taux-forward.html">Taux forward</a></td><td>Taux forward</td><td>notion</td><td><a href="../fpp/n/prix-a-terme.html">Prix à terme</a></td><td><a href="../fpp/n/fra.html">Forward Rate Agreement</a>, <a href="../fpp/n/courbe-des-taux.html">Courbe des taux</a></td></tr><tr><td><a href="../fpp/n/taux-zero-coupon.html">Taux zéro-coupon</a></td><td>Taux zéro-coupon</td><td>notion</td><td>—</td><td><a href="../fpp/n/zero-coupon.html">Zéro-coupon</a></td></tr><tr><td><a href="../fpp/n/tendance-risque-neutre.html">Tendance risque-neutre</a></td><td>Tendance risque-neutre</td><td>notion</td><td>—</td><td><a href="../fpp/n/probabilite-risque-neutre.html">Probabilité risque-neutre</a>, <a href="../fpp/n/taux-de-dividende.html">Taux de dividende continu</a></td></tr><tr><td><a href="../fpp/n/theta.html">Thêta</a></td><td>Thêta</td><td>notion</td><td><a href="../fpp/n/grecque.html">Grecque</a></td><td><a href="../fpp/n/valeur-temps.html">Valeur temps</a></td></tr><tr><td><a href="../fpp/n/transformee-de-laplace-gaussienne.html">Transformée de Laplace gaussienne</a></td><td>Transformée de Laplace gaussienne</td><td>notion</td><td>—</td><td>—</td></tr><tr><td><a href="../fpp/n/valeur-actuelle-nette.html">Valeur actuelle nette</a></td><td>Valeur actuelle nette</td><td>notion</td><td>—</td><td><a href="../fpp/n/zero-coupon.html">Zéro-coupon</a></td></tr><tr><td><a href="../fpp/n/valeur-intrinseque.html">Valeur intrinsèque</a></td><td>Valeur intrinsèque</td><td>notion</td><td>—</td><td><a href="../fpp/n/option.html">Option</a>, <a href="../fpp/n/probabilite-risque-neutre.html">Probabilité risque-neutre</a></td></tr><tr><td><a href="../fpp/n/valeur-temps.html">Valeur temps</a></td><td>Valeur temps</td><td>notion</td><td>—</td><td><a href="../fpp/n/valeur-intrinseque.html">Valeur intrinsèque</a>, <a href="../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a></td></tr><tr><td><a href="../fpp/n/vega.html">Véga</a></td><td>Véga</td><td>notion</td><td><a href="../fpp/n/grecque.html">Grecque</a></td><td><a href="../fpp/n/valeur-temps.html">Valeur temps</a></td></tr><tr><td><a href="../fpp/n/volatilite.html">Volatilité</a></td><td>Volatilité</td><td>notion</td><td>—</td><td>—</td></tr><tr><td><a href="../fpp/n/zero-coupon.html">Zéro-coupon</a></td><td>Zéro-coupon</td><td>notion</td><td>—</td><td><a href="../fpp/n/capitalisation.html">Capitalisation et actualisation</a></td></tr></tbody></table></div><p><strong>Ce que le livre d'exercices ajoute au poly, et où les fiches en parlent.</strong> Le dividende
+en numéraire et le dividende implicite (exos 1, 2, 5) : <code>fpp/dividendes-intermediaires</code>.
+La couverture par le marché monétaire (exo 6) et l'emprunt dans une devise à taux bas
+(exo 19) : <code>fpp/change-a-terme</code>. Le taux forward comme point mort d'un emprunt renouvelé
+(exo 19) : <code>fpp/taux-forward</code>. L'option sur future et l'option de change, où le taux
+étranger joue le dividende (exos 7, 9, 13) : <code>fpp/formule-de-black</code>. L'exercice anticipé
+d'un call américain, jamais utile sur une action sans dividende, parfois sur une devise
+(exo 9) : <code>fpp/option-americaine</code>. L'achat à terme synthétique, le strike tiré de la parité
+et l'arbitrage d'un tableau incohérent (exos 10, 11, 12) : <code>fpp/parite-call-put</code>. Le prix
+forward martingale sous $\mathbb Q$ (exo 14) : <code>fpp/tendance-risque-neutre</code> et
+<code>fpp/formule-d-ito</code>. Le strangle et le papillon, et le pari sur la volatilité (exo 15) :
+<code>fpp/combinaison-d-options</code>. Les capitaux propres comme call et le spread de crédit
+(exo 16) : fiche nouvelle <code>fpp/modele-de-merton</code>, annoncée par le poly au §1.4. Le coussin
+et la participation (exo 17) et la protection par un put (exo 18) :
+<code>fpp/produit-a-capital-garanti</code>. L'échelonnement appliqué à trois mois (exo 18) :
+<code>fpp/echelonnement-de-la-variance</code>. Seul l'exercice 20 n'est porté par aucune fiche
+(question plus bas).</p><h2>Fiches modifiées</h2><p>Aucune fiche d'un autre cours. Fichiers modifiés hors fiches :</p><ul><li><code>courses/pfo/a-venir.yml</code> : ancien, deux entrées <code>fpp/volatilite</code> et</li><li><code>fpp/echelonnement-de-la-variance</code> (« cours fpp supprimé le 2026-09-26… ») → nouveau,</li><li><code>[]</code>, avec un commentaire qui renvoie à ce rapport. Raison : les deux fiches existent ;</li><li>le validateur ne l'aurait pas signalé (rapport fpp-13). Les six arêtes de pfo et les</li><li>« à savoir avant » de ses trois parcours sont de nouveau des liens.</li><li><code>README.md</code>, « État » : la phrase sur fpp vidé, la ligne fpp du tableau et la phrase sur</li><li>les avertissements restants sont mises à jour (ancien : « en attente de réécriture »,</li><li>liens de pfo « déclarés à venir » ; nouveau : 54 fiches, 127 éléments dont 24 exercices</li><li>à venir).</li><li><code>courses/fpp/course.yml</code> : inchangé. Aucune nouvelle <code>refonte_du_recit</code> : il n'y avait</li><li>plus de fil scellé ; <code>build.py</code> a scellé le nouveau <code>parcours/fil.yml</code>.</li></ul><h2>Abstractions créées / insérées</h2><p>Décision de structure de la session : <strong>trois principes</strong>, chacun pris dans la source.</p><ul><li><code>fpp/bilan</code> (Prop. 1, « Assets = Liabilities », que l'exo 16 appelle loi fondamentale</li><li>de la comptabilité) : racine sans membres.</li><li><code>fpp/absence-d-arbitrage</code> (Prop. 5, et la « law of one price » des §2.4 et §4.2.1). Il</li><li>en découle <code>fpp/prix-a-terme</code>, <code>fpp/probabilite-risque-neutre</code> (Prop. 6 : « In the</li><li>absence of arbitrage… ») et <code>fpp/parite-call-put</code> (démontrée par la loi du prix unique,</li><li>exo 14).</li><li><code>fpp/couverture</code> (§8 « Hedging and the greeks », §7 « Option pricing from hedging ») :</li><li>en découlent <code>fpp/grecque</code> et <code>fpp/edp-black-scholes</code>.</li></ul><p>Deux abstraites :</p><ul><li><code>fpp/prix-a-terme</code>, statut <code>source</code> (le poly regroupe sous « Forward contracts » le FRA et</li><li>le change à terme, puis traite le forward sur action) ; paramètre « ce que le contrat</li><li>livre à l'échéance » ; membres : <code>fpp/taux-forward</code> = « un taux, celui d'un emprunt entre</li><li>deux dates futures », <code>fpp/change-a-terme</code> = « une devise », <code>fpp/prix-forward</code> = « une</li><li>action ».</li><li><code>fpp/grecque</code>, statut <code>source</code> ; paramètre « la variable par rapport à laquelle on dérive</li><li>le prix de l'option » ; membres : <code>fpp/delta</code> = « le prix du sous-jacent »,</li><li><code>fpp/gamma</code> = « le prix du sous-jacent, deux fois », <code>fpp/vega</code> = « la volatilité »,</li><li><code>fpp/theta</code> = « le temps », <code>fpp/rho</code> = « le taux d'intérêt ». Le grain suit l'exemple de</li><li>SPEC-MODELE §5.</li></ul><h2>Abstractions en attente</h2><ul><li><strong>Option</strong> : un seul membre, <code>fpp/option</code>, qui couvre call et put ; paramètre envisagé</li><li>« le sens du droit (acheter, vendre) » ; il manque une raison de scinder call et put,</li><li>que les exercices pourraient donner.</li><li><strong>Couverture d'une exposition</strong> : la vente à terme et l'achat d'un put (exo 18) comme deux</li><li>cas d'une même couverture, paramètre « ce qu'on garde de la hausse » ; en attente de la</li><li>rédaction de l'exercice 18.</li></ul><h2>Figures</h2><p>45 figures créées, une par fiche au plus, toutes <code>[ajout]</code> sauf mention de la source
+qu'elles reproduisent (<code>fpp/bilan</code> reproduit la figure 1, <code>fpp/fra</code>, <code>fpp/taux-forward</code> et
+<code>fpp/change-a-terme</code> reprennent les schémas des §2.3 et §2.4). Formes retenues :
+échéanciers dans le style montré par l'utilisateur (zéro-coupon, valeur actuelle nette,
+FRA, taux forward, change à terme sur deux lignes de devises, portage, dividende, compte
+capitalisé, stratégie du future, valeur intrinsèque) ; planches à signes (levier avant et
+après, payoffs, parité call − put = terme, décomposition de Black et Scholes en deux
+payoffs digitaux, capital garanti ZC + calls, combinaisons, option américaine sur action et
+sur devise, probabilités P et Q) ; aire (forward instantané) ; tangentes (duration, delta,
+gamma, véga, thêta, rhô, Itô) ; corde (transformée de Laplace) ; enveloppe en racine du temps
+(échelonnement) ; convergence (capitalisation, qui remplace un premier essai à trois
+courbes indiscernables). Chaque figure a été rendue et regardée ; les étiquettes qui se
+chevauchaient ont été déplacées.</p><p>Pas de figure pour 9 fiches, où un dessin n'aurait rien montré que la prose ne dise :
+<code>absence-d-arbitrage</code>, <code>courbe-des-taux</code> (deux points seulement dans le monde du cours),
+<code>edp-black-scholes</code>, <code>formule-de-black</code>, <code>grecque</code> (son tableau suffit), <code>prime-de-risque</code>,
+<code>prix-a-terme</code>, <code>taux-de-change</code>, <code>taux-de-dividende</code>.</p><p>Scripts : bilan capitalisation cash-and-carry change-a-terme combinaison-d-options compte-capitalise contrat-future couverture delta dividendes-intermediaires duration echelonnement-de-la-variance effet-de-levier feynman-kac formule-black-scholes formule-d-ito fra gamma levier marche-financier modele-black-scholes modele-de-merton obligation-in-fine option-americaine option parite-call-put payoff prix-forward prix-future probabilite-risque-neutre produit-a-capital-garanti responsabilite-limitee rho taux-forward-instantane taux-forward taux-zero-coupon tendance-risque-neutre theta transformee-de-laplace-gaussienne valeur-actuelle-nette valeur-intrinseque valeur-temps vega volatilite zero-coupon</p><h2>Parcours</h2><p>Huit parcours créés, écrits l'histoire d'abord : une histoire en prose continue, un
+personnage par parcours, puis les fiches accrochées à ses questions. Tous tirent leurs
+nombres d'un même monde (ci-dessous).</p><p>1. <code>fpp/parcours-bilan</code> — Ce qu'un emprunt change pour les actionnaires (une entreprise
+   qui emprunte 80 sur 100) : marche-financier, bilan, levier, prime-de-risque,
+   volatilite, effet-de-levier, responsabilite-limitee.
+2. <code>fpp/parcours-actualisation</code> — Ce que vaut aujourd'hui une somme promise plus tard (un
+   épargnant) : capitalisation, zero-coupon, taux-zero-coupon, courbe-des-taux,
+   valeur-actuelle-nette, obligation-in-fine, duration.
+3. <code>fpp/parcours-terme-taux</code> — Fixer aujourd'hui un taux ou un change futur (la
+   trésorière d'une entreprise) : fra, absence-d-arbitrage, taux-forward,
+   taux-forward-instantane, taux-de-change, change-a-terme.
+4. <code>fpp/parcours-terme-action</code> — Fixer aujourd'hui le prix d'une action livrée plus tard
+   (un investisseur) : cash-and-carry, prix-forward, dividendes-intermediaires,
+   prix-a-terme, contrat-future, compte-capitalise, prix-future.
+5. <code>fpp/parcours-risque-neutre</code> — Donner un prix à un paiement aléatoire (une banque) :
+   probabilite-risque-neutre, taux-de-dividende, tendance-risque-neutre,
+   echelonnement-de-la-variance, transformee-de-laplace-gaussienne, modele-black-scholes.
+6. <code>fpp/parcours-options</code> — Ce que vaut le droit d'acheter (un investisseur) : payoff,
+   option, parite-call-put, valeur-intrinseque, formule-black-scholes, valeur-temps,
+   option-americaine, formule-de-black.
+7. <code>fpp/parcours-couverture</code> — Vendre une option sans parier sur l'action (la banque qui a
+   vendu 100 calls) : couverture, delta, grecque, gamma, vega, theta, rho, formule-d-ito,
+   edp-black-scholes, feynman-kac.
+8. <code>fpp/parcours-usages</code> — Ce qu'on construit avec des options (un épargnant) :
+   produit-a-capital-garanti, combinaison-d-options, modele-de-merton.</p><p>Toutes les fiches ont une place ; aucune n'est <code>hors_parcours</code>. La question précède la
+réponse : le FRA avant le taux forward, le portage avant le prix forward, la probabilité
+risque-neutre avant le modèle, la valeur intrinsèque avant la formule qui chiffre la valeur
+temps, les sensibilités avant l'équation qu'elles vérifient.</p><p><strong>Test de lecture (<code>tools/recit.py</code>)</strong>, fait sur les huit, d'une traite. Arrêts trouvés et
+repris : parcours 7, étape 9, la somme $-5{,}89+2{,}47+3{,}81$ tombait sans que ses
+termes soient nommés (ils le sont) ; parcours 3, étape 2, « on peut reproduire l'emprunt
+futur » ne disait pas comment (acheter le zéro-coupon à un an, vendre celui à deux ans) ;
+parcours 5, tournure du départ reprise ; parcours 6 et 8, changement de personnage (un
+autre investisseur, un voisin) désormais annoncé par la transition ; parcours 2, étape 3,
+le 5 % de la banque n'est le même que le taux zéro-coupon qu'en capitalisation continue,
+ce que le lien dit maintenant. Aucun autre arrêt.</p><p><strong>Monde numérique du cours.</strong> SPEC-INGESTION fixe « courbe à 4 % et 5 %, action à 100 ».
+Il a fallu le compléter, et ces compléments sont les mêmes partout : taux zéro-coupon
+continus de l'euro, 4 % à un an et 5 % à deux ans, forward instantané constant par année
+(4 % puis 6 %, d'où 2 % à six mois) ; volatilité de l'action 20 % ; dividende continu 2 %
+ou dividende de 2 % à six mois ; change 1,10 dollar par euro, taux du dollar 5 % ; bilan de
+l'entreprise 100 = 20 + 80, prime des actifs 2 %, volatilité des actifs 4 % (20 % pour le
+modèle de Merton, posé comme hypothèse dans la suite qui l'introduit). Tous les nombres ont
+été recalculés par script (call 9,93, put 6,00, $\delta=0{,}618$, $\gamma=0{,}019$,
+$\mathcal V=38{,}1$, $\Theta=-5{,}89$, $\rho=51{,}9$, change à terme 1,1111, Merton 23,91
+et 1,01 %…).</p><h2>Test de lecture des fiches (SPEC-MODELE §2.5)</h2><p>Chaque fiche a été relue entière après rédaction, dans sa source ; <code>fpp/taux-forward</code> a
+été relue rendue sur le site, bandeaux d'histoire compris. Reprises faites à la relecture :
+<code>fpp/duration</code> (« t points de prix » devenait faux : c'est t pour cent du prix),
+<code>fpp/dividendes-intermediaires</code> (un calcul intermédiaire illisible), <code>fpp/tendance-risque-neutre</code>
+(la démonstration de $\mu=r-d$ refaite en une factorisation), <code>fpp/fra</code> (une interprétation
+marquée <code>[ajout]</code>). <strong>Limite</strong> : les 53 autres fiches n'ont pas été relues une à une sur le
+site rendu ; c'est la première chose à faire à la prochaine session.</p><h2>Dette</h2><ul><li>Inventaire à venir : 24 (les exercices 1 à 20 et les sections du livre qui les</li><li>contiennent). Variation : de « cours en attente d'écriture » à ces 24 éléments.</li><li>Liens à venir : 0 (les 6 arêtes de pfo sont résolues).</li><li>Gestes de calcul à venir : 0.</li></ul><p>Rien d'autre n'est ouvert sur fpp.</p><h2>Contradictions source</h2><p>Corrigées dans les fiches, et déclarées là où elles apparaissent :</p><ul><li>§2.3 : $P(t,S)=(1+(S-T)L(t,S))^{-1}$ ; la durée est $S-t$ (<code>fpp/taux-zero-coupon</code>).</li><li>Déf. 8 : « $F(S,T)$ » pour $F(t,T)$ (<code>fpp/prix-forward</code>).</li><li>Tableau 1 : $\gamma=n(d_1)$ au lieu de $n(d_1)/(S\sigma\sqrt\tau)$ ; véga</li><li>$SN(d_1)\sqrt\tau$ au lieu de $Sn(d_1)\sqrt\tau$ (<code>fpp/gamma</code>, <code>fpp/vega</code>).</li><li>Tableau 1, ligne $\partial/\partial K$ du put : valeur intrinsèque « ? » et prix ↘ ; une</li><li>hausse du strike fait monter les deux (<code>fpp/grecque</code>, reproduit tel quel et signalé).</li><li>§1.4 : le seuil de faillite est écrit avec $\pi$ (notation des espérances) pour une</li><li>variation réalisée (<code>fpp/responsabilite-limitee</code>).</li></ul><p>Dans le livre d'exercices, non corrigées puisque les exercices ne sont pas rédigés :</p><ul><li>exo 5 : $1134-1109=25$ et non 35 ; le gain de la stratégie (b) serait 10 et non 20.</li><li>exo 6 (c) : le corrigé écrit $e^{0,06}$ mais son nombre, 269 779 451, est calculé avec</li><li>$e^{0,03}$, le taux euro de l'énoncé ; l'énoncé appelle aussi « first » la seconde</li><li>alternative.</li><li>exo 11 : actualisation par $1-0{,}05$ au lieu de $1/1{,}05$ pour un taux linéaire de 5 % :</li><li>26,25 et 1 052,63 dans le corrigé, 23,81 et 1 050 exactement.</li><li>exo 15 : pour qui croit la volatilité sous-évaluée, le corrigé retient « vendre un</li><li>straddle », qui parie sur l'inverse ; acheter un straddle (2), puis un strangle (1).</li><li>exo 16 : $l=D/F_T$ est défini entre 0 et 1, mais le tableau 2.1 prend $l=2$ et $l=4$,</li><li>qui ressemblent au levier $A/E$ du poly ($D/F$ vaudrait alors 0,5 et 0,75).</li><li>Convention de change : le poly note $X_t$ le prix de la devise locale en devise</li><li>étrangère, les exercices 9, 13 et 18 l'inverse (<code>fpp/taux-de-change</code> le signale).</li></ul><h2>Questions pour l'utilisateur</h2><ul><li>Exo 20 (Abenomics) : sa solution est « to be written » dans la source. Il introduit la</li><li>couverture du change d'un investissement étranger, qu'aucune fiche ne porte.</li><li><em>Recommandation : l'écrire avec les exercices, ou quand le corrigé paraîtra.</em></li><li>Les compléments du monde numérique (ci-dessus) ne figurent pas dans SPEC-INGESTION</li><li>étape 3. <em>Recommandation : les y inscrire lors d'une session sur les specs.</em></li><li>Les grecques font cinq fiches sous une abstraite, selon l'exemple de SPEC-MODELE §5,</li><li>alors que le poly n'a qu'un tableau. *Recommandation : garder, les exercices d'options</li><li>les nourriront.*</li><li>Question recopiée du rapport fpp-13, qui porte sur les specs et non sur le contenu de</li><li>fpp : la règle « cours en attente d'écriture » vit dans le validateur et ses tests, pas</li><li>dans SPEC-MODELE. <em>Recommandation : l'ajouter à A13 en une phrase.</em></li><li>Prochaine session : rédiger les 20 exercices (SPEC-INGESTION étape 5) et relire les</li><li>fiches rendues.</li></ul><h2>Validation</h2><p>```
+python3 tools/validate.py
+307 notions · 0 erreur(s) · 24 avertissement(s)
+dette : inventaire à venir = 24
+(les 24 avertissements sont les éléments d'inventaire à venir)</p><p>python3 tools/tests/test_garde_fous.py   → tous les garde-fous se déclenchent
+python3 tools/build.py                   → site régénéré, fil de fpp scellé
+```</p></article></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../aide.html">comment lire ce site</a> · <a href="../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../search-index.js"></script>
+<script>
+var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+        s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- l'état qui traverse les pages ----------------------------------------
+   Voir le commentaire de l'en-tête : en file://, seul le fragment traverse.
+   Forme du fragment :  #t:d~a:0~p:1-0--1...~s:<tampon>.<bits>~v:<ancre>
+     t  thème      d | l            (absent : celui du système)
+     a  ajouts     0                (absent : montrés)
+     p  pliage     un caractère par clé de CLES_PLI : 1 ouvert, 0 fermé, - inconnu
+     s  déjà su    un bit par notion, six bits par caractère, précédé d'un tampon
+     v  ancre      l'élément vers lequel défiler à l'arrivée
+   Le tampon est calculé sur la liste des identifiants : dès qu'une notion entre dans
+   le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
+   cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
+var ETAT=(function(){
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='a71e',
+    A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
+var pli={},su={};
+if(typeof H.p==='string'){
+  for(var i=0;i<CLES.length&&i<H.p.length;i++){var c=H.p.charAt(i);
+    if(c==='0'||c==='1')pli[CLES[i]]=(c==='1');}
+}else{
+  CLES.forEach(function(k){var v=LS.g('notions.pli.'+k,null);if(v!==null)pli[k]=(v==='1')});
+}
+function decode(t){var o={},q=t.indexOf('.');
+  if(q<0||t.slice(0,q)!==TAMPON)return o;
+  var b=t.slice(q+1);
+  for(var i=0;i<b.length;i++){var v=A64.indexOf(b.charAt(i));if(v<0)continue;
+    for(var j=0;j<6;j++){if(v&(1<<j)){var k=i*6+j;if(k<IDS.length)o[IDS[k]]=1}}}
+  return o;}
+function encode(){var o='';
+  for(var i=0;i<IDS.length;i+=6){var v=0;
+    for(var j=0;j<6;j++){if(su[IDS[i+j]])v|=1<<j}
+    o+=A64.charAt(v);}
+  return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
+if(typeof H.s==='string'){su=decode(H.s)}
+else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
+function frag(ancre,noeud){var p=[];
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t)p.push('t:'+(t==='dark'?'d':'l'));
+  if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
+  var q='';CLES.forEach(function(k){q+=(pli[k]===undefined?'-':(pli[k]?'1':'0'))});
+  if(/[01]/.test(q))p.push('p:'+q);
+  var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
+  if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
+  return p.length?'#'+p.join('~'):'';}
+function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
+function propager(){var f=frag();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';if(!interne(h))return;
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
+  /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
+     Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
+  try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
+  try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}}
+return{pli:function(k){return pli[k]===undefined?null:pli[k]},
+       setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
+       su:function(id){return !!su[id]},
+       setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
+       lien:function(u,v,n){return u+frag(v,n)},
+       ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
+       propager:propager};
+})();
+function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
+  var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
+  b.textContent=on?'masquer les ajouts':'ajouts masqués';}
+  document.querySelectorAll('.sec').forEach(function(s){
+    var c=s.querySelector('.corps');if(!c)return;var n=0;
+    c.querySelectorAll(':scope>*').forEach(function(el){
+      if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
+      if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
+      n++;});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='Cette rubrique existe, mais tout son contenu est un ajout : le filtre le masque. Elle reste visible pour que vous ne concluiez pas qu’elle est vide.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
+  if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var bt=document.getElementById('btheme');
+  if(bt)bt.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    var nx=(cur||sys)==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);
+    ETAT.propager();});
+  var ba=document.getElementById('bajout');
+  if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);ETAT.propager();});
+  majAjouts(!document.documentElement.classList.contains('sans-ajouts'));
+  /* les liens de la page portent l'état ; une ancre demandée est ouverte et visée */
+  ETAT.propager();
+  var an=ETAT.ancre();
+  if(an){var el=document.getElementById(an);
+    if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView();el.classList.add('vise')}}
+  /* --- recherche instantanée (règle 9) --- */
+  var inp=document.getElementById('q'),res=document.getElementById('qres');
+  if(!inp||!res||!window.SEARCH_INDEX)return;
+  var REL=document.documentElement.getAttribute('data-rel')||'';
+  var sel=-1,items=[];
+  function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+  function cherche(q){
+    var n=norm(q);if(!n)return [];
+    var out=[];
+    SEARCH_INDEX.forEach(function(e){
+      var sc=-1,ch=e.h||[];
+      for(var i=0;i<ch.length;i++){var p=norm(ch[i]).indexOf(n);
+        if(p===0){sc=Math.max(sc,3-(i>0?1:0))}else if(p>0){sc=Math.max(sc,1)}}
+      if(sc>=0)out.push([sc,e]);});
+    out.sort(function(a,b){return b[0]-a[0]||a[1].n.localeCompare(b[1].n)});
+    return out.slice(0,9).map(function(x){return x[1]});}
+  function rendre(){
+    items=cherche(inp.value);sel=-1;res.innerHTML='';
+    if(!inp.value){res.classList.remove('on');return}
+    if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
+    items.forEach(function(e,i){
+      var li=document.createElement('li');
+      var a=document.createElement('a');a.href=ETAT.lien(REL+e.u);a.id='qr'+i;
+      a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
+      li.appendChild(a);res.appendChild(li);});
+    res.classList.add('on');}
+  function bouge(d){if(!items.length)return;sel=(sel+d+items.length)%items.length;
+    Array.prototype.forEach.call(res.children,function(li,i){li.classList.toggle('sel',i===sel)});
+    inp.setAttribute('aria-activedescendant','qr'+sel);}
+  inp.addEventListener('input',rendre);
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();bouge(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();bouge(-1)}
+    else if(e.key==='Enter'){var a=res.querySelector(sel>=0?'li.sel a':'li a');if(a){e.preventDefault();location.href=a.href}}
+    else if(e.key==='Escape'){inp.value='';res.classList.remove('on')}});
+  document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
+  document.addEventListener('keydown',function(e){
+    if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
+});
+</script>
+</body>
+</html>

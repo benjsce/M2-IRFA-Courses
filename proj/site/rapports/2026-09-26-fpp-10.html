@@ -304,11 +304,11 @@ Il se lit dans les prix d'aujourd'hui : ce n'est pas une prévision du taux qu'i
 ```</p><p><strong><code>fpp/taux-forward</code></strong> — « Le chemin jusqu'ici »
 - ancien :
 ```
-fpp/convention-capitalisation dit comment un taux devient un facteur, et pourquoi, en capitalisation continue, les taux s'ajoutent d'une période à l'autre. fpp/facteur-actualisation donne les prix $P(t,T)$, et fpp/taux-zero-coupon les réécrit en taux, un par échéance. [ajout]</p><p>Le taux forward pose la question suivante : que dit cette courbe d'une période qui ne commence que plus tard ? [ajout]
+fpp/convention-capitalisation dit comment un taux devient un facteur, et pourquoi, en capitalisation continue, les taux s'ajoutent d'une période à l'autre. fpp/facteur-actualisation donne les prix $P(t,T)$, et <a href="../fpp/n/taux-zero-coupon.html">Taux zéro-coupon</a> les réécrit en taux, un par échéance. [ajout]</p><p>Le taux forward pose la question suivante : que dit cette courbe d'une période qui ne commence que plus tard ? [ajout]
 ```
 - nouveau :
 ```
-fpp/convention-capitalisation dit qu'en capitalisation continue, ce que rapportent deux périodes successives s'additionne ; fpp/facteur-actualisation donne les prix $P(t,T)$, et fpp/taux-zero-coupon les réécrit en taux $R(t,T)$ : ce sont les deux données connues de la figure. [ajout]
+fpp/convention-capitalisation dit qu'en capitalisation continue, ce que rapportent deux périodes successives s'additionne ; fpp/facteur-actualisation donne les prix $P(t,T)$, et <a href="../fpp/n/taux-zero-coupon.html">Taux zéro-coupon</a> les réécrit en taux $R(t,T)$ : ce sont les deux données connues de la figure. [ajout]
 ```</p><p><strong><code>fpp/taux-forward</code></strong> — « Exemple minimal »
 - ancien :
 ```
@@ -420,7 +420,7 @@ var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}ca
    le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
    cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
 var ETAT=(function(){
-var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='2df8',
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='a71e',
     A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
 var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
 var pli={},su={};

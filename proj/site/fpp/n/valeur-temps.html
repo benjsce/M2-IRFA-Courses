@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="fr" data-rel="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Valeur temps · notions</title>
+<script>
+/* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
+   localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
+   cases « déjà su » ne peuvent donc pas traverser les pages par là. Ils voyagent dans
+   le fragment de l'URL, que tous les liens internes portent ; localStorage ne sert plus
+   que de mémoire locale, pour la page qu'on rouvre sans fragment.
+   Ce script s'exécute avant le rendu : sinon le thème clignote à chaque page. */
+(function(){
+var H={},h=(location.hash||'').replace(/^#/,'');
+h.split('~').forEach(function(p){var i=p.indexOf(':');if(i>0)H[p.slice(0,i)]=p.slice(i+1)});
+window.ETAT_URL=H;
+function loc(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+var t=H.t?(H.t==='d'?'dark':'light'):loc('notions.theme','');
+if(t)document.documentElement.setAttribute('data-theme',t);
+var a=(H.a!==undefined)?H.a:loc('notions.ajouts','1');
+if(a==='0')document.documentElement.classList.add('sans-ajouts');
+})();
+</script>
+<style>
+:root{
+  --bg:#fbfaf7; --bg2:#f3f0ea; --fg:#1b1a17; --mut:#6c675d; --fai:#8e887c;
+  --li:#e0dbd1; --li2:#cdc6b8; --card:#ffffff; --acc:#8a4f23; --acc2:#f3e7dc;
+  --ajo:#6d5a8c; --ajo2:#efe9f5; --lim:#9a3a2e; --ok:#3f6b46; --faute:#a8631a;
+  --r:8px; --w:min(72rem,100%);
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}}
+:root[data-theme="dark"]{
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}
+.fig{margin:.9rem 0;padding:.5rem .2rem .2rem;text-align:center}
+/* « > svg » et non « svg » : MathJax pose son propre <svg> dans la légende, et
+   une règle non ancrée en faisait un bloc qui coupait la phrase en trois. */
+.fig > svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig figcaption{margin-top:.35rem;font-family:var(--sans);font-size:.82rem;
+  color:var(--mut);text-align:center;line-height:1.45}
+@media print{.fig{break-inside:avoid}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
+  font-size:17px;line-height:1.62;overflow-wrap:break-word}
+a{color:var(--acc);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-style:dotted}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+.wrap{width:var(--w);margin:0 auto;padding:0 1rem}
+
+/* ---- barre du haut ---- */
+header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
+  border-bottom:1px solid var(--li);font-family:var(--sans)}
+.topin{width:var(--w);margin:0 auto;padding:.45rem 1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.brand{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--fg);letter-spacing:.02em}
+.fil{color:var(--mut);font-size:.82rem;flex:1 1 8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fil a{color:var(--mut)}
+.btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
+  border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+a.btn{text-decoration:none}
+.btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
+.rech{position:relative;flex:0 1 16rem;min-width:9rem}
+.rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
+  border:1px solid var(--li2);border-radius:var(--r);background:var(--card);color:var(--fg)}
+.res{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--li2);
+  border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.14);max-height:60vh;overflow:auto;padding:.2rem;margin:0;
+  list-style:none;display:none;z-index:50;min-width:18rem}
+.res.on{display:block}
+.res li a{display:block;padding:.3rem .45rem;border-radius:6px;text-decoration:none;color:var(--fg);font-size:.86rem}
+.res li a:hover,.res li.sel a{background:var(--acc2)}
+.res .sub{color:var(--mut);font-size:.76rem;font-family:var(--sans)}
+.res .vide{padding:.4rem .5rem;color:var(--mut);font-size:.84rem}
+
+main{padding:1.4rem 0 4rem}
+h1{font-size:1.75rem;line-height:1.24;margin:.2rem 0 .3rem}
+h2{font-size:1.06rem;font-family:var(--sans);font-weight:600;letter-spacing:.01em;margin:0}
+h3{font-size:.95rem;font-family:var(--sans);margin:1.2rem 0 .3rem}
+p{margin:.55rem 0}
+.ptag{font-family:var(--sans);font-size:.74rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .5rem}
+
+/* ---- métadonnées de fiche ---- */
+.meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;font-family:var(--sans);font-size:.75rem;color:var(--mut);margin:.4rem 0 1.1rem}
+.pill{border:1px solid var(--li2);border-radius:99px;padding:.06rem .5rem;background:var(--card);white-space:nowrap}
+.pill.ajout{color:var(--ajo);border-color:var(--ajo);background:var(--ajo2)}
+.pill.typ{background:var(--acc2);border-color:var(--acc)}
+.sym{font-family:var(--serif);font-size:1rem;color:var(--fg)}
+
+/* ---- sections ---- */
+.sec{border-top:1px solid var(--li);padding:.85rem 0}
+.sec.vide{display:none}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.45rem;padding:.1rem 0}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"›";color:var(--fai);font-family:var(--sans);display:inline-block;
+  transition:transform .12s ease;transform:rotate(0deg);width:.7em}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fai);font-weight:400}
+.corps{padding-top:.25rem}
+.gen{border-left:2px solid var(--li2);padding-left:.7rem}
+.chemin{border-left:3px solid var(--acc);background:var(--bg2);border-radius:0 var(--r) var(--r) 0;
+  padding:.5rem .8rem;margin:.2rem 0 .7rem}
+.chemin p{margin:.35rem 0;font-size:.95rem}
+.chemin p:first-child{margin-top:0}
+.chemin p:last-child{margin-bottom:0}
+.note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
+.parc{border:1px solid var(--li);border-left:3px solid var(--acc);border-radius:0 var(--r) var(--r) 0;
+  background:var(--bg2);padding:.5rem .8rem;margin:.6rem 0;font-size:.93rem}
+.parc-t{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin-bottom:.15rem}
+.parc p{margin:.2rem 0}
+.parc-h{border-left:2px solid var(--li);padding:.1rem 0 .1rem .6rem;margin:.3rem 0 .45rem;color:var(--mut)}
+.parc-h strong{color:var(--fg)}
+.parc-l{font-family:var(--sans);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--acc);margin-right:.25rem}
+.parc-lien{margin-top:.35rem;font-size:.92em}
+.parc-suite{border-left:2px solid var(--acc);padding:.1rem 0 .1rem .6rem;margin:.35rem 0;color:var(--fg);background:var(--acc2)}
+.parc-nav{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--sans);font-size:.8rem;margin-top:.35rem}
+.parc-nav .suiv{margin-left:auto;text-align:right}
+.etapes{list-style:none;padding:0;margin:.6rem 0 1.2rem;counter-reset:e}
+.etapes>li{counter-increment:e;position:relative;padding:0 0 1rem 1.7rem;border-left:2px solid var(--li);margin-left:.9rem}
+.etapes>li:last-child{border-left-color:transparent}
+.etapes>li::before{content:counter(e);position:absolute;left:-.95rem;top:0;width:1.75rem;height:1.75rem;
+  border-radius:99px;background:var(--card);border:1px solid var(--acc);color:var(--acc);
+  font-family:var(--sans);font-size:.78rem;display:flex;align-items:center;justify-content:center}
+.etapes>li>p{margin:.1rem 0 .35rem}
+.etapes .arr{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.45rem .75rem}
+.etapes .arr a.tit{font-weight:600;text-decoration:none}
+.etapes .arr p{margin:.15rem 0;font-size:.88rem;color:var(--mut)}
+.avant{list-style:none;padding:0;margin:.4rem 0 1rem}
+.avant>li{margin:.5rem 0}
+.avant>li p{margin:.1rem 0 0;font-size:.95rem}
+.avant a.tit{font-weight:600;text-decoration:none}
+.avant span.tit.venir{font-weight:600;color:var(--fai);cursor:default}
+.roles{list-style:none;padding:0;margin:.2rem 0 0}
+.roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
+.roles>li.cible{background:var(--acc2)}
+details.parc>summary{cursor:pointer}
+.sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
+.sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
+.sec.faute>summary h2{color:var(--faute)}
+.faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
+  margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.faute-b strong{color:var(--faute)}
+.sec.lim>summary h2{color:var(--lim)}
+.sec.lim>h2{color:var(--lim)}
+
+/* ---- marqueurs de traçabilité ---- */
+.marq{font-family:var(--sans);font-size:.7rem;color:var(--fai);white-space:nowrap;vertical-align:.12em}
+.marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
+.marqligne{margin:.15rem 0 0}
+html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
+.bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
+  color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
+
+/* ---- pastilles ---- */
+.pasts{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0;padding:0;list-style:none}
+.past{display:inline-block;font-family:var(--sans);font-size:.82rem;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--li2);border-radius:99px;padding:.12rem .6rem}
+.past:hover{border-color:var(--acc);color:var(--acc)}
+.past .cc{color:var(--fai);font-size:.74rem}
+.past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
+.past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
+.past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
+
+/* ---- socle ---- */
+.socle{list-style:none;padding:0;margin:.3rem 0}
+.socle li{display:flex;gap:.5rem;align-items:baseline;padding:.12rem 0;font-size:.92rem}
+.socle input{margin:0;accent-color:var(--ok)}
+.socle li.su a{color:var(--fai);text-decoration:line-through}
+.compteur{font-family:var(--sans);font-size:.78rem;color:var(--mut)}
+.grp{margin:.5rem 0}
+.grp>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--mut)}
+
+table{border-collapse:collapse;margin:.5rem 0;font-size:.9rem;display:block;overflow-x:auto;max-width:100%}
+th,td{border:1px solid var(--li);padding:.25rem .55rem;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-family:var(--sans);font-size:.78rem;font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+  background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
+ul{padding-left:1.1rem}
+hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
+
+/* ---- cartes d'accueil / carte du cours ---- */
+.cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
+.carte{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.65rem .8rem}
+.carte h3{margin:0 0 .2rem}
+.carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
+.carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
+.dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.vise{animation:vise 1.6s ease}
+@keyframes vise{from{background:var(--acc2)}to{background:transparent}}
+
+/* ---- orientation : ce qui s'adresse au lecteur qui arrive ---- */
+.entree{border:1px solid var(--li2);border-left:3px solid var(--acc);border-radius:var(--r);
+  padding:.7rem .9rem;margin:.8rem 0 1.4rem;background:var(--card)}
+.entree p{margin:.3rem 0;font-size:.92rem}
+.entree .quoi{font-size:1.02rem}
+.entree ul{margin:.5rem 0 .2rem;padding-left:1.1rem;font-family:var(--sans);font-size:.88rem}
+.entree li{margin:.2rem 0}
+.chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
+.chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
+.aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
+/* L'en-tête est collant : une ancre visée ne doit pas passer dessous. Mesuré :
+   il fait 48 px sur une ligne, 85 px quand il se replie en deux (écran étroit). */
+[id]{scroll-margin-top:6rem}
+.aide p,.aide ul,.aide table{max-width:42rem}
+.dette ul{margin:.3rem 0 0}
+footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
+
+/* ---- arbre ---- */
+.barre{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+.barre.plier{justify-content:flex-end;margin:.2rem 0 -.2rem}
+#scene{position:relative;border:1px solid var(--li);border-radius:var(--r);background:var(--bg2);
+  height:min(74vh,720px);overflow:hidden;touch-action:none;cursor:grab}
+#scene.drag{cursor:grabbing}
+#pan{position:absolute;transform-origin:0 0;top:0;left:0}
+#aretes{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+#aretes path{fill:none;stroke:var(--li2);stroke-width:1.5}
+.noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
+  padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
+.noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
+.noeud .nm{font-weight:600}
+.noeud .nm a{text-decoration:none;color:var(--fg)}
+.noeud .nm a:hover{color:var(--acc)}
+.noeud .pa{color:var(--mut);font-size:.72rem;display:block;margin-top:.1rem}
+.noeud .pli{font:inherit;font-size:.72rem;background:none;border:1px solid var(--li2);border-radius:4px;
+  color:var(--mut);cursor:pointer;padding:0 .3rem;margin-right:.25rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.4rem}
+  .rech{flex:1 1 100%;order:9}
+  #scene{height:66vh}
+}
+@media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="brand" href="../../index.html">notions</a><span class="fil"><a href="../../fpp/index.html">Financial Products and Introduction to Pricing</a> › Valeur temps</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><h1>Valeur temps</h1><div class="meta"><span class="pill sym">$TV$</span><a class="pill typ" href="../../aide.html" data-v="types" title="un objet du cours, celui qu’on manipule">notion</a><a class="pill" href="../../fpp/index.html">fpp</a><a class="pill" href="../../aide.html" data-v="niveau" title="ordre de lecture : nombre de notions à traverser, au plus long, pour arriver jusqu’à celle-ci. Niveau 0 = ne dépend d’aucune autre.">niveau 9</a><a class="pill" href="../../fpp/arbre.html" data-noeud="fpp/valeur-temps" title="cette notion n’est rangée sous aucune famille">arbre du cours</a><span class="pill">Déf. 13</span></div><p class="note">aussi : time value</p><div class="parc"><div class="parc-t"><a href="../../aide.html" data-v="parcours">Parcours</a> <a href="../../fpp/parcours/options.html#e6">« Ce que vaut le droit d'acheter »</a> · étape 6 sur 8</div><div class="parc-h"><p class="is-ajout">Un investisseur veut s'assurer le droit, mais pas l'obligation, d'acheter dans un an à 100 l'action qui vaut aujourd'hui 100. <strong>Combien doit-il payer ce droit</strong> ? <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p class="is-ajout">Un autre investisseur veut, lui, le droit de vendre l'action à 100 dans un an. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p class="is-ajout">La volatilité de l'action est de 20 % par an, et le taux de 4 %. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div><p class="is-ajout"><span class="parc-l">Dans l’histoire</span> 9,93, dont 3,92 de valeur intrinsèque et 6,00 de valeur temps : ce que vaut l'aléa, positif parce que le paiement est convexe. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p><span class="parc-l">Depuis l’étape précédente</span> D'où vient l'écart entre ce prix et ce que vaudrait le droit sans aléa ? <span class="marq" title="référence à la source">[Déf. 13]</span></p><div class="parc-nav"><a class="prec" href="../../fpp/n/formule-black-scholes.html">← Formule de Black et Scholes</a><a class="suiv" href="../../fpp/n/option-americaine.html">Option américaine →</a></div></div><div class="parc"><div class="parc-t"><a href="../../aide.html" data-v="parcours">Parcours</a> · cette notion est supposée connue : voici le rôle qu’elle y joue</div><ul class="roles"><li id="p-couverture"><p><a href="../../fpp/parcours/couverture.html#avant">« Vendre une option sans parier sur l'action »</a> : elle décompose le prix de 9,93 en valeur intrinsèque et valeur temps ; les sensibilités que la banque va surveiller portent sur ces deux parts. <span class="marq" title="référence à la source">[Déf. 13, §8.2]</span></p></li></ul></div><div class="barre plier"><button class="btn" type="button" id="tout-plier">tout déplier</button></div><section class="sec " data-oblig="1"><h2>Ce que c'est</h2><div class="corps"><p>Ce que le prix d'un payoff ajoute à sa valeur intrinsèque : positive quand le payoff est convexe, négative quand il est concave. <span class="marq" title="référence à la source">[Déf. 13]</span></p></div></section><section class="sec " data-oblig="1"><h2>Forme</h2><div class="corps"><p>$$\mathrm{Price}=IV+TV$$ <span class="marq" title="référence à la source">[Déf. 13]</span></p></div></section><section class="sec "><h2>Ce que les symboles modélisent</h2><div class="corps"><p>$TV$ est un prix, comme $IV$. Il mesure ce que vaut l'aléa lui-même : ce qu'un payoff gagne à ce que l'avenir ne soit pas certain. <span class="marq" title="référence à la source">[Déf. 13, ajout]</span></p></div></section><section class="sec " data-oblig="1"><h2>Ce qui la définit</h2><div class="corps"><p>Ce qui est <strong>connu</strong> : le prix de l'option et sa valeur intrinsèque. Ce qu'on <strong>cherche</strong> : leur écart, et surtout son signe. Pour un payoff convexe, la moyenne des paiements dépasse le paiement de la moyenne : la valeur temps est positive. Pour un payoff concave, elle est négative. <span class="marq" title="référence à la source">[Déf. 13]</span></p><p class="is-ajout">Pour le call de l'exemple, elle vaut $9{,}93-3{,}92=6{,}00$ : le prix du put de même strike. Ce n'est pas un hasard : quand le prix forward dépasse le strike, la parité call-put fait de la valeur temps du call exactement le prix du put. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><figure class="fig is-ajout"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 320" width="100%" height="auto" role="img" style="color:var(--fg);max-width:560px;height:auto"><title>Prix = valeur intrinsèque + valeur temps : 9,93 = 3,92 + 6,00 à 100</title><path d="M54 16 L54 280 M54 280 L542 280" fill="none" stroke="var(--mut)" stroke-width="1.2"/><path d="M54 280 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="54" y="297" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">60</text><path d="M176 280 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="176" y="297" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">80</text><path d="M274.09 280 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="274.09" y="297" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">96,08</text><path d="M420 280 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="420" y="297" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">120</text><path d="M542 280 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="542" y="297" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">140</text><path d="M54 222.61 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="46" y="226.61" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">10</text><path d="M54 165.22 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="46" y="169.22" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">20</text><path d="M54 107.83 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="46" y="111.83" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">30</text><path d="M54 50.43 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="46" y="54.43" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">40</text><text x="542" y="313" text-anchor="end" font-size="12" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">prix de l'action aujourd'hui</text><text x="10" y="10" text-anchor="start" font-size="12" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">valeur du call</text><path d="M54 280 L274.08 280 L542 27.93" fill="none" stroke="var(--ajo)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M54 279.73 L57.05 279.69 L60.1 279.65 L63.15 279.61 L66.2 279.56 L69.25 279.5 L72.3 279.44 L75.35 279.37 L78.4 279.3 L81.45 279.22 L84.5 279.13 L87.55 279.04 L90.6 278.93 L93.65 278.82 L96.7 278.7 L99.75 278.57 L102.8 278.42 L105.85 278.27 L108.9 278.1 L111.95 277.92 L115 277.73 L118.05 277.53 L121.1 277.31 L124.15 277.08 L127.2 276.83 L130.25 276.56 L133.3 276.28 L136.35 275.98 L139.4 275.66 L142.45 275.32 L145.5 274.97 L148.55 274.59 L151.6 274.2 L154.65 273.78 L157.7 273.34 L160.75 272.88 L163.8 272.39 L166.85 271.88 L169.9 271.35 L172.95 270.79 L176 270.21 L179.05 269.6 L182.1 268.97 L185.15 268.31 L188.2 267.62 L191.25 266.91 L194.3 266.16 L197.35 265.39 L200.4 264.59 L203.45 263.76 L206.5 262.91 L209.55 262.02 L212.6 261.1 L215.65 260.15 L218.7 259.18 L221.75 258.17 L224.8 257.13 L227.85 256.06 L230.9 254.96 L233.95 253.83 L237 252.67 L240.05 251.47 L243.1 250.25 L246.15 249 L249.2 247.71 L252.25 246.39 L255.3 245.05 L258.35 243.67 L261.4 242.26 L264.45 240.82 L267.5 239.35 L270.55 237.85 L273.6 236.32 L276.65 234.76 L279.7 233.17 L282.75 231.56 L285.8 229.91 L288.85 228.23 L291.9 226.53 L294.95 224.8 L298 223.04 L301.05 221.25 L304.1 219.44 L307.15 217.6 L310.2 215.73 L313.25 213.84 L316.3 211.92 L319.35 209.98 L322.4 208.01 L325.45 206.02 L328.5 204 L331.55 201.96 L334.6 199.9 L337.65 197.81 L340.7 195.7 L343.75 193.57 L346.8 191.42 L349.85 189.25 L352.9 187.06 L355.95 184.85 L359 182.61 L362.05 180.36 L365.1 178.09 L368.15 175.8 L371.2 173.5 L374.25 171.17 L377.3 168.83 L380.35 166.47 L383.4 164.1 L386.45 161.71 L389.5 159.3 L392.55 156.88 L395.6 154.45 L398.65 152 L401.7 149.53 L404.75 147.05 L407.8 144.56 L410.85 142.06 L413.9 139.54 L416.95 137.02 L420 134.48 L423.05 131.92 L426.1 129.36 L429.15 126.79 L432.2 124.2 L435.25 121.61 L438.3 119.01 L441.35 116.39 L444.4 113.77 L447.45 111.14 L450.5 108.5 L453.55 105.85 L456.6 103.19 L459.65 100.53 L462.7 97.86 L465.75 95.18 L468.8 92.49 L471.85 89.8 L474.9 87.1 L477.95 84.39 L481 81.68 L484.05 78.96 L487.1 76.23 L490.15 73.5 L493.2 70.77 L496.25 68.03 L499.3 65.28 L502.35 62.53 L505.4 59.77 L508.45 57.01 L511.5 54.25 L514.55 51.48 L517.6 48.71 L520.65 45.93 L523.7 43.15 L526.75 40.37 L529.8 37.58 L532.85 34.79 L535.9 31.99 L538.95 29.2 L542 26.4" fill="none" stroke="var(--acc)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M298 257.5 L298 223.04 M298 257.5 l-4 0 M298 223.04 l-4 0" stroke="var(--fg)" stroke-width="1.4" fill="none" stroke-linecap="round"/><defs><filter id="fond-etiquette" x="-0.03" y="-0.12" width="1.06" height="1.24"><feFlood style="flood-color:var(--card)"/></filter></defs><text x="305" y="244.27" text-anchor="start" font-size="12" fill="none" filter="url(#fond-etiquette)" font-family="ui-sans-serif,system-ui,sans-serif">valeur temps 6,00</text><text x="305" y="244.27" text-anchor="start" font-size="12" fill="var(--fg)" font-family="ui-sans-serif,system-ui,sans-serif">valeur temps 6,00</text><circle cx="298" cy="223.04" r="3.6" fill="var(--acc)"/><circle cx="298" cy="257.5" r="3.6" fill="var(--ajo)"/><text x="462.8" y="82.49" text-anchor="end" font-size="12.5" fill="var(--acc)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">prix</text><text x="391.4" y="193.15" text-anchor="start" font-size="12.5" fill="var(--ajo)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">valeur intrinsèque</text></svg><figcaption>Le prix du call en fonction du prix de l'action, au-dessus de sa valeur intrinsèque, coudée en 96,08 : l'écart vertical est la valeur temps, la plus grande près du coude, et elle vaut 6,00 quand l'action est à 100. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></figcaption></figure></div></section><details class="sec " data-k="construite"><summary><h2>Construite à partir de</h2><span class="cnt">2 prérequis directs</span></summary><div class="corps"><ul class="pasts"><li><a class="past" href="../../fpp/n/valeur-intrinseque.html">Valeur intrinsèque<span class="nv">n5</span></a></li><li><a class="past" href="../../fpp/n/formule-black-scholes.html">Formule de Black et Scholes<span class="nv">n8</span></a></li></ul><p class="note">Seulement ce dont cette fiche dépend directement. Le socle, juste en dessous, reprend ces notions-ci et y ajoute tout ce dont elles dépendent à leur tour.</p></div></details><details class="sec gen" data-k="socle"><summary><h2>Socle complet</h2><span class="cnt">18 prérequis en tout</span></summary><div class="corps"><div class="chemin"><p class="is-ajout"><a href="../../fpp/n/valeur-intrinseque.html">Valeur intrinsèque</a> donne la partie du prix qui existerait sans aléa, <a href="../../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a> le prix entier ; la valeur temps est leur écart. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p class="is-ajout">Les deux reposent sur le même socle. <a href="../../fpp/n/option.html">Option</a> et <a href="../../fpp/n/payoff.html">Payoff</a> fournissent le paiement coudé ; <a href="../../fpp/n/modele-black-scholes.html">Modèle de Black et Scholes</a> sa loi, construite par <a href="../../fpp/n/probabilite-risque-neutre.html">Probabilité risque-neutre</a> et <a href="../../fpp/n/tendance-risque-neutre.html">Tendance risque-neutre</a> autour de <a href="../../fpp/n/prix-forward.html">Prix forward</a>, avec <a href="../../fpp/n/taux-de-dividende.html">Taux de dividende continu</a> et <a href="../../fpp/n/dividendes-intermediaires.html">Dividendes intermédiaires</a> ; <a href="../../fpp/n/volatilite.html">Volatilité</a>, étalée par <a href="../../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance</a>, en donne la dispersion, et <a href="../../fpp/n/transformee-de-laplace-gaussienne.html">Transformée de Laplace gaussienne</a> la correction de moyenne. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p class="is-ajout">L'actualisation vient de <a href="../../fpp/n/valeur-actuelle-nette.html">Valeur actuelle nette</a> et de <a href="../../fpp/n/zero-coupon.html">Zéro-coupon</a> dans la convention de <a href="../../fpp/n/capitalisation.html">Capitalisation et actualisation</a> ; le prix forward, de <a href="../../fpp/n/cash-and-carry.html">Arbitrage cash-and-carry</a> sous <a href="../../fpp/n/absence-d-arbitrage.html">Absence d'opportunité d'arbitrage</a>. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div><p class="note">Tout ce qu’il faut avoir lu avant cette fiche, du plus élémentaire au plus construit. <strong>La liste est complète</strong> : la lire suffit, aucune de ces notions n’en appelle une autre qui manquerait ici. Cocher une case la barre sur toutes les pages. (<a href="../../aide.html" data-v="socle">en savoir plus</a>)</p><p class="compteur" data-cpt="socle"></p><details class="grp" open><summary>niveau 0 (5)</summary><ul class="socle"><li><input type="checkbox" data-su="fpp/absence-d-arbitrage" aria-label="déjà su : Absence d'opportunité d'arbitrage"><a href="../../fpp/n/absence-d-arbitrage.html">Absence d'opportunité d'arbitrage</a></li><li><input type="checkbox" data-su="fpp/capitalisation" aria-label="déjà su : Capitalisation et actualisation"><a href="../../fpp/n/capitalisation.html">Capitalisation et actualisation</a></li><li><input type="checkbox" data-su="fpp/payoff" aria-label="déjà su : Payoff"><a href="../../fpp/n/payoff.html">Payoff</a></li><li><input type="checkbox" data-su="fpp/transformee-de-laplace-gaussienne" aria-label="déjà su : Transformée de Laplace gaussienne"><a href="../../fpp/n/transformee-de-laplace-gaussienne.html">Transformée de Laplace gaussienne</a></li><li><input type="checkbox" data-su="fpp/volatilite" aria-label="déjà su : Volatilité"><a href="../../fpp/n/volatilite.html">Volatilité</a></li></ul></details><details class="grp" open><summary>niveau 1 (3)</summary><ul class="socle"><li><input type="checkbox" data-su="fpp/option" aria-label="déjà su : Option"><a href="../../fpp/n/option.html">Option</a></li><li><input type="checkbox" data-su="fpp/zero-coupon" aria-label="déjà su : Zéro-coupon"><a href="../../fpp/n/zero-coupon.html">Zéro-coupon</a></li><li><input type="checkbox" data-su="fpp/echelonnement-de-la-variance" aria-label="déjà su : Échelonnement de la variance"><a href="../../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance</a></li></ul></details><details class="grp" open><summary>niveau 2 (2)</summary><ul class="socle"><li><input type="checkbox" data-su="fpp/cash-and-carry" aria-label="déjà su : Arbitrage cash-and-carry"><a href="../../fpp/n/cash-and-carry.html">Arbitrage cash-and-carry</a></li><li><input type="checkbox" data-su="fpp/valeur-actuelle-nette" aria-label="déjà su : Valeur actuelle nette"><a href="../../fpp/n/valeur-actuelle-nette.html">Valeur actuelle nette</a></li></ul></details><details class="grp" open><summary>niveau 3 (1)</summary><ul class="socle"><li><input type="checkbox" data-su="fpp/prix-forward" aria-label="déjà su : Prix forward"><a href="../../fpp/n/prix-forward.html">Prix forward</a></li></ul></details><details class="grp" open><summary>niveau 4 (2)</summary><ul class="socle"><li><input type="checkbox" data-su="fpp/dividendes-intermediaires" aria-label="déjà su : Dividendes intermédiaires"><a href="../../fpp/n/dividendes-intermediaires.html">Dividendes intermédiaires</a></li><li><input type="checkbox" data-su="fpp/probabilite-risque-neutre" aria-label="déjà su : Probabilité risque-neutre"><a href="../../fpp/n/probabilite-risque-neutre.html">Probabilité risque-neutre</a></li></ul></details><details class="grp" open><summary>niveau 5 (2)</summary><ul class="socle"><li><input type="checkbox" data-su="fpp/taux-de-dividende" aria-label="déjà su : Taux de dividende continu"><a href="../../fpp/n/taux-de-dividende.html">Taux de dividende continu</a></li><li><input type="checkbox" data-su="fpp/valeur-intrinseque" aria-label="déjà su : Valeur intrinsèque"><a href="../../fpp/n/valeur-intrinseque.html">Valeur intrinsèque</a></li></ul></details><details class="grp" open><summary>niveau 6 (1)</summary><ul class="socle"><li><input type="checkbox" data-su="fpp/tendance-risque-neutre" aria-label="déjà su : Tendance risque-neutre"><a href="../../fpp/n/tendance-risque-neutre.html">Tendance risque-neutre</a></li></ul></details><details class="grp" open><summary>niveau 7 (1)</summary><ul class="socle"><li><input type="checkbox" data-su="fpp/modele-black-scholes" aria-label="déjà su : Modèle de Black et Scholes"><a href="../../fpp/n/modele-black-scholes.html">Modèle de Black et Scholes</a></li></ul></details><details class="grp" open><summary>niveau 8 (1)</summary><ul class="socle"><li><input type="checkbox" data-su="fpp/formule-black-scholes" aria-label="déjà su : Formule de Black et Scholes"><a href="../../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a></li></ul></details></div></details><details class="sec gen" data-k="sert"><summary><h2>Sert ensuite à</h2><span class="cnt">7</span></summary><div class="corps"><p class="note">Ce que cette notion permet d’aborder juste après. Seulement l’étape suivante, pas toute la suite : une notion très en amont ouvrirait sinon la moitié du cours.</p><p class="compteur" data-cpt="aval"></p><ul class="socle"><li><input type="checkbox" data-su="fpp/delta" aria-label="déjà su : Delta"><a href="../../fpp/n/delta.html">Delta</a> <span class="marq">niveau 10</span></li><li><input type="checkbox" data-su="fpp/gamma" aria-label="déjà su : Gamma"><a href="../../fpp/n/gamma.html">Gamma</a> <span class="marq">niveau 10</span></li><li><input type="checkbox" data-su="fpp/grecque" aria-label="déjà su : Grecque"><a href="../../fpp/n/grecque.html">Grecque</a> <span class="marq">niveau 10</span></li><li><input type="checkbox" data-su="fpp/option-americaine" aria-label="déjà su : Option américaine"><a href="../../fpp/n/option-americaine.html">Option américaine</a> <span class="marq">niveau 10</span></li><li><input type="checkbox" data-su="fpp/rho" aria-label="déjà su : Rhô"><a href="../../fpp/n/rho.html">Rhô</a> <span class="marq">niveau 10</span></li><li><input type="checkbox" data-su="fpp/theta" aria-label="déjà su : Thêta"><a href="../../fpp/n/theta.html">Thêta</a> <span class="marq">niveau 10</span></li><li><input type="checkbox" data-su="fpp/vega" aria-label="déjà su : Véga"><a href="../../fpp/n/vega.html">Véga</a> <span class="marq">niveau 10</span></li></ul></div></details><details class="sec " data-k="exemple" data-oblig="1"><summary><h2>Exemple minimal</h2></summary><div class="corps"><p class="is-ajout">Le call de strike 100 à un an vaut 9,93 pour une valeur intrinsèque de 3,92 : sa valeur temps vaut 6,00. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div></details><details class="sec " data-k="geste" data-oblig="1"><summary><h2>Geste de calcul type</h2></summary><div class="corps"><p>Retrancher la valeur intrinsèque du prix ; la valeur temps est maximale quand le prix forward est proche du strike, et s'efface loin de lui, d'un côté comme de l'autre. <span class="marq" title="référence à la source">[Déf. 13, ajout]</span></p></div></details><details class="sec lim" data-k="limite" data-oblig="1"><summary><h2>Cesse d'être valide quand</h2></summary><div class="corps"><p>La règle de signe tient pour un payoff convexe ou concave partout ; un payoff mixte, convexe par endroits et concave ailleurs, peut avoir une valeur temps de l'un ou l'autre signe. Le poly s'arrête sur un « à suivre ». <span class="marq" title="référence à la source">[Déf. 13, ajout]</span></p></div></details></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../../aide.html">comment lire ce site</a> · <a href="../../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../../search-index.js"></script>
+<script>
+var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+        s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- l'état qui traverse les pages ----------------------------------------
+   Voir le commentaire de l'en-tête : en file://, seul le fragment traverse.
+   Forme du fragment :  #t:d~a:0~p:1-0--1...~s:<tampon>.<bits>~v:<ancre>
+     t  thème      d | l            (absent : celui du système)
+     a  ajouts     0                (absent : montrés)
+     p  pliage     un caractère par clé de CLES_PLI : 1 ouvert, 0 fermé, - inconnu
+     s  déjà su    un bit par notion, six bits par caractère, précédé d'un tampon
+     v  ancre      l'élément vers lequel défiler à l'arrivée
+   Le tampon est calculé sur la liste des identifiants : dès qu'une notion entre dans
+   le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
+   cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
+var ETAT=(function(){
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='a71e',
+    A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
+var pli={},su={};
+if(typeof H.p==='string'){
+  for(var i=0;i<CLES.length&&i<H.p.length;i++){var c=H.p.charAt(i);
+    if(c==='0'||c==='1')pli[CLES[i]]=(c==='1');}
+}else{
+  CLES.forEach(function(k){var v=LS.g('notions.pli.'+k,null);if(v!==null)pli[k]=(v==='1')});
+}
+function decode(t){var o={},q=t.indexOf('.');
+  if(q<0||t.slice(0,q)!==TAMPON)return o;
+  var b=t.slice(q+1);
+  for(var i=0;i<b.length;i++){var v=A64.indexOf(b.charAt(i));if(v<0)continue;
+    for(var j=0;j<6;j++){if(v&(1<<j)){var k=i*6+j;if(k<IDS.length)o[IDS[k]]=1}}}
+  return o;}
+function encode(){var o='';
+  for(var i=0;i<IDS.length;i+=6){var v=0;
+    for(var j=0;j<6;j++){if(su[IDS[i+j]])v|=1<<j}
+    o+=A64.charAt(v);}
+  return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
+if(typeof H.s==='string'){su=decode(H.s)}
+else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
+function frag(ancre,noeud){var p=[];
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t)p.push('t:'+(t==='dark'?'d':'l'));
+  if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
+  var q='';CLES.forEach(function(k){q+=(pli[k]===undefined?'-':(pli[k]?'1':'0'))});
+  if(/[01]/.test(q))p.push('p:'+q);
+  var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
+  if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
+  return p.length?'#'+p.join('~'):'';}
+function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
+function propager(){var f=frag();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';if(!interne(h))return;
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
+  /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
+     Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
+  try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
+  try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}}
+return{pli:function(k){return pli[k]===undefined?null:pli[k]},
+       setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
+       su:function(id){return !!su[id]},
+       setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
+       lien:function(u,v,n){return u+frag(v,n)},
+       ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
+       propager:propager};
+})();
+function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
+  var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
+  b.textContent=on?'masquer les ajouts':'ajouts masqués';}
+  document.querySelectorAll('.sec').forEach(function(s){
+    var c=s.querySelector('.corps');if(!c)return;var n=0;
+    c.querySelectorAll(':scope>*').forEach(function(el){
+      if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
+      if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
+      n++;});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='Cette rubrique existe, mais tout son contenu est un ajout : le filtre le masque. Elle reste visible pour que vous ne concluiez pas qu’elle est vide.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
+  if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var bt=document.getElementById('btheme');
+  if(bt)bt.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    var nx=(cur||sys)==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);
+    ETAT.propager();});
+  var ba=document.getElementById('bajout');
+  if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);ETAT.propager();});
+  majAjouts(!document.documentElement.classList.contains('sans-ajouts'));
+  /* les liens de la page portent l'état ; une ancre demandée est ouverte et visée */
+  ETAT.propager();
+  var an=ETAT.ancre();
+  if(an){var el=document.getElementById(an);
+    if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView();el.classList.add('vise')}}
+  /* --- recherche instantanée (règle 9) --- */
+  var inp=document.getElementById('q'),res=document.getElementById('qres');
+  if(!inp||!res||!window.SEARCH_INDEX)return;
+  var REL=document.documentElement.getAttribute('data-rel')||'';
+  var sel=-1,items=[];
+  function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+  function cherche(q){
+    var n=norm(q);if(!n)return [];
+    var out=[];
+    SEARCH_INDEX.forEach(function(e){
+      var sc=-1,ch=e.h||[];
+      for(var i=0;i<ch.length;i++){var p=norm(ch[i]).indexOf(n);
+        if(p===0){sc=Math.max(sc,3-(i>0?1:0))}else if(p>0){sc=Math.max(sc,1)}}
+      if(sc>=0)out.push([sc,e]);});
+    out.sort(function(a,b){return b[0]-a[0]||a[1].n.localeCompare(b[1].n)});
+    return out.slice(0,9).map(function(x){return x[1]});}
+  function rendre(){
+    items=cherche(inp.value);sel=-1;res.innerHTML='';
+    if(!inp.value){res.classList.remove('on');return}
+    if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
+    items.forEach(function(e,i){
+      var li=document.createElement('li');
+      var a=document.createElement('a');a.href=ETAT.lien(REL+e.u);a.id='qr'+i;
+      a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
+      li.appendChild(a);res.appendChild(li);});
+    res.classList.add('on');}
+  function bouge(d){if(!items.length)return;sel=(sel+d+items.length)%items.length;
+    Array.prototype.forEach.call(res.children,function(li,i){li.classList.toggle('sel',i===sel)});
+    inp.setAttribute('aria-activedescendant','qr'+sel);}
+  inp.addEventListener('input',rendre);
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();bouge(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();bouge(-1)}
+    else if(e.key==='Enter'){var a=res.querySelector(sel>=0?'li.sel a':'li a');if(a){e.preventDefault();location.href=a.href}}
+    else if(e.key==='Escape'){inp.value='';res.classList.remove('on')}});
+  document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
+  document.addEventListener('keydown',function(e){
+    if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  /* pliage mémorisé par rubrique (règle 5), et transporté d'une page à l'autre */
+  var secs=document.querySelectorAll('details.sec[data-k]'),bp=document.getElementById('tout-plier');
+  function libelle(){
+    if(!bp)return;var ferme=false;
+    secs.forEach(function(d){if(!d.open)ferme=true});
+    bp.textContent=ferme?'tout déplier':'tout replier';bp.setAttribute('data-v',ferme?'1':'0');}
+  secs.forEach(function(d){
+    var k=d.getAttribute('data-k'),v=ETAT.pli(k);
+    if(v!==null)d.open=v;
+    d.addEventListener('toggle',function(){ETAT.setPli(k,d.open);libelle()});});
+  /* tout à la fois : ouvrir tout s'il reste une rubrique fermée, sinon tout refermer */
+  if(bp){if(!secs.length)bp.parentNode.style.display='none';
+    libelle();
+    bp.addEventListener('click',function(){
+      var v=bp.getAttribute('data-v')==='1';
+      secs.forEach(function(d){d.open=v});libelle();});}
+  /* amont et aval : même état « déjà su », un compteur par liste (règle 7) */
+  function compte(){
+    document.querySelectorAll('.sec').forEach(function(s){
+      var cpt=s.querySelector('[data-cpt]');if(!cpt)return;
+      var l=s.querySelectorAll('input[data-su]'),k=0;
+      l.forEach(function(c){if(c.checked)k++});
+      cpt.textContent=l.length+' notion'+(l.length>1?'s':'')+', '+(l.length-k)+' à voir';});}
+  document.querySelectorAll('input[data-su]').forEach(function(c){
+    var id=c.getAttribute('data-su');c.checked=ETAT.su(id);
+    c.closest('li').classList.toggle('su',c.checked);
+    c.addEventListener('change',function(){
+      ETAT.setSu(id,c.checked);
+      document.querySelectorAll('input[data-su="'+id+'"]').forEach(function(o){
+        o.checked=c.checked;o.closest('li').classList.toggle('su',c.checked);});
+      compte();});});
+  compte();
+});
+</script>
+</body>
+</html>

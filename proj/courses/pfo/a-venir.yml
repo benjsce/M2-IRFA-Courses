@@ -1,9 +1,4 @@
-# Deux fiches de fpp dont pfo dépend. Le cours fpp a été supprimé le 2026-09-26 pour être
-# réécrit de zéro (rapport 2026-09-26-fpp-13.md) : la réécriture doit recréer ces deux
-# identifiants, et ces entrées disparaissent alors.
-- id: fpp/volatilite
-  raison: cours fpp supprimé le 2026-09-26 pour être réécrit de zéro ; la réécriture doit recréer cette fiche
-  date: '2026-09-26'
-- id: fpp/echelonnement-de-la-variance
-  raison: cours fpp supprimé le 2026-09-26 pour être réécrit de zéro ; la réécriture doit recréer cette fiche
-  date: '2026-09-26'
+# Fiches d'autres cours dont pfo dépend et qui n'existent pas encore. Vide depuis le
+# 2026-09-26 : fpp/volatilite et fpp/echelonnement-de-la-variance ont été recréées par la
+# réécriture de fpp (rapport 2026-09-27-fpp.md).
+[]

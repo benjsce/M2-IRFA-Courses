@@ -297,11 +297,11 @@ Le taux forward n'est pas une prévision du taux qu'il fera en $T$ : il se lit d
 - raison : la rubrique ne définissait rien et mêlait l'égalité en taux, la limite, la dérivée et l'intégrale ; elle dit maintenant que ce n'est pas une prévision, que l'égalité en taux est la même que celle de la démonstration (figure des aires déplacée ici, légende adaptée), et isole le taux instantané dans un dernier paragraphe « pour aller plus loin ».</p><p><strong><code>fpp/taux-forward</code></strong> — « Le chemin jusqu'ici »
 - ancien :
 ```
-Il faut fpp/convention-capitalisation et fpp/facteur-actualisation, puis fpp/taux-zero-coupon qui met les maturités dans une coordonnée comparable. [ajout]</p><p>Le taux forward est ce que la courbe implique pour une période future : il se lit dans le rapport de deux zéro-coupons, sans aucune hypothèse sur l'avenir. C'est une conséquence de l'absence d'arbitrage, pas une prévision — distinction que l'exercice 19 rend très concrète. [ajout]
+Il faut fpp/convention-capitalisation et fpp/facteur-actualisation, puis <a href="../fpp/n/taux-zero-coupon.html">Taux zéro-coupon</a> qui met les maturités dans une coordonnée comparable. [ajout]</p><p>Le taux forward est ce que la courbe implique pour une période future : il se lit dans le rapport de deux zéro-coupons, sans aucune hypothèse sur l'avenir. C'est une conséquence de l'absence d'arbitrage, pas une prévision — distinction que l'exercice 19 rend très concrète. [ajout]
 ```
 - nouveau :
 ```
-fpp/convention-capitalisation dit comment un taux devient un facteur, et pourquoi, en capitalisation continue, les taux s'ajoutent d'une période à l'autre. fpp/facteur-actualisation donne les prix $P(t,T)$, et fpp/taux-zero-coupon les réécrit en taux, un par échéance. [ajout]</p><p>Le taux forward pose la question suivante : que dit cette courbe d'une période qui ne commence que plus tard ? [ajout]
+fpp/convention-capitalisation dit comment un taux devient un facteur, et pourquoi, en capitalisation continue, les taux s'ajoutent d'une période à l'autre. fpp/facteur-actualisation donne les prix $P(t,T)$, et <a href="../fpp/n/taux-zero-coupon.html">Taux zéro-coupon</a> les réécrit en taux, un par échéance. [ajout]</p><p>Le taux forward pose la question suivante : que dit cette courbe d'une période qui ne commence que plus tard ? [ajout]
 ```
 - raison : dire ce que chaque notion du socle apporte ; la phrase « pas une prévision » est passée dans « Ce qui la définit ».</p><p><strong><code>fpp/taux-forward</code></strong> — « Exemple minimal »
 - ancien :
@@ -418,7 +418,7 @@ var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}ca
    le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
    cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
 var ETAT=(function(){
-var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='2df8',
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='a71e',
     A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
 var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
 var pli={},su={};
