@@ -33,7 +33,7 @@ Le filtre applique pfo/score-z non pas à une série quelconque mais aux rendeme
 Ce que la fiche ajoute au score z est le choix du groupe de référence : non pas toute la série, mais les vingt derniers jours, pour que la moyenne et l'écart type suivent les changements de régime. [ajout]
 
 ## Exemple minimal
-Dans une fenêtre de moyenne nulle et d'écart type 1 %, un rendement de −4 % a un score de 4 en valeur absolue et est remplacé par 0. [ajout]
+Dans une fenêtre qui, rendement testé compris, a une moyenne nulle et un écart type de 1 %, un rendement de −4 % a un score de 4 en valeur absolue et est remplacé par 0. [ajout]
 
 ## Geste de calcul type
 Compter les rendements filtrés avec `(z_scores > 3).sum().sum()` : le premier `sum()` compte les `True` de chaque colonne, le second additionne les colonnes. Sur une `Series`, un seul `sum()` suffit. [p. 13, p. 14]

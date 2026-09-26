@@ -23,7 +23,7 @@ On télécharge quatre ans de prix pour Apple, le CAC 40, le Nikkei et le Bitcoi
 3. pfo/filtre-z-score-glissant
    Appliqué aux rendements, l'outil doit suivre le marché : une moyenne et une dispersion calculées sur toute la série jugeraient mal les périodes agitées. [§1.3.2]
    Suite : Le Bitcoin varie bien plus que le CAC 40, et chacun s'agite plus en crise qu'en temps calme. Un même seuil peut-il juger toutes les périodes ? [ajout]
-   Histoire : « Un même seuil peut-il juger toutes les périodes » — Oui, si la moyenne et l'écart type sont recalculés sur les vingt derniers rendements, et tout rendement dont le score dépasse 3 en valeur absolue remplacé par 0. Un −4 % dans une fenêtre d'écart type 1 % est effacé ; le même −4 % dans une fenêtre agitée, d'écart type 2 %, est gardé. [ajout]
+   Histoire : « Un même seuil peut-il juger toutes les périodes » — Oui, si la moyenne et l'écart type sont recalculés sur les vingt derniers rendements, et tout rendement dont le score dépasse 3 en valeur absolue remplacé par 0. Un −4 % dans une fenêtre qui, lui compris, a un écart type de 1 % est effacé ; le même −4 % dans une fenêtre agitée, d'écart type 2 %, est gardé. [ajout]
 
 4. pfo/pipeline-d-ingestion
    Il reste à enchaîner ces opérations, et l'ordre dans lequel on les fait n'est pas indifférent. [Listing 1.1]
