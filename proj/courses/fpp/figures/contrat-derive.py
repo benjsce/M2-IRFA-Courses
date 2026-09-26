@@ -54,12 +54,15 @@ def ligne(y, titre, prime_connue, paiement_avant, paiement_apres, reponse):
     g.texte(1.5, y - 1.25, "prime connue" if prime_connue else "prime cherchée",
             couleur=DOUX, ancre="middle", taille=11.5)
     # le moteur
-    g.texte(2.75, y - 0.2, "=  %s × E^{Q}%s" % (v(P, 4), paiement_avant), taille=16)
-    xk = 6.75 if prime_connue else 7.05
+    # le texte du moteur s'arrête au bord gauche de la case, la parenthèse repart de son
+    # bord droit : l'écart ne dépend plus de la largeur réelle des caractères
+    xk = 7.3
+    g.texte(xk - 0.12, y - 0.2, "=  %s × E^{Q}%s" % (v(P, 4), paiement_avant), taille=16,
+            ancre="end")
     case(xk, xk + 1.8, y, "?" if prime_connue else "100", not prime_connue, ACCENT)
     g.texte(xk + 0.9, y - 1.25, "strike cherché" if prime_connue else "strike connu",
             couleur=DOUX, ancre="middle", taille=11.5)
-    g.texte(xk + 1.9, y - 0.2, paiement_apres, taille=16)
+    g.texte(xk + 1.92, y - 0.2, paiement_apres, taille=16)
     g.texte(13.8, y - 0.2, reponse, ancre="end", taille=14, gras=True)
 
 
