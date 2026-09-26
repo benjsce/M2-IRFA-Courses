@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="fr" data-rel="../../">
+<html lang="fr" data-rel="../">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>fpp/ex-18 · notions</title>
+<title>Rapport 2026-09-26-fpp-13 · notions</title>
 <script>
 /* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
    localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
@@ -137,6 +137,7 @@ details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fa
 .avant>li{margin:.5rem 0}
 .avant>li p{margin:.1rem 0 0;font-size:.95rem}
 .avant a.tit{font-weight:600;text-decoration:none}
+.avant span.tit.venir{font-weight:600;color:var(--fai);cursor:default}
 .roles{list-style:none;padding:0;margin:.2rem 0 0}
 .roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
 .roles>li.cible{background:var(--acc2)}
@@ -248,16 +249,51 @@ footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);f
 <script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
-<header class="top"><div class="topin"><a class="brand" href="../../index.html">notions</a><span class="fil"><a href="../../fpp/index.html">Financial Products and Introduction to Pricing</a> › fpp/ex-18</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
-<main><div class="wrap"><h1>fpp/ex-18</h1><div class="meta"><span class="pill">exercice</span><a class="pill" href="../../fpp/index.html">fpp</a><span class="pill">livre d'exercices, exercice 18 (§2.3, « Hedging a Corporate FX Exposure »)</span><a class="pill" href="../../fpp/exercices.html">tous les exercices</a><a class="pill" href="../../fpp/notions.html">toutes les notions</a></div><section class="sec "><h2>Énoncé</h2><div class="corps"><p>Une multinationale française attend 100 millions USD d'un client américain dans trois mois. $X$ est la valeur d'un dollar en euros, $X_0=0{,}9$. Le PDG pense que le dollar va s'apprécier, le directeur financier le contraire. $r_{\mathrm{USD}}=5\,\%$, $r_{\mathrm{EUR}}=1\,\%$, volatilité annuelle 10 %, taux continus.
-(a) $X$ monte-t-il ou baisse-t-il quand le dollar s'apprécie ? Faut-il couvrir selon chacun des deux avis ? (b) Valeur forward de l'USD/EUR ; quelle différence entre changer au comptant et à terme ? (c) Pourquoi la volatilité de $\tilde X_3$ vaut-elle 5 % ? Quelle fluctuation typique sur 100 M USD à trois mois ? (d) Que faire pour ne prendre aucun risque ? (e) Put ou call ? (f) La société achète un put sur 50 M USD, strike 0,9, trois mois, prime 1,5 % du notionnel : tracer les trois courbes. (g) Comparer à une couverture totale.</p></div></section><details class="sec " data-k="soluoff" open><summary><h2>Solution officielle</h2></summary><div class="corps"><p>(a) Si le dollar s'apprécie, $X$ monte ; si le PDG a raison il ne faut pas couvrir, si le directeur financier a raison il le faut.
-(b) $F_{3m}=X_0e^{(r_{\mathrm{EUR}}-r_{\mathrm{USD}})T}=0{,}9\,e^{-0{,}01}\approx0{,}9\times(1-1\,\%)=0{,}891$, soit 89 100 100 EUR au lieu de 90 000 000, une différence d'environ 900 000 EUR. Si le comptant futur égale le forward, le dollar se sera un peu déprécié.
-(c) La variance d'un processus à accroissements i.i.d. est en $\sigma^2T$, donc l'écart type en $\sigma\sqrt T$ : un trimestre vaut la moitié de la volatilité annuelle. La fluctuation typique est $89\,100\,100\times1{,}05-89\,100\,100\times0{,}95\approx94-84$ M EUR.
-(d) Vendre 100 M USD à terme immédiatement. Le directeur financier approuverait, le PDG y verrait une occasion perdue.
-(e) Le risque est une baisse de $X$, donc un put.
-(g) Nous n'avons pas de capacité de prévision particulière et le risque devrait être couvert.</p></div></details><section class="sec "><h2>Résolution</h2><div class="corps"><p>(b) $F_{3m}=0{,}9\,e^{(0{,}01-0{,}05)\times0{,}25}=0{,}9\,e^{-0{,}01}=0{,}9\times0{,}990050=\mathbf{0{,}891045}$, soit <strong>89 104 500 EUR</strong> contre 90 000 000 au comptant : <strong>895 500 EUR</strong> d'écart.</p><p>(c) $\sigma_{3m}=\sigma\sqrt{1/4}=10\,\%/2=\mathbf{5\,\%}$. Un écart type vaut $0{,}05\times89{,}10=4{,}46$ M EUR, soit une fourchette à $\pm1\sigma$ de <strong>84,6 à 93,6 M EUR</strong>.</p><p>(d) et (e) : les deux réponses semblent se contredire — vendre à terme (d) puis acheter un put (e). Elles ne répondent pas à la même question. (d) supprime le risque <strong>et</strong> le gain ; (e) choisit l'instrument si l'on veut garder le gain. Le put coûte 1,5 % de 50 M USD, soit 750 000 USD $\approx$ 668 000 EUR au comptant : c'est le prix de l'asymétrie.</p><p>(f) Les trois courbes en fonction de $X_3$ : la recette non couverte $100\,X_3$, une droite ; le put sur 50 M, plat à $-0{,}668$ M au-dessus de 0,9 puis montant à gauche de pente $-50$ ; leur somme, une droite brisée en 0,9, de pente 50 à gauche et 100 à droite. La couverture totale est l'horizontale à 89,10 M.</p><p>(g) Le graphique de l'énoncé montre les quatre : à 0,9 la couverture partielle rapporte moins que la couverture totale, de la prime ; au-dessus de $\approx0{,}907$ elle passe devant.</p></div></section><details class="sec " data-k="revele" open><summary><h2>Ce que l'exercice a révélé</h2></summary><div class="corps"><ul><li><a href="../../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance</a> : geste manquant — passer d'une volatilité annuelle à une volatilité trimestrielle en divisant par deux, et l'employer aussitôt pour chiffrer une exposition en euros. La fiche donnait $\sigma\sqrt T$ sans l'usage.</li><li><a href="../../fpp/n/couverture.html">Couverture</a> : la fiche dit « annuler la dépendance à un paramètre ». Cet exercice montre les deux façons de ne pas l'annuler tout à fait — couverture partielle en notionnel (50 sur 100) et couverture asymétrique (option plutôt que forward) — et qu'elles se lisent sur le même graphique.</li><li><a href="../../fpp/n/put.html">Put</a> : le put est le choix naturel d'un exportateur ; la fiche ne le disait pas, le §9 ne traite que les stratégies sur actions.</li><li><a href="../../fpp/n/taux-de-change.html">Taux de change</a> : troisième occurrence de la convention inverse du poly (voir <code>fpp/ex-09</code>, <code>fpp/ex-13</code>).</li></ul></div></details><details class="sec lim" data-k="contra" open><summary><h2>Contradiction avec la source</h2></summary><div class="corps"><ul><li>Le corrigé écrit 89 100 100 EUR. Le calcul exact donne 89 104 500 ; l'approximation $e^{-0{,}01}\approx1-1\,\%$ donne 89 100 000. Le chiffre imprimé n'est ni l'un ni l'autre.</li><li>La « fluctuation typique » du corrigé, « 94 − 84 M EUR », est la <strong>largeur</strong> de la bande à $\pm1\sigma$, soit $2\sigma=8{,}9$ M, et non l'écart type lui-même, $4{,}5$ M. Les bornes exactes sont 93,6 et 84,6.</li></ul></div></details><details class="sec " data-k="touchees" open><summary><h2>Fiches touchées</h2></summary><div class="corps"><ul class="pasts"><li><a class="past" href="../../fpp/n/couverture.html">Couverture<span class="nv">n0</span></a></li><li><a class="past" href="../../fpp/n/forward-de-change.html">Forward de change<span class="nv">n2</span></a></li><li><a class="past" href="../../fpp/n/put.html">Put<span class="nv">n1</span></a></li><li><a class="past" href="../../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance<span class="nv">n1</span></a></li><li><a class="past" href="../../fpp/n/volatilite.html">Volatilité<span class="nv">n0</span></a></li><li><a class="past" href="../../fpp/n/taux-de-change.html">Taux de change<span class="nv">n0</span></a></li></ul></div></details></div></main>
-<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../../aide.html">comment lire ce site</a> · <a href="../../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
-<script src="../../search-index.js"></script>
+<header class="top"><div class="topin"><a class="brand" href="../index.html">notions</a><span class="fil">rapport d’ingestion › 2026-09-26-fpp-13</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><article class="rapport"><h1>Rapport — fpp — 2026-09-26 (13)</h1><p>Treizième session du jour sur fpp : suffixe <code>-13</code> (SPEC-INGESTION, étape 6).</p><p><strong>Session de suppression, par dérogation.</strong> Sur décision de l'utilisateur, le cours fpp est
+supprimé pour être réécrit de zéro dans une session ultérieure. La décision déroge, pour
+fpp seulement et cette fois seulement, à trois règles :</p><ul><li>SPEC-INGESTION, « Ce que le protocole ne couvre pas » : « La suppression : jamais ». Les</li><li>fiches de fpp ne reçoivent pas <code>statut: retiree</code> ; elles sont retirées du dépôt.</li><li>A1 : les identifiants <code>fpp/…</code> ne restent pas valides. La réécriture pourra en reprendre</li><li>certains ou en choisir d'autres, avec une exception : les deux identifiants attendus par</li><li>pfo (voir « Dette »).</li><li>A17 : le fil scellé <code>courses/fpp/parcours/fil.yml</code> est supprimé avec les parcours.</li><li>Aucun fil n'est plus à contenir.</li></ul><p>Cette session n'a rien réécrit. L'historique git garde l'ancien cours (commit <code>48aa96c</code>).</p><h2>Clôture de tout ce qui était ouvert sur fpp</h2><p>**Toute dette, toute question ouverte, toute contradiction de source et toute abstraction
+en attente qui portaient sur fpp dans les rapports antérieurs sont closes par la
+refonte.** Cela vaut pour les rapports <code>2026-09-20-fpp.md</code> à <code>2026-09-26-fpp-12.md</code>,
+annexes comprises, et pour les points fpp recopiés dans les rapports d'autres sujets. **La
+session de réécriture n'en hérite rien.** Elle part des deux sources et des règles
+actuelles ; elle ne relit pas ces rapports et n'en recopie aucun point. Si un problème
+de la source se pose encore, elle le retrouvera en lisant le poly.</p><p>Les points des autres cours (dss, dup, pfo) recopiés dans <code>2026-09-26-fpp-12.md</code> ne sont
+pas clos. Ils sont portés par les derniers rapports de ces cours (<code>2026-09-26-dss-3.md</code>,
+<code>2026-09-26-dup-8.md</code>, <code>2026-09-26-pfo-4.md</code>). J'ai vérifié sur un point de chaque cours
+qu'il y figure bien.</p><h2>Matériau traité</h2><p>Aucun matériau nouveau. Les deux sources restent en place :
+<code>sources/financial_products_lecture_notes.pdf</code> et <code>sources/exercises_book_v2.pdf</code>.</p><h2>Suppression</h2><p>Retiré de <code>courses/fpp/</code> :</p><div class="tablebloc"><table><thead><tr><th>élément</th><th>contenu à <code>48aa96c</code></th></tr></thead><tbody><tr><td><code>notions/</code></td><td>56 fiches</td></tr><tr><td><code>parcours/</code></td><td>7 parcours et <code>fil.yml</code></td></tr><tr><td><code>figures/</code></td><td>38 scripts et leurs 38 SVG</td></tr><tr><td><code>exercices/</code></td><td>20 fichiers</td></tr><tr><td><code>inventaire.yml</code></td><td>126 éléments</td></tr><tr><td><code>notation.yml</code></td><td>85 symboles, avec les collisions et homonymies déclarées côté fpp</td></tr><tr><td><code>a-venir.yml</code></td><td>vide</td></tr></tbody></table></div><p>Il reste <code>sources/</code> et <code>course.yml</code>. Dans <code>course.yml</code> :</p><ul><li><code>hors_parcours</code> était déjà absent, donc vide ; rien n'est ajouté.</li><li><code>refonte_du_recit</code> reçoit une seconde entrée. Ancien : une entrée (2026-09-26,</li><li>parcours réécrits l'histoire d'abord). Nouveau : la même, suivie de</li><li><code>date: '2026-09-26'</code>, `raison: cours réécrit de zéro, écrit avant la spec actuelle.</li><li>Fiches, parcours, figures, exercices, inventaire et registre supprimés à la demande de</li><li>l'utilisateur, par dérogation à SPEC-INGESTION, A1 et A17 (rapport</li><li>2026-09-26-fpp-13.md) ; restent les sources et ce fichier.`</li></ul><h2>Étalon retiré des documents de référence</h2><p>À la demande de l'utilisateur, plus aucune fiche ni aucun dossier de fpp n'est donné en
+modèle. Les règles de SPEC-MODELE §2.5 restent, énoncées sans fiche de référence. Les
+copies de la racine ont été modifiées à l'identique.</p><ul><li><strong>CLAUDE.md, en tête.</strong> Ancien : « Un exemple réel et validé vit dans <code>courses/fpp/</code>.</li><li>Quand tu hésites sur la forme, regarde-le. Quand tu hésites sur le fond, tu demandes — tu</li><li>n'improvises pas. » → Nouveau : « Quand tu hésites sur le fond, tu demandes — tu</li><li>n'improvises pas. » Raison : l'exemple est supprimé.</li><li><strong>CLAUDE.md, « Les fiches se lisent d'une traite ».</strong> Ancien : « Tu écris chaque fiche</li><li>comme <code>fpp/taux-forward</code>, l'étalon : une idée annoncée d'emblée ; … » → Nouveau :</li><li>« Tu écris chaque fiche ainsi : une idée annoncée d'emblée ; … ». Raison : l'étalon est</li><li>supprimé. La note de provenance (« après une relecture de fpp… ») est gardée : elle dit</li><li>d'où vient la règle et ne donne aucun modèle.</li><li><strong>SPEC-INGESTION, étape 4.1.</strong> Ancien : « et comparée à l'étalon <code>fpp/taux-forward</code> (une</li><li>idée, le connu et le trou, … » → Nouveau : « et confrontée à ses règles (une idée, le</li><li>connu et le trou, … ». Raison : idem.</li><li><strong>SPEC-MODELE §2.5.</strong> Ancien : « l'étudiant, de <code>fpp/taux-forward</code> : « il y a trop</li><li>d'informations ». Réécrite selon les règles qui suivent, la fiche est devenue l'étalon :</li><li>« j'aime beaucoup la mise en évidence du trou et de ce qui est connu ». » suivi du</li><li>paragraphe « L'étalon est <code>fpp/taux-forward</code>. Toute fiche écrite ou réécrite se compare à</li><li>lui. » → Nouveau : « l'étudiant, d'une fiche : « il y a trop d'informations ». La même</li><li>fiche, réécrite selon les règles qui suivent : « j'aime beaucoup la mise en évidence du</li><li>trou et de ce qui est connu ». » Le paragraphe de l'étalon est retiré. Raison : idem ;</li><li>les deux citations de l'utilisateur sont gardées.</li></ul><p>Laissés tels quels, parce qu'ils ne présentent rien comme un modèle à suivre : SPEC-MODELE
+§2.3 (convention de références de fpp, qui vaut encore pour ses sources), les exemples de
+syntaxe de SPEC-MODELE qui nomment des identifiants <code>fpp/…</code>, l'historique de SPEC-SITE
+§3.2 quater, et la citation de LECTURE.md.</p><h2>Liens entrants : ce qui a été fait</h2><p>La suppression a d'abord été simulée sur une copie. Le validateur y relevait 9 erreurs.
+L'utilisateur a validé une recommandation pour chaque cas.</p><ul><li><strong>Six arêtes de pfo</strong> (<code>construite_a_partir_de</code>) : <code>pfo/kurtosis</code>,</li><li><code>pfo/coefficient-d-asymetrie</code>, <code>pfo/regroupement-de-volatilite</code> → <code>fpp/volatilite</code> ;</li><li><code>pfo/ewma</code>, <code>pfo/annualisation</code>, <code>pfo/matrice-de-covariance</code> →</li><li><code>fpp/echelonnement-de-la-variance</code>. Aucune fiche pfo n'est touchée. Les deux</li><li>identifiants sont déclarés dans <code>courses/pfo/a-venir.yml</code>. Ancien : <code>[]</code>. Nouveau :</li><li>deux entrées datées du 2026-09-26, raison « cours fpp supprimé le 2026-09-26 pour être</li><li>réécrit de zéro ; la réécriture doit recréer cette fiche ».</li><li><strong>« À savoir avant » de trois parcours pfo</strong> (<code>volatilite</code>, <code>portefeuille</code>,</li><li><code>non-normalite</code>) : non modifiés. Le générateur produisait quatre liens morts vers</li><li><code>fpp/n/….html</code>. Il affiche désormais un identifiant à venir sans lien, avec la marque</li><li>« à venir » et sa raison en infobulle, comme la fiche le faisait déjà (voir « Outils »).</li><li><strong>Homonymie « Prime de risque »</strong> dans <code>courses/dup/notation.yml</code>. Ancien : une entrée</li><li><code>homonymes</code> entre <code>dup/prime-de-risque</code> et <code>fpp/prime-de-risque</code>, avec sa note. Nouveau :</li><li><code>homonymes: []</code>. Raison : l'identifiant fpp n'existe plus (erreur A12). Si la réécriture</li><li>recrée une fiche nommée « Prime de risque », le validateur redemandera la déclaration.</li><li><strong>Laissés tels quels, sur décision de l'utilisateur</strong> : les mentions de <code>fpp/…</code> dans la</li><li>prose de dix-neuf fiches pfo (dont les six qui portent les arêtes) et de <code>pfo/exercices/ex-01.md</code>, qui s'affichent en texte</li><li>brut ; les mentions « le cours fpp » dans <code>dup/prime-de-risque</code>, <code>pfo/quantile</code>,</li><li><code>pfo/test-de-jarque-bera</code> et <code>pfo/fourchette-bid-ask</code> ; les collisions</li><li><code>ailleurs: fpp:</code> des registres de dss, dup, ods et pfo, qui citent le poly ; et</li><li><code>depend_de: [fpp, dup]</code> dans <code>pfo/course.yml</code>.</li></ul><h2>Outils</h2><ul><li><strong><code>tools/validate.py</code></strong> : un cours sans dossier <code>notions/</code> ni <code>inventaire.yml</code>, qui</li><li>déclare une <code>refonte_du_recit</code> datée et motivée, donne un avertissement A13</li><li>« cours en attente d'écriture », compté en dette. Sans cette déclaration, les deux</li><li>erreurs d'avant restent (dossier <code>notions/</code> absent, inventaire absent). Décidé par</li><li>l'utilisateur : une absence déclarée est une dette visible, et un inventaire vide</li><li>aurait passé en silence sur les éléments du poly que plus rien ne couvre.</li><li><strong><code>tools/tests/test_garde_fous.py</code></strong> : trois cas ajoutés. Un cours vide non déclaré</li><li>donne une erreur. Un cours vide déclaré ne donne pas d'erreur, mais il est compté en</li><li>dette. Tous les garde-fous se déclenchent.</li><li><strong><code>tools/build.py</code></strong> : dans « À savoir avant de commencer », un identifiant absent du</li><li>graphe s'affiche sans lien et porte la marque « à venir » (classe <code>tit venir</code>, nouvelle</li><li>règle CSS <code>.avant span.tit.venir</code>). Avant, le lien menait à une page inexistante.</li><li><strong><code>tools/carte.py</code></strong> : lit un cours sans <code>inventaire.yml</code>, comme <code>build.py</code> le faisait</li><li>déjà. Il plantait sur fpp vidé.</li></ul><h2>Inventaire ajouté (à auditer par l'utilisateur)</h2><p>Aucun. L'inventaire de fpp est supprimé.</p><h2>Notations ajoutées ou en collision</h2><p>Aucune ajoutée. Le registre de fpp est supprimé, avec l'homonymie retirée de dup
+(ci-dessus).</p><h2>Fiches créées</h2><p>Aucune.</p><h2>Fiches modifiées</h2><p>Aucune fiche de dss, dup, ods ni pfo. Les fichiers de cours modifiés hors fiches sont
+déclarés plus haut : <code>fpp/course.yml</code>, <code>pfo/a-venir.yml</code> et <code>dup/notation.yml</code>. Les
+fiches de fpp sont supprimées, pas modifiées.</p><h2>Abstractions créées / insérées</h2><p>Aucune.</p><h2>Abstractions en attente</h2><p>Aucune pour fpp : closes par la refonte. Celles des autres cours sont inchangées et portées
+par leurs rapports.</p><h2>Parcours</h2><p>Les sept parcours de fpp sont supprimés avec leur fil. Aucun parcours d'un autre cours
+n'est modifié.</p><h2>Dette</h2><ul><li><strong>Cours en attente d'écriture : fpp.</strong> Ni fiches ni inventaire, refonte déclarée le</li><li>2026-09-26.</li><li><strong>Liens à venir, portés par pfo.</strong> Ce sont les six arêtes listées plus haut, vers</li><li><code>fpp/volatilite</code> et <code>fpp/echelonnement-de-la-variance</code>. Variation : la dette passe de</li><li>rien à ces deux postes.</li></ul><p>**La réécriture de fpp doit recréer les identifiants <code>fpp/volatilite</code> et
+<code>fpp/echelonnement-de-la-variance</code>, attendus par pfo.** Six fiches pfo en dépendent
+(<code>construite_a_partir_de</code>), et trois parcours pfo les supposent connus (« À savoir
+avant »). Quand ces deux fiches existeront, il faudra retirer leurs deux entrées de
+<code>courses/pfo/a-venir.yml</code> à la main. Le validateur ne signale pas une entrée à venir
+devenue inutile. Si la réécriture préfère d'autres
+identifiants, elle doit en discuter avec l'utilisateur avant d'écrire : les arêtes de pfo
+devraient changer, et chaque changement serait à déclarer ligne à ligne.</p><h2>Contradictions source</h2><p>Aucune ouverte pour fpp : closes par la refonte.</p><h2>Questions pour l'utilisateur</h2><ul><li><strong>La réécriture doit recréer <code>fpp/volatilite</code> et <code>fpp/echelonnement-de-la-variance</code></strong></li><li>(voir « Dette ») ; pfo les attend. *Recommandation : garder ces deux identifiants dans</li><li>la réécriture.*</li><li>La règle « cours en attente d'écriture » vit dans le validateur et ses tests, pas dans</li><li>SPEC-MODELE : la consigne de cette session interdisait toute autre modification des</li><li>specs. *Recommandation : l'ajouter à A13 en une phrase lors d'une prochaine session sur</li><li>les specs.*</li></ul><h2>Validation</h2><p>```
+python3 tools/validate.py
+W A13  fpp: cours en attente d'écriture : ni fiches ni inventaire (refonte déclarée le 2026-09-26)
+W A2   pfo/… : référence à venir : fpp/… (six lignes, une par arête)
+253 notions · 0 erreur(s) · 7 avertissement(s)
+dette : cours en attente d'écriture = 1, liens à venir = 6</p><p>python3 tools/tests/test_garde_fous.py   → tous les garde-fous se déclenchent
+```</p><p>Le site est régénéré. Sa page fpp est vide (aucune notion), et plus aucune page ne pointe
+vers une fiche fpp.</p><h2>Mémoire de l'opérateur</h2><p>Hors dépôt, dans les notes persistantes de Claude Code. La note « fiche étalon » est
+remplacée par « le connu et le trou », qui renvoie à SPEC-MODELE §2.5 sans nommer de fiche.
+Dans cinq autres notes, j'ai retiré les détails propres au contenu de fpp (noms de fiches,
+anecdotes, renvoi à une question ouverte de <code>2026-09-25-fpp-2.md</code>). Les règles générales
+de ces notes sont inchangées.</p></article></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../aide.html">comment lire ce site</a> · <a href="../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../search-index.js"></script>
 <script>
 var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
         s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
@@ -274,7 +310,7 @@ var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}ca
    le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
    cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
 var ETAT=(function(){
-var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='6728',
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='2df8',
     A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
 var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
 var pli={},su={};
@@ -402,42 +438,6 @@ document.addEventListener('DOMContentLoaded',function(){
   document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
   document.addEventListener('keydown',function(e){
     if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
-});
-</script>
-<script>
-document.addEventListener('DOMContentLoaded',function(){
-  /* pliage mémorisé par rubrique (règle 5), et transporté d'une page à l'autre */
-  var secs=document.querySelectorAll('details.sec[data-k]'),bp=document.getElementById('tout-plier');
-  function libelle(){
-    if(!bp)return;var ferme=false;
-    secs.forEach(function(d){if(!d.open)ferme=true});
-    bp.textContent=ferme?'tout déplier':'tout replier';bp.setAttribute('data-v',ferme?'1':'0');}
-  secs.forEach(function(d){
-    var k=d.getAttribute('data-k'),v=ETAT.pli(k);
-    if(v!==null)d.open=v;
-    d.addEventListener('toggle',function(){ETAT.setPli(k,d.open);libelle()});});
-  /* tout à la fois : ouvrir tout s'il reste une rubrique fermée, sinon tout refermer */
-  if(bp){if(!secs.length)bp.parentNode.style.display='none';
-    libelle();
-    bp.addEventListener('click',function(){
-      var v=bp.getAttribute('data-v')==='1';
-      secs.forEach(function(d){d.open=v});libelle();});}
-  /* amont et aval : même état « déjà su », un compteur par liste (règle 7) */
-  function compte(){
-    document.querySelectorAll('.sec').forEach(function(s){
-      var cpt=s.querySelector('[data-cpt]');if(!cpt)return;
-      var l=s.querySelectorAll('input[data-su]'),k=0;
-      l.forEach(function(c){if(c.checked)k++});
-      cpt.textContent=l.length+' notion'+(l.length>1?'s':'')+', '+(l.length-k)+' à voir';});}
-  document.querySelectorAll('input[data-su]').forEach(function(c){
-    var id=c.getAttribute('data-su');c.checked=ETAT.su(id);
-    c.closest('li').classList.toggle('su',c.checked);
-    c.addEventListener('change',function(){
-      ETAT.setSu(id,c.checked);
-      document.querySelectorAll('input[data-su="'+id+'"]').forEach(function(o){
-        o.checked=c.checked;o.closest('li').classList.toggle('su',c.checked);});
-      compte();});});
-  compte();
 });
 </script>
 </body>

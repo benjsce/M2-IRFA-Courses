@@ -338,14 +338,4 @@ collisions:
   note: >-
     collision interne à la source, et la plus proche à l'œil : les dernières slides font
     voisiner $p$ le prix et $p_s$ la probabilité de l'état
-homonymes:
-- nom: Prime de risque
-  entre:
-  - dup/prime-de-risque
-  - fpp/prime-de-risque
-  note: >-
-    même nom et même alias « risk premium » pour deux grandeurs distinctes : ce que l'agent
-    abandonne sur la moyenne pour se débarrasser du risque (L1 slide 9), et le rendement
-    d'un actif au-delà de son coût de financement (Déf. 2). Les deux cours emploient aussi
-    la même lettre $\pi$. Ce n'est pas une faute : c'est le même mot pour deux objets, et
-    il faut que les deux fiches existent
+homonymes: []

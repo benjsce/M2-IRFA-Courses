@@ -137,6 +137,7 @@ details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fa
 .avant>li{margin:.5rem 0}
 .avant>li p{margin:.1rem 0 0;font-size:.95rem}
 .avant a.tit{font-weight:600;text-decoration:none}
+.avant span.tit.venir{font-weight:600;color:var(--fai);cursor:default}
 .roles{list-style:none;padding:0;margin:.2rem 0 0}
 .roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
 .roles>li.cible{background:var(--acc2)}
@@ -296,11 +297,11 @@ Le taux forward n'est pas une prévision du taux qu'il fera en $T$ : il se lit d
 - raison : la rubrique ne définissait rien et mêlait l'égalité en taux, la limite, la dérivée et l'intégrale ; elle dit maintenant que ce n'est pas une prévision, que l'égalité en taux est la même que celle de la démonstration (figure des aires déplacée ici, légende adaptée), et isole le taux instantané dans un dernier paragraphe « pour aller plus loin ».</p><p><strong><code>fpp/taux-forward</code></strong> — « Le chemin jusqu'ici »
 - ancien :
 ```
-Il faut <a href="../fpp/n/convention-capitalisation.html">Convention de capitalisation</a> et <a href="../fpp/n/facteur-actualisation.html">Facteur d’actualisation</a>, puis <a href="../fpp/n/taux-zero-coupon.html">Taux zéro-coupon</a> qui met les maturités dans une coordonnée comparable. [ajout]</p><p>Le taux forward est ce que la courbe implique pour une période future : il se lit dans le rapport de deux zéro-coupons, sans aucune hypothèse sur l'avenir. C'est une conséquence de l'absence d'arbitrage, pas une prévision — distinction que l'exercice 19 rend très concrète. [ajout]
+Il faut fpp/convention-capitalisation et fpp/facteur-actualisation, puis fpp/taux-zero-coupon qui met les maturités dans une coordonnée comparable. [ajout]</p><p>Le taux forward est ce que la courbe implique pour une période future : il se lit dans le rapport de deux zéro-coupons, sans aucune hypothèse sur l'avenir. C'est une conséquence de l'absence d'arbitrage, pas une prévision — distinction que l'exercice 19 rend très concrète. [ajout]
 ```
 - nouveau :
 ```
-<a href="../fpp/n/convention-capitalisation.html">Convention de capitalisation</a> dit comment un taux devient un facteur, et pourquoi, en capitalisation continue, les taux s'ajoutent d'une période à l'autre. <a href="../fpp/n/facteur-actualisation.html">Facteur d’actualisation</a> donne les prix $P(t,T)$, et <a href="../fpp/n/taux-zero-coupon.html">Taux zéro-coupon</a> les réécrit en taux, un par échéance. [ajout]</p><p>Le taux forward pose la question suivante : que dit cette courbe d'une période qui ne commence que plus tard ? [ajout]
+fpp/convention-capitalisation dit comment un taux devient un facteur, et pourquoi, en capitalisation continue, les taux s'ajoutent d'une période à l'autre. fpp/facteur-actualisation donne les prix $P(t,T)$, et fpp/taux-zero-coupon les réécrit en taux, un par échéance. [ajout]</p><p>Le taux forward pose la question suivante : que dit cette courbe d'une période qui ne commence que plus tard ? [ajout]
 ```
 - raison : dire ce que chaque notion du socle apporte ; la phrase « pas une prévision » est passée dans « Ce qui la définit ».</p><p><strong><code>fpp/taux-forward</code></strong> — « Exemple minimal »
 - ancien :
@@ -332,13 +333,13 @@ On ne peut s'assurer ce taux que si l'on peut prêter et emprunter aux deux éch
 - raison : dire ce qui reste quand on ne peut pas s'assurer le taux.</p><p><strong><code>fpp/taux-forward</code></strong> — « Origine »
 - ancien :
 ```
-- exercice <a href="../fpp/exercices/ex-04.html">fpp/ex-04</a> : un rapport de deux prix à terme de change est un rapport de facteurs d'actualisation forward [ajout]
-- exercice <a href="../fpp/exercices/ex-19.html">fpp/ex-19</a> : la matrice complète des forwards se remplit avec une seule formule, $\big(r(T)T-r(t)t\big)/(T-t)$, et se lit comme le taux qu'il faudra réaliser pour qu'un refinancement soit neutre [exo. 19]
+- exercice fpp/ex-04 : un rapport de deux prix à terme de change est un rapport de facteurs d'actualisation forward [ajout]
+- exercice fpp/ex-19 : la matrice complète des forwards se remplit avec une seule formule, $\big(r(T)T-r(t)t\big)/(T-t)$, et se lit comme le taux qu'il faudra réaliser pour qu'un refinancement soit neutre [exo. 19]
 ```
 - nouveau :
 ```
-- exercice <a href="../fpp/exercices/ex-04.html">fpp/ex-04</a> : un rapport de deux prix à terme de change est un rapport de facteurs d'actualisation forward [ajout]
-- exercice <a href="../fpp/exercices/ex-19.html">fpp/ex-19</a> : la matrice complète des forwards se remplit avec une seule formule, $\big(r(T)T-r(t)t\big)/(T-t)$, où $r$ est le taux zéro-coupon et où $t$ est une échéance, non la date d'aujourd'hui ; elle se lit comme le taux qu'il faudra réaliser pour qu'un refinancement soit neutre [exo. 19]
+- exercice fpp/ex-04 : un rapport de deux prix à terme de change est un rapport de facteurs d'actualisation forward [ajout]
+- exercice fpp/ex-19 : la matrice complète des forwards se remplit avec une seule formule, $\big(r(T)T-r(t)t\big)/(T-t)$, où $r$ est le taux zéro-coupon et où $t$ est une échéance, non la date d'aujourd'hui ; elle se lit comme le taux qu'il faudra réaliser pour qu'un refinancement soit neutre [exo. 19]
 ```
 - raison : le $t$ de l'exercice 19 est une échéance, non la date d'aujourd'hui.</p><h2>Abstractions créées / insérées</h2><p>Aucune.</p><h2>Abstractions en attente</h2><p>pfo : portefeuille de variance minimale globale ; estimateur de volatilité ; mesure de
 risque. dss : fonction d'activation ; indicateur de matrice de confusion. dup : dominance
@@ -417,7 +418,7 @@ var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}ca
    le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
    cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
 var ETAT=(function(){
-var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='6728',
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='2df8',
     A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
 var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
 var pli={},su={};

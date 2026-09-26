@@ -493,6 +493,7 @@ details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fa
 .avant>li{margin:.5rem 0}
 .avant>li p{margin:.1rem 0 0;font-size:.95rem}
 .avant a.tit{font-weight:600;text-decoration:none}
+.avant span.tit.venir{font-weight:600;color:var(--fai);cursor:default}
 .roles{list-style:none;padding:0;margin:.2rem 0 0}
 .roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
 .roles>li.cible{background:var(--acc2)}
@@ -1843,8 +1844,16 @@ def page_parcours(m, pid):
         li = []
         for x, role in pc["avant"]:
             cx, sx = x.split("/", 1)
-            tete = ('<a class="tit" href="' + rel + cx + "/n/" + sx + '.html#p-' + pc["slug"] + '">' + esc(nom_de(m, x))
-                    + "</a>" + (" <span class=\"note\">(" + esc(cx) + ")</span>" if cx != code else "") + tr(" : ", lg))
+            if x in m["N"]:
+                tete = ('<a class="tit" href="' + rel + cx + "/n/" + sx + '.html#p-' + pc["slug"] + '">' + esc(nom_de(m, x))
+                        + "</a>" + (" <span class=\"note\">(" + esc(cx) + ")</span>" if cx != code else "") + tr(" : ", lg))
+            else:
+                # Un identifiant déclaré « à venir » n'a pas de page : pas de lien mort, la
+                # même marque que sur la fiche (li_past). Ajouté le 2026-09-26, fpp vidé.
+                av = m["a_venir"].get(x, {})
+                tete = ('<span class="tit venir" title="' + tr("à venir — %s", lg) % esc(av.get("raison", ""))
+                        + '">' + esc(nom_de(m, x)) + '</span> <span class="note">('
+                        + (esc(cx) + ", " if cx != code else "") + tr("à venir", lg) + ")</span>" + tr(" : ", lg))
             li.append("<li>" + _prefixer(rendre(role, ctx, fiche=True), tete) + "</li>")
         c.append('<h2 id="avant" class="ptag">' + tr("À savoir avant de commencer", lg) + "</h2>"
                  '<p class="note">' + tr("Le récit s’appuie sur ces fiches sans les raconter. Chacune dit "

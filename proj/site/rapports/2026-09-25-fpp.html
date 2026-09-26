@@ -137,6 +137,7 @@ details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fa
 .avant>li{margin:.5rem 0}
 .avant>li p{margin:.1rem 0 0;font-size:.95rem}
 .avant a.tit{font-weight:600;text-decoration:none}
+.avant span.tit.venir{font-weight:600;color:var(--fai);cursor:default}
 .roles{list-style:none;padding:0;margin:.2rem 0 0}
 .roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
 .roles>li.cible{background:var(--acc2)}
@@ -261,7 +262,7 @@ annonçaient la fiche « à la fin du parcours 1 ». A14 l'interdit : la fiche d
 <code>call</code>, <code>parite-call-put</code> et <code>formule-black-scholes</code>, que le parcours 5 raconte, et un
 parcours ne peut pas supposer ce qu'un parcours suivant raconte. La place juste est la
 première où tous ses prérequis sont racontés.</p><p>Modifications de <code>courses/fpp/parcours/options.md</code>, lignes ajoutées sans rien retirer :
-- « À savoir avant » : `<a href="../fpp/n/responsabilite-limitee.html">Responsabilité limitée</a> : c'est le plancher de l'actionnaire,
+- « À savoir avant » : `fpp/responsabilite-limitee : c'est le plancher de l'actionnaire,
   posé à la fin du premier parcours, que la dernière étape évalue enfin. [§1.4, exo. 16]`
 - étape 10 : `Le premier parcours laissait l'actionnaire d'une entreprise endettée avec
   une perte bornée en bas. Que vaut ce qu'il détient, et que coûte à l'entreprise le
@@ -323,7 +324,7 @@ var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}ca
    le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
    cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
 var ETAT=(function(){
-var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='6728',
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='2df8',
     A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
 var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
 var pli={},su={};

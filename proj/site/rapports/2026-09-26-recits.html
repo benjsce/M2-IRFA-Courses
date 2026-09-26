@@ -137,6 +137,7 @@ details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fa
 .avant>li{margin:.5rem 0}
 .avant>li p{margin:.1rem 0 0;font-size:.95rem}
 .avant a.tit{font-weight:600;text-decoration:none}
+.avant span.tit.venir{font-weight:600;color:var(--fai);cursor:default}
 .roles{list-style:none;padding:0;margin:.2rem 0 0}
 .roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
 .roles>li.cible{background:var(--acc2)}
@@ -292,7 +293,7 @@ le départ dit maintenant « Une fois ces chiffres rangés, deux difficultés ap
 expliquée (exemple 4 % → terme croisé doublé à lien égal ; « en pratique, c'est l'inverse »). Fil EWMA repris : « c'est 1,09 % et non
 1 % qu'il faudrait mettre dans la matrice ». Effet Epps chiffré par une Suite (corrélation 0,4 en journalier, 0,5 en hebdomadaire),
 et la norme de Frobenius en découle : seul le terme croisé diffère (0,0252 − 0,02016 = 0,00504), ‖·‖F = √(2·0,00504²) ≈ 0,0071 ;
-« l'étude de cas » et les écarts 0,001/−0,003/0,002 disparaissent. Rôle de <a href="../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance</a> (À savoir avant)
+« l'étude de cas » et les écarts 0,001/−0,003/0,002 disparaissent. Rôle de fpp/echelonnement-de-la-variance (À savoir avant)
 réécrit : ×252 et ×52 (Listing 1.4), sans « étude de cas ».
 (b) 1 regroupement-de-volatilite, 2 ewma, 3 matrice-de-covariance, 4 matrice-de-correlation, 5 effet-epps, 6 norme-de-frobenius
 → 1 matrice-de-covariance, 2 matrice-de-correlation, 3 regroupement-de-volatilite, 4 ewma, 5 effet-epps, 6 norme-de-frobenius.
@@ -467,8 +468,8 @@ Ce ne sont plus des étapes « sans moment », mais ce sont des détours. Si l'o
 -Les rendements sont propres. Il faut maintenant dire combien ils bougent et s'ils bougent ensemble : un actif varie de 1 % par jour, un autre de 2 %, avec une corrélation de 0,5. Deux difficultés apparaissent aussitôt, l'une dans le temps, l'autre entre les places. [ajout]
 +Les rendements sont propres. Il faut maintenant dire combien ils bougent et s'ils bougent ensemble : un actif varie de 1 % par jour, un autre de 2 %, avec une corrélation de 0,5. Une fois ces chiffres rangés, deux difficultés apparaissent, l'une dans le temps, l'autre entre les places. [ajout]
 @@ -14 +14 @@
--- <a href="../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance</a> : c'est lui qui justifie de multiplier une variance journalière par 252 pour l'annualiser, et l'étude de cas en éprouve l'hypothèse. [éq. 1.11]
-+- <a href="../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance</a> : c'est lui qui justifie de multiplier une variance journalière par 252 pour la porter à l'année, et une variance hebdomadaire par 52 ; c'est ce qui permet, à la fin, de comparer deux estimations faites à des fréquences différentes. [éq. 1.11, Listing 1.4]
+-- fpp/echelonnement-de-la-variance : c'est lui qui justifie de multiplier une variance journalière par 252 pour l'annualiser, et l'étude de cas en éprouve l'hypothèse. [éq. 1.11]
++- fpp/echelonnement-de-la-variance : c'est lui qui justifie de multiplier une variance journalière par 252 pour la porter à l'année, et une variance hebdomadaire par 52 ; c'est ce qui permet, à la fin, de comparer deux estimations faites à des fréquences différentes. [éq. 1.11, Listing 1.4]
 @@ -17 +17,9 @@
 -1. <a href="../pfo/n/regroupement-de-volatilite.html">Regroupement de volatilité</a>
 +1. <a href="../pfo/n/matrice-de-covariance.html">Matrice de variance-covariance</a>
@@ -966,7 +967,7 @@ var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}ca
    le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
    cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
 var ETAT=(function(){
-var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='6728',
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='2df8',
     A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
 var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
 var pli={},su={};

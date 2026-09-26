@@ -299,12 +299,9 @@ comprend. Une fiche peut satisfaire toutes les règles de §2.1 à §2.4 et rest
 deux définitions qui ne se raccordent pas, la même égalité écrite trois fois, un
 prolongement difficile mêlé au cœur, les chiffres qui rendent l'idée évidente relégués à la
 fin. *Constaté le 2026-09-26 sur fpp : après plusieurs passes qui ajoutaient chacune une
-rubrique ou une figure, une relecture a trouvé 1 fiche claire sur 56 ; l'étudiant, de
-`fpp/taux-forward` : « il y a trop d'informations ». Réécrite selon les règles qui suivent,
-la fiche est devenue l'étalon : « j'aime beaucoup la mise en évidence du trou et de ce qui
-est connu ».*
-
-L'étalon est `fpp/taux-forward`. Toute fiche écrite ou réécrite se compare à lui.
+rubrique ou une figure, une relecture a trouvé 1 fiche claire sur 56 ; l'étudiant, d'une
+fiche : « il y a trop d'informations ». La même fiche, réécrite selon les règles qui suivent :
+« j'aime beaucoup la mise en évidence du trou et de ce qui est connu ».*
 
 - **Une idée, annoncée d'emblée.** « Ce que c'est » dit l'idée que tout le reste sert ; une
   seconde idée va dans une autre fiche, ou tient en une phrase à la fin de « Ce qui la

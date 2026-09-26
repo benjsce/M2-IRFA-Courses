@@ -56,7 +56,9 @@ def charger(root: Path):
                 parcours.append((m.get("ordre", 999), f.stem, m.get("titre", ""),
                                  [i for _, i, _ in et], [i for i, _ in av]))
         parcours.sort()
-        inv = yaml.safe_load((cdir / "inventaire.yml").read_text(encoding="utf-8")) or {}
+        # un cours en attente d'écriture n'a pas d'inventaire (validate.py)
+        inv = (yaml.safe_load((cdir / "inventaire.yml").read_text(encoding="utf-8")) or {}
+               if (cdir / "inventaire.yml").exists() else {})
         cours[cdir.name] = dict(meta=meta, fiches=fiches, parcours=parcours,
                                 inventaire=inv.get("elements", []) or [])
     return cours

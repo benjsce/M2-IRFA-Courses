@@ -188,7 +188,7 @@ Une insertion touche plusieurs fiches existantes : c'est l'opération la plus ri
 protocole, et la seule où modifier plusieurs fiches à la fois est légitime.
 
 Toute fiche écrite ou réécrite passe le test de lecture de SPEC-MODELE §2.5 : lue
-entière, rendue sur le site, et comparée à l'étalon `fpp/taux-forward` (une idée, le connu
+entière, rendue sur le site, et confrontée à ses règles (une idée, le connu
 et le trou, des chiffres avant les lettres, une figure, peu d'informations). Le rapport dit
 ce que le test a trouvé.
 

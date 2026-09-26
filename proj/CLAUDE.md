@@ -19,7 +19,6 @@ action, à chaque session.
 `LECTURE.md` dit comment les appliquer sans relire tout le dépôt : ce qui se lit toujours,
 selon le travail, jamais. Il se lit à chaque session, avec les trois autres.
 
-Un exemple réel et validé vit dans `courses/fpp/`. Quand tu hésites sur la forme, regarde-le.
 Quand tu hésites sur le fond, tu demandes — tu n'improvises pas.
 
 ## Déroulé de toute session
@@ -120,7 +119,7 @@ objet que la rubrique ne nomme pas.
 ## Les fiches se lisent d'une traite
 
 Une fiche qui passe le validateur n'est pas pour autant claire. Tu écris chaque fiche
-comme `fpp/taux-forward`, l'étalon : une idée annoncée d'emblée ; **ce qui est connu et ce
+ainsi : une idée annoncée d'emblée ; **ce qui est connu et ce
 qu'on cherche**, dits en toutes lettres quand la notion détermine une quantité ; des
 chiffres avant les lettres ; une seule figure ; peu d'informations. Puis tu la relis entière,
 rendue, comme l'étudiant. Le détail est en SPEC-MODELE §2.5. *Demandé par l'utilisateur le

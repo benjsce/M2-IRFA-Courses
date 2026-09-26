@@ -26,3 +26,9 @@ refonte_du_recit:
     réponse, et forward-action avant sa généralisation prix-a-terme ; dans options, la
     formule de Black et Scholes avant la valeur temps qu'elle chiffre ; dans couverture, les
     sensibilités avant l'équation aux dérivées partielles.
+- date: '2026-09-26'
+  raison: >-
+    cours réécrit de zéro, écrit avant la spec actuelle. Fiches, parcours, figures,
+    exercices, inventaire et registre supprimés à la demande de l'utilisateur, par
+    dérogation à SPEC-INGESTION, A1 et A17 (rapport 2026-09-26-fpp-13.md) ; restent les
+    sources et ce fichier.

@@ -28,29 +28,31 @@ site/              généré ; publié sur GitHub Pages
 rapports/          un rapport par ingestion
 ```
 
-## État (2026-09-20)
+## État (2026-09-26)
 
-Deux cours, **123 fiches**, et **aucune dette** : chaque élément des sources a reçu son
-image, chaque fiche à formule porte son exemple minimal et son geste de calcul, aucun lien
-ne pointe vers une notion non écrite.
+Cinq cours. `fpp` a été vidé le 2026-09-26 pour être réécrit de zéro : il ne garde que ses
+sources et son `course.yml` (rapport `2026-09-26-fpp-13.md`).
 
 | cours | fiches | principes | abstraites | inventaire | source |
 |---|---|---|---|---|---|
-| `fpp` — Financial Products (Gaussel) | 55 | 3 | 10 | 93 éléments, couverts | poly, 17 p. |
-| `dup` — Decision under Uncertainty (Qu) | 68 | 4 | 6 | 158 éléments, couverts | 3 jeux de slides, 153 slides |
+| `fpp` — Financial Products (Gaussel) | — | — | — | — | poly, 16 p. ; livre d'exercices, 28 p. — **en attente de réécriture** |
+| `dup` — Decision under Uncertainty (Qu) | 86 | 4 | 7 | 225 éléments, couverts | 4 jeux de slides, 220 slides |
+| `dss` — Data Science Software (Hassani) | 76 | 5 | 5 | 237 éléments, couverts | slides, 237 slides |
+| `pfo` — Python for Finance and Optimisation (Mrad) | 45 | 3 | 5 | 126 éléments, couverts | poly, chapitres 1 à 3, 56 p. |
+| `ods` — Optimization for Data Science (Vaiter, Gramfort) | 46 | 1 | 0 | 97 éléments, couverts | notes, 14 p. ; slides, 32 ; 5 notebooks |
 
-Le validateur passe à 0 erreur. Les 4 avertissements restants sont stylistiques
-(« Ce que c'est » en plusieurs phrases), aucun n'est de la dette.
-
-Les deux réserves de l'amorçage sont levées : les références ont été auditées ligne à
-ligne contre le poly (rapport `2026-09-20-fpp-2.md`), et les exemples minimaux sont
-écrits. Depuis, `validate.py` refuse un « Exemple minimal » laissé en dette — c'est une
-**erreur**, pas un avertissement, conformément à SPEC-INGESTION étape 3.
+Le validateur passe à 0 erreur. Les avertissements restants sont la dette de la refonte de
+`fpp` : le cours lui-même, en attente d'écriture, et les liens de `pfo` vers
+`fpp/volatilite` et `fpp/echelonnement-de-la-variance`, déclarés à venir.
 
 ## Ce qui reste ouvert
 
-Rien n'est en dette, mais cinq décisions attendent l'utilisateur ; elles sont posées en
-fin de chaque rapport, avec une recommandation.
+Le 2026-09-20, cinq décisions attendaient l'utilisateur ; elles sont posées en fin de
+chaque rapport, avec une recommandation.
+
+*Au 2026-09-26, tout ce qui suit et touche `fpp` est clos par sa refonte (rapport
+`2026-09-26-fpp-13.md`) : `fpp/couverture` et les contradictions de son poly ne sont plus
+ouverts. Ce qui touche `dup` reste tel qu'écrit le 2026-09-20.*
 
 1. **Trois principes ont été créés** — `fpp/couverture`, `dup/courbure-de-l-utilite`,
    `dup/principe-d-unanimite`. Chacun s'appuie sur une phrase de la source, aucun n'y est

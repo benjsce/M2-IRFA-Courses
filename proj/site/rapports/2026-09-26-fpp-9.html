@@ -137,6 +137,7 @@ details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fa
 .avant>li{margin:.5rem 0}
 .avant>li p{margin:.1rem 0 0;font-size:.95rem}
 .avant a.tit{font-weight:600;text-decoration:none}
+.avant span.tit.venir{font-weight:600;color:var(--fai);cursor:default}
 .roles{list-style:none;padding:0;margin:.2rem 0 0}
 .roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
 .roles>li.cible{background:var(--acc2)}
@@ -312,54 +313,54 @@ terme, arrivée — « forward » non défini, corrigé ; autres parcours — au
 -Une action vaut 100 aujourd'hui et le taux sans risque à un an est de 4 %. À quel prix faut-il s'engager aujourd'hui à l'acheter dans un an ? La réponse ne demande aucune prévision sur l'action. [ajout]
 +Un investisseur veut acheter une action dans un an, à un prix convenu dès aujourd'hui avec un vendeur. L'action vaut 100 aujourd'hui, et placer ou emprunter de l'argent sans risque coûte 4 % par an. Quel prix convenir ? Faut-il, pour le fixer, deviner ce que vaudra l'action dans un an ? [ajout]
 @@ -18,3 +18,3 @@
--1. <a href="../fpp/n/absence-arbitrage.html">Absence d’arbitrage</a>
+-1. fpp/absence-arbitrage
 -   La réponse repose sur un seul principe, qui interdit de gagner sans risque et sans mise. [§3.1]
 -   Histoire : « La réponse ne demande aucune prévision sur l'action » — Elle ne demande qu'un principe : deux façons d'obtenir l'action dans un an qui donnent le même flux quoi qu'il arrive doivent coûter la même chose aujourd'hui. Sinon, on achèterait la moins chère en vendant l'autre, et l'on gagnerait sans risque ni mise. [ajout]
-+1. <a href="../fpp/n/contrat-prime-nulle.html">Contrat à prime nulle</a>
++1. fpp/contrat-prime-nulle
 +   Avant de chercher ce prix, il faut savoir ce qu'on cherche : l'investisseur paie-t-il quelque chose en signant ? [§2.3, §3.1]
 +   Histoire : « Quel prix convenir » — Rien ne se paie à la signature : l'investisseur s'engage à payer dans un an, le vendeur à lui remettre l'action ce jour-là. L'inconnue n'est donc pas le prix du contrat, qui ne coûte rien, mais le prix écrit dedans, noté $K$ : celui pour lequel aucun des deux ne fait une mauvaise affaire, c'est-à-dire pour lequel l'engagement vaut zéro aujourd'hui. [ajout]
 @@ -22,3 +22,3 @@
--2. <a href="../fpp/n/replication.html">Réplication</a>
+-2. fpp/replication
 -   Ce principe se met en œuvre par un geste unique : fabriquer le flux futur avec ce qu'on peut acheter aujourd'hui. [§3.1]
 -   Histoire : « s'engager aujourd'hui à l'acheter dans un an » — Plutôt que de deviner ce que vaudra l'action dans un an, on fabrique le même engagement avec ce qui s'achète aujourd'hui, et l'on en lit le coût. [ajout]
-+2. <a href="../fpp/n/absence-arbitrage.html">Absence d’arbitrage</a>
++2. fpp/absence-arbitrage
 +   Comment trouver ce prix sans rien savoir de l'avenir de l'action ? [§3.1]
 +   Histoire : « Faut-il, pour le fixer, deviner ce que vaudra l'action dans un an » — Non. Un principe suffit : deux façons d'avoir l'action dans un an qui donnent exactement la même chose, quoi qu'il arrive, doivent coûter la même chose aujourd'hui. Sinon, on prendrait la moins chère en vendant l'autre, et l'on gagnerait sans risque et sans mise ; c'est ce que le marché ne laisse pas faire. [ajout]
 @@ -26,3 +26,3 @@
--3. <a href="../fpp/n/replication-statique.html">Réplication statique</a>
+-3. fpp/replication-statique
 -   Pour livrer une action dans un an, la façon la plus simple est aussi la plus directe. [§3.1]
 -   Histoire : « Une action vaut 100 aujourd'hui et le taux sans risque à un an est de 4 % » — Emprunter 100, acheter l'action et la garder un an : on détient l'action et l'on doit 100 plus les intérêts, $100/0{,}9608\approx104{,}08$, puisqu'à 4 % continu un euro dû dans un an vaut 0,9608 aujourd'hui. S'engager à l'acheter à ce prix revient exactement au même. [ajout]
-+3. <a href="../fpp/n/replication.html">Réplication</a>
++3. fpp/replication
 +   Le contrat est une façon d'avoir l'action dans un an. Pour appliquer le principe, il en faut une seconde, dont on connaisse le coût. [§3.1]
 +   Histoire : « acheter une action dans un an » — Cette seconde façon se fabrique avec ce qui s'achète aujourd'hui. Si ce montage donne exactement ce que donne le contrat, le principe de l'étape précédente dit que le contrat vaut ce que coûte le montage : il suffit de lire ce coût. [ajout]
 @@ -30,4 +30,3 @@
--4. <a href="../fpp/n/portage.html">Portage</a>
+-4. fpp/portage
 -   Détenir l'action jusqu'à l'échéance n'est pas neutre : elle peut verser des dividendes pendant ce temps. [§3.2]
 -   Suite : L'action verse, avant l'échéance, un dividende égal à 2 % de sa valeur. Combien d'actions faut-il acheter aujourd'hui pour en avoir exactement une dans un an ? [ajout]
 -   Histoire : « Combien d'actions faut-il acheter aujourd'hui » — Réinvesti en actions, le dividende fait grossir la position d'environ 2 % : il suffit d'en acheter environ 2 % de moins, $1-0{,}02=0{,}98$, pour en avoir une dans un an. Ce 0,98 est le portage. [ajout]
-+4. <a href="../fpp/n/replication-statique.html">Réplication statique</a>
++4. fpp/replication-statique
 +   Quel montage, ici ? Le plus simple : acheter l'action tout de suite, et attendre. [§3.1]
 +   Histoire : « L'action vaut 100 aujourd'hui, et placer ou emprunter de l'argent sans risque coûte 4 % par an » — L'investisseur emprunte 100, achète l'action et ne fait plus rien pendant un an. Au bout de l'année, il a l'action et doit rembourser 100 plus les intérêts : à 4 % continu, $100\,e^{0{,}04}=100/0{,}9608\approx104{,}08$. C'est exactement ce que donne le contrat, l'action contre un paiement dans un an, sans rien débourser aujourd'hui : le contrat doit donc fixer $K=104{,}08$. Le vendeur fait le même montage de son côté, il emprunte pour acheter l'action aujourd'hui et la <em>livre</em> dans un an contre $K$ ; c'est de son point de vue que la fiche le décrit. [ajout]
 @@ -35,3 +34,4 @@
--5. <a href="../fpp/n/contrat-prime-nulle.html">Contrat à prime nulle</a>
+-5. fpp/contrat-prime-nulle
 -   Le contrat qu'on cherche à évaluer ne coûte rien à la signature. Qu'est-ce qu'on cherche alors, si ce n'est pas un prix ? [§2.3, §3.1]
 -   Histoire : « À quel prix faut-il s'engager » — S'engager ne coûte rien à la signature : ni l'acheteur ni le vendeur ne paie. Ce qu'on cherche n'est donc pas le prix du contrat, qui est nul, mais le prix $K$ inscrit dedans, celui qui le rend nul. [ajout]
-+5. <a href="../fpp/n/portage.html">Portage</a>
++5. fpp/portage
 +   Attendre un an avec l'action n'est pas toujours neutre : pendant ce temps, elle peut rapporter quelque chose. [§3.2]
 +   Suite : Supposons que l'action verse, avant un an, un dividende égal à 2 % de sa valeur, que l'investisseur réinvestit en actions. Combien d'actions doit-il acheter aujourd'hui pour en avoir exactement une dans un an ? [ajout]
 +   Histoire : « Combien d'actions doit-il acheter aujourd'hui » — Le dividende réinvesti fait grossir le nombre d'actions d'environ 2 % : il suffit d'en acheter 2 % de moins, $1-0{,}02=0{,}98$ action. Ce 0,98 est le portage. [ajout]
 @@ -39,3 +39,3 @@
--6. <a href="../fpp/n/prix-a-terme.html">Prix à terme</a>
+-6. fpp/prix-a-terme
 -   La réplication et l'absence d'arbitrage donnent la réponse d'un coup, pour une famille entière de contrats. [Prop. 2, Prop. 3]
 -   Histoire : « à l'acheter dans un an » — La réponse tient en une formule, $K=S_t\Phi/D$ : le prix comptant $S_t$, multiplié par le portage $\Phi$, et divisé par le facteur d'actualisation $D$, qui le transporte jusqu'à l'échéance. Sans dividende, $\Phi=1$ et $D=0{,}9608$ : $100\times1/0{,}9608\approx104{,}08$. [ajout]
-+6. <a href="../fpp/n/forward-action.html">Prix forward d’une action</a>
++6. fpp/forward-action
 +   Le montage coûte alors moins cher. Quel prix l'investisseur doit-il donc convenir ? [§3.1, §3.2]
 +   Histoire : « un dividende égal à 2 % de sa valeur » — Il n'emprunte plus que de quoi acheter 0,98 action, soit 98 ; dans un an, il a une action et doit $98/0{,}9608\approx102{,}00$. Le prix à convenir baisse d'autant : 102,00 au lieu de 104,08. Quand ce qu'on achète à terme est une action, le cours note ce prix $F(t,T)$, ici $F(t,t+1)=102{,}00$. [ajout]
 @@ -43,3 +43,3 @@
--7. <a href="../fpp/n/forward-action.html">Prix forward d’une action</a>
+-7. fpp/forward-action
 -   Premier membre de la famille, le cas de départ : une action livrée à terme. [§3.1, §3.2]
 -   Histoire : « un dividende égal à 2 % de sa valeur » — Avec ce dividende, le prix à terme de l'action, ce $K$ que le cours note $F(t,T)$ pour une action, baisse : $F(t,t+1)=100\times0{,}98/0{,}9608\approx102{,}00$, contre 104,08 sans dividende. [ajout]
-+7. <a href="../fpp/n/prix-a-terme.html">Prix à terme</a>
++7. fpp/prix-a-terme
 +   Les deux calculs, avec et sans dividende, ont la même forme. Est-ce un hasard ? [Prop. 2, Prop. 3]
 +   Histoire : « pour en avoir exactement une dans un an » — Non. Dans les deux cas, on paie aujourd'hui ce qu'il faut détenir pour avoir la chose dans un an, le prix $S_t$ multiplié par le portage $\Phi$, puis on transporte cette somme jusqu'à l'échéance en la divisant par le prix du zéro-coupon, noté $D$. D'où une seule formule, $K=S_t\Phi/D$ : sans dividende, $\Phi=1$ et $K=100/0{,}9608=104{,}08$ ; avec, $\Phi=0{,}98$ et $K=102{,}00$. Elle vaut pour tout ce qui se livre à terme : c'est le prix à terme. [ajout]
 @@ -48,3 +48,3 @@
@@ -477,26 +478,26 @@ terme, arrivée — « forward » non défini, corrigé ; autres parcours — au
 +   Le call et le put de même strike sont-ils liés ? Sans aucune hypothèse sur l'action, oui. [Prop. 7]
 +   Histoire : « S'engager ferme » — Détenir le call et avoir vendu le put, tous deux de strike 100, verse $(S_T-100)^+-(100-S_T)^+=S_T-100$ dans tous les cas : c'est s'engager ferme à acheter l'action à 100. Cet engagement vaut aujourd'hui l'action, 100, moins les 100 euros qu'on paiera dans un an, qui valent $100\times0{,}9608=96{,}08$ aujourd'hui : 3,92. En notant $C_t$ le prix du call et $P_t$ celui du put, à ne pas confondre avec le zéro-coupon $P(t,T)$, on a donc $C_t-P_t=3{,}92$. C'est la parité call-put ; elle donne l'écart entre les deux primes, pas chacune d'elles. [ajout]
 @@ -44,3 +44,4 @@
--7. <a href="../fpp/n/valeur-intrinseque.html">Valeur intrinsèque</a>
+-7. fpp/valeur-intrinseque
 -   Pour comprendre ce que coûte le droit de choisir, on compare son prix à ce que vaudrait le contrat si rien n'était aléatoire. [Déf. 12]
 -   Histoire : « combien vaut ce droit » — Premier repère : si l'action valait à coup sûr sa moyenne risque-neutre, 104,08, le call paierait 4,08, soit $0{,}9608\times4{,}08\approx3{,}92$ aujourd'hui. C'est sa valeur intrinsèque ; elle retrouve le 3,92 de la parité parce que, la moyenne 104,08 dépassant le strike, le call évalué en la moyenne paie comme l'engagement ferme. [ajout]
-+7. <a href="../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a>
++7. fpp/formule-black-scholes
 +   Pour obtenir chaque prime, il faut une hypothèse sur la façon dont l'action varie : celle du modèle de Black et Scholes. [§6.4, §6.5]
 +   Suite : L'action a une volatilité de 20 % par an. Que vaut le call de l'investisseur ? [ajout]
 +   Histoire : « Que vaut le call de l'investisseur » — Le modèle donne une formule fermée : avec l'action à 100, un strike de 100, un taux de 4 %, une volatilité de 20 % et un an, le call vaut 9,925 et le put 6,004. Leur écart, 3,92, est bien celui de la parité. Le droit coûte donc environ 9,93. [ajout]
 @@ -48,4 +49,3 @@
--8. <a href="../fpp/n/valeur-temps.html">Valeur temps</a>
+-8. fpp/valeur-temps
 -   L'écart entre le prix du call et cette valeur est ce que l'incertitude ajoute, et son signe dépend de la forme du paiement. [Déf. 13]
 -   Suite : Avec une volatilité de 20 %, ce call se vend 9,93. Pourquoi plus que 3,92 ? [ajout]
 -   Histoire : « Pourquoi plus que 3,92 » — Parce que l'action peut finir loin de 104,08 : quand elle monte, le call en profite ; quand elle baisse, il ne perd rien au-delà de zéro. Ce paiement convexe, coudé vers le haut, vaut plus que sa valeur en la moyenne, et l'écart, $9{,}93-3{,}92$, soit environ 6, est la valeur temps. [ajout]
-+8. <a href="../fpp/n/valeur-intrinseque.html">Valeur intrinsèque</a>
++8. fpp/valeur-intrinseque
 +   9,93, c'est bien plus que les 3,92 que vaut l'engagement ferme au même prix. Pour comprendre d'où vient l'écart, retirons d'abord l'aléa. [Déf. 12]
 +   Histoire : « une volatilité de 20 % par an » — Si l'action ne variait pas et valait à coup sûr sa moyenne risque-neutre, 104,08, le call paierait 4,08 à coup sûr, soit $0{,}9608\times4{,}08\approx3{,}92$ aujourd'hui. C'est sa valeur intrinsèque : le call évalué comme si rien n'était aléatoire. Elle retrouve les 3,92 de l'engagement ferme, parce qu'en 104,08, au-dessus de son strike, le call paie comme l'engagement. [ajout]
 @@ -53,3 +53,3 @@
--9. <a href="../fpp/n/formule-black-scholes.html">Formule de Black et Scholes</a>
+-9. fpp/formule-black-scholes
 -   Sous le modèle de référence, tout cela se calcule en une formule fermée. [§6.4, §6.5]
 -   Histoire : « se vend 9,93 » — La formule le calcule : $S_t=100$, $K=100$, $r=4\,\%$, $\sigma=20\,\%$ et un an donnent 9,925 pour le call et 6,004 pour le put ; leur écart, 3,92, est bien celui de la parité. [ajout]
-+9. <a href="../fpp/n/valeur-temps.html">Valeur temps</a>
++9. fpp/valeur-temps
 +   Le reste de la prime vient donc de l'aléa lui-même. Pourquoi l'aléa vaut-il quelque chose ? [Déf. 13]
 +   Histoire : « même si elle s'effondre » — Parce que le droit n'a pas ce défaut de l'engagement. Quand l'action monte, le call en profite ; quand elle s'effondre, il ne perd rien au-delà de zéro. Un paiement ainsi coudé vers le haut, qu'on dit convexe, vaut plus que ce qu'il paierait en la moyenne : l'écart, $9{,}93-3{,}92$, soit environ 6, est la valeur temps. [ajout]
 ```</p><p><strong><code>fpp/parcours-couverture</code></strong></p><p>```diff
@@ -506,66 +507,66 @@ terme, arrivée — « forward » non défini, corrigé ; autres parcours — au
 -Une banque vend un call à un an de strike 100 sur l'action à 100 : elle encaisse 9,93 et ne veut pas parier sur l'action. Comment neutraliser son risque, et combien cela lui coûte-t-il de le faire à chaque instant ? [ajout]
 +Une banque vend à l'investisseur le call à un an de strike 100 sur l'action à 100 : elle encaisse 9,93. Si l'action monte, elle devra la lui vendre à 100, quel que soit son prix ; or elle ne veut pas parier sur l'action. Comment neutraliser ce risque, et combien cela lui coûte-t-il ? [ajout]
 @@ -17,3 +17,3 @@
--1. <a href="../fpp/n/edp-black-scholes.html">Équation de Black et Scholes</a>
+-1. fpp/edp-black-scholes
 -   Si la banque peut réajuster sa couverture en continu, le prix de l'option doit obéir à une contrainte précise. [§7.1]
 -   Histoire : « de le faire à chaque instant » — Si la banque détient à chaque instant la bonne quantité d'actions, et la réajuste en continu, son portefeuille devient sans risque et doit rapporter le taux sans risque. Cette contrainte s'écrit comme une équation que le prix du call, fonction du temps et du cours, doit satisfaire, avec au bout le paiement $(S_T-100)^+$. [ajout]
-+1. <a href="../fpp/n/couverture.html">Couverture</a>
++1. fpp/couverture
 +   La banque perd si l'action monte. Que peut-elle faire contre ? [§8]
 +   Histoire : « Comment neutraliser ce risque » — Prendre la position opposée. Le call vendu lui fait perdre quand l'action monte ; elle achète donc des actions, qui lui font gagner quand l'action monte. Reste à savoir combien. [ajout]
 @@ -21,3 +21,3 @@
--2. <a href="../fpp/n/feynman-kac.html">Équivalence de Feynman-Kac</a>
+-2. fpp/feynman-kac
 -   Cette contrainte et l'espérance risque-neutre sont-elles deux réponses différentes ? Non, et un théorème le montre. [§7.2.1]
 -   Histoire : « elle encaisse 9,93 » — Ce prix avait été obtenu comme une espérance risque-neutre actualisée. Le théorème de Feynman et Kac dit que cette espérance est aussi la solution de l'équation : les deux chemins mènent au même 9,93. [ajout]
-+2. <a href="../fpp/n/sensibilite.html">Sensibilité</a>
++2. fpp/sensibilite
 +   Combien d'actions ? Cela dépend de la façon dont le call réagit à chacun de ses ingrédients. [§8.1]
 +   Histoire : « elle ne veut pas parier sur l'action » — Le prix du call dépend du cours de l'action, de sa volatilité, du temps qui reste et du taux. Chaque dépendance se mesure par une dérivée : de combien le prix bouge quand ce paramètre bouge un peu, les autres restant fixes. C'est une sensibilité, et la banque en aura une à surveiller par risque. [ajout]
 @@ -25,3 +25,3 @@
--3. <a href="../fpp/n/equation-de-la-chaleur.html">Réduction à l’équation de la chaleur</a>
+-3. fpp/equation-de-la-chaleur
 -   Par quelques changements de variables, l'équation devient un objet que les physiciens savent résoudre. [§7.2.2]
 -   Histoire : « un call à un an de strike 100 » — Pour résoudre l'équation, on change de variables : le logarithme du cours à la place du cours, et l'on retire l'actualisation par le facteur $e^{r(T-t)}$, qui vaut 1,0408 à un an et 4 %. L'équation devient celle de la chaleur, dont on connaît la solution. [ajout]
-+3. <a href="../fpp/n/delta.html">Delta</a>
++3. fpp/delta
 +   La première, et la plus importante : celle au cours de l'action, qui dit combien d'actions acheter. [§8.2]
 +   Histoire : « Si l'action monte » — Le delta dit de combien le prix du call bouge quand l'action monte d'un euro. La formule de Black et Scholes le donne, $\delta=N(d_1)$, où $N$ est la fonction de répartition de la loi normale et $d_1$ la quantité qui apparaît dans la formule du prix, ici $d_1=\big(\ln(100/100)+0{,}04+0{,}2^2/2\big)/0{,}2=0{,}3$ : $\delta\approx0{,}618$. La banque achète donc 0,618 action par call vendu : si l'action monte d'un euro, le call vendu lui coûte environ 0,618 de plus, et ses actions lui rapportent autant. [ajout]
 @@ -29,13 +29 @@
--4. <a href="../fpp/n/couverture.html">Couverture</a>
+-4. fpp/couverture
 -   Revenons à la banque : le principe général de la neutralisation d'un risque. [§8]
 -   Histoire : « Comment neutraliser son risque » — Se couvrir, c'est prendre la position opposée à ce qui expose : la banque a vendu le call, qui gagne quand l'action monte ; elle achète donc de l'action, dans la quantité qui annule cette dépendance. [ajout]
 -
--5. <a href="../fpp/n/sensibilite.html">Sensibilité</a>
+-5. fpp/sensibilite
 -   Neutraliser un risque demande de mesurer à quel point la position y est exposée, paramètre par paramètre. [§8.1]
 -   Histoire : « ne veut pas parier » — Le prix du call dépend de plusieurs paramètres : le cours de l'action, sa volatilité, le temps qui reste, le taux. Pour ne parier sur aucun, la banque mesure, paramètre par paramètre, de combien le prix bouge quand il bouge. [ajout]
 -
--6. <a href="../fpp/n/delta.html">Delta</a>
+-6. fpp/delta
 -   Le paramètre qui compte le plus est le cours de l'action : c'est lui qui dit combien d'actions détenir. [§8.2]
 -   Histoire : « ne veut pas parier sur l'action » — Le delta dit de combien le prix du call bouge quand l'action monte d'un euro ; la formule de Black et Scholes le donne, $\delta=N(d_1)$, où $N$ est la fonction de répartition gaussienne et $d_1=\big(\ln(100/100)+0{,}04+0{,}2^2/2\big)/0{,}2=0{,}3$, soit $\delta\approx0{,}618$. La banque achète donc 0,618 action par call vendu : si l'action monte d'un euro, le call vendu lui coûte environ 0,618 de plus, et les actions lui rapportent autant. [ajout]
 -
--7. <a href="../fpp/n/gamma.html">Gamma</a>
-+4. <a href="../fpp/n/gamma.html">Gamma</a>
+-7. fpp/gamma
++4. fpp/gamma
 @@ -46 +34 @@
--8. <a href="../fpp/n/vega.html">Vega</a>
-+5. <a href="../fpp/n/vega.html">Vega</a>
+-8. fpp/vega
++5. fpp/vega
 @@ -51 +39 @@
--9. <a href="../fpp/n/theta.html">Theta</a>
-+6. <a href="../fpp/n/theta.html">Theta</a>
+-9. fpp/theta
++6. fpp/theta
 @@ -56,4 +44,16 @@
--10. <a href="../fpp/n/rho.html">Rho</a>
+-10. fpp/rho
 -    Reste le financement : le taux d'intérêt entre dans le prix par l'actualisation du strike. [§8.2]
 -    Suite : La banque centrale baisse les taux de 4 % à 3 %. Qu'y perd ou qu'y gagne la banque ? [ajout]
 -    Histoire : « Qu'y perd ou qu'y gagne la banque » — Le strike actualisé passe de 96,08 à 97,04 : payer 100 dans un an coûte plus cher aujourd'hui, et le call perd de sa valeur. La banque, qui l'a vendu, y gagne. [ajout]
-+7. <a href="../fpp/n/rho.html">Rho</a>
++7. fpp/rho
 +   Reste le financement : le taux d'intérêt entre dans le prix par l'actualisation du strike. [§8.2]
 +   Suite : La banque centrale baisse les taux de 4 % à 3 %. Qu'y perd ou qu'y gagne la banque ? [ajout]
 +   Histoire : « Qu'y perd ou qu'y gagne la banque » — Le strike actualisé passe de 96,08 à 97,04 : payer 100 dans un an coûte plus cher aujourd'hui, et le call perd de sa valeur. La banque, qui l'a vendu, y gagne. [ajout]
 +
-+8. <a href="../fpp/n/edp-black-scholes.html">Équation de Black et Scholes</a>
++8. fpp/edp-black-scholes
 +   Si la banque réajuste sa couverture à chaque instant, que cela dit-il du prix du call ? [§7.1]
 +   Histoire : « combien cela lui coûte-t-il » — Couverte en continu, sa position ne dépend plus de l'action : elle est sans risque, et doit donc rapporter exactement le taux sans risque, sinon on gagnerait sans risque. Écrite à chaque instant et pour chaque cours, cette exigence devient une équation que le prix du call, fonction du temps et du cours, doit satisfaire, avec au bout le paiement $(S_T-100)^+$ : l'équation aux dérivées partielles de Black et Scholes. [ajout]
 +
-+9. <a href="../fpp/n/feynman-kac.html">Équivalence de Feynman-Kac</a>
++9. fpp/feynman-kac
 +   Le prix du call avait été obtenu autrement, comme une moyenne sous la probabilité risque-neutre. Les deux méthodes s'accordent-elles ? [§7.2.1]
 +   Histoire : « elle encaisse 9,93 » — Oui : le théorème de Feynman et Kac dit que l'espérance risque-neutre actualisée du paiement est la solution de cette équation. Les 9,93 encaissés sont donc exactement ce que coûte la couverture continue : c'est la réponse à la seconde question de la banque. [ajout]
 +
-+10. <a href="../fpp/n/equation-de-la-chaleur.html">Réduction à l’équation de la chaleur</a>
++10. fpp/equation-de-la-chaleur
 +    Reste à résoudre l'équation elle-même. [§7.2.2]
 +    Histoire : « le call à un an de strike 100 » — On change de variables : le logarithme du cours à la place du cours, et l'on retire l'actualisation en multipliant par $e^{r(T-t)}$, qui vaut 1,0408 à un an et 4 %. L'équation devient celle de la chaleur, que les physiciens savent résoudre, et sa solution redonne la formule de Black et Scholes. [ajout]
 ```</p><p><strong><code>fpp/parcours-strategies</code></strong></p><p>```diff
@@ -656,7 +657,7 @@ var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}ca
    le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
    cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
 var ETAT=(function(){
-var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='6728',
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='2df8',
     A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
 var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
 var pli={},su={};

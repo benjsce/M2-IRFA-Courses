@@ -430,6 +430,24 @@ def cours_sans_parcours(root):
     ecrire(root, "aa", [dict(slug="base", nom="Base")])
 
 
+def _cours_vide(root, refonte):
+    ecrire(root, "aa", [dict(slug="base", nom="Base")])
+    d = root / "courses" / "bb"
+    d.mkdir(parents=True)
+    (d / "course.yml").write_text(
+        "code: bb\ntitre: Essai bb\nsources: []\nrefs_pattern: ^p\\. \\d+$\ndepend_de: []\n"
+        + ("refonte_du_recit:\n- date: '2026-09-26'\n  raison: essai\n" if refonte else ""),
+        encoding="utf-8", newline="\n")
+
+
+def cours_vide_non_declare(root):
+    _cours_vide(root, refonte=False)
+
+
+def cours_vide_declare(root):
+    _cours_vide(root, refonte=True)
+
+
 def parcours_desordre(root):
     _parcours(root, ["haut", "milieu"], ["base"])
 
@@ -697,6 +715,12 @@ def main():
         "E A17", fil_refonte_declaree, doit_apparaitre=False)
     cas("cours sans aucun parcours → compté en dette",
         "le cours n'est raconté nulle part", cours_sans_parcours)
+    cas("cours sans fiches ni inventaire, non déclaré → erreur",
+        "E A1 ", cours_vide_non_declare)
+    cas("cours sans fiches ni inventaire, refonte déclarée → avertissement, pas erreur",
+        "E A", cours_vide_declare, doit_apparaitre=False)
+    cas("cours sans fiches ni inventaire, refonte déclarée → compté en dette",
+        "cours en attente d'écriture", cours_vide_declare)
 
     print("projection « masquer les ajouts » (A11)")
     projection()

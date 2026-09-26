@@ -275,8 +275,22 @@ def valider(root: Path, rap: Rapport):
         inv = cdir / "inventaire.yml"
         inventaires[code] = (yaml.safe_load(inv.read_text(encoding="utf-8")) or {}).get("elements", []) if inv.exists() else None
 
-        # fiches
+        # cours en attente d'écriture : ni fiches ni inventaire, et une refonte déclarée.
+        # Décidé par l'utilisateur le 2026-09-26, quand fpp a été vidé pour être réécrit de
+        # zéro : l'absence déclarée est une dette visible, pas une erreur. Sans déclaration,
+        # les deux erreurs ci-dessous restent (dossier notions/ absent, inventaire absent).
         ndir = cdir / "notions"
+        if not ndir.is_dir() and not inv.exists():
+            dates = [str(r.get("date", "")) for r in courses[code].get("refonte_du_recit") or []
+                     if isinstance(r, dict) and r.get("raison")]
+            if dates:
+                rap.w("A13", code, f"cours en attente d'écriture : ni fiches ni inventaire "
+                                   f"(refonte déclarée le {max(dates)})")
+                rap.dette["cours en attente d'écriture"] += 1
+                del inventaires[code]
+                continue
+
+        # fiches
         if not ndir.is_dir():
             rap.e("A1", str(ndir), "dossier notions/ absent"); continue
         for f in sorted(ndir.glob("*.md")):

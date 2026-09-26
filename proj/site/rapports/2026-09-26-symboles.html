@@ -137,6 +137,7 @@ details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fa
 .avant>li{margin:.5rem 0}
 .avant>li p{margin:.1rem 0 0;font-size:.95rem}
 .avant a.tit{font-weight:600;text-decoration:none}
+.avant span.tit.venir{font-weight:600;color:var(--fai);cursor:default}
 .roles{list-style:none;padding:0;margin:.2rem 0 0}
 .roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
 .roles>li.cible{background:var(--acc2)}
@@ -275,7 +276,7 @@ dans dss. Après : aucune.</p><h2>Règle, registre, validateur</h2><p><strong><c
 +  dit ce que modélise chaque lettre de la formule. Le <code>sens</code> du registre ne suffit pas : il sert à retrouver un symbole,
 ```</p><p><strong><code>courses/fpp/notation.yml</code></strong></p><p>```diff
 +- symbole: $P(t,r)$
-+  notion: <a href="../fpp/n/duration.html">Sensibilité, duration</a>
++  notion: fpp/duration
 +  ref: Déf. 5
 +  sens: prix d'un zéro-coupon de maturité t sous un taux continu r, soit e^{-rt} ; le même objet que P(0,t)
 +- symbole: $P(t,r)$
@@ -291,7 +292,7 @@ dans dss. Après : aucune.</p><h2>Règle, registre, validateur</h2><p><strong><c
 +        secs = dict(n["sections"])
 +        txt = secs.get("Ce que les symboles modélisent")
 +        # Une formule sans explication de ses lettres : due elle aussi, registre ou non.
-+        # Relevé le 2026-09-26 sur <a href="../fpp/n/duration.html">Sensibilité, duration</a>, où P(t,r) prend une durée et un taux.
++        # Relevé le 2026-09-26 sur fpp/duration, où P(t,r) prend une durée et un taux.
 +        if not attendus and "Forme" in secs and txt is None:
 +            rap.w("A12", nid, "« Ce que les symboles modélisent » à écrire : la fiche porte "
 +                              "une Forme dont aucune rubrique n'explique les symboles")
@@ -704,7 +705,7 @@ var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}ca
    le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
    cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
 var ETAT=(function(){
-var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='6728',
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='2df8',
     A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
 var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
 var pli={},su={};
