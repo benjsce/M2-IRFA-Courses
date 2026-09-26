@@ -43,21 +43,21 @@ Un pari rapporte 0 ou 100 avec une chance sur deux : il vaut 50 en moyenne. Pour
 
 9. dup/aversion-absolue-arrow-pratt
    Pour comparer l'aversion de deux personnes, il faut une mesure de la courbure qui ne change pas quand on change l'échelle de l'utilité. [L1 slide 33]
-   Suite : Donnons maintenant 100 à l'agent avant qu'il joue, et plaçons à côté de lui un second agent, d'utilité $\ln x$, qui a lui aussi 100 en poche. Face au même pari, le premier n'abandonne plus qu'environ 4,3 sur la moyenne, le second environ 8,6. Lequel craint le plus le risque, et comment le prévoir sans refaire le calcul ? [ajout]
-   Histoire : « un second agent, d'utilité $\ln x$ » — Le second agent abandonne deux fois plus que le premier. Pour le prévoir sans refaire le calcul, il faut mesurer la courbure de chaque utilité, rapportée à sa pente : à 100, elle vaut $1/200$ pour $\sqrt{x}$ et $1/100$ pour $\ln x$. [ajout]
+   Suite : Donnons maintenant 100 à l'agent avant qu'il joue, et plaçons à côté de lui un second agent, d'utilité $\ln x$, qui a lui aussi 100 en poche. Face au même pari, la prime de risque du premier n'est plus que d'environ 4,3, celle du second est d'environ 8,6. Lequel des deux craint le plus le risque ? [ajout]
+   Histoire : « Lequel des deux craint le plus le risque » — Les deux primes le disent pour ce pari-ci ; le cours veut le lire sur l'utilité elle-même, sans choisir de pari. La courbure $U''$ seule ne suffit pas : multiplier $U$ par 2 la double sans changer aucun choix. On la rapporte donc à la pente, $A(x)=-U''(x)/U'(x)$ : à 100, elle vaut $1/200$ pour $\sqrt{x}$ et $1/100$ pour $\ln x$. Le second agent a l'aversion la plus forte, comme sa prime le laissait voir. [ajout]
 
 10. dup/approximation-arrow-pratt
     Cette mesure et la prime se rejoignent pour les petits paris : on peut alors calculer la prime sans passer par l'utilité espérée. [L1 slide 32]
-    Suite : Réduisons le pari : toujours avec 100 en poche, chacun gagne ou perd 10 à pile ou face. Les deux primes tombent à 0,25 et 0,50 environ. [ajout]
-    Histoire : « 0,25 et 0,50 environ » — La moitié de la variance du pari, 100, fois la mesure de courbure donne $\tfrac12\times100\times\tfrac{1}{200}=0{,}25$ et $\tfrac12\times100\times\tfrac{1}{100}=0{,}50$ : les deux primes, presque sans passer par l'utilité. Sur le premier pari, qui va de 0 à 100, elle donnerait 12,5 au lieu de 25 : il est trop grand. [ajout]
+    Suite : Réduisons le pari : toujours avec 100 en poche, chacun gagne ou perd 10 à pile ou face. Les deux primes tombent à 0,25 et 0,50 environ. Pouvait-on les prévoir sans refaire le calcul de l'utilité espérée ? [ajout]
+    Histoire : « Pouvait-on les prévoir sans refaire le calcul » — Oui, pour un pari aussi petit : la moitié de sa variance, 100, fois l'aversion absolue donne $\tfrac12\times100\times\tfrac{1}{200}=0{,}25$ et $\tfrac12\times100\times\tfrac{1}{100}=0{,}50$, les deux primes de l'histoire. Sur le premier pari, qui va de 0 à 100, elle donnerait 12,5 au lieu de 25 : il est trop grand. [ajout]
 
 11. dup/aversion-relative
     Peut-on dire qu'une personne est plus averse qu'une autre sans rien calculer, en regardant seulement les paris qu'elle refuse ? [L1 slide 30]
-    Histoire : « Lequel craint le plus le risque » — Le second agent abandonne plus que le premier sur le grand pari comme sur le petit. Le cours veut pouvoir dire qu'il est plus averse sans choisir un pari : il refuse tout pari qui laisse le premier indifférent. [ajout]
+    Histoire : « Lequel des deux craint le plus le risque » — Le second agent a la prime la plus forte, sur le grand pari comme sur le petit. Le cours veut pouvoir dire qu'il est plus averse en regardant seulement ses choix : il refuse tout pari qui laisse le premier indifférent. [ajout]
 
 12. dup/dara
     Comment l'aversion devrait-elle évoluer quand on s'enrichit ? Le cours retient une hypothèse que presque tout le monde accepte. [L1 slide 34]
-    Histoire : « n'abandonne plus qu'environ 4,3 » — Le premier agent abandonnait 25 quand il partait de rien ; avec 100 en poche, pour le même pari, environ 4,3. Plus riche, il craint moins le risque : sa mesure de courbure, $1/(2x)$, baisse quand la richesse monte. [ajout]
+    Histoire : « la prime de risque du premier n'est plus que d'environ 4,3 » — Partant de rien, sa prime était de 25 ; avec 100 en poche, pour le même pari, elle n'est plus que d'environ 4,3. Plus riche, il craint moins le risque : son aversion absolue, $1/(2x)$, baisse quand la richesse monte. [ajout]
 
 13. dup/famille-hara
     Il faut maintenant des formes d'utilité concrètes pour calculer. Le cours les range toutes dans une même famille, où chacune est un point. [L1 slide 35]
