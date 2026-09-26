@@ -14,15 +14,20 @@ On télécharge quatre ans de prix pour Apple, le CAC 40, le Nikkei et le Bitcoi
 ## Étapes
 1. pfo/remplissage-des-valeurs-manquantes
    Premier défaut, avant tout calcul : des dates sans prix pour certains actifs. Que mettre à la place ? [p. 11, Listing 1.1]
+   Histoire : « Le tableau a des trous les jours fériés de chaque place » — Un jour férié au Japon, le Nikkei n'a pas de prix alors que le Bitcoin en a un. On recopie le dernier prix connu : [100, NaN, NaN, 105] devient [100, 100, 100, 105], comme si le marché fermé n'avait pas bougé. [ajout]
 
 2. pfo/score-z
    Second défaut, plus difficile : repérer une valeur aberrante demande de dire à partir de quand un écart est anormal. [§1.3.2, p. 9]
+   Histoire : « des sauts qui ne sont pas des mouvements de marché mais des erreurs » — Pour dire qu'un saut est anormal, on le mesure en écarts types : un rendement de −4 % pour un actif de moyenne nulle et d'écart type 1 % est à 4 écarts types de sa moyenne, ce qui arrive rarement. [ajout]
 
 3. pfo/filtre-z-score-glissant
    Appliqué aux rendements, l'outil doit suivre le marché : une moyenne et une dispersion calculées sur toute la série jugeraient mal les périodes agitées. [§1.3.2]
+   Suite : Le Bitcoin varie bien plus que le CAC 40, et chacun s'agite plus en crise qu'en temps calme. Un même seuil peut-il juger toutes les périodes ? [ajout]
+   Histoire : « Un même seuil peut-il juger toutes les périodes » — Oui, si la moyenne et l'écart type sont recalculés sur les vingt derniers rendements, et tout rendement dont le score dépasse 3 en valeur absolue remplacé par 0. Un −4 % dans une fenêtre d'écart type 1 % est effacé ; le même −4 % dans une fenêtre agitée, d'écart type 2 %, est gardé. [ajout]
 
 4. pfo/pipeline-d-ingestion
    Il reste à enchaîner ces opérations, et l'ordre dans lequel on les fait n'est pas indifférent. [Listing 1.1]
+   Histoire : « Tout modèle construit dessus en héritera » — La chaîne du cours télécharge les prix, comble les trous, calcule les rendements logarithmiques, puis filtre les sauts. L'ordre compte : combler avant de calculer, sinon chaque jour férié coupe la série ; filtrer après, parce que le filtre regarde les rendements et non les prix. [ajout]
 
 ## Point d'arrivée
 Le cours sort de ce nettoyage une série de rendements sans trou ni saut aberrant, celle que les parcours suivants utiliseront. Le filtre a un prix : un vrai krach peut être effacé comme une erreur. [ajout]

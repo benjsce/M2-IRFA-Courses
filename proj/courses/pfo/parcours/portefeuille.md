@@ -19,30 +19,41 @@ Un investisseur hésite entre deux actifs : l'un rapporte 6 % par an avec une vo
 ## Étapes
 1. pfo/paradigme-de-markowitz
    Faut-il choisir le meilleur des deux actifs, ou regarder ce que chacun change à l'ensemble ? [§3.0.1]
+   Histoire : « hésite entre deux actifs » — Pris seul, le second rapporte plus et le premier risque moins ; au-delà des 2 % sans risque, chacun rapporte d'ailleurs 0,40 par unité de volatilité. La question n'est pas lequel choisir, mais ce que chacun apporte au mélange. [ajout]
 
 2. pfo/moments-du-portefeuille
    Pour comparer des répartitions, il faut chiffrer chacune : que rapporte-t-elle en moyenne, et combien fluctue-t-elle ? [§3.0.1]
+   Histoire : « ils ne sont pas corrélés » — À parts égales, le mélange rapporte $\tfrac12\times6+\tfrac12\times10=8\,\%$, et sa volatilité vaut $\sqrt{0{,}25\times0{,}01+0{,}25\times0{,}04}\approx11{,}18\,\%$ : moins que la moyenne des deux, 15 %, parce que les actifs ne bougent pas ensemble. [ajout]
 
 3. pfo/annualisation
    Les prix arrivent jour par jour, les objectifs se fixent sur un an. Comment passer de l'un à l'autre sans fausser le risque ? [§3.0.7]
+   Suite : Ces chiffres annuels, l'investisseur ne les observe pas : ses données sont des rendements journaliers, par exemple de moyenne 0,04 % et d'écart type 1 %. Comment les porter à l'année ? [ajout]
+   Histoire : « Comment les porter à l'année » — La moyenne et la variance se multiplient par les 252 séances de l'année, l'écart type par leur racine : $252\times0{,}04\,\%=10{,}08\,\%$ et $1\,\%\times\sqrt{252}\approx15{,}87\,\%$ par an. [ajout]
 
 4. pfo/optimisation-de-portefeuille
    On sait désormais noter une répartition. Comment chercher la meilleure, et meilleure selon quel critère ? [p. 38]
+   Histoire : « Combien mettre dans chacun » — Chaque répartition se note désormais par son rendement et sa volatilité. Choisir revient à résoudre un problème : trouver les poids, positifs et de somme 1, qui arbitrent au mieux entre les deux. [ajout]
 
 5. pfo/frontiere-efficiente
    Premier critère : se fixer un rendement et ne rien risquer de plus que nécessaire pour l'obtenir. Que dessinent ces choix quand la cible varie ? [§3.0.2]
+   Histoire : « l'un rapporte 6 % par an avec une volatilité de 10 % » — Pour chaque rendement visé, on cherche la répartition la moins risquée. La moins risquée de toutes place 80 % dans ce premier actif : 6,8 % de rendement pour 8,94 % de volatilité, moins que chacun des deux. Les autres cibles tracent une courbe à partir de ce point. [ajout]
 
 6. pfo/ratio-de-sharpe
    Sur cette courbe, tous les points semblent défendables. Avec un placement sans risque à 2 %, comment dire lequel paie le mieux le risque pris ? [§3.0.3]
+   Histoire : « Un placement sans risque rapporte 2 % » — Au-delà de ces 2 %, chaque actif rapporte 0,40 par unité de volatilité, $(6-2)/10$ et $(10-2)/20$. Le mélange à parts égales atteint $(8-2)/11{,}18\approx0{,}54$ : il paie mieux le risque que chacun des deux. [ajout]
 
 7. pfo/portefeuille-tangent
    Second critère : chercher directement le portefeuille qui obtient le meilleur score. Où tombe-t-il par rapport à la courbe ? [p. 40, §3.0.4]
+   Histoire : « Combien mettre dans chacun » — Le mélange qui paie le mieux le risque place deux tiers dans le premier actif et un tiers dans le second : 7,33 % de rendement, 9,43 % de volatilité, un ratio de 0,566. C'est le point où la droite partie des 2 % touche la courbe. [ajout]
 
 8. pfo/ligne-de-marche-des-capitaux
    Reste la question du départ : faut-il garder une part sans risque, et que devient alors le compromis ? [p. 41]
+   Histoire : « et faut-il garder une part sans risque » — Oui, s'il veut moins de risque que ce portefeuille : il le dose avec le placement sans risque, le long d'une droite de pente 0,566. Moitié chacun donne 4,67 % de rendement pour 4,71 % de volatilité. [ajout]
 
 9. pfo/slsqp
    Avec deux actifs, tout se fait à la main. Avec des dizaines et des bornes sur chaque poids, comment l'ordinateur trouve-t-il la solution ? [§3.0.6]
+   Suite : L'investisseur élargit son choix à des dizaines d'actifs, avec une borne sur chaque poids. Comment l'ordinateur trouve-t-il alors la meilleure répartition ? [ajout]
+   Histoire : « Comment l'ordinateur trouve-t-il alors la meilleure répartition » — Il part d'une répartition, remplace le problème par une version quadratique aux contraintes linéarisées, avance dans la direction qu'elle indique, et recommence. Pour minimiser $(x-3)^2$ avec $x\ge0$ depuis 0, un seul pas mène au minimum. [ajout]
 
 ## Point d'arrivée
 L'investisseur ne choisit pas un actif mais un mélange : deux tiers dans le premier, un tiers dans le second, le portefeuille dont le rendement excédentaire par unité de risque est le plus élevé. Il règle ensuite son risque en dosant ce mélange avec le placement sans risque, le long d'une droite de pente constante. [ajout]

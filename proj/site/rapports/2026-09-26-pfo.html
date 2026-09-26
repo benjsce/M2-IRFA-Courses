@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="fr" data-rel="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rapport 2026-09-26-pfo · notions</title>
+<script>
+/* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
+   localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
+   cases « déjà su » ne peuvent donc pas traverser les pages par là. Ils voyagent dans
+   le fragment de l'URL, que tous les liens internes portent ; localStorage ne sert plus
+   que de mémoire locale, pour la page qu'on rouvre sans fragment.
+   Ce script s'exécute avant le rendu : sinon le thème clignote à chaque page. */
+(function(){
+var H={},h=(location.hash||'').replace(/^#/,'');
+h.split('~').forEach(function(p){var i=p.indexOf(':');if(i>0)H[p.slice(0,i)]=p.slice(i+1)});
+window.ETAT_URL=H;
+function loc(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+var t=H.t?(H.t==='d'?'dark':'light'):loc('notions.theme','');
+if(t)document.documentElement.setAttribute('data-theme',t);
+var a=(H.a!==undefined)?H.a:loc('notions.ajouts','1');
+if(a==='0')document.documentElement.classList.add('sans-ajouts');
+})();
+</script>
+<style>
+:root{
+  --bg:#fbfaf7; --bg2:#f3f0ea; --fg:#1b1a17; --mut:#6c675d; --fai:#8e887c;
+  --li:#e0dbd1; --li2:#cdc6b8; --card:#ffffff; --acc:#8a4f23; --acc2:#f3e7dc;
+  --ajo:#6d5a8c; --ajo2:#efe9f5; --lim:#9a3a2e; --ok:#3f6b46; --faute:#a8631a;
+  --r:8px; --w:min(72rem,100%);
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}}
+:root[data-theme="dark"]{
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}
+.fig{margin:.9rem 0;padding:.5rem .2rem .2rem;text-align:center}
+/* « > svg » et non « svg » : MathJax pose son propre <svg> dans la légende, et
+   une règle non ancrée en faisait un bloc qui coupait la phrase en trois. */
+.fig > svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig figcaption{margin-top:.35rem;font-family:var(--sans);font-size:.82rem;
+  color:var(--mut);text-align:center;line-height:1.45}
+@media print{.fig{break-inside:avoid}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
+  font-size:17px;line-height:1.62;overflow-wrap:break-word}
+a{color:var(--acc);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-style:dotted}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+.wrap{width:var(--w);margin:0 auto;padding:0 1rem}
+
+/* ---- barre du haut ---- */
+header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
+  border-bottom:1px solid var(--li);font-family:var(--sans)}
+.topin{width:var(--w);margin:0 auto;padding:.45rem 1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.brand{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--fg);letter-spacing:.02em}
+.fil{color:var(--mut);font-size:.82rem;flex:1 1 8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fil a{color:var(--mut)}
+.btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
+  border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+a.btn{text-decoration:none}
+.btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
+.rech{position:relative;flex:0 1 16rem;min-width:9rem}
+.rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
+  border:1px solid var(--li2);border-radius:var(--r);background:var(--card);color:var(--fg)}
+.res{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--li2);
+  border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.14);max-height:60vh;overflow:auto;padding:.2rem;margin:0;
+  list-style:none;display:none;z-index:50;min-width:18rem}
+.res.on{display:block}
+.res li a{display:block;padding:.3rem .45rem;border-radius:6px;text-decoration:none;color:var(--fg);font-size:.86rem}
+.res li a:hover,.res li.sel a{background:var(--acc2)}
+.res .sub{color:var(--mut);font-size:.76rem;font-family:var(--sans)}
+.res .vide{padding:.4rem .5rem;color:var(--mut);font-size:.84rem}
+
+main{padding:1.4rem 0 4rem}
+h1{font-size:1.75rem;line-height:1.24;margin:.2rem 0 .3rem}
+h2{font-size:1.06rem;font-family:var(--sans);font-weight:600;letter-spacing:.01em;margin:0}
+h3{font-size:.95rem;font-family:var(--sans);margin:1.2rem 0 .3rem}
+p{margin:.55rem 0}
+.ptag{font-family:var(--sans);font-size:.74rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .5rem}
+
+/* ---- métadonnées de fiche ---- */
+.meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;font-family:var(--sans);font-size:.75rem;color:var(--mut);margin:.4rem 0 1.1rem}
+.pill{border:1px solid var(--li2);border-radius:99px;padding:.06rem .5rem;background:var(--card);white-space:nowrap}
+.pill.ajout{color:var(--ajo);border-color:var(--ajo);background:var(--ajo2)}
+.pill.typ{background:var(--acc2);border-color:var(--acc)}
+.sym{font-family:var(--serif);font-size:1rem;color:var(--fg)}
+
+/* ---- sections ---- */
+.sec{border-top:1px solid var(--li);padding:.85rem 0}
+.sec.vide{display:none}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.45rem;padding:.1rem 0}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"›";color:var(--fai);font-family:var(--sans);display:inline-block;
+  transition:transform .12s ease;transform:rotate(0deg);width:.7em}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fai);font-weight:400}
+.corps{padding-top:.25rem}
+.gen{border-left:2px solid var(--li2);padding-left:.7rem}
+.chemin{border-left:3px solid var(--acc);background:var(--bg2);border-radius:0 var(--r) var(--r) 0;
+  padding:.5rem .8rem;margin:.2rem 0 .7rem}
+.chemin p{margin:.35rem 0;font-size:.95rem}
+.chemin p:first-child{margin-top:0}
+.chemin p:last-child{margin-bottom:0}
+.note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
+.parc{border:1px solid var(--li);border-left:3px solid var(--acc);border-radius:0 var(--r) var(--r) 0;
+  background:var(--bg2);padding:.5rem .8rem;margin:.6rem 0;font-size:.93rem}
+.parc-t{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin-bottom:.15rem}
+.parc p{margin:.2rem 0}
+.parc-h{border-left:2px solid var(--li);padding:.1rem 0 .1rem .6rem;margin:.3rem 0 .45rem;color:var(--mut)}
+.parc-h strong{color:var(--fg)}
+.parc-l{font-family:var(--sans);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--acc);margin-right:.25rem}
+.parc-lien{margin-top:.35rem;font-size:.92em}
+.parc-suite{border-left:2px solid var(--acc);padding:.1rem 0 .1rem .6rem;margin:.35rem 0;color:var(--fg);background:var(--acc2)}
+.parc-nav{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--sans);font-size:.8rem;margin-top:.35rem}
+.parc-nav .suiv{margin-left:auto;text-align:right}
+.etapes{list-style:none;padding:0;margin:.6rem 0 1.2rem;counter-reset:e}
+.etapes>li{counter-increment:e;position:relative;padding:0 0 1rem 1.7rem;border-left:2px solid var(--li);margin-left:.9rem}
+.etapes>li:last-child{border-left-color:transparent}
+.etapes>li::before{content:counter(e);position:absolute;left:-.95rem;top:0;width:1.75rem;height:1.75rem;
+  border-radius:99px;background:var(--card);border:1px solid var(--acc);color:var(--acc);
+  font-family:var(--sans);font-size:.78rem;display:flex;align-items:center;justify-content:center}
+.etapes>li>p{margin:.1rem 0 .35rem}
+.etapes .arr{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.45rem .75rem}
+.etapes .arr a.tit{font-weight:600;text-decoration:none}
+.etapes .arr p{margin:.15rem 0;font-size:.88rem;color:var(--mut)}
+.avant{list-style:none;padding:0;margin:.4rem 0 1rem}
+.avant>li{margin:.5rem 0}
+.avant>li p{margin:.1rem 0 0;font-size:.95rem}
+.avant a.tit{font-weight:600;text-decoration:none}
+.roles{list-style:none;padding:0;margin:.2rem 0 0}
+.roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
+.roles>li.cible{background:var(--acc2)}
+details.parc>summary{cursor:pointer}
+.sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
+.sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
+.sec.faute>summary h2{color:var(--faute)}
+.faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
+  margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.faute-b strong{color:var(--faute)}
+.sec.lim>summary h2{color:var(--lim)}
+.sec.lim>h2{color:var(--lim)}
+
+/* ---- marqueurs de traçabilité ---- */
+.marq{font-family:var(--sans);font-size:.7rem;color:var(--fai);white-space:nowrap;vertical-align:.12em}
+.marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
+.marqligne{margin:.15rem 0 0}
+html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
+.bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
+  color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
+
+/* ---- pastilles ---- */
+.pasts{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0;padding:0;list-style:none}
+.past{display:inline-block;font-family:var(--sans);font-size:.82rem;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--li2);border-radius:99px;padding:.12rem .6rem}
+.past:hover{border-color:var(--acc);color:var(--acc)}
+.past .cc{color:var(--fai);font-size:.74rem}
+.past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
+.past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
+.past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
+
+/* ---- socle ---- */
+.socle{list-style:none;padding:0;margin:.3rem 0}
+.socle li{display:flex;gap:.5rem;align-items:baseline;padding:.12rem 0;font-size:.92rem}
+.socle input{margin:0;accent-color:var(--ok)}
+.socle li.su a{color:var(--fai);text-decoration:line-through}
+.compteur{font-family:var(--sans);font-size:.78rem;color:var(--mut)}
+.grp{margin:.5rem 0}
+.grp>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--mut)}
+
+table{border-collapse:collapse;margin:.5rem 0;font-size:.9rem;display:block;overflow-x:auto;max-width:100%}
+th,td{border:1px solid var(--li);padding:.25rem .55rem;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-family:var(--sans);font-size:.78rem;font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+  background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
+ul{padding-left:1.1rem}
+hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
+
+/* ---- cartes d'accueil / carte du cours ---- */
+.cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
+.carte{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.65rem .8rem}
+.carte h3{margin:0 0 .2rem}
+.carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
+.carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
+.dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.vise{animation:vise 1.6s ease}
+@keyframes vise{from{background:var(--acc2)}to{background:transparent}}
+
+/* ---- orientation : ce qui s'adresse au lecteur qui arrive ---- */
+.entree{border:1px solid var(--li2);border-left:3px solid var(--acc);border-radius:var(--r);
+  padding:.7rem .9rem;margin:.8rem 0 1.4rem;background:var(--card)}
+.entree p{margin:.3rem 0;font-size:.92rem}
+.entree .quoi{font-size:1.02rem}
+.entree ul{margin:.5rem 0 .2rem;padding-left:1.1rem;font-family:var(--sans);font-size:.88rem}
+.entree li{margin:.2rem 0}
+.chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
+.chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
+.aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
+/* L'en-tête est collant : une ancre visée ne doit pas passer dessous. Mesuré :
+   il fait 48 px sur une ligne, 85 px quand il se replie en deux (écran étroit). */
+[id]{scroll-margin-top:6rem}
+.aide p,.aide ul,.aide table{max-width:42rem}
+.dette ul{margin:.3rem 0 0}
+footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
+
+/* ---- arbre ---- */
+.barre{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+#scene{position:relative;border:1px solid var(--li);border-radius:var(--r);background:var(--bg2);
+  height:min(74vh,720px);overflow:hidden;touch-action:none;cursor:grab}
+#scene.drag{cursor:grabbing}
+#pan{position:absolute;transform-origin:0 0;top:0;left:0}
+#aretes{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+#aretes path{fill:none;stroke:var(--li2);stroke-width:1.5}
+.noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
+  padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
+.noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
+.noeud .nm{font-weight:600}
+.noeud .nm a{text-decoration:none;color:var(--fg)}
+.noeud .nm a:hover{color:var(--acc)}
+.noeud .pa{color:var(--mut);font-size:.72rem;display:block;margin-top:.1rem}
+.noeud .pli{font:inherit;font-size:.72rem;background:none;border:1px solid var(--li2);border-radius:4px;
+  color:var(--mut);cursor:pointer;padding:0 .3rem;margin-right:.25rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.4rem}
+  .rech{flex:1 1 100%;order:9}
+  #scene{height:66vh}
+}
+@media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="brand" href="../index.html">notions</a><span class="fil">rapport d’ingestion › 2026-09-26-pfo</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><article class="rapport"><h1>Rapport — pfo — 2026-09-26</h1><p>Session sans matériau nouveau : les histoires des parcours de pfo écrites selon
+SPEC-MODELE §8.5 et A18.</p><h2>Matériau traité</h2><p>Aucun matériau nouveau. Demande de l'utilisateur : « fais pfo maintenant ». Lecture
+conforme à LECTURE.md : validateur, <code>carte.py pfo --seul</code>, dernier rapport du cours
+(<code>2026-09-25-pfo-2.md</code>) et ceux du jour, puis les fiches des étapes de chaque parcours.</p><p>Les histoires restent dans le monde numérique du cours : l'action affichée à 99,90 et
+100,10, le prix 100 → 110 → 99 ; les deux actifs à 1 % et 2 % par jour, corrélation 0,5 ;
+le portefeuille de 1 000 000 (0,05 %, 2 %, asymétrie −0,5, excès de kurtosis 3) ; au
+chapitre 3, les deux actifs non corrélés à 6 % et 10 %, 10 % et 20 %, taux sans risque 2 %.
+La non-normalité ajoute, par une suite, la série {−2, −1, 0, 1, 2, −10} % de la fiche de
+l'asymétrie. Aucun point de départ n'a été changé.</p><p>Chiffres recalculés par script : VWAP 100,25 ; $\ln 1{,}1=9{,}53\,\%$, $\ln(99/110)=-10{,}54\,\%$,
+$\tfrac12(\ln1{,}1+\ln0{,}9)=-0{,}50\,\%$ ; EWMA 0,000118, soit 1,086 % ; matrice
+0,0252, 0,1008, 0,0252 et corrélation 0,5 ; Frobenius 0,00424 ; $P(Z&lt;-20)=2{,}8\times10^{-89}$ ;
+série à −10 % : asymétrie −1,373 et kurtosis 3,486 (moments de population), 1,7 sans le
+krach ; Laplace 1,44 % au-delà de trois écarts types ; $JB=416{,}7$ ; quantile −3,240 %,
+VaR 32 397, CVaR 40 754, quantile corrigé −1,7217, VaR corrigée 33 935 ; moments du
+chapitre 3 : 11,18 %, 8,94 %, 0,537, portefeuille tangent 2/3–1/3, 7,33 %, 9,43 %, 0,566,
+mélange à moitié 4,67 % et 4,71 %.</p><p><strong>CVaR de Cornish-Fisher.</strong> La fiche <code>pfo/var-de-cornish-fisher</code> et le point d'arrivée
+du parcours écrivent 53 511 ; recalculé, c'est exactement la méthode du listing, que la
+fiche décrit : trapèzes sur 1 000 points entre 0,0001 et 0,05, divisés par $\alpha$
+(53 510,6). L'intégrale sur toute la queue, de 0 à $\alpha$, donne environ 53 940 : la
+grille laisse de côté la toute extrémité de la queue. La fiche est fidèle à la source, et
+n'est pas modifiée ; l'histoire reprend 53 511. Question ouverte ci-dessous.</p><h2>Inventaire ajouté (à auditer par l'utilisateur)</h2><p>Aucun élément.</p><h2>Fiches créées</h2><p>Aucune.</p><h2>Fiches modifiées</h2><p>Aucune.</p><h2>Parcours</h2><p>Aucune étape ajoutée, retirée ni déplacée ; aucune transition réécrite ; aucun point de
+départ changé ; fils scellés inchangés. Lignes ajoutées (ancien : rien) :</p><p><em><code>pfo/parcours-rendements</code></em></p><ul><li>étape 1 — « Histoire : « affichée à 99,90 à l'achat et à 100,10 à la vente » — Ces deux prix forment la fourchette : on peut vendre à 99,90 et acheter à 100,10, et l'écart de 0,20 est ce que coûte un aller-retour immédiat. [ajout] »</li><li>étape 2 — « Histoire : « Quel est son prix ? » — Un modèle veut un seul nombre. On retient le milieu de la fourchette, $(99{,}90+100{,}10)/2=100{,}00$. [ajout] »</li><li>étape 3 — « Suite : Un fonds achète 400 titres dans la journée : 300 à 100, puis 100 à 101, le prix ayant monté sous l'effet de ses propres achats. Quel prix a-t-il payé ? [ajout] »</li><li>étape 3 — « Histoire : « Quel prix a-t-il payé » — Ni 100 ni 101 : chaque exécution pèse pour son volume, $(300\times100+100\times101)/400=100{,}25$. [ajout] »</li><li>étape 4 — « Histoire : « quand ce prix passe de 100 à 110 puis à 99 » — Le cours ne modélise pas ces prix eux-mêmes, qui n'ont pas de niveau stable dans le temps, mais leurs variations d'une période à l'autre, dont la loi, elle, reste stable. [ajout] »</li><li>étape 5 — « Histoire : « de combien a-t-elle monté » — Première réponse : +10 %, puis −10 %. Mais ces pourcentages ne s'additionnent pas : sur l'ensemble, la variation n'est pas nulle, elle vaut $1{,}1\times0{,}9-1=-1\,\%$. [ajout] »</li><li>étape 6 — « Histoire : « Les deux questions ont plusieurs réponses » — Seconde réponse : $\ln(110/100)\approx+9{,}53\,\%$, puis $\ln(99/110)\approx-10{,}54\,\%$. Leur somme, $-1{,}01\,\%$, est exactement le rendement logarithmique sur l'ensemble, $\ln(99/100)$. [ajout] »</li><li>étape 7 — « Suite : Un portefeuille place la moitié de son capital dans cette action, qui fait +10 % sur la première période, et l'autre moitié dans une action qui fait −10 %. Quel est son rendement ? [ajout] »</li><li>étape 7 — « Histoire : « Quel est son rendement » — Arithmétiquement, $\tfrac12\times10\,\%+\tfrac12\times(-10\,\%)=0$ : le portefeuille n'a ni gagné ni perdu. La moyenne des rendements logarithmiques donne pourtant $-0{,}50\,\%$ : ils s'additionnent entre dates, pas entre actifs. [ajout] »</li></ul><p><em><code>pfo/parcours-nettoyage</code></em></p><ul><li>étape 1 — « Histoire : « Le tableau a des trous les jours fériés de chaque place » — Un jour férié au Japon, le Nikkei n'a pas de prix alors que le Bitcoin en a un. On recopie le dernier prix connu : [100, NaN, NaN, 105] devient [100, 100, 100, 105], comme si le marché fermé n'avait pas bougé. [ajout] »</li><li>étape 2 — « Histoire : « des sauts qui ne sont pas des mouvements de marché mais des erreurs » — Pour dire qu'un saut est anormal, on le mesure en écarts types : un rendement de −4 % pour un actif de moyenne nulle et d'écart type 1 % est à 4 écarts types de sa moyenne, ce qui arrive rarement. [ajout] »</li><li>étape 3 — « Suite : Le Bitcoin varie bien plus que le CAC 40, et chacun s'agite plus en crise qu'en temps calme. Un même seuil peut-il juger toutes les périodes ? [ajout] »</li><li>étape 3 — « Histoire : « Un même seuil peut-il juger toutes les périodes » — Oui, si la moyenne et l'écart type sont recalculés sur les vingt derniers rendements, et tout rendement dont le score dépasse 3 en valeur absolue remplacé par 0. Un −4 % dans une fenêtre d'écart type 1 % est effacé ; le même −4 % dans une fenêtre agitée, d'écart type 2 %, est gardé. [ajout] »</li><li>étape 4 — « Histoire : « Tout modèle construit dessus en héritera » — La chaîne du cours télécharge les prix, comble les trous, calcule les rendements logarithmiques, puis filtre les sauts. L'ordre compte : combler avant de calculer, sinon chaque jour férié coupe la série ; filtrer après, parce que le filtre regarde les rendements et non les prix. [ajout] »</li></ul><p><em><code>pfo/parcours-volatilite</code></em></p><ul><li>étape 1 — « Histoire : « combien ils bougent » — Ce 1 % par jour n'est qu'une moyenne sur la période : l'actif varie moins en temps calme, bien plus en crise, et les journées agitées se suivent. Un seul nombre fixe ne décrit pas cette alternance. [ajout] »</li><li>étape 2 — « Suite : Hier, le premier actif a fait 2 %, deux fois son écart type habituel. Que faut-il croire de sa volatilité aujourd'hui ? [ajout] »</li><li>étape 2 — « Histoire : « Que faut-il croire de sa volatilité aujourd'hui » — L'EWMA mélange la variance de la veille et le carré du dernier rendement : avec $\lambda=0{,}94$, $0{,}94\times0{,}0001+0{,}06\times0{,}02^2=0{,}000118$, soit une volatilité d'environ 1,09 %. Elle monte, sans oublier le passé. [ajout] »</li><li>étape 3 — « Histoire : « un actif varie de 1 % par jour, un autre de 2 % » — Pour les deux actifs ensemble, on range les variances et la covariance dans une matrice. Annualisée par 252 : $0{,}01^2\times252=0{,}0252$ et $0{,}02^2\times252=0{,}1008$ sur la diagonale, $0{,}5\times0{,}01\times0{,}02\times252=0{,}0252$ hors de la diagonale. [ajout] »</li><li>étape 4 — « Histoire : « s'ils bougent ensemble » — Le terme croisé, 0,0252, ne se lit pas seul : il grandit avec l'agitation de chaque actif. Divisé par le produit des écarts types, $0{,}0252/\sqrt{0{,}0252\times0{,}1008}=0{,}5$, il redonne la corrélation, comparable d'un couple d'actifs à l'autre. [ajout] »</li><li>étape 5 — « Histoire : « l'autre entre les places » — Si le premier actif cote à Tokyo et le second à Paris, une nouvelle tombée l'après-midi à Paris ne touche Tokyo que le lendemain. Calculée jour par jour, la corrélation mesurée tombe sous sa vraie valeur ; des rendements hebdomadaires la mesurent mieux. [ajout] »</li><li>étape 6 — « Suite : Estimée sur des rendements journaliers puis hebdomadaires, la matrice des deux actifs change : ses termes diagonaux diffèrent de 0,001 et de −0,003, et son terme croisé de 0,002. De combien les deux estimations diffèrent-elles, en un seul nombre ? [ajout] »</li><li>étape 6 — « Histoire : « en un seul nombre » — On additionne les carrés de tous les écarts, le terme croisé comptant deux fois puisqu'il figure deux fois dans la matrice, et l'on prend la racine : $\sqrt{0{,}001^2+0{,}003^2+2\times0{,}002^2}\approx0{,}0042$. [ajout] »</li></ul><p><em><code>pfo/parcours-non-normalite</code></em></p><ul><li>étape 1 — « Histoire : « qui n'aurait jamais dû arriver » — Sous une loi normale, une baisse de plus de vingt écarts types a une probabilité de l'ordre de $10^{-89}$ ; elle est pourtant arrivée. Le cours en fait un principe : les rendements réels ne sont pas gaussiens, et un modèle qui le suppose sous-estime les pertes extrêmes. [ajout] »</li><li>étape 2 — « Histoire : « Le 19 octobre 1987 » — Ce krach n'est pas isolé : les rendements réels ont des pertes extrêmes trop fréquentes, des baisses plus violentes que les hausses, des périodes agitées qui se suivent. Mandelbrot et Fama ont dressé la liste de ces régularités, que la loi normale ne reproduit pas. [ajout] »</li><li>étape 3 — « Suite : Prenons une petite série de rendements : −2 %, −1 %, 0 %, 1 %, 2 %, et un jour de krach à −10 %. Sa moyenne et son écart type suffisent-ils à dire ce que ce krach a d'anormal ? [ajout] »</li><li>étape 3 — « Histoire : « suffisent-ils à dire ce que ce krach a d'anormal » — Non : ils disent où se trouve la série et combien elle s'étale, pas sa forme. Les moyennes des puissances 3 et 4 de l'écart réduit, $\big((r-\mu)/\sigma\big)^k$, regardent précisément les écarts lointains ; elles vaudraient 0 et 3 pour une loi normale. [ajout] »</li><li>étape 4 — « Histoire : « un jour de krach à −10 % » — Élevé au cube, l'écart réduit garde son signe : le −10 %, très loin sous la moyenne, pèse lourd et négatif. La série a un coefficient d'asymétrie de −1,37 ; sans ce jour, elle est symétrique et le coefficient est nul. [ajout] »</li><li>étape 5 — « Histoire : « Prenons une petite série de rendements » — À la puissance quatre, le signe s'efface et les écarts lointains dominent : la kurtosis de la série vaut environ 3,49, au-dessus des 3 d'une loi normale. Sans le jour de krach, elle ne vaudrait que 1,7. [ajout] »</li><li>étape 6 — « Histoire : « le Dow Jones perd 22,6 % » — Les krachs sont des baisses, pas des hausses : la queue des pertes est plus longue que celle des gains. Sur la petite série, cela se lit au signe du coefficient d'asymétrie, −1,37. [ajout] »</li><li>étape 7 — « Histoire : « un écart de plus de vingt écarts types » — Les écarts lointains arrivent bien plus souvent que la loi normale ne le dit : une loi de Laplace de même variance dépasse trois écarts types avec une probabilité de 1,4 %, contre 0,27 % pour la loi normale. C'est ce que la kurtosis mesure. [ajout] »</li><li>étape 8 — « Suite : Six rendements, c'est peu. Une asymétrie de −1,37 peut-elle venir du seul hasard, même si la loi était normale ? [ajout] »</li><li>étape 8 — « Histoire : « peut-elle venir du seul hasard » — On calcule la probabilité, si la loi était normale, d'obtenir un écart au moins aussi grand : c'est la p-valeur. Sous 5 %, on rejette la normalité ; au-dessus, on ne peut pas conclure. [ajout] »</li><li>étape 9 — « Histoire : « même si la loi était normale » — L'hypothèse éprouvée est précise, $H_0:X\sim\mathcal{N}(\mu,\sigma^2)$. Le test ne prouve jamais qu'elle est vraie ; il dit seulement si les données permettent de la rejeter. [ajout] »</li><li>étape 10 — « Suite : Sur 1 000 rendements réels, on mesure une asymétrie de −0,5 et un excès de kurtosis de 3. La normalité tient-elle ? [ajout] »</li><li>étape 10 — « Histoire : « La normalité tient-elle » — Jarque-Bera combine les deux écarts : $JB=\tfrac{1000}{6}\big(0{,}25+\tfrac94\big)\approx416{,}7$, très au-delà du seuil de 5,99 qui correspond au niveau de 5 %. La normalité est rejetée. [ajout] »</li><li>étape 11 — « Suite : Sur un autre échantillon, Jarque-Bera donne une p-valeur de 0,20. Faut-il en conclure que la loi est normale ? [ajout] »</li><li>étape 11 — « Histoire : « Faut-il en conclure que la loi est normale » — Non : Shapiro-Wilk, qui compare l'échantillon trié aux positions qu'y occuperaient les observations d'une loi normale, peut rejeter là où Jarque-Bera ne voit rien, par exemple avec une p-valeur de 0,03 sur le même échantillon. [ajout] »</li></ul><p><em><code>pfo/parcours-risque</code></em></p><ul><li>étape 1 — « Histoire : « Combien peut-il perdre en une mauvaise journée » — Une « mauvaise journée » doit se chiffrer : une des 5 % pires, par exemple. Le rendement qui sépare ces 5 % du reste est un quantile ; pour des rendements normaux de moyenne 0,05 % et d'écart type 2 %, il vaut $0{,}05\,\%-1{,}6449\times2\,\%\approx-3{,}24\,\%$. [ajout] »</li><li>étape 2 — « Histoire : « Un portefeuille de 1 000 000 » — Rapporté au capital, ce quantile devient une perte : si ses rendements étaient normaux, le portefeuille ne perdrait plus de $0{,}0324\times1\,000\,000\approx32\,397$ qu'une journée sur vingt. C'est sa VaR à 95 % sur un jour. [ajout] »</li><li>étape 3 — « Suite : Et les jours où la perte dépasse ce seuil, combien perd-il en moyenne ? [ajout] »</li><li>étape 3 — « Histoire : « combien perd-il en moyenne » — C'est la CVaR, la perte moyenne sur les 5 % de jours les pires. Si les rendements étaient normaux, elle vaudrait 40 754, bien au-delà des 32 397 du seuil. [ajout] »</li><li>étape 4 — « Histoire : « avec une asymétrie de −0,5 et un excès de kurtosis de 3 » — Ces deux chiffres disent que la loi n'est pas normale : les montants précédents dépendent de l'hypothèse faite sur elle. Le cours compare trois hypothèses : aucune, la loi normale, et une loi normale corrigée. [ajout] »</li><li>étape 5 — « Suite : Sur ses 1 000 derniers jours, le 5e centile des rendements du portefeuille vaut −3,2 %, et les rendements qui lui sont inférieurs valent en moyenne −4,5 %. Que disent-ils, sans aucune hypothèse sur la loi ? [ajout] »</li><li>étape 5 — « Histoire : « Que disent-ils, sans aucune hypothèse sur la loi » — Lus tels quels, ils donnent une VaR de 32 000 et une CVaR de 45 000. Aucune hypothèse, mais le passé seul : un krach absent de ces mille jours n'y compte pas. [ajout] »</li><li>étape 6 — « Histoire : « de moyenne 0,05 % et d'écart type 2 % » — Deuxième hypothèse : ne garder que ces deux nombres et supposer la loi normale. On retrouve la VaR de 32 397 et la CVaR de 40 754 ; mais l'asymétrie et la kurtosis du portefeuille disent que cette hypothèse est fausse. [ajout] »</li><li>étape 7 — « Histoire : « une asymétrie de −0,5 » — Le quantile gaussien, $-1{,}645$, se corrige avec les deux moments du portefeuille : l'asymétrie négative et les queues épaisses le poussent vers les pertes, à $-1{,}722$. [ajout] »</li><li>étape 8 — « Histoire : « un excès de kurtosis de 3 » — Avec le quantile corrigé, la VaR passe de 32 397 à 33 935. La CVaR, qui moyenne toute la queue, bouge bien davantage, de 40 754 à 53 511, parce que la kurtosis pèse surtout loin du seuil. [ajout] »</li></ul><p><em><code>pfo/parcours-portefeuille</code></em></p><ul><li>étape 1 — « Histoire : « hésite entre deux actifs » — Pris seul, le second rapporte plus et le premier risque moins ; au-delà des 2 % sans risque, chacun rapporte d'ailleurs 0,40 par unité de volatilité. La question n'est pas lequel choisir, mais ce que chacun apporte au mélange. [ajout] »</li><li>étape 2 — « Histoire : « ils ne sont pas corrélés » — À parts égales, le mélange rapporte $\tfrac12\times6+\tfrac12\times10=8\,\%$, et sa volatilité vaut $\sqrt{0{,}25\times0{,}01+0{,}25\times0{,}04}\approx11{,}18\,\%$ : moins que la moyenne des deux, 15 %, parce que les actifs ne bougent pas ensemble. [ajout] »</li><li>étape 3 — « Suite : Ces chiffres annuels, l'investisseur ne les observe pas : ses données sont des rendements journaliers, par exemple de moyenne 0,04 % et d'écart type 1 %. Comment les porter à l'année ? [ajout] »</li><li>étape 3 — « Histoire : « Comment les porter à l'année » — La moyenne et la variance se multiplient par les 252 séances de l'année, l'écart type par leur racine : $252\times0{,}04\,\%=10{,}08\,\%$ et $1\,\%\times\sqrt{252}\approx15{,}87\,\%$ par an. [ajout] »</li><li>étape 4 — « Histoire : « Combien mettre dans chacun » — Chaque répartition se note désormais par son rendement et sa volatilité. Choisir revient à résoudre un problème : trouver les poids, positifs et de somme 1, qui arbitrent au mieux entre les deux. [ajout] »</li><li>étape 5 — « Histoire : « l'un rapporte 6 % par an avec une volatilité de 10 % » — Pour chaque rendement visé, on cherche la répartition la moins risquée. La moins risquée de toutes place 80 % dans ce premier actif : 6,8 % de rendement pour 8,94 % de volatilité, moins que chacun des deux. Les autres cibles tracent une courbe à partir de ce point. [ajout] »</li><li>étape 6 — « Histoire : « Un placement sans risque rapporte 2 % » — Au-delà de ces 2 %, chaque actif rapporte 0,40 par unité de volatilité, $(6-2)/10$ et $(10-2)/20$. Le mélange à parts égales atteint $(8-2)/11{,}18\approx0{,}54$ : il paie mieux le risque que chacun des deux. [ajout] »</li><li>étape 7 — « Histoire : « Combien mettre dans chacun » — Le mélange qui paie le mieux le risque place deux tiers dans le premier actif et un tiers dans le second : 7,33 % de rendement, 9,43 % de volatilité, un ratio de 0,566. C'est le point où la droite partie des 2 % touche la courbe. [ajout] »</li><li>étape 8 — « Histoire : « et faut-il garder une part sans risque » — Oui, s'il veut moins de risque que ce portefeuille : il le dose avec le placement sans risque, le long d'une droite de pente 0,566. Moitié chacun donne 4,67 % de rendement pour 4,71 % de volatilité. [ajout] »</li><li>étape 9 — « Suite : L'investisseur élargit son choix à des dizaines d'actifs, avec une borne sur chaque poids. Comment l'ordinateur trouve-t-il alors la meilleure répartition ? [ajout] »</li><li>étape 9 — « Histoire : « Comment l'ordinateur trouve-t-il alors la meilleure répartition » — Il part d'une répartition, remplace le problème par une version quadratique aux contraintes linéarisées, avance dans la direction qu'elle indique, et recommence. Pour minimiser $(x-3)^2$ avec $x\ge0$ depuis 0, un seul pas mène au minimum. [ajout] »</li></ul><h2>Validateur, générateur, tests</h2><p>Inchangés.</p><h2>Dette</h2><p>« étape sans lien à l'histoire » : 76 étapes, toutes dans dss (121 au début de la
+session ; pfo n'en a plus).</p><p><strong>Avertissements</strong> : <code>fpp/feynman-kac</code>, dépendance redondante vers
+<code>fpp/mesure-risque-neutre</code> (A8) ; sept copies de synchronisation à supprimer par
+l'utilisateur (<code>courses/dup/parcours/* 2.md</code>).</p><p><strong>Abstractions en attente</strong> — pfo : portefeuille de variance minimale globale ;
+estimateur de volatilité ; mesure de risque. dss : fonction d'activation ; indicateur de
+matrice de confusion. dup : dominance stochastique ; mesure de risque.</p><h2>Contradictions source</h2><p>Aucune nouvelle.</p><h2>Questions pour l'utilisateur</h2><p>1. <strong>Étendre aux autres cours</strong> : seul dss reste en dette A18.
+   <em>Recommandation : le faire à la prochaine session, dans le monde des 20 clients.</em>
+2. En fin de parcours, le rappel accumule le départ et toutes les suites : sur
+   <code>dup/parcours-comparer</code>, six suites à la dernière étape. *Recommandation : le garder
+   ainsi ; replier les suites antérieures si l'utilisateur le trouve encombrant.*
+3. dss — étendre le monde des 20 clients aux exemples des autres parcours (rétrécir,
+   arbres) ? Recommandation : oui pour « Garder toutes les variables, mais les
+   contraindre ».
+4. Les autres fiches de dss sans exemple : les compléter parcours par parcours.
+   Recommandation : oui.
+5. pfo — garder les arêtes vers dup (<code>depend_de: [fpp, dup]</code>) ? Recommandation : oui.
+6. pfo — une fiche à part pour le portefeuille de variance minimale globale ?
+   Recommandation : non tant qu'aucun chapitre ne le développe.
+7. pfo — calculer les parties A et B de l'exercice 3 sur données réelles ?
+8. fpp — corriger la note de collision de $l$ et la section « Contradiction » de
+   <code>fpp/ex-16</code> (le spread est fini en $l=1$) ? Recommandation : oui.
+9. fpp — le domaine de $l$ dans l'exercice 16 : à demander à l'enseignant.
+10. fpp — la convention $X_t$ : garder la collision déclarée.
+11. dss — les trois emplois de $\lambda$ : à demander à l'enseignant.
+12. dss — des fiches pour l'arbre de décision, la régression logistique, le SVM ? Attendre
+    un support.
+13. dup — un relevé des symboles LaTeX du corps absents du registre (avertissement), dans
+    une session dédiée au validateur.
+14. dup — <code>dup/maxmin-eu</code> reste la plus longue fiche du dépôt.
+15. dup — la forme paramétrique de la courbe de la figure de pondération est un choix,
+    non un énoncé : laisser ainsi.
+16. pfo — contradictions de la source à confirmer auprès de l'enseignant : chapitre 2
+    (signe de l'éq. 2.25, α « niveau de confiance » Déf. 2.5.1, $F$ normale p. 34,
+    kurtosis p. 23, $K=3$ Table 2.1, légende Fig. 2.2) et chapitre 3 (légende Fig. 3.1,
+    $R_t$ logarithmique au §3.0.7, $W^T\mu$ sur rendements logarithmiques, vérification
+    de l'exercice 2).</p><p>17. <strong>dup — faute probable dans l'exemple de <code>dup/statique-comparative-risque-accru</code></strong> :
+    avec $U(x,a)=\ln(1+ax)$ et $x$ uniforme sur $\{40,60\}$, $U_a=x/(1+ax)&gt;0$ partout ;
+    la condition du premier ordre $\int U_a\,dF=0$ n'a pas de solution, et le $a$
+    optimal n'existe pas. Le lien du parcours ne s'appuie donc pas sur cet exemple.
+    *Recommandation : le remplacer par un paiement qui peut être négatif (un rendement en
+    excès), après accord ; l'exemple est un <code>[ajout]</code>, la source n'est pas en cause.*
+18. <strong>pfo — CVaR de Cornish-Fisher</strong> : garder 53 511, valeur du listing (grille tronquée à
+    0,0001), ou écrire aussi la valeur de l'intégrale complète, environ 53 940, dans
+    « Cesse d'être valide quand » ? *Recommandation : ajouter une phrase à cette rubrique,
+    qui dise que le chiffre dépend de la borne basse de la grille.*</p><h2>Validation</h2><p><code>263 notions · 0 erreur(s) · 15 avertissement(s)</code> (7 A18 pour dss, 7 copies de
+synchronisation, <code>fpp/feynman-kac</code>) ; garde-fous : tous se déclenchent ; site
+reconstruit ; les 45 fiches-étapes de pfo affichent « Dans l'histoire » ; bandeau vérifié
+dans le HTML de <code>pfo/portefeuille-tangent</code> (le navigateur intégré n'a pas ouvert le fichier).</p></article></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../aide.html">comment lire ce site</a> · <a href="../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../search-index.js"></script>
+<script>
+var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+        s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- l'état qui traverse les pages ----------------------------------------
+   Voir le commentaire de l'en-tête : en file://, seul le fragment traverse.
+   Forme du fragment :  #t:d~a:0~p:1-0--1...~s:<tampon>.<bits>~v:<ancre>
+     t  thème      d | l            (absent : celui du système)
+     a  ajouts     0                (absent : montrés)
+     p  pliage     un caractère par clé de CLES_PLI : 1 ouvert, 0 fermé, - inconnu
+     s  déjà su    un bit par notion, six bits par caractère, précédé d'un tampon
+     v  ancre      l'élément vers lequel défiler à l'arrivée
+   Le tampon est calculé sur la liste des identifiants : dès qu'une notion entre dans
+   le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
+   cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
+var ETAT=(function(){
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='90d4',
+    A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
+var pli={},su={};
+if(typeof H.p==='string'){
+  for(var i=0;i<CLES.length&&i<H.p.length;i++){var c=H.p.charAt(i);
+    if(c==='0'||c==='1')pli[CLES[i]]=(c==='1');}
+}else{
+  CLES.forEach(function(k){var v=LS.g('notions.pli.'+k,null);if(v!==null)pli[k]=(v==='1')});
+}
+function decode(t){var o={},q=t.indexOf('.');
+  if(q<0||t.slice(0,q)!==TAMPON)return o;
+  var b=t.slice(q+1);
+  for(var i=0;i<b.length;i++){var v=A64.indexOf(b.charAt(i));if(v<0)continue;
+    for(var j=0;j<6;j++){if(v&(1<<j)){var k=i*6+j;if(k<IDS.length)o[IDS[k]]=1}}}
+  return o;}
+function encode(){var o='';
+  for(var i=0;i<IDS.length;i+=6){var v=0;
+    for(var j=0;j<6;j++){if(su[IDS[i+j]])v|=1<<j}
+    o+=A64.charAt(v);}
+  return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
+if(typeof H.s==='string'){su=decode(H.s)}
+else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
+function frag(ancre,noeud){var p=[];
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t)p.push('t:'+(t==='dark'?'d':'l'));
+  if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
+  var q='';CLES.forEach(function(k){q+=(pli[k]===undefined?'-':(pli[k]?'1':'0'))});
+  if(/[01]/.test(q))p.push('p:'+q);
+  var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
+  if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
+  return p.length?'#'+p.join('~'):'';}
+function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
+function propager(){var f=frag();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';if(!interne(h))return;
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
+  /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
+     Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
+  try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
+  try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}}
+return{pli:function(k){return pli[k]===undefined?null:pli[k]},
+       setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
+       su:function(id){return !!su[id]},
+       setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
+       lien:function(u,v,n){return u+frag(v,n)},
+       ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
+       propager:propager};
+})();
+function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
+  var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
+  b.textContent=on?'masquer les ajouts':'ajouts masqués';}
+  document.querySelectorAll('.sec').forEach(function(s){
+    var c=s.querySelector('.corps');if(!c)return;var n=0;
+    c.querySelectorAll(':scope>*').forEach(function(el){
+      if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
+      if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
+      n++;});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='Cette rubrique existe, mais tout son contenu est un ajout : le filtre le masque. Elle reste visible pour que vous ne concluiez pas qu’elle est vide.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
+  if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var bt=document.getElementById('btheme');
+  if(bt)bt.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    var nx=(cur||sys)==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);
+    ETAT.propager();});
+  var ba=document.getElementById('bajout');
+  if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);ETAT.propager();});
+  majAjouts(!document.documentElement.classList.contains('sans-ajouts'));
+  /* les liens de la page portent l'état ; une ancre demandée est ouverte et visée */
+  ETAT.propager();
+  var an=ETAT.ancre();
+  if(an){var el=document.getElementById(an);
+    if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView();el.classList.add('vise')}}
+  /* --- recherche instantanée (règle 9) --- */
+  var inp=document.getElementById('q'),res=document.getElementById('qres');
+  if(!inp||!res||!window.SEARCH_INDEX)return;
+  var REL=document.documentElement.getAttribute('data-rel')||'';
+  var sel=-1,items=[];
+  function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+  function cherche(q){
+    var n=norm(q);if(!n)return [];
+    var out=[];
+    SEARCH_INDEX.forEach(function(e){
+      var sc=-1,ch=e.h||[];
+      for(var i=0;i<ch.length;i++){var p=norm(ch[i]).indexOf(n);
+        if(p===0){sc=Math.max(sc,3-(i>0?1:0))}else if(p>0){sc=Math.max(sc,1)}}
+      if(sc>=0)out.push([sc,e]);});
+    out.sort(function(a,b){return b[0]-a[0]||a[1].n.localeCompare(b[1].n)});
+    return out.slice(0,9).map(function(x){return x[1]});}
+  function rendre(){
+    items=cherche(inp.value);sel=-1;res.innerHTML='';
+    if(!inp.value){res.classList.remove('on');return}
+    if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
+    items.forEach(function(e,i){
+      var li=document.createElement('li');
+      var a=document.createElement('a');a.href=ETAT.lien(REL+e.u);a.id='qr'+i;
+      a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
+      li.appendChild(a);res.appendChild(li);});
+    res.classList.add('on');}
+  function bouge(d){if(!items.length)return;sel=(sel+d+items.length)%items.length;
+    Array.prototype.forEach.call(res.children,function(li,i){li.classList.toggle('sel',i===sel)});
+    inp.setAttribute('aria-activedescendant','qr'+sel);}
+  inp.addEventListener('input',rendre);
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();bouge(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();bouge(-1)}
+    else if(e.key==='Enter'){var a=res.querySelector(sel>=0?'li.sel a':'li a');if(a){e.preventDefault();location.href=a.href}}
+    else if(e.key==='Escape'){inp.value='';res.classList.remove('on')}});
+  document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
+  document.addEventListener('keydown',function(e){
+    if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
+});
+</script>
+</body>
+</html>
