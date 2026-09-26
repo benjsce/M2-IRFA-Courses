@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en" data-rel="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Conjugate gradient · notions</title>
+<script>
+/* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
+   localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
+   cases « déjà su » ne peuvent donc pas traverser les pages par là. Ils voyagent dans
+   le fragment de l'URL, que tous les liens internes portent ; localStorage ne sert plus
+   que de mémoire locale, pour la page qu'on rouvre sans fragment.
+   Ce script s'exécute avant le rendu : sinon le thème clignote à chaque page. */
+(function(){
+var H={},h=(location.hash||'').replace(/^#/,'');
+h.split('~').forEach(function(p){var i=p.indexOf(':');if(i>0)H[p.slice(0,i)]=p.slice(i+1)});
+window.ETAT_URL=H;
+function loc(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+var t=H.t?(H.t==='d'?'dark':'light'):loc('notions.theme','');
+if(t)document.documentElement.setAttribute('data-theme',t);
+var a=(H.a!==undefined)?H.a:loc('notions.ajouts','1');
+if(a==='0')document.documentElement.classList.add('sans-ajouts');
+})();
+</script>
+<style>
+:root{
+  --bg:#fbfaf7; --bg2:#f3f0ea; --fg:#1b1a17; --mut:#6c675d; --fai:#8e887c;
+  --li:#e0dbd1; --li2:#cdc6b8; --card:#ffffff; --acc:#8a4f23; --acc2:#f3e7dc;
+  --ajo:#6d5a8c; --ajo2:#efe9f5; --lim:#9a3a2e; --ok:#3f6b46; --faute:#a8631a;
+  --r:8px; --w:min(72rem,100%);
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}}
+:root[data-theme="dark"]{
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}
+.fig{margin:.9rem 0;padding:.5rem .2rem .2rem;text-align:center}
+/* « > svg » et non « svg » : MathJax pose son propre <svg> dans la légende, et
+   une règle non ancrée en faisait un bloc qui coupait la phrase en trois. */
+.fig > svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig figcaption{margin-top:.35rem;font-family:var(--sans);font-size:.82rem;
+  color:var(--mut);text-align:center;line-height:1.45}
+@media print{.fig{break-inside:avoid}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
+  font-size:17px;line-height:1.62;overflow-wrap:break-word}
+a{color:var(--acc);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-style:dotted}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+.wrap{width:var(--w);margin:0 auto;padding:0 1rem}
+
+/* ---- barre du haut ---- */
+header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
+  border-bottom:1px solid var(--li);font-family:var(--sans)}
+.topin{width:var(--w);margin:0 auto;padding:.45rem 1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.brand{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--fg);letter-spacing:.02em}
+.fil{color:var(--mut);font-size:.82rem;flex:1 1 8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fil a{color:var(--mut)}
+.btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
+  border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+a.btn{text-decoration:none}
+.btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
+.rech{position:relative;flex:0 1 16rem;min-width:9rem}
+.rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
+  border:1px solid var(--li2);border-radius:var(--r);background:var(--card);color:var(--fg)}
+.res{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--li2);
+  border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.14);max-height:60vh;overflow:auto;padding:.2rem;margin:0;
+  list-style:none;display:none;z-index:50;min-width:18rem}
+.res.on{display:block}
+.res li a{display:block;padding:.3rem .45rem;border-radius:6px;text-decoration:none;color:var(--fg);font-size:.86rem}
+.res li a:hover,.res li.sel a{background:var(--acc2)}
+.res .sub{color:var(--mut);font-size:.76rem;font-family:var(--sans)}
+.res .vide{padding:.4rem .5rem;color:var(--mut);font-size:.84rem}
+
+main{padding:1.4rem 0 4rem}
+h1{font-size:1.75rem;line-height:1.24;margin:.2rem 0 .3rem}
+h2{font-size:1.06rem;font-family:var(--sans);font-weight:600;letter-spacing:.01em;margin:0}
+h3{font-size:.95rem;font-family:var(--sans);margin:1.2rem 0 .3rem}
+p{margin:.55rem 0}
+.ptag{font-family:var(--sans);font-size:.74rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .5rem}
+
+/* ---- métadonnées de fiche ---- */
+.meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;font-family:var(--sans);font-size:.75rem;color:var(--mut);margin:.4rem 0 1.1rem}
+.pill{border:1px solid var(--li2);border-radius:99px;padding:.06rem .5rem;background:var(--card);white-space:nowrap}
+.pill.ajout{color:var(--ajo);border-color:var(--ajo);background:var(--ajo2)}
+.pill.typ{background:var(--acc2);border-color:var(--acc)}
+.sym{font-family:var(--serif);font-size:1rem;color:var(--fg)}
+
+/* ---- sections ---- */
+.sec{border-top:1px solid var(--li);padding:.85rem 0}
+.sec.vide{display:none}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.45rem;padding:.1rem 0}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"›";color:var(--fai);font-family:var(--sans);display:inline-block;
+  transition:transform .12s ease;transform:rotate(0deg);width:.7em}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fai);font-weight:400}
+.corps{padding-top:.25rem}
+.gen{border-left:2px solid var(--li2);padding-left:.7rem}
+.chemin{border-left:3px solid var(--acc);background:var(--bg2);border-radius:0 var(--r) var(--r) 0;
+  padding:.5rem .8rem;margin:.2rem 0 .7rem}
+.chemin p{margin:.35rem 0;font-size:.95rem}
+.chemin p:first-child{margin-top:0}
+.chemin p:last-child{margin-bottom:0}
+.note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
+.parc{border:1px solid var(--li);border-left:3px solid var(--acc);border-radius:0 var(--r) var(--r) 0;
+  background:var(--bg2);padding:.5rem .8rem;margin:.6rem 0;font-size:.93rem}
+.parc-t{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin-bottom:.15rem}
+.parc p{margin:.2rem 0}
+.parc-h{border-left:2px solid var(--li);padding:.1rem 0 .1rem .6rem;margin:.3rem 0 .45rem;color:var(--mut)}
+.parc-h strong{color:var(--fg)}
+.parc-l{font-family:var(--sans);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--acc);margin-right:.25rem}
+.parc-lien{margin-top:.35rem;font-size:.92em}
+.parc-suite{border-left:2px solid var(--acc);padding:.1rem 0 .1rem .6rem;margin:.35rem 0;color:var(--fg);background:var(--acc2)}
+.parc-nav{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--sans);font-size:.8rem;margin-top:.35rem}
+.parc-nav .suiv{margin-left:auto;text-align:right}
+.etapes{list-style:none;padding:0;margin:.6rem 0 1.2rem;counter-reset:e}
+.etapes>li{counter-increment:e;position:relative;padding:0 0 1rem 1.7rem;border-left:2px solid var(--li);margin-left:.9rem}
+.etapes>li:last-child{border-left-color:transparent}
+.etapes>li::before{content:counter(e);position:absolute;left:-.95rem;top:0;width:1.75rem;height:1.75rem;
+  border-radius:99px;background:var(--card);border:1px solid var(--acc);color:var(--acc);
+  font-family:var(--sans);font-size:.78rem;display:flex;align-items:center;justify-content:center}
+.etapes>li>p{margin:.1rem 0 .35rem}
+.etapes .arr{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.45rem .75rem}
+.etapes .arr a.tit{font-weight:600;text-decoration:none}
+.etapes .arr p{margin:.15rem 0;font-size:.88rem;color:var(--mut)}
+.avant{list-style:none;padding:0;margin:.4rem 0 1rem}
+.avant>li{margin:.5rem 0}
+.avant>li p{margin:.1rem 0 0;font-size:.95rem}
+.avant a.tit{font-weight:600;text-decoration:none}
+.roles{list-style:none;padding:0;margin:.2rem 0 0}
+.roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
+.roles>li.cible{background:var(--acc2)}
+details.parc>summary{cursor:pointer}
+.sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
+.sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
+.sec.faute>summary h2{color:var(--faute)}
+.faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
+  margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.faute-b strong{color:var(--faute)}
+.sec.lim>summary h2{color:var(--lim)}
+.sec.lim>h2{color:var(--lim)}
+
+/* ---- marqueurs de traçabilité ---- */
+.marq{font-family:var(--sans);font-size:.7rem;color:var(--fai);white-space:nowrap;vertical-align:.12em}
+.marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
+.marqligne{margin:.15rem 0 0}
+html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
+.bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
+  color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
+
+/* ---- pastilles ---- */
+.pasts{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0;padding:0;list-style:none}
+.past{display:inline-block;font-family:var(--sans);font-size:.82rem;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--li2);border-radius:99px;padding:.12rem .6rem}
+.past:hover{border-color:var(--acc);color:var(--acc)}
+.past .cc{color:var(--fai);font-size:.74rem}
+.past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
+.past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
+.past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
+
+/* ---- socle ---- */
+.socle{list-style:none;padding:0;margin:.3rem 0}
+.socle li{display:flex;gap:.5rem;align-items:baseline;padding:.12rem 0;font-size:.92rem}
+.socle input{margin:0;accent-color:var(--ok)}
+.socle li.su a{color:var(--fai);text-decoration:line-through}
+.compteur{font-family:var(--sans);font-size:.78rem;color:var(--mut)}
+.grp{margin:.5rem 0}
+.grp>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--mut)}
+
+table{border-collapse:collapse;margin:.5rem 0;font-size:.9rem;display:block;overflow-x:auto;max-width:100%}
+th,td{border:1px solid var(--li);padding:.25rem .55rem;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-family:var(--sans);font-size:.78rem;font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+  background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
+ul{padding-left:1.1rem}
+hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
+
+/* ---- cartes d'accueil / carte du cours ---- */
+.cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
+.carte{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.65rem .8rem}
+.carte h3{margin:0 0 .2rem}
+.carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
+.carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
+.dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.vise{animation:vise 1.6s ease}
+@keyframes vise{from{background:var(--acc2)}to{background:transparent}}
+
+/* ---- orientation : ce qui s'adresse au lecteur qui arrive ---- */
+.entree{border:1px solid var(--li2);border-left:3px solid var(--acc);border-radius:var(--r);
+  padding:.7rem .9rem;margin:.8rem 0 1.4rem;background:var(--card)}
+.entree p{margin:.3rem 0;font-size:.92rem}
+.entree .quoi{font-size:1.02rem}
+.entree ul{margin:.5rem 0 .2rem;padding-left:1.1rem;font-family:var(--sans);font-size:.88rem}
+.entree li{margin:.2rem 0}
+.chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
+.chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
+.aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
+/* L'en-tête est collant : une ancre visée ne doit pas passer dessous. Mesuré :
+   il fait 48 px sur une ligne, 85 px quand il se replie en deux (écran étroit). */
+[id]{scroll-margin-top:6rem}
+.aide p,.aide ul,.aide table{max-width:42rem}
+.dette ul{margin:.3rem 0 0}
+footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
+
+/* ---- arbre ---- */
+.barre{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+.barre.plier{justify-content:flex-end;margin:.2rem 0 -.2rem}
+#scene{position:relative;border:1px solid var(--li);border-radius:var(--r);background:var(--bg2);
+  height:min(74vh,720px);overflow:hidden;touch-action:none;cursor:grab}
+#scene.drag{cursor:grabbing}
+#pan{position:absolute;transform-origin:0 0;top:0;left:0}
+#aretes{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+#aretes path{fill:none;stroke:var(--li2);stroke-width:1.5}
+.noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
+  padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
+.noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
+.noeud .nm{font-weight:600}
+.noeud .nm a{text-decoration:none;color:var(--fg)}
+.noeud .nm a:hover{color:var(--acc)}
+.noeud .pa{color:var(--mut);font-size:.72rem;display:block;margin-top:.1rem}
+.noeud .pli{font:inherit;font-size:.72rem;background:none;border:1px solid var(--li2);border-radius:4px;
+  color:var(--mut);cursor:pointer;padding:0 .3rem;margin-right:.25rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.4rem}
+  .rech{flex:1 1 100%;order:9}
+  #scene{height:66vh}
+}
+@media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="brand" href="../../index.html">notions</a><span class="fil"><a href="../../ods/index.html">Optimization for Data Science</a> › Conjugate gradient</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><h1>Conjugate gradient</h1><div class="meta"><span class="pill sym">$g^k$, $d^k$, $\alpha_k$, $\beta_k$</span><a class="pill typ" href="../../aide.html" data-v="types" title="an object of the course, the one you work with">notion</a><a class="pill" href="../../ods/index.html">ods</a><a class="pill" href="../../aide.html" data-v="niveau" title="reading order: the number of notions to go through, on the longest path, to reach this one. Level 0 = depends on no other.">level 6</a><a class="pill" href="../../ods/arbre.html" data-noeud="ods/conjugate-gradient" title="this notion is not filed under any family">course tree</a><span class="pill">slide 14</span><span class="pill">slide 16</span><span class="pill">slide 17</span><span class="pill">slide 31</span></div><p class="note">also: CG, conjugate gradient method, scipy.sparse.linalg.cg</p><div class="parc"><div class="parc-t"><a href="../../aide.html" data-v="parcours">Reading path</a> <a href="../../ods/parcours/conjugate-gradient.html#e1">“A solver that only multiplies”</a> · step 1 of 8</div><div class="parc-h"><p>The ridge system of the large problem has a million unknowns; its matrix is never formed, but each product with a vector costs about 4 million operations. On the four observations, the same system is $2\times2$: $A=\begin{pmatrix}4&amp;1\\1&amp;3\end{pmatrix}$ and $b=(1,2)$. <strong>How few products does it take</strong> to solve it? <span class="marq" title="reference to the source">[slide 13, ajout]</span></p></div><p class="is-ajout"><span class="parc-l">In the story</span> One per iteration. From $x^0=0$, the gradient is $g^0=Ax^0-b=(-1,-2)$, the best step along it is $\beta_0=\tfrac14$, and $x^1=(\tfrac14,\tfrac12)$; then $\alpha_1=\tfrac1{16}$, $\beta_1=\tfrac4{11}$ and $x^2=(\tfrac1{11},\tfrac7{11})$ — the solution, after two products. <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></p><p>Which method asks for nothing but products with the matrix, and keeps almost nothing in memory? <span class="marq" title="reference to the source">[slide 14]</span></p><div class="parc-nav"><span class="prec">start of the reading path</span><a class="suiv" href="../../ods/n/conjugate-directions.html">Conjugate directions →</a></div></div><div class="barre plier"><button class="btn" type="button" id="tout-plier">expand all</button></div><section class="sec " data-oblig="1"><h2>What it is</h2><div class="corps"><p>An iterative solver for $Ax=b$ with $A\succ0$ that asks for one product with $A$ per iteration and keeps a single previous direction in memory. <span class="marq" title="reference to the source">[slide 14]</span></p></div></section><section class="sec " data-oblig="1"><h2>Formula</h2><div class="corps"><p>$$g^k=Ax^k-b,\quad d^k=g^k+\alpha_kd^{k-1},\quad\alpha_k=-\frac{\langle g^k,Ad^{k-1}\rangle}{\langle Ad^{k-1},d^{k-1}\rangle},\quad\beta_k=\frac{\langle g^k,d^k\rangle}{\langle Ad^k,d^k\rangle},\quad x^{k+1}=x^k-\beta_kd^k$$ <span class="marq" title="reference to the source">[slide 16, slide 17]</span></p></div></section><section class="sec "><h2>What the symbols model</h2><div class="corps"><p>$g^k$ is the gradient of $q(x)=\tfrac12x^\top Ax-b^\top x$ at the current point $x^k$, which is also the residual of the system. $d^k$ is the search direction: the gradient, corrected by a multiple of the previous direction. $\alpha_k$ is that multiple, the direction coefficient; it is $0$ at the first iteration. $\beta_k$ is the step size, the one that minimizes $q$ along $d^k$. Beware that Nocedal and Wright use $\alpha_k$ for the step and $\beta_k$ for the coefficient, the opposite of these slides. <span class="marq" title="reference to the source">[slide 16, slide 27]</span></p></div></section><details class="sec " data-k="retrouver"><summary><h2>Rederive the formula</h2></summary><div class="corps"><figure class="fig is-ajout"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470 470" width="100%" height="auto" role="img" style="color:var(--fg);max-width:470px;height:auto"><title>Conjugate gradient lands on the minimizer at step two; gradient descent only approaches it</title><path d="M209.29 10 L209.29 460 M10 421.43 L460 421.43" fill="none" stroke="var(--mut)" stroke-width="1.2"/><path d="M365.74 138.25 L369.94 145.26 L373.94 152.39 L377.73 159.62 L381.3 166.93 L384.66 174.32 L387.79 181.78 L390.69 189.29 L393.35 196.84 L395.77 204.43 L397.96 212.03 L399.89 219.64 L401.58 227.25 L403.02 234.84 L404.2 242.4 L405.13 249.93 L405.8 257.4 L406.21 264.81 L406.37 272.14 L406.26 279.4 L405.9 286.55 L405.28 293.6 L404.4 300.53 L403.26 307.33 L401.87 313.99 L400.23 320.5 L398.34 326.85 L396.21 333.03 L393.83 339.03 L391.21 344.85 L388.35 350.47 L385.27 355.88 L381.96 361.07 L378.42 366.05 L374.68 370.79 L370.72 375.3 L366.55 379.56 L362.19 383.57 L357.64 387.33 L352.91 390.82 L348 394.04 L342.92 396.99 L337.68 399.67 L332.28 402.06 L326.75 404.16 L321.07 405.98 L315.27 407.51 L309.35 408.74 L303.32 409.67 L297.19 410.31 L290.97 410.65 L284.67 410.69 L278.3 410.43 L271.87 409.88 L265.38 409.02 L258.86 407.87 L252.3 406.43 L245.72 404.69 L239.13 402.67 L232.54 400.35 L225.96 397.76 L219.4 394.88 L212.87 391.73 L206.37 388.32 L199.93 384.63 L193.54 380.69 L187.23 376.5 L180.99 372.06 L174.85 367.38 L168.8 362.47 L162.86 357.33 L157.03 351.98 L151.33 346.42 L145.77 340.66 L140.35 334.7 L135.08 328.57 L129.97 322.26 L125.02 315.8 L120.25 309.18 L115.67 302.41 L111.27 295.52 L107.07 288.5 L103.07 281.38 L99.28 274.15 L95.71 266.84 L92.36 259.45 L89.23 251.99 L86.33 244.48 L83.66 236.92 L81.24 229.34 L79.06 221.74 L77.12 214.13 L75.43 206.52 L73.99 198.93 L72.81 191.36 L71.88 183.84 L71.21 176.37 L70.8 168.96 L70.65 161.62 L70.75 154.37 L71.12 147.22 L71.74 140.17 L72.62 133.24 L73.75 126.44 L75.14 119.78 L76.78 113.27 L78.67 106.92 L80.81 100.73 L83.19 94.73 L85.8 88.92 L88.66 83.3 L91.74 77.89 L95.06 72.69 L98.59 67.72 L102.34 62.97 L106.3 58.47 L110.46 54.2 L114.82 50.19 L119.37 46.44 L124.1 42.95 L129.02 39.72 L134.09 36.77 L139.34 34.1 L144.73 31.71 L150.27 29.6 L155.94 27.79 L161.74 26.26 L167.66 25.03 L173.69 24.09 L179.82 23.46 L186.04 23.12 L192.34 23.07 L198.71 23.33 L205.15 23.89 L211.63 24.74 L218.16 25.89 L224.71 27.34 L231.29 29.07 L237.88 31.1 L244.47 33.41 L251.05 36.01 L257.62 38.88 L264.15 42.03 L270.64 45.45 L277.08 49.13 L283.47 53.07 L289.78 57.27 L296.02 61.71 L302.17 66.39 L308.21 71.3 L314.16 76.44 L319.98 81.79 L325.68 87.35 L331.24 93.11 L336.67 99.06 L341.94 105.2 L347.05 111.5 L351.99 117.97 L356.76 124.59 L361.34 131.35 L365.74 138.25" fill="none" stroke="var(--li2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M337.06 155.97 L340.32 161.41 L343.41 166.93 L346.35 172.52 L349.12 178.19 L351.71 183.91 L354.14 189.69 L356.38 195.51 L358.45 201.36 L360.33 207.23 L362.02 213.12 L363.52 219.02 L364.82 224.91 L365.94 230.79 L366.85 236.65 L367.57 242.48 L368.09 248.27 L368.41 254.01 L368.53 259.69 L368.45 265.31 L368.17 270.85 L367.69 276.31 L367 281.67 L366.13 286.94 L365.05 292.1 L363.78 297.14 L362.32 302.06 L360.66 306.85 L358.82 311.5 L356.79 316.01 L354.58 320.36 L352.19 324.55 L349.62 328.57 L346.89 332.43 L343.98 336.1 L340.92 339.59 L337.69 342.89 L334.31 346 L330.79 348.91 L327.12 351.61 L323.32 354.11 L319.38 356.4 L315.32 358.47 L311.15 360.32 L306.86 361.95 L302.46 363.36 L297.97 364.54 L293.38 365.49 L288.71 366.22 L283.96 366.71 L279.15 366.98 L274.27 367.01 L269.33 366.81 L264.35 366.38 L259.33 365.72 L254.27 364.82 L249.19 363.71 L244.1 362.36 L238.99 360.79 L233.89 359 L228.79 356.99 L223.7 354.76 L218.64 352.32 L213.62 349.67 L208.62 346.82 L203.68 343.77 L198.79 340.52 L193.96 337.08 L189.2 333.46 L184.51 329.65 L179.91 325.67 L175.4 321.53 L170.98 317.22 L166.67 312.76 L162.47 308.15 L158.39 303.4 L154.43 298.51 L150.6 293.5 L146.91 288.37 L143.36 283.13 L139.95 277.79 L136.7 272.36 L133.6 266.84 L130.67 261.24 L127.9 255.58 L125.3 249.85 L122.87 244.08 L120.63 238.26 L118.57 232.41 L116.69 226.53 L115 220.64 L113.5 214.75 L112.19 208.85 L111.08 202.98 L110.16 197.12 L109.44 191.29 L108.92 185.5 L108.6 179.76 L108.48 174.08 L108.56 168.46 L108.85 162.92 L109.33 157.46 L110.01 152.09 L110.89 146.83 L111.96 141.67 L113.23 136.62 L114.7 131.7 L116.35 126.91 L118.2 122.26 L120.22 117.76 L122.43 113.41 L124.82 109.22 L127.39 105.19 L130.13 101.34 L133.03 97.67 L136.1 94.17 L139.32 90.87 L142.7 87.77 L146.22 84.86 L149.89 82.15 L153.69 79.65 L157.63 77.37 L161.69 75.3 L165.87 73.45 L170.16 71.82 L174.55 70.41 L179.05 69.23 L183.63 68.27 L188.3 67.55 L193.05 67.05 L197.87 66.79 L202.75 66.76 L207.68 66.96 L212.67 67.39 L217.69 68.05 L222.74 68.94 L227.82 70.06 L232.92 71.41 L238.02 72.98 L243.13 74.77 L248.23 76.78 L253.31 79 L258.37 81.44 L263.4 84.09 L268.39 86.94 L273.33 90 L278.23 93.25 L283.06 96.69 L287.82 100.31 L292.5 104.12 L297.1 108.09 L301.62 112.24 L306.03 116.55 L310.34 121.01 L314.54 125.62 L318.62 130.37 L322.58 135.25 L326.41 140.26 L330.1 145.39 L333.66 150.63 L337.06 155.97" fill="none" stroke="var(--li2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M295.41 181.72 L297.29 184.85 L299.07 188.04 L300.77 191.27 L302.37 194.54 L303.87 197.85 L305.27 201.18 L306.56 204.54 L307.75 207.92 L308.84 211.31 L309.81 214.71 L310.68 218.12 L311.44 221.52 L312.08 224.91 L312.61 228.3 L313.02 231.66 L313.32 235 L313.51 238.32 L313.58 241.6 L313.53 244.84 L313.37 248.04 L313.09 251.19 L312.7 254.29 L312.19 257.33 L311.57 260.31 L310.83 263.22 L309.99 266.06 L309.03 268.83 L307.97 271.51 L306.8 274.11 L305.52 276.62 L304.14 279.04 L302.66 281.37 L301.08 283.59 L299.4 285.71 L297.63 287.73 L295.77 289.64 L293.82 291.43 L291.79 293.11 L289.67 294.67 L287.47 296.11 L285.2 297.43 L282.86 298.63 L280.45 299.7 L277.97 300.64 L275.43 301.45 L272.84 302.13 L270.19 302.68 L267.49 303.1 L264.75 303.39 L261.97 303.54 L259.15 303.56 L256.3 303.44 L253.43 303.19 L250.53 302.81 L247.61 302.3 L244.68 301.65 L241.73 300.87 L238.79 299.97 L235.84 298.93 L232.9 297.77 L229.96 296.49 L227.04 295.08 L224.14 293.55 L221.25 291.9 L218.4 290.14 L215.57 288.26 L212.79 286.28 L210.04 284.19 L207.33 281.99 L204.68 279.69 L202.07 277.3 L199.52 274.81 L197.03 272.24 L194.61 269.57 L192.25 266.83 L189.97 264.01 L187.75 261.12 L185.62 258.16 L183.57 255.13 L181.61 252.05 L179.73 248.91 L177.94 245.73 L176.24 242.49 L174.65 239.22 L173.15 235.92 L171.75 232.58 L170.45 229.22 L169.26 225.85 L168.17 222.45 L167.2 219.05 L166.33 215.65 L165.58 212.25 L164.93 208.85 L164.41 205.47 L163.99 202.11 L163.69 198.76 L163.51 195.45 L163.44 192.17 L163.48 188.93 L163.65 185.73 L163.92 182.57 L164.32 179.48 L164.83 176.44 L165.45 173.46 L166.18 170.54 L167.03 167.7 L167.98 164.94 L169.04 162.26 L170.22 159.66 L171.49 157.14 L172.87 154.72 L174.35 152.4 L175.93 150.17 L177.61 148.05 L179.38 146.04 L181.24 144.13 L183.19 142.34 L185.23 140.66 L187.34 139.1 L189.54 137.65 L191.81 136.33 L194.16 135.14 L196.57 134.07 L199.04 133.13 L201.58 132.32 L204.18 131.63 L206.82 131.08 L209.52 130.66 L212.26 130.38 L215.04 130.23 L217.86 130.21 L220.71 130.32 L223.59 130.57 L226.49 130.95 L229.41 131.47 L232.34 132.12 L235.28 132.89 L238.23 133.8 L241.17 134.83 L244.12 135.99 L247.05 137.28 L249.97 138.69 L252.88 140.22 L255.76 141.86 L258.61 143.63 L261.44 145.5 L264.23 147.49 L266.98 149.58 L269.68 151.78 L272.34 154.07 L274.94 156.47 L277.49 158.95 L279.98 161.53 L282.4 164.19 L284.76 166.94 L287.05 169.76 L289.26 172.65 L291.39 175.61 L293.44 178.63 L295.41 181.72" fill="none" stroke="var(--li2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M263.95 201.16 L264.79 202.56 L265.59 203.98 L266.35 205.43 L267.07 206.89 L267.74 208.37 L268.36 209.86 L268.94 211.36 L269.48 212.87 L269.96 214.39 L270.4 215.91 L270.78 217.43 L271.12 218.96 L271.41 220.47 L271.65 221.99 L271.83 223.49 L271.97 224.99 L272.05 226.47 L272.08 227.94 L272.06 229.39 L271.98 230.82 L271.86 232.23 L271.68 233.61 L271.46 234.97 L271.18 236.3 L270.85 237.61 L270.47 238.88 L270.05 240.11 L269.57 241.31 L269.05 242.48 L268.48 243.6 L267.86 244.68 L267.2 245.72 L266.49 246.72 L265.74 247.66 L264.95 248.57 L264.12 249.42 L263.24 250.22 L262.33 250.97 L261.39 251.67 L260.4 252.32 L259.39 252.91 L258.34 253.44 L257.26 253.92 L256.15 254.34 L255.02 254.7 L253.86 255.01 L252.68 255.25 L251.47 255.44 L250.24 255.57 L249 255.64 L247.74 255.64 L246.47 255.59 L245.18 255.48 L243.88 255.31 L242.58 255.08 L241.27 254.79 L239.95 254.45 L238.63 254.04 L237.31 253.58 L236 253.06 L234.68 252.48 L233.38 251.85 L232.08 251.17 L230.79 250.43 L229.51 249.64 L228.25 248.81 L227 247.92 L225.77 246.98 L224.56 246 L223.38 244.97 L222.21 243.9 L221.07 242.79 L219.96 241.64 L218.87 240.45 L217.82 239.22 L216.8 237.96 L215.81 236.67 L214.86 235.34 L213.94 233.99 L213.06 232.61 L212.22 231.21 L211.42 229.78 L210.66 228.34 L209.95 226.87 L209.28 225.4 L208.65 223.9 L208.07 222.4 L207.54 220.89 L207.05 219.37 L206.62 217.85 L206.23 216.33 L205.89 214.81 L205.6 213.29 L205.37 211.78 L205.18 210.27 L205.05 208.78 L204.97 207.3 L204.93 205.83 L204.96 204.38 L205.03 202.95 L205.15 201.54 L205.33 200.15 L205.56 198.79 L205.83 197.46 L206.16 196.16 L206.54 194.89 L206.97 193.65 L207.44 192.45 L207.97 191.29 L208.54 190.17 L209.15 189.08 L209.82 188.05 L210.52 187.05 L211.27 186.1 L212.06 185.2 L212.9 184.35 L213.77 183.55 L214.68 182.79 L215.63 182.1 L216.61 181.45 L217.62 180.86 L218.67 180.33 L219.75 179.85 L220.86 179.43 L221.99 179.06 L223.15 178.76 L224.34 178.51 L225.54 178.33 L226.77 178.2 L228.01 178.13 L229.27 178.12 L230.55 178.17 L231.83 178.28 L233.13 178.45 L234.44 178.68 L235.75 178.97 L237.06 179.32 L238.38 179.73 L239.7 180.19 L241.02 180.71 L242.33 181.28 L243.63 181.91 L244.93 182.6 L246.22 183.33 L247.5 184.12 L248.76 184.96 L250.01 185.85 L251.24 186.78 L252.45 187.77 L253.64 188.79 L254.8 189.86 L255.94 190.98 L257.05 192.13 L258.14 193.32 L259.19 194.55 L260.21 195.81 L261.2 197.1 L262.16 198.42 L263.07 199.78 L263.95 201.16" fill="none" stroke="var(--li2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M209.29 421.43 L278.89 282.22 L258.06 248.52 L247.97 232.2 L243.09 224.3 L240.73 220.47 L239.58 218.62" fill="none" stroke="var(--ajo)" stroke-width="1.6" stroke-dasharray="5 3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="278.89" cy="282.22" r="2.6" fill="var(--ajo)"/><circle cx="258.06" cy="248.52" r="2.6" fill="var(--ajo)"/><circle cx="247.97" cy="232.2" r="2.6" fill="var(--ajo)"/><circle cx="243.09" cy="224.3" r="2.6" fill="var(--ajo)"/><circle cx="240.73" cy="220.47" r="2.6" fill="var(--ajo)"/><circle cx="239.58" cy="218.62" r="2.6" fill="var(--ajo)"/><path d="M209.29 421.43 L289.64 260.71 L238.51 216.88" fill="none" stroke="var(--acc)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="209.29" cy="421.43" r="4" fill="var(--acc)"/><circle cx="289.64" cy="260.71" r="4" fill="var(--acc)"/><circle cx="238.51" cy="216.88" r="4" fill="var(--acc)"/><circle cx="238.51" cy="216.88" r="4.5" fill="var(--fg)"/><defs><filter id="fond-etiquette" x="-0.03" y="-0.12" width="1.06" height="1.24"><feFlood style="flood-color:var(--card)"/></filter></defs><text x="215.71" y="443.93" text-anchor="start" font-size="12" fill="none" filter="url(#fond-etiquette)" font-family="ui-sans-serif,system-ui,sans-serif">w⁰ = 0</text><text x="215.71" y="443.93" text-anchor="start" font-size="12" fill="var(--fg)" font-family="ui-sans-serif,system-ui,sans-serif">w⁰ = 0</text><text x="299.29" y="267.14" text-anchor="start" font-size="12" fill="none" filter="url(#fond-etiquette)" font-family="ui-sans-serif,system-ui,sans-serif">w¹ = (1/4, 1/2)</text><text x="299.29" y="267.14" text-anchor="start" font-size="12" fill="var(--acc)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">w¹ = (1/4, 1/2)</text><text x="228.86" y="200.81" text-anchor="end" font-size="12" fill="none" filter="url(#fond-etiquette)" font-family="ui-sans-serif,system-ui,sans-serif">w² = w* = (1/11, 7/11)</text><text x="228.86" y="200.81" text-anchor="end" font-size="12" fill="var(--acc)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">w² = w* = (1/11, 7/11)</text><text x="22.86" y="42.14" text-anchor="start" font-size="12.5" fill="var(--acc)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">conjugate gradient: 2 steps</text><text x="22.86" y="67.86" text-anchor="start" font-size="12.5" fill="var(--ajo)" font-family="ui-sans-serif,system-ui,sans-serif">gradient descent, step 1/L: 6 steps, not there yet</text></svg><figcaption>The level lines of q for the matrix A with rows (4, 1) and (1, 3), and b = (1, 2). From w⁰ = 0, conjugate gradient goes to w¹ = (1/4, 1/2), then lands exactly on the minimizer w² = (1/11, 7/11). Gradient descent with step 1/L, from the same start, only approaches it in six steps. <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></figcaption></figure><p>Known: products with $A=\begin{pmatrix}4&amp;1\\1&amp;3\end{pmatrix}$, the system of the four observations with $\lambda=1$, and $b=(1,2)$. Sought: $x^\star$. The wish of the slides: at each iteration, take the best step among all the gradients seen so far. <span class="marq" title="reference to the source">[slide 14, ajout]</span></p><p>First iteration, from $x^0=0$: $g^0=-b=(-1,-2)$ and $d^0=g^0$. One product, $Ad^0=(-6,-7)$. The best step along $d^0$ minimizes $q(x^0-\beta d^0)$, a parabola in $\beta$: $\beta_0=\langle g^0,d^0\rangle/\langle Ad^0,d^0\rangle=5/20=\tfrac14$. So $x^1=(\tfrac14,\tfrac12)$ and $g^1=g^0-\beta_0Ad^0=(\tfrac12,-\tfrac14)$. <span class="marq" title="reference to the source">[slide 17, ajout]</span></p><p>Second iteration. Going along $g^1$ alone would undo part of the first step; the correction $\alpha_1=-\langle g^1,Ad^0\rangle/\langle Ad^0,d^0\rangle=\tfrac1{16}$ makes the new direction $d^1=g^1+\tfrac1{16}d^0=(\tfrac7{16},-\tfrac38)$ conjugate to $d^0$. Then $\beta_1=\tfrac4{11}$ and $x^2=(\tfrac1{11},\tfrac7{11})$: the minimizer, in two iterations. <span class="marq" title="reference to the source">[slide 16, ajout]</span></p><p>$$d^k=g^k+\alpha_kd^{k-1},\qquad x^{k+1}=x^k-\beta_kd^k$$ <span class="marq" title="reference to the source">[slide 16, slide 17]</span></p></div></details><section class="sec " data-oblig="1"><h2>What defines it</h2><div class="corps"><p>Minimizing over all the gathered gradients naively would require storing them and solving a least-squares problem of growing size at every iteration. Conjugate gradient does exactly that with a single vector of memory, $d^{k-1}$, and one product $q^k=Ad^k$, reused for $\beta_k$, for $g^{k+1}=g^k-\beta_kq^k$ and for $\alpha_{k+1}$: one product with $A$ and $\mathcal{O}(n)$ extra operations per iteration. <span class="marq" title="reference to the source">[slide 14, slide 17]</span></p><p>It is implemented as <code>scipy.sparse.linalg.cg</code>, and scikit-learn's <code>Ridge</code> offers it as the solver <code>'sparse_cg'</code>; notebook 4 hands it a <code>LinearOperator</code> for $X^\top X+\lambda I$. <span class="marq" title="reference to the source">[slide 31, nb. 4]</span></p></div></section><details class="sec " data-k="construite"><summary><h2>Built from</h2><span class="cnt">1 direct prerequisite</span></summary><div class="corps"><ul class="pasts"><li><a class="past" href="../../ods/n/matrix-free-product.html">Matrix-free product<span class="nv">L5</span></a></li></ul><p class="note">Only what this page depends on directly. “All prerequisites”, just below, repeats these notions and adds everything they depend on in turn.</p></div></details><details class="sec gen" data-k="socle"><summary><h2>All prerequisites</h2><span class="cnt">14 prerequisites in all</span></summary><div class="corps"><div class="chemin"><p class="is-ajout"><a href="../../ods/n/matrix-free-product.html">Matrix-free product</a> is the only thing the method asks for: a way to compute $Ax$, here $X^\top(Xw)+\lambda w$ at the cost of the non-zeros of an <a href="../../ods/n/sparse-matrix.html">Sparse matrix</a>. The system it solves comes from <a href="../../ods/n/quadratic-form.html">Quadratic form</a>: minimizing $q$ and solving $Ax=b$ are the same task. <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></p><p class="is-ajout">That equivalence rests on <a href="../../ods/n/first-order-optimality-condition.html">First-order optimality condition</a> — from <a href="../../ods/n/first-order-characterization.html">First-order characterization of convexity</a> and <a href="../../ods/n/local-minima-are-global.html">Local minima of a convex function are global</a>, for an <a href="../../ods/n/convex-function.html">Convex function</a> whose <a href="../../ods/n/epigraph.html">Epigraph</a> is an <a href="../../ods/n/convex-set.html">Convex set</a> — and $A\succ0$ makes $q$ an <a href="../../ods/n/strongly-convex-function.html">Strongly convex function</a> with a single minimizer, which exists by <a href="../../ods/n/existence-under-coercivity.html">Existence of a minimizer for a coercive function</a>, via <a href="../../ods/n/coercive-function.html">Coercive function</a> and <a href="../../ods/n/existence-on-a-compact.html">Existence of a minimizer on a compact set</a>, as for any <a href="../../ods/n/optimization-problem.html">Optimization problem</a>. <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></p></div><p class="note">Everything you need to have read before this page, from the most elementary to the most elaborate. <strong>The list is complete</strong>: reading it is enough, none of these notions calls for another one missing here. Ticking a box strikes it out on every page. (<a href="../../aide.html" data-v="socle">learn more</a>)</p><p class="compteur" data-cpt="socle"></p><details class="grp" open><summary>level 0 (5)</summary><ul class="socle"><li><input type="checkbox" data-su="ods/coercive-function" aria-label="already known: Coercive function"><a href="../../ods/n/coercive-function.html">Coercive function</a></li><li><input type="checkbox" data-su="ods/convex-set" aria-label="already known: Convex set"><a href="../../ods/n/convex-set.html">Convex set</a></li><li><input type="checkbox" data-su="ods/epigraph" aria-label="already known: Epigraph"><a href="../../ods/n/epigraph.html">Epigraph</a></li><li><input type="checkbox" data-su="ods/optimization-problem" aria-label="already known: Optimization problem"><a href="../../ods/n/optimization-problem.html">Optimization problem</a></li><li><input type="checkbox" data-su="ods/sparse-matrix" aria-label="already known: Sparse matrix"><a href="../../ods/n/sparse-matrix.html">Sparse matrix</a></li></ul></details><details class="grp" open><summary>level 1 (2)</summary><ul class="socle"><li><input type="checkbox" data-su="ods/convex-function" aria-label="already known: Convex function"><a href="../../ods/n/convex-function.html">Convex function</a></li><li><input type="checkbox" data-su="ods/existence-on-a-compact" aria-label="already known: Existence of a minimizer on a compact set"><a href="../../ods/n/existence-on-a-compact.html">Existence of a minimizer on a compact set</a></li></ul></details><details class="grp" open><summary>level 2 (3)</summary><ul class="socle"><li><input type="checkbox" data-su="ods/existence-under-coercivity" aria-label="already known: Existence of a minimizer for a coercive function"><a href="../../ods/n/existence-under-coercivity.html">Existence of a minimizer for a coercive function</a></li><li><input type="checkbox" data-su="ods/first-order-characterization" aria-label="already known: First-order characterization of convexity"><a href="../../ods/n/first-order-characterization.html">First-order characterization of convexity</a></li><li><input type="checkbox" data-su="ods/local-minima-are-global" aria-label="already known: Local minima of a convex function are global"><a href="../../ods/n/local-minima-are-global.html">Local minima of a convex function are global</a></li></ul></details><details class="grp" open><summary>level 3 (2)</summary><ul class="socle"><li><input type="checkbox" data-su="ods/first-order-optimality-condition" aria-label="already known: First-order optimality condition"><a href="../../ods/n/first-order-optimality-condition.html">First-order optimality condition</a></li><li><input type="checkbox" data-su="ods/strongly-convex-function" aria-label="already known: Strongly convex function"><a href="../../ods/n/strongly-convex-function.html">Strongly convex function</a></li></ul></details><details class="grp" open><summary>level 4 (1)</summary><ul class="socle"><li><input type="checkbox" data-su="ods/quadratic-form" aria-label="already known: Quadratic form"><a href="../../ods/n/quadratic-form.html">Quadratic form</a></li></ul></details><details class="grp" open><summary>level 5 (1)</summary><ul class="socle"><li><input type="checkbox" data-su="ods/matrix-free-product" aria-label="already known: Matrix-free product"><a href="../../ods/n/matrix-free-product.html">Matrix-free product</a></li></ul></details></div></details><details class="sec gen" data-k="sert"><summary><h2>Used next for</h2><span class="cnt">1</span></summary><div class="corps"><p class="note">What this notion lets you tackle right after. Only the next step, not everything that follows: otherwise a notion far upstream would open half the course.</p><p class="compteur" data-cpt="aval"></p><ul class="socle"><li><input type="checkbox" data-su="ods/conjugate-directions" aria-label="already known: Conjugate directions"><a href="../../ods/n/conjugate-directions.html">Conjugate directions</a> <span class="marq">level 7</span></li></ul></div></details><details class="sec " data-k="exemple" data-oblig="1"><summary><h2>Minimal example</h2></summary><div class="corps"><p class="is-ajout">On $A=\begin{pmatrix}4&amp;1\\1&amp;3\end{pmatrix}$, $b=(1,2)$, from $0$: $x^1=(\tfrac14,\tfrac12)$, $x^2=(\tfrac1{11},\tfrac7{11})$, and $g^2=0$. <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></p></div></details><details class="sec " data-k="geste" data-oblig="1"><summary><h2>Typical computation</h2></summary><div class="corps"><p>One iteration: compute $q=Ad$ (the only product), then $\beta=\langle g,d\rangle/\langle d,q\rangle$, $x\leftarrow x-\beta d$, $g\leftarrow g-\beta q$, $\alpha=-\langle g,q\rangle/\langle d,q\rangle$, $d\leftarrow g+\alpha d$. Stop when $g=0$, or small. <span class="marq" title="reference to the source">[slide 17]</span></p></div></details><details class="sec lim" data-k="limite" data-oblig="1"><summary><h2>Stops being valid when</h2></summary><div class="corps"><p>$A$ is not positive definite: $\langle Ad,d\rangle$ can vanish or be negative, and the step is meaningless. In floating point, conjugacy is slowly lost, so the exact termination is a property of exact arithmetic. For a non-quadratic $f$, $A$ is no longer available and the formulas must be rewritten. <span class="marq" title="reference to the source">[slide 15, slide 27, ajout]</span></p></div></details></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../../aide.html">comment lire ce site</a> · <a href="../../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../../search-index.js"></script>
+<script>
+var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+        s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- l'état qui traverse les pages ----------------------------------------
+   Voir le commentaire de l'en-tête : en file://, seul le fragment traverse.
+   Forme du fragment :  #t:d~a:0~p:1-0--1...~s:<tampon>.<bits>~v:<ancre>
+     t  thème      d | l            (absent : celui du système)
+     a  ajouts     0                (absent : montrés)
+     p  pliage     un caractère par clé de CLES_PLI : 1 ouvert, 0 fermé, - inconnu
+     s  déjà su    un bit par notion, six bits par caractère, précédé d'un tampon
+     v  ancre      l'élément vers lequel défiler à l'arrivée
+   Le tampon est calculé sur la liste des identifiants : dès qu'une notion entre dans
+   le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
+   cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
+var ETAT=(function(){
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='6728',
+    A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
+var pli={},su={};
+if(typeof H.p==='string'){
+  for(var i=0;i<CLES.length&&i<H.p.length;i++){var c=H.p.charAt(i);
+    if(c==='0'||c==='1')pli[CLES[i]]=(c==='1');}
+}else{
+  CLES.forEach(function(k){var v=LS.g('notions.pli.'+k,null);if(v!==null)pli[k]=(v==='1')});
+}
+function decode(t){var o={},q=t.indexOf('.');
+  if(q<0||t.slice(0,q)!==TAMPON)return o;
+  var b=t.slice(q+1);
+  for(var i=0;i<b.length;i++){var v=A64.indexOf(b.charAt(i));if(v<0)continue;
+    for(var j=0;j<6;j++){if(v&(1<<j)){var k=i*6+j;if(k<IDS.length)o[IDS[k]]=1}}}
+  return o;}
+function encode(){var o='';
+  for(var i=0;i<IDS.length;i+=6){var v=0;
+    for(var j=0;j<6;j++){if(su[IDS[i+j]])v|=1<<j}
+    o+=A64.charAt(v);}
+  return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
+if(typeof H.s==='string'){su=decode(H.s)}
+else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
+function frag(ancre,noeud){var p=[];
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t)p.push('t:'+(t==='dark'?'d':'l'));
+  if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
+  var q='';CLES.forEach(function(k){q+=(pli[k]===undefined?'-':(pli[k]?'1':'0'))});
+  if(/[01]/.test(q))p.push('p:'+q);
+  var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
+  if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
+  return p.length?'#'+p.join('~'):'';}
+function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
+function propager(){var f=frag();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';if(!interne(h))return;
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
+  /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
+     Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
+  try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
+  try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}}
+return{pli:function(k){return pli[k]===undefined?null:pli[k]},
+       setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
+       su:function(id){return !!su[id]},
+       setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
+       lien:function(u,v,n){return u+frag(v,n)},
+       ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
+       propager:propager};
+})();
+function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
+  var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
+  b.textContent=on?'masquer les ajouts':'ajouts masqués';}
+  document.querySelectorAll('.sec').forEach(function(s){
+    var c=s.querySelector('.corps');if(!c)return;var n=0;
+    c.querySelectorAll(':scope>*').forEach(function(el){
+      if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
+      if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
+      n++;});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='This section exists, but all its content is an addition: the filter hides it. It stays visible so that you do not conclude that it is empty.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
+  if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var bt=document.getElementById('btheme');
+  if(bt)bt.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    var nx=(cur||sys)==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);
+    ETAT.propager();});
+  var ba=document.getElementById('bajout');
+  if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);ETAT.propager();});
+  majAjouts(!document.documentElement.classList.contains('sans-ajouts'));
+  /* les liens de la page portent l'état ; une ancre demandée est ouverte et visée */
+  ETAT.propager();
+  var an=ETAT.ancre();
+  if(an){var el=document.getElementById(an);
+    if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView();el.classList.add('vise')}}
+  /* --- recherche instantanée (règle 9) --- */
+  var inp=document.getElementById('q'),res=document.getElementById('qres');
+  if(!inp||!res||!window.SEARCH_INDEX)return;
+  var REL=document.documentElement.getAttribute('data-rel')||'';
+  var sel=-1,items=[];
+  function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+  function cherche(q){
+    var n=norm(q);if(!n)return [];
+    var out=[];
+    SEARCH_INDEX.forEach(function(e){
+      var sc=-1,ch=e.h||[];
+      for(var i=0;i<ch.length;i++){var p=norm(ch[i]).indexOf(n);
+        if(p===0){sc=Math.max(sc,3-(i>0?1:0))}else if(p>0){sc=Math.max(sc,1)}}
+      if(sc>=0)out.push([sc,e]);});
+    out.sort(function(a,b){return b[0]-a[0]||a[1].n.localeCompare(b[1].n)});
+    return out.slice(0,9).map(function(x){return x[1]});}
+  function rendre(){
+    items=cherche(inp.value);sel=-1;res.innerHTML='';
+    if(!inp.value){res.classList.remove('on');return}
+    if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
+    items.forEach(function(e,i){
+      var li=document.createElement('li');
+      var a=document.createElement('a');a.href=ETAT.lien(REL+e.u);a.id='qr'+i;
+      a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
+      li.appendChild(a);res.appendChild(li);});
+    res.classList.add('on');}
+  function bouge(d){if(!items.length)return;sel=(sel+d+items.length)%items.length;
+    Array.prototype.forEach.call(res.children,function(li,i){li.classList.toggle('sel',i===sel)});
+    inp.setAttribute('aria-activedescendant','qr'+sel);}
+  inp.addEventListener('input',rendre);
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();bouge(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();bouge(-1)}
+    else if(e.key==='Enter'){var a=res.querySelector(sel>=0?'li.sel a':'li a');if(a){e.preventDefault();location.href=a.href}}
+    else if(e.key==='Escape'){inp.value='';res.classList.remove('on')}});
+  document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
+  document.addEventListener('keydown',function(e){
+    if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  /* pliage mémorisé par rubrique (règle 5), et transporté d'une page à l'autre */
+  var secs=document.querySelectorAll('details.sec[data-k]'),bp=document.getElementById('tout-plier');
+  function libelle(){
+    if(!bp)return;var ferme=false;
+    secs.forEach(function(d){if(!d.open)ferme=true});
+    bp.textContent=ferme?'expand all':'collapse all';bp.setAttribute('data-v',ferme?'1':'0');}
+  secs.forEach(function(d){
+    var k=d.getAttribute('data-k'),v=ETAT.pli(k);
+    if(v!==null)d.open=v;
+    d.addEventListener('toggle',function(){ETAT.setPli(k,d.open);libelle()});});
+  /* tout à la fois : ouvrir tout s'il reste une rubrique fermée, sinon tout refermer */
+  if(bp){if(!secs.length)bp.parentNode.style.display='none';
+    libelle();
+    bp.addEventListener('click',function(){
+      var v=bp.getAttribute('data-v')==='1';
+      secs.forEach(function(d){d.open=v});libelle();});}
+  /* amont et aval : même état « déjà su », un compteur par liste (règle 7) */
+  function compte(){
+    document.querySelectorAll('.sec').forEach(function(s){
+      var cpt=s.querySelector('[data-cpt]');if(!cpt)return;
+      var l=s.querySelectorAll('input[data-su]'),k=0;
+      l.forEach(function(c){if(c.checked)k++});
+      cpt.textContent=l.length+' notion'+(l.length>1?'s':'')+', '+(l.length-k)+' left to see';});}
+  document.querySelectorAll('input[data-su]').forEach(function(c){
+    var id=c.getAttribute('data-su');c.checked=ETAT.su(id);
+    c.closest('li').classList.toggle('su',c.checked);
+    c.addEventListener('change',function(){
+      ETAT.setSu(id,c.checked);
+      document.querySelectorAll('input[data-su="'+id+'"]').forEach(function(o){
+        o.checked=c.checked;o.closest('li').classList.toggle('su',c.checked);});
+      compte();});});
+  compte();
+});
+</script>
+</body>
+</html>

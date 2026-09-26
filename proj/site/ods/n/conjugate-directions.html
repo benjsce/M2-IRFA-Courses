@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en" data-rel="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Conjugate directions · notions</title>
+<script>
+/* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
+   localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
+   cases « déjà su » ne peuvent donc pas traverser les pages par là. Ils voyagent dans
+   le fragment de l'URL, que tous les liens internes portent ; localStorage ne sert plus
+   que de mémoire locale, pour la page qu'on rouvre sans fragment.
+   Ce script s'exécute avant le rendu : sinon le thème clignote à chaque page. */
+(function(){
+var H={},h=(location.hash||'').replace(/^#/,'');
+h.split('~').forEach(function(p){var i=p.indexOf(':');if(i>0)H[p.slice(0,i)]=p.slice(i+1)});
+window.ETAT_URL=H;
+function loc(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+var t=H.t?(H.t==='d'?'dark':'light'):loc('notions.theme','');
+if(t)document.documentElement.setAttribute('data-theme',t);
+var a=(H.a!==undefined)?H.a:loc('notions.ajouts','1');
+if(a==='0')document.documentElement.classList.add('sans-ajouts');
+})();
+</script>
+<style>
+:root{
+  --bg:#fbfaf7; --bg2:#f3f0ea; --fg:#1b1a17; --mut:#6c675d; --fai:#8e887c;
+  --li:#e0dbd1; --li2:#cdc6b8; --card:#ffffff; --acc:#8a4f23; --acc2:#f3e7dc;
+  --ajo:#6d5a8c; --ajo2:#efe9f5; --lim:#9a3a2e; --ok:#3f6b46; --faute:#a8631a;
+  --r:8px; --w:min(72rem,100%);
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}}
+:root[data-theme="dark"]{
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}
+.fig{margin:.9rem 0;padding:.5rem .2rem .2rem;text-align:center}
+/* « > svg » et non « svg » : MathJax pose son propre <svg> dans la légende, et
+   une règle non ancrée en faisait un bloc qui coupait la phrase en trois. */
+.fig > svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig figcaption{margin-top:.35rem;font-family:var(--sans);font-size:.82rem;
+  color:var(--mut);text-align:center;line-height:1.45}
+@media print{.fig{break-inside:avoid}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
+  font-size:17px;line-height:1.62;overflow-wrap:break-word}
+a{color:var(--acc);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-style:dotted}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+.wrap{width:var(--w);margin:0 auto;padding:0 1rem}
+
+/* ---- barre du haut ---- */
+header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
+  border-bottom:1px solid var(--li);font-family:var(--sans)}
+.topin{width:var(--w);margin:0 auto;padding:.45rem 1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.brand{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--fg);letter-spacing:.02em}
+.fil{color:var(--mut);font-size:.82rem;flex:1 1 8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fil a{color:var(--mut)}
+.btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
+  border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+a.btn{text-decoration:none}
+.btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
+.rech{position:relative;flex:0 1 16rem;min-width:9rem}
+.rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
+  border:1px solid var(--li2);border-radius:var(--r);background:var(--card);color:var(--fg)}
+.res{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--li2);
+  border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.14);max-height:60vh;overflow:auto;padding:.2rem;margin:0;
+  list-style:none;display:none;z-index:50;min-width:18rem}
+.res.on{display:block}
+.res li a{display:block;padding:.3rem .45rem;border-radius:6px;text-decoration:none;color:var(--fg);font-size:.86rem}
+.res li a:hover,.res li.sel a{background:var(--acc2)}
+.res .sub{color:var(--mut);font-size:.76rem;font-family:var(--sans)}
+.res .vide{padding:.4rem .5rem;color:var(--mut);font-size:.84rem}
+
+main{padding:1.4rem 0 4rem}
+h1{font-size:1.75rem;line-height:1.24;margin:.2rem 0 .3rem}
+h2{font-size:1.06rem;font-family:var(--sans);font-weight:600;letter-spacing:.01em;margin:0}
+h3{font-size:.95rem;font-family:var(--sans);margin:1.2rem 0 .3rem}
+p{margin:.55rem 0}
+.ptag{font-family:var(--sans);font-size:.74rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .5rem}
+
+/* ---- métadonnées de fiche ---- */
+.meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;font-family:var(--sans);font-size:.75rem;color:var(--mut);margin:.4rem 0 1.1rem}
+.pill{border:1px solid var(--li2);border-radius:99px;padding:.06rem .5rem;background:var(--card);white-space:nowrap}
+.pill.ajout{color:var(--ajo);border-color:var(--ajo);background:var(--ajo2)}
+.pill.typ{background:var(--acc2);border-color:var(--acc)}
+.sym{font-family:var(--serif);font-size:1rem;color:var(--fg)}
+
+/* ---- sections ---- */
+.sec{border-top:1px solid var(--li);padding:.85rem 0}
+.sec.vide{display:none}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.45rem;padding:.1rem 0}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"›";color:var(--fai);font-family:var(--sans);display:inline-block;
+  transition:transform .12s ease;transform:rotate(0deg);width:.7em}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fai);font-weight:400}
+.corps{padding-top:.25rem}
+.gen{border-left:2px solid var(--li2);padding-left:.7rem}
+.chemin{border-left:3px solid var(--acc);background:var(--bg2);border-radius:0 var(--r) var(--r) 0;
+  padding:.5rem .8rem;margin:.2rem 0 .7rem}
+.chemin p{margin:.35rem 0;font-size:.95rem}
+.chemin p:first-child{margin-top:0}
+.chemin p:last-child{margin-bottom:0}
+.note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
+.parc{border:1px solid var(--li);border-left:3px solid var(--acc);border-radius:0 var(--r) var(--r) 0;
+  background:var(--bg2);padding:.5rem .8rem;margin:.6rem 0;font-size:.93rem}
+.parc-t{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin-bottom:.15rem}
+.parc p{margin:.2rem 0}
+.parc-h{border-left:2px solid var(--li);padding:.1rem 0 .1rem .6rem;margin:.3rem 0 .45rem;color:var(--mut)}
+.parc-h strong{color:var(--fg)}
+.parc-l{font-family:var(--sans);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--acc);margin-right:.25rem}
+.parc-lien{margin-top:.35rem;font-size:.92em}
+.parc-suite{border-left:2px solid var(--acc);padding:.1rem 0 .1rem .6rem;margin:.35rem 0;color:var(--fg);background:var(--acc2)}
+.parc-nav{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--sans);font-size:.8rem;margin-top:.35rem}
+.parc-nav .suiv{margin-left:auto;text-align:right}
+.etapes{list-style:none;padding:0;margin:.6rem 0 1.2rem;counter-reset:e}
+.etapes>li{counter-increment:e;position:relative;padding:0 0 1rem 1.7rem;border-left:2px solid var(--li);margin-left:.9rem}
+.etapes>li:last-child{border-left-color:transparent}
+.etapes>li::before{content:counter(e);position:absolute;left:-.95rem;top:0;width:1.75rem;height:1.75rem;
+  border-radius:99px;background:var(--card);border:1px solid var(--acc);color:var(--acc);
+  font-family:var(--sans);font-size:.78rem;display:flex;align-items:center;justify-content:center}
+.etapes>li>p{margin:.1rem 0 .35rem}
+.etapes .arr{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.45rem .75rem}
+.etapes .arr a.tit{font-weight:600;text-decoration:none}
+.etapes .arr p{margin:.15rem 0;font-size:.88rem;color:var(--mut)}
+.avant{list-style:none;padding:0;margin:.4rem 0 1rem}
+.avant>li{margin:.5rem 0}
+.avant>li p{margin:.1rem 0 0;font-size:.95rem}
+.avant a.tit{font-weight:600;text-decoration:none}
+.roles{list-style:none;padding:0;margin:.2rem 0 0}
+.roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
+.roles>li.cible{background:var(--acc2)}
+details.parc>summary{cursor:pointer}
+.sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
+.sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
+.sec.faute>summary h2{color:var(--faute)}
+.faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
+  margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.faute-b strong{color:var(--faute)}
+.sec.lim>summary h2{color:var(--lim)}
+.sec.lim>h2{color:var(--lim)}
+
+/* ---- marqueurs de traçabilité ---- */
+.marq{font-family:var(--sans);font-size:.7rem;color:var(--fai);white-space:nowrap;vertical-align:.12em}
+.marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
+.marqligne{margin:.15rem 0 0}
+html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
+.bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
+  color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
+
+/* ---- pastilles ---- */
+.pasts{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0;padding:0;list-style:none}
+.past{display:inline-block;font-family:var(--sans);font-size:.82rem;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--li2);border-radius:99px;padding:.12rem .6rem}
+.past:hover{border-color:var(--acc);color:var(--acc)}
+.past .cc{color:var(--fai);font-size:.74rem}
+.past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
+.past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
+.past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
+
+/* ---- socle ---- */
+.socle{list-style:none;padding:0;margin:.3rem 0}
+.socle li{display:flex;gap:.5rem;align-items:baseline;padding:.12rem 0;font-size:.92rem}
+.socle input{margin:0;accent-color:var(--ok)}
+.socle li.su a{color:var(--fai);text-decoration:line-through}
+.compteur{font-family:var(--sans);font-size:.78rem;color:var(--mut)}
+.grp{margin:.5rem 0}
+.grp>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--mut)}
+
+table{border-collapse:collapse;margin:.5rem 0;font-size:.9rem;display:block;overflow-x:auto;max-width:100%}
+th,td{border:1px solid var(--li);padding:.25rem .55rem;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-family:var(--sans);font-size:.78rem;font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+  background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
+ul{padding-left:1.1rem}
+hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
+
+/* ---- cartes d'accueil / carte du cours ---- */
+.cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
+.carte{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.65rem .8rem}
+.carte h3{margin:0 0 .2rem}
+.carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
+.carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
+.dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.vise{animation:vise 1.6s ease}
+@keyframes vise{from{background:var(--acc2)}to{background:transparent}}
+
+/* ---- orientation : ce qui s'adresse au lecteur qui arrive ---- */
+.entree{border:1px solid var(--li2);border-left:3px solid var(--acc);border-radius:var(--r);
+  padding:.7rem .9rem;margin:.8rem 0 1.4rem;background:var(--card)}
+.entree p{margin:.3rem 0;font-size:.92rem}
+.entree .quoi{font-size:1.02rem}
+.entree ul{margin:.5rem 0 .2rem;padding-left:1.1rem;font-family:var(--sans);font-size:.88rem}
+.entree li{margin:.2rem 0}
+.chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
+.chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
+.aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
+/* L'en-tête est collant : une ancre visée ne doit pas passer dessous. Mesuré :
+   il fait 48 px sur une ligne, 85 px quand il se replie en deux (écran étroit). */
+[id]{scroll-margin-top:6rem}
+.aide p,.aide ul,.aide table{max-width:42rem}
+.dette ul{margin:.3rem 0 0}
+footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
+
+/* ---- arbre ---- */
+.barre{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+.barre.plier{justify-content:flex-end;margin:.2rem 0 -.2rem}
+#scene{position:relative;border:1px solid var(--li);border-radius:var(--r);background:var(--bg2);
+  height:min(74vh,720px);overflow:hidden;touch-action:none;cursor:grab}
+#scene.drag{cursor:grabbing}
+#pan{position:absolute;transform-origin:0 0;top:0;left:0}
+#aretes{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+#aretes path{fill:none;stroke:var(--li2);stroke-width:1.5}
+.noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
+  padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
+.noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
+.noeud .nm{font-weight:600}
+.noeud .nm a{text-decoration:none;color:var(--fg)}
+.noeud .nm a:hover{color:var(--acc)}
+.noeud .pa{color:var(--mut);font-size:.72rem;display:block;margin-top:.1rem}
+.noeud .pli{font:inherit;font-size:.72rem;background:none;border:1px solid var(--li2);border-radius:4px;
+  color:var(--mut);cursor:pointer;padding:0 .3rem;margin-right:.25rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.4rem}
+  .rech{flex:1 1 100%;order:9}
+  #scene{height:66vh}
+}
+@media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="brand" href="../../index.html">notions</a><span class="fil"><a href="../../ods/index.html">Optimization for Data Science</a> › Conjugate directions</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><h1>Conjugate directions</h1><div class="meta"><span class="pill sym">$\langle u, v\rangle_A$</span><a class="pill typ" href="../../aide.html" data-v="types" title="an object of the course, the one you work with">notion</a><a class="pill" href="../../ods/index.html">ods</a><a class="pill" href="../../aide.html" data-v="niveau" title="reading order: the number of notions to go through, on the longest path, to reach this one. Level 0 = depends on no other.">level 7</a><a class="pill" href="../../ods/arbre.html" data-noeud="ods/conjugate-directions" title="this notion is not filed under any family">course tree</a><span class="pill">slide 16</span><span class="pill">slide 23</span></div><p class="note">also: A-conjugate directions, A-orthogonal directions</p><div class="parc"><div class="parc-t"><a href="../../aide.html" data-v="parcours">Reading path</a> <a href="../../ods/parcours/conjugate-gradient.html#e2">“A solver that only multiplies”</a> · step 2 of 8</div><div class="parc-h"><p>The ridge system of the large problem has a million unknowns; its matrix is never formed, but each product with a vector costs about 4 million operations. On the four observations, <strong>the same system</strong> is $2\times2$: $A=\begin{pmatrix}4&amp;1\\1&amp;3\end{pmatrix}$ and $b=(1,2)$. How few products does it take to solve it? <span class="marq" title="reference to the source">[slide 13, ajout]</span></p></div><p class="is-ajout"><span class="parc-l">In the story</span> The two directions, $d^0=(-1,-2)$ and $d^1=(\tfrac7{16},-\tfrac38)$, are conjugate: $\langle d^1,Ad^0\rangle=0$. The second step does not undo what the first achieved. <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></p><p><span class="parc-l">From the previous step</span> Why did two steps suffice, when gradient descent only approaches the solution? <span class="marq" title="reference to the source">[slide 16]</span></p><div class="parc-nav"><a class="prec" href="../../ods/n/conjugate-gradient.html">← Conjugate gradient</a><a class="suiv" href="../../ods/n/cg-finite-termination.html">Convergence of conjugate gradient in n iterations →</a></div></div><div class="parc"><div class="parc-t"><a href="../../aide.html" data-v="parcours">Reading path</a> · this notion is assumed known: here is the role it plays</div><ul class="roles"><li id="p-beyond-quadratics"><p><a href="../../ods/parcours/beyond-quadratics.html#avant">“When the loss is no longer quadratic”</a>: the orthogonality of successive gradients, proved for the linear method, is what lets the matrix disappear from the formulas. <span class="marq" title="reference to the source">[slide 16]</span></p></li></ul></div><div class="barre plier"><button class="btn" type="button" id="tout-plier">expand all</button></div><section class="sec " data-oblig="1"><h2>What it is</h2><div class="corps"><p>Two directions are conjugate with respect to $A$ when they are perpendicular for the inner product that $A$ defines; the directions built by conjugate gradient are all pairwise conjugate. <span class="marq" title="reference to the source">[slide 16]</span></p></div></section><section class="sec " data-oblig="1"><h2>Formula</h2><div class="corps"><p>$$\forall\,l&lt;k:\qquad \langle d^k,Ad^l\rangle=0,\qquad \langle g^k,g^l\rangle=0$$ <span class="marq" title="reference to the source">[slide 16, slide 22]</span></p></div></section><section class="sec "><h2>What the symbols model</h2><div class="corps"><p>$\langle u, v\rangle_A$ stands for $\langle u,Av\rangle$: an inner product, well defined because $A\succ0$. Being conjugate means $\langle d^k, d^l\rangle_A=0$. The gradients, on the other hand, are orthogonal for the usual inner product. <span class="marq" title="reference to the source">[slide 16, slide 23]</span></p></div></section><section class="sec " data-oblig="1"><h2>What defines it</h2><div class="corps"><figure class="fig is-ajout"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 330" width="100%" height="auto" role="img" style="color:var(--fg);max-width:700px;height:auto"><title>Two directions are conjugate when they are perpendicular for the inner product of A</title><g transform="translate(0 0)"><path d="M256.23 97.49 L259.16 102.38 L261.95 107.36 L264.59 112.4 L267.09 117.5 L269.43 122.66 L271.61 127.86 L273.63 133.1 L275.49 138.37 L277.18 143.67 L278.71 148.97 L280.06 154.28 L281.24 159.59 L282.24 164.89 L283.07 170.16 L283.71 175.41 L284.18 180.63 L284.47 185.8 L284.58 190.92 L284.5 195.98 L284.25 200.97 L283.81 205.89 L283.2 210.72 L282.41 215.47 L281.44 220.12 L280.3 224.66 L278.98 229.09 L277.49 233.4 L275.83 237.59 L274 241.65 L272.01 245.57 L269.85 249.35 L267.54 252.97 L265.08 256.44 L262.46 259.75 L259.7 262.9 L256.8 265.87 L253.75 268.67 L250.58 271.29 L247.27 273.73 L243.85 275.98 L240.3 278.04 L236.65 279.9 L232.88 281.57 L229.02 283.04 L225.06 284.31 L221.01 285.37 L216.88 286.23 L212.67 286.88 L208.4 287.33 L204.06 287.57 L199.66 287.59 L195.21 287.41 L190.73 287.03 L186.2 286.43 L181.65 285.63 L177.07 284.62 L172.48 283.41 L167.88 281.99 L163.28 280.38 L158.69 278.57 L154.11 276.56 L149.55 274.37 L145.02 271.98 L140.53 269.41 L136.07 266.66 L131.67 263.73 L127.32 260.64 L123.03 257.37 L118.81 253.94 L114.66 250.36 L110.6 246.62 L106.62 242.74 L102.74 238.72 L98.95 234.57 L95.28 230.29 L91.71 225.89 L88.26 221.38 L84.93 216.76 L81.73 212.04 L78.66 207.23 L75.73 202.33 L72.94 197.36 L70.3 192.32 L67.81 187.21 L65.47 182.06 L63.28 176.85 L61.26 171.61 L59.4 166.34 L57.71 161.05 L56.19 155.74 L54.83 150.43 L53.66 145.13 L52.65 139.83 L51.83 134.55 L51.18 129.3 L50.71 124.09 L50.43 118.92 L50.32 113.8 L50.39 108.74 L50.65 103.75 L51.08 98.83 L51.69 93.99 L52.48 89.25 L53.45 84.6 L54.6 80.06 L55.92 75.63 L57.41 71.31 L59.07 67.12 L60.89 63.07 L62.89 59.15 L65.04 55.37 L67.35 51.75 L69.82 48.27 L72.43 44.96 L75.19 41.82 L78.1 38.85 L81.14 36.05 L84.32 33.43 L87.62 30.99 L91.05 28.74 L94.59 26.68 L98.25 24.82 L102.01 23.15 L105.88 21.68 L109.83 20.41 L113.88 19.35 L118.01 18.49 L122.22 17.83 L126.5 17.39 L130.84 17.15 L135.23 17.12 L139.68 17.3 L144.17 17.69 L148.69 18.29 L153.25 19.09 L157.82 20.1 L162.41 21.31 L167.01 22.72 L171.61 24.34 L176.2 26.15 L180.78 28.15 L185.34 30.35 L189.87 32.74 L194.37 35.31 L198.82 38.06 L203.23 40.98 L207.58 44.08 L211.87 47.35 L216.09 50.77 L220.23 54.36 L224.3 58.09 L228.27 61.97 L232.16 65.99 L235.94 70.15 L239.62 74.43 L243.18 78.83 L246.63 83.34 L249.96 87.96 L253.16 92.68 L256.23 97.49" fill="none" stroke="var(--li2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M223.6 117.66 L225.45 120.75 L227.22 123.9 L228.89 127.09 L230.46 130.31 L231.95 133.58 L233.33 136.87 L234.61 140.18 L235.78 143.51 L236.85 146.86 L237.81 150.22 L238.67 153.58 L239.41 156.93 L240.05 160.28 L240.57 163.62 L240.98 166.94 L241.28 170.24 L241.46 173.51 L241.53 176.75 L241.48 179.95 L241.32 183.1 L241.04 186.21 L240.66 189.27 L240.16 192.27 L239.54 195.21 L238.82 198.09 L237.98 200.89 L237.04 203.62 L235.99 206.27 L234.84 208.83 L233.58 211.31 L232.21 213.7 L230.75 215.99 L229.19 218.19 L227.54 220.28 L225.79 222.27 L223.96 224.15 L222.03 225.92 L220.02 227.58 L217.93 229.12 L215.77 230.54 L213.53 231.84 L211.21 233.02 L208.83 234.08 L206.39 235.01 L203.88 235.81 L201.32 236.48 L198.71 237.03 L196.05 237.44 L193.35 237.72 L190.6 237.87 L187.82 237.89 L185.01 237.78 L182.17 237.53 L179.31 237.15 L176.43 236.65 L173.53 236.01 L170.63 235.24 L167.72 234.35 L164.81 233.33 L161.91 232.18 L159.01 230.91 L156.13 229.52 L153.27 228.01 L150.42 226.39 L147.6 224.65 L144.82 222.8 L142.07 220.84 L139.35 218.77 L136.68 216.61 L134.06 214.34 L131.49 211.98 L128.98 209.52 L126.52 206.98 L124.13 204.35 L121.8 201.65 L119.55 198.86 L117.36 196.01 L115.26 193.09 L113.24 190.1 L111.3 187.06 L109.44 183.97 L107.68 180.82 L106.01 177.63 L104.43 174.4 L102.95 171.14 L101.57 167.85 L100.29 164.54 L99.11 161.2 L98.04 157.86 L97.08 154.5 L96.22 151.14 L95.48 147.78 L94.85 144.43 L94.32 141.1 L93.91 137.78 L93.62 134.48 L93.44 131.21 L93.37 127.97 L93.41 124.77 L93.57 121.61 L93.85 118.5 L94.24 115.45 L94.74 112.44 L95.35 109.5 L96.07 106.63 L96.91 103.83 L97.85 101.1 L98.9 98.45 L100.06 95.89 L101.32 93.41 L102.68 91.02 L104.14 88.73 L105.7 86.53 L107.35 84.44 L109.1 82.45 L110.94 80.57 L112.86 78.8 L114.87 77.14 L116.96 75.6 L119.13 74.17 L121.37 72.87 L123.68 71.69 L126.06 70.64 L128.51 69.71 L131.01 68.91 L133.57 68.23 L136.18 67.69 L138.84 67.28 L141.55 67 L144.29 66.85 L147.07 66.83 L149.89 66.94 L152.72 67.19 L155.59 67.56 L158.47 68.07 L161.36 68.71 L164.26 69.48 L167.17 70.37 L170.08 71.39 L172.98 72.54 L175.88 73.8 L178.76 75.19 L181.63 76.7 L184.47 78.33 L187.29 80.07 L190.08 81.92 L192.83 83.88 L195.54 85.94 L198.21 88.11 L200.83 90.38 L203.4 92.74 L205.92 95.19 L208.37 97.74 L210.77 100.36 L213.09 103.07 L215.35 105.85 L217.53 108.71 L219.63 111.63 L221.66 114.61 L223.6 117.66" fill="none" stroke="var(--li2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M195.52 135.01 L196.45 136.56 L197.33 138.13 L198.17 139.72 L198.96 141.34 L199.7 142.97 L200.39 144.61 L201.03 146.27 L201.61 147.94 L202.15 149.61 L202.63 151.29 L203.06 152.97 L203.43 154.65 L203.75 156.32 L204.01 157.99 L204.21 159.65 L204.36 161.3 L204.45 162.93 L204.49 164.55 L204.46 166.15 L204.38 167.73 L204.25 169.29 L204.05 170.82 L203.8 172.32 L203.49 173.79 L203.13 175.22 L202.72 176.62 L202.24 177.99 L201.72 179.31 L201.14 180.59 L200.51 181.83 L199.83 183.03 L199.1 184.18 L198.32 185.27 L197.49 186.32 L196.62 187.31 L195.7 188.25 L194.74 189.14 L193.74 189.97 L192.69 190.74 L191.61 191.45 L190.49 192.1 L189.33 192.69 L188.14 193.22 L186.92 193.68 L185.67 194.08 L184.39 194.42 L183.08 194.69 L181.75 194.9 L180.4 195.04 L179.02 195.11 L177.63 195.12 L176.23 195.07 L174.81 194.94 L173.38 194.76 L171.94 194.5 L170.49 194.18 L169.04 193.8 L167.58 193.35 L166.13 192.84 L164.68 192.27 L163.23 191.64 L161.79 190.94 L160.36 190.19 L158.93 189.37 L157.53 188.5 L156.13 187.58 L154.76 186.6 L153.4 185.57 L152.07 184.48 L150.75 183.35 L149.47 182.17 L148.21 180.94 L146.98 179.67 L145.79 178.36 L144.62 177 L143.5 175.61 L142.41 174.18 L141.35 172.72 L140.34 171.23 L139.37 169.71 L138.44 168.16 L137.56 166.59 L136.73 164.99 L135.94 163.38 L135.2 161.75 L134.51 160.1 L133.87 158.45 L133.28 156.78 L132.74 155.11 L132.26 153.43 L131.84 151.75 L131.46 150.07 L131.15 148.4 L130.89 146.73 L130.68 145.07 L130.53 143.42 L130.44 141.78 L130.41 140.16 L130.43 138.56 L130.51 136.99 L130.65 135.43 L130.84 133.9 L131.09 132.4 L131.4 130.93 L131.76 129.49 L132.18 128.09 L132.65 126.73 L133.17 125.4 L133.75 124.12 L134.38 122.88 L135.06 121.69 L135.79 120.54 L136.57 119.44 L137.4 118.4 L138.27 117.4 L139.19 116.46 L140.15 115.58 L141.16 114.75 L142.2 113.98 L143.29 113.27 L144.41 112.62 L145.56 112.03 L146.75 111.5 L147.98 111.03 L149.23 110.63 L150.51 110.3 L151.81 110.02 L153.14 109.82 L154.5 109.68 L155.87 109.6 L157.26 109.59 L158.67 109.65 L160.09 109.77 L161.52 109.96 L162.96 110.21 L164.4 110.53 L165.85 110.92 L167.31 111.36 L168.76 111.87 L170.22 112.45 L171.66 113.08 L173.1 113.78 L174.54 114.53 L175.96 115.34 L177.37 116.21 L178.76 117.14 L180.14 118.12 L181.49 119.15 L182.83 120.23 L184.14 121.37 L185.42 122.55 L186.68 123.78 L187.91 125.05 L189.11 126.36 L190.27 127.71 L191.4 129.11 L192.49 130.53 L193.54 131.99 L194.55 133.49 L195.52 135.01" fill="none" stroke="var(--li2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M147.06 295.09 L203.13 182.94" fill="none" stroke="var(--acc)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M203.13 182.94 L167.45 152.36" fill="none" stroke="var(--ajo)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="147.06" cy="295.09" r="3.6" fill="var(--fg)"/><circle cx="203.13" cy="182.94" r="3.6" fill="var(--fg)"/><circle cx="167.45" cy="152.36" r="3.6" fill="var(--fg)"/><defs><filter id="fond-etiquette" x="-0.03" y="-0.12" width="1.06" height="1.24"><feFlood style="flood-color:var(--card)"/></filter></defs><text x="16.97" y="32.67" text-anchor="start" font-size="12.5" fill="none" filter="url(#fond-etiquette)" font-family="ui-sans-serif,system-ui,sans-serif">weights w: not perpendicular</text><text x="16.97" y="32.67" text-anchor="start" font-size="12.5" fill="var(--fg)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">weights w: not perpendicular</text><text x="191.91" y="250.23" text-anchor="start" font-size="13" fill="var(--acc)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">d⁰</text><text x="191.91" y="160.51" text-anchor="start" font-size="13" fill="var(--ajo)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">d¹</text></g><text x="350" y="172" text-anchor="middle" font-size="20" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">→</text><g transform="translate(370 0)"><path d="M280.47 85.95 L283.18 90.54 L285.71 95.23 L288.05 100.02 L290.21 104.89 L292.17 109.85 L293.93 114.88 L295.5 119.97 L296.87 125.12 L298.03 130.33 L298.99 135.57 L299.74 140.85 L300.28 146.15 L300.61 151.47 L300.74 156.8 L300.65 162.13 L300.36 167.45 L299.86 172.75 L299.15 178.04 L298.23 183.29 L297.11 188.5 L295.78 193.66 L294.25 198.77 L292.53 203.81 L290.6 208.78 L288.48 213.67 L286.18 218.48 L283.68 223.19 L281 227.8 L278.15 232.3 L275.12 236.68 L271.92 240.94 L268.55 245.07 L265.02 249.07 L261.34 252.93 L257.52 256.64 L253.55 260.19 L249.44 263.59 L245.2 266.82 L240.84 269.89 L236.36 272.78 L231.77 275.49 L227.08 278.02 L222.3 280.37 L217.42 282.52 L212.46 284.48 L207.44 286.25 L202.34 287.81 L197.19 289.18 L191.99 290.34 L186.74 291.3 L181.47 292.05 L176.16 292.59 L170.84 292.92 L165.52 293.05 L160.19 292.96 L154.86 292.67 L149.56 292.17 L144.27 291.46 L139.02 290.54 L133.81 289.42 L128.65 288.09 L123.54 286.56 L118.5 284.84 L113.53 282.91 L108.64 280.8 L103.84 278.49 L99.13 275.99 L94.52 273.32 L90.02 270.46 L85.63 267.43 L81.37 264.23 L77.24 260.86 L73.24 257.34 L69.38 253.66 L65.67 249.83 L62.12 245.86 L58.72 241.75 L55.49 237.51 L52.42 233.15 L49.53 228.67 L46.82 224.09 L44.29 219.39 L41.95 214.61 L39.79 209.73 L37.83 204.78 L36.07 199.75 L34.5 194.65 L33.13 189.5 L31.97 184.3 L31.01 179.05 L30.26 173.78 L29.72 168.48 L29.39 163.16 L29.26 157.83 L29.35 152.5 L29.64 147.18 L30.14 141.87 L30.85 136.59 L31.77 131.34 L32.89 126.13 L34.22 120.96 L35.75 115.86 L37.47 110.81 L39.4 105.84 L41.52 100.95 L43.82 96.15 L46.32 91.44 L49 86.83 L51.85 82.33 L54.88 77.94 L58.08 73.68 L61.45 69.55 L64.98 65.55 L68.66 61.7 L72.48 57.99 L76.45 54.43 L80.56 51.03 L84.8 47.8 L89.16 44.74 L93.64 41.85 L98.23 39.13 L102.92 36.6 L107.7 34.26 L112.58 32.1 L117.54 30.14 L122.56 28.38 L127.66 26.81 L132.81 25.45 L138.01 24.28 L143.26 23.33 L148.53 22.58 L153.84 22.03 L159.16 21.7 L164.48 21.57 L169.81 21.66 L175.14 21.95 L180.44 22.46 L185.73 23.17 L190.98 24.08 L196.19 25.2 L201.35 26.53 L206.46 28.06 L211.5 29.79 L216.47 31.71 L221.36 33.83 L226.16 36.14 L230.87 38.63 L235.48 41.31 L239.98 44.16 L244.37 47.2 L248.63 50.4 L252.76 53.76 L256.76 57.29 L260.62 60.97 L264.33 64.8 L267.88 68.77 L271.28 72.87 L274.51 77.11 L277.58 81.47 L280.47 85.95" fill="none" stroke="var(--li2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M238.03 112.18 L239.74 115.08 L241.34 118.05 L242.83 121.08 L244.19 124.16 L245.43 127.29 L246.55 130.47 L247.54 133.7 L248.4 136.95 L249.13 140.24 L249.74 143.56 L250.21 146.9 L250.56 150.25 L250.77 153.62 L250.85 156.99 L250.79 160.36 L250.61 163.72 L250.29 167.08 L249.84 170.42 L249.26 173.74 L248.55 177.04 L247.71 180.3 L246.75 183.53 L245.65 186.72 L244.44 189.86 L243.1 192.96 L241.64 196 L240.06 198.97 L238.37 201.89 L236.56 204.74 L234.64 207.51 L232.62 210.2 L230.49 212.82 L228.26 215.35 L225.93 217.79 L223.51 220.13 L221 222.38 L218.4 224.53 L215.72 226.57 L212.97 228.51 L210.13 230.34 L207.23 232.05 L204.26 233.65 L201.24 235.14 L198.15 236.5 L195.02 237.74 L191.84 238.86 L188.62 239.85 L185.36 240.71 L182.07 241.45 L178.75 242.05 L175.41 242.53 L172.06 242.87 L168.7 243.08 L165.33 243.16 L161.96 243.11 L158.59 242.92 L155.23 242.6 L151.89 242.15 L148.57 241.57 L145.28 240.86 L142.01 240.03 L138.78 239.06 L135.59 237.97 L132.45 236.75 L129.35 235.41 L126.32 233.95 L123.34 232.37 L120.42 230.68 L117.58 228.87 L114.8 226.96 L112.11 224.93 L109.49 222.8 L106.97 220.57 L104.53 218.25 L102.18 215.82 L99.93 213.31 L97.78 210.72 L95.74 208.04 L93.8 205.28 L91.97 202.45 L90.26 199.54 L88.66 196.58 L87.17 193.55 L85.81 190.47 L84.57 187.33 L83.45 184.15 L82.46 180.93 L81.6 177.67 L80.87 174.38 L80.26 171.06 L79.79 167.73 L79.44 164.37 L79.23 161.01 L79.15 157.64 L79.21 154.27 L79.39 150.9 L79.71 147.55 L80.16 144.2 L80.74 140.88 L81.45 137.59 L82.29 134.32 L83.25 131.09 L84.35 127.9 L85.56 124.76 L86.9 121.67 L88.36 118.63 L89.94 115.65 L91.63 112.73 L93.44 109.89 L95.36 107.12 L97.38 104.42 L99.51 101.81 L101.74 99.28 L104.07 96.84 L106.49 94.49 L109 92.24 L111.6 90.1 L114.28 88.05 L117.03 86.11 L119.87 84.29 L122.77 82.57 L125.74 80.97 L128.76 79.49 L131.85 78.12 L134.98 76.88 L138.16 75.77 L141.38 74.78 L144.64 73.91 L147.93 73.18 L151.25 72.57 L154.59 72.1 L157.94 71.75 L161.3 71.54 L164.67 71.46 L168.04 71.52 L171.41 71.7 L174.77 72.02 L178.11 72.47 L181.43 73.05 L184.72 73.76 L187.99 74.6 L191.22 75.57 L194.41 76.66 L197.55 77.87 L200.65 79.21 L203.68 80.67 L206.66 82.25 L209.58 83.94 L212.42 85.75 L215.2 87.67 L217.89 89.69 L220.51 91.82 L223.03 94.05 L225.47 96.38 L227.82 98.8 L230.07 101.31 L232.22 103.91 L234.26 106.59 L236.2 109.35 L238.03 112.18" fill="none" stroke="var(--li2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M201.51 134.75 L202.37 136.2 L203.17 137.68 L203.91 139.19 L204.59 140.74 L205.21 142.3 L205.77 143.89 L206.27 145.5 L206.7 147.13 L207.07 148.78 L207.37 150.44 L207.61 152.11 L207.78 153.78 L207.88 155.46 L207.92 157.15 L207.9 158.83 L207.8 160.52 L207.65 162.2 L207.42 163.87 L207.13 165.53 L206.78 167.17 L206.36 168.81 L205.87 170.42 L205.33 172.02 L204.72 173.59 L204.05 175.13 L203.32 176.65 L202.53 178.14 L201.68 179.6 L200.78 181.02 L199.82 182.41 L198.81 183.76 L197.75 185.06 L196.63 186.33 L195.47 187.55 L194.26 188.72 L193 189.85 L191.7 190.92 L190.36 191.94 L188.98 192.91 L187.57 193.83 L186.12 194.68 L184.63 195.48 L183.12 196.22 L181.58 196.91 L180.01 197.53 L178.42 198.08 L176.81 198.58 L175.18 199.01 L173.53 199.38 L171.88 199.68 L170.21 199.92 L168.53 200.09 L166.85 200.2 L165.16 200.24 L163.48 200.21 L161.79 200.12 L160.12 199.96 L158.45 199.73 L156.79 199.44 L155.14 199.09 L153.51 198.67 L151.89 198.19 L150.3 197.64 L148.72 197.03 L147.18 196.36 L145.66 195.63 L144.17 194.84 L142.71 194 L141.29 193.09 L139.9 192.13 L138.55 191.12 L137.25 190.06 L135.98 188.94 L134.76 187.78 L133.59 186.57 L132.47 185.31 L131.39 184.01 L130.37 182.67 L129.4 181.29 L128.49 179.88 L127.63 178.43 L126.83 176.94 L126.09 175.43 L125.41 173.89 L124.79 172.32 L124.23 170.73 L123.73 169.12 L123.3 167.49 L122.93 165.85 L122.63 164.19 L122.39 162.52 L122.22 160.84 L122.12 159.16 L122.08 157.47 L122.1 155.79 L122.2 154.11 L122.35 152.43 L122.58 150.76 L122.87 149.1 L123.22 147.45 L123.64 145.82 L124.13 144.2 L124.67 142.61 L125.28 141.04 L125.95 139.49 L126.68 137.97 L127.47 136.48 L128.32 135.02 L129.22 133.6 L130.18 132.21 L131.19 130.87 L132.25 129.56 L133.37 128.29 L134.53 127.08 L135.74 125.9 L137 124.78 L138.3 123.7 L139.64 122.68 L141.02 121.71 L142.43 120.8 L143.88 119.94 L145.37 119.14 L146.88 118.4 L148.42 117.72 L149.99 117.1 L151.58 116.54 L153.19 116.04 L154.82 115.61 L156.47 115.24 L158.12 114.94 L159.79 114.7 L161.47 114.53 L163.15 114.43 L164.84 114.39 L166.52 114.41 L168.21 114.51 L169.88 114.67 L171.55 114.89 L173.21 115.18 L174.86 115.54 L176.49 115.96 L178.11 116.44 L179.7 116.98 L181.28 117.59 L182.82 118.26 L184.34 118.99 L185.83 119.78 L187.29 120.63 L188.71 121.53 L190.1 122.49 L191.45 123.5 L192.75 124.57 L194.02 125.68 L195.24 126.85 L196.41 128.06 L197.53 129.31 L198.61 130.61 L199.63 131.95 L200.6 133.33 L201.51 134.75" fill="none" stroke="var(--li2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M117.15 308.43 L202.78 183.13" fill="none" stroke="var(--acc)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M202.78 183.13 L165 157.31" fill="none" stroke="var(--ajo)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="117.15" cy="308.43" r="3.6" fill="var(--fg)"/><circle cx="202.78" cy="183.13" r="3.6" fill="var(--fg)"/><circle cx="165" cy="157.31" r="3.6" fill="var(--fg)"/><path d="M197.42 190.97 L189.57 185.61 L194.93 177.77" fill="none" stroke="var(--fg)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><defs><filter id="fond-etiquette" x="-0.03" y="-0.12" width="1.06" height="1.24"><feFlood style="flood-color:var(--card)"/></filter></defs><text x="14.79" y="24.29" text-anchor="start" font-size="12.5" fill="none" filter="url(#fond-etiquette)" font-family="ui-sans-serif,system-ui,sans-serif">z = A<tspan dy="-4.38" font-size="9">1/2</tspan><tspan dy="4.38">w: circles, right angle</tspan></text><text x="14.79" y="24.29" text-anchor="start" font-size="12.5" fill="var(--fg)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">z = A<tspan dy="-4.38" font-size="9">1/2</tspan><tspan dy="4.38">w: circles, right angle</tspan></text></g></svg><figcaption>On the left, the two steps of conjugate gradient on the ellipses of q: they are not perpendicular. On the right, the same picture in the coordinates z = A^(1/2)w, where the ellipses become circles: the two steps meet at a right angle. <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></figcaption></figure><p>The change of coordinates $z=A^{1/2}w$ turns $\langle\cdot,\cdot\rangle_A$ into the usual inner product and the ellipses of $q$ into circles: conjugate directions are perpendicular directions seen through $A$. Minimizing along one of them then never spoils what the previous minimizations achieved, which is how a single stored direction can do the work of all the past gradients. <span class="marq" title="reference to the source">[slide 16, ajout]</span></p><p>The slides prove the two properties together, by induction on $k$, from the update $g^{k+1}=g^k-\beta_kAd^k$ and the choice of $\alpha_{k+1}$. <span class="marq" title="reference to the source">[slide 18, slide 22, slide 23]</span></p></div></section><details class="sec " data-k="construite"><summary><h2>Built from</h2><span class="cnt">1 direct prerequisite</span></summary><div class="corps"><ul class="pasts"><li><a class="past" href="../../ods/n/conjugate-gradient.html">Conjugate gradient<span class="nv">L6</span></a></li></ul><p class="note">Only what this page depends on directly. “All prerequisites”, just below, repeats these notions and adds everything they depend on in turn.</p></div></details><details class="sec gen" data-k="socle"><summary><h2>All prerequisites</h2><span class="cnt">15 prerequisites in all</span></summary><div class="corps"><div class="chemin"><p class="is-ajout"><a href="../../ods/n/conjugate-gradient.html">Conjugate gradient</a> builds the directions; this card says what they have in common. The method only multiplies by $A$, which <a href="../../ods/n/matrix-free-product.html">Matrix-free product</a> provides from an <a href="../../ods/n/sparse-matrix.html">Sparse matrix</a>, to solve the system of <a href="../../ods/n/quadratic-form.html">Quadratic form</a>. That system is the optimality condition, <a href="../../ods/n/first-order-optimality-condition.html">First-order optimality condition</a>, proved from <a href="../../ods/n/first-order-characterization.html">First-order characterization of convexity</a> and <a href="../../ods/n/local-minima-are-global.html">Local minima of a convex function are global</a> for an <a href="../../ods/n/convex-function.html">Convex function</a>, whose <a href="../../ods/n/epigraph.html">Epigraph</a> is an <a href="../../ods/n/convex-set.html">Convex set</a>; with $A\succ0$, $q$ is an <a href="../../ods/n/strongly-convex-function.html">Strongly convex function</a> whose minimizer exists by <a href="../../ods/n/existence-under-coercivity.html">Existence of a minimizer for a coercive function</a>, <a href="../../ods/n/coercive-function.html">Coercive function</a> and <a href="../../ods/n/existence-on-a-compact.html">Existence of a minimizer on a compact set</a> — the question of <a href="../../ods/n/optimization-problem.html">Optimization problem</a>. <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></p></div><p class="note">Everything you need to have read before this page, from the most elementary to the most elaborate. <strong>The list is complete</strong>: reading it is enough, none of these notions calls for another one missing here. Ticking a box strikes it out on every page. (<a href="../../aide.html" data-v="socle">learn more</a>)</p><p class="compteur" data-cpt="socle"></p><details class="grp" open><summary>level 0 (5)</summary><ul class="socle"><li><input type="checkbox" data-su="ods/coercive-function" aria-label="already known: Coercive function"><a href="../../ods/n/coercive-function.html">Coercive function</a></li><li><input type="checkbox" data-su="ods/convex-set" aria-label="already known: Convex set"><a href="../../ods/n/convex-set.html">Convex set</a></li><li><input type="checkbox" data-su="ods/epigraph" aria-label="already known: Epigraph"><a href="../../ods/n/epigraph.html">Epigraph</a></li><li><input type="checkbox" data-su="ods/optimization-problem" aria-label="already known: Optimization problem"><a href="../../ods/n/optimization-problem.html">Optimization problem</a></li><li><input type="checkbox" data-su="ods/sparse-matrix" aria-label="already known: Sparse matrix"><a href="../../ods/n/sparse-matrix.html">Sparse matrix</a></li></ul></details><details class="grp" open><summary>level 1 (2)</summary><ul class="socle"><li><input type="checkbox" data-su="ods/convex-function" aria-label="already known: Convex function"><a href="../../ods/n/convex-function.html">Convex function</a></li><li><input type="checkbox" data-su="ods/existence-on-a-compact" aria-label="already known: Existence of a minimizer on a compact set"><a href="../../ods/n/existence-on-a-compact.html">Existence of a minimizer on a compact set</a></li></ul></details><details class="grp" open><summary>level 2 (3)</summary><ul class="socle"><li><input type="checkbox" data-su="ods/existence-under-coercivity" aria-label="already known: Existence of a minimizer for a coercive function"><a href="../../ods/n/existence-under-coercivity.html">Existence of a minimizer for a coercive function</a></li><li><input type="checkbox" data-su="ods/first-order-characterization" aria-label="already known: First-order characterization of convexity"><a href="../../ods/n/first-order-characterization.html">First-order characterization of convexity</a></li><li><input type="checkbox" data-su="ods/local-minima-are-global" aria-label="already known: Local minima of a convex function are global"><a href="../../ods/n/local-minima-are-global.html">Local minima of a convex function are global</a></li></ul></details><details class="grp" open><summary>level 3 (2)</summary><ul class="socle"><li><input type="checkbox" data-su="ods/first-order-optimality-condition" aria-label="already known: First-order optimality condition"><a href="../../ods/n/first-order-optimality-condition.html">First-order optimality condition</a></li><li><input type="checkbox" data-su="ods/strongly-convex-function" aria-label="already known: Strongly convex function"><a href="../../ods/n/strongly-convex-function.html">Strongly convex function</a></li></ul></details><details class="grp" open><summary>level 4 (1)</summary><ul class="socle"><li><input type="checkbox" data-su="ods/quadratic-form" aria-label="already known: Quadratic form"><a href="../../ods/n/quadratic-form.html">Quadratic form</a></li></ul></details><details class="grp" open><summary>level 5 (1)</summary><ul class="socle"><li><input type="checkbox" data-su="ods/matrix-free-product" aria-label="already known: Matrix-free product"><a href="../../ods/n/matrix-free-product.html">Matrix-free product</a></li></ul></details><details class="grp" open><summary>level 6 (1)</summary><ul class="socle"><li><input type="checkbox" data-su="ods/conjugate-gradient" aria-label="already known: Conjugate gradient"><a href="../../ods/n/conjugate-gradient.html">Conjugate gradient</a></li></ul></details></div></details><details class="sec gen" data-k="sert"><summary><h2>Used next for</h2><span class="cnt">2</span></summary><div class="corps"><p class="note">What this notion lets you tackle right after. Only the next step, not everything that follows: otherwise a notion far upstream would open half the course.</p><p class="compteur" data-cpt="aval"></p><ul class="socle"><li><input type="checkbox" data-su="ods/cg-finite-termination" aria-label="already known: Convergence of conjugate gradient in n iterations"><a href="../../ods/n/cg-finite-termination.html">Convergence of conjugate gradient in n iterations</a> <span class="marq">level 8</span></li><li><input type="checkbox" data-su="ods/fletcher-reeves-formula" aria-label="already known: Fletcher–Reeves formula"><a href="../../ods/n/fletcher-reeves-formula.html">Fletcher–Reeves formula</a> <span class="marq">level 8</span></li></ul></div></details><details class="sec " data-k="exemple" data-oblig="1"><summary><h2>Minimal example</h2></summary><div class="corps"><p class="is-ajout">For the system of the four observations, $d^0=(-1,-2)$ and $d^1=(\tfrac7{16},-\tfrac38)$ are conjugate, and $g^0=(-1,-2)$, $g^1=(\tfrac12,-\tfrac14)$ are orthogonal. <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></p></div></details><details class="sec " data-k="geste" data-oblig="1"><summary><h2>Typical computation</h2></summary><div class="corps"><p class="is-ajout">$Ad^0=(-6,-7)$, so $\langle d^1,Ad^0\rangle=\tfrac7{16}\cdot(-6)+(-\tfrac38)\cdot(-7)=-\tfrac{42}{16}+\tfrac{42}{16}=0$; and $\langle g^1,g^0\rangle=-\tfrac12+\tfrac12=0$. <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></p></div></details><details class="sec lim" data-k="limite" data-oblig="1"><summary><h2>Stops being valid when</h2></summary><div class="corps"><p>$A$ is not positive definite: $\langle u,Av\rangle$ is no longer an inner product, and "perpendicular for $A$" loses its meaning. In floating point the conjugacy degrades over many iterations. <span class="marq" title="reference to the source">[slide 23, ajout]</span></p></div></details></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../../aide.html">comment lire ce site</a> · <a href="../../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../../search-index.js"></script>
+<script>
+var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+        s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- l'état qui traverse les pages ----------------------------------------
+   Voir le commentaire de l'en-tête : en file://, seul le fragment traverse.
+   Forme du fragment :  #t:d~a:0~p:1-0--1...~s:<tampon>.<bits>~v:<ancre>
+     t  thème      d | l            (absent : celui du système)
+     a  ajouts     0                (absent : montrés)
+     p  pliage     un caractère par clé de CLES_PLI : 1 ouvert, 0 fermé, - inconnu
+     s  déjà su    un bit par notion, six bits par caractère, précédé d'un tampon
+     v  ancre      l'élément vers lequel défiler à l'arrivée
+   Le tampon est calculé sur la liste des identifiants : dès qu'une notion entre dans
+   le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
+   cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
+var ETAT=(function(){
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='6728',
+    A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
+var pli={},su={};
+if(typeof H.p==='string'){
+  for(var i=0;i<CLES.length&&i<H.p.length;i++){var c=H.p.charAt(i);
+    if(c==='0'||c==='1')pli[CLES[i]]=(c==='1');}
+}else{
+  CLES.forEach(function(k){var v=LS.g('notions.pli.'+k,null);if(v!==null)pli[k]=(v==='1')});
+}
+function decode(t){var o={},q=t.indexOf('.');
+  if(q<0||t.slice(0,q)!==TAMPON)return o;
+  var b=t.slice(q+1);
+  for(var i=0;i<b.length;i++){var v=A64.indexOf(b.charAt(i));if(v<0)continue;
+    for(var j=0;j<6;j++){if(v&(1<<j)){var k=i*6+j;if(k<IDS.length)o[IDS[k]]=1}}}
+  return o;}
+function encode(){var o='';
+  for(var i=0;i<IDS.length;i+=6){var v=0;
+    for(var j=0;j<6;j++){if(su[IDS[i+j]])v|=1<<j}
+    o+=A64.charAt(v);}
+  return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
+if(typeof H.s==='string'){su=decode(H.s)}
+else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
+function frag(ancre,noeud){var p=[];
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t)p.push('t:'+(t==='dark'?'d':'l'));
+  if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
+  var q='';CLES.forEach(function(k){q+=(pli[k]===undefined?'-':(pli[k]?'1':'0'))});
+  if(/[01]/.test(q))p.push('p:'+q);
+  var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
+  if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
+  return p.length?'#'+p.join('~'):'';}
+function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
+function propager(){var f=frag();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';if(!interne(h))return;
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
+  /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
+     Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
+  try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
+  try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}}
+return{pli:function(k){return pli[k]===undefined?null:pli[k]},
+       setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
+       su:function(id){return !!su[id]},
+       setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
+       lien:function(u,v,n){return u+frag(v,n)},
+       ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
+       propager:propager};
+})();
+function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
+  var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
+  b.textContent=on?'masquer les ajouts':'ajouts masqués';}
+  document.querySelectorAll('.sec').forEach(function(s){
+    var c=s.querySelector('.corps');if(!c)return;var n=0;
+    c.querySelectorAll(':scope>*').forEach(function(el){
+      if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
+      if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
+      n++;});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='This section exists, but all its content is an addition: the filter hides it. It stays visible so that you do not conclude that it is empty.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
+  if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var bt=document.getElementById('btheme');
+  if(bt)bt.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    var nx=(cur||sys)==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);
+    ETAT.propager();});
+  var ba=document.getElementById('bajout');
+  if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);ETAT.propager();});
+  majAjouts(!document.documentElement.classList.contains('sans-ajouts'));
+  /* les liens de la page portent l'état ; une ancre demandée est ouverte et visée */
+  ETAT.propager();
+  var an=ETAT.ancre();
+  if(an){var el=document.getElementById(an);
+    if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView();el.classList.add('vise')}}
+  /* --- recherche instantanée (règle 9) --- */
+  var inp=document.getElementById('q'),res=document.getElementById('qres');
+  if(!inp||!res||!window.SEARCH_INDEX)return;
+  var REL=document.documentElement.getAttribute('data-rel')||'';
+  var sel=-1,items=[];
+  function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+  function cherche(q){
+    var n=norm(q);if(!n)return [];
+    var out=[];
+    SEARCH_INDEX.forEach(function(e){
+      var sc=-1,ch=e.h||[];
+      for(var i=0;i<ch.length;i++){var p=norm(ch[i]).indexOf(n);
+        if(p===0){sc=Math.max(sc,3-(i>0?1:0))}else if(p>0){sc=Math.max(sc,1)}}
+      if(sc>=0)out.push([sc,e]);});
+    out.sort(function(a,b){return b[0]-a[0]||a[1].n.localeCompare(b[1].n)});
+    return out.slice(0,9).map(function(x){return x[1]});}
+  function rendre(){
+    items=cherche(inp.value);sel=-1;res.innerHTML='';
+    if(!inp.value){res.classList.remove('on');return}
+    if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
+    items.forEach(function(e,i){
+      var li=document.createElement('li');
+      var a=document.createElement('a');a.href=ETAT.lien(REL+e.u);a.id='qr'+i;
+      a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
+      li.appendChild(a);res.appendChild(li);});
+    res.classList.add('on');}
+  function bouge(d){if(!items.length)return;sel=(sel+d+items.length)%items.length;
+    Array.prototype.forEach.call(res.children,function(li,i){li.classList.toggle('sel',i===sel)});
+    inp.setAttribute('aria-activedescendant','qr'+sel);}
+  inp.addEventListener('input',rendre);
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();bouge(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();bouge(-1)}
+    else if(e.key==='Enter'){var a=res.querySelector(sel>=0?'li.sel a':'li a');if(a){e.preventDefault();location.href=a.href}}
+    else if(e.key==='Escape'){inp.value='';res.classList.remove('on')}});
+  document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
+  document.addEventListener('keydown',function(e){
+    if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  /* pliage mémorisé par rubrique (règle 5), et transporté d'une page à l'autre */
+  var secs=document.querySelectorAll('details.sec[data-k]'),bp=document.getElementById('tout-plier');
+  function libelle(){
+    if(!bp)return;var ferme=false;
+    secs.forEach(function(d){if(!d.open)ferme=true});
+    bp.textContent=ferme?'expand all':'collapse all';bp.setAttribute('data-v',ferme?'1':'0');}
+  secs.forEach(function(d){
+    var k=d.getAttribute('data-k'),v=ETAT.pli(k);
+    if(v!==null)d.open=v;
+    d.addEventListener('toggle',function(){ETAT.setPli(k,d.open);libelle()});});
+  /* tout à la fois : ouvrir tout s'il reste une rubrique fermée, sinon tout refermer */
+  if(bp){if(!secs.length)bp.parentNode.style.display='none';
+    libelle();
+    bp.addEventListener('click',function(){
+      var v=bp.getAttribute('data-v')==='1';
+      secs.forEach(function(d){d.open=v});libelle();});}
+  /* amont et aval : même état « déjà su », un compteur par liste (règle 7) */
+  function compte(){
+    document.querySelectorAll('.sec').forEach(function(s){
+      var cpt=s.querySelector('[data-cpt]');if(!cpt)return;
+      var l=s.querySelectorAll('input[data-su]'),k=0;
+      l.forEach(function(c){if(c.checked)k++});
+      cpt.textContent=l.length+' notion'+(l.length>1?'s':'')+', '+(l.length-k)+' left to see';});}
+  document.querySelectorAll('input[data-su]').forEach(function(c){
+    var id=c.getAttribute('data-su');c.checked=ETAT.su(id);
+    c.closest('li').classList.toggle('su',c.checked);
+    c.addEventListener('change',function(){
+      ETAT.setSu(id,c.checked);
+      document.querySelectorAll('input[data-su="'+id+'"]').forEach(function(o){
+        o.checked=c.checked;o.closest('li').classList.toggle('su',c.checked);});
+      compte();});});
+  compte();
+});
+</script>
+</body>
+</html>

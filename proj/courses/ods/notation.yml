@@ -1,0 +1,377 @@
+# Registre des notations de ods (SPEC-MODELE A12). Les sens sont en anglais, comme tout
+# le cours.
+# Deux notations cohabitent dans la source, et le registre les garde toutes deux : les
+# notes écrivent les moindres carrés avec A, b, x ; les slides écrivent la ridge avec
+# X, y, w, et réservent A, b à la forme quadratique — où b n'est plus le vecteur des
+# réponses — tandis que b désigne aussi, dans la ridge, l'ordonnée à l'origine. De même
+# λ est un poids de mélange dans [0, 1] (convexité) et le paramètre de régularisation ;
+# μ, le vecteur des rendements espérés (§1.1.4) et le module de forte convexité ;
+# U, V et C, les facteurs de la SVD et ceux du lemme d'inversion ; ε, un bruit et une
+# tolérance. Une entrée par sens, rattachée à la fiche qui l'emploie, comme pfo le fait
+# pour α et dss pour λ.
+symboles:
+# ---- notes, §1
+- symbole: '$f$'
+  notion: ods/optimization-problem
+  ref: §1
+  sens: the objective function, the quantity to make as small as possible
+- symbole: '$\Omega$'
+  notion: ods/optimization-problem
+  ref: §1
+  sens: the domain, the set of admissible points
+- symbole: '$x^\star$'
+  notion: ods/optimization-problem
+  ref: §1
+  sens: a minimizer, a point of the domain where f attains its infimum
+- symbole: '$\mu$'
+  notion: ods/optimization-problem
+  ref: §1.1.4
+  sens: 'in the portfolio example, the vector of expected returns (§1.1.6 also calls a measure μ)'
+- symbole: '$\Sigma$'
+  notion: ods/optimization-problem
+  ref: §1.1.4
+  sens: in the portfolio example, the covariance matrix of the returns
+- symbole: '$a$'
+  notion: ods/rosenbrock-function
+  ref: §1.1.1
+  sens: the weight of the valley term of the Rosenbrock function
+- symbole: '$A$'
+  notion: ods/ordinary-least-squares
+  ref: §1.1.2
+  sens: the n × d data matrix, one row per observation, one column per feature
+- symbole: '$b$'
+  notion: ods/ordinary-least-squares
+  ref: §1.1.2
+  sens: the vector of observed responses
+- symbole: '$A^\dagger$'
+  notion: ods/ordinary-least-squares
+  ref: §1.1.2
+  sens: the Moore–Penrose pseudoinverse of A
+- symbole: '$\varepsilon$'
+  notion: ods/ordinary-least-squares
+  ref: §1.1.2
+  sens: the noise, or model error, in b = Ax₀ + ε
+- symbole: '$\mathcal{R}(\phi)$'
+  notion: ods/expected-risk
+  ref: p. 2
+  sens: the expected risk of the prediction φ
+- symbole: '$\ell$'
+  notion: ods/expected-risk
+  ref: p. 2
+  sens: the loss, the price of predicting φ(x) when the truth is y
+- symbole: '$\mathbb{P}$'
+  notion: ods/expected-risk
+  ref: p. 2
+  sens: the probability measure that generates the pairs (x, y)
+- symbole: '$\mathcal{F}$'
+  notion: ods/expected-risk
+  ref: p. 2
+  sens: the class of predictors among which one minimizes
+- symbole: '$\hat{\mathcal{R}}(\phi)$'
+  notion: ods/empirical-risk
+  ref: p. 2
+  sens: the empirical risk, the average loss on the n training pairs
+- symbole: '$J$'
+  notion: ods/structural-risk-minimization
+  ref: p. 3
+  sens: the regularization function, an a priori on the predictor
+- symbole: '$\lambda$'
+  notion: ods/structural-risk-minimization
+  ref: p. 3
+  sens: the regularization parameter, λ > 0
+- symbole: '$f^\star$'
+  notion: ods/existence-on-a-compact
+  ref: Th. 1.1
+  sens: the infimum of f over the domain
+# ---- notes, §2
+- symbole: '$C$'
+  notion: ods/convex-set
+  ref: Def. 2.1
+  sens: a convex set
+- symbole: '$\lambda$'
+  notion: ods/convex-set
+  ref: Def. 2.1
+  sens: a mixing weight in [0, 1], which slides a point along a segment
+- symbole: '$\Delta^{d-1}$'
+  notion: ods/convex-set
+  ref: Ex. 2.1
+  sens: the unit simplex of ℝᵈ
+- symbole: '$\mathbb{R}^d_{\geq 0}$'
+  notion: ods/convex-set
+  ref: Ex. 2.1
+  sens: the nonnegative orthant of ℝᵈ
+- symbole: '$\operatorname{epi} f$'
+  notion: ods/epigraph
+  ref: Def. 2.2
+  sens: the epigraph of f, the points on or above its graph
+- symbole: '$\operatorname{dom} f$'
+  notion: ods/convex-function
+  ref: eq. 2.1
+  sens: the domain of f, where f is finite
+- symbole: '$\operatorname{Conv}\mathbb{R}^p$'
+  notion: ods/convex-function
+  ref: §2.2.1
+  sens: the set of convex functions on ℝᵖ
+- symbole: '$\nabla f$'
+  notion: ods/first-order-characterization
+  ref: Prop. 2.2
+  sens: the gradient of f
+- symbole: '$\bar{x}$'
+  notion: ods/first-order-characterization
+  ref: Prop. 2.2
+  sens: the point where the tangent is drawn
+- symbole: '$\mu$'
+  notion: ods/strongly-convex-function
+  ref: Def. 2.4
+  sens: the modulus of strong convexity, μ > 0
+- symbole: '$L$'
+  notion: ods/l-smooth-function
+  ref: Def. 2.5
+  sens: the Lipschitz constant of the gradient, L > 0
+- symbole: '$\|\cdot\|_*$'
+  notion: ods/l-smooth-function
+  ref: Def. 2.5
+  sens: the dual norm of ‖·‖
+# ---- slides
+- symbole: '$q$'
+  notion: ods/quadratic-form
+  ref: slide 3
+  sens: 'a quadratic form, q(x) = ½xᵀAx − bᵀx + c'
+- symbole: '$A$'
+  notion: ods/quadratic-form
+  ref: slide 3
+  sens: the n × n matrix of a quadratic form (not the data matrix of the notes)
+- symbole: '$b$'
+  notion: ods/quadratic-form
+  ref: slide 3
+  sens: the linear term of a quadratic form (not the responses, not the intercept)
+- symbole: '$c$'
+  notion: ods/quadratic-form
+  ref: slide 3
+  sens: the constant term of a quadratic form
+- symbole: '$\nabla^2 f(x)$'
+  notion: ods/second-order-taylor-expansion
+  ref: slide 4
+  sens: the Hessian matrix of f at x
+- symbole: '$h$'
+  notion: ods/second-order-taylor-expansion
+  ref: slide 4
+  sens: the displacement from x in the Taylor expansion
+- symbole: '$X$'
+  notion: ods/ridge-regression
+  ref: slide 5
+  sens: the n × p matrix of samples, whose i-th row is xⁱ
+- symbole: '$y$'
+  notion: ods/ridge-regression
+  ref: slide 5
+  sens: the n targets to predict
+- symbole: '$w$'
+  notion: ods/ridge-regression
+  ref: slide 5
+  sens: the weights vector, in ℝᵖ
+- symbole: '$b$'
+  notion: ods/ridge-regression
+  ref: slide 5
+  sens: the intercept (a.k.a. bias), a real number, not penalized
+- symbole: '$\mathbf{1}_n$'
+  notion: ods/ridge-regression
+  ref: slide 5
+  sens: the vector of n ones
+- symbole: '$\bar{y}$'
+  notion: ods/intercept
+  ref: slide 6
+  sens: the mean of the targets
+- symbole: '$\overline{X}$'
+  notion: ods/intercept
+  ref: slide 6
+  sens: the vector of the means of the columns of X
+- symbole: '$\hat{w}$'
+  notion: ods/intercept
+  ref: slide 6
+  sens: the fitted weights
+- symbole: '$\hat{b}$'
+  notion: ods/intercept
+  ref: slide 6
+  sens: the fitted intercept
+- symbole: '$U$'
+  notion: ods/singular-value-decomposition
+  ref: slide 8
+  sens: the n × n orthogonal matrix of left-singular vectors
+- symbole: '$\Sigma$'
+  notion: ods/singular-value-decomposition
+  ref: slide 8
+  sens: the n × p diagonal matrix of singular values
+- symbole: '$V$'
+  notion: ods/singular-value-decomposition
+  ref: slide 8
+  sens: the p × p orthogonal matrix of right-singular vectors
+- symbole: '$U$'
+  notion: ods/woodbury-identity
+  ref: slide 10
+  sens: an n × k matrix of the low-rank correction UCV
+- symbole: '$C$'
+  notion: ods/woodbury-identity
+  ref: slide 10
+  sens: the k × k middle matrix of the correction UCV
+- symbole: '$V$'
+  notion: ods/woodbury-identity
+  ref: slide 10
+  sens: a k × n matrix of the correction UCV
+- symbole: '$\mathrm{nnz}(X)$'
+  notion: ods/sparse-matrix
+  ref: slide 12
+  sens: the number of non-zero entries of X
+- symbole: '$g^k$'
+  notion: ods/conjugate-gradient
+  ref: slide 16
+  sens: the gradient at the k-th iterate, gᵏ = Axᵏ − b
+- symbole: '$d^k$'
+  notion: ods/conjugate-gradient
+  ref: slide 14
+  sens: the k-th search direction
+- symbole: '$\alpha_k$'
+  notion: ods/conjugate-gradient
+  ref: slide 16
+  sens: the direction coefficient, which mixes the previous direction into the new one
+- symbole: '$\beta_k$'
+  notion: ods/conjugate-gradient
+  ref: slide 16
+  sens: the step size along dᵏ
+- symbole: '$\langle u, v\rangle_A$'
+  notion: ods/conjugate-directions
+  ref: slide 23
+  sens: the inner product ⟨u, Av⟩ defined by A ≻ 0
+- symbole: '$\kappa$'
+  notion: ods/condition-number
+  ref: slide 24
+  sens: the condition number λmax(A)/λmin(A)
+- symbole: '$\|u\|_A$'
+  notion: ods/cg-convergence-rate
+  ref: slide 24
+  sens: the A-norm, √⟨u, Au⟩, in which the error is measured
+- symbole: '$\sigma_i$'
+  notion: ods/conditioning-of-ridge
+  ref: slide 26
+  sens: the singular values of X
+- symbole: '$\varepsilon$'
+  notion: ods/nonlinear-conjugate-gradient
+  ref: slide 28
+  sens: the tolerance on the gradient norm that stops the loop
+- symbole: '$x^0$'
+  notion: ods/warm-start
+  ref: slide 29
+  sens: the starting point of an iterative solver
+# Collisions avec les autres cours (A12) : chaque entrée nomme tous les cours concernés.
+collisions:
+- symbole: '$A$'
+  ici: the data matrix of least squares (notes), then the matrix of a quadratic form (slides)
+  ailleurs:
+    dup: constant absolute risk aversion of CARA utility
+- symbole: '$C$'
+  ici: a convex set (notes), and the middle k × k matrix of the matrix inversion lemma (slides)
+  ailleurs:
+    fpp: the price of a call
+- symbole: '$L$'
+  ici: the Lipschitz constant of the gradient, L-smoothness
+  ailleurs:
+    dss: the maximized value of the likelihood
+    pfo: the loss of the portfolio over the horizon
+- symbole: '$U$'
+  ici: left-singular vectors of the SVD, and a factor of the matrix inversion lemma
+  ailleurs:
+    dup: the utility of wealth
+- symbole: '$V$'
+  ici: right-singular vectors of the SVD, and a factor of the matrix inversion lemma
+  ailleurs:
+    pfo: the covariance matrix of the order statistics of a normal sample
+- symbole: '$X$'
+  ici: the n × p data matrix of ridge regression
+  ailleurs:
+    dup: the set of outcomes
+- symbole: '$\alpha_k$'
+  ici: the direction coefficient of conjugate gradient
+  ailleurs:
+    pfo: the step length of SLSQP, set by line search
+  note: >-
+    the most misleading of the list — in pfo αₖ is a step, here the step is βₖ; the slides
+    also warn that Nocedal and Wright use αₖ for the step (slide 27)
+- symbole: '$\ell$'
+  ici: the loss of a prediction
+  ailleurs:
+    dup: a lottery
+- symbole: '$\lambda$'
+  ici: the regularization parameter (as in dss), and a mixing weight in [0, 1] in the definition of convexity
+  ailleurs:
+    dss: the tuning parameter of the ridge and lasso penalties
+    dup: the loss-aversion coefficient
+    pfo: the EWMA persistence parameter, and the multipliers of equality constraints
+  note: >-
+    ods and dss give λ the same role — the weight of the ridge penalty — up to a scaling by
+    n that depends on whether the fit term is averaged
+- symbole: '$\mathcal{F}$'
+  ici: the class of prediction rules
+  ailleurs:
+    dup: the set of acts with values in lotteries
+- symbole: '$\mu$'
+  ici: the modulus of strong convexity, and the vector of expected returns in the portfolio example
+  ailleurs:
+    dup: the mean of a prospect
+    fpp: the drift of the underlying under the historical probability
+    pfo: the vector of expected returns, a group mean, and the multipliers of inequality constraints
+- symbole: '$\varepsilon$'
+  ici: the noise of least squares, and the stopping tolerance of nonlinear conjugate gradient
+  ailleurs:
+    dss: an error tolerance
+- symbole: '$a$'
+  ici: the weight of the valley term of the Rosenbrock function
+  ailleurs:
+    dup: the share invested in the riskless asset
+- symbole: '$c$'
+  ici: the constant term of a quadratic form
+  ailleurs:
+    dup: the certainty equivalent
+- symbole: '$f$'
+  ici: the objective function
+  ailleurs:
+    dup: an act, a map from states to outcomes
+    pfo: the objective function to minimize — the same role as here
+- symbole: '$h$'
+  ici: the displacement in the Taylor expansion
+  ailleurs:
+    pfo: the inequality constraints, h(x) ≥ 0
+- symbole: '$q$'
+  ici: a quadratic form
+  ailleurs:
+    fpp: the continuous dividend yield
+# Homonymes (A12) : le même nom, ou le même alias, dans deux cours. Ici ce sont les mêmes
+# objets, vus deux fois : dss (en français) dit pourquoi on les emploie en statistique,
+# ods (en anglais) comment on les calcule. Aucune arête n'est posée entre les deux cours.
+homonymes:
+- nom: Ordinary least squares
+  entre:
+  - ods/ordinary-least-squares
+  - dss/moindres-carres-ordinaires
+  note: >-
+    the same problem; ods writes it ½‖Ax − b‖² with the notation of the notes and studies
+    when its minimizer exists, dss its statistical use
+- nom: Gradient descent
+  entre:
+  - ods/gradient-descent
+  - dss/descente-de-gradient
+  note: >-
+    the same method; in ods the step 1/L is derived from smoothness, in dss the method
+    trains a neural network
+- nom: Ridge regression
+  entre:
+  - ods/ridge-regression
+  - dss/regression-ridge
+  note: >-
+    the same estimator; dss explains the bias-variance trade-off it makes, ods how to
+    compute it when the data are too large to form XᵀX
+- nom: Singular value decomposition
+  entre:
+  - ods/singular-value-decomposition
+  - dss/decomposition-en-valeurs-singulieres
+  note: >-
+    the same factorization; dss writes it X = UDVᵀ with singular values dⱼ, ods
+    M = UΣVᵀ, following the slides

@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en" data-rel="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Local minima of a convex function are global · notions</title>
+<script>
+/* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
+   localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
+   cases « déjà su » ne peuvent donc pas traverser les pages par là. Ils voyagent dans
+   le fragment de l'URL, que tous les liens internes portent ; localStorage ne sert plus
+   que de mémoire locale, pour la page qu'on rouvre sans fragment.
+   Ce script s'exécute avant le rendu : sinon le thème clignote à chaque page. */
+(function(){
+var H={},h=(location.hash||'').replace(/^#/,'');
+h.split('~').forEach(function(p){var i=p.indexOf(':');if(i>0)H[p.slice(0,i)]=p.slice(i+1)});
+window.ETAT_URL=H;
+function loc(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+var t=H.t?(H.t==='d'?'dark':'light'):loc('notions.theme','');
+if(t)document.documentElement.setAttribute('data-theme',t);
+var a=(H.a!==undefined)?H.a:loc('notions.ajouts','1');
+if(a==='0')document.documentElement.classList.add('sans-ajouts');
+})();
+</script>
+<style>
+:root{
+  --bg:#fbfaf7; --bg2:#f3f0ea; --fg:#1b1a17; --mut:#6c675d; --fai:#8e887c;
+  --li:#e0dbd1; --li2:#cdc6b8; --card:#ffffff; --acc:#8a4f23; --acc2:#f3e7dc;
+  --ajo:#6d5a8c; --ajo2:#efe9f5; --lim:#9a3a2e; --ok:#3f6b46; --faute:#a8631a;
+  --r:8px; --w:min(72rem,100%);
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}}
+:root[data-theme="dark"]{
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}
+.fig{margin:.9rem 0;padding:.5rem .2rem .2rem;text-align:center}
+/* « > svg » et non « svg » : MathJax pose son propre <svg> dans la légende, et
+   une règle non ancrée en faisait un bloc qui coupait la phrase en trois. */
+.fig > svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig figcaption{margin-top:.35rem;font-family:var(--sans);font-size:.82rem;
+  color:var(--mut);text-align:center;line-height:1.45}
+@media print{.fig{break-inside:avoid}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
+  font-size:17px;line-height:1.62;overflow-wrap:break-word}
+a{color:var(--acc);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-style:dotted}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+.wrap{width:var(--w);margin:0 auto;padding:0 1rem}
+
+/* ---- barre du haut ---- */
+header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
+  border-bottom:1px solid var(--li);font-family:var(--sans)}
+.topin{width:var(--w);margin:0 auto;padding:.45rem 1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.brand{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--fg);letter-spacing:.02em}
+.fil{color:var(--mut);font-size:.82rem;flex:1 1 8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fil a{color:var(--mut)}
+.btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
+  border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+a.btn{text-decoration:none}
+.btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
+.rech{position:relative;flex:0 1 16rem;min-width:9rem}
+.rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
+  border:1px solid var(--li2);border-radius:var(--r);background:var(--card);color:var(--fg)}
+.res{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--li2);
+  border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.14);max-height:60vh;overflow:auto;padding:.2rem;margin:0;
+  list-style:none;display:none;z-index:50;min-width:18rem}
+.res.on{display:block}
+.res li a{display:block;padding:.3rem .45rem;border-radius:6px;text-decoration:none;color:var(--fg);font-size:.86rem}
+.res li a:hover,.res li.sel a{background:var(--acc2)}
+.res .sub{color:var(--mut);font-size:.76rem;font-family:var(--sans)}
+.res .vide{padding:.4rem .5rem;color:var(--mut);font-size:.84rem}
+
+main{padding:1.4rem 0 4rem}
+h1{font-size:1.75rem;line-height:1.24;margin:.2rem 0 .3rem}
+h2{font-size:1.06rem;font-family:var(--sans);font-weight:600;letter-spacing:.01em;margin:0}
+h3{font-size:.95rem;font-family:var(--sans);margin:1.2rem 0 .3rem}
+p{margin:.55rem 0}
+.ptag{font-family:var(--sans);font-size:.74rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .5rem}
+
+/* ---- métadonnées de fiche ---- */
+.meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;font-family:var(--sans);font-size:.75rem;color:var(--mut);margin:.4rem 0 1.1rem}
+.pill{border:1px solid var(--li2);border-radius:99px;padding:.06rem .5rem;background:var(--card);white-space:nowrap}
+.pill.ajout{color:var(--ajo);border-color:var(--ajo);background:var(--ajo2)}
+.pill.typ{background:var(--acc2);border-color:var(--acc)}
+.sym{font-family:var(--serif);font-size:1rem;color:var(--fg)}
+
+/* ---- sections ---- */
+.sec{border-top:1px solid var(--li);padding:.85rem 0}
+.sec.vide{display:none}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.45rem;padding:.1rem 0}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"›";color:var(--fai);font-family:var(--sans);display:inline-block;
+  transition:transform .12s ease;transform:rotate(0deg);width:.7em}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fai);font-weight:400}
+.corps{padding-top:.25rem}
+.gen{border-left:2px solid var(--li2);padding-left:.7rem}
+.chemin{border-left:3px solid var(--acc);background:var(--bg2);border-radius:0 var(--r) var(--r) 0;
+  padding:.5rem .8rem;margin:.2rem 0 .7rem}
+.chemin p{margin:.35rem 0;font-size:.95rem}
+.chemin p:first-child{margin-top:0}
+.chemin p:last-child{margin-bottom:0}
+.note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
+.parc{border:1px solid var(--li);border-left:3px solid var(--acc);border-radius:0 var(--r) var(--r) 0;
+  background:var(--bg2);padding:.5rem .8rem;margin:.6rem 0;font-size:.93rem}
+.parc-t{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin-bottom:.15rem}
+.parc p{margin:.2rem 0}
+.parc-h{border-left:2px solid var(--li);padding:.1rem 0 .1rem .6rem;margin:.3rem 0 .45rem;color:var(--mut)}
+.parc-h strong{color:var(--fg)}
+.parc-l{font-family:var(--sans);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--acc);margin-right:.25rem}
+.parc-lien{margin-top:.35rem;font-size:.92em}
+.parc-suite{border-left:2px solid var(--acc);padding:.1rem 0 .1rem .6rem;margin:.35rem 0;color:var(--fg);background:var(--acc2)}
+.parc-nav{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--sans);font-size:.8rem;margin-top:.35rem}
+.parc-nav .suiv{margin-left:auto;text-align:right}
+.etapes{list-style:none;padding:0;margin:.6rem 0 1.2rem;counter-reset:e}
+.etapes>li{counter-increment:e;position:relative;padding:0 0 1rem 1.7rem;border-left:2px solid var(--li);margin-left:.9rem}
+.etapes>li:last-child{border-left-color:transparent}
+.etapes>li::before{content:counter(e);position:absolute;left:-.95rem;top:0;width:1.75rem;height:1.75rem;
+  border-radius:99px;background:var(--card);border:1px solid var(--acc);color:var(--acc);
+  font-family:var(--sans);font-size:.78rem;display:flex;align-items:center;justify-content:center}
+.etapes>li>p{margin:.1rem 0 .35rem}
+.etapes .arr{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.45rem .75rem}
+.etapes .arr a.tit{font-weight:600;text-decoration:none}
+.etapes .arr p{margin:.15rem 0;font-size:.88rem;color:var(--mut)}
+.avant{list-style:none;padding:0;margin:.4rem 0 1rem}
+.avant>li{margin:.5rem 0}
+.avant>li p{margin:.1rem 0 0;font-size:.95rem}
+.avant a.tit{font-weight:600;text-decoration:none}
+.roles{list-style:none;padding:0;margin:.2rem 0 0}
+.roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
+.roles>li.cible{background:var(--acc2)}
+details.parc>summary{cursor:pointer}
+.sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
+.sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
+.sec.faute>summary h2{color:var(--faute)}
+.faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
+  margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.faute-b strong{color:var(--faute)}
+.sec.lim>summary h2{color:var(--lim)}
+.sec.lim>h2{color:var(--lim)}
+
+/* ---- marqueurs de traçabilité ---- */
+.marq{font-family:var(--sans);font-size:.7rem;color:var(--fai);white-space:nowrap;vertical-align:.12em}
+.marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
+.marqligne{margin:.15rem 0 0}
+html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
+.bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
+  color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
+
+/* ---- pastilles ---- */
+.pasts{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0;padding:0;list-style:none}
+.past{display:inline-block;font-family:var(--sans);font-size:.82rem;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--li2);border-radius:99px;padding:.12rem .6rem}
+.past:hover{border-color:var(--acc);color:var(--acc)}
+.past .cc{color:var(--fai);font-size:.74rem}
+.past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
+.past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
+.past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
+
+/* ---- socle ---- */
+.socle{list-style:none;padding:0;margin:.3rem 0}
+.socle li{display:flex;gap:.5rem;align-items:baseline;padding:.12rem 0;font-size:.92rem}
+.socle input{margin:0;accent-color:var(--ok)}
+.socle li.su a{color:var(--fai);text-decoration:line-through}
+.compteur{font-family:var(--sans);font-size:.78rem;color:var(--mut)}
+.grp{margin:.5rem 0}
+.grp>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--mut)}
+
+table{border-collapse:collapse;margin:.5rem 0;font-size:.9rem;display:block;overflow-x:auto;max-width:100%}
+th,td{border:1px solid var(--li);padding:.25rem .55rem;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-family:var(--sans);font-size:.78rem;font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+  background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
+ul{padding-left:1.1rem}
+hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
+
+/* ---- cartes d'accueil / carte du cours ---- */
+.cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
+.carte{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.65rem .8rem}
+.carte h3{margin:0 0 .2rem}
+.carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
+.carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
+.dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.vise{animation:vise 1.6s ease}
+@keyframes vise{from{background:var(--acc2)}to{background:transparent}}
+
+/* ---- orientation : ce qui s'adresse au lecteur qui arrive ---- */
+.entree{border:1px solid var(--li2);border-left:3px solid var(--acc);border-radius:var(--r);
+  padding:.7rem .9rem;margin:.8rem 0 1.4rem;background:var(--card)}
+.entree p{margin:.3rem 0;font-size:.92rem}
+.entree .quoi{font-size:1.02rem}
+.entree ul{margin:.5rem 0 .2rem;padding-left:1.1rem;font-family:var(--sans);font-size:.88rem}
+.entree li{margin:.2rem 0}
+.chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
+.chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
+.aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
+/* L'en-tête est collant : une ancre visée ne doit pas passer dessous. Mesuré :
+   il fait 48 px sur une ligne, 85 px quand il se replie en deux (écran étroit). */
+[id]{scroll-margin-top:6rem}
+.aide p,.aide ul,.aide table{max-width:42rem}
+.dette ul{margin:.3rem 0 0}
+footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
+
+/* ---- arbre ---- */
+.barre{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+.barre.plier{justify-content:flex-end;margin:.2rem 0 -.2rem}
+#scene{position:relative;border:1px solid var(--li);border-radius:var(--r);background:var(--bg2);
+  height:min(74vh,720px);overflow:hidden;touch-action:none;cursor:grab}
+#scene.drag{cursor:grabbing}
+#pan{position:absolute;transform-origin:0 0;top:0;left:0}
+#aretes{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+#aretes path{fill:none;stroke:var(--li2);stroke-width:1.5}
+.noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
+  padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
+.noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
+.noeud .nm{font-weight:600}
+.noeud .nm a{text-decoration:none;color:var(--fg)}
+.noeud .nm a:hover{color:var(--acc)}
+.noeud .pa{color:var(--mut);font-size:.72rem;display:block;margin-top:.1rem}
+.noeud .pli{font:inherit;font-size:.72rem;background:none;border:1px solid var(--li2);border-radius:4px;
+  color:var(--mut);cursor:pointer;padding:0 .3rem;margin-right:.25rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.4rem}
+  .rech{flex:1 1 100%;order:9}
+  #scene{height:66vh}
+}
+@media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="brand" href="../../index.html">notions</a><span class="fil"><a href="../../ods/index.html">Optimization for Data Science</a> › Local minima of a convex function are global</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><h1>Local minima of a convex function are global</h1><div class="meta"><a class="pill typ" href="../../aide.html" data-v="types" title="an object of the course, the one you work with">notion</a><a class="pill" href="../../ods/index.html">ods</a><a class="pill" href="../../aide.html" data-v="niveau" title="reading order: the number of notions to go through, on the longest path, to reach this one. Level 0 = depends on no other.">level 2</a><a class="pill" href="../../ods/arbre.html" data-noeud="ods/local-minima-are-global" title="this notion is not filed under any family">course tree</a><span class="pill">Th. 2.1</span><span class="pill">§2.2.2</span></div><p class="note">also: local solution, global solution</p><div class="parc"><div class="parc-t"><a href="../../aide.html" data-v="parcours">Reading path</a> <a href="../../ods/parcours/convexity.html#e5">“Can a descent be trapped?”</a> · step 5 of 7</div><div class="parc-h"><p class="is-ajout">Our four observations now call for the penalized problem: minimize $\tfrac12\|Ax-b\|^2+\tfrac12\|x\|^2$ over the weights $x$ in the plane. A numerical method starts from $x=(0,0)$, walks downhill, and stops where no small step lowers the objective. <strong>Can it stop at a point that is not the best one</strong>? <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></p></div><p class="is-ajout"><span class="parc-l">In the story</span> No: for a convex function on a closed convex set, every local minimizer is global. A point where no small step lowers the objective is the best point. <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></p><p><span class="parc-l">From the previous step</span> Does convexity answer our question about the stopping point? <span class="marq" title="reference to the source">[Th. 2.1]</span></p><div class="parc-nav"><a class="prec" href="../../ods/n/convex-function.html">← Convex function</a><a class="suiv" href="../../ods/n/first-order-characterization.html">First-order characterization of convexity →</a></div></div><div class="barre plier"><button class="btn" type="button" id="tout-plier">expand all</button></div><section class="sec " data-oblig="1"><h2>What it is</h2><div class="corps"><p>For a convex function on a closed convex set, every local minimizer is a global one, and the global minimizers form a convex set. <span class="marq" title="reference to the source">[Th. 2.1]</span></p></div></section><section class="sec " data-oblig="1"><h2>Formula</h2><div class="corps"><p>$$f\ \text{convex},\ C\ \text{convex and closed}:\qquad x^\star\ \text{local solution of}\ \min_{x\in C}f(x)\ \Longrightarrow\ x^\star\ \text{global solution}$$ <span class="marq" title="reference to the source">[Th. 2.1]</span></p></div></section><section class="sec "><h2>What the symbols model</h2><div class="corps"><p>A local solution $x^\star$ beats the points of $C$ in some neighbourhood $\mathcal{O}$ of it: $f(x)\geq f(x^\star)$ for all $x\in C\cap\mathcal{O}$. A global solution beats every point of $C$. $C$ is the set of admissible points, here convex and closed. <span class="marq" title="reference to the source">[§2.2.2]</span></p></div></section><details class="sec " data-k="retrouver"><summary><h2>Rederive the formula</h2></summary><div class="corps"><figure class="fig is-ajout"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 622 240" width="100%" height="auto" role="img" style="color:var(--fg);max-width:622px;height:auto"><title>Walking downhill can stop in a trap, unless f is convex</title><g transform="translate(0 0)"><path d="M150 8 L150 232 M8 174.19 L292 174.19" fill="none" stroke="var(--mut)" stroke-width="1.2"/><path d="M23.78 33.03 L25.31 46.23 L26.83 58.72 L28.36 70.53 L29.89 81.68 L31.42 92.17 L32.95 102.04 L34.48 111.31 L36.01 119.98 L37.53 128.08 L39.06 135.63 L40.59 142.64 L42.12 149.14 L43.65 155.13 L45.18 160.65 L46.7 165.69 L48.23 170.29 L49.76 174.45 L51.29 178.2 L52.82 181.55 L54.35 184.5 L55.88 187.09 L57.4 189.33 L58.93 191.22 L60.46 192.79 L61.99 194.05 L63.52 195.02 L65.05 195.7 L66.57 196.11 L68.1 196.26 L69.63 196.17 L71.16 195.86 L72.69 195.32 L74.22 194.59 L75.75 193.66 L77.27 192.55 L78.8 191.27 L80.33 189.84 L81.86 188.26 L83.39 186.54 L84.92 184.71 L86.45 182.76 L87.97 180.7 L89.5 178.56 L91.03 176.33 L92.56 174.03 L94.09 171.66 L95.62 169.24 L97.14 166.77 L98.67 164.27 L100.2 161.73 L101.73 159.18 L103.26 156.61 L104.79 154.03 L106.32 151.46 L107.84 148.89 L109.37 146.35 L110.9 143.82 L112.43 141.32 L113.96 138.86 L115.49 136.43 L117.01 134.06 L118.54 131.73 L120.07 129.46 L121.6 127.25 L123.13 125.11 L124.66 123.04 L126.19 121.05 L127.71 119.13 L129.24 117.3 L130.77 115.55 L132.3 113.89 L133.83 112.33 L135.36 110.85 L136.88 109.48 L138.41 108.2 L139.94 107.03 L141.47 105.96 L143 104.99 L144.53 104.13 L146.06 103.38 L147.58 102.73 L149.11 102.2 L150.64 101.77 L152.17 101.45 L153.7 101.24 L155.23 101.13 L156.75 101.14 L158.28 101.24 L159.81 101.46 L161.34 101.77 L162.87 102.19 L164.4 102.71 L165.93 103.33 L167.45 104.04 L168.98 104.84 L170.51 105.74 L172.04 106.72 L173.57 107.78 L175.1 108.92 L176.62 110.14 L178.15 111.43 L179.68 112.79 L181.21 114.21 L182.74 115.69 L184.27 117.21 L185.8 118.79 L187.32 120.41 L188.85 122.06 L190.38 123.74 L191.91 125.45 L193.44 127.17 L194.97 128.91 L196.5 130.64 L198.02 132.37 L199.55 134.09 L201.08 135.79 L202.61 137.46 L204.14 139.09 L205.67 140.68 L207.19 142.22 L208.72 143.69 L210.25 145.09 L211.78 146.41 L213.31 147.64 L214.84 148.77 L216.37 149.78 L217.89 150.68 L219.42 151.44 L220.95 152.06 L222.48 152.52 L224.01 152.82 L225.54 152.94 L227.06 152.87 L228.59 152.59 L230.12 152.11 L231.65 151.39 L233.18 150.44 L234.71 149.23 L236.24 147.75 L237.76 146 L239.29 143.95 L240.82 141.59 L242.35 138.91 L243.88 135.89 L245.41 132.52 L246.93 128.78 L248.46 124.65 L249.99 120.13 L251.52 115.2 L253.05 109.83 L254.58 104.02 L256.11 97.74 L257.63 90.99 L259.16 83.73 L260.69 75.96 L262.22 67.66 L263.75 58.81 L265.28 49.39 L266.8 39.39 L268.33 28.77" fill="none" stroke="var(--ajo)" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="225.75" cy="152.94" r="4.6" fill="var(--ajo)"/><circle cx="68.3" cy="196.26" r="4.6" fill="var(--fg)"/><path d="M262.02 50.7 L233.63 138.49" fill="none" stroke="var(--fg)" stroke-width="1.5" stroke-linecap="round"/><path d="M233.63 138.49 L239.9 132.11 L232.29 129.64 Z" fill="var(--fg)"/><defs><filter id="fond-etiquette" x="-0.03" y="-0.12" width="1.06" height="1.24"><feFlood style="flood-color:var(--card)"/></filter></defs><text x="225.75" y="176.78" text-anchor="middle" font-size="12" fill="none" filter="url(#fond-etiquette)" font-family="ui-sans-serif,system-ui,sans-serif">trapped: local</text><text x="225.75" y="176.78" text-anchor="middle" font-size="12" fill="var(--ajo)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">trapped: local</text><text x="68.3" y="220.11" text-anchor="middle" font-size="12" fill="none" filter="url(#fond-etiquette)" font-family="ui-sans-serif,system-ui,sans-serif">global</text><text x="68.3" y="220.11" text-anchor="middle" font-size="12" fill="var(--fg)" font-family="ui-sans-serif,system-ui,sans-serif">global</text><text x="55.33" y="21.01" text-anchor="start" font-size="12.5" fill="none" filter="url(#fond-etiquette)" font-family="ui-sans-serif,system-ui,sans-serif">not convex</text><text x="55.33" y="21.01" text-anchor="start" font-size="12.5" fill="var(--ajo)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">not convex</text></g><g transform="translate(322 0)"><path d="M150 8 L150 232 M8 149.47 L292 149.47" fill="none" stroke="var(--mut)" stroke-width="1.2"/><path d="M31.67 21.01 L33.15 25.41 L34.63 29.76 L36.1 34.07 L37.58 38.34 L39.06 42.56 L40.54 46.74 L42.02 50.87 L43.5 54.95 L44.98 58.99 L46.46 62.98 L47.94 66.93 L49.42 70.83 L50.9 74.68 L52.38 78.49 L53.85 82.24 L55.33 85.95 L56.81 89.61 L58.29 93.22 L59.77 96.78 L61.25 100.29 L62.73 103.74 L64.21 107.15 L65.69 110.51 L67.17 113.81 L68.65 117.07 L70.12 120.27 L71.6 123.42 L73.08 126.52 L74.56 129.56 L76.04 132.55 L77.52 135.49 L79 138.37 L80.48 141.2 L81.96 143.97 L83.44 146.69 L84.92 149.35 L86.4 151.96 L87.88 154.51 L89.35 157.01 L90.83 159.45 L92.31 161.83 L93.79 164.16 L95.27 166.42 L96.75 168.64 L98.23 170.79 L99.71 172.89 L101.19 174.92 L102.67 176.9 L104.15 178.83 L105.62 180.69 L107.1 182.49 L108.58 184.23 L110.06 185.92 L111.54 187.54 L113.02 189.11 L114.5 190.62 L115.98 192.06 L117.46 193.45 L118.94 194.77 L120.42 196.04 L121.9 197.24 L123.38 198.38 L124.85 199.46 L126.33 200.48 L127.81 201.44 L129.29 202.34 L130.77 203.18 L132.25 203.95 L133.73 204.66 L135.21 205.32 L136.69 205.91 L138.17 206.43 L139.65 206.9 L141.12 207.3 L142.6 207.64 L144.08 207.92 L145.56 208.14 L147.04 208.3 L148.52 208.39 L150 208.42 L151.48 208.39 L152.96 208.3 L154.44 208.14 L155.92 207.92 L157.4 207.64 L158.88 207.3 L160.35 206.9 L161.83 206.43 L163.31 205.91 L164.79 205.32 L166.27 204.66 L167.75 203.95 L169.23 203.18 L170.71 202.34 L172.19 201.44 L173.67 200.48 L175.15 199.46 L176.62 198.38 L178.1 197.24 L179.58 196.04 L181.06 194.77 L182.54 193.45 L184.02 192.06 L185.5 190.62 L186.98 189.11 L188.46 187.54 L189.94 185.92 L191.42 184.23 L192.9 182.49 L194.37 180.69 L195.85 178.83 L197.33 176.9 L198.81 174.92 L200.29 172.89 L201.77 170.79 L203.25 168.64 L204.73 166.42 L206.21 164.16 L207.69 161.83 L209.17 159.45 L210.65 157.01 L212.13 154.51 L213.6 151.96 L215.08 149.35 L216.56 146.69 L218.04 143.97 L219.52 141.2 L221 138.37 L222.48 135.49 L223.96 132.55 L225.44 129.56 L226.92 126.52 L228.4 123.42 L229.88 120.27 L231.35 117.07 L232.83 113.81 L234.31 110.51 L235.79 107.15 L237.27 103.74 L238.75 100.29 L240.23 96.78 L241.71 93.22 L243.19 89.61 L244.67 85.95 L246.15 82.24 L247.62 78.49 L249.1 74.68 L250.58 70.83 L252.06 66.93 L253.54 62.98 L255.02 58.99 L256.5 54.95 L257.98 50.87 L259.46 46.74 L260.94 42.56 L262.42 38.34 L263.9 34.07 L265.38 29.76 L266.85 25.41 L268.33 21.01" fill="none" stroke="var(--acc)" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="150" cy="208.42" r="4.6" fill="var(--acc)"/><path d="M244.67 71.21 L177.61 184.66" fill="none" stroke="var(--fg)" stroke-width="1.5" stroke-linecap="round"/><path d="M177.61 184.66 L185.13 179.81 L178.24 175.74 Z" fill="var(--fg)"/><defs><filter id="fond-etiquette" x="-0.03" y="-0.12" width="1.06" height="1.24"><feFlood style="flood-color:var(--card)"/></filter></defs><text x="159.47" y="224.93" text-anchor="middle" font-size="12" fill="none" filter="url(#fond-etiquette)" font-family="ui-sans-serif,system-ui,sans-serif">the only local minimum is global</text><text x="159.47" y="224.93" text-anchor="middle" font-size="12" fill="var(--acc)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">the only local minimum is global</text><text x="11.94" y="18.61" text-anchor="start" font-size="12.5" fill="none" filter="url(#fond-etiquette)" font-family="ui-sans-serif,system-ui,sans-serif">convex: x² − cos x</text><text x="11.94" y="18.61" text-anchor="start" font-size="12.5" fill="var(--acc)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">convex: x² − cos x</text></g></svg><figcaption>On the left, a non-convex function with two hollows: a point walking downhill from the right stops in the higher hollow, a local minimum that is not the global one. On the right, f(x) = x² − cos x has a single hollow, and the point walking downhill ends at the global minimum. <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></figcaption></figure><p>Known: $x^\star$ beats every admissible point close to it. Sought: that it beats all of them. Suppose it does not: some $z\in C$ has $f(z)&lt;f(x^\star)$. <span class="marq" title="reference to the source">[Th. 2.1]</span></p><p class="is-ajout">With numbers: say $f(x)=x^2-\cos x$ had a local minimum at $x^\star=1$, where $f\approx0.46$, while $z=0$ gives $f(0)=-1$. The chord from $\big(1,\,0.46\big)$ to $\big(0,\,-1\big)$ is below $0.46$ as soon as it leaves $x^\star$: at $0.99$ it is at $0.99\cdot0.46+0.01\cdot(-1)\approx0.445$. <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></p><p>A convex function lies under its chords, so $f(0.99)\leq0.445&lt;0.46$: a point as close to $x^\star$ as we like does better than $x^\star$, and $x^\star$ was not a local minimum. In general, the points $(1-t)x^\star+tz$ of the segment are admissible because $C$ is convex, and they tend to $x^\star$ as $t\downarrow0$. <span class="marq" title="reference to the source">[Th. 2.1]</span></p><p>$$f\big((1-t)x^\star+tz\big)\leq(1-t)f(x^\star)+tf(z)&lt;f(x^\star)\qquad\forall t\in(0,1]$$ <span class="marq" title="reference to the source">[Th. 2.1]</span></p></div></details><section class="sec " data-oblig="1"><h2>What defines it</h2><div class="corps"><p>The second half of the theorem: if $x^\star$ and $z$ are two global solutions, every point of the segment between them has the same value, $f(x^\star)$, so the set of global solutions is convex — a single point, a segment, a whole face, but never two separate pieces. <span class="marq" title="reference to the source">[Th. 2.1]</span></p></div></section><details class="sec " data-k="construite"><summary><h2>Built from</h2><span class="cnt">2 direct prerequisites</span></summary><div class="corps"><ul class="pasts"><li><a class="past" href="../../ods/n/convex-function.html">Convex function<span class="nv">L1</span></a></li><li><a class="past" href="../../ods/n/optimization-problem.html">Optimization problem<span class="nv">L0</span></a></li></ul><p class="note">Only what this page depends on directly. “All prerequisites”, just below, repeats these notions and adds everything they depend on in turn.</p></div></details><details class="sec gen" data-k="socle"><summary><h2>All prerequisites</h2><span class="cnt">4 prerequisites in all</span></summary><div class="corps"><div class="chemin"><p class="is-ajout"><a href="../../ods/n/convex-function.html">Convex function</a> supplies the chord inequality on which the proof rests, and <a href="../../ods/n/convex-set.html">Convex set</a> makes the segment from $x^\star$ to $z$ admissible; the chord inequality is the convexity of the <a href="../../ods/n/epigraph.html">Epigraph</a> read on two points of the graph. The words local and global solution refine the minimizer of <a href="../../ods/n/optimization-problem.html">Optimization problem</a>. <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></p></div><p class="note">Everything you need to have read before this page, from the most elementary to the most elaborate. <strong>The list is complete</strong>: reading it is enough, none of these notions calls for another one missing here. Ticking a box strikes it out on every page. (<a href="../../aide.html" data-v="socle">learn more</a>)</p><p class="compteur" data-cpt="socle"></p><ul class="socle"><li><input type="checkbox" data-su="ods/convex-set" aria-label="already known: Convex set"><a href="../../ods/n/convex-set.html">Convex set</a> <span class="marq">level 0</span></li><li><input type="checkbox" data-su="ods/epigraph" aria-label="already known: Epigraph"><a href="../../ods/n/epigraph.html">Epigraph</a> <span class="marq">level 0</span></li><li><input type="checkbox" data-su="ods/optimization-problem" aria-label="already known: Optimization problem"><a href="../../ods/n/optimization-problem.html">Optimization problem</a> <span class="marq">level 0</span></li><li><input type="checkbox" data-su="ods/convex-function" aria-label="already known: Convex function"><a href="../../ods/n/convex-function.html">Convex function</a> <span class="marq">level 1</span></li></ul></div></details><details class="sec gen" data-k="sert"><summary><h2>Used next for</h2><span class="cnt">1</span></summary><div class="corps"><p class="note">What this notion lets you tackle right after. Only the next step, not everything that follows: otherwise a notion far upstream would open half the course.</p><p class="compteur" data-cpt="aval"></p><ul class="socle"><li><input type="checkbox" data-su="ods/first-order-optimality-condition" aria-label="already known: First-order optimality condition"><a href="../../ods/n/first-order-optimality-condition.html">First-order optimality condition</a> <span class="marq">level 3</span></li></ul></div></details><details class="sec " data-k="exemple" data-oblig="1"><summary><h2>Minimal example</h2></summary><div class="corps"><p class="is-ajout">$f(x)=x^2-\cos x$ has a single local minimum, at $0$, and it is the global one. <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></p></div></details><details class="sec " data-k="geste" data-oblig="1"><summary><h2>Typical computation</h2></summary><div class="corps"><p class="is-ajout">To certify a candidate as a global minimizer, check that $f$ and $C$ are convex and that no nearby admissible point does better. For the penalized least squares of the four observations, $C=\mathbb{R}^2$ is convex and closed and the objective is convex, so the point where a descent method stops is the global minimizer. <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></p></div></details><details class="sec lim" data-k="limite" data-oblig="1"><summary><h2>Stops being valid when</h2></summary><div class="corps"><p>$f$ is not convex: $h(x)=(x^2-1)^2+0.3x$ has a local minimum near $0.96$, where $h\approx0.29$, and its global minimum near $-1.04$, where $h\approx-0.31$ — a descent started on the right is trapped. $C$ is not convex: on $[-2,-1]\cup[1,2]$, $f(x)=x^2+0.1x$ has a local minimum at $1$ that is not the global one, at $-1$. The theorem also assumes that a local solution exists; it does not produce one. <span class="marq" title="reference to the source">[Th. 2.1, ajout]</span></p></div></details></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../../aide.html">comment lire ce site</a> · <a href="../../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../../search-index.js"></script>
+<script>
+var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+        s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- l'état qui traverse les pages ----------------------------------------
+   Voir le commentaire de l'en-tête : en file://, seul le fragment traverse.
+   Forme du fragment :  #t:d~a:0~p:1-0--1...~s:<tampon>.<bits>~v:<ancre>
+     t  thème      d | l            (absent : celui du système)
+     a  ajouts     0                (absent : montrés)
+     p  pliage     un caractère par clé de CLES_PLI : 1 ouvert, 0 fermé, - inconnu
+     s  déjà su    un bit par notion, six bits par caractère, précédé d'un tampon
+     v  ancre      l'élément vers lequel défiler à l'arrivée
+   Le tampon est calculé sur la liste des identifiants : dès qu'une notion entre dans
+   le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
+   cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
+var ETAT=(function(){
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='6728',
+    A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
+var pli={},su={};
+if(typeof H.p==='string'){
+  for(var i=0;i<CLES.length&&i<H.p.length;i++){var c=H.p.charAt(i);
+    if(c==='0'||c==='1')pli[CLES[i]]=(c==='1');}
+}else{
+  CLES.forEach(function(k){var v=LS.g('notions.pli.'+k,null);if(v!==null)pli[k]=(v==='1')});
+}
+function decode(t){var o={},q=t.indexOf('.');
+  if(q<0||t.slice(0,q)!==TAMPON)return o;
+  var b=t.slice(q+1);
+  for(var i=0;i<b.length;i++){var v=A64.indexOf(b.charAt(i));if(v<0)continue;
+    for(var j=0;j<6;j++){if(v&(1<<j)){var k=i*6+j;if(k<IDS.length)o[IDS[k]]=1}}}
+  return o;}
+function encode(){var o='';
+  for(var i=0;i<IDS.length;i+=6){var v=0;
+    for(var j=0;j<6;j++){if(su[IDS[i+j]])v|=1<<j}
+    o+=A64.charAt(v);}
+  return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
+if(typeof H.s==='string'){su=decode(H.s)}
+else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
+function frag(ancre,noeud){var p=[];
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t)p.push('t:'+(t==='dark'?'d':'l'));
+  if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
+  var q='';CLES.forEach(function(k){q+=(pli[k]===undefined?'-':(pli[k]?'1':'0'))});
+  if(/[01]/.test(q))p.push('p:'+q);
+  var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
+  if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
+  return p.length?'#'+p.join('~'):'';}
+function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
+function propager(){var f=frag();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';if(!interne(h))return;
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
+  /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
+     Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
+  try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
+  try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}}
+return{pli:function(k){return pli[k]===undefined?null:pli[k]},
+       setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
+       su:function(id){return !!su[id]},
+       setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
+       lien:function(u,v,n){return u+frag(v,n)},
+       ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
+       propager:propager};
+})();
+function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
+  var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
+  b.textContent=on?'masquer les ajouts':'ajouts masqués';}
+  document.querySelectorAll('.sec').forEach(function(s){
+    var c=s.querySelector('.corps');if(!c)return;var n=0;
+    c.querySelectorAll(':scope>*').forEach(function(el){
+      if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
+      if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
+      n++;});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='This section exists, but all its content is an addition: the filter hides it. It stays visible so that you do not conclude that it is empty.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
+  if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var bt=document.getElementById('btheme');
+  if(bt)bt.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    var nx=(cur||sys)==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);
+    ETAT.propager();});
+  var ba=document.getElementById('bajout');
+  if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);ETAT.propager();});
+  majAjouts(!document.documentElement.classList.contains('sans-ajouts'));
+  /* les liens de la page portent l'état ; une ancre demandée est ouverte et visée */
+  ETAT.propager();
+  var an=ETAT.ancre();
+  if(an){var el=document.getElementById(an);
+    if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView();el.classList.add('vise')}}
+  /* --- recherche instantanée (règle 9) --- */
+  var inp=document.getElementById('q'),res=document.getElementById('qres');
+  if(!inp||!res||!window.SEARCH_INDEX)return;
+  var REL=document.documentElement.getAttribute('data-rel')||'';
+  var sel=-1,items=[];
+  function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+  function cherche(q){
+    var n=norm(q);if(!n)return [];
+    var out=[];
+    SEARCH_INDEX.forEach(function(e){
+      var sc=-1,ch=e.h||[];
+      for(var i=0;i<ch.length;i++){var p=norm(ch[i]).indexOf(n);
+        if(p===0){sc=Math.max(sc,3-(i>0?1:0))}else if(p>0){sc=Math.max(sc,1)}}
+      if(sc>=0)out.push([sc,e]);});
+    out.sort(function(a,b){return b[0]-a[0]||a[1].n.localeCompare(b[1].n)});
+    return out.slice(0,9).map(function(x){return x[1]});}
+  function rendre(){
+    items=cherche(inp.value);sel=-1;res.innerHTML='';
+    if(!inp.value){res.classList.remove('on');return}
+    if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
+    items.forEach(function(e,i){
+      var li=document.createElement('li');
+      var a=document.createElement('a');a.href=ETAT.lien(REL+e.u);a.id='qr'+i;
+      a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
+      li.appendChild(a);res.appendChild(li);});
+    res.classList.add('on');}
+  function bouge(d){if(!items.length)return;sel=(sel+d+items.length)%items.length;
+    Array.prototype.forEach.call(res.children,function(li,i){li.classList.toggle('sel',i===sel)});
+    inp.setAttribute('aria-activedescendant','qr'+sel);}
+  inp.addEventListener('input',rendre);
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();bouge(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();bouge(-1)}
+    else if(e.key==='Enter'){var a=res.querySelector(sel>=0?'li.sel a':'li a');if(a){e.preventDefault();location.href=a.href}}
+    else if(e.key==='Escape'){inp.value='';res.classList.remove('on')}});
+  document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
+  document.addEventListener('keydown',function(e){
+    if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  /* pliage mémorisé par rubrique (règle 5), et transporté d'une page à l'autre */
+  var secs=document.querySelectorAll('details.sec[data-k]'),bp=document.getElementById('tout-plier');
+  function libelle(){
+    if(!bp)return;var ferme=false;
+    secs.forEach(function(d){if(!d.open)ferme=true});
+    bp.textContent=ferme?'expand all':'collapse all';bp.setAttribute('data-v',ferme?'1':'0');}
+  secs.forEach(function(d){
+    var k=d.getAttribute('data-k'),v=ETAT.pli(k);
+    if(v!==null)d.open=v;
+    d.addEventListener('toggle',function(){ETAT.setPli(k,d.open);libelle()});});
+  /* tout à la fois : ouvrir tout s'il reste une rubrique fermée, sinon tout refermer */
+  if(bp){if(!secs.length)bp.parentNode.style.display='none';
+    libelle();
+    bp.addEventListener('click',function(){
+      var v=bp.getAttribute('data-v')==='1';
+      secs.forEach(function(d){d.open=v});libelle();});}
+  /* amont et aval : même état « déjà su », un compteur par liste (règle 7) */
+  function compte(){
+    document.querySelectorAll('.sec').forEach(function(s){
+      var cpt=s.querySelector('[data-cpt]');if(!cpt)return;
+      var l=s.querySelectorAll('input[data-su]'),k=0;
+      l.forEach(function(c){if(c.checked)k++});
+      cpt.textContent=l.length+' notion'+(l.length>1?'s':'')+', '+(l.length-k)+' left to see';});}
+  document.querySelectorAll('input[data-su]').forEach(function(c){
+    var id=c.getAttribute('data-su');c.checked=ETAT.su(id);
+    c.closest('li').classList.toggle('su',c.checked);
+    c.addEventListener('change',function(){
+      ETAT.setSu(id,c.checked);
+      document.querySelectorAll('input[data-su="'+id+'"]').forEach(function(o){
+        o.checked=c.checked;o.closest('li').classList.toggle('su',c.checked);});
+      compte();});});
+  compte();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en" data-rel="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Existence of a minimizer for a coercive function · notions</title>
+<script>
+/* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
+   localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
+   cases « déjà su » ne peuvent donc pas traverser les pages par là. Ils voyagent dans
+   le fragment de l'URL, que tous les liens internes portent ; localStorage ne sert plus
+   que de mémoire locale, pour la page qu'on rouvre sans fragment.
+   Ce script s'exécute avant le rendu : sinon le thème clignote à chaque page. */
+(function(){
+var H={},h=(location.hash||'').replace(/^#/,'');
+h.split('~').forEach(function(p){var i=p.indexOf(':');if(i>0)H[p.slice(0,i)]=p.slice(i+1)});
+window.ETAT_URL=H;
+function loc(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+var t=H.t?(H.t==='d'?'dark':'light'):loc('notions.theme','');
+if(t)document.documentElement.setAttribute('data-theme',t);
+var a=(H.a!==undefined)?H.a:loc('notions.ajouts','1');
+if(a==='0')document.documentElement.classList.add('sans-ajouts');
+})();
+</script>
+<style>
+:root{
+  --bg:#fbfaf7; --bg2:#f3f0ea; --fg:#1b1a17; --mut:#6c675d; --fai:#8e887c;
+  --li:#e0dbd1; --li2:#cdc6b8; --card:#ffffff; --acc:#8a4f23; --acc2:#f3e7dc;
+  --ajo:#6d5a8c; --ajo2:#efe9f5; --lim:#9a3a2e; --ok:#3f6b46; --faute:#a8631a;
+  --r:8px; --w:min(72rem,100%);
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}}
+:root[data-theme="dark"]{
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}
+.fig{margin:.9rem 0;padding:.5rem .2rem .2rem;text-align:center}
+/* « > svg » et non « svg » : MathJax pose son propre <svg> dans la légende, et
+   une règle non ancrée en faisait un bloc qui coupait la phrase en trois. */
+.fig > svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig figcaption{margin-top:.35rem;font-family:var(--sans);font-size:.82rem;
+  color:var(--mut);text-align:center;line-height:1.45}
+@media print{.fig{break-inside:avoid}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
+  font-size:17px;line-height:1.62;overflow-wrap:break-word}
+a{color:var(--acc);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-style:dotted}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+.wrap{width:var(--w);margin:0 auto;padding:0 1rem}
+
+/* ---- barre du haut ---- */
+header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
+  border-bottom:1px solid var(--li);font-family:var(--sans)}
+.topin{width:var(--w);margin:0 auto;padding:.45rem 1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.brand{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--fg);letter-spacing:.02em}
+.fil{color:var(--mut);font-size:.82rem;flex:1 1 8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fil a{color:var(--mut)}
+.btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
+  border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+a.btn{text-decoration:none}
+.btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
+.rech{position:relative;flex:0 1 16rem;min-width:9rem}
+.rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
+  border:1px solid var(--li2);border-radius:var(--r);background:var(--card);color:var(--fg)}
+.res{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--li2);
+  border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.14);max-height:60vh;overflow:auto;padding:.2rem;margin:0;
+  list-style:none;display:none;z-index:50;min-width:18rem}
+.res.on{display:block}
+.res li a{display:block;padding:.3rem .45rem;border-radius:6px;text-decoration:none;color:var(--fg);font-size:.86rem}
+.res li a:hover,.res li.sel a{background:var(--acc2)}
+.res .sub{color:var(--mut);font-size:.76rem;font-family:var(--sans)}
+.res .vide{padding:.4rem .5rem;color:var(--mut);font-size:.84rem}
+
+main{padding:1.4rem 0 4rem}
+h1{font-size:1.75rem;line-height:1.24;margin:.2rem 0 .3rem}
+h2{font-size:1.06rem;font-family:var(--sans);font-weight:600;letter-spacing:.01em;margin:0}
+h3{font-size:.95rem;font-family:var(--sans);margin:1.2rem 0 .3rem}
+p{margin:.55rem 0}
+.ptag{font-family:var(--sans);font-size:.74rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .5rem}
+
+/* ---- métadonnées de fiche ---- */
+.meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;font-family:var(--sans);font-size:.75rem;color:var(--mut);margin:.4rem 0 1.1rem}
+.pill{border:1px solid var(--li2);border-radius:99px;padding:.06rem .5rem;background:var(--card);white-space:nowrap}
+.pill.ajout{color:var(--ajo);border-color:var(--ajo);background:var(--ajo2)}
+.pill.typ{background:var(--acc2);border-color:var(--acc)}
+.sym{font-family:var(--serif);font-size:1rem;color:var(--fg)}
+
+/* ---- sections ---- */
+.sec{border-top:1px solid var(--li);padding:.85rem 0}
+.sec.vide{display:none}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.45rem;padding:.1rem 0}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"›";color:var(--fai);font-family:var(--sans);display:inline-block;
+  transition:transform .12s ease;transform:rotate(0deg);width:.7em}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fai);font-weight:400}
+.corps{padding-top:.25rem}
+.gen{border-left:2px solid var(--li2);padding-left:.7rem}
+.chemin{border-left:3px solid var(--acc);background:var(--bg2);border-radius:0 var(--r) var(--r) 0;
+  padding:.5rem .8rem;margin:.2rem 0 .7rem}
+.chemin p{margin:.35rem 0;font-size:.95rem}
+.chemin p:first-child{margin-top:0}
+.chemin p:last-child{margin-bottom:0}
+.note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
+.parc{border:1px solid var(--li);border-left:3px solid var(--acc);border-radius:0 var(--r) var(--r) 0;
+  background:var(--bg2);padding:.5rem .8rem;margin:.6rem 0;font-size:.93rem}
+.parc-t{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin-bottom:.15rem}
+.parc p{margin:.2rem 0}
+.parc-h{border-left:2px solid var(--li);padding:.1rem 0 .1rem .6rem;margin:.3rem 0 .45rem;color:var(--mut)}
+.parc-h strong{color:var(--fg)}
+.parc-l{font-family:var(--sans);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--acc);margin-right:.25rem}
+.parc-lien{margin-top:.35rem;font-size:.92em}
+.parc-suite{border-left:2px solid var(--acc);padding:.1rem 0 .1rem .6rem;margin:.35rem 0;color:var(--fg);background:var(--acc2)}
+.parc-nav{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--sans);font-size:.8rem;margin-top:.35rem}
+.parc-nav .suiv{margin-left:auto;text-align:right}
+.etapes{list-style:none;padding:0;margin:.6rem 0 1.2rem;counter-reset:e}
+.etapes>li{counter-increment:e;position:relative;padding:0 0 1rem 1.7rem;border-left:2px solid var(--li);margin-left:.9rem}
+.etapes>li:last-child{border-left-color:transparent}
+.etapes>li::before{content:counter(e);position:absolute;left:-.95rem;top:0;width:1.75rem;height:1.75rem;
+  border-radius:99px;background:var(--card);border:1px solid var(--acc);color:var(--acc);
+  font-family:var(--sans);font-size:.78rem;display:flex;align-items:center;justify-content:center}
+.etapes>li>p{margin:.1rem 0 .35rem}
+.etapes .arr{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.45rem .75rem}
+.etapes .arr a.tit{font-weight:600;text-decoration:none}
+.etapes .arr p{margin:.15rem 0;font-size:.88rem;color:var(--mut)}
+.avant{list-style:none;padding:0;margin:.4rem 0 1rem}
+.avant>li{margin:.5rem 0}
+.avant>li p{margin:.1rem 0 0;font-size:.95rem}
+.avant a.tit{font-weight:600;text-decoration:none}
+.roles{list-style:none;padding:0;margin:.2rem 0 0}
+.roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
+.roles>li.cible{background:var(--acc2)}
+details.parc>summary{cursor:pointer}
+.sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
+.sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
+.sec.faute>summary h2{color:var(--faute)}
+.faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
+  margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.faute-b strong{color:var(--faute)}
+.sec.lim>summary h2{color:var(--lim)}
+.sec.lim>h2{color:var(--lim)}
+
+/* ---- marqueurs de traçabilité ---- */
+.marq{font-family:var(--sans);font-size:.7rem;color:var(--fai);white-space:nowrap;vertical-align:.12em}
+.marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
+.marqligne{margin:.15rem 0 0}
+html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
+.bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
+  color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
+
+/* ---- pastilles ---- */
+.pasts{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0;padding:0;list-style:none}
+.past{display:inline-block;font-family:var(--sans);font-size:.82rem;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--li2);border-radius:99px;padding:.12rem .6rem}
+.past:hover{border-color:var(--acc);color:var(--acc)}
+.past .cc{color:var(--fai);font-size:.74rem}
+.past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
+.past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
+.past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
+
+/* ---- socle ---- */
+.socle{list-style:none;padding:0;margin:.3rem 0}
+.socle li{display:flex;gap:.5rem;align-items:baseline;padding:.12rem 0;font-size:.92rem}
+.socle input{margin:0;accent-color:var(--ok)}
+.socle li.su a{color:var(--fai);text-decoration:line-through}
+.compteur{font-family:var(--sans);font-size:.78rem;color:var(--mut)}
+.grp{margin:.5rem 0}
+.grp>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--mut)}
+
+table{border-collapse:collapse;margin:.5rem 0;font-size:.9rem;display:block;overflow-x:auto;max-width:100%}
+th,td{border:1px solid var(--li);padding:.25rem .55rem;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-family:var(--sans);font-size:.78rem;font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+  background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
+ul{padding-left:1.1rem}
+hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
+
+/* ---- cartes d'accueil / carte du cours ---- */
+.cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
+.carte{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.65rem .8rem}
+.carte h3{margin:0 0 .2rem}
+.carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
+.carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
+.dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.vise{animation:vise 1.6s ease}
+@keyframes vise{from{background:var(--acc2)}to{background:transparent}}
+
+/* ---- orientation : ce qui s'adresse au lecteur qui arrive ---- */
+.entree{border:1px solid var(--li2);border-left:3px solid var(--acc);border-radius:var(--r);
+  padding:.7rem .9rem;margin:.8rem 0 1.4rem;background:var(--card)}
+.entree p{margin:.3rem 0;font-size:.92rem}
+.entree .quoi{font-size:1.02rem}
+.entree ul{margin:.5rem 0 .2rem;padding-left:1.1rem;font-family:var(--sans);font-size:.88rem}
+.entree li{margin:.2rem 0}
+.chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
+.chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
+.aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
+/* L'en-tête est collant : une ancre visée ne doit pas passer dessous. Mesuré :
+   il fait 48 px sur une ligne, 85 px quand il se replie en deux (écran étroit). */
+[id]{scroll-margin-top:6rem}
+.aide p,.aide ul,.aide table{max-width:42rem}
+.dette ul{margin:.3rem 0 0}
+footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
+
+/* ---- arbre ---- */
+.barre{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+.barre.plier{justify-content:flex-end;margin:.2rem 0 -.2rem}
+#scene{position:relative;border:1px solid var(--li);border-radius:var(--r);background:var(--bg2);
+  height:min(74vh,720px);overflow:hidden;touch-action:none;cursor:grab}
+#scene.drag{cursor:grabbing}
+#pan{position:absolute;transform-origin:0 0;top:0;left:0}
+#aretes{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+#aretes path{fill:none;stroke:var(--li2);stroke-width:1.5}
+.noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
+  padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
+.noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
+.noeud .nm{font-weight:600}
+.noeud .nm a{text-decoration:none;color:var(--fg)}
+.noeud .nm a:hover{color:var(--acc)}
+.noeud .pa{color:var(--mut);font-size:.72rem;display:block;margin-top:.1rem}
+.noeud .pli{font:inherit;font-size:.72rem;background:none;border:1px solid var(--li2);border-radius:4px;
+  color:var(--mut);cursor:pointer;padding:0 .3rem;margin-right:.25rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.4rem}
+  .rech{flex:1 1 100%;order:9}
+  #scene{height:66vh}
+}
+@media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="brand" href="../../index.html">notions</a><span class="fil"><a href="../../ods/index.html">Optimization for Data Science</a> › Existence of a minimizer for a coercive function</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><h1>Existence of a minimizer for a coercive function</h1><div class="meta"><a class="pill typ" href="../../aide.html" data-v="types" title="an object of the course, the one you work with">notion</a><a class="pill" href="../../ods/index.html">ods</a><a class="pill" href="../../aide.html" data-v="niveau" title="reading order: the number of notions to go through, on the longest path, to reach this one. Level 0 = depends on no other.">level 2</a><a class="pill" href="../../ods/arbre.html" data-noeud="ods/existence-under-coercivity" title="this notion is not filed under any family">course tree</a><span class="pill">Th. 1.2</span></div><p class="note">also: C0 + coercive ⇒ global minimizer</p><div class="parc"><div class="parc-t"><a href="../../aide.html" data-v="parcours">Reading path</a> <a href="../../ods/parcours/best-answer.html#e5">“Is there a best answer?”</a> · step 5 of 9</div><div class="parc-h"><p class="is-ajout">We have four observations of two features, the rows $(1,1)$, $(1,0)$, $(1,0)$ and $(0,1)$, with targets $1$, $0$, $0$ and $1$. We want the weights that bring the predicted targets as close as possible to the observed ones. <strong>Is there a best choice of weights</strong>? <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></p></div><p class="is-ajout"><span class="parc-l">In the story</span> Yes: inside the disk the compact theorem finds a minimizer, and outside it every point is worse than the origin, so that minimizer beats the whole plane. It remains to check that our distance grows in this way. <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></p><p><span class="parc-l">From the previous step</span> Does such a region, made by the objective, do the work of a compact domain? <span class="marq" title="reference to the source">[Th. 1.2]</span></p><div class="parc-nav"><a class="prec" href="../../ods/n/coercive-function.html">← Coercive function</a><a class="suiv" href="../../ods/n/ordinary-least-squares.html">Ordinary least squares →</a></div></div><div class="parc"><div class="parc-t"><a href="../../aide.html" data-v="parcours">Reading path</a> · this notion is assumed known: here is the role it plays</div><ul class="roles"><li id="p-curvature"><p><a href="../../ods/parcours/curvature.html#avant">“How curved is the bowl?”</a>: it will say that the curvature bounded below gives a minimizer, since it makes $f$ grow without bound. <span class="marq" title="reference to the source">[Th. 1.2]</span></p></li></ul></div><div class="barre plier"><button class="btn" type="button" id="tout-plier">expand all</button></div><section class="sec " data-oblig="1"><h2>What it is</h2><div class="corps"><p>A continuous and coercive function on the whole of $\mathbb{R}^d$ reaches its infimum: it has at least one global minimizer, although no compact domain was given. <span class="marq" title="reference to the source">[Th. 1.2]</span></p></div></section><section class="sec " data-oblig="1"><h2>Formula</h2><div class="corps"><p>$$f:\mathbb{R}^d\to\mathbb{R}\ \text{continuous and coercive}\ \Longrightarrow\ \exists\,x^\star\in\mathbb{R}^d,\ \ \forall x\in\mathbb{R}^d,\ f(x)\geq f(x^\star)$$ <span class="marq" title="reference to the source">[Th. 1.2]</span></p></div></section><section class="sec "><h2>What the symbols model</h2><div class="corps"><p>$x^\star$ is sought in all of $\mathbb{R}^d$: the problem is unconstrained, and the bounded region that the compact theorem needs is not given but built from the growth of $f$. <span class="marq" title="reference to the source">[Th. 1.2, ajout]</span></p></div></section><details class="sec " data-k="retrouver"><summary><h2>Rederive the formula</h2></summary><div class="corps"><figure class="fig is-ajout"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 390" width="100%" height="auto" role="img" style="color:var(--fg);max-width:600px;height:auto"><title>Outside the disk the loss exceeds its value at 0: the best point can only be inside</title><path d="M225.06 10 L225.06 380 M10 195 L590 195" fill="none" stroke="var(--mut)" stroke-width="1.2"/><path d="M381.85 195 L381.77 190.18 L381.54 185.36 L381.16 180.56 L380.62 175.76 L379.92 170.99 L379.07 166.24 L378.08 161.52 L376.93 156.83 L375.63 152.18 L374.18 147.57 L372.58 143.01 L370.84 138.5 L368.96 134.04 L366.93 129.65 L364.76 125.32 L362.46 121.06 L360.02 116.87 L357.44 112.76 L354.74 108.73 L351.91 104.78 L348.95 100.93 L345.87 97.16 L342.67 93.5 L339.36 89.93 L335.93 86.47 L332.39 83.11 L328.75 79.87 L325 76.74 L321.16 73.72 L317.22 70.83 L313.19 68.05 L309.07 65.41 L304.87 62.89 L300.59 60.5 L296.24 58.24 L291.82 56.12 L287.33 54.14 L282.78 52.29 L278.17 50.59 L273.51 49.03 L268.8 47.61 L264.05 46.34 L259.26 45.21 L254.44 44.23 L249.58 43.4 L244.71 42.72 L239.81 42.19 L234.9 41.82 L229.98 41.59 L225.06 41.51 L220.13 41.59 L215.21 41.82 L210.3 42.19 L205.4 42.72 L200.53 43.4 L195.68 44.23 L190.85 45.21 L186.06 46.34 L181.31 47.61 L176.6 49.03 L171.94 50.59 L167.34 52.29 L162.79 54.14 L158.3 56.12 L153.87 58.24 L149.52 60.5 L145.24 62.89 L141.04 65.41 L136.92 68.05 L132.89 70.83 L128.95 73.72 L125.11 76.74 L121.37 79.87 L117.72 83.11 L114.18 86.47 L110.76 89.93 L107.44 93.5 L104.24 97.16 L101.16 100.93 L98.21 104.78 L95.37 108.73 L92.67 112.76 L90.1 116.87 L87.66 121.06 L85.35 125.32 L83.18 129.65 L81.16 134.04 L79.27 138.5 L77.53 143.01 L75.93 147.57 L74.49 152.18 L73.19 156.83 L72.04 161.52 L71.04 166.24 L70.19 170.99 L69.5 175.76 L68.96 180.56 L68.57 185.36 L68.34 190.18 L68.26 195 L68.34 199.82 L68.57 204.64 L68.96 209.44 L69.5 214.24 L70.19 219.01 L71.04 223.76 L72.04 228.48 L73.19 233.17 L74.49 237.82 L75.93 242.43 L77.53 246.99 L79.27 251.5 L81.16 255.96 L83.18 260.35 L85.35 264.68 L87.66 268.94 L90.1 273.13 L92.67 277.24 L95.37 281.27 L98.21 285.22 L101.16 289.07 L104.24 292.84 L107.44 296.5 L110.76 300.07 L114.18 303.53 L117.72 306.89 L121.37 310.13 L125.11 313.26 L128.95 316.28 L132.89 319.17 L136.92 321.95 L141.04 324.59 L145.24 327.11 L149.52 329.5 L153.87 331.76 L158.3 333.88 L162.79 335.86 L167.34 337.71 L171.94 339.41 L176.6 340.97 L181.31 342.39 L186.06 343.66 L190.85 344.79 L195.68 345.77 L200.53 346.6 L205.4 347.28 L210.3 347.81 L215.21 348.18 L220.13 348.41 L225.06 348.49 L229.98 348.41 L234.9 348.18 L239.81 347.81 L244.71 347.28 L249.58 346.6 L254.44 345.77 L259.26 344.79 L264.05 343.66 L268.8 342.39 L273.51 340.97 L278.17 339.41 L282.78 337.71 L287.33 335.86 L291.82 333.88 L296.24 331.76 L300.59 329.5 L304.87 327.11 L309.07 324.59 L313.19 321.95 L317.22 319.17 L321.16 316.28 L325 313.26 L328.75 310.13 L332.39 306.89 L335.93 303.53 L339.36 300.07 L342.67 296.5 L345.87 292.84 L348.95 289.07 L351.91 285.22 L354.74 281.27 L357.44 277.24 L360.02 273.13 L362.46 268.94 L364.76 264.68 L366.93 260.35 L368.96 255.96 L370.84 251.5 L372.58 246.99 L374.18 242.43 L375.63 237.82 L376.93 233.17 L378.08 228.48 L379.07 223.76 L379.92 219.01 L380.62 214.24 L381.16 209.44 L381.54 204.64 L381.77 199.82 L381.85 195" fill="none" stroke="var(--fg)" stroke-width="1.6" stroke-dasharray="6 4" stroke-linecap="round" stroke-linejoin="round"/><path d="M266.27 106.27 L267.55 108.33 L268.78 110.42 L269.97 112.53 L271.11 114.65 L272.21 116.79 L273.27 118.95 L274.27 121.11 L275.23 123.29 L276.13 125.47 L276.99 127.67 L277.8 129.86 L278.55 132.05 L279.25 134.25 L279.9 136.44 L280.49 138.63 L281.03 140.81 L281.51 142.98 L281.94 145.13 L282.31 147.28 L282.63 149.41 L282.89 151.52 L283.09 153.61 L283.23 155.67 L283.32 157.72 L283.34 159.74 L283.32 161.73 L283.23 163.69 L283.09 165.61 L282.89 167.51 L282.63 169.36 L282.31 171.18 L281.94 172.96 L281.51 174.7 L281.03 176.4 L280.49 178.05 L279.9 179.66 L279.25 181.22 L278.55 182.72 L277.8 184.18 L276.99 185.59 L276.13 186.94 L275.23 188.24 L274.27 189.48 L273.27 190.66 L272.21 191.78 L271.11 192.85 L269.97 193.85 L268.78 194.79 L267.55 195.67 L266.27 196.49 L264.96 197.24 L263.6 197.93 L262.21 198.55 L260.78 199.1 L259.32 199.59 L257.82 200 L256.29 200.36 L254.73 200.64 L253.14 200.85 L251.52 201 L249.87 201.08 L248.21 201.08 L246.51 201.02 L244.8 200.89 L243.07 200.69 L241.32 200.43 L239.55 200.09 L237.77 199.69 L235.98 199.22 L234.17 198.68 L232.36 198.07 L230.54 197.4 L228.72 196.67 L226.89 195.86 L225.06 195 L223.23 194.07 L221.4 193.08 L219.57 192.03 L217.75 190.92 L215.94 189.75 L214.13 188.52 L212.34 187.24 L210.56 185.9 L208.79 184.51 L207.04 183.06 L205.31 181.56 L203.6 180.02 L201.91 178.42 L200.24 176.78 L198.59 175.1 L196.98 173.37 L195.38 171.59 L193.82 169.78 L192.29 167.93 L190.8 166.05 L189.33 164.13 L187.9 162.18 L186.51 160.19 L185.15 158.18 L183.84 156.14 L182.57 154.08 L181.33 151.99 L180.14 149.89 L179 147.76 L177.9 145.62 L176.85 143.47 L175.84 141.3 L174.88 139.12 L173.98 136.94 L173.12 134.75 L172.32 132.55 L171.56 130.36 L170.86 128.16 L170.21 125.97 L169.62 123.79 L169.08 121.61 L168.6 119.44 L168.17 117.28 L167.8 115.14 L167.49 113.01 L167.23 110.9 L167.03 108.81 L166.88 106.74 L166.8 104.7 L166.77 102.68 L166.8 100.69 L166.88 98.73 L167.03 96.8 L167.23 94.91 L167.49 93.05 L167.8 91.23 L168.17 89.45 L168.6 87.71 L169.08 86.01 L169.62 84.36 L170.21 82.76 L170.86 81.2 L171.56 79.69 L172.32 78.23 L173.12 76.83 L173.98 75.47 L174.88 74.18 L175.84 72.94 L176.85 71.75 L177.9 70.63 L179 69.57 L180.14 68.56 L181.33 67.62 L182.57 66.74 L183.84 65.93 L185.15 65.17 L186.51 64.49 L187.9 63.87 L189.33 63.31 L190.8 62.83 L192.29 62.41 L193.82 62.06 L195.38 61.77 L196.98 61.56 L198.59 61.41 L200.24 61.34 L201.91 61.33 L203.6 61.39 L205.31 61.52 L207.04 61.72 L208.79 61.99 L210.56 62.32 L212.34 62.73 L214.13 63.2 L215.94 63.74 L217.75 64.34 L219.57 65.01 L221.4 65.75 L223.23 66.55 L225.06 67.41 L226.89 68.34 L228.72 69.33 L230.54 70.38 L232.36 71.49 L234.17 72.66 L235.98 73.89 L237.77 75.17 L239.55 76.51 L241.32 77.91 L243.07 79.35 L244.8 80.85 L246.51 82.4 L248.21 83.99 L249.87 85.63 L251.52 87.32 L253.14 89.05 L254.73 90.82 L256.29 92.63 L257.82 94.48 L259.32 96.37 L260.78 98.29 L262.21 100.24 L263.6 102.22 L264.96 104.23 L266.27 106.27" fill="none" stroke="var(--acc)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="225.06" cy="195" r="3.6" fill="var(--fg)"/><circle cx="225.06" cy="131.21" r="4.6" fill="var(--acc)"/><defs><filter id="fond-etiquette" x="-0.03" y="-0.12" width="1.06" height="1.24"><feFlood style="flood-color:var(--card)"/></filter></defs><text x="213.33" y="135.67" text-anchor="end" font-size="12.5" fill="none" filter="url(#fond-etiquette)" font-family="ui-sans-serif,system-ui,sans-serif">x* = (0, 1)</text><text x="213.33" y="135.67" text-anchor="end" font-size="12.5" fill="var(--acc)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">x* = (0, 1)</text><text x="215.28" y="212.86" text-anchor="end" font-size="12" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0</text><text x="303.26" y="155.45" text-anchor="start" font-size="12" fill="none" filter="url(#fond-etiquette)" font-family="ui-sans-serif,system-ui,sans-serif">level f = f(0) = 1</text><text x="303.26" y="155.45" text-anchor="start" font-size="12" fill="var(--acc)" font-family="ui-sans-serif,system-ui,sans-serif">level f = f(0) = 1</text><path d="M225.06 195 L339.78 299.62" fill="none" stroke="var(--mut)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><text x="254.38" y="274.74" text-anchor="start" font-size="12" fill="none" filter="url(#fond-etiquette)" font-family="ui-sans-serif,system-ui,sans-serif">M ≈ 2.41</text><text x="254.38" y="274.74" text-anchor="start" font-size="12" fill="var(--fg)" font-family="ui-sans-serif,system-ui,sans-serif">M ≈ 2.41</text><text x="404.27" y="48.28" text-anchor="start" font-size="12.5" fill="var(--fg)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">outside the disk:</text><text x="404.27" y="76.98" text-anchor="start" font-size="12.5" fill="var(--fg)" font-family="ui-sans-serif,system-ui,sans-serif">f &gt; f(0) = 1,</text><text x="404.27" y="105.69" text-anchor="start" font-size="12" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">no point there can win</text><text x="404.27" y="297.07" text-anchor="start" font-size="12.5" fill="var(--fg)" font-family="ui-sans-serif,system-ui,sans-serif">inside: a closed, bounded</text><text x="404.27" y="325.78" text-anchor="start" font-size="12.5" fill="var(--fg)" font-family="ui-sans-serif,system-ui,sans-serif">disk, where a minimizer</text><text x="404.27" y="354.48" text-anchor="start" font-size="12.5" fill="var(--fg)" font-family="ui-sans-serif,system-ui,sans-serif">exists (Theorem 1.1)</text></svg><figcaption>The least-squares loss of the four observations. The dashed circle has radius M ≈ 2.41: outside it, the loss exceeds its value at the origin, f(0) = 1, so no point out there can be the best. The solid curve is the set where f equals 1; it passes through the origin and surrounds the minimizer x* = (0, 1), well inside the disk. <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></figcaption></figure><p>Known: on a closed and bounded set, a continuous function has a minimizer. Sought: a minimizer on the whole plane, which is not bounded. Take the four observations of the course, with loss $f(x)=\tfrac12\|Ax-b\|^2$; at the origin, $f(0)=\tfrac12\|b\|^2=1$. <span class="marq" title="reference to the source">[Th. 1.2, ajout]</span></p><p>Coercivity gives a radius beyond which $f$ exceeds that value. Here, every vector is stretched by $A$ by a factor at least $c\approx1.176$, so $\|Ax-b\|\geq c\|x\|-\|b\|$, and $f(x)&gt;1$ as soon as $\|x\|&gt;2\sqrt2/c\approx2.41$: this is the dashed circle. <span class="marq" title="reference to the source">[Ex. 1.1, ajout]</span></p><p>Inside, the closed disk of radius $M$ is compact, and the compact theorem gives a point $x^\star$ of the disk with $f(x^\star)\leq f(y)$ for every $y$ of the disk, in particular $f(x^\star)\leq f(0)=1$. <span class="marq" title="reference to the source">[Th. 1.2]</span></p><p>Outside, every point has $f&gt;1\geq f(x^\star)$. The point $x^\star$ therefore beats the whole plane, not only the disk. <span class="marq" title="reference to the source">[Th. 1.2]</span></p><p>$$\forall x\in\mathbb{R}^d,\quad f(x)\geq f(x^\star)$$ <span class="marq" title="reference to the source">[Th. 1.2]</span></p></div></details><section class="sec " data-oblig="1"><h2>What defines it</h2><div class="corps"><p>The theorem trades the compact domain for a compact region made by $f$ itself: the points where $f$ does not exceed $f(0)$ lie in a ball. The notes add that continuity can be weakened to lower semicontinuity, and that both existence theorems extend, under extra hypotheses, to infinite-dimensional Hilbert spaces. <span class="marq" title="reference to the source">[p. 5]</span></p></div></section><details class="sec " data-k="construite"><summary><h2>Built from</h2><span class="cnt">2 direct prerequisites</span></summary><div class="corps"><ul class="pasts"><li><a class="past" href="../../ods/n/existence-on-a-compact.html">Existence of a minimizer on a compact set<span class="nv">L1</span></a></li><li><a class="past" href="../../ods/n/coercive-function.html">Coercive function<span class="nv">L0</span></a></li></ul><p class="note">Only what this page depends on directly. “All prerequisites”, just below, repeats these notions and adds everything they depend on in turn.</p></div></details><details class="sec gen" data-k="socle"><summary><h2>All prerequisites</h2><span class="cnt">3 prerequisites in all</span></summary><div class="corps"><div class="chemin"><p class="is-ajout"><a href="../../ods/n/coercive-function.html">Coercive function</a> provides the radius beyond which $f$ exceeds $f(0)$, which is what makes a bounded search region; <a href="../../ods/n/existence-on-a-compact.html">Existence of a minimizer on a compact set</a> then finds a minimizer inside that ball, and the comparison with $f(0)$ carries it to the whole space. The distinction between the infimum and a point reaching it, which this theorem settles for unconstrained problems, is the one <a href="../../ods/n/optimization-problem.html">Optimization problem</a> makes. <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></p></div><p class="note">Everything you need to have read before this page, from the most elementary to the most elaborate. <strong>The list is complete</strong>: reading it is enough, none of these notions calls for another one missing here. Ticking a box strikes it out on every page. (<a href="../../aide.html" data-v="socle">learn more</a>)</p><p class="compteur" data-cpt="socle"></p><ul class="socle"><li><input type="checkbox" data-su="ods/coercive-function" aria-label="already known: Coercive function"><a href="../../ods/n/coercive-function.html">Coercive function</a> <span class="marq">level 0</span></li><li><input type="checkbox" data-su="ods/optimization-problem" aria-label="already known: Optimization problem"><a href="../../ods/n/optimization-problem.html">Optimization problem</a> <span class="marq">level 0</span></li><li><input type="checkbox" data-su="ods/existence-on-a-compact" aria-label="already known: Existence of a minimizer on a compact set"><a href="../../ods/n/existence-on-a-compact.html">Existence of a minimizer on a compact set</a> <span class="marq">level 1</span></li></ul></div></details><details class="sec gen" data-k="sert"><summary><h2>Used next for</h2><span class="cnt">2</span></summary><div class="corps"><p class="note">What this notion lets you tackle right after. Only the next step, not everything that follows: otherwise a notion far upstream would open half the course.</p><p class="compteur" data-cpt="aval"></p><ul class="socle"><li><input type="checkbox" data-su="ods/ordinary-least-squares" aria-label="already known: Ordinary least squares"><a href="../../ods/n/ordinary-least-squares.html">Ordinary least squares</a> <span class="marq">level 3</span></li><li><input type="checkbox" data-su="ods/strongly-convex-function" aria-label="already known: Strongly convex function"><a href="../../ods/n/strongly-convex-function.html">Strongly convex function</a> <span class="marq">level 3</span></li></ul></div></details><details class="sec " data-k="exemple" data-oblig="1"><summary><h2>Minimal example</h2></summary><div class="corps"><p class="is-ajout">$f(x)=x^2-\cos x$ is continuous and coercive on $\mathbb{R}$: it has a global minimizer, $x^\star=0$. <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></p></div></details><details class="sec " data-k="geste" data-oblig="1"><summary><h2>Typical computation</h2></summary><div class="corps"><p>Check continuity, then coercivity by a lower bound. For $\tfrac12\|Ax-b\|^2$ with $\operatorname{Ker}A=\{0\}$: $\|Ax-b\|\geq c\|x\|-\|b\|\to+\infty$, so a least-squares minimizer exists. <span class="marq" title="reference to the source">[Ex. 1.1]</span></p></div></details><details class="sec lim" data-k="limite" data-oblig="1"><summary><h2>Stops being valid when</h2></summary><div class="corps"><p>$f$ is not coercive. The conclusion can still hold — a least-squares loss with a nonzero kernel has minimizers, but a whole unbounded set of them — or fail: the logistic loss of separable data is continuous and bounded below by $0$, yet has no minimizer, since scaling up a separating $w$ drives it to $0$ without reaching it (notebook 5, rerun here on the iris data). The theorem also says nothing about uniqueness. <span class="marq" title="reference to the source">[Ex. 1.1, nb. 5, ajout]</span></p></div></details></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../../aide.html">comment lire ce site</a> · <a href="../../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../../search-index.js"></script>
+<script>
+var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+        s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- l'état qui traverse les pages ----------------------------------------
+   Voir le commentaire de l'en-tête : en file://, seul le fragment traverse.
+   Forme du fragment :  #t:d~a:0~p:1-0--1...~s:<tampon>.<bits>~v:<ancre>
+     t  thème      d | l            (absent : celui du système)
+     a  ajouts     0                (absent : montrés)
+     p  pliage     un caractère par clé de CLES_PLI : 1 ouvert, 0 fermé, - inconnu
+     s  déjà su    un bit par notion, six bits par caractère, précédé d'un tampon
+     v  ancre      l'élément vers lequel défiler à l'arrivée
+   Le tampon est calculé sur la liste des identifiants : dès qu'une notion entre dans
+   le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
+   cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
+var ETAT=(function(){
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='6728',
+    A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
+var pli={},su={};
+if(typeof H.p==='string'){
+  for(var i=0;i<CLES.length&&i<H.p.length;i++){var c=H.p.charAt(i);
+    if(c==='0'||c==='1')pli[CLES[i]]=(c==='1');}
+}else{
+  CLES.forEach(function(k){var v=LS.g('notions.pli.'+k,null);if(v!==null)pli[k]=(v==='1')});
+}
+function decode(t){var o={},q=t.indexOf('.');
+  if(q<0||t.slice(0,q)!==TAMPON)return o;
+  var b=t.slice(q+1);
+  for(var i=0;i<b.length;i++){var v=A64.indexOf(b.charAt(i));if(v<0)continue;
+    for(var j=0;j<6;j++){if(v&(1<<j)){var k=i*6+j;if(k<IDS.length)o[IDS[k]]=1}}}
+  return o;}
+function encode(){var o='';
+  for(var i=0;i<IDS.length;i+=6){var v=0;
+    for(var j=0;j<6;j++){if(su[IDS[i+j]])v|=1<<j}
+    o+=A64.charAt(v);}
+  return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
+if(typeof H.s==='string'){su=decode(H.s)}
+else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
+function frag(ancre,noeud){var p=[];
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t)p.push('t:'+(t==='dark'?'d':'l'));
+  if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
+  var q='';CLES.forEach(function(k){q+=(pli[k]===undefined?'-':(pli[k]?'1':'0'))});
+  if(/[01]/.test(q))p.push('p:'+q);
+  var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
+  if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
+  return p.length?'#'+p.join('~'):'';}
+function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
+function propager(){var f=frag();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';if(!interne(h))return;
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
+  /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
+     Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
+  try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
+  try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}}
+return{pli:function(k){return pli[k]===undefined?null:pli[k]},
+       setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
+       su:function(id){return !!su[id]},
+       setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
+       lien:function(u,v,n){return u+frag(v,n)},
+       ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
+       propager:propager};
+})();
+function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
+  var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
+  b.textContent=on?'masquer les ajouts':'ajouts masqués';}
+  document.querySelectorAll('.sec').forEach(function(s){
+    var c=s.querySelector('.corps');if(!c)return;var n=0;
+    c.querySelectorAll(':scope>*').forEach(function(el){
+      if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
+      if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
+      n++;});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='This section exists, but all its content is an addition: the filter hides it. It stays visible so that you do not conclude that it is empty.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
+  if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var bt=document.getElementById('btheme');
+  if(bt)bt.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    var nx=(cur||sys)==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);
+    ETAT.propager();});
+  var ba=document.getElementById('bajout');
+  if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);ETAT.propager();});
+  majAjouts(!document.documentElement.classList.contains('sans-ajouts'));
+  /* les liens de la page portent l'état ; une ancre demandée est ouverte et visée */
+  ETAT.propager();
+  var an=ETAT.ancre();
+  if(an){var el=document.getElementById(an);
+    if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView();el.classList.add('vise')}}
+  /* --- recherche instantanée (règle 9) --- */
+  var inp=document.getElementById('q'),res=document.getElementById('qres');
+  if(!inp||!res||!window.SEARCH_INDEX)return;
+  var REL=document.documentElement.getAttribute('data-rel')||'';
+  var sel=-1,items=[];
+  function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+  function cherche(q){
+    var n=norm(q);if(!n)return [];
+    var out=[];
+    SEARCH_INDEX.forEach(function(e){
+      var sc=-1,ch=e.h||[];
+      for(var i=0;i<ch.length;i++){var p=norm(ch[i]).indexOf(n);
+        if(p===0){sc=Math.max(sc,3-(i>0?1:0))}else if(p>0){sc=Math.max(sc,1)}}
+      if(sc>=0)out.push([sc,e]);});
+    out.sort(function(a,b){return b[0]-a[0]||a[1].n.localeCompare(b[1].n)});
+    return out.slice(0,9).map(function(x){return x[1]});}
+  function rendre(){
+    items=cherche(inp.value);sel=-1;res.innerHTML='';
+    if(!inp.value){res.classList.remove('on');return}
+    if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
+    items.forEach(function(e,i){
+      var li=document.createElement('li');
+      var a=document.createElement('a');a.href=ETAT.lien(REL+e.u);a.id='qr'+i;
+      a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
+      li.appendChild(a);res.appendChild(li);});
+    res.classList.add('on');}
+  function bouge(d){if(!items.length)return;sel=(sel+d+items.length)%items.length;
+    Array.prototype.forEach.call(res.children,function(li,i){li.classList.toggle('sel',i===sel)});
+    inp.setAttribute('aria-activedescendant','qr'+sel);}
+  inp.addEventListener('input',rendre);
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();bouge(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();bouge(-1)}
+    else if(e.key==='Enter'){var a=res.querySelector(sel>=0?'li.sel a':'li a');if(a){e.preventDefault();location.href=a.href}}
+    else if(e.key==='Escape'){inp.value='';res.classList.remove('on')}});
+  document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
+  document.addEventListener('keydown',function(e){
+    if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  /* pliage mémorisé par rubrique (règle 5), et transporté d'une page à l'autre */
+  var secs=document.querySelectorAll('details.sec[data-k]'),bp=document.getElementById('tout-plier');
+  function libelle(){
+    if(!bp)return;var ferme=false;
+    secs.forEach(function(d){if(!d.open)ferme=true});
+    bp.textContent=ferme?'expand all':'collapse all';bp.setAttribute('data-v',ferme?'1':'0');}
+  secs.forEach(function(d){
+    var k=d.getAttribute('data-k'),v=ETAT.pli(k);
+    if(v!==null)d.open=v;
+    d.addEventListener('toggle',function(){ETAT.setPli(k,d.open);libelle()});});
+  /* tout à la fois : ouvrir tout s'il reste une rubrique fermée, sinon tout refermer */
+  if(bp){if(!secs.length)bp.parentNode.style.display='none';
+    libelle();
+    bp.addEventListener('click',function(){
+      var v=bp.getAttribute('data-v')==='1';
+      secs.forEach(function(d){d.open=v});libelle();});}
+  /* amont et aval : même état « déjà su », un compteur par liste (règle 7) */
+  function compte(){
+    document.querySelectorAll('.sec').forEach(function(s){
+      var cpt=s.querySelector('[data-cpt]');if(!cpt)return;
+      var l=s.querySelectorAll('input[data-su]'),k=0;
+      l.forEach(function(c){if(c.checked)k++});
+      cpt.textContent=l.length+' notion'+(l.length>1?'s':'')+', '+(l.length-k)+' left to see';});}
+  document.querySelectorAll('input[data-su]').forEach(function(c){
+    var id=c.getAttribute('data-su');c.checked=ETAT.su(id);
+    c.closest('li').classList.toggle('su',c.checked);
+    c.addEventListener('change',function(){
+      ETAT.setSu(id,c.checked);
+      document.querySelectorAll('input[data-su="'+id+'"]').forEach(function(o){
+        o.checked=c.checked;o.closest('li').classList.toggle('su',c.checked);});
+      compte();});});
+  compte();
+});
+</script>
+</body>
+</html>

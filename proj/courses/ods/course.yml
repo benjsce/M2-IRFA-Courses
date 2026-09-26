@@ -1,0 +1,46 @@
+code: ods
+titre: Optimization for Data Science
+enseignant: Samuel Vaiter, Alexandre Gramfort (authors of the material)
+annee: 2026-2027
+# Le cours est rédigé en anglais, exceptionnellement, à la demande de l'utilisateur
+# (2026-09-26) : noms, alias, rubriques, parcours, exercices et figures. Le schéma, lui,
+# reste celui de la base — titres de rubrique, lignes « Histoire : » et « Suite : »,
+# marqueur [ajout] — et le générateur affiche les étiquettes des pages de ce cours en
+# anglais (clé « langue »).
+langue: en
+sources:
+- id: notes
+  fichier: sources/lecture1.pdf
+  type: lecture notes, Lecture 1 « Introduction and Convex Analysis » (Samuel Vaiter, 14 pages)
+- id: slides
+  fichier: sources/slides_cg.pdf
+  type: slides « Solvers for dense and sparse quadratic problems » (Alexandre Gramfort, 32 slides, 38 PDF pages)
+- id: nb
+  fichier: sources/01-intercept_pb.ipynb … sources/05-logistic_cg.ipynb
+  type: five Jupyter notebooks (Alexandre Gramfort), saved without outputs
+# Trois sources, mais aucune forme de référence commune : le préfixe est inutile
+# (SPEC-MODELE §2.3, la règle porte sur la forme). Les notes se citent par leurs
+# numéros imprimés — §x.y, Def., Th., Prop., Ex. (un « Example »), eq., Fig., Exercise —
+# et, pour un énoncé sans numéro, par la page imprimée, qui est celle du PDF. Les slides
+# se citent par le numéro imprimé en pied, « n / 32 » ; les pages du PDF qui n'en
+# portent pas (l'algorithme et la preuve du gradient conjugué, pages 20 à 26, et
+# l'algorithme général, page 33) prennent le numéro que leur donne la suite, 17 à 23 et
+# 28, qui encadre exactement 16 (page 19) et 24 (page 27), 27 (pages 31–32) et 29
+# (page 34). Une slide en deux temps (6, 10, 12, 25, 27, 30) garde son numéro unique.
+# Les carnets se citent par leur numéro de fichier, « nb. 1 » à « nb. 5 ».
+refs_pattern: ^(§\d+(\.\d+)*|Def\. \d+\.\d+|Th\. \d+\.\d+|Prop\. \d+\.\d+|Ex\. \d+\.\d+|eq\. \d+\.\d+|Fig\. \d+\.\d+|Exercise \d+|p\. \d+|slide \d+|nb\. \d+)$
+depend_de: []
+conventions_par_defaut:
+  langue_source: >-
+    anglais ; le cours entier est écrit en anglais dans la base, par exception
+  deux_notations: >-
+    les notes écrivent le problème des moindres carrés avec A, b, x (min ½‖Ax − b‖²) ;
+    les slides et les carnets écrivent la régression ridge avec X, y, w et gardent A, b
+    pour la forme quadratique ½xᵀAx − bᵀx + c. Le registre garde les deux, fiche par
+    fiche, et les parcours disent le passage de l'une à l'autre
+  alpha: >-
+    α désigne dans les slides le coefficient de direction du gradient conjugué (αₖ) ; les
+    carnets 2 et 4 appellent alpha le paramètre de régularisation, que les slides
+    nomment λ
+  normes: >-
+    la norme est euclidienne sauf mention contraire ; ‖·‖_* est la norme duale

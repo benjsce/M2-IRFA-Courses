@@ -519,6 +519,7 @@ sources:
     type: notes de cours
 refs_pattern: '^(§\d+(\.\d+)*|Déf\. \d+|Prop\. \d+|Th\. \d+|Ex\. \d+|éq\. \d+|p\. \d+|Rem\. \d+|slide \d+)$'
 depend_de: []            # cours prérequis (A10) ; vide si aucun
+langue: fr               # facultatif : fr (défaut) ou en, la langue des intitulés du site (SPEC-SITE §4)
 hors_parcours:           # fiches sans place dans aucun récit, avec leur raison (A16)
   fpp/exemple: digression de la section 4, qui couperait le fil des options
 refonte_du_recit:        # refontes voulues du récit, datées et motivées (A17)

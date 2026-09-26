@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="fr" data-rel="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rapport 2026-09-26-ods · notions</title>
+<script>
+/* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
+   localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
+   cases « déjà su » ne peuvent donc pas traverser les pages par là. Ils voyagent dans
+   le fragment de l'URL, que tous les liens internes portent ; localStorage ne sert plus
+   que de mémoire locale, pour la page qu'on rouvre sans fragment.
+   Ce script s'exécute avant le rendu : sinon le thème clignote à chaque page. */
+(function(){
+var H={},h=(location.hash||'').replace(/^#/,'');
+h.split('~').forEach(function(p){var i=p.indexOf(':');if(i>0)H[p.slice(0,i)]=p.slice(i+1)});
+window.ETAT_URL=H;
+function loc(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+var t=H.t?(H.t==='d'?'dark':'light'):loc('notions.theme','');
+if(t)document.documentElement.setAttribute('data-theme',t);
+var a=(H.a!==undefined)?H.a:loc('notions.ajouts','1');
+if(a==='0')document.documentElement.classList.add('sans-ajouts');
+})();
+</script>
+<style>
+:root{
+  --bg:#fbfaf7; --bg2:#f3f0ea; --fg:#1b1a17; --mut:#6c675d; --fai:#8e887c;
+  --li:#e0dbd1; --li2:#cdc6b8; --card:#ffffff; --acc:#8a4f23; --acc2:#f3e7dc;
+  --ajo:#6d5a8c; --ajo2:#efe9f5; --lim:#9a3a2e; --ok:#3f6b46; --faute:#a8631a;
+  --r:8px; --w:min(72rem,100%);
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}}
+:root[data-theme="dark"]{
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}
+.fig{margin:.9rem 0;padding:.5rem .2rem .2rem;text-align:center}
+/* « > svg » et non « svg » : MathJax pose son propre <svg> dans la légende, et
+   une règle non ancrée en faisait un bloc qui coupait la phrase en trois. */
+.fig > svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig figcaption{margin-top:.35rem;font-family:var(--sans);font-size:.82rem;
+  color:var(--mut);text-align:center;line-height:1.45}
+@media print{.fig{break-inside:avoid}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
+  font-size:17px;line-height:1.62;overflow-wrap:break-word}
+a{color:var(--acc);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-style:dotted}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+.wrap{width:var(--w);margin:0 auto;padding:0 1rem}
+
+/* ---- barre du haut ---- */
+header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
+  border-bottom:1px solid var(--li);font-family:var(--sans)}
+.topin{width:var(--w);margin:0 auto;padding:.45rem 1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.brand{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--fg);letter-spacing:.02em}
+.fil{color:var(--mut);font-size:.82rem;flex:1 1 8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fil a{color:var(--mut)}
+.btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
+  border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+a.btn{text-decoration:none}
+.btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
+.rech{position:relative;flex:0 1 16rem;min-width:9rem}
+.rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
+  border:1px solid var(--li2);border-radius:var(--r);background:var(--card);color:var(--fg)}
+.res{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--li2);
+  border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.14);max-height:60vh;overflow:auto;padding:.2rem;margin:0;
+  list-style:none;display:none;z-index:50;min-width:18rem}
+.res.on{display:block}
+.res li a{display:block;padding:.3rem .45rem;border-radius:6px;text-decoration:none;color:var(--fg);font-size:.86rem}
+.res li a:hover,.res li.sel a{background:var(--acc2)}
+.res .sub{color:var(--mut);font-size:.76rem;font-family:var(--sans)}
+.res .vide{padding:.4rem .5rem;color:var(--mut);font-size:.84rem}
+
+main{padding:1.4rem 0 4rem}
+h1{font-size:1.75rem;line-height:1.24;margin:.2rem 0 .3rem}
+h2{font-size:1.06rem;font-family:var(--sans);font-weight:600;letter-spacing:.01em;margin:0}
+h3{font-size:.95rem;font-family:var(--sans);margin:1.2rem 0 .3rem}
+p{margin:.55rem 0}
+.ptag{font-family:var(--sans);font-size:.74rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .5rem}
+
+/* ---- métadonnées de fiche ---- */
+.meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;font-family:var(--sans);font-size:.75rem;color:var(--mut);margin:.4rem 0 1.1rem}
+.pill{border:1px solid var(--li2);border-radius:99px;padding:.06rem .5rem;background:var(--card);white-space:nowrap}
+.pill.ajout{color:var(--ajo);border-color:var(--ajo);background:var(--ajo2)}
+.pill.typ{background:var(--acc2);border-color:var(--acc)}
+.sym{font-family:var(--serif);font-size:1rem;color:var(--fg)}
+
+/* ---- sections ---- */
+.sec{border-top:1px solid var(--li);padding:.85rem 0}
+.sec.vide{display:none}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.45rem;padding:.1rem 0}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"›";color:var(--fai);font-family:var(--sans);display:inline-block;
+  transition:transform .12s ease;transform:rotate(0deg);width:.7em}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fai);font-weight:400}
+.corps{padding-top:.25rem}
+.gen{border-left:2px solid var(--li2);padding-left:.7rem}
+.chemin{border-left:3px solid var(--acc);background:var(--bg2);border-radius:0 var(--r) var(--r) 0;
+  padding:.5rem .8rem;margin:.2rem 0 .7rem}
+.chemin p{margin:.35rem 0;font-size:.95rem}
+.chemin p:first-child{margin-top:0}
+.chemin p:last-child{margin-bottom:0}
+.note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
+.parc{border:1px solid var(--li);border-left:3px solid var(--acc);border-radius:0 var(--r) var(--r) 0;
+  background:var(--bg2);padding:.5rem .8rem;margin:.6rem 0;font-size:.93rem}
+.parc-t{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin-bottom:.15rem}
+.parc p{margin:.2rem 0}
+.parc-h{border-left:2px solid var(--li);padding:.1rem 0 .1rem .6rem;margin:.3rem 0 .45rem;color:var(--mut)}
+.parc-h strong{color:var(--fg)}
+.parc-l{font-family:var(--sans);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--acc);margin-right:.25rem}
+.parc-lien{margin-top:.35rem;font-size:.92em}
+.parc-suite{border-left:2px solid var(--acc);padding:.1rem 0 .1rem .6rem;margin:.35rem 0;color:var(--fg);background:var(--acc2)}
+.parc-nav{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--sans);font-size:.8rem;margin-top:.35rem}
+.parc-nav .suiv{margin-left:auto;text-align:right}
+.etapes{list-style:none;padding:0;margin:.6rem 0 1.2rem;counter-reset:e}
+.etapes>li{counter-increment:e;position:relative;padding:0 0 1rem 1.7rem;border-left:2px solid var(--li);margin-left:.9rem}
+.etapes>li:last-child{border-left-color:transparent}
+.etapes>li::before{content:counter(e);position:absolute;left:-.95rem;top:0;width:1.75rem;height:1.75rem;
+  border-radius:99px;background:var(--card);border:1px solid var(--acc);color:var(--acc);
+  font-family:var(--sans);font-size:.78rem;display:flex;align-items:center;justify-content:center}
+.etapes>li>p{margin:.1rem 0 .35rem}
+.etapes .arr{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.45rem .75rem}
+.etapes .arr a.tit{font-weight:600;text-decoration:none}
+.etapes .arr p{margin:.15rem 0;font-size:.88rem;color:var(--mut)}
+.avant{list-style:none;padding:0;margin:.4rem 0 1rem}
+.avant>li{margin:.5rem 0}
+.avant>li p{margin:.1rem 0 0;font-size:.95rem}
+.avant a.tit{font-weight:600;text-decoration:none}
+.roles{list-style:none;padding:0;margin:.2rem 0 0}
+.roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
+.roles>li.cible{background:var(--acc2)}
+details.parc>summary{cursor:pointer}
+.sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
+.sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
+.sec.faute>summary h2{color:var(--faute)}
+.faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
+  margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.faute-b strong{color:var(--faute)}
+.sec.lim>summary h2{color:var(--lim)}
+.sec.lim>h2{color:var(--lim)}
+
+/* ---- marqueurs de traçabilité ---- */
+.marq{font-family:var(--sans);font-size:.7rem;color:var(--fai);white-space:nowrap;vertical-align:.12em}
+.marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
+.marqligne{margin:.15rem 0 0}
+html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
+.bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
+  color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
+
+/* ---- pastilles ---- */
+.pasts{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0;padding:0;list-style:none}
+.past{display:inline-block;font-family:var(--sans);font-size:.82rem;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--li2);border-radius:99px;padding:.12rem .6rem}
+.past:hover{border-color:var(--acc);color:var(--acc)}
+.past .cc{color:var(--fai);font-size:.74rem}
+.past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
+.past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
+.past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
+
+/* ---- socle ---- */
+.socle{list-style:none;padding:0;margin:.3rem 0}
+.socle li{display:flex;gap:.5rem;align-items:baseline;padding:.12rem 0;font-size:.92rem}
+.socle input{margin:0;accent-color:var(--ok)}
+.socle li.su a{color:var(--fai);text-decoration:line-through}
+.compteur{font-family:var(--sans);font-size:.78rem;color:var(--mut)}
+.grp{margin:.5rem 0}
+.grp>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--mut)}
+
+table{border-collapse:collapse;margin:.5rem 0;font-size:.9rem;display:block;overflow-x:auto;max-width:100%}
+th,td{border:1px solid var(--li);padding:.25rem .55rem;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-family:var(--sans);font-size:.78rem;font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+  background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
+ul{padding-left:1.1rem}
+hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
+
+/* ---- cartes d'accueil / carte du cours ---- */
+.cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
+.carte{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.65rem .8rem}
+.carte h3{margin:0 0 .2rem}
+.carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
+.carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
+.dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.vise{animation:vise 1.6s ease}
+@keyframes vise{from{background:var(--acc2)}to{background:transparent}}
+
+/* ---- orientation : ce qui s'adresse au lecteur qui arrive ---- */
+.entree{border:1px solid var(--li2);border-left:3px solid var(--acc);border-radius:var(--r);
+  padding:.7rem .9rem;margin:.8rem 0 1.4rem;background:var(--card)}
+.entree p{margin:.3rem 0;font-size:.92rem}
+.entree .quoi{font-size:1.02rem}
+.entree ul{margin:.5rem 0 .2rem;padding-left:1.1rem;font-family:var(--sans);font-size:.88rem}
+.entree li{margin:.2rem 0}
+.chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
+.chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
+.aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
+/* L'en-tête est collant : une ancre visée ne doit pas passer dessous. Mesuré :
+   il fait 48 px sur une ligne, 85 px quand il se replie en deux (écran étroit). */
+[id]{scroll-margin-top:6rem}
+.aide p,.aide ul,.aide table{max-width:42rem}
+.dette ul{margin:.3rem 0 0}
+footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
+
+/* ---- arbre ---- */
+.barre{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+.barre.plier{justify-content:flex-end;margin:.2rem 0 -.2rem}
+#scene{position:relative;border:1px solid var(--li);border-radius:var(--r);background:var(--bg2);
+  height:min(74vh,720px);overflow:hidden;touch-action:none;cursor:grab}
+#scene.drag{cursor:grabbing}
+#pan{position:absolute;transform-origin:0 0;top:0;left:0}
+#aretes{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+#aretes path{fill:none;stroke:var(--li2);stroke-width:1.5}
+.noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
+  padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
+.noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
+.noeud .nm{font-weight:600}
+.noeud .nm a{text-decoration:none;color:var(--fg)}
+.noeud .nm a:hover{color:var(--acc)}
+.noeud .pa{color:var(--mut);font-size:.72rem;display:block;margin-top:.1rem}
+.noeud .pli{font:inherit;font-size:.72rem;background:none;border:1px solid var(--li2);border-radius:4px;
+  color:var(--mut);cursor:pointer;padding:0 .3rem;margin-right:.25rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.4rem}
+  .rech{flex:1 1 100%;order:9}
+  #scene{height:66vh}
+}
+@media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="brand" href="../index.html">notions</a><span class="fil">rapport d’ingestion › 2026-09-26-ods</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><article class="rapport"><h1>Rapport d'ingestion — ods — 2026-09-26</h1><p>Premier rapport du cours <code>ods</code>, <em>Optimization for Data Science</em>, ajouté dans cette session.
+<strong>Le cours est écrit en anglais</strong>, par exception, à la demande de l'utilisateur
+(« exceptionnellement fait l'intégralité de ce cours en anglais ») ; ce rapport reste en
+français, comme tous les rapports. Portée tranchée par l'utilisateur en début de session :
+le contenu en anglais (noms, alias, rubriques, parcours, exercices, figures) et les
+intitulés des pages du cours en anglais ; le schéma (titres de rubrique, « Histoire : »,
+« Suite : », <code>[ajout]</code>), le cadre commun du site et <code>aide.html</code> restent en français. Code
+du cours choisi par l'utilisateur : <code>ods</code>.</p><h2>État initial</h2><p><code>python tools/validate.py</code> échouait à l'étape 1 avec <strong>2 erreurs</strong> sur un état que cette
+session n'avait pas produit : <code>dss figures: importance-par-impurete.svg</code> et
+<code>importance-par-permutation.svg</code> « ne correspond plus » à leur script. Diagnostic : la
+commande <code>python</code> de la machine est l'anaconda <strong>3.11.7</strong> ; sous <code>python3</code> (<strong>3.14.2</strong>) le
+validateur passe (263 notions · 0 E · 0 W). Python 3.12 a changé <code>sum()</code> sur les flottants
+(sommation compensée) ; les deux scripts, dont la sortie dépend d'égalités entre sommes de
+flottants, ne produisent pas le même SVG avant et après 3.12. Le graphe était donc valide ;
+la session a été conduite sous <code>python3</code>. Ce n'est pas corrigé ici (hors du cours) : voir
+les questions. Les figures de <code>ods</code> rendent le même SVG sous 3.11 et 3.14.</p><h2>Matériau traité</h2><ul><li><code>courses/ods/sources/lecture1.pdf</code> — Samuel Vaiter, <em>Optimization for Data Sciences</em>,</li><li>Lecture 1 « Introduction and Convex Analysis », 14 pages, lues en entier.</li><li><code>courses/ods/sources/slides_cg.pdf</code> — Alexandre Gramfort, « Solvers for dense and sparse</li><li>quadratic problems », 32 slides numérotées sur 38 pages de PDF, lues en entier. Les pages</li><li>sans numéro imprimé (20 à 26 et 33) prennent les numéros 17 à 23 et 28 que leur donne la</li><li>suite (convention écrite dans <code>course.yml</code>).</li><li><code>courses/ods/sources/01-intercept_pb.ipynb</code> … <code>05-logistic_cg.ipynb</code> — cinq carnets</li><li>(Gramfort), enregistrés <strong>sans sorties</strong> ; lus en entier. Le carnet 5 a été rejoué ici</li><li>(SciPy 1.11.4, scikit-learn 1.2.2) pour vérifier ce qu'il produit : voir contradictions.</li></ul><p>Trois sources, aucune forme de référence commune, donc aucune préfixée (SPEC-MODELE §2.3) :
+<code>§x.y</code>, <code>Def.</code>, <code>Th.</code>, <code>Prop.</code>, <code>Ex.</code> (Example), <code>eq.</code>, <code>Fig.</code>, <code>Exercise n</code>, <code>p. n</code> pour les
+notes, <code>slide n</code> pour les slides, <code>nb. n</code> pour les carnets.</p><h2>Inventaire ajouté (à auditer par l'utilisateur)</h2><p>Dans l'ordre des sources : notes, slides, carnets. Les énoncés sans numéro des notes sont
+cités par leur page ; deux éléments distincts partagent parfois une référence (slide 24 :
+les vitesses et le conditionnement ; slide 28 : l'algorithme et Polak–Ribière ; nb. 3, 4 et
+5 : deux sections chacun).</p><ul><li>§1 · Introduction · notion <a href="../ods/n/optimization-problem.html">Optimization problem</a></li><li>§1.1 · Examples of optimization problem · absorbe <a href="../ods/n/optimization-problem.html">Optimization problem</a></li><li>§1.1.1 · Toy examples (Rosenbrock function, positive quadratic form) · notion <a href="../ods/n/rosenbrock-function.html">Rosenbrock function</a></li><li>Fig. 1.1 · Contour plots of the Rosenbrock function and of a quadratic form · absorbe <a href="../ods/n/rosenbrock-function.html">Rosenbrock function</a></li><li>§1.1.2 · Ordinary Least Squares · notion <a href="../ods/n/ordinary-least-squares.html">Ordinary least squares</a></li><li>§1.1.3 · (Empirical) Risk minimization · notion <a href="../ods/n/empirical-risk.html">Empirical risk</a></li><li>p. 2 · Expected risk of a prediction, and its minimization over a class · notion <a href="../ods/n/expected-risk.html">Expected risk</a></li><li>p. 3 · Structural risk minimization (loss plus a regularization λJ) · notion <a href="../ods/n/structural-risk-minimization.html">Structural risk minimization</a></li><li>§1.1.4 · Portfolio optimization · absorbe <a href="../ods/n/optimization-problem.html">Optimization problem</a></li><li>§1.1.5 · Optimal control · absorbe <a href="../ods/n/optimization-problem.html">Optimization problem</a></li><li>eq. 1.1 · Controlled ordinary differential equation · absorbe <a href="../ods/n/optimization-problem.html">Optimization problem</a></li><li>§1.1.6 · Optimal transport · absorbe <a href="../ods/n/optimization-problem.html">Optimization problem</a></li><li>eq. 1.2 · Monge problem · absorbe <a href="../ods/n/optimization-problem.html">Optimization problem</a></li><li>§1.2 · Basic facts on optimization · absorbe <a href="../ods/n/existence-on-a-compact.html">Existence of a minimizer on a compact set</a></li><li>Th. 1.1 · C0 + compact ⇒ global minimizer · notion <a href="../ods/n/existence-on-a-compact.html">Existence of a minimizer on a compact set</a></li><li>p. 4 · Coercivity (lim f(x) = +∞ as ‖x‖ → +∞) · notion <a href="../ods/n/coercive-function.html">Coercive function</a></li><li>Th. 1.2 · C0 + coercive ⇒ global minimizer · notion <a href="../ods/n/existence-under-coercivity.html">Existence of a minimizer for a coercive function</a></li><li>Ex. 1.1 · Least-square minimization (coercive if and only if Ker A = {0}) · absorbe <a href="../ods/n/ordinary-least-squares.html">Ordinary least squares</a></li><li>§2 · Basic facts in convex analysis · absorbe <a href="../ods/n/convex-function.html">Convex function</a></li><li>Fig. 2.1 · Definition of concavity by Archimedes · exclu (a historical quotation (Archimedes); the course uses no statement from it)</li><li>§2.1 · Convex set · absorbe <a href="../ods/n/convex-set.html">Convex set</a></li><li>Fig. 2.2 · Convex and non-convex sets · absorbe <a href="../ods/n/convex-set.html">Convex set</a></li><li>Def. 2.1 · Convex set · notion <a href="../ods/n/convex-set.html">Convex set</a></li><li>Ex. 2.1 · Basic convex sets (intervals, hyperplane, half-space, simplex, orthant) · absorbe <a href="../ods/n/convex-set.html">Convex set</a></li><li>Prop. 2.1 · Operations on convex sets · notion <a href="../ods/n/operations-on-convex-sets.html">Operations that preserve convex sets</a></li><li>§2.2 · Convex functions · absorbe <a href="../ods/n/convex-function.html">Convex function</a></li><li>§2.2.1 · Definition · absorbe <a href="../ods/n/convex-function.html">Convex function</a></li><li>Def. 2.2 · Epigraph · notion <a href="../ods/n/epigraph.html">Epigraph</a></li><li>Fig. 2.3 · Epigraph of a function · absorbe <a href="../ods/n/epigraph.html">Epigraph</a></li><li>Def. 2.3 · Convex function · notion <a href="../ods/n/convex-function.html">Convex function</a></li><li>eq. 2.1 · Two-point inequality of a convex function · absorbe <a href="../ods/n/convex-function.html">Convex function</a></li><li>§2.2.2 · Local and global minima of a convex function · absorbe <a href="../ods/n/local-minima-are-global.html">Local minima of a convex function are global</a></li><li>eq. 2.2 · Minimization problem on a convex set C · absorbe <a href="../ods/n/local-minima-are-global.html">Local minima of a convex function are global</a></li><li>Th. 2.1 · Local minima of convex functions are global · notion <a href="../ods/n/local-minima-are-global.html">Local minima of a convex function are global</a></li><li>§2.2.3 · Differentiable properties of a convex function · absorbe <a href="../ods/n/first-order-characterization.html">First-order characterization of convexity</a></li><li>Prop. 2.2 · A differentiable function is convex iff it lies above its tangents · notion <a href="../ods/n/first-order-characterization.html">First-order characterization of convexity</a></li><li>eq. 2.3 · Tangent inequality · absorbe <a href="../ods/n/first-order-characterization.html">First-order characterization of convexity</a></li><li>Fig. 2.4 · Convex and differentiable functions; strong convexity and differentiability · absorbe <a href="../ods/n/first-order-characterization.html">First-order characterization of convexity</a></li><li>p. 9 · Optimality: ∇f(x*) = 0 in an open domain, ⟨∇f(x*), x − x*⟩ ≥ 0 on a convex set · notion <a href="../ods/n/first-order-optimality-condition.html">First-order optimality condition</a></li><li>§2.3 · Strongly convex functions · absorbe <a href="../ods/n/strongly-convex-function.html">Strongly convex function</a></li><li>Def. 2.4 · Strongly convex function · notion <a href="../ods/n/strongly-convex-function.html">Strongly convex function</a></li><li>Prop. 2.3 · Quadratic lower bound of a differentiable μ-strongly convex function · notion <a href="../ods/n/quadratic-lower-bound.html">Quadratic lower bound</a></li><li>eq. 2.4 · Lower bound around the minimizer · absorbe <a href="../ods/n/quadratic-lower-bound.html">Quadratic lower bound</a></li><li>§2.4 · Lipschitz continuity of the gradient · absorbe <a href="../ods/n/l-smooth-function.html">L-smooth function</a></li><li>Def. 2.5 · L-smoothness · notion <a href="../ods/n/l-smooth-function.html">L-smooth function</a></li><li>§2.4.1 · Quadratic upper-bound · absorbe <a href="../ods/n/quadratic-upper-bound.html">Quadratic upper bound</a></li><li>Prop. 2.4 · Quadratic upper bound of an L-smooth function · notion <a href="../ods/n/quadratic-upper-bound.html">Quadratic upper bound</a></li><li>eq. 2.5 · Monotonicity bound ⟨∇f(x) − ∇f(y), x − y⟩ ≤ L‖x − y‖² · absorbe <a href="../ods/n/quadratic-upper-bound.html">Quadratic upper bound</a></li><li>eq. 2.6 · Quadratic upper bound · absorbe <a href="../ods/n/quadratic-upper-bound.html">Quadratic upper bound</a></li><li>Prop. 2.5 · Bounds on f(z) − f(x*) for an L-smooth function · notion <a href="../ods/n/optimality-gap-bounds.html">Bounds on the optimality gap</a></li><li>§2.4.2 · Co-coercivity of the gradient of a L-smooth function · absorbe <a href="../ods/n/co-coercivity.html">Co-coercivity of the gradient</a></li><li>Prop. 2.6 · The gradient of a convex L-smooth function is 1/L-co-coercive · notion <a href="../ods/n/co-coercivity.html">Co-coercivity of the gradient</a></li><li>Prop. 2.7 · Smoothness, quadratic upper bound and co-coercivity are equivalent · absorbe <a href="../ods/n/co-coercivity.html">Co-coercivity of the gradient</a></li><li>Prop. 2.8 · Euclidean characterizations of L-smoothness (monotone L Id − ∇f, convex L/2‖x‖² − f, λmax of the Hessian) · absorbe <a href="../ods/n/l-smooth-function.html">L-smooth function</a></li><li>Prop. 2.9 · Strengthened co-coercivity (L-smooth and μ-strongly convex) · notion <a href="../ods/n/strengthened-co-coercivity.html">Strengthened co-coercivity</a></li><li>§2.5 · Exercises · exclu (heading of the exercise list; each exercise has its own line)</li><li>Exercise 1 · Convexity with λ in (0, 1) instead of [0, 1] · absorbe <a href="../ods/n/convex-set.html">Convex set</a></li><li>Exercise 2 · Orthant, hyperplane, half-space and unit ball are convex · absorbe <a href="../ods/n/convex-set.html">Convex set</a></li><li>Exercise 3 · First-order characterization of strict convexity · absorbe <a href="../ods/n/first-order-characterization.html">First-order characterization of convexity</a></li><li>p. 14 · References · exclu (bibliography)</li><li>slide 1 · Title page · exclu (title page)</li><li>slide 2 · Unconstrained optimization problem (P) · absorbe <a href="../ods/n/optimization-problem.html">Optimization problem</a></li><li>slide 3 · Quadratic functions: definition of a quadratic form · notion <a href="../ods/n/quadratic-form.html">Quadratic form</a></li><li>slide 4 · Taylor at order 2 · notion <a href="../ods/n/second-order-taylor-expansion.html">Second-order Taylor expansion</a></li><li>slide 5 · Ridge regression (definition, with intercept) · notion <a href="../ods/n/ridge-regression.html">Ridge regression</a></li><li>slide 6 · Taking care of the intercept · notion <a href="../ods/n/intercept.html">Intercept</a></li><li>slide 7 · Ridge regression (exercise: quadratic form, closed form, strong convexity) · absorbe <a href="../ods/n/ridge-regression.html">Ridge regression</a></li><li>slide 8 · Singular value decomposition (SVD) · notion <a href="../ods/n/singular-value-decomposition.html">Singular value decomposition</a></li><li>slide 9 · Singular value decomposition: eigenvectors, rank, pseudo-inverse · absorbe <a href="../ods/n/singular-value-decomposition.html">Singular value decomposition</a></li><li>slide 10 · Matrix inversion lemma (Woodbury matrix identity) and its proof · notion <a href="../ods/n/woodbury-identity.html">Matrix inversion lemma</a></li><li>slide 11 · Primal and dual implementation · notion <a href="../ods/n/dual-ridge.html">Primal and dual formulations of ridge</a></li><li>slide 12 · Can you even store it? · absorbe <a href="../ods/n/dual-ridge.html">Primal and dual formulations of ridge</a></li><li>slide 13 · Never form the matrix · notion <a href="../ods/n/matrix-free-product.html">Matrix-free product</a></li><li>slide 14 · Conjugate gradient method: solve Ax = b · notion <a href="../ods/n/conjugate-gradient.html">Conjugate gradient</a></li><li>slide 15 · Theorem (convergence in n iterations) · notion <a href="../ods/n/cg-finite-termination.html">Convergence of conjugate gradient in n iterations</a></li><li>slide 16 · Conjugate directions, direction coefficient and step size · notion <a href="../ods/n/conjugate-directions.html">Conjugate directions</a></li><li>slide 17 · Conjugate gradient: the algorithm · absorbe <a href="../ods/n/conjugate-gradient.html">Conjugate gradient</a></li><li>slide 18 · Proof of conjugate gradient (slides 18 to 23) · absorbe <a href="../ods/n/cg-finite-termination.html">Convergence of conjugate gradient in n iterations</a></li><li>slide 24 · How fast in practice? (rates of conjugate gradient and gradient descent) · notion <a href="../ods/n/cg-convergence-rate.html">Convergence rate of conjugate gradient</a></li><li>slide 24 · Condition number κ = λmax(A) / λmin(A) · notion <a href="../ods/n/condition-number.html">Condition number</a></li><li>slide 25 · √κ versus κ (iterations to reach 10⁻⁶) · absorbe <a href="../ods/n/cg-convergence-rate.html">Convergence rate of conjugate gradient</a></li><li>slide 26 · What it means for ridge regression · notion <a href="../ods/n/conditioning-of-ridge.html">Conditioning of ridge regression</a></li><li>slide 27 · Getting rid of A: the Fletcher–Reeves form · notion <a href="../ods/n/fletcher-reeves-formula.html">Fletcher–Reeves formula</a></li><li>slide 28 · Conjugate gradient for a general smooth f · notion <a href="../ods/n/nonlinear-conjugate-gradient.html">Nonlinear conjugate gradient</a></li><li>slide 28 · Polak–Ribière · notion <a href="../ods/n/polak-ribiere.html">Polak–Ribière formula</a></li><li>slide 29 · Note on warm starts and paths · notion <a href="../ods/n/warm-start.html">Warm start</a></li><li>slide 30 · Which end of the path do you start from? · notion <a href="../ods/n/regularization-path.html">Regularization path</a></li><li>slide 31 · More (scipy.sparse.linalg.cg, scipy.optimize.fmin_cg, sklearn Ridge solvers) · absorbe <a href="../ods/n/conjugate-gradient.html">Conjugate gradient</a></li><li>slide 32 · References · exclu (bibliography (Nocedal and Wright, chapter 5))</li><li>nb. 1 · Solving least squares: the problem of the intercept (simulated data, fit without then with intercept, centering) · absorbe <a href="../ods/n/intercept.html">Intercept</a></li><li>nb. 2 · Optimizing Ridge regression (option 1: center X and y; option 2: add a column of ones) · absorbe <a href="../ods/n/intercept.html">Intercept</a></li><li>nb. 3 · Sparse matrices; why sparse matrices?; arithmetic · notion <a href="../ods/n/sparse-matrix.html">Sparse matrix</a></li><li>nb. 3 · Conversion to dense arrays; converting between sparse formats; why 3 formats? (insertion, multiplication) · notion <a href="../ods/n/sparse-storage-format.html">Sparse storage formats</a></li><li>nb. 4 · Conjugate gradient for sparse linear systems; let's do some « Big Data » · absorbe <a href="../ods/n/matrix-free-product.html">Matrix-free product</a></li><li>nb. 4 · The problem of warm start · absorbe <a href="../ods/n/warm-start.html">Warm start</a></li><li>nb. 5 · Conjugate gradient for logistic regression · notion <a href="../ods/n/logistic-regression.html">Logistic regression</a></li><li>nb. 5 · Question: add support for the intercept (careful, non-regularized) · absorbe <a href="../ods/n/intercept.html">Intercept</a></li></ul><p>Rien n'est <code>a_venir</code> : toute la matière reçue est traitée.</p><h2>Notations ajoutées ou en collision</h2><p>Registre <code>courses/ods/notation.yml</code> : 62 entrées, toutes <code>source</code> ; 9 symboles y ont plusieurs
+entrées, portés par des fiches différentes avec des sens différents (déclarés en tête du registre) : $A$ et $b$ (données
+et réponses des moindres carrés, puis matrice et terme linéaire de la forme quadratique ;
+$b$ est aussi l'ordonnée à l'origine de la ridge), $\lambda$ (poids de mélange dans la
+définition de la convexité, paramètre de régularisation), $\mu$ (rendements espérés de
+l'exemple du portefeuille, module de forte convexité), $\Sigma$ (covariance, SVD), $U$,
+$V$, $C$ (SVD, lemme d'inversion, ensemble convexe), $\varepsilon$ (bruit, tolérance).</p><p>Collisions avec les autres cours, toutes déclarées sous <code>collisions</code> en nommant chaque
+cours concerné : $A$ (dup), $C$ (fpp), $L$ (dss, pfo), $U$ (dup), $V$ (pfo), $X$ (dup),
+$\alpha_k$ (pfo — le plus trompeur : un pas dans pfo, un coefficient de direction ici),
+$\ell$ (dup), $\lambda$ (dss, dup, pfo — même rôle qu'en dss, à un facteur $n$ près),
+$\mathcal{F}$ (dup), $\mu$ (dup, fpp, pfo), $\varepsilon$ (dss), $a$ (dup), $c$ (dup),
+$f$ (dup, pfo), $h$ (pfo), $q$ (fpp).</p><p>Homonymes déclarés sous <code>homonymes</code> — ici les <strong>mêmes objets</strong> vus par deux cours, non deux
+grandeurs : <code>ods/ordinary-least-squares</code> ↔ <code>dss/moindres-carres-ordinaires</code> (alias
+« OLS »), <code>ods/gradient-descent</code> ↔ <code>dss/descente-de-gradient</code>, <code>ods/ridge-regression</code> ↔
+<code>dss/regression-ridge</code>, <code>ods/singular-value-decomposition</code> ↔
+<code>dss/decomposition-en-valeurs-singulieres</code>. Aucune arête n'est posée entre les deux cours
+(question 1).</p><p>Les carnets 2 et 4 nomment <code>alpha</code> le paramètre que les slides nomment $\lambda$ ; les
+slides nomment $\alpha_k$ le coefficient de direction et $\beta_k$ le pas, à l'inverse de
+Nocedal et Wright (la slide 27 le signale elle-même).</p><h2>Fiches créées</h2><p>46 fiches, toutes <code>statut: source</code>, dans l'ordre des parcours (id · nom · type · cas_de ·
+construite à partir de) :</p><ul><li><a href="../ods/n/optimization-problem.html">Optimization problem</a> · Optimization problem · principe · cas_de — · ← —</li><li><a href="../ods/n/rosenbrock-function.html">Rosenbrock function</a> · Rosenbrock function · notion · cas_de <a href="../ods/n/optimization-problem.html">Optimization problem</a> · ← —</li><li><a href="../ods/n/existence-on-a-compact.html">Existence of a minimizer on a compact set</a> · Existence of a minimizer on a compact set · notion · cas_de — · ← optimization-problem</li><li><a href="../ods/n/coercive-function.html">Coercive function</a> · Coercive function · notion · cas_de — · ← —</li><li><a href="../ods/n/existence-under-coercivity.html">Existence of a minimizer for a coercive function</a> · Existence of a minimizer for a coercive function · notion · cas_de — · ← existence-on-a-compact, coercive-function</li><li><a href="../ods/n/ordinary-least-squares.html">Ordinary least squares</a> · Ordinary least squares · notion · cas_de <a href="../ods/n/optimization-problem.html">Optimization problem</a> · ← existence-under-coercivity</li><li><a href="../ods/n/expected-risk.html">Expected risk</a> · Expected risk · notion · cas_de — · ← optimization-problem</li><li><a href="../ods/n/empirical-risk.html">Empirical risk</a> · Empirical risk · notion · cas_de — · ← expected-risk</li><li><a href="../ods/n/structural-risk-minimization.html">Structural risk minimization</a> · Structural risk minimization · notion · cas_de <a href="../ods/n/optimization-problem.html">Optimization problem</a> · ← empirical-risk</li><li><a href="../ods/n/convex-set.html">Convex set</a> · Convex set · notion · cas_de — · ← —</li><li><a href="../ods/n/operations-on-convex-sets.html">Operations that preserve convex sets</a> · Operations that preserve convex sets · notion · cas_de — · ← convex-set</li><li><a href="../ods/n/epigraph.html">Epigraph</a> · Epigraph · notion · cas_de — · ← —</li><li><a href="../ods/n/convex-function.html">Convex function</a> · Convex function · notion · cas_de — · ← convex-set, epigraph</li><li><a href="../ods/n/local-minima-are-global.html">Local minima of a convex function are global</a> · Local minima of a convex function are global · notion · cas_de — · ← convex-function, optimization-problem</li><li><a href="../ods/n/first-order-characterization.html">First-order characterization of convexity</a> · First-order characterization of convexity · notion · cas_de — · ← convex-function</li><li><a href="../ods/n/first-order-optimality-condition.html">First-order optimality condition</a> · First-order optimality condition · notion · cas_de — · ← first-order-characterization, local-minima-are-global</li><li><a href="../ods/n/strongly-convex-function.html">Strongly convex function</a> · Strongly convex function · notion · cas_de — · ← convex-function, existence-under-coercivity</li><li><a href="../ods/n/quadratic-lower-bound.html">Quadratic lower bound</a> · Quadratic lower bound · notion · cas_de — · ← strongly-convex-function, first-order-characterization</li><li><a href="../ods/n/l-smooth-function.html">L-smooth function</a> · L-smooth function · notion · cas_de — · ← —</li><li><a href="../ods/n/quadratic-upper-bound.html">Quadratic upper bound</a> · Quadratic upper bound · notion · cas_de — · ← l-smooth-function</li><li><a href="../ods/n/optimality-gap-bounds.html">Bounds on the optimality gap</a> · Bounds on the optimality gap · notion · cas_de — · ← quadratic-upper-bound, first-order-optimality-condition</li><li><a href="../ods/n/co-coercivity.html">Co-coercivity of the gradient</a> · Co-coercivity of the gradient · notion · cas_de — · ← optimality-gap-bounds</li><li><a href="../ods/n/strengthened-co-coercivity.html">Strengthened co-coercivity</a> · Strengthened co-coercivity · notion · cas_de — · ← co-coercivity, strongly-convex-function</li><li><a href="../ods/n/second-order-taylor-expansion.html">Second-order Taylor expansion</a> · Second-order Taylor expansion · notion · cas_de — · ← —</li><li><a href="../ods/n/gradient-descent.html">Gradient descent</a> · Gradient descent · notion · cas_de — · ← second-order-taylor-expansion, quadratic-upper-bound</li><li><a href="../ods/n/quadratic-form.html">Quadratic form</a> · Quadratic form · notion · cas_de — · ← first-order-optimality-condition, strongly-convex-function</li><li><a href="../ods/n/ridge-regression.html">Ridge regression</a> · Ridge regression · notion · cas_de <a href="../ods/n/optimization-problem.html">Optimization problem</a> · ← structural-risk-minimization, quadratic-form</li><li><a href="../ods/n/intercept.html">Intercept</a> · Intercept · notion · cas_de — · ← ridge-regression</li><li><a href="../ods/n/singular-value-decomposition.html">Singular value decomposition</a> · Singular value decomposition · notion · cas_de — · ← —</li><li><a href="../ods/n/woodbury-identity.html">Matrix inversion lemma</a> · Matrix inversion lemma · notion · cas_de — · ← —</li><li><a href="../ods/n/dual-ridge.html">Primal and dual formulations of ridge</a> · Primal and dual formulations of ridge · notion · cas_de — · ← ridge-regression, woodbury-identity, singular-value-decomposition</li><li><a href="../ods/n/sparse-matrix.html">Sparse matrix</a> · Sparse matrix · notion · cas_de — · ← —</li><li><a href="../ods/n/sparse-storage-format.html">Sparse storage formats</a> · Sparse storage formats · notion · cas_de — · ← sparse-matrix</li><li><a href="../ods/n/matrix-free-product.html">Matrix-free product</a> · Matrix-free product · notion · cas_de — · ← quadratic-form, sparse-matrix</li><li><a href="../ods/n/conjugate-gradient.html">Conjugate gradient</a> · Conjugate gradient · notion · cas_de — · ← matrix-free-product</li><li><a href="../ods/n/conjugate-directions.html">Conjugate directions</a> · Conjugate directions · notion · cas_de — · ← conjugate-gradient</li><li><a href="../ods/n/cg-finite-termination.html">Convergence of conjugate gradient in n iterations</a> · Convergence of conjugate gradient in n iterations · notion · cas_de — · ← conjugate-directions</li><li><a href="../ods/n/condition-number.html">Condition number</a> · Condition number · notion · cas_de — · ← quadratic-form</li><li><a href="../ods/n/cg-convergence-rate.html">Convergence rate of conjugate gradient</a> · Convergence rate of conjugate gradient · notion · cas_de — · ← cg-finite-termination, condition-number, gradient-descent</li><li><a href="../ods/n/conditioning-of-ridge.html">Conditioning of ridge regression</a> · Conditioning of ridge regression · notion · cas_de — · ← cg-convergence-rate, singular-value-decomposition, ridge-regression</li><li><a href="../ods/n/warm-start.html">Warm start</a> · Warm start · notion · cas_de — · ← cg-convergence-rate</li><li><a href="../ods/n/regularization-path.html">Regularization path</a> · Regularization path · notion · cas_de — · ← warm-start, conditioning-of-ridge</li><li><a href="../ods/n/logistic-regression.html">Logistic regression</a> · Logistic regression · notion · cas_de <a href="../ods/n/optimization-problem.html">Optimization problem</a> · ← empirical-risk</li><li><a href="../ods/n/fletcher-reeves-formula.html">Fletcher–Reeves formula</a> · Fletcher–Reeves formula · notion · cas_de — · ← conjugate-directions</li><li><a href="../ods/n/nonlinear-conjugate-gradient.html">Nonlinear conjugate gradient</a> · Nonlinear conjugate gradient · notion · cas_de — · ← fletcher-reeves-formula</li><li><a href="../ods/n/polak-ribiere.html">Polak–Ribière formula</a> · Polak–Ribière formula · notion · cas_de — · ← nonlinear-conjugate-gradient</li></ul><p>Chaque fiche a « Exemple minimal » et « Geste de calcul type » écrits (aucune dette), et
+nomme tout son socle dans « Le chemin jusqu'ici ». Toutes les valeurs numériques ont été
+recalculées avant d'être écrites (fractions exactes pour le gradient conjugué, <code>numpy</code>
+pour la ridge avec et sans ordonnée à l'origine, la forme duale et la SVD, rejeu de
+<code>fmin_cg</code> pour le carnet 5), et plusieurs ont été corrigées à la relecture : un
+contre-exemple de non-convexité mal posé (<code>convex-function</code>, <code>first-order-characterization</code>),
+la valeur Fletcher–Reeves de l'exemple de <code>polak-ribiere</code> ($0{,}97$ et non $0{,}98$).</p><p><strong>Figures</strong> : 20, chacune calculée par son script (<code>tools/figure.py</code>), vérifiée en thème
+clair et sombre ; les quatre figures du gradient conjugué partagent le module
+<code>figures/_quadratique.py</code> (le système du cours), que le validateur rejoue avec elles.
+Une figure de Taylor a été dessinée puis retirée : la parabole de Taylor se confondait
+avec la courbe et ne montrait rien que la prose ne dise.</p><ul><li>cg-convergence-rate : Iterations to divide the error by a million: √κ for conjugate gradient, κ for gradient descent</li><li>conditioning-of-ridge : The larger λ, the closer κ is to 1: regularization also makes the solve easy</li><li>conjugate-directions : Two directions are conjugate when they are perpendicular for the inner product of A</li><li>conjugate-gradient : Conjugate gradient lands on the minimizer at step two; gradient descent only approaches it</li><li>convex-function : Between any two points of the graph, the chord passes above it</li><li>convex-set : A convex set contains every segment between two of its points</li><li>dual-ridge : The problem is not the data, it is the matrices we build from it</li><li>epigraph : The epigraph is everything on or above the graph</li><li>existence-on-a-compact : Unbounded, not closed, compact: only the last one is sure to have a minimum</li><li>existence-under-coercivity : Outside the disk the loss exceeds its value at 0: the best point can only be inside</li><li>first-order-characterization : One tangent, drawn at a single point, stays under the whole graph</li><li>first-order-optimality-condition : At a minimizer, no allowed direction goes downhill</li><li>gradient-descent : Gradient descent: jump to the bottom of the parabola of curvature L that sits above f</li><li>local-minima-are-global : Walking downhill can stop in a trap, unless f is convex</li><li>logistic-regression : The logistic loss goes down to 0 without reaching it</li><li>matrix-free-product : Never form the matrix: Aw is two sparse products and one vector sum</li><li>optimality-gap-bounds : The gap f(z) − f(x*) lies between the two bounds</li><li>quadratic-lower-bound : Strong convexity: between the curve and its tangent there is room for a parabola</li><li>regularization-path : The ridge path, from λ large (near 0) to λ = 0 (the exact fit)</li><li>sparse-storage-format : Compressed sparse row: values, their columns, and where each row starts</li></ul><p><strong>Test de lecture des fiches (SPEC-MODELE §2.5).</strong> Chaque fiche a été relue entière à
+l'écriture, comme la seule page ouverte ; le rendu a été vérifié sur trois pages
+(<code>conjugate-gradient</code>, <code>existence-under-coercivity</code>, la carte du cours). La relecture
+rendue des 43 autres n'est pas faite : proposée comme prochaine étape (question 4).</p><h2>Fiches modifiées</h2><p>Aucune fiche existante n'a été touchée. Les rubriques « Origine » ajoutées en fin de
+session l'ont été sur des fiches créées dans cette session.</p><h2>Abstractions créées / insérées</h2><p>**Décision de structure de la session (A4) : un principe, <code>ods/optimization-problem</code>,
+<code>statut: source</code> [§1].** Les notes s'ouvrent sur la phrase qui le porte (« Many problems
+arising in mathematical modeling and machine learning can be casted as an optimization
+problem ») et présentent leurs exemples comme ses instances (§1.1, « we instantiate it on
+several important examples »). En « découlent » (<code>cas_de</code>) : <code>rosenbrock-function</code>,
+<code>ordinary-least-squares</code>, <code>structural-risk-minimization</code>, <code>ridge-regression</code>,
+<code>logistic-regression</code> — des problèmes, et non des théorèmes sur les problèmes. Aucune
+notion abstraite n'est créée.</p><h2>Abstractions en attente</h2><p>Trois familles ont deux membres, mais aucun principe de la source ne les surplombe : A4
+les interdit tant qu'il n'est pas trouvé, et aucun n'est inventé.</p><ul><li><em>Existence d'un minimiseur</em> — membres <code>existence-on-a-compact</code> (Th. 1.1) et</li><li><code>existence-under-coercivity</code> (Th. 1.2) ; paramètre envisagé : ce qui retient les suites</li><li>minimisantes dans un borné (le domaine compact, ou la coercivité de $f$). Manque : un</li><li>principe.</li><li><em>Borne quadratique autour d'une tangente</em> — membres <code>quadratic-lower-bound</code> (constante</li><li>$\mu$, par-dessous) et <code>quadratic-upper-bound</code> (constante $L$, par-dessus) ; paramètre :</li><li>le côté et la constante. Manque : un principe ; la Fig. 2.4 des notes les rapproche sans</li><li>les nommer ensemble.</li><li><em>Coefficient de direction du gradient conjugué</em> — membres <code>fletcher-reeves-formula</code> et</li><li><code>polak-ribiere</code> ; paramètre : la formule de $\alpha_k$. Manque : un principe, et</li><li><code>fletcher-reeves-formula</code> porte aussi la dérivation propre au cas quadratique.</li></ul><h2>Parcours</h2><p>Six parcours créés, écrits l'histoire d'abord (SPEC-MODELE §8.6), qui couvrent les 46
+fiches (A16 : aucune <code>hors_parcours</code>) :</p><p>1. <code>ods/parcours-best-answer</code>, « Is there a best answer? » — quatre observations, une
+   meilleure réponse existe-t-elle ? (notes §1 à §1.2).
+2. <code>ods/parcours-convexity</code>, « Can a descent be trapped? » — le problème pénalisé, une
+   descente peut-elle s'arrêter dans un piège ? (§2 à §2.2.3).
+3. <code>ods/parcours-curvature</code>, « How curved is the bowl? » — $f(x)=x^2-\cos x$, ce
+   qu'achètent $\mu=1$ et $L=3$ (§2.3, §2.4, slide 4).
+4. <code>ods/parcours-too-big</code>, « When the data no longer fits » — la même ridge sur
+   $n=10^5$, $p=10^6$ (slides 3 à 13, carnets 1 à 4).
+5. <code>ods/parcours-conjugate-gradient</code>, « A solver that only multiplies » (slides 14 à 30,
+   carnet 4).
+6. <code>ods/parcours-beyond-quadratics</code>, « When the loss is no longer quadratic » — les iris
+   du carnet 5 (slides 27–28).</p><p><strong>Monde numérique du cours</strong>, inscrit dans SPEC-INGESTION étape 3 : quatre observations de
+deux variables, lignes $(1,1)$, $(1,0)$, $(1,0)$, $(0,1)$, cibles $(1,0,0,1)$, dont la ridge
+à $\lambda=1$ est le système $\begin{pmatrix}4&amp;1\\1&amp;3\end{pmatrix}w=(1,2)$ ; la fonction
+$f(x)=x^2-\cos x$ des notes ; le problème des slides ; les iris du carnet 5.</p><p><strong>Test de lecture (<code>tools/recit.py ods</code>)</strong>, fait sur les six ; points d'arrêt trouvés et
+repris :
+- parcours 1, étape 9 : $\lambda=\tfrac14$ tombait du ciel → « four times the objective —
+  four for the four observations averaged by the empirical risk » ; « its kernel » ambigu →
+  « the kernel of $A$ » ;
+- parcours 2, étape 7 : $f$ n'avait pas été nommé dans ce départ → « the gradient of the
+  objective $f$ » ;
+- parcours 3 : $0{,}46$, $2{,}84$ et le $6$ de $2{,}84^2/6$ apparaissaient sans origine →
+  $1-\cos1$, $2+\sin1$, $2L$ ; le $-0{,}89$ relié au $1{,}35$ de l'étape 5 ;
+- parcours 4, étape 1 : la lettre $b$ changeait de sens sans le dire (les cibles au
+  parcours 1, $A^\top y$ ici) → dit en toutes lettres ; étape 4 : $\sigma_i$ défini ;
+- parcours 5 : $g^0$ et $\beta_0$ définis en mots ; « 0,16 / 0,49 » rattachés aux deux
+  solutions ; les « $7{,}25\sqrt\kappa$ » présentés comme bornes du pire cas ;
+- parcours 6 : $x_i$ et $y_i$ définis à la première étape.</p><h2>Exercices</h2><p>Treize fichiers <code>courses/ods/exercices/ex-01</code> à <code>ex-13</code> : les trois exercices des notes
+(§2.5), les neuf questions des slides (3, 4, 6, 7, 11, 12, 25, 27, 30) et la question du
+carnet 5. Chacun a sa résolution ; les solutions officielles sont recopiées quand la slide
+en donne une (6, 12, 25, 27, 30). Les fiches exercées portent une ligne « Origine ».</p><h2>Outils et documents modifiés</h2><ul><li><code>tools/build.py</code> : couche d'affichage anglaise (table <code>EN</code>, fonction <code>tr</code>, clé <code>langue</code></li><li>lue dans <code>course.yml</code>), écrite par un sous-agent dans un worktree isolé puis relue et</li><li>appliquée ; sans la clé, le site est <strong>identique octet pour octet</strong> à celui d'avant (vérifié</li><li>par l'agent sur un build complet). Un intitulé absent de la table fait échouer le build</li><li>d'un cours anglais. Et une faute corrigée : les groupes par niveau étaient triés comme</li><li>des chaînes (« level 10 » avant « level 2 »), invisible tant qu'aucun cours ne dépassait</li><li>le niveau 9 ; tri naturel, seules les pages <code>ods/index.html</code> et <code>ods/arbre.html</code></li><li>changent (vérifié par comparaison de deux builds).</li><li><code>tools/validate.py</code> : <code>langue</code> doit valoir <code>fr</code> ou <code>en</code> (<strong>E</strong>) ; les deux contrôles qui</li><li>lisaient la prose en français seulement ont une branche anglaise — nombre calculé écrit</li><li>en dur (« four prerequisites ») et arête transcrite (« X and Y give ») ; sans elle, ils se</li><li>taisaient sur tout le cours <code>ods</code>.</li><li><code>tools/tests/test_garde_fous.py</code> : sept cas nouveaux (arête anglaise signalée et phrase</li><li>anglaise tue, « treize notions » et « four prerequisites » signalés, « the four</li><li>observations » tu — le contrôle des nombres n'avait jusqu'ici aucun cas —, <code>langue: de</code></li><li>refusé, <code>langue: en</code> accepté). Tous passent.</li><li><code>SPEC-INGESTION.md</code> (monde numérique de <code>ods</code>), <code>SPEC-MODELE.md</code> §7 (clé <code>langue</code> dans</li><li>l'exemple de <code>course.yml</code>), <code>SPEC-SITE.md</code> §4 (langue des intitulés), recopiés à</li><li>l'identique à la racine ; <code>schema/course.template.yml</code> (clé <code>langue</code> en commentaire).</li></ul><h2>Dette</h2><p>Aucune : 0 lien à venir, 0 geste à venir, 0 élément d'inventaire à venir, 0 avertissement.
+Reste ouvert, hors dette comptée : la relecture rendue de 43 fiches (question 4).</p><h2>Contradictions source</h2><ul><li><strong>Carnet 5, dernière cellule</strong> : « add support for the intercept (careful</li><li>non-regularized) », alors que l'objectif du carnet n'a aucune régularisation et contient</li><li>déjà une colonne de uns — telle que posée, la question n'a rien à ajouter. Rejoué ici, le</li><li>carnet montre en outre que ses données sont <strong>linéairement séparables</strong> (un programme</li><li>linéaire trouve un $w$ séparateur) : la perte logistique non pénalisée n'a pas de</li><li>minimiseur, et <code>fmin_cg</code> ne s'arrête (23 itérations, $f\approx4{,}5\times10^{-6}$,</li><li>$\|w\|\approx275$) que parce que sa tolérance sur le gradient est atteinte. L'exercice</li><li><code>ex-13</code> lit la question comme portant sur la version pénalisée ; la fiche</li><li><code>logistic-regression</code> le dit en « Cesse d'être valide quand ».</li><li><strong>Slide 27</strong> : l'indice donne trois identités, mais la dérivation de Fletcher–Reeves</li><li>utilise aussi $\langle g^k,d^{k-1}\rangle=0$ (slide 22). Omission, pas erreur.</li><li><strong>Carnet 2, option 1</strong> : le texte écrit l'objectif avec $b$ alors que le code résout le</li><li>problème centré sans ordonnée ; le code est juste.</li><li><strong>Slide 3</strong> : $A$ n'est pas dit symétrique ; le gradient $Ax-b$ le suppose.</li></ul><h2>Questions pour l'utilisateur</h2><p>1. <strong>Arêtes vers <code>dss</code>.</strong> Les moindres carrés, la ridge, la SVD et la descente de gradient
+   existent dans <code>dss</code> (en français) et dans <code>ods</code> (en anglais). Recommandation : ne poser
+   aucune arête, garder deux cours autonomes et les homonymes déclarés.
+2. <strong>Abstractions en attente</strong> (existence d'un minimiseur, bornes quadratiques, coefficient
+   de direction). Recommandation : attendre les prochaines leçons, où un principe pourra
+   les surplomber.
+3. <strong>Version de Python.</strong> Les deux figures <code>dss</code> ne se refont qu'à partir de Python 3.12,
+   contre la règle « Python 3.10+, à l'identique ». Recommandation : rendre les deux
+   scripts indépendants de la version (<code>math.fsum</code>) — tâche proposée à part — et lancer
+   les outils avec <code>python3</code> d'ici là.
+4. <strong>Relecture rendue des fiches.</strong> Recommandation : une session qui lit les 46 fiches
+   rendues comme l'étudiant (SPEC-MODELE §2.5) et reprend chaque point d'arrêt.
+5. <strong>Enseignant.</strong> <code>course.yml</code> nomme les auteurs des supports (Vaiter, Gramfort) ; qui
+   enseigne le cours à l'IRFA ?</p><p>Deux défauts hors du cours, trouvés en passant, sont proposés comme tâches séparées : les
+figures <code>dss</code> dépendantes de la version de Python, et les formules larges qui font défiler
+la page horizontalement sur téléphone (mesuré aussi sur l'étalon <code>fpp/taux-forward</code>,
+scrollWidth 510 pour 431 px). Enfin, le validateur ne lit pas l'en-tête des exercices : un
+<code>source</code> non cité contenant « : » n'a été vu qu'au build.</p><h2>Validation</h2><ul><li><code>python3 tools/validate.py</code> : 309 notions · 0 erreur(s) · 0 avertissement(s) ; dette nulle.</li><li><code>python3 tools/tests/test_garde_fous.py</code> : tous les garde-fous se déclenchent.</li><li><code>python3 tools/tests/test_layout.py</code> : ok sur les six arbres, dont <code>ods</code> (6 nœuds).</li><li><code>python3 tools/build.py</code> : 488 fichiers, la plus lourde 190 ko (limite 300 ko) ; la plus</li><li>lourde page de <code>ods</code>, 60 ko.</li></ul></article></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../aide.html">comment lire ce site</a> · <a href="../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../search-index.js"></script>
+<script>
+var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+        s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- l'état qui traverse les pages ----------------------------------------
+   Voir le commentaire de l'en-tête : en file://, seul le fragment traverse.
+   Forme du fragment :  #t:d~a:0~p:1-0--1...~s:<tampon>.<bits>~v:<ancre>
+     t  thème      d | l            (absent : celui du système)
+     a  ajouts     0                (absent : montrés)
+     p  pliage     un caractère par clé de CLES_PLI : 1 ouvert, 0 fermé, - inconnu
+     s  déjà su    un bit par notion, six bits par caractère, précédé d'un tampon
+     v  ancre      l'élément vers lequel défiler à l'arrivée
+   Le tampon est calculé sur la liste des identifiants : dès qu'une notion entre dans
+   le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
+   cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
+var ETAT=(function(){
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='6728',
+    A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
+var pli={},su={};
+if(typeof H.p==='string'){
+  for(var i=0;i<CLES.length&&i<H.p.length;i++){var c=H.p.charAt(i);
+    if(c==='0'||c==='1')pli[CLES[i]]=(c==='1');}
+}else{
+  CLES.forEach(function(k){var v=LS.g('notions.pli.'+k,null);if(v!==null)pli[k]=(v==='1')});
+}
+function decode(t){var o={},q=t.indexOf('.');
+  if(q<0||t.slice(0,q)!==TAMPON)return o;
+  var b=t.slice(q+1);
+  for(var i=0;i<b.length;i++){var v=A64.indexOf(b.charAt(i));if(v<0)continue;
+    for(var j=0;j<6;j++){if(v&(1<<j)){var k=i*6+j;if(k<IDS.length)o[IDS[k]]=1}}}
+  return o;}
+function encode(){var o='';
+  for(var i=0;i<IDS.length;i+=6){var v=0;
+    for(var j=0;j<6;j++){if(su[IDS[i+j]])v|=1<<j}
+    o+=A64.charAt(v);}
+  return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
+if(typeof H.s==='string'){su=decode(H.s)}
+else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
+function frag(ancre,noeud){var p=[];
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t)p.push('t:'+(t==='dark'?'d':'l'));
+  if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
+  var q='';CLES.forEach(function(k){q+=(pli[k]===undefined?'-':(pli[k]?'1':'0'))});
+  if(/[01]/.test(q))p.push('p:'+q);
+  var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
+  if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
+  return p.length?'#'+p.join('~'):'';}
+function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
+function propager(){var f=frag();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';if(!interne(h))return;
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
+  /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
+     Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
+  try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
+  try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}}
+return{pli:function(k){return pli[k]===undefined?null:pli[k]},
+       setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
+       su:function(id){return !!su[id]},
+       setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
+       lien:function(u,v,n){return u+frag(v,n)},
+       ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
+       propager:propager};
+})();
+function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
+  var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
+  b.textContent=on?'masquer les ajouts':'ajouts masqués';}
+  document.querySelectorAll('.sec').forEach(function(s){
+    var c=s.querySelector('.corps');if(!c)return;var n=0;
+    c.querySelectorAll(':scope>*').forEach(function(el){
+      if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
+      if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
+      n++;});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='Cette rubrique existe, mais tout son contenu est un ajout : le filtre le masque. Elle reste visible pour que vous ne concluiez pas qu’elle est vide.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
+  if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var bt=document.getElementById('btheme');
+  if(bt)bt.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    var nx=(cur||sys)==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);
+    ETAT.propager();});
+  var ba=document.getElementById('bajout');
+  if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);ETAT.propager();});
+  majAjouts(!document.documentElement.classList.contains('sans-ajouts'));
+  /* les liens de la page portent l'état ; une ancre demandée est ouverte et visée */
+  ETAT.propager();
+  var an=ETAT.ancre();
+  if(an){var el=document.getElementById(an);
+    if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView();el.classList.add('vise')}}
+  /* --- recherche instantanée (règle 9) --- */
+  var inp=document.getElementById('q'),res=document.getElementById('qres');
+  if(!inp||!res||!window.SEARCH_INDEX)return;
+  var REL=document.documentElement.getAttribute('data-rel')||'';
+  var sel=-1,items=[];
+  function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+  function cherche(q){
+    var n=norm(q);if(!n)return [];
+    var out=[];
+    SEARCH_INDEX.forEach(function(e){
+      var sc=-1,ch=e.h||[];
+      for(var i=0;i<ch.length;i++){var p=norm(ch[i]).indexOf(n);
+        if(p===0){sc=Math.max(sc,3-(i>0?1:0))}else if(p>0){sc=Math.max(sc,1)}}
+      if(sc>=0)out.push([sc,e]);});
+    out.sort(function(a,b){return b[0]-a[0]||a[1].n.localeCompare(b[1].n)});
+    return out.slice(0,9).map(function(x){return x[1]});}
+  function rendre(){
+    items=cherche(inp.value);sel=-1;res.innerHTML='';
+    if(!inp.value){res.classList.remove('on');return}
+    if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
+    items.forEach(function(e,i){
+      var li=document.createElement('li');
+      var a=document.createElement('a');a.href=ETAT.lien(REL+e.u);a.id='qr'+i;
+      a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
+      li.appendChild(a);res.appendChild(li);});
+    res.classList.add('on');}
+  function bouge(d){if(!items.length)return;sel=(sel+d+items.length)%items.length;
+    Array.prototype.forEach.call(res.children,function(li,i){li.classList.toggle('sel',i===sel)});
+    inp.setAttribute('aria-activedescendant','qr'+sel);}
+  inp.addEventListener('input',rendre);
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();bouge(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();bouge(-1)}
+    else if(e.key==='Enter'){var a=res.querySelector(sel>=0?'li.sel a':'li a');if(a){e.preventDefault();location.href=a.href}}
+    else if(e.key==='Escape'){inp.value='';res.classList.remove('on')}});
+  document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
+  document.addEventListener('keydown',function(e){
+    if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
+});
+</script>
+</body>
+</html>

@@ -233,6 +233,47 @@ def arete_francais(root):
     _chemin(root, "aa/base pose le cadre, et aa/milieu donne la mesure qu'on y lit.")
 
 
+def arete_give(root):
+    """La même faute dans un cours écrit en anglais."""
+    _chemin(root, "aa/base and aa/milieu give the frame.")
+
+
+def arete_anglais(root):
+    _chemin(root, "aa/base sets the frame, and aa/milieu gives the measure read in it.")
+
+
+def _nombre(root, phrase):
+    """Une fiche dont « Ce qui la définit » écrit en dur un nombre que le site calcule."""
+    ecrire(root, "aa", [dict(slug="x", nom="Un")])
+    f = root / "courses" / "aa" / "notions" / "x.md"
+    t = f.read_text(encoding="utf-8").replace("Rien de plus. [p. 1]", phrase + " [p. 1]")
+    f.write_text(t, encoding="utf-8", newline="\n")
+
+
+def nombre_francais(root):
+    _nombre(root, "Elle repose sur treize notions.")
+
+
+def nombre_anglais(root):
+    _nombre(root, "It rests on four prerequisites.")
+
+
+def nombre_sans_objet(root):
+    _nombre(root, "It uses the four observations of the course.")
+
+
+def langue_inconnue(root):
+    ecrire(root, "aa", [dict(slug="x", nom="Un")])
+    p = root / "courses" / "aa" / "course.yml"
+    p.write_text(p.read_text(encoding="utf-8") + "langue: de\n", encoding="utf-8", newline="\n")
+
+
+def langue_anglaise(root):
+    ecrire(root, "aa", [dict(slug="x", nom="Un")])
+    p = root / "courses" / "aa" / "course.yml"
+    p.write_text(p.read_text(encoding="utf-8") + "langue: en\n", encoding="utf-8", newline="\n")
+
+
 # ---------------------------------------------------------------- parcours (A14–A16)
 # Trois fiches en chaîne : base ← milieu ← haut. Le parcours raconte milieu puis haut,
 # et doit rattacher base à l'histoire, puisque milieu la suppose.
@@ -564,6 +605,24 @@ def main():
         "transcrit une arête", arete_liste_nue)
     cas("des phrases qui disent ce que chacune apporte → silence",
         "transcrit une arête", arete_francais, doit_apparaitre=False)
+    cas("« X and Y give », cours en anglais → avertissement",
+        "transcrit une arête", arete_give)
+    cas("des phrases anglaises qui disent ce que chacune apporte → silence",
+        "transcrit une arête", arete_anglais, doit_apparaitre=False)
+
+    print("nombre calculé écrit en dur")
+    cas("« treize notions » → avertissement",
+        "nombre calculé écrit en dur", nombre_francais)
+    cas("« four prerequisites », cours en anglais → avertissement",
+        "nombre calculé écrit en dur", nombre_anglais)
+    cas("« the four observations » → silence",
+        "nombre calculé écrit en dur", nombre_sans_objet, doit_apparaitre=False)
+
+    print("langue d'affichage d'un cours")
+    cas("« langue: de » → erreur",
+        "fr ou en", langue_inconnue)
+    cas("« langue: en » → silence",
+        "fr ou en", langue_anglaise, doit_apparaitre=False)
 
     print("documents de loi en double")
     cas("une copie retouchée seule → erreur",

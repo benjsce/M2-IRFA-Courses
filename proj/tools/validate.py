@@ -50,14 +50,23 @@ MARQ_TOUS = re.compile(r"\[[^\[\]]+\]")
 # semaine d'après, et rien ne le signale. CLAUDE.md, interdictions absolues.
 # « un/une » et « niveaux » sont hors du motif : ce sont presque toujours des articles
 # ou des tournures ordinaires (« deux niveaux de richesse », « pas une notion »).
+# Un cours écrit en anglais (course.yml, « langue: en ») commet la même faute dans sa
+# langue : « four prerequisites », « the three members ». Sans la seconde branche, le
+# contrôle se taisait sur tout le cours ods, ajouté en anglais le 2026-09-26.
 NOMBRE_DERIVE = re.compile(
     r"\b(deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze"
-    r"|\d+)\s+(notions?|membres?|prérequis|fiches?)\b", re.I)
+    r"|\d+)\s+(notions?|membres?|prérequis|fiches?)\b"
+    r"|\b(two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen"
+    r"|fifteen|\d+)\s+(notions?|members?|prerequisites?|cards?)\b", re.I)
 # « X, Y et Z donnent » (sujet fait d'une liste de fiches) et « X, Y. » (liste nue en
 # tête de ligne) : les deux tournures d'une arête recopiée dans « Le chemin jusqu'ici ».
 _ID = r"[a-z]{2,4}/[a-z0-9-]+"
+# La même tournure en anglais, pour un cours écrit en anglais : « X and Y give Z »,
+# « X, then Y. ».
 ARETE_TRANSCRITE = re.compile(
-    rf"{_ID}(?:, {_ID})* et {_ID},? (?:qui )?donnent\b|^(?:{_ID}, )+(?:puis |et )?{_ID}\.", re.M)
+    rf"{_ID}(?:, {_ID})* et {_ID},? (?:qui )?donnent\b|^(?:{_ID}, )+(?:puis |et )?{_ID}\."
+    rf"|{_ID}(?:, {_ID})*,? and {_ID},? (?:which |that )?give\b"
+    rf"|^(?:{_ID}, )+(?:then |and )?{_ID}\.", re.M)
 
 
 class Rapport:
@@ -236,6 +245,9 @@ def valider(root: Path, rap: Rapport):
         courses[code] = yaml.safe_load(cy.read_text(encoding="utf-8")) or {}
         if courses[code].get("code") != code:
             rap.e("A1", str(cy), f"code '{courses[code].get('code')}' ≠ dossier '{code}'")
+        # langue d'affichage des intitulés du site (build.py) ; absente, c'est le français
+        if courses[code].get("langue", "fr") not in ("fr", "en"):
+            rap.e("A1", str(cy), f"langue '{courses[code].get('langue')}' : fr ou en")
 
         # notations
         nf = cdir / "notation.yml"

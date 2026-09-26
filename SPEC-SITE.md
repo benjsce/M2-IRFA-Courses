@@ -299,6 +299,17 @@ que de laisser chercher.
   clé absente de cette liste, faute de quoi le pliage d'une rubrique nouvelle cesserait
   silencieusement de traverser.
 - **Thème clair / sombre** suivant le système, commutable.
+- **Langue des intitulés.** Un cours écrit en anglais déclare `langue: en` dans son
+  `course.yml` : ses pages — fiches, parcours, carte, liste des notions, arbre, inventaire,
+  exercices — affichent en anglais les intitulés que le générateur produit, et portent
+  `lang="en"`. Les sources gardent les mots-clés du schéma (titres de rubrique, lignes
+  « Histoire : » et « Suite : », marqueur `[ajout]`) ; seul l'affichage change. Restent en
+  français le cadre commun à toutes les pages (en-tête, recherche, bouton « masquer les
+  ajouts », pied de page), `aide.html` et l'accueil. Une seule table, `EN` dans `build.py`,
+  porte les traductions ; un intitulé qui n'y figure pas fait échouer le build du cours
+  anglais au lieu de rester en français sans bruit. *Demandé par l'utilisateur le
+  2026-09-26 pour le cours `ods` : « exceptionnellement, fais l'intégralité de ce cours en
+  anglais ».*
 - **Responsive** : lisible sur un téléphone en portrait. L'arbre y est utilisable au doigt.
 - **Accessibilité minimale** : navigation au clavier, focus visible, contrastes
   suffisants, animations désactivées si `prefers-reduced-motion`.

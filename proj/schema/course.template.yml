@@ -8,4 +8,5 @@ sources:
   type: notes de cours
 refs_pattern: '^(§\d+(\.\d+)*|Déf\. \d+|Prop\. \d+|Th\. \d+|Lem\. \d+|Cor\. \d+|Ex\. \d+|Rem\. \d+|éq\. \d+|p\. \d+|slide \d+)$'
 depend_de: []
+# langue: en              # facultatif ; fr par défaut (SPEC-SITE §4)
 conventions_par_defaut: {}

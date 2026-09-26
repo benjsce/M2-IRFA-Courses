@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en" data-rel="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Regularization path · notions</title>
+<script>
+/* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
+   localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
+   cases « déjà su » ne peuvent donc pas traverser les pages par là. Ils voyagent dans
+   le fragment de l'URL, que tous les liens internes portent ; localStorage ne sert plus
+   que de mémoire locale, pour la page qu'on rouvre sans fragment.
+   Ce script s'exécute avant le rendu : sinon le thème clignote à chaque page. */
+(function(){
+var H={},h=(location.hash||'').replace(/^#/,'');
+h.split('~').forEach(function(p){var i=p.indexOf(':');if(i>0)H[p.slice(0,i)]=p.slice(i+1)});
+window.ETAT_URL=H;
+function loc(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+var t=H.t?(H.t==='d'?'dark':'light'):loc('notions.theme','');
+if(t)document.documentElement.setAttribute('data-theme',t);
+var a=(H.a!==undefined)?H.a:loc('notions.ajouts','1');
+if(a==='0')document.documentElement.classList.add('sans-ajouts');
+})();
+</script>
+<style>
+:root{
+  --bg:#fbfaf7; --bg2:#f3f0ea; --fg:#1b1a17; --mut:#6c675d; --fai:#8e887c;
+  --li:#e0dbd1; --li2:#cdc6b8; --card:#ffffff; --acc:#8a4f23; --acc2:#f3e7dc;
+  --ajo:#6d5a8c; --ajo2:#efe9f5; --lim:#9a3a2e; --ok:#3f6b46; --faute:#a8631a;
+  --r:8px; --w:min(72rem,100%);
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}}
+:root[data-theme="dark"]{
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}
+.fig{margin:.9rem 0;padding:.5rem .2rem .2rem;text-align:center}
+/* « > svg » et non « svg » : MathJax pose son propre <svg> dans la légende, et
+   une règle non ancrée en faisait un bloc qui coupait la phrase en trois. */
+.fig > svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig figcaption{margin-top:.35rem;font-family:var(--sans);font-size:.82rem;
+  color:var(--mut);text-align:center;line-height:1.45}
+@media print{.fig{break-inside:avoid}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
+  font-size:17px;line-height:1.62;overflow-wrap:break-word}
+a{color:var(--acc);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-style:dotted}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+.wrap{width:var(--w);margin:0 auto;padding:0 1rem}
+
+/* ---- barre du haut ---- */
+header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
+  border-bottom:1px solid var(--li);font-family:var(--sans)}
+.topin{width:var(--w);margin:0 auto;padding:.45rem 1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.brand{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--fg);letter-spacing:.02em}
+.fil{color:var(--mut);font-size:.82rem;flex:1 1 8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fil a{color:var(--mut)}
+.btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
+  border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+a.btn{text-decoration:none}
+.btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
+.rech{position:relative;flex:0 1 16rem;min-width:9rem}
+.rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
+  border:1px solid var(--li2);border-radius:var(--r);background:var(--card);color:var(--fg)}
+.res{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--li2);
+  border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.14);max-height:60vh;overflow:auto;padding:.2rem;margin:0;
+  list-style:none;display:none;z-index:50;min-width:18rem}
+.res.on{display:block}
+.res li a{display:block;padding:.3rem .45rem;border-radius:6px;text-decoration:none;color:var(--fg);font-size:.86rem}
+.res li a:hover,.res li.sel a{background:var(--acc2)}
+.res .sub{color:var(--mut);font-size:.76rem;font-family:var(--sans)}
+.res .vide{padding:.4rem .5rem;color:var(--mut);font-size:.84rem}
+
+main{padding:1.4rem 0 4rem}
+h1{font-size:1.75rem;line-height:1.24;margin:.2rem 0 .3rem}
+h2{font-size:1.06rem;font-family:var(--sans);font-weight:600;letter-spacing:.01em;margin:0}
+h3{font-size:.95rem;font-family:var(--sans);margin:1.2rem 0 .3rem}
+p{margin:.55rem 0}
+.ptag{font-family:var(--sans);font-size:.74rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .5rem}
+
+/* ---- métadonnées de fiche ---- */
+.meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;font-family:var(--sans);font-size:.75rem;color:var(--mut);margin:.4rem 0 1.1rem}
+.pill{border:1px solid var(--li2);border-radius:99px;padding:.06rem .5rem;background:var(--card);white-space:nowrap}
+.pill.ajout{color:var(--ajo);border-color:var(--ajo);background:var(--ajo2)}
+.pill.typ{background:var(--acc2);border-color:var(--acc)}
+.sym{font-family:var(--serif);font-size:1rem;color:var(--fg)}
+
+/* ---- sections ---- */
+.sec{border-top:1px solid var(--li);padding:.85rem 0}
+.sec.vide{display:none}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.45rem;padding:.1rem 0}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"›";color:var(--fai);font-family:var(--sans);display:inline-block;
+  transition:transform .12s ease;transform:rotate(0deg);width:.7em}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fai);font-weight:400}
+.corps{padding-top:.25rem}
+.gen{border-left:2px solid var(--li2);padding-left:.7rem}
+.chemin{border-left:3px solid var(--acc);background:var(--bg2);border-radius:0 var(--r) var(--r) 0;
+  padding:.5rem .8rem;margin:.2rem 0 .7rem}
+.chemin p{margin:.35rem 0;font-size:.95rem}
+.chemin p:first-child{margin-top:0}
+.chemin p:last-child{margin-bottom:0}
+.note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
+.parc{border:1px solid var(--li);border-left:3px solid var(--acc);border-radius:0 var(--r) var(--r) 0;
+  background:var(--bg2);padding:.5rem .8rem;margin:.6rem 0;font-size:.93rem}
+.parc-t{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin-bottom:.15rem}
+.parc p{margin:.2rem 0}
+.parc-h{border-left:2px solid var(--li);padding:.1rem 0 .1rem .6rem;margin:.3rem 0 .45rem;color:var(--mut)}
+.parc-h strong{color:var(--fg)}
+.parc-l{font-family:var(--sans);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--acc);margin-right:.25rem}
+.parc-lien{margin-top:.35rem;font-size:.92em}
+.parc-suite{border-left:2px solid var(--acc);padding:.1rem 0 .1rem .6rem;margin:.35rem 0;color:var(--fg);background:var(--acc2)}
+.parc-nav{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--sans);font-size:.8rem;margin-top:.35rem}
+.parc-nav .suiv{margin-left:auto;text-align:right}
+.etapes{list-style:none;padding:0;margin:.6rem 0 1.2rem;counter-reset:e}
+.etapes>li{counter-increment:e;position:relative;padding:0 0 1rem 1.7rem;border-left:2px solid var(--li);margin-left:.9rem}
+.etapes>li:last-child{border-left-color:transparent}
+.etapes>li::before{content:counter(e);position:absolute;left:-.95rem;top:0;width:1.75rem;height:1.75rem;
+  border-radius:99px;background:var(--card);border:1px solid var(--acc);color:var(--acc);
+  font-family:var(--sans);font-size:.78rem;display:flex;align-items:center;justify-content:center}
+.etapes>li>p{margin:.1rem 0 .35rem}
+.etapes .arr{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.45rem .75rem}
+.etapes .arr a.tit{font-weight:600;text-decoration:none}
+.etapes .arr p{margin:.15rem 0;font-size:.88rem;color:var(--mut)}
+.avant{list-style:none;padding:0;margin:.4rem 0 1rem}
+.avant>li{margin:.5rem 0}
+.avant>li p{margin:.1rem 0 0;font-size:.95rem}
+.avant a.tit{font-weight:600;text-decoration:none}
+.roles{list-style:none;padding:0;margin:.2rem 0 0}
+.roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
+.roles>li.cible{background:var(--acc2)}
+details.parc>summary{cursor:pointer}
+.sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
+.sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
+.sec.faute>summary h2{color:var(--faute)}
+.faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
+  margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.faute-b strong{color:var(--faute)}
+.sec.lim>summary h2{color:var(--lim)}
+.sec.lim>h2{color:var(--lim)}
+
+/* ---- marqueurs de traçabilité ---- */
+.marq{font-family:var(--sans);font-size:.7rem;color:var(--fai);white-space:nowrap;vertical-align:.12em}
+.marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
+.marqligne{margin:.15rem 0 0}
+html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
+.bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
+  color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
+
+/* ---- pastilles ---- */
+.pasts{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0;padding:0;list-style:none}
+.past{display:inline-block;font-family:var(--sans);font-size:.82rem;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--li2);border-radius:99px;padding:.12rem .6rem}
+.past:hover{border-color:var(--acc);color:var(--acc)}
+.past .cc{color:var(--fai);font-size:.74rem}
+.past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
+.past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
+.past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
+
+/* ---- socle ---- */
+.socle{list-style:none;padding:0;margin:.3rem 0}
+.socle li{display:flex;gap:.5rem;align-items:baseline;padding:.12rem 0;font-size:.92rem}
+.socle input{margin:0;accent-color:var(--ok)}
+.socle li.su a{color:var(--fai);text-decoration:line-through}
+.compteur{font-family:var(--sans);font-size:.78rem;color:var(--mut)}
+.grp{margin:.5rem 0}
+.grp>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--mut)}
+
+table{border-collapse:collapse;margin:.5rem 0;font-size:.9rem;display:block;overflow-x:auto;max-width:100%}
+th,td{border:1px solid var(--li);padding:.25rem .55rem;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-family:var(--sans);font-size:.78rem;font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+  background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
+ul{padding-left:1.1rem}
+hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
+
+/* ---- cartes d'accueil / carte du cours ---- */
+.cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
+.carte{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.65rem .8rem}
+.carte h3{margin:0 0 .2rem}
+.carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
+.carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
+.dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.vise{animation:vise 1.6s ease}
+@keyframes vise{from{background:var(--acc2)}to{background:transparent}}
+
+/* ---- orientation : ce qui s'adresse au lecteur qui arrive ---- */
+.entree{border:1px solid var(--li2);border-left:3px solid var(--acc);border-radius:var(--r);
+  padding:.7rem .9rem;margin:.8rem 0 1.4rem;background:var(--card)}
+.entree p{margin:.3rem 0;font-size:.92rem}
+.entree .quoi{font-size:1.02rem}
+.entree ul{margin:.5rem 0 .2rem;padding-left:1.1rem;font-family:var(--sans);font-size:.88rem}
+.entree li{margin:.2rem 0}
+.chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
+.chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
+.aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
+/* L'en-tête est collant : une ancre visée ne doit pas passer dessous. Mesuré :
+   il fait 48 px sur une ligne, 85 px quand il se replie en deux (écran étroit). */
+[id]{scroll-margin-top:6rem}
+.aide p,.aide ul,.aide table{max-width:42rem}
+.dette ul{margin:.3rem 0 0}
+footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
+
+/* ---- arbre ---- */
+.barre{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+.barre.plier{justify-content:flex-end;margin:.2rem 0 -.2rem}
+#scene{position:relative;border:1px solid var(--li);border-radius:var(--r);background:var(--bg2);
+  height:min(74vh,720px);overflow:hidden;touch-action:none;cursor:grab}
+#scene.drag{cursor:grabbing}
+#pan{position:absolute;transform-origin:0 0;top:0;left:0}
+#aretes{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+#aretes path{fill:none;stroke:var(--li2);stroke-width:1.5}
+.noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
+  padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
+.noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
+.noeud .nm{font-weight:600}
+.noeud .nm a{text-decoration:none;color:var(--fg)}
+.noeud .nm a:hover{color:var(--acc)}
+.noeud .pa{color:var(--mut);font-size:.72rem;display:block;margin-top:.1rem}
+.noeud .pli{font:inherit;font-size:.72rem;background:none;border:1px solid var(--li2);border-radius:4px;
+  color:var(--mut);cursor:pointer;padding:0 .3rem;margin-right:.25rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.4rem}
+  .rech{flex:1 1 100%;order:9}
+  #scene{height:66vh}
+}
+@media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="brand" href="../../index.html">notions</a><span class="fil"><a href="../../ods/index.html">Optimization for Data Science</a> › Regularization path</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><h1>Regularization path</h1><div class="meta"><a class="pill typ" href="../../aide.html" data-v="types" title="an object of the course, the one you work with">notion</a><a class="pill" href="../../ods/index.html">ods</a><a class="pill" href="../../aide.html" data-v="niveau" title="reading order: the number of notions to go through, on the longest path, to reach this one. Level 0 = depends on no other.">level 11</a><a class="pill" href="../../ods/arbre.html" data-noeud="ods/regularization-path" title="this notion is not filed under any family">course tree</a><span class="pill">slide 29</span><span class="pill">slide 30</span></div><p class="note">also: path of solutions, grid of λ</p><div class="parc"><div class="parc-t"><a href="../../aide.html" data-v="parcours">Reading path</a> <a href="../../ods/parcours/conjugate-gradient.html#e8">“A solver that only multiplies”</a> · step 8 of 8</div><div class="parc-h"><p>The ridge system of the large problem has a million unknowns; its matrix is never formed, but each product with a vector costs about 4 million operations. On the four observations, the same system is $2\times2$: $A=\begin{pmatrix}4&amp;1\\1&amp;3\end{pmatrix}$ and $b=(1,2)$. How few products does it take to solve it? <span class="marq" title="reference to the source">[slide 13, ajout]</span></p><p>In practice $\lambda$ is not known in advance: cross-validation needs the solution for <strong>a whole grid of values</strong>. <span class="marq" title="reference to the source">[slide 29]</span></p></div><p class="is-ajout"><span class="parc-l">In the story</span> From the largest $\lambda$, where $\kappa$ is close to $1$ and $0$ is already a good start, down to the smallest, each solution starting the next. <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></p><p><span class="parc-l">From the previous step</span> In which order should the grid be solved? <span class="marq" title="reference to the source">[slide 30]</span></p><div class="parc-nav"><a class="prec" href="../../ods/n/warm-start.html">← Warm start</a><span class="suiv"><a href="../../ods/parcours/conjugate-gradient.html">“A solver that only multiplies”</a></span></div></div><div class="barre plier"><button class="btn" type="button" id="tout-plier">expand all</button></div><section class="sec " data-oblig="1"><h2>What it is</h2><div class="corps"><p>The ridge solutions over a decreasing grid of penalties are computed from the largest $\lambda$ down, each solution warm-starting the next. <span class="marq" title="reference to the source">[slide 30]</span></p></div></section><section class="sec " data-oblig="1"><h2>Formula</h2><div class="corps"><p>$$\lambda_1&gt;\lambda_2&gt;\dots&gt;\lambda_T:\qquad \hat{w}(\lambda_1)\ \text{from }x^0=0,\qquad \hat{w}(\lambda_{t+1})\ \text{from }x^0=\hat{w}(\lambda_t)$$ <span class="marq" title="reference to the source">[slide 30]</span></p></div></section><section class="sec "><h2>What the symbols model</h2><div class="corps"><p>$\lambda_1&gt;\dots&gt;\lambda_T$ is the grid, for instance the values tried by cross-validation; $\hat{w}(\lambda_t)$ is the ridge solution for the penalty $\lambda_t$. <span class="marq" title="reference to the source">[slide 29, slide 30]</span></p></div></section><section class="sec " data-oblig="1"><h2>What defines it</h2><div class="corps"><figure class="fig is-ajout"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 470" width="100%" height="auto" role="img" style="color:var(--fg);max-width:420px;height:auto"><title>The ridge path, from λ large (near 0) to λ = 0 (the exact fit)</title><path d="M112.64 412.19 L112.69 412.15 L112.74 412.11 L112.79 412.06 L112.85 412.01 L112.91 411.96 L112.97 411.91 L113.04 411.85 L113.11 411.79 L113.19 411.72 L113.27 411.65 L113.35 411.58 L113.44 411.5 L113.54 411.42 L113.64 411.33 L113.75 411.24 L113.86 411.14 L113.98 411.04 L114.1 410.93 L114.24 410.81 L114.38 410.69 L114.53 410.56 L114.69 410.42 L114.85 410.28 L115.03 410.12 L115.22 409.96 L115.41 409.79 L115.62 409.61 L115.84 409.41 L116.07 409.21 L116.32 409 L116.58 408.77 L116.85 408.53 L117.14 408.27 L117.44 408 L117.76 407.72 L118.1 407.42 L118.46 407.1 L118.84 406.76 L119.23 406.41 L119.65 406.03 L120.09 405.64 L120.55 405.22 L121.04 404.78 L121.56 404.31 L122.1 403.82 L122.66 403.3 L123.26 402.75 L123.89 402.17 L124.54 401.56 L125.23 400.92 L125.96 400.24 L126.72 399.52 L127.51 398.77 L128.35 397.97 L129.22 397.14 L130.13 396.26 L131.08 395.33 L132.07 394.36 L133.11 393.34 L134.19 392.26 L135.31 391.13 L136.48 389.94 L137.69 388.69 L138.95 387.38 L140.26 386.01 L141.62 384.57 L143.02 383.07 L144.46 381.49 L145.95 379.84 L147.49 378.11 L149.07 376.3 L150.69 374.42 L152.35 372.45 L154.05 370.39 L155.79 368.25 L157.56 366.02 L159.36 363.7 L161.18 361.28 L163.03 358.77 L164.9 356.17 L166.78 353.46 L168.66 350.66 L170.55 347.76 L172.43 344.76 L174.31 341.65 L176.17 338.45 L178 335.14 L179.8 331.74 L181.56 328.23 L183.28 324.63 L184.95 320.93 L186.55 317.13 L188.08 313.24 L189.54 309.26 L190.91 305.19 L192.19 301.03 L193.37 296.79 L194.44 292.47 L195.41 288.08 L196.26 283.62 L196.98 279.1 L197.59 274.51 L198.06 269.88 L198.4 265.19 L198.61 260.46 L198.68 255.7 L198.61 250.91 L198.41 246.09 L198.08 241.26 L197.61 236.42 L197.01 231.58 L196.29 226.74 L195.45 221.92 L194.49 217.12 L193.41 212.34 L192.24 207.59 L190.96 202.89 L189.59 198.23 L188.14 193.62 L186.61 189.07 L185.01 184.59 L183.35 180.17 L181.64 175.83 L179.87 171.57 L178.07 167.39 L176.24 163.3 L174.39 159.29 L172.51 155.39 L170.63 151.57 L168.74 147.86 L166.85 144.25 L164.97 140.74 L163.11 137.33 L161.26 134.02 L159.43 130.82 L157.63 127.73 L155.86 124.74 L154.12 121.85 L152.42 119.06 L150.76 116.38 L149.14 113.8 L147.55 111.31 L146.02 108.92 L144.52 106.63 L143.07 104.43 L141.67 102.32 L140.32 100.3 L139.01 98.36 L137.75 96.51 L136.53 94.74 L135.36 93.05 L134.23 91.44 L133.15 89.9 L132.11 88.43 L131.12 87.03 L130.17 85.69 L129.25 84.42 L128.38 83.21 L127.55 82.06 L126.75 80.96 L125.99 79.92 L125.26 78.93 L124.57 77.99 L123.91 77.09 L123.28 76.25 L122.69 75.44 L122.12 74.68 L121.58 73.95 L121.06 73.26 L120.57 72.61 L120.11 71.99 L119.67 71.41 L119.25 70.85 L118.85 70.33 L118.47 69.83 L118.12 69.36 L117.78 68.91 L117.46 68.49 L117.15 68.09 L116.86 67.71 L116.59 67.35 L116.33 67.01 L116.08 66.69 L115.85 66.39 L115.63 66.1 L115.42 65.83 L115.22 65.57 L115.04 65.33 L114.86 65.1 L114.69 64.88 L114.53 64.68 L114.39 64.48 L114.24 64.3 L114.11 64.13 L113.98 63.96 L113.86 63.81 L113.75 63.66 L113.64 63.52 L113.54 63.39 L113.45 63.27 L111.82 61.17" fill="none" stroke="var(--li2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M119.65 406.03 L164.9 356.17" fill="none" stroke="var(--acc)" stroke-width="1.6" stroke-linecap="round"/><path d="M164.9 356.17 L156.56 359.4 L162.48 364.78 Z" fill="var(--acc)"/><path d="M164.9 356.17 L196.93 279.48" fill="none" stroke="var(--acc)" stroke-width="1.6" stroke-linecap="round"/><path d="M196.93 279.48 L190.15 285.32 L197.54 288.41 Z" fill="var(--acc)"/><path d="M196.93 279.48 L186.61 189.07" fill="none" stroke="var(--acc)" stroke-width="1.6" stroke-linecap="round"/><path d="M186.61 189.07 L183.54 197.47 L191.49 196.57 Z" fill="var(--acc)"/><path d="M186.61 189.07 L149.27 114.01" fill="none" stroke="var(--acc)" stroke-width="1.6" stroke-linecap="round"/><path d="M149.27 114.01 L149.25 122.96 L156.42 119.39 Z" fill="var(--acc)"/><path d="M149.27 114.01 L126.75 80.96" fill="none" stroke="var(--acc)" stroke-width="1.6" stroke-linecap="round"/><path d="M126.75 80.96 L127.95 89.82 L134.56 85.32 Z" fill="var(--acc)"/><path d="M126.75 80.96 L111.82 61.17" fill="none" stroke="var(--acc)" stroke-width="1.6" stroke-linecap="round"/><path d="M111.82 61.17 L113.44 69.97 L119.83 65.15 Z" fill="var(--acc)"/><circle cx="119.65" cy="406.03" r="3.8" fill="var(--acc)"/><defs><filter id="fond-etiquette" x="-0.03" y="-0.12" width="1.06" height="1.24"><feFlood style="flood-color:var(--card)"/></filter></defs><text x="129.52" y="407.79" text-anchor="start" font-size="11.5" fill="none" filter="url(#fond-etiquette)" font-family="ui-sans-serif,system-ui,sans-serif">λ = 100</text><text x="129.52" y="407.79" text-anchor="start" font-size="11.5" fill="var(--fg)" font-family="ui-sans-serif,system-ui,sans-serif">λ = 100</text><circle cx="164.9" cy="356.17" r="3.8" fill="var(--acc)"/><text x="174.77" y="357.93" text-anchor="start" font-size="11.5" fill="none" filter="url(#fond-etiquette)" font-family="ui-sans-serif,system-ui,sans-serif">λ = 10</text><text x="174.77" y="357.93" text-anchor="start" font-size="11.5" fill="var(--fg)" font-family="ui-sans-serif,system-ui,sans-serif">λ = 10</text><circle cx="196.93" cy="279.48" r="3.8" fill="var(--acc)"/><text x="206.8" y="281.24" text-anchor="start" font-size="11.5" fill="none" filter="url(#fond-etiquette)" font-family="ui-sans-serif,system-ui,sans-serif">λ = 3</text><text x="206.8" y="281.24" text-anchor="start" font-size="11.5" fill="var(--fg)" font-family="ui-sans-serif,system-ui,sans-serif">λ = 3</text><circle cx="186.61" cy="189.07" r="3.8" fill="var(--acc)"/><text x="196.48" y="190.83" text-anchor="start" font-size="11.5" fill="none" filter="url(#fond-etiquette)" font-family="ui-sans-serif,system-ui,sans-serif">λ = 1</text><text x="196.48" y="190.83" text-anchor="start" font-size="11.5" fill="var(--fg)" font-family="ui-sans-serif,system-ui,sans-serif">λ = 1</text><circle cx="149.27" cy="114.01" r="3.8" fill="var(--acc)"/><text x="159.14" y="115.77" text-anchor="start" font-size="11.5" fill="none" filter="url(#fond-etiquette)" font-family="ui-sans-serif,system-ui,sans-serif">λ = 0.3</text><text x="159.14" y="115.77" text-anchor="start" font-size="11.5" fill="var(--fg)" font-family="ui-sans-serif,system-ui,sans-serif">λ = 0.3</text><circle cx="126.75" cy="80.96" r="3.8" fill="var(--acc)"/><text x="136.62" y="82.72" text-anchor="start" font-size="11.5" fill="none" filter="url(#fond-etiquette)" font-family="ui-sans-serif,system-ui,sans-serif">λ = 0.1</text><text x="136.62" y="82.72" text-anchor="start" font-size="11.5" fill="var(--fg)" font-family="ui-sans-serif,system-ui,sans-serif">λ = 0.1</text><circle cx="111.82" cy="61.17" r="3.8" fill="var(--acc)"/><text x="121.69" y="62.93" text-anchor="start" font-size="11.5" fill="none" filter="url(#fond-etiquette)" font-family="ui-sans-serif,system-ui,sans-serif">λ = 0</text><text x="121.69" y="62.93" text-anchor="start" font-size="11.5" fill="var(--fg)" font-family="ui-sans-serif,system-ui,sans-serif">λ = 0</text><circle cx="111.82" cy="412.9" r="3.6" fill="var(--mut)"/><text x="120.05" y="425.21" text-anchor="start" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0</text><text x="210.55" y="342.55" text-anchor="start" font-size="12" fill="var(--acc)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">solve λ = 100 first, from w⁰ = 0;</text><text x="210.55" y="363.66" text-anchor="start" font-size="12" fill="var(--acc)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">then warm-start each next λ</text><path d="M46 26 L46 434 M46 434 L408 434" fill="none" stroke="var(--mut)" stroke-width="1.2"/><path d="M111.82 434 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="111.82" y="451" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0</text><path d="M194.09 434 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="194.09" y="451" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0.1</text><path d="M276.36 434 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="276.36" y="451" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0.2</text><path d="M358.64 434 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="358.64" y="451" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0.3</text><path d="M46 412.9 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="38" y="416.9" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0</text><path d="M46 237.03 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="38" y="241.03" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0.5</text><path d="M46 61.17 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="38" y="65.17" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">1</text><text x="408" y="467" text-anchor="end" font-size="12" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">w₁</text><text x="2" y="20" text-anchor="start" font-size="12" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">w₂</text></svg><figcaption>In the plane of the weights, the ridge solutions of the four observations for λ = 100, 10, 3, 1, 0.3, 0.1 and 0. They start near the origin for λ large and end at the exact fit (0, 1) for λ = 0. The arrows give the order of solving: λ = 100 first, from zero, then each solution starts the next. <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></figcaption></figure><p>Start from the largest $\lambda$: $X^\top X+\lambda I$ is then dominated by $\lambda I$, well conditioned and easy to solve, and a crude $x^0$, say $0$, is already good enough, since the solution is close to $X^\top y/\lambda$. Then decrease $\lambda$, each solution warm-starting the next: consecutive problems differ little, so each solve takes few iterations. Going the other way, the first problem solved is the hardest one, and there is nothing to start it from. <span class="marq" title="reference to the source">[slide 30]</span></p><p>Unlike the Lasso, ridge has no finite $\lambda$ for which $\hat{w}=0$: the path only tends to the origin as $\lambda\to\infty$. <span class="marq" title="reference to the source">[slide 30]</span></p></div></section><details class="sec " data-k="construite"><summary><h2>Built from</h2><span class="cnt">2 direct prerequisites</span></summary><div class="corps"><ul class="pasts"><li><a class="past" href="../../ods/n/warm-start.html">Warm start<span class="nv">L10</span></a></li><li><a class="past" href="../../ods/n/conditioning-of-ridge.html">Conditioning of ridge regression<span class="nv">L10</span></a></li></ul><p class="note">Only what this page depends on directly. “All prerequisites”, just below, repeats these notions and adds everything they depend on in turn.</p></div></details><details class="sec gen" data-k="socle"><summary><h2>All prerequisites</h2><span class="cnt">30 prerequisites in all</span></summary><div class="corps"><div class="chemin"><p class="is-ajout"><a href="../../ods/n/warm-start.html">Warm start</a> says why each solution should start the next, and <a href="../../ods/n/conditioning-of-ridge.html">Conditioning of ridge regression</a> says why to begin at the large end: there $\kappa$ is close to $1$. Both lean on <a href="../../ods/n/cg-convergence-rate.html">Convergence rate of conjugate gradient</a>, in which the initial error and the <a href="../../ods/n/condition-number.html">Condition number</a> set the iteration count; the solver is <a href="../../ods/n/conjugate-gradient.html">Conjugate gradient</a>, with its <a href="../../ods/n/conjugate-directions.html">Conjugate directions</a> and <a href="../../ods/n/cg-finite-termination.html">Convergence of conjugate gradient in n iterations</a>, needing only an <a href="../../ods/n/matrix-free-product.html">Matrix-free product</a> on an <a href="../../ods/n/sparse-matrix.html">Sparse matrix</a>, and the comparison is with <a href="../../ods/n/gradient-descent.html">Gradient descent</a>, from <a href="../../ods/n/second-order-taylor-expansion.html">Second-order Taylor expansion</a> and <a href="../../ods/n/quadratic-upper-bound.html">Quadratic upper bound</a> for an <a href="../../ods/n/l-smooth-function.html">L-smooth function</a>. <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></p><p class="is-ajout">The problem is <a href="../../ods/n/ridge-regression.html">Ridge regression</a> — <a href="../../ods/n/structural-risk-minimization.html">Structural risk minimization</a> on the <a href="../../ods/n/empirical-risk.html">Empirical risk</a> that stands for the <a href="../../ods/n/expected-risk.html">Expected risk</a> — whose singular values come from <a href="../../ods/n/singular-value-decomposition.html">Singular value decomposition</a>. It is solved as an <a href="../../ods/n/quadratic-form.html">Quadratic form</a>, minimized where <a href="../../ods/n/first-order-optimality-condition.html">First-order optimality condition</a> says, by <a href="../../ods/n/first-order-characterization.html">First-order characterization of convexity</a> and <a href="../../ods/n/local-minima-are-global.html">Local minima of a convex function are global</a> for an <a href="../../ods/n/convex-function.html">Convex function</a>, an <a href="../../ods/n/epigraph.html">Epigraph</a> that is an <a href="../../ods/n/convex-set.html">Convex set</a>; each point of the path is the unique minimizer of an <a href="../../ods/n/strongly-convex-function.html">Strongly convex function</a>, which exists by <a href="../../ods/n/existence-under-coercivity.html">Existence of a minimizer for a coercive function</a>, <a href="../../ods/n/coercive-function.html">Coercive function</a> and <a href="../../ods/n/existence-on-a-compact.html">Existence of a minimizer on a compact set</a> — one <a href="../../ods/n/optimization-problem.html">Optimization problem</a> per $\lambda$. <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></p></div><p class="note">Everything you need to have read before this page, from the most elementary to the most elaborate. <strong>The list is complete</strong>: reading it is enough, none of these notions calls for another one missing here. Ticking a box strikes it out on every page. (<a href="../../aide.html" data-v="socle">learn more</a>)</p><p class="compteur" data-cpt="socle"></p><details class="grp" open><summary>level 0 (8)</summary><ul class="socle"><li><input type="checkbox" data-su="ods/coercive-function" aria-label="already known: Coercive function"><a href="../../ods/n/coercive-function.html">Coercive function</a></li><li><input type="checkbox" data-su="ods/convex-set" aria-label="already known: Convex set"><a href="../../ods/n/convex-set.html">Convex set</a></li><li><input type="checkbox" data-su="ods/epigraph" aria-label="already known: Epigraph"><a href="../../ods/n/epigraph.html">Epigraph</a></li><li><input type="checkbox" data-su="ods/l-smooth-function" aria-label="already known: L-smooth function"><a href="../../ods/n/l-smooth-function.html">L-smooth function</a></li><li><input type="checkbox" data-su="ods/optimization-problem" aria-label="already known: Optimization problem"><a href="../../ods/n/optimization-problem.html">Optimization problem</a></li><li><input type="checkbox" data-su="ods/second-order-taylor-expansion" aria-label="already known: Second-order Taylor expansion"><a href="../../ods/n/second-order-taylor-expansion.html">Second-order Taylor expansion</a></li><li><input type="checkbox" data-su="ods/singular-value-decomposition" aria-label="already known: Singular value decomposition"><a href="../../ods/n/singular-value-decomposition.html">Singular value decomposition</a></li><li><input type="checkbox" data-su="ods/sparse-matrix" aria-label="already known: Sparse matrix"><a href="../../ods/n/sparse-matrix.html">Sparse matrix</a></li></ul></details><details class="grp" open><summary>level 1 (4)</summary><ul class="socle"><li><input type="checkbox" data-su="ods/convex-function" aria-label="already known: Convex function"><a href="../../ods/n/convex-function.html">Convex function</a></li><li><input type="checkbox" data-su="ods/existence-on-a-compact" aria-label="already known: Existence of a minimizer on a compact set"><a href="../../ods/n/existence-on-a-compact.html">Existence of a minimizer on a compact set</a></li><li><input type="checkbox" data-su="ods/expected-risk" aria-label="already known: Expected risk"><a href="../../ods/n/expected-risk.html">Expected risk</a></li><li><input type="checkbox" data-su="ods/quadratic-upper-bound" aria-label="already known: Quadratic upper bound"><a href="../../ods/n/quadratic-upper-bound.html">Quadratic upper bound</a></li></ul></details><details class="grp" open><summary>level 2 (5)</summary><ul class="socle"><li><input type="checkbox" data-su="ods/empirical-risk" aria-label="already known: Empirical risk"><a href="../../ods/n/empirical-risk.html">Empirical risk</a></li><li><input type="checkbox" data-su="ods/existence-under-coercivity" aria-label="already known: Existence of a minimizer for a coercive function"><a href="../../ods/n/existence-under-coercivity.html">Existence of a minimizer for a coercive function</a></li><li><input type="checkbox" data-su="ods/first-order-characterization" aria-label="already known: First-order characterization of convexity"><a href="../../ods/n/first-order-characterization.html">First-order characterization of convexity</a></li><li><input type="checkbox" data-su="ods/gradient-descent" aria-label="already known: Gradient descent"><a href="../../ods/n/gradient-descent.html">Gradient descent</a></li><li><input type="checkbox" data-su="ods/local-minima-are-global" aria-label="already known: Local minima of a convex function are global"><a href="../../ods/n/local-minima-are-global.html">Local minima of a convex function are global</a></li></ul></details><details class="grp" open><summary>level 3 (3)</summary><ul class="socle"><li><input type="checkbox" data-su="ods/first-order-optimality-condition" aria-label="already known: First-order optimality condition"><a href="../../ods/n/first-order-optimality-condition.html">First-order optimality condition</a></li><li><input type="checkbox" data-su="ods/strongly-convex-function" aria-label="already known: Strongly convex function"><a href="../../ods/n/strongly-convex-function.html">Strongly convex function</a></li><li><input type="checkbox" data-su="ods/structural-risk-minimization" aria-label="already known: Structural risk minimization"><a href="../../ods/n/structural-risk-minimization.html">Structural risk minimization</a></li></ul></details><details class="grp" open><summary>level 4 (1)</summary><ul class="socle"><li><input type="checkbox" data-su="ods/quadratic-form" aria-label="already known: Quadratic form"><a href="../../ods/n/quadratic-form.html">Quadratic form</a></li></ul></details><details class="grp" open><summary>level 5 (3)</summary><ul class="socle"><li><input type="checkbox" data-su="ods/condition-number" aria-label="already known: Condition number"><a href="../../ods/n/condition-number.html">Condition number</a></li><li><input type="checkbox" data-su="ods/matrix-free-product" aria-label="already known: Matrix-free product"><a href="../../ods/n/matrix-free-product.html">Matrix-free product</a></li><li><input type="checkbox" data-su="ods/ridge-regression" aria-label="already known: Ridge regression"><a href="../../ods/n/ridge-regression.html">Ridge regression</a></li></ul></details><details class="grp" open><summary>level 6 (1)</summary><ul class="socle"><li><input type="checkbox" data-su="ods/conjugate-gradient" aria-label="already known: Conjugate gradient"><a href="../../ods/n/conjugate-gradient.html">Conjugate gradient</a></li></ul></details><details class="grp" open><summary>level 7 (1)</summary><ul class="socle"><li><input type="checkbox" data-su="ods/conjugate-directions" aria-label="already known: Conjugate directions"><a href="../../ods/n/conjugate-directions.html">Conjugate directions</a></li></ul></details><details class="grp" open><summary>level 8 (1)</summary><ul class="socle"><li><input type="checkbox" data-su="ods/cg-finite-termination" aria-label="already known: Convergence of conjugate gradient in n iterations"><a href="../../ods/n/cg-finite-termination.html">Convergence of conjugate gradient in n iterations</a></li></ul></details><details class="grp" open><summary>level 9 (1)</summary><ul class="socle"><li><input type="checkbox" data-su="ods/cg-convergence-rate" aria-label="already known: Convergence rate of conjugate gradient"><a href="../../ods/n/cg-convergence-rate.html">Convergence rate of conjugate gradient</a></li></ul></details><details class="grp" open><summary>level 10 (2)</summary><ul class="socle"><li><input type="checkbox" data-su="ods/conditioning-of-ridge" aria-label="already known: Conditioning of ridge regression"><a href="../../ods/n/conditioning-of-ridge.html">Conditioning of ridge regression</a></li><li><input type="checkbox" data-su="ods/warm-start" aria-label="already known: Warm start"><a href="../../ods/n/warm-start.html">Warm start</a></li></ul></details></div></details><details class="sec " data-k="exemple" data-oblig="1"><summary><h2>Minimal example</h2></summary><div class="corps"><p class="is-ajout">On the four observations: $\hat{w}(100)\approx(0.010,\,0.020)$, $\hat{w}(10)=(\tfrac2{31},\tfrac5{31})$, $\hat{w}(1)=(\tfrac1{11},\tfrac7{11})$, $\hat{w}(0)=(0,1)$. <span class="marq marq-ajout" title="added: this sentence does not come from the course">added</span></p></div></details><details class="sec " data-k="geste" data-oblig="1"><summary><h2>Typical computation</h2></summary><div class="corps"><p>At $\lambda=100$, $\hat{w}\approx X^\top y/\lambda=(0.01,\,0.02)$, and the exact solution is $(0.0095,\,0.0195)$: zero is already a start within $0.02$ of it, on a system with $\kappa\approx1.02$. <span class="marq" title="reference to the source">[slide 30, ajout]</span></p></div></details><details class="sec lim" data-k="limite" data-oblig="1"><summary><h2>Stops being valid when</h2></summary><div class="corps"><p>The solver is direct: then the order does not matter, and one factorization of $X$, reused for every $\lambda$, is the efficient route. <span class="marq" title="reference to the source">[slide 29]</span></p></div></details><details class="sec " data-k="origine"><summary><h2>Origin</h2></summary><div class="corps"><ul><li>exercise <a href="../../ods/exercices/ex-12.html">ods/ex-12</a>: conditioning and the availability of a good start both dictate the order <span class="marq" title="reference to the source">[slide 30, ajout]</span></li></ul></div></details></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../../aide.html">comment lire ce site</a> · <a href="../../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../../search-index.js"></script>
+<script>
+var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+        s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- l'état qui traverse les pages ----------------------------------------
+   Voir le commentaire de l'en-tête : en file://, seul le fragment traverse.
+   Forme du fragment :  #t:d~a:0~p:1-0--1...~s:<tampon>.<bits>~v:<ancre>
+     t  thème      d | l            (absent : celui du système)
+     a  ajouts     0                (absent : montrés)
+     p  pliage     un caractère par clé de CLES_PLI : 1 ouvert, 0 fermé, - inconnu
+     s  déjà su    un bit par notion, six bits par caractère, précédé d'un tampon
+     v  ancre      l'élément vers lequel défiler à l'arrivée
+   Le tampon est calculé sur la liste des identifiants : dès qu'une notion entre dans
+   le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
+   cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
+var ETAT=(function(){
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='6728',
+    A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
+var pli={},su={};
+if(typeof H.p==='string'){
+  for(var i=0;i<CLES.length&&i<H.p.length;i++){var c=H.p.charAt(i);
+    if(c==='0'||c==='1')pli[CLES[i]]=(c==='1');}
+}else{
+  CLES.forEach(function(k){var v=LS.g('notions.pli.'+k,null);if(v!==null)pli[k]=(v==='1')});
+}
+function decode(t){var o={},q=t.indexOf('.');
+  if(q<0||t.slice(0,q)!==TAMPON)return o;
+  var b=t.slice(q+1);
+  for(var i=0;i<b.length;i++){var v=A64.indexOf(b.charAt(i));if(v<0)continue;
+    for(var j=0;j<6;j++){if(v&(1<<j)){var k=i*6+j;if(k<IDS.length)o[IDS[k]]=1}}}
+  return o;}
+function encode(){var o='';
+  for(var i=0;i<IDS.length;i+=6){var v=0;
+    for(var j=0;j<6;j++){if(su[IDS[i+j]])v|=1<<j}
+    o+=A64.charAt(v);}
+  return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
+if(typeof H.s==='string'){su=decode(H.s)}
+else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
+function frag(ancre,noeud){var p=[];
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t)p.push('t:'+(t==='dark'?'d':'l'));
+  if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
+  var q='';CLES.forEach(function(k){q+=(pli[k]===undefined?'-':(pli[k]?'1':'0'))});
+  if(/[01]/.test(q))p.push('p:'+q);
+  var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
+  if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
+  return p.length?'#'+p.join('~'):'';}
+function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
+function propager(){var f=frag();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';if(!interne(h))return;
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
+  /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
+     Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
+  try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
+  try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}}
+return{pli:function(k){return pli[k]===undefined?null:pli[k]},
+       setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
+       su:function(id){return !!su[id]},
+       setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
+       lien:function(u,v,n){return u+frag(v,n)},
+       ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
+       propager:propager};
+})();
+function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
+  var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
+  b.textContent=on?'masquer les ajouts':'ajouts masqués';}
+  document.querySelectorAll('.sec').forEach(function(s){
+    var c=s.querySelector('.corps');if(!c)return;var n=0;
+    c.querySelectorAll(':scope>*').forEach(function(el){
+      if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
+      if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
+      n++;});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='This section exists, but all its content is an addition: the filter hides it. It stays visible so that you do not conclude that it is empty.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
+  if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var bt=document.getElementById('btheme');
+  if(bt)bt.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    var nx=(cur||sys)==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);
+    ETAT.propager();});
+  var ba=document.getElementById('bajout');
+  if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);ETAT.propager();});
+  majAjouts(!document.documentElement.classList.contains('sans-ajouts'));
+  /* les liens de la page portent l'état ; une ancre demandée est ouverte et visée */
+  ETAT.propager();
+  var an=ETAT.ancre();
+  if(an){var el=document.getElementById(an);
+    if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView();el.classList.add('vise')}}
+  /* --- recherche instantanée (règle 9) --- */
+  var inp=document.getElementById('q'),res=document.getElementById('qres');
+  if(!inp||!res||!window.SEARCH_INDEX)return;
+  var REL=document.documentElement.getAttribute('data-rel')||'';
+  var sel=-1,items=[];
+  function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+  function cherche(q){
+    var n=norm(q);if(!n)return [];
+    var out=[];
+    SEARCH_INDEX.forEach(function(e){
+      var sc=-1,ch=e.h||[];
+      for(var i=0;i<ch.length;i++){var p=norm(ch[i]).indexOf(n);
+        if(p===0){sc=Math.max(sc,3-(i>0?1:0))}else if(p>0){sc=Math.max(sc,1)}}
+      if(sc>=0)out.push([sc,e]);});
+    out.sort(function(a,b){return b[0]-a[0]||a[1].n.localeCompare(b[1].n)});
+    return out.slice(0,9).map(function(x){return x[1]});}
+  function rendre(){
+    items=cherche(inp.value);sel=-1;res.innerHTML='';
+    if(!inp.value){res.classList.remove('on');return}
+    if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
+    items.forEach(function(e,i){
+      var li=document.createElement('li');
+      var a=document.createElement('a');a.href=ETAT.lien(REL+e.u);a.id='qr'+i;
+      a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
+      li.appendChild(a);res.appendChild(li);});
+    res.classList.add('on');}
+  function bouge(d){if(!items.length)return;sel=(sel+d+items.length)%items.length;
+    Array.prototype.forEach.call(res.children,function(li,i){li.classList.toggle('sel',i===sel)});
+    inp.setAttribute('aria-activedescendant','qr'+sel);}
+  inp.addEventListener('input',rendre);
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();bouge(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();bouge(-1)}
+    else if(e.key==='Enter'){var a=res.querySelector(sel>=0?'li.sel a':'li a');if(a){e.preventDefault();location.href=a.href}}
+    else if(e.key==='Escape'){inp.value='';res.classList.remove('on')}});
+  document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
+  document.addEventListener('keydown',function(e){
+    if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  /* pliage mémorisé par rubrique (règle 5), et transporté d'une page à l'autre */
+  var secs=document.querySelectorAll('details.sec[data-k]'),bp=document.getElementById('tout-plier');
+  function libelle(){
+    if(!bp)return;var ferme=false;
+    secs.forEach(function(d){if(!d.open)ferme=true});
+    bp.textContent=ferme?'expand all':'collapse all';bp.setAttribute('data-v',ferme?'1':'0');}
+  secs.forEach(function(d){
+    var k=d.getAttribute('data-k'),v=ETAT.pli(k);
+    if(v!==null)d.open=v;
+    d.addEventListener('toggle',function(){ETAT.setPli(k,d.open);libelle()});});
+  /* tout à la fois : ouvrir tout s'il reste une rubrique fermée, sinon tout refermer */
+  if(bp){if(!secs.length)bp.parentNode.style.display='none';
+    libelle();
+    bp.addEventListener('click',function(){
+      var v=bp.getAttribute('data-v')==='1';
+      secs.forEach(function(d){d.open=v});libelle();});}
+  /* amont et aval : même état « déjà su », un compteur par liste (règle 7) */
+  function compte(){
+    document.querySelectorAll('.sec').forEach(function(s){
+      var cpt=s.querySelector('[data-cpt]');if(!cpt)return;
+      var l=s.querySelectorAll('input[data-su]'),k=0;
+      l.forEach(function(c){if(c.checked)k++});
+      cpt.textContent=l.length+' notion'+(l.length>1?'s':'')+', '+(l.length-k)+' left to see';});}
+  document.querySelectorAll('input[data-su]').forEach(function(c){
+    var id=c.getAttribute('data-su');c.checked=ETAT.su(id);
+    c.closest('li').classList.toggle('su',c.checked);
+    c.addEventListener('change',function(){
+      ETAT.setSu(id,c.checked);
+      document.querySelectorAll('input[data-su="'+id+'"]').forEach(function(o){
+        o.checked=c.checked;o.closest('li').classList.toggle('su',c.checked);});
+      compte();});});
+  compte();
+});
+</script>
+</body>
+</html>

@@ -247,11 +247,13 @@ def _lien_id(ident, ctx):
     return None
 
 
-def _marqueur_html(marq):
+def _marqueur_html(marq, langue="fr"):
     toks = [t.strip() for t in marq.split(",")]
     if all(t == "ajout" for t in toks):
-        return '<span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span>', True
-    return '<span class="marq" title="référence à la source">' + esc("[" + ", ".join(toks) + "]") + "</span>", False
+        return ('<span class="marq marq-ajout" title="' + tr("ajouté : cette phrase ne vient pas du cours", langue)
+                + '">' + tr("ajout", langue) + "</span>"), True
+    return ('<span class="marq" title="' + tr("référence à la source", langue) + '">'
+            + esc("[" + ", ".join(toks) + "]") + "</span>"), False
 
 
 def _decouper(texte):
@@ -280,7 +282,7 @@ def _table(lignes, ctx, fiche):
     cells = [c for c in cells if not all(re.fullmatch(r":?-{2,}:?", x or "-") for x in c)]
     if not cells:
         return ""
-    chip, aj = _marqueur_html(marq) if marq else ("", False)
+    chip, aj = _marqueur_html(marq, _lg(ctx)) if marq else ("", False)
     out = ['<div class="tablebloc%s">' % (" is-ajout" if aj else ""), "<table><thead><tr>"]
     out += ["<th>" + enligne(c, ctx) + "</th>" for c in cells[0]]
     out.append("</tr></thead><tbody>")
@@ -301,7 +303,7 @@ def _liste(lignes, ctx, fiche):
         if fiche:
             mo = MARQUEUR.search(item)
             if mo:
-                chip, aj = _marqueur_html(mo.group(1))
+                chip, aj = _marqueur_html(mo.group(1), _lg(ctx))
                 item = item[: mo.start()].rstrip()
         out.append('<li%s>%s%s</li>' % (' class="is-ajout"' if aj else "", enligne(item, ctx), (" " + chip) if chip else ""))
     out.append("</ul>")
@@ -319,7 +321,7 @@ def _figure(lignes, ctx):
     chip, aj = "", False
     mo = MARQUEUR.search(texte)
     if mo:
-        chip, aj = _marqueur_html(mo.group(1))
+        chip, aj = _marqueur_html(mo.group(1), _lg(ctx))
         texte = texte[: mo.start()].rstrip()
     m2 = FIGURE.match(texte)
     if not m2 or not ctx or "code" not in ctx:
@@ -363,7 +365,7 @@ def rendre(texte, ctx=None, fiche=False, niveau_titre=3):
         if fiche:
             mo = MARQUEUR.search(corps[-1])
             if mo:
-                chip, aj = _marqueur_html(mo.group(1))
+                chip, aj = _marqueur_html(mo.group(1), _lg(ctx))
                 corps[-1] = corps[-1][: mo.start()].rstrip()
         txt = "\n".join(corps).strip()
         cls = ' class="is-ajout"' if aj else ""
@@ -702,7 +704,7 @@ function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-a
     var msg=c.querySelector('.masq');
     if(vide&&oblig){
       if(!msg){msg=document.createElement('p');msg.className='masq';
-        msg.textContent='Cette rubrique existe, mais tout son contenu est un ajout : le filtre le masque. Elle reste visible pour que vous ne concluiez pas qu’elle est vide.';
+        msg.textContent='__MASQUEE__';
         c.appendChild(msg);}
       s.classList.add('estmasq');
     } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
@@ -773,7 +775,7 @@ document.addEventListener('DOMContentLoaded',function(){
   function libelle(){
     if(!bp)return;var ferme=false;
     secs.forEach(function(d){if(!d.open)ferme=true});
-    bp.textContent=ferme?'tout déplier':'tout replier';bp.setAttribute('data-v',ferme?'1':'0');}
+    bp.textContent=ferme?'__TOUT_DEPLIER__':'__TOUT_REPLIER__';bp.setAttribute('data-v',ferme?'1':'0');}
   secs.forEach(function(d){
     var k=d.getAttribute('data-k'),v=ETAT.pli(k);
     if(v!==null)d.open=v;
@@ -790,7 +792,7 @@ document.addEventListener('DOMContentLoaded',function(){
       var cpt=s.querySelector('[data-cpt]');if(!cpt)return;
       var l=s.querySelectorAll('input[data-su]'),k=0;
       l.forEach(function(c){if(c.checked)k++});
-      cpt.textContent=l.length+' notion'+(l.length>1?'s':'')+', '+(l.length-k)+' à voir';});}
+      cpt.textContent=l.length+' notion'+(l.length>1?'s':'')+', '+(l.length-k)+'__A_VOIR__';});}
   document.querySelectorAll('input[data-su]').forEach(function(c){
     var id=c.getAttribute('data-su');c.checked=ETAT.su(id);
     c.closest('li').classList.toggle('su',c.checked);
@@ -874,7 +876,7 @@ function creerCartes(){
   noeuds.forEach(function(n){
     var d=document.createElement('div');
     d.className='noeud'+(n.aj?' aj':'');d.id='nd-'+n.k;d.style.width=W+'px';
-    var pli=(n.en&&n.en.length)?'<button class="pli" data-n="'+n.id+'" aria-label="plier ou déplier">–</button>':'';
+    var pli=(n.en&&n.en.length)?'<button class="pli" data-n="'+n.id+'" aria-label="__PLIER__">–</button>':'';
     d.innerHTML='<span class="nm">'+pli+'<a href="'+n.u+'">'+n.nom+'</a></span>'+
                 (n.pa2?'<span class="pa">'+n.pa2+'</span>':'');
     plan.appendChild(d);});
@@ -906,7 +908,7 @@ function redessiner(){
   svg.innerHTML='<path d="'+d+'"/>';
   plan.style.width=(maxx+10)+'px';plan.style.height=(maxy+10)+'px';
   verifier(vis,r.tops,r.prof,H);
-  var c=document.getElementById('nbvis');if(c)c.textContent=vis.length+' noeuds affichés';
+  var c=document.getElementById('nbvis');if(c)c.textContent=vis.length+'__AFFICHES__';
 }
 function transformer(){plan.style.transform='translate('+pan.x+'px,'+pan.y+'px) scale('+pan.s+')'}
 
@@ -919,17 +921,13 @@ function viser(id){
   if(n&&!st.gardes[id]){
     /* la carte existe, mais « masquer les ajouts » la retire : le dire, sinon on
        cherche une carte que le filtre a enlevée. */
-    msg.innerHTML='<strong>'+n.nom+'</strong> a bien une carte dans cet arbre, mais elle ne '
-      +'vient pas du cours : le filtre la retire. Le bouton « ajouts masqués », en haut, la '
-      +'fera réapparaître.';
+    msg.innerHTML='<strong>'+n.nom+'</strong>__RETIREE__';
     msg.hidden=false;msg.scrollIntoView({block:'start'});return;}
   if(!n){
     var nom=(window.ARBRE_HORS&&ARBRE_HORS[id]);
     var li=document.querySelector('#seuls a[href*="/'+id.split('/')[1]+'.html"]');
-    msg.innerHTML=(nom?'<strong>'+nom+'</strong>':'Cette notion')
-      +' n’a pas de carte dans cet arbre : le cours ne la range sous aucune famille, et '
-      +'n’en fait pas non plus une famille. Ce n’est pas un oubli — c’est une information '
-      +'sur le cours.'+(li?' Elle est marquée ci-dessous.':'');
+    msg.innerHTML=(nom?'<strong>'+nom+'</strong>':'__CETTE_NOTION__')
+      +'__SANS_CARTE__'+(li?'__MARQUEE__':'');
     msg.hidden=false;
     if(li){li.classList.add('cible');
       var g=li.closest('details');if(g)g.open=true;      /* la liste est repliée par groupes */
@@ -949,8 +947,7 @@ function viser(id){
   pan.x=Math.max(40,(scene.clientWidth-large*pan.s)/2);
   pan.y=Math.min(24,scene.clientHeight/2-(dispo.tops[id]+H[id]/2)*pan.s);
   transformer();
-  msg.innerHTML='Arrivé depuis <strong>'+n.nom+'</strong> : sa carte est encadrée, et '
-    +'toute la suite de familles qui la contient est dépliée.';
+  msg.innerHTML='__ARRIVE__<strong>'+n.nom+'</strong>__ENCADREE__';
   msg.hidden=false;
   scene.scrollIntoView({block:'start'});
 }
@@ -984,9 +981,412 @@ window.ARBRE={redessiner:function(){if(Object.keys(H).length)redessiner()}};
 """
 
 
+# ================================================================ 4 bis. langue des intitulés
+
+# Un cours peut déclarer `langue: en` dans son course.yml : ses pages affichent alors en
+# anglais les intitulés que le générateur produit. Les sources gardent les mots-clés
+# français du schéma (rubriques, « [ajout] ») ; seul l'affichage change. Restent en
+# français, sur toutes les pages : le cadre commun (en-tête, recherche, bouton « masquer
+# les ajouts », pied de page) et aide.html.
+# Une seule table : l'intitulé français est la clé. Un « %d » ou un « %s » s'y remplit
+# après traduction, pour que l'ordre des mots puisse changer d'une langue à l'autre.
+EN = {
+    # -- rubriques de la fiche et de l'exercice (les titres des sources)
+    "Ce que c'est": "What it is",
+    "Forme": "Formula",
+    "Ce que les symboles modélisent": "What the symbols model",
+    "Retrouver la formule": "Rederive the formula",
+    "Ce qui la définit": "What defines it",
+    "Ce que les membres partagent": "What the members share",
+    "Pourquoi ce niveau existe": "Why this level exists",
+    "Exemple minimal": "Minimal example",
+    "Geste de calcul type": "Typical computation",
+    "Ce qui reste libre": "What remains free",
+    "Cesse d'être valide quand": "Stops being valid when",
+    "Origine": "Origin",
+    "Énoncé": "Statement",
+    "Solution officielle": "Official solution",
+    "Résolution": "Worked solution",
+    "Ce que l'exercice a révélé": "What the exercise revealed",
+    "Contradiction avec la source": "Contradiction with the source",
+    # -- rubriques générées
+    "Le paramètre qui les distingue": "The parameter that tells them apart",
+    "Cas particulier de": "Special case of",
+    "Découle de": "Follows from",
+    "Construite à partir de": "Built from",
+    "Socle complet": "All prerequisites",
+    "Sert ensuite à": "Used next for",
+    "Membres": "Members",
+    "Premières constructions": "First constructions",
+    "Fiches touchées": "Notions involved",
+    # -- en-tête de la fiche
+    "principe": "principle",
+    "notion": "notion",
+    "abstraite": "abstraction",
+    "une idée qui organise tout un pan du cours": "an idea that organises a whole part of the course",
+    "une famille : elle existe parce que plusieurs notions en sont des cas":
+        "a family: it exists because several notions are cases of it",
+    "un objet du cours, celui qu’on manipule": "an object of the course, the one you work with",
+    "niveau %d": "level %d",
+    "ordre de lecture : nombre de notions à traverser, au plus long, pour arriver jusqu’à "
+    "celle-ci. Niveau 0 = ne dépend d’aucune autre.":
+        "reading order: the number of notions to go through, on the longest path, to reach "
+        "this one. Level 0 = depends on no other.",
+    "ouvrir l’arbre des familles sur cette notion": "open the family tree at this notion",
+    "cette notion n’est rangée sous aucune famille": "this notion is not filed under any family",
+    "voir dans l’arbre": "see in the tree",
+    "arbre du cours": "course tree",
+    "ne vient pas du cours": "not from the course",
+    "aussi : %s": "also: %s",
+    "Cette notion ne vient pas du cours : elle a été ajoutée pour que le reste tienne debout. "
+    "Le bouton « masquer les ajouts », en haut, la retire — et ce qui reste est exactement le "
+    'cours. (<a href="%saide.html" data-v="ajouts">pourquoi</a>)':
+        "This notion does not come from the course: it was added so that the rest holds "
+        "together. The “masquer les ajouts” button, at the top, removes it — and what remains "
+        'is exactly the course. (<a href="%saide.html" data-v="ajouts">why</a>)',
+    "tout déplier": "expand all",
+    "tout replier": "collapse all",
+    # -- rubriques générées : notes et compteurs
+    "membre": "member",
+    "valeur du paramètre": "parameter value",
+    "Ce qui change d’un cas à l’autre : %s.": "What changes from one case to the next: %s.",
+    "%d membre": "%d member",
+    "%d membres": "%d members",
+    "Un principe n’est pas une famille : cette notion en découle directement.":
+        "A principle is not a family: this notion follows from it directly.",
+    "Ce n’est pas un prérequis : on peut lire ce cas particulier sans avoir lu le cas "
+    "général. Les prérequis, c’est « construite à partir de ».":
+        "This is not a prerequisite: you can read this special case without having read the "
+        "general case. Prerequisites are under “Built from”.",
+    "valeur pour le paramètre du parent : %s": "value for the parent’s parameter: %s",
+    "autre relation": "another relation",
+    "Seulement ce dont cette fiche dépend directement. Le socle, juste en dessous, reprend "
+    "ces notions-ci et y ajoute tout ce dont elles dépendent à leur tour.":
+        "Only what this page depends on directly. “All prerequisites”, just below, repeats "
+        "these notions and adds everything they depend on in turn.",
+    "%d prérequis direct": "%d direct prerequisite",
+    "%d prérequis directs": "%d direct prerequisites",
+    "Tout ce qu’il faut avoir lu avant cette fiche, du plus élémentaire au plus construit. "
+    "<strong>La liste est complète</strong> : la lire suffit, aucune de ces notions n’en "
+    "appelle une autre qui manquerait ici. Cocher une case la barre sur toutes les pages. (%s)":
+        "Everything you need to have read before this page, from the most elementary to the "
+        "most elaborate. <strong>The list is complete</strong>: reading it is enough, none of "
+        "these notions calls for another one missing here. Ticking a box strikes it out on "
+        "every page. (%s)",
+    "en savoir plus": "learn more",
+    "%d prérequis": "%d prerequisite",
+    "%d prérequis en tout": "%d prerequisites in all",
+    "Ce que cette notion permet d’aborder juste après. Seulement l’étape suivante, pas toute "
+    "la suite : une notion très en amont ouvrirait sinon la moitié du cours.":
+        "What this notion lets you tackle right after. Only the next step, not everything that "
+        "follows: otherwise a notion far upstream would open half the course.",
+    "faute de protocole": "protocol fault",
+    "Cette fiche devrait porter un exemple chiffré et n’en a pas encore. C’est un manque du "
+    "côté de la rédaction, pas du cours.":
+        "This page should carry a numerical example and does not have one yet. The gap is on "
+        "the writing side, not in the course.",
+    "Les notions qui sont des cas particuliers de celle-ci.":
+        "The notions that are special cases of this one.",
+    "Les notions qui découlent directement de ce principe.":
+        "The notions that follow directly from this principle.",
+    # -- listes de notions et marques
+    "%s à venir": "%s forthcoming",
+    "ajout": "added",
+    "déjà su : %s": "already known: %s",
+    "niveau %d (%d)": "level %d (%d)",
+    "non encore écrite": "not written yet",
+    "à venir — %s": "forthcoming — %s",
+    "à venir": "forthcoming",
+    "n%d": "L%d",
+    "ajouté : cette phrase ne vient pas du cours": "added: this sentence does not come from the course",
+    "référence à la source": "reference to the source",
+    # -- parcours
+    "« %s »": "“%s”",
+    "« <strong>%s</strong> »": "“<strong>%s</strong>”",
+    ", références de ce cours": ", references to that course",
+    "L’histoire continue": "The story continues",
+    "Dans l’histoire": "In the story",
+    "début du parcours": "start of the reading path",
+    "Parcours": "Reading path",
+    "parcours": "reading path",
+    " · étape %d sur %d": " · step %d of %d",
+    "Depuis l’étape précédente": "From the previous step",
+    " · cette notion est supposée connue": " · this notion is assumed known",
+    " par %d parcours": " by %d reading paths",
+    " : voici le rôle qu’elle y joue": ": here is the role it plays",
+    " : ": ": ",
+    "%d étapes": "%d steps",
+    "À savoir avant de commencer": "What to know before starting",
+    "Le récit s’appuie sur ces fiches sans les raconter. Chacune dit ce qu’elle fait dans "
+    "cette histoire.":
+        "The story relies on these pages without telling them. Each one says what it does in "
+        "this story.",
+    "Le récit": "The story",
+    "Où l’on arrive": "Where we end up",
+    "Lire le cours comme une histoire": "Read the course as a story",
+    "Chaque parcours suit un fil du cours, étape par étape, et dit à chaque fois la question "
+    "qui mène à la fiche suivante.":
+        "Each reading path follows one thread of the course, step by step, and each time states "
+        "the question that leads to the next page.",
+    ' %d fiches ne sont l’étape d’aucun parcours : on les trouve par la carte ci-dessous ou '
+    '<a href="%s">la liste complète</a>.':
+        ' %d pages are not a step of any reading path: you find them through the map below or '
+        '<a href="%s">the full list</a>.',
+    # -- carte du cours
+    "%d notions": "%d notions",
+    '<p class="quoi">Ce cours est découpé en <strong>%d notions</strong>, une par page. Cette '
+    "page-ci en donne la structure ; elle ne les contient pas toutes.</p>":
+        '<p class="quoi">This course is split into <strong>%d notions</strong>, one per page. '
+        "This page gives its structure; it does not contain them all.</p>",
+    "<li><strong>Vous découvrez le cours</strong> — lisez cette page de haut en bas : les "
+    "grandes idées d’abord, ce qui en découle ensuite.</li>":
+        "<li><strong>You are new to the course</strong> — read this page from top to bottom: "
+        "the main ideas first, what follows from them next.</li>",
+    '<li><strong>Vous voulez tout voir</strong> — <a href="%s">la liste des %d notions</a>, '
+    "rangée dans un ordre où on peut la lire de haut en bas.</li>":
+        '<li><strong>You want to see everything</strong> — <a href="%s">the list of the %d '
+        "notions</a>, in an order that can be read from top to bottom.</li>",
+    "<li><strong>Vous voulez commencer à lire</strong> — les %d notions qui ne dépendent "
+    "d’aucune autre sont plus bas, au niveau 0.</li>":
+        "<li><strong>You want to start reading</strong> — the %d notions that depend on no "
+        "other are further down, at level 0.</li>",
+    '<li><strong>Vous voulez voir les familles</strong> — <a href="%s">l’arbre</a> montre '
+    "quelles notions sont des cas particuliers de quelles autres. Ce ne sont pas des "
+    "prérequis.</li>":
+        '<li><strong>You want to see the families</strong> — <a href="%s">the tree</a> shows '
+        "which notions are special cases of which others. These are not prerequisites.</li>",
+    '<li><strong>Vous voulez vous entraîner</strong> — <a href="%s">les %d exercices</a>, avec '
+    "énoncé, corrigé officiel, résolution refaite ici, et ce qu’ils révèlent sur les "
+    "fiches.</li>":
+        '<li><strong>You want to practise</strong> — <a href="%s">the %d exercises</a>, with '
+        "statement, official solution, solution worked out here, and what they reveal about "
+        "the pages.</li>",
+    "<li><strong>Vous cherchez quelque chose de précis</strong> — touche <code>/</code>, sur "
+    "un nom ou un symbole.</li>":
+        "<li><strong>You are looking for something specific</strong> — press <code>/</code>, "
+        "for a name or a symbol.</li>",
+    '<p class="note">Première visite ? <a href="%s">Comment lire ce site</a> définit en une '
+    "page les quatre mots qui reviennent partout : niveau, socle, cas particulier de, "
+    "ajout.</p>":
+        '<p class="note">First visit? <a href="%s">Comment lire ce site</a> defines, on one '
+        "page, the four words that come up everywhere: level (niveau), prerequisites (socle), "
+        "special case of (cas particulier de), addition (ajout).</p>",
+    "Principes": "Principles",
+    "Les idées qui organisent le cours. Tout le reste en découle, directement ou de loin.":
+        "The ideas that organise the course. Everything else follows from them, directly or "
+        "from afar.",
+    "Découle de « %s »": "Follows from “%s”",
+    "Notions qui n’appartiennent à aucune famille": "Notions that belong to no family",
+    "Celles que le cours ne range sous rien de plus général. Ce n’est pas un oubli, c’est une "
+    "information sur le cours.":
+        "Those the course does not file under anything more general. This is not an omission; "
+        "it tells you something about the course.",
+    "<strong>Ce n’est pas la liste des notions du cours.</strong> Il y en a %d ; les %d "
+    'autres ont une famille et se voient dans <a href="%s">l’arbre</a>. Pour les voir toutes '
+    'par niveau : <a href="%s">toutes les notions</a>.':
+        "<strong>This is not the list of the course’s notions.</strong> There are %d; the "
+        'other %d have a family and can be seen in <a href="%s">the tree</a>. To see them all '
+        'by level: <a href="%s">all notions</a>.',
+    "Les groupes sont des <strong>niveaux de dépendance</strong> : le niveau d’une notion est "
+    "le nombre de notions qu’il faut traverser, au plus long, pour arriver jusqu’à elle. "
+    "<strong>Niveau 0</strong> : elle ne dépend d’aucune autre, on peut la lire en premier. "
+    "<strong>Niveau n</strong> : sa dépendance la plus profonde est de niveau n−1 — mais elle "
+    "peut aussi dépendre directement de notions bien plus basses, les niveaux ne forment pas "
+    "une chaîne. C’est un ordre de lecture, pas un degré de difficulté ni d’importance.":
+        "The groups are <strong>dependency levels</strong>: the level of a notion is the number "
+        "of notions you have to go through, on the longest path, to reach it. <strong>Level "
+        "0</strong>: it depends on no other and can be read first. <strong>Level n</strong>: "
+        "its deepest dependency is at level n−1 — but it may also depend directly on much lower "
+        "notions; levels do not form a chain. It is a reading order, not a degree of difficulty "
+        "or of importance.",
+    "sans famille": "without a family",
+    "Suivi de la rédaction — ce qui reste à faire sur cette base ; rien ici ne concerne la "
+    "lecture du cours":
+        "Writing progress — what remains to be done on this base; nothing here concerns "
+        "reading the course",
+    "les %d fiches": "the %d pages",
+    "<strong>%d fiches sans exemple chiffré.</strong> Un exemple minimal ne dépend d’aucun "
+    "exercice : il devrait s’écrire dès la création de la fiche. Le laisser manquer est une "
+    "faute de protocole, pas de la dette.%s":
+        "<strong>%d pages without a numerical example.</strong> A minimal example depends on no "
+        "exercise: it should be written as soon as the page is created. Leaving it missing is a "
+        "protocol fault, not debt.%s",
+    "<li>%s : <strong>%d</strong>": "<li>%s: <strong>%d</strong>",
+    "liens à venir": "forthcoming links",
+    "%s (depuis %s)": "%s (from %s)",
+    "gestes de calcul à venir": "forthcoming typical computations",
+    "fiches dont les symboles ne sont pas expliqués en français":
+        "pages whose symbols are not explained in plain English",
+    '<li>éléments d’inventaire à venir : <strong>%d</strong> — <a href="%s">l’inventaire de la '
+    "source</a>, qui dit ce que chaque élément du poly est devenu ici</li>":
+        '<li>forthcoming inventory items: <strong>%d</strong> — <a href="%s">the source '
+        "inventory</a>, which says what each item of the lecture notes became here</li>",
+    "comment cette base est faite": "how this base is made",
+    # -- arbre
+    "Arbre d’abstraction — %s": "Abstraction tree — %s",
+    "Un seul lien est dessiné ici : « est un cas particulier de » — et, sous un principe, « en "
+    "découle ». <strong>Les prérequis n’y figurent pas</strong> : pour savoir quoi lire avant "
+    "une notion, c’est le socle de sa fiche. Replié au-delà de deux niveaux ; le canevas se "
+    "déplace au glisser ou aux flèches. (%s)":
+        "Only one link is drawn here: “is a special case of” — and, under a principle, “follows "
+        "from”. <strong>Prerequisites are not shown</strong>: to know what to read before a "
+        "notion, see “All prerequisites” on its page. Folded beyond two levels; move the canvas "
+        "by dragging it or with the arrow keys. (%s)",
+    "la différence entre les deux liens": "the difference between the two links",
+    "recentrer": "recenter",
+    "arbre d’abstraction, déplaçable aux flèches": "abstraction tree, movable with the arrow keys",
+    "Avec « masquer les ajouts », une famille qui a été ajoutée disparaît et ses membres "
+    "remontent à la racine : ce qui reste est exactement l’arbre du cours.":
+        "With “masquer les ajouts”, a family that was added disappears and its members move up "
+        "to the root: what remains is exactly the course’s tree.",
+    "Notions qui n’appartiennent à aucune famille (%d)": "Notions that belong to no family (%d)",
+    "Ce n’est pas un oubli : le cours ne les range sous rien de plus général. Elles ont une "
+    "fiche comme les autres.":
+        "This is not an omission: the course does not file them under anything more general. "
+        "They have a page like the others.",
+    "<strong>Ce n’est pas la liste des notions du cours.</strong> Il y en a %d ; les %d "
+    "autres sont dessinées dans l’arbre ci-dessus. Pour les voir toutes par niveau : "
+    '<a href="%s">toutes les notions</a>.':
+        "<strong>This is not the list of the course’s notions.</strong> There are %d; the "
+        "other %d are drawn in the tree above. To see them all by level: "
+        '<a href="%s">all notions</a>.',
+    "arbre": "tree",
+    "Arbre — %s": "Tree — %s",
+    # -- toutes les notions, exercices, inventaire
+    "Toutes les notions — %s": "All notions — %s",
+    "%d %s": "%d %s",
+    "carte du cours": "course map",
+    "arbre des familles": "family tree",
+    "exercices": "exercises",
+    "La seule page qui les contienne toutes, rangées de la plus élémentaire à la plus "
+    "construite. Lue de haut en bas, elle ne vous fera jamais rencontrer une notion dont les "
+    "prérequis ne sont pas déjà passés. Les cases sont les mêmes que dans les socles : cocher "
+    "ici coche partout.":
+        "The only page that contains them all, ordered from the most elementary to the most "
+        "elaborate. Read from top to bottom, it will never show you a notion whose "
+        "prerequisites you have not already passed. The boxes are the same as in the "
+        "prerequisite lists: ticking here ticks everywhere.",
+    "toutes les notions": "all notions",
+    "Exercices — %s": "Exercises — %s",
+    "%d exercices": "%d exercises",
+    "Chaque exercice porte son énoncé, la solution officielle quand elle existe, la résolution "
+    "refaite ici, ce qu’il a révélé sur les fiches, et les écarts relevés avec le cours. Les "
+    "notions listées sous chaque exercice sont celles qu’il met en jeu.":
+        "Each exercise carries its statement, the official solution when there is one, the "
+        "solution worked out here, what it revealed about the pages, and the discrepancies "
+        "found with the course. The notions listed under each exercise are those it involves.",
+    "sans section": "no section",
+    "exercice": "exercise",
+    "tous les exercices": "all exercises",
+    "Élément qui est une notion": "Item that is a notion",
+    "Élément absorbé dans une notion": "Item absorbed into a notion",
+    "Élément exclu, avec sa raison": "Item excluded, with its reason",
+    "Élément pas encore traité (dette)": "Item not yet handled (debt)",
+    "Inventaire de la source — %s": "Source inventory — %s",
+    "<strong>Cette page ne sert pas à apprendre.</strong> Elle sert à vérifier que rien du "
+    "poly n’a été oublié en route : chaque définition, théorème, équation numérotée et section "
+    "de la source y figure, avec ce qu’elle est devenue ici. Elle garantit que rien "
+    "d’inventorié n’est perdu — pas que l’inventaire lui-même est complet, ce que seule une "
+    "relecture du poly peut dire.":
+        "<strong>This page is not for learning.</strong> It is for checking that nothing from "
+        "the lecture notes was forgotten along the way: every definition, theorem, numbered "
+        "equation and section of the source appears here, with what it became. It guarantees "
+        "that nothing inventoried is lost — not that the inventory itself is complete, which "
+        "only a re-reading of the lecture notes can tell.",
+    "%d éléments": "%d items",
+    "%s : %d": "%s: %d",
+    "absorbe": "absorbed",
+    "exclu": "excluded",
+    "a_venir": "pending",
+    "réf.": "ref.",
+    "intitulé": "title",
+    "image": "image",
+    "inventaire": "inventory",
+    "Inventaire — %s": "Inventory — %s",
+    # -- phrases des scripts. Celles qui s'étendent sur plusieurs lignes du source
+    # JavaScript gardent ici leurs coupures « '\n      +' », pour que les pages françaises
+    # restent identiques octet pour octet ; leur traduction tient sur une ligne. Aucune
+    # apostrophe droite dans une traduction : elle fermerait la chaîne du script.
+    "Cette rubrique existe, mais tout son contenu est un ajout : le filtre le masque. Elle "
+    "reste visible pour que vous ne concluiez pas qu’elle est vide.":
+        "This section exists, but all its content is an addition: the filter hides it. It stays "
+        "visible so that you do not conclude that it is empty.",
+    " à voir": " left to see",
+    "plier ou déplier": "fold or unfold",
+    " noeuds affichés": " nodes shown",
+    " a bien une carte dans cet arbre, mais elle ne '\n      +'vient pas du cours : le filtre "
+    "la retire. Le bouton « ajouts masqués », en haut, la '\n      +'fera réapparaître.":
+        " does have a card in this tree, but it does not come from the course: the filter "
+        "removes it. The “ajouts masqués” button, at the top, will bring it back.",
+    "Cette notion": "This notion",
+    " n’a pas de carte dans cet arbre : le cours ne la range sous aucune famille, et '\n      "
+    "+'n’en fait pas non plus une famille. Ce n’est pas un oubli — c’est une information '\n"
+    "      +'sur le cours.":
+        " has no card in this tree: the course does not file it under any family, nor does it "
+        "make it a family. This is not an omission — it tells you something about the course.",
+    " Elle est marquée ci-dessous.": " It is highlighted below.",
+    "Arrivé depuis ": "Arrived from ",
+    " : sa carte est encadrée, et '\n    +'toute la suite de familles qui la contient est "
+    "dépliée.":
+        ": its card is framed, and the whole chain of families that contains it is unfolded.",
+}
+
+
+def tr(texte, langue="fr"):
+    """L'intitulé dans la langue de la page. Un intitulé absent de la table fait échouer
+    le build d'un cours anglais : sinon il resterait en français sans que rien le signale."""
+    if langue == "fr":
+        return texte
+    if texte not in EN:
+        raise KeyError("intitulé sans traduction (%s) : « %s »" % (langue, texte))
+    return EN[texte]
+
+
+def langue_de(m, code):
+    """`langue` du course.yml ; absente, le cours est en français."""
+    return m["cours"][code]["meta"].get("langue", "fr")
+
+
+def _lg(ctx):
+    return (ctx or {}).get("langue", "fr")
+
+
+# Les phrases des scripts : chaque « __CLE__ » du source JavaScript, et l'intitulé
+# français qu'il porte.
+TEXTES_JS_COMMUN = {"__MASQUEE__": "Cette rubrique existe, mais tout son contenu est un ajout "
+                    ": le filtre le masque. Elle reste visible pour que vous ne concluiez pas "
+                    "qu’elle est vide."}
+TEXTES_JS_FICHE = {"__TOUT_DEPLIER__": "tout déplier", "__TOUT_REPLIER__": "tout replier",
+                   "__A_VOIR__": " à voir"}
+TEXTES_JS_ARBRE = {
+    "__PLIER__": "plier ou déplier",
+    "__AFFICHES__": " noeuds affichés",
+    "__RETIREE__": " a bien une carte dans cet arbre, mais elle ne '\n      +'vient pas du cours "
+                   ": le filtre la retire. Le bouton « ajouts masqués », en haut, la '\n      "
+                   "+'fera réapparaître.",
+    "__CETTE_NOTION__": "Cette notion",
+    "__SANS_CARTE__": " n’a pas de carte dans cet arbre : le cours ne la range sous aucune "
+                      "famille, et '\n      +'n’en fait pas non plus une famille. Ce n’est pas "
+                      "un oubli — c’est une information '\n      +'sur le cours.",
+    "__MARQUEE__": " Elle est marquée ci-dessous.",
+    "__ARRIVE__": "Arrivé depuis ",
+    "__ENCADREE__": " : sa carte est encadrée, et '\n    +'toute la suite de familles qui la "
+                    "contient est dépliée.",
+}
+
+
+def js_traduit(js, textes, langue="fr"):
+    """Remplit les « __CLE__ » d'un script par leurs phrases, dans la langue de la page."""
+    for cle, fr in textes.items():
+        t = tr(fr, langue)
+        assert langue == "fr" or "'" not in t, "apostrophe droite dans un script : " + t
+        js = js.replace(cle, t)
+    return js
+
+
 # ================================================================ 5. gabarit de page
 
-def page(m, *, titre, rel, fil, corps, js="", mathjax=True, index=True):
+def page(m, *, titre, rel, fil, corps, js="", mathjax=True, index=True, langue="fr"):
     mj = ""
     if mathjax:
         mj = ('<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],'
@@ -995,7 +1395,7 @@ def page(m, *, titre, rel, fil, corps, js="", mathjax=True, index=True):
               '<script id="MathJax-script" async src="' + m["mathjax_src"](rel) + '"></script>')
     return (
         "<!doctype html>\n"
-        '<html lang="fr" data-rel="' + rel + '">\n<head>\n'
+        '<html lang="' + langue + '" data-rel="' + rel + '">\n<head>\n'
         '<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n'
         "<title>" + esc(titre) + " · notions</title>\n"
         "<script>" + JS_TETE + "</script>\n"
@@ -1015,7 +1415,7 @@ def page(m, *, titre, rel, fil, corps, js="", mathjax=True, index=True):
         '<a href="' + rel + 'aide.html" data-v="fabrication">comment il est fait</a>'
         "</div></footer>\n"
         + ('<script src="' + rel + 'search-index.js"></script>\n' if index else "")
-        + "<script>" + m["js_commun"] + "</script>\n"
+        + "<script>" + m["js_commun"][langue] + "</script>\n"
         + ("<script>" + js + "</script>\n" if js else "")
         + "</body>\n</html>\n"
     )
@@ -1029,21 +1429,21 @@ def aide(rel, ancre, texte):
     return '<a href="%saide.html" data-v="%s">%s</a>' % (rel, ancre, texte)
 
 
-def pastille(m, ident, rel, cours=None, niveau=False):
+def pastille(m, ident, rel, cours=None, niveau=False, langue="fr"):
     if ident in m["N"]:
         c, s = ident.split("/", 1)
         cls = "past" + (" ajout" if est_ajout(m, ident) else "")
         pre = '<span class="cc">' + esc(c) + "·</span> " if cours and c != cours else ""
-        nv = '<span class="nv">n' + str(m["niveau"][ident]) + "</span>" if niveau else ""
+        nv = '<span class="nv">' + tr("n%d", langue) % m["niveau"][ident] + "</span>" if niveau else ""
         return ('<li><a class="' + cls + '" href="' + rel + c + "/n/" + s + '.html">'
                 + pre + esc(nom_de(m, ident)) + nv + "</a></li>")
     av = m["a_venir"].get(ident, {})
-    t = esc(av.get("raison", "non encore écrite"))
-    return ('<li><span class="past venir" title="à venir — ' + t + '">'
-            + esc(ident) + ' <span class="nv">à venir</span></span></li>')
+    t = esc(av.get("raison", tr("non encore écrite", langue)))
+    return ('<li><span class="past venir" title="' + tr("à venir — %s", langue) % t + '">'
+            + esc(ident) + ' <span class="nv">' + tr("à venir", langue) + "</span></span></li>")
 
 
-def liste_pastilles(m, ids, rel, cours=None, niveau=False, cle=None, portee=""):
+def liste_pastilles(m, ids, rel, cours=None, niveau=False, cle=None, portee="", langue="fr"):
     """Règle 4 : au-delà de sept éléments, on regroupe et on replie les groupes.
 
     `portee` qualifie le contenu des groupes. Sans elle, trois listes du site groupent
@@ -1053,15 +1453,18 @@ def liste_pastilles(m, ids, rel, cours=None, niveau=False, cle=None, portee=""):
     if not ids:
         return ""
     if len(ids) <= MAX_LISTE or cle is None:
-        return '<ul class="pasts">' + "".join(pastille(m, i, rel, cours, niveau) for i in ids) + "</ul>"
+        return '<ul class="pasts">' + "".join(pastille(m, i, rel, cours, niveau, langue) for i in ids) + "</ul>"
     groupes = defaultdict(list)
     for i in ids:
         groupes[cle(i)].append(i)
     out = []
-    for k in sorted(groupes):
+    # Ordre naturel : « niveau 10 » après « niveau 9 », pas après « niveau 1 ». L'ordre
+    # des chaînes suffisait tant qu'aucun cours ne dépassait le niveau 9 ; ods l'atteint.
+    for k in sorted(groupes, key=lambda k: [int(t) if t.isdigit() else t
+                                            for t in re.split(r"(\d+)", str(k))]):
         out.append('<details class="grp"><summary>' + esc(str(k)) + " (" + str(len(groupes[k]))
                    + (" " + esc(portee) if portee else "") + ")</summary>"
-                   + '<ul class="pasts">' + "".join(pastille(m, i, rel, cours, niveau) for i in groupes[k])
+                   + '<ul class="pasts">' + "".join(pastille(m, i, rel, cours, niveau, langue) for i in groupes[k])
                    + "</ul></details>")
     return "".join(out)
 
@@ -1074,25 +1477,26 @@ OBLIGATOIRES = {"Ce que c'est", "Forme", "Ce qui la définit", "Ce que les membr
                 "Cesse d'être valide quand"}
 
 
-def sec(titre, corps, *, cle=None, ouvert=False, classe="", compte=""):
-    """Une rubrique. Sans clé : toujours visible (règle 5, les trois premières)."""
+def sec(titre, corps, *, cle=None, ouvert=False, classe="", compte="", langue="fr"):
+    """Une rubrique. Sans clé : toujours visible (règle 5, les trois premières).
+    `titre` est l'intitulé français du schéma ; la page l'affiche dans sa langue."""
     if not corps:
         return ""
     ob = ' data-oblig="1"' if titre in OBLIGATOIRES else ""
     if cle is None:
-        return ('<section class="sec ' + classe + '"' + ob + "><h2>" + esc(titre) + "</h2>"
+        return ('<section class="sec ' + classe + '"' + ob + "><h2>" + esc(tr(titre, langue)) + "</h2>"
                 '<div class="corps">' + corps + "</div></section>")
     assert cle in CLES_PLI, ("clé de pliage « %s » absente de CLES_PLI : son état ne "
                             "traverserait pas les pages" % cle)
     c = '<span class="cnt">' + esc(compte) + "</span>" if compte else ""
     return ('<details class="sec ' + classe + '" data-k="' + cle + '"' + ob + (" open" if ouvert else "") + ">"
-            "<summary><h2>" + esc(titre) + "</h2>" + c + "</summary>"
+            "<summary><h2>" + esc(tr(titre, langue)) + "</h2>" + c + "</summary>"
             '<div class="corps">' + corps + "</div></details>")
 
 
 # ================================================================ 6. la fiche (§3.1)
 
-def bloc_liste(m, ids, rel, cle, note):
+def bloc_liste(m, ids, rel, cle, note, langue="fr"):
     """Liste de notions ordonnée par niveau, cases « déjà su » partagées, compteur.
     Même forme pour l'amont (socle, transitif) et pour l'aval (rayon 1) — SPEC-SITE
     §2 règle 6."""
@@ -1101,19 +1505,19 @@ def bloc_liste(m, ids, rel, cle, note):
     def item(y, avec_niveau=True):
         if y not in m["N"]:
             av = m["a_venir"].get(y, {})
-            return ('<li><span style="width:1em"></span><span class="past venir" title="%s">%s à venir</span></li>'
-                    % (esc(av.get("raison", "")), esc(y)))
+            return ('<li><span style="width:1em"></span><span class="past venir" title="%s">%s</span></li>'
+                    % (esc(av.get("raison", "")), tr("%s à venir", langue) % esc(y)))
         c, s = y.split("/", 1)
         cls = ' class="is-ajout"' if est_ajout(m, y) else ""
         marq = []
         if avec_niveau:
-            marq.append("niveau %d" % m["niveau"][y])
+            marq.append(tr("niveau %d", langue) % m["niveau"][y])
         if est_ajout(m, y):
-            marq.append("ajout")
+            marq.append(tr("ajout", langue))
         mq = ' <span class="marq">' + " · ".join(marq) + "</span>" if marq else ""
-        return ('<li%s><input type="checkbox" data-su="%s" aria-label="déjà su : %s">'
+        return ('<li%s><input type="checkbox" data-su="%s" aria-label="%s">'
                 '<a href="%s%s/n/%s.html">%s</a>%s</li>'
-                % (cls, esc(y), esc(nom_de(m, y)), rel, c, s, esc(nom_de(m, y)), mq))
+                % (cls, esc(y), tr("déjà su : %s", langue) % esc(nom_de(m, y)), rel, c, s, esc(nom_de(m, y)), mq))
     out = ['<p class="note">' + note + "</p>", '<p class="compteur" data-cpt="' + cle + '"></p>']
     if len(ids) <= MAX_LISTE:
         out.append('<ul class="socle">' + "".join(item(y) for y in ids) + "</ul>")
@@ -1122,9 +1526,10 @@ def bloc_liste(m, ids, rel, cle, note):
         for y in ids:
             grp[m["niveau"].get(y, 0)].append(y)
         for nv in sorted(grp):
-            out.append('<details class="grp" open><summary>niveau %d (%d)</summary>'
+            out.append('<details class="grp" open><summary>%s</summary>'
                        '<ul class="socle">%s</ul></details>'
-                       % (nv, len(grp[nv]), "".join(item(y, avec_niveau=False) for y in grp[nv])))
+                       % (tr("niveau %d (%d)", langue) % (nv, len(grp[nv])),
+                          "".join(item(y, avec_niveau=False) for y in grp[nv])))
     return "".join(out)
 
 
@@ -1134,7 +1539,8 @@ def page_fiche(m, i):
     code = n["cours"]
     slug = i.split("/", 1)[1]
     rel = "../../"
-    ctx = {"m": m, "rel": rel, "code": code}
+    lg = langue_de(m, code)
+    ctx = {"m": m, "rel": rel, "code": code, "langue": lg}
     ajout = meta.get("statut") == "ajout"
     parent = m["A"].get(i)
     membres = m["A_inv"].get(i, [])
@@ -1145,119 +1551,125 @@ def page_fiche(m, i):
              "abstraite": "une famille : elle existe parce que plusieurs notions en sont des cas",
              "notion": "un objet du cours, celui qu’on manipule"}
     pills = ['<a class="pill typ" href="' + rel + 'aide.html" data-v="types" title="'
-             + esc(TYPES.get(typ, "")) + '">' + esc(typ) + "</a>",
+             + esc(tr(TYPES[typ], lg) if typ in TYPES else "") + '">' + esc(tr(typ, lg)) + "</a>",
              '<a class="pill" href="' + rel + code + '/index.html">' + esc(code) + "</a>",
              '<a class="pill" href="' + rel + 'aide.html" data-v="niveau" '
-             'title="ordre de lecture : nombre de notions à traverser, au plus long, pour arriver '
-             'jusqu’à celle-ci. Niveau 0 = ne dépend d’aucune autre.">'
-             "niveau " + str(m["niveau"][i]) + "</a>"]
+             'title="' + tr("ordre de lecture : nombre de notions à traverser, au plus long, pour arriver "
+                            "jusqu’à celle-ci. Niveau 0 = ne dépend d’aucune autre.", lg) + '">'
+             + tr("niveau %d", lg) % m["niveau"][i] + "</a>"]
     # Un chemin vers l'arbre depuis chaque fiche, visant sa propre carte. 39 % des
     # notions n'ont pas de carte (ni parent, ni membres, ni principe) : l'intitulé le dit
     # avant le clic, et la page de l'arbre l'explique après.
     dans_arbre = bool(parent or membres or typ == "principe")
     pills.append('<a class="pill" href="' + rel + code + '/arbre.html" data-noeud="' + i + '" '
-                 'title="' + ("ouvrir l’arbre des familles sur cette notion" if dans_arbre
-                              else "cette notion n’est rangée sous aucune famille") + '">'
-                 + ("voir dans l’arbre" if dans_arbre else "arbre du cours") + "</a>")
+                 'title="' + tr("ouvrir l’arbre des familles sur cette notion" if dans_arbre
+                                else "cette notion n’est rangée sous aucune famille", lg) + '">'
+                 + tr("voir dans l’arbre" if dans_arbre else "arbre du cours", lg) + "</a>")
     if meta.get("symbole"):
         pills.insert(0, '<span class="pill sym">' + esc(str(meta["symbole"])) + "</span>")
     for r in meta.get("refs") or []:
         pills.append('<span class="pill">' + esc(str(r)) + "</span>")
     if ajout:
         pills.append('<a class="pill ajout" href="' + rel + 'aide.html" data-v="ajouts">'
-                     "ne vient pas du cours</a>")
+                     + tr("ne vient pas du cours", lg) + "</a>")
     ent = ["<h1>" + esc(meta.get("nom", i)) + "</h1>", '<div class="meta">' + "".join(pills) + "</div>"]
     if meta.get("alias"):
-        ent.append('<p class="note">aussi : ' + esc(", ".join(str(a) for a in meta["alias"])) + "</p>")
+        ent.append('<p class="note">' + tr("aussi : %s", lg) % esc(", ".join(str(a) for a in meta["alias"])) + "</p>")
     if ajout:
-        ent.append('<div class="bandeau is-ajout">Cette notion ne vient pas du cours : elle a été '
-                   "ajoutée pour que le reste tienne debout. Le bouton « masquer les ajouts », en "
-                   "haut, la retire — et ce qui reste est exactement le cours. "
-                   '(<a href="' + rel + 'aide.html" data-v="ajouts">pourquoi</a>)</div>')
+        ent.append('<div class="bandeau is-ajout">'
+                   + tr("Cette notion ne vient pas du cours : elle a été ajoutée pour que le reste "
+                        "tienne debout. Le bouton « masquer les ajouts », en haut, la retire — et "
+                        "ce qui reste est exactement le cours. "
+                        '(<a href="%saide.html" data-v="ajouts">pourquoi</a>)', lg) % rel + "</div>")
 
     c = list(ent)
     c.append(bandeaux_parcours(m, i, rel, ctx))
     # Un seul bouton pour toutes les rubriques pliables à la fois (règle 5) : son
     # intitulé dit ce qu'il fera, et le script le tient à jour quand on plie à la main.
     c.append('<div class="barre plier"><button class="btn" type="button" id="tout-plier">'
-             "tout déplier</button></div>")
+             + tr("tout déplier", lg) + "</button></div>")
     # 2–4
-    c.append(sec("Ce que c'est", rendre(S.get("Ce que c'est", ""), ctx, fiche=True)))
-    c.append(sec("Forme", rendre(S.get("Forme", ""), ctx, fiche=True)))
+    c.append(sec("Ce que c'est", rendre(S.get("Ce que c'est", ""), ctx, fiche=True), langue=lg))
+    c.append(sec("Forme", rendre(S.get("Forme", ""), ctx, fiche=True), langue=lg))
     # Toujours dépliée, et sans clé de pliage : une rubrique qui sert à comprendre la
     # notation ne peut pas être cachée derrière un clic (SPEC-MODELE §2.1).
     if "Ce que les symboles modélisent" in S:
         c.append(sec("Ce que les symboles modélisent",
-                     rendre(S["Ce que les symboles modélisent"], ctx, fiche=True)))
+                     rendre(S["Ce que les symboles modélisent"], ctx, fiche=True), langue=lg))
     # La démonstration, repliée : on voit la formule, on peut essayer de la retrouver
     # seul, puis déplier le dessin et le raisonnement (SPEC-MODELE §2.1).
     if "Retrouver la formule" in S:
         c.append(sec("Retrouver la formule", rendre(S["Retrouver la formule"], ctx, fiche=True),
-                     cle="retrouver"))
+                     cle="retrouver", langue=lg))
     for t in ("Ce qui la définit", "Ce que les membres partagent"):
         if t in S:
-            c.append(sec(t, rendre(S[t], ctx, fiche=True)))
+            c.append(sec(t, rendre(S[t], ctx, fiche=True), langue=lg))
     # 5. paramètre (généré)
     if typ == "abstraite" and membres:
-        li = ["<table><thead><tr><th>membre</th><th>valeur du paramètre</th></tr></thead><tbody>"]
+        li = ["<table><thead><tr><th>" + tr("membre", lg) + "</th><th>" + tr("valeur du paramètre", lg)
+              + "</th></tr></thead><tbody>"]
         for x in membres:
             cx, sx = x.split("/", 1)
             li.append('<tr%s><td><a href="%s%s/n/%s.html">%s</a></td><td>%s</td></tr>'
                       % (' class="is-ajout"' if est_ajout(m, x) else "", rel, cx, sx,
                          esc(nom_de(m, x)), enligne(str(m["N"][x]["meta"].get("valeur", "—")), ctx)))
         li.append("</tbody></table>")
-        corps = ('<p class="note">Ce qui change d’un cas à l’autre : '
-                 + enligne(str(meta.get("parametre", "")), ctx) + ".</p>" + "".join(li))
+        corps = ('<p class="note">' + tr("Ce qui change d’un cas à l’autre : %s.", lg)
+                 % enligne(str(meta.get("parametre", "")), ctx) + "</p>" + "".join(li))
         c.append(sec("Le paramètre qui les distingue", corps, cle="param", classe="gen",
-                     compte=str(len(membres)) + " membres"))
+                     compte=tr("%d membres", lg) % len(membres), langue=lg))
     # 6.
     if "Pourquoi ce niveau existe" in S:
-        c.append(sec("Pourquoi ce niveau existe", rendre(S["Pourquoi ce niveau existe"], ctx, fiche=True), cle="pourquoi"))
+        c.append(sec("Pourquoi ce niveau existe", rendre(S["Pourquoi ce niveau existe"], ctx, fiche=True), cle="pourquoi",
+                     langue=lg))
     # 7. cas particulier de (généré) — A4 : « découle de » sous un principe
     if parent:
         pp = m["N"].get(parent, {}).get("meta", {})
         titre = "Découle de" if pp.get("type") == "principe" else "Cas particulier de"
-        note = ("Un principe n’est pas une famille : cette notion en découle directement."
-                if pp.get("type") == "principe" else
-                "Ce n’est pas un prérequis : on peut lire ce cas particulier sans avoir lu le cas "
-                "général. Les prérequis, c’est « construite à partir de ».")
+        note = tr("Un principe n’est pas une famille : cette notion en découle directement."
+                  if pp.get("type") == "principe" else
+                  "Ce n’est pas un prérequis : on peut lire ce cas particulier sans avoir lu le cas "
+                  "général. Les prérequis, c’est « construite à partir de ».", lg)
         corps = '<p class="note avert">' + note + "</p>"
-        corps += '<ul class="pasts">' + pastille(m, parent, rel, code) + "</ul>"
+        corps += '<ul class="pasts">' + pastille(m, parent, rel, code, langue=lg) + "</ul>"
         if meta.get("valeur"):
-            corps += '<p class="note">valeur pour le paramètre du parent : ' + enligne(str(meta["valeur"]), ctx) + "</p>"
-        c.append(sec(titre, corps, cle="casde", classe="gen abs", compte="autre relation"))
+            corps += ('<p class="note">' + tr("valeur pour le paramètre du parent : %s", lg)
+                      % enligne(str(meta["valeur"]), ctx) + "</p>")
+        c.append(sec(titre, corps, cle="casde", classe="gen abs", compte=tr("autre relation", lg), langue=lg))
     # 8. construite à partir de
     dep = m["D"].get(i) or []
     if dep:
         c.append(sec("Construite à partir de",
                      liste_pastilles(m, dep, rel, code, niveau=True,
-                                     cle=lambda y: "niveau %d" % m["niveau"].get(y, 0))
-                     + '<p class="note">Seulement ce dont cette fiche dépend directement. '
+                                     cle=lambda y: tr("niveau %d", lg) % m["niveau"].get(y, 0), langue=lg)
+                     + '<p class="note">' + tr("Seulement ce dont cette fiche dépend directement. "
                        "Le socle, juste en dessous, reprend ces notions-ci et y ajoute tout ce dont "
-                       "elles dépendent à leur tour.</p>",
-                     cle="construite", compte=str(len(dep)) + (" prérequis direct" if len(dep) == 1 else " prérequis directs")))
+                       "elles dépendent à leur tour.", lg) + "</p>",
+                     cle="construite", langue=lg,
+                     compte=tr("%d prérequis direct" if len(dep) == 1 else "%d prérequis directs", lg) % len(dep)))
     # 9. socle (amont transitif) puis 10. sert ensuite à (aval, rayon 1), de même forme
     # Le chemin : la prose écrite dans la fiche, posée en tête du socle — c'est là que
     # la question « pourquoi ces notions-là ? » se pose.
     chemin = ('<div class="chemin">' + rendre(S["Le chemin jusqu'ici"], ctx, fiche=True) + "</div>"
               if "Le chemin jusqu'ici" in S else "")
     so = chemin + bloc_liste(m, m["socle"][i], rel, "socle",
-                    "Tout ce qu’il faut avoir lu avant cette fiche, du plus élémentaire au plus "
-                    "construit. <strong>La liste est complète</strong> : la lire suffit, aucune de "
-                    "ces notions n’en appelle une autre qui manquerait ici. Cocher une case la barre "
-                    "sur toutes les pages. (" + aide(rel, "socle", "en savoir plus") + ")")
+                    tr("Tout ce qu’il faut avoir lu avant cette fiche, du plus élémentaire au plus "
+                       "construit. <strong>La liste est complète</strong> : la lire suffit, aucune de "
+                       "ces notions n’en appelle une autre qui manquerait ici. Cocher une case la barre "
+                       "sur toutes les pages. (%s)", lg) % aide(rel, "socle", tr("en savoir plus", lg)), lg)
     if so:
-        c.append(sec("Socle complet", so, cle="socle", classe="gen",
-                     compte=str(len(m["socle"][i])) + (" prérequis" if len(m["socle"][i]) == 1 else " prérequis en tout")))
+        c.append(sec("Socle complet", so, cle="socle", classe="gen", langue=lg,
+                     compte=tr("%d prérequis" if len(m["socle"][i]) == 1 else "%d prérequis en tout", lg)
+                     % len(m["socle"][i])))
     srt = m["D_inv"].get(i) or []
     if srt:
         av = sorted(srt, key=lambda y: (m["niveau"].get(y, 0), nom_de(m, y).lower()))
         c.append(sec("Sert ensuite à",
                      bloc_liste(m, av, rel, "aval",
-                                "Ce que cette notion permet d’aborder juste après. Seulement l’étape "
-                                "suivante, pas toute la suite : une notion très en amont ouvrirait "
-                                "sinon la moitié du cours."),
-                     cle="sert", classe="gen", compte=str(len(av))))
+                                tr("Ce que cette notion permet d’aborder juste après. Seulement l’étape "
+                                   "suivante, pas toute la suite : une notion très en amont ouvrirait "
+                                   "sinon la moitié du cours.", lg), lg),
+                     cle="sert", classe="gen", compte=str(len(av)), langue=lg))
     # 10–12
     for t, k in (("Exemple minimal", "exemple"), ("Geste de calcul type", "geste"), ("Ce qui reste libre", "libre")):
         if t not in S:
@@ -1266,40 +1678,43 @@ def page_fiche(m, i):
         if t == "Exemple minimal" and "à venir" in S[t]:
             # SPEC-INGESTION étape 3 : un exemple minimal ne dépend d'aucun exercice.
             # Le laisser en dette n'est pas de la dette, c'est une faute de protocole.
-            cl, cpt = "faute", "faute de protocole"
-            corps += ('<p class="note">Cette fiche devrait porter un exemple chiffré et n’en a '
-                      "pas encore. C’est un manque du côté de la rédaction, pas du cours.</p>")
-        c.append(sec(t, corps, cle=k, classe=cl, compte=cpt))
+            cl, cpt = "faute", tr("faute de protocole", lg)
+            corps += ('<p class="note">' + tr("Cette fiche devrait porter un exemple chiffré et n’en a "
+                      "pas encore. C’est un manque du côté de la rédaction, pas du cours.", lg) + "</p>")
+        c.append(sec(t, corps, cle=k, classe=cl, compte=cpt, langue=lg))
     # 13. limite
     if "Cesse d'être valide quand" in S:
         c.append(sec("Cesse d'être valide quand", rendre(S["Cesse d'être valide quand"], ctx, fiche=True),
-                     cle="limite", classe="lim"))
+                     cle="limite", classe="lim", langue=lg))
     # 15. membres (généré)
     if membres:
         titre = "Membres" if typ == "abstraite" else "Premières constructions"
-        note = ("Les notions qui sont des cas particuliers de celle-ci." if typ == "abstraite"
-                else "Les notions qui découlent directement de ce principe.")
-        c.append(sec(titre, liste_pastilles(m, membres, rel, code, cle=lambda y: m["N"][y]["meta"]["type"])
+        note = tr("Les notions qui sont des cas particuliers de celle-ci." if typ == "abstraite"
+                  else "Les notions qui découlent directement de ce principe.", lg)
+        c.append(sec(titre, liste_pastilles(m, membres, rel, code, cle=lambda y: tr(m["N"][y]["meta"]["type"], lg),
+                                            langue=lg)
                      + '<p class="note">' + note + "</p>",
-                     cle="membres", classe="gen", compte=str(len(membres))))
+                     cle="membres", classe="gen", compte=str(len(membres)), langue=lg))
     # 16–17
     if "Origine" in S:
-        c.append(sec("Origine", rendre(S["Origine"], ctx, fiche=True), cle="origine"))
+        c.append(sec("Origine", rendre(S["Origine"], ctx, fiche=True), cle="origine", langue=lg))
     fil = ('<a href="' + rel + code + '/index.html">' + esc(m["cours"][code]["meta"].get("titre", code))
            + "</a> › " + esc(meta.get("nom", i)))
-    return page(m, titre=meta.get("nom", i), rel=rel, fil=fil, corps="".join(c), js=JS_FICHE)
+    return page(m, titre=meta.get("nom", i), rel=rel, fil=fil, corps="".join(c),
+                js=js_traduit(JS_FICHE, TEXTES_JS_FICHE, lg), langue=lg)
 
 
 # ================================================================ 6 bis. les parcours (SPEC-MODELE §8, SPEC-SITE §3.1)
 
-def lien_parcours(m, pid, rel, ancre="", depuis=None):
+def lien_parcours(m, pid, rel, ancre="", depuis=None, langue="fr"):
     """`depuis` : le cours de la page. Un parcours d'un autre cours porte son code, sans
     quoi ses références — « [§2.1.2] » — se liraient comme celles du cours de la page."""
     pc = m["parcours"][pid]
     autre = depuis and pc["cours"] != depuis
     return ('<a href="' + rel + pc["cours"] + "/parcours/" + pc["slug"] + ".html"
-            + (("#" + ancre) if ancre else "") + '">« ' + esc(pc["meta"].get("titre", pid)) + " »</a>"
-            + (' <span class="cc">(' + esc(pc["cours"]) + ", références de ce cours)</span>" if autre else ""))
+            + (("#" + ancre) if ancre else "") + '">' + tr("« %s »", langue) % esc(pc["meta"].get("titre", pid)) + "</a>"
+            + (' <span class="cc">(' + esc(pc["cours"]) + tr(", références de ce cours", langue) + ")</span>"
+               if autre else ""))
 
 
 def _prefixer(html_role, tete):
@@ -1337,16 +1752,16 @@ def histoire_jusqua(pc, k, citations, ctx):
     html = "".join(rendre(t, ctx, fiche=True) for t in morceaux)
     if ici:
         html += ('<div class="parc-suite">' + _prefixer(rendre(histoire_en_gras(ici, restantes), ctx, fiche=True),
-                 '<span class="parc-l">L’histoire continue</span> ') + "</div>")
+                 '<span class="parc-l">' + tr("L’histoire continue", _lg(ctx)) + "</span> ") + "</div>")
     return html
 
 
 def lien_histoire(lien, ctx, citations=()):
     """La phrase qui relie l'étape à l'histoire, précédée de son intitulé. Sur la page du
     parcours, l'histoire n'est pas rappelée à côté de l'étape : les mots cités la précèdent."""
-    tete = '<span class="parc-l">Dans l’histoire</span> '
+    tete = '<span class="parc-l">' + tr("Dans l’histoire", _lg(ctx)) + "</span> "
     if citations:
-        tete += " ".join("« <strong>" + enligne(c, ctx) + "</strong> »" for c in citations) + " — "
+        tete += " ".join(tr("« <strong>%s</strong> »", _lg(ctx)) % enligne(c, ctx) for c in citations) + " — "
     return _prefixer(rendre(lien, ctx, fiche=True), tete)
 
 
@@ -1354,6 +1769,7 @@ def bandeaux_parcours(m, i, rel, ctx):
     """En tête de fiche : la place de la notion dans chaque récit qui la traverse.
     Étape : la question qui y mène, et de quoi aller à la précédente et à la suivante.
     Supposée connue : ce qu'elle fait dans cette histoire-là."""
+    lg = _lg(ctx)
     out = []
     for pid, k in m["etape_de"].get(i, []):
         pc = m["parcours"][pid]
@@ -1367,19 +1783,19 @@ def bandeaux_parcours(m, i, rel, ctx):
                 nav.append('<a class="%s" href="%s%s/n/%s.html">%s</a>'
                            % (sens, rel, cx, sx, ("← " + lab) if sens == "prec" else (lab + " →")))
             else:
-                nav.append('<span class="%s">%s</span>' % (sens, lien_parcours(m, pid, rel)
-                           if sens == "suiv" else "début du parcours"))
+                nav.append('<span class="%s">%s</span>' % (sens, lien_parcours(m, pid, rel, langue=lg)
+                           if sens == "suiv" else tr("début du parcours", lg)))
         # L'histoire d'abord, rappelée sur chaque fiche : le lecteur n'a plus à revenir au
         # parcours pour se souvenir d'où il part. Puis ce que cette fiche en reprend, puis la
         # question qui mène ici depuis l'étape précédente.
         cits, lien = pc["ancrages"].get(k + 1, ([], ""))
         out.append('<div class="parc"><div class="parc-t">'
-                   + aide(rel, "parcours", "Parcours") + " " + lien_parcours(m, pid, rel, "e%d" % (k + 1))
-                   + " · étape " + str(k + 1) + " sur " + str(len(et)) + "</div>"
+                   + aide(rel, "parcours", tr("Parcours", lg)) + " " + lien_parcours(m, pid, rel, "e%d" % (k + 1), langue=lg)
+                   + tr(" · étape %d sur %d", lg) % (k + 1, len(et)) + "</div>"
                    + '<div class="parc-h">' + histoire_jusqua(pc, k + 1, cits, ctx) + "</div>"
                    + (lien_histoire(lien, ctx) if lien else "")
                    + (_prefixer(rendre(et[k][2], ctx, fiche=True),
-                                '<span class="parc-l">Depuis l’étape précédente</span> ') if k else
+                                '<span class="parc-l">' + tr("Depuis l’étape précédente", lg) + "</span> ") if k else
                       rendre(et[k][2], ctx, fiche=True))
                    + '<div class="parc-nav">' + "".join(nav) + "</div></div>")
     # Supposée connue : un seul encadré, quel que soit le nombre de parcours. Une notion
@@ -1393,10 +1809,10 @@ def bandeaux_parcours(m, i, rel, ctx):
             pc = m["parcours"][pid]
             li.append('<li id="p-' + pc["slug"] + '">' + _prefixer(
                 rendre(role, ctx, fiche=True),
-                lien_parcours(m, pid, rel, "avant", depuis=i.split("/", 1)[0]) + " : ") + "</li>")
-        tete = (aide(rel, "parcours", "Parcours") + " · cette notion est supposée connue"
-                + (" par " + str(len(roles)) + " parcours" if len(roles) > 1 else "")
-                + " : voici le rôle qu’elle y joue")
+                lien_parcours(m, pid, rel, "avant", depuis=i.split("/", 1)[0], langue=lg) + tr(" : ", lg)) + "</li>")
+        tete = (aide(rel, "parcours", tr("Parcours", lg)) + tr(" · cette notion est supposée connue", lg)
+                + (tr(" par %d parcours", lg) % len(roles) if len(roles) > 1 else "")
+                + tr(" : voici le rôle qu’elle y joue", lg))
         corps = '<ul class="roles">' + "".join(li) + "</ul>"
         if len(roles) == 1:
             out.append('<div class="parc"><div class="parc-t">' + tete + "</div>" + corps + "</div>")
@@ -1413,26 +1829,28 @@ def page_parcours(m, pid):
     pc = m["parcours"][pid]
     code, meta, S = pc["cours"], pc["meta"], dict(pc["sections"])
     rel = "../../"
-    ctx = {"m": m, "rel": rel, "code": code}
+    lg = langue_de(m, code)
+    ctx = {"m": m, "rel": rel, "code": code, "langue": lg}
     et = pc["etapes"]
     c = ["<h1>" + esc(meta.get("titre", pid)) + "</h1>",
-         '<div class="meta"><a class="pill typ" href="' + rel + 'aide.html" data-v="parcours">parcours</a>'
+         '<div class="meta"><a class="pill typ" href="' + rel + 'aide.html" data-v="parcours">'
+         + tr("parcours", lg) + "</a>"
          '<a class="pill" href="' + rel + code + '/index.html">' + esc(code) + "</a>"
          + ('<span class="pill">' + esc(str(meta["source"])) + "</span>" if meta.get("source") else "")
-         + '<span class="pill">' + str(len(et)) + " étapes</span></div>",
+         + '<span class="pill">' + tr("%d étapes", lg) % len(et) + "</span></div>",
          '<div class="entree">' + rendre(S.get("Point de départ", ""), ctx, fiche=True) + "</div>"]
     if pc["avant"]:
         li = []
         for x, role in pc["avant"]:
             cx, sx = x.split("/", 1)
             tete = ('<a class="tit" href="' + rel + cx + "/n/" + sx + '.html#p-' + pc["slug"] + '">' + esc(nom_de(m, x))
-                    + "</a>" + (" <span class=\"note\">(" + esc(cx) + ")</span>" if cx != code else "") + " : ")
+                    + "</a>" + (" <span class=\"note\">(" + esc(cx) + ")</span>" if cx != code else "") + tr(" : ", lg))
             li.append("<li>" + _prefixer(rendre(role, ctx, fiche=True), tete) + "</li>")
-        c.append('<h2 id="avant" class="ptag">À savoir avant de commencer</h2>'
-                 '<p class="note">Le récit s’appuie sur ces fiches sans les raconter. Chacune dit '
-                 "ce qu’elle fait dans cette histoire.</p>"
+        c.append('<h2 id="avant" class="ptag">' + tr("À savoir avant de commencer", lg) + "</h2>"
+                 '<p class="note">' + tr("Le récit s’appuie sur ces fiches sans les raconter. Chacune dit "
+                                         "ce qu’elle fait dans cette histoire.", lg) + "</p>"
                  '<ul class="avant">' + "".join(li) + "</ul>")
-    c.append('<h2 class="ptag">Le récit</h2><ol class="etapes">')
+    c.append('<h2 class="ptag">' + tr("Le récit", lg) + '</h2><ol class="etapes">')
     for k, (_, x, trans) in enumerate(et):
         cx, sx = x.split("/", 1)
         cc = rendre(dict(m["N"][x]["sections"]).get("Ce que c'est", ""), ctx, fiche=True)
@@ -1440,22 +1858,24 @@ def page_parcours(m, pid):
         suite = pc["suites"].get(k + 1, "")
         c.append('<li id="e%d">%s%s<div class="arr%s"><a class="tit" href="%s%s/n/%s.html">%s</a>%s%s</div></li>'
                  % (k + 1, ('<div class="parc-suite">' + _prefixer(rendre(suite, ctx, fiche=True),
-                            '<span class="parc-l">L’histoire continue</span> ') + "</div>") if suite else "",
+                            '<span class="parc-l">' + tr("L’histoire continue", lg) + "</span> ") + "</div>") if suite else "",
                     rendre(trans, ctx, fiche=True), " is-ajout" if est_ajout(m, x) else "",
                     rel, cx, sx, esc(nom_de(m, x)), cc,
                     ('<div class="parc-lien">' + lien_histoire(lien, ctx, cits) + "</div>") if lien else ""))
     c.append("</ol>")
-    c.append('<h2 class="ptag">Où l’on arrive</h2><div class="entree">'
+    c.append('<h2 class="ptag">' + tr("Où l’on arrive", lg) + '</h2><div class="entree">'
              + rendre(S.get("Point d'arrivée", ""), ctx, fiche=True) + "</div>")
     fil = ('<a href="' + rel + code + '/index.html">' + esc(m["cours"][code]["meta"].get("titre", code))
-           + "</a> › parcours › " + esc(meta.get("titre", pid)))
-    return page(m, titre=meta.get("titre", pid), rel=rel, fil=fil, corps="".join(c), js=JS_FICHE)
+           + "</a> › " + tr("parcours", lg) + " › " + esc(meta.get("titre", pid)))
+    return page(m, titre=meta.get("titre", pid), rel=rel, fil=fil, corps="".join(c),
+                js=js_traduit(JS_FICHE, TEXTES_JS_FICHE, lg), langue=lg)
 
 
 def bloc_parcours_cours(m, code, rel, ctx):
     pids = m["cours"][code].get("parcours") or []
     if not pids:
         return ""
+    lg = _lg(ctx)
     li, couverts = [], set()
     for pid in pids:
         pc = m["parcours"][pid]
@@ -1463,18 +1883,18 @@ def bloc_parcours_cours(m, code, rel, ctx):
         dep = dict(pc["sections"]).get("Point de départ", "")
         premier = blocs_md(dep)[0] if dep.strip() else ""
         li.append('<li class="carte"><a class="tit" href="%s%s/parcours/%s.html">%s</a>'
-                  '<p>%s</p><p class="note">%d étapes%s</p></li>'
+                  '<p>%s</p><p class="note">%s%s</p></li>'
                   % (rel, code, pc["slug"], esc(pc["meta"].get("titre", pid)),
                      rendre(premier, ctx, fiche=True).replace("<p>", "").replace("</p>", ""),
-                     len(pc["etapes"]),
+                     tr("%d étapes", lg) % len(pc["etapes"]),
                      (" · " + esc(str(pc["meta"]["source"]))) if pc["meta"].get("source") else ""))
     hors = [i for i in m["cours"][code]["notions"] if i not in couverts]
-    note = ('<p class="note">Chaque parcours suit un fil du cours, étape par étape, et dit à chaque '
-            "fois la question qui mène à la fiche suivante.")
+    note = ('<p class="note">' + tr("Chaque parcours suit un fil du cours, étape par étape, et dit à chaque "
+                                    "fois la question qui mène à la fiche suivante.", lg))
     if hors:
-        note += (" " + str(len(hors)) + " fiches ne sont l’étape d’aucun parcours : on les trouve par la "
-                 'carte ci-dessous ou <a href="' + rel + code + '/notions.html">la liste complète</a>.')
-    return ('<h2 class="ptag">Lire le cours comme une histoire</h2>' + note + "</p>"
+        note += (tr(" %d fiches ne sont l’étape d’aucun parcours : on les trouve par la carte ci-dessous "
+                    'ou <a href="%s">la liste complète</a>.', lg) % (len(hors), rel + code + "/notions.html"))
+    return ('<h2 class="ptag">' + tr("Lire le cours comme une histoire", lg) + "</h2>" + note + "</p>"
             '<ul class="cartes">' + "".join(li) + "</ul>")
 
 
@@ -1518,7 +1938,8 @@ def dette_du_cours(m, code):
 def page_cours(m, code):
     cs = m["cours"][code]
     rel = "../"
-    ctx = {"m": m, "rel": rel}
+    lg = langue_de(m, code)
+    ctx = {"m": m, "rel": rel, "langue": lg}
     ids = cs["notions"]
     principes = [i for i in ids if m["N"][i]["meta"].get("type") == "principe"]
     principes.sort(key=lambda i: nom_de(m, i).lower())
@@ -1527,34 +1948,37 @@ def page_cours(m, code):
          '<div class="meta"><span class="pill">' + esc(code) + "</span>"
          '<span class="pill">' + esc(str(cs["meta"].get("enseignant", ""))) + "</span>"
          '<span class="pill">' + esc(str(cs["meta"].get("annee", ""))) + "</span>"
-         '<span class="pill">' + str(len(ids)) + " notions</span></div>",
-         '<div class="entree"><p class="quoi">Ce cours est découpé en <strong>'
-         + str(len(ids)) + " notions</strong>, une par page. Cette page-ci en donne la "
-         "structure ; elle ne les contient pas toutes.</p>"
-         "<ul><li><strong>Vous découvrez le cours</strong> — lisez cette page de haut en bas : "
-         "les grandes idées d’abord, ce qui en découle ensuite.</li>"
-         '<li><strong>Vous voulez tout voir</strong> — <a href="' + rel + code
-         + '/notions.html">la liste des ' + str(len(ids)) + " notions</a>, rangée dans un ordre "
-         "où on peut la lire de haut en bas.</li>"
-         "<li><strong>Vous voulez commencer à lire</strong> — les " + str(len(nv0))
-         + " notions qui ne dépendent d’aucune autre sont plus bas, au niveau 0.</li>"
-         '<li><strong>Vous voulez voir les familles</strong> — <a href="' + rel + code
-         + '/arbre.html">l’arbre</a> montre quelles notions sont des cas particuliers de '
-         "quelles autres. Ce ne sont pas des prérequis.</li>"
-         + ('<li><strong>Vous voulez vous entraîner</strong> — <a href="' + rel + code
-            + '/exercices.html">les ' + str(len(cs["exercices"])) + " exercices</a>, avec "
-            "énoncé, corrigé officiel, résolution refaite ici, et ce qu’ils révèlent sur les "
-            "fiches.</li>" if cs["exercices"] else "")
-         + "<li><strong>Vous cherchez quelque chose de précis</strong> — touche <code>/</code>, "
-         "sur un nom ou un symbole.</li></ul>"
-         '<p class="note">Première visite ? <a href="' + rel + 'aide.html">Comment lire ce '
-         "site</a> définit en une page les quatre mots qui reviennent partout : niveau, socle, "
-         "cas particulier de, ajout.</p></div>"]
+         '<span class="pill">' + tr("%d notions", lg) % len(ids) + "</span></div>",
+         '<div class="entree">'
+         + tr('<p class="quoi">Ce cours est découpé en <strong>%d notions</strong>, une par page. '
+              "Cette page-ci en donne la structure ; elle ne les contient pas toutes.</p>", lg) % len(ids)
+         + "<ul>"
+         + tr("<li><strong>Vous découvrez le cours</strong> — lisez cette page de haut en bas : "
+              "les grandes idées d’abord, ce qui en découle ensuite.</li>", lg)
+         + tr('<li><strong>Vous voulez tout voir</strong> — <a href="%s">la liste des %d notions</a>, '
+              "rangée dans un ordre où on peut la lire de haut en bas.</li>", lg)
+         % (rel + code + "/notions.html", len(ids))
+         + tr("<li><strong>Vous voulez commencer à lire</strong> — les %d notions qui ne dépendent "
+              "d’aucune autre sont plus bas, au niveau 0.</li>", lg) % len(nv0)
+         + tr('<li><strong>Vous voulez voir les familles</strong> — <a href="%s">l’arbre</a> montre '
+              "quelles notions sont des cas particuliers de quelles autres. Ce ne sont pas des "
+              "prérequis.</li>", lg) % (rel + code + "/arbre.html")
+         + (tr('<li><strong>Vous voulez vous entraîner</strong> — <a href="%s">les %d exercices</a>, '
+               "avec énoncé, corrigé officiel, résolution refaite ici, et ce qu’ils révèlent sur les "
+               "fiches.</li>", lg) % (rel + code + "/exercices.html", len(cs["exercices"]))
+            if cs["exercices"] else "")
+         + tr("<li><strong>Vous cherchez quelque chose de précis</strong> — touche <code>/</code>, "
+              "sur un nom ou un symbole.</li>", lg)
+         + "</ul>"
+         + tr('<p class="note">Première visite ? <a href="%s">Comment lire ce site</a> définit en '
+              "une page les quatre mots qui reviennent partout : niveau, socle, cas particulier de, "
+              "ajout.</p>", lg) % (rel + "aide.html")
+         + "</div>"]
 
     c.append(bloc_parcours_cours(m, code, rel, ctx))
-    c.append('<h2 class="ptag">Principes</h2>'
-             '<p class="note">Les idées qui organisent le cours. Tout le reste en découle, '
-             "directement ou de loin.</p>")
+    c.append('<h2 class="ptag">' + tr("Principes", lg) + "</h2>"
+             '<p class="note">' + tr("Les idées qui organisent le cours. Tout le reste en découle, "
+                                     "directement ou de loin.", lg) + "</p>")
     li = []
     for p in principes:
         S = dict(m["N"][p]["sections"])
@@ -1568,7 +1992,7 @@ def page_cours(m, code):
         enf = m["A_inv"].get(p, [])
         if not enf:
             continue
-        c.append("<h3>Découle de « " + esc(nom_de(m, p)) + " »</h3>")
+        c.append("<h3>" + tr("Découle de « %s »", lg) % esc(nom_de(m, p)) + "</h3>")
         li = []
         for x in enf:
             cx, sx = x.split("/", 1)
@@ -1576,49 +2000,53 @@ def page_cours(m, code):
             li.append('<li class="carte%s"><a class="tit" href="%s%s/n/%s.html">%s</a>'
                       '<p>%s%s</p></li>'
                       % (" is-ajout" if est_ajout(m, x) else "", rel, cx, sx, esc(nom_de(m, x)),
-                         esc(m["N"][x]["meta"].get("type", "")),
-                         " · " + str(nb) + " membre" + ("s" if nb > 1 else "") if nb else ""))
+                         esc(tr(m["N"][x]["meta"].get("type", ""), lg)),
+                         " · " + tr("%d membres" if nb > 1 else "%d membre", lg) % nb if nb else ""))
         c.append('<ul class="cartes">' + "".join(li) + "</ul>")
 
     comp = sorted([i for i in ids if not m["A"].get(i) and m["N"][i]["meta"].get("type") != "principe"],
                   key=lambda i: (m["niveau"][i], nom_de(m, i).lower()))
     if comp:
-        c.append('<h2 class="ptag">Notions qui n’appartiennent à aucune famille</h2>'
-                 '<p class="note">Celles que le cours ne range sous rien de plus général. '
-                 "Ce n’est pas un oubli, c’est une information sur le cours.</p>"
-                 '<p class="note"><strong>Ce n’est pas la liste des notions du cours.</strong> '
-                 "Il y en a " + str(len(ids)) + " ; les " + str(len(ids) - len(comp))
-                 + " autres ont une famille et se voient dans "
-                 + '<a href="' + rel + code + '/arbre.html">l’arbre</a>. Pour les voir toutes '
-                 'par niveau : <a href="' + rel + code + '/notions.html">toutes les notions</a>.'
-                 "</p>"
-                 '<p class="note">Les groupes sont des <strong>niveaux de dépendance</strong> : '
-                 "le niveau d’une notion est le nombre de notions qu’il faut traverser, au plus "
-                 "long, pour arriver jusqu’à elle. <strong>Niveau 0</strong> : elle ne dépend "
-                 "d’aucune autre, on peut la lire en premier. <strong>Niveau n</strong> : sa "
-                 "dépendance la plus profonde est de niveau n−1 — mais elle peut aussi dépendre "
-                 "directement de notions bien plus basses, les niveaux ne forment pas une chaîne. "
-                 "C’est un ordre de lecture, pas un degré de difficulté ni d’importance.</p>")
-        c.append(liste_pastilles(m, comp, rel, code, niveau=True, portee="sans famille",
-                                 cle=lambda y: "niveau %d" % m["niveau"][y]))
+        c.append('<h2 class="ptag">' + tr("Notions qui n’appartiennent à aucune famille", lg) + "</h2>"
+                 '<p class="note">' + tr("Celles que le cours ne range sous rien de plus général. "
+                                         "Ce n’est pas un oubli, c’est une information sur le cours.", lg)
+                 + "</p>"
+                 '<p class="note">'
+                 + tr("<strong>Ce n’est pas la liste des notions du cours.</strong> Il y en a %d ; les %d "
+                      'autres ont une famille et se voient dans <a href="%s">l’arbre</a>. Pour les voir '
+                      'toutes par niveau : <a href="%s">toutes les notions</a>.', lg)
+                 % (len(ids), len(ids) - len(comp), rel + code + "/arbre.html", rel + code + "/notions.html")
+                 + "</p>"
+                 '<p class="note">'
+                 + tr("Les groupes sont des <strong>niveaux de dépendance</strong> : "
+                      "le niveau d’une notion est le nombre de notions qu’il faut traverser, au plus "
+                      "long, pour arriver jusqu’à elle. <strong>Niveau 0</strong> : elle ne dépend "
+                      "d’aucune autre, on peut la lire en premier. <strong>Niveau n</strong> : sa "
+                      "dépendance la plus profonde est de niveau n−1 — mais elle peut aussi dépendre "
+                      "directement de notions bien plus basses, les niveaux ne forment pas une chaîne. "
+                      "C’est un ordre de lecture, pas un degré de difficulté ni d’importance.", lg) + "</p>")
+        c.append(liste_pastilles(m, comp, rel, code, niveau=True, portee=tr("sans famille", lg),
+                                 cle=lambda y: tr("niveau %d", lg) % m["niveau"][y], langue=lg))
 
     d = dette_du_cours(m, code)
-    ch = ['<details class="chantier"><summary>Suivi de la rédaction — ce qui reste à faire sur '
-          "cette base ; rien ici ne concerne la lecture du cours</summary>"]
+    ch = ['<details class="chantier"><summary>'
+          + tr("Suivi de la rédaction — ce qui reste à faire sur cette base ; rien ici ne concerne "
+               "la lecture du cours", lg) + "</summary>"]
     if d["exemples"]:
         items = "".join('<li><a href="%s%s/n/%s.html">%s</a></li>'
                         % (rel, code, i.split("/", 1)[1], esc(nom_de(m, i))) for i in d["exemples"])
         liste = ("<ul>" + items + "</ul>" if len(d["exemples"]) <= MAX_LISTE else
-                 '<details class="grp"><summary>les %d fiches</summary><ul>%s</ul></details>'
-                 % (len(d["exemples"]), items))
+                 '<details class="grp"><summary>%s</summary><ul>%s</ul></details>'
+                 % (tr("les %d fiches", lg) % len(d["exemples"]), items))
         ch.append('<div class="faute-b">'
-                  "<strong>%d fiches sans exemple chiffré.</strong> Un exemple minimal ne dépend "
-                  "d’aucun exercice : il devrait s’écrire dès la création de la fiche. Le laisser "
-                  "manquer est une faute de protocole, pas de la dette.%s</div>"
-                  % (len(d["exemples"]), liste))
+                  + tr("<strong>%d fiches sans exemple chiffré.</strong> Un exemple minimal ne dépend "
+                       "d’aucun exercice : il devrait s’écrire dès la création de la fiche. Le laisser "
+                       "manquer est une faute de protocole, pas de la dette.%s", lg)
+                  % (len(d["exemples"]), liste) + "</div>")
     ch.append('<div class="dette"><ul>')
-    ch.append("<li>liens à venir : <strong>" + str(len(d["liens"])) + "</strong>"
-             + (" — " + ", ".join(esc(y) + " (depuis " + esc(nom_de(m, x)) + ")" for x, y in d["liens"][:MAX_LISTE])
+    ch.append(tr("<li>%s : <strong>%d</strong>", lg) % (tr("liens à venir", lg), len(d["liens"]))
+             + (" — " + ", ".join(tr("%s (depuis %s)", lg) % (esc(y), esc(nom_de(m, x)))
+                                  for x, y in d["liens"][:MAX_LISTE])
                 if d["liens"] else "") + "</li>")
     for lab, k in (("gestes de calcul à venir", "gestes"),
                    ("fiches dont les symboles ne sont pas expliqués en français", "symboles")):
@@ -1629,22 +2057,23 @@ def page_cours(m, code):
         elif len(d[k]) <= MAX_LISTE:                      # règle 4 : sept au plus, sinon on replie
             detail = "<ul>" + items + "</ul>"
         else:
-            detail = ('<details class="grp"><summary>les %d fiches</summary><ul>%s</ul></details>'
-                      % (len(d[k]), items))
-        ch.append("<li>" + lab + " : <strong>" + str(len(d[k])) + "</strong>" + detail + "</li>")
-    ch.append('<li>éléments d’inventaire à venir : <strong>' + str(len(d["inventaire"]))
-              + '</strong> — <a href="' + rel + code + '/inventaire.html">l’inventaire de la '
-              "source</a>, qui dit ce que chaque élément du poly est devenu ici</li>")
-    ch.append('<li><a href="' + rel + 'aide.html" data-v="fabrication">comment cette base est '
-              "faite</a></li>")
+            detail = ('<details class="grp"><summary>%s</summary><ul>%s</ul></details>'
+                      % (tr("les %d fiches", lg) % len(d[k]), items))
+        ch.append(tr("<li>%s : <strong>%d</strong>", lg) % (tr(lab, lg), len(d[k])) + detail + "</li>")
+    ch.append(tr('<li>éléments d’inventaire à venir : <strong>%d</strong> — <a href="%s">l’inventaire de la '
+                 "source</a>, qui dit ce que chaque élément du poly est devenu ici</li>", lg)
+              % (len(d["inventaire"]), rel + code + "/inventaire.html"))
+    ch.append('<li><a href="' + rel + 'aide.html" data-v="fabrication">'
+              + tr("comment cette base est faite", lg) + "</a></li>")
     ch.append("</ul></div></details>")
     c += ch
     return page(m, titre=cs["meta"].get("titre", code), rel=rel,
-                fil=esc(cs["meta"].get("titre", code)), corps="".join(c))
+                fil=esc(cs["meta"].get("titre", code)), corps="".join(c), langue=lg)
 
 
 def page_arbre(m, code):
     rel = "../"
+    lg = langue_de(m, code)
     ids = m["cours"][code]["notions"]
     prof = {}
     def p_of(i):
@@ -1660,7 +2089,7 @@ def page_arbre(m, code):
         if not enf and not m["A"].get(i) and meta.get("type") != "principe":
             continue                      # notions sans généralisation : listées sous l'arbre
         noeuds.append(dict(id=i, k=k, nom=nom_de(m, i).replace("$", ""), aj=est_ajout(m, i),
-                           pa=m["A"].get(i), pa2=meta.get("type"), pf=p_of(i),
+                           pa=m["A"].get(i), pa2=tr(meta.get("type"), lg), pf=p_of(i),
                            pr=meta.get("type") == "principe", en=enf,
                            u=rel + i.split("/", 1)[0] + "/n/" + i.split("/", 1)[1] + ".html"))
     # Les notions absentes de l'arbre y arrivent quand même par le bouton d'une fiche :
@@ -1670,41 +2099,47 @@ def page_arbre(m, code):
             and m["N"][i]["meta"].get("type") != "principe"}
     data = ("var ARBRE_DATA=" + json.dumps(dict(noeuds=noeuds), ensure_ascii=False) + ";"
             + "var ARBRE_HORS=" + json.dumps(hors, ensure_ascii=False) + ";")
-    js = data + JS_ARBRE.replace("__W__", repr(CARTE_W)).replace("__C__", repr(COL_C)).replace("__G__", repr(ECART_G))
+    js = data + js_traduit(JS_ARBRE.replace("__W__", repr(CARTE_W)).replace("__C__", repr(COL_C))
+                                   .replace("__G__", repr(ECART_G)), TEXTES_JS_ARBRE, lg)
     seuls = sorted([i for i in ids if not m["A"].get(i) and not m["A_inv"].get(i)
                     and m["N"][i]["meta"].get("type") != "principe"],
                    key=lambda i: nom_de(m, i).lower())
-    c = ["<h1>Arbre d’abstraction — " + esc(code) + "</h1>",
-         '<p class="note">Un seul lien est dessiné ici : « est un cas particulier de » — et, sous '
-         "un principe, « en découle ». <strong>Les prérequis n’y figurent pas</strong> : pour savoir "
-         "quoi lire avant une notion, c’est le socle de sa fiche. Replié au-delà de deux niveaux ; "
-         'le canevas se déplace au glisser ou aux flèches. ('
-         + aide(rel, "abstraction", "la différence entre les deux liens") + ")</p>",
+    c = ["<h1>" + tr("Arbre d’abstraction — %s", lg) % esc(code) + "</h1>",
+         '<p class="note">'
+         + tr("Un seul lien est dessiné ici : « est un cas particulier de » — et, sous "
+              "un principe, « en découle ». <strong>Les prérequis n’y figurent pas</strong> : pour savoir "
+              "quoi lire avant une notion, c’est le socle de sa fiche. Replié au-delà de deux niveaux ; "
+              "le canevas se déplace au glisser ou aux flèches. (%s)", lg)
+         % aide(rel, "abstraction", tr("la différence entre les deux liens", lg)) + "</p>",
          '<div class="barre">'
-         '<button class="btn" id="tout">tout déplier</button>'
-         '<button class="btn" id="rien">tout replier</button>'
+         '<button class="btn" id="tout">' + tr("tout déplier", lg) + "</button>"
+         '<button class="btn" id="rien">' + tr("tout replier", lg) + "</button>"
          '<button class="btn" id="zp">zoom +</button>'
          '<button class="btn" id="zm">zoom −</button>'
-         '<button class="btn" id="zr">recentrer</button>'
+         '<button class="btn" id="zr">' + tr("recentrer", lg) + "</button>"
          '<span class="compteur" id="nbvis"></span></div>',
          '<p class="note" id="cible" hidden></p>',
-         '<div id="scene" tabindex="0" aria-label="arbre d’abstraction, déplaçable aux flèches">'
+         '<div id="scene" tabindex="0" aria-label="' + tr("arbre d’abstraction, déplaçable aux flèches", lg) + '">'
          '<div id="pan"><svg id="aretes"></svg></div></div>',
-         '<p class="note">Avec « masquer les ajouts », une famille qui a été ajoutée disparaît et '
-         "ses membres remontent à la racine : ce qui reste est exactement l’arbre du cours.</p>"]
+         '<p class="note">' + tr("Avec « masquer les ajouts », une famille qui a été ajoutée disparaît et "
+                                 "ses membres remontent à la racine : ce qui reste est exactement l’arbre "
+                                 "du cours.", lg) + "</p>"]
     if seuls:
-        c.append("<h3>Notions qui n’appartiennent à aucune famille (" + str(len(seuls)) + ")</h3>"
-                 '<p class="note">Ce n’est pas un oubli : le cours ne les range sous rien de plus '
-                 "général. Elles ont une fiche comme les autres.</p>"
-                 '<p class="note"><strong>Ce n’est pas la liste des notions du cours.</strong> '
-                 "Il y en a " + str(len(ids)) + " ; les " + str(len(ids) - len(seuls))
-                 + " autres sont dessinées dans l’arbre ci-dessus. Pour les voir toutes par "
-                 'niveau : <a href="' + rel + code + '/notions.html">toutes les notions</a>.</p>')
+        c.append("<h3>" + tr("Notions qui n’appartiennent à aucune famille (%d)", lg) % len(seuls) + "</h3>"
+                 '<p class="note">' + tr("Ce n’est pas un oubli : le cours ne les range sous rien de plus "
+                                         "général. Elles ont une fiche comme les autres.", lg) + "</p>"
+                 '<p class="note">'
+                 + tr("<strong>Ce n’est pas la liste des notions du cours.</strong> Il y en a %d ; les %d "
+                      "autres sont dessinées dans l’arbre ci-dessus. Pour les voir toutes par niveau : "
+                      '<a href="%s">toutes les notions</a>.', lg)
+                 % (len(ids), len(ids) - len(seuls), rel + code + "/notions.html") + "</p>")
         c.append('<div id="seuls">'
-                 + liste_pastilles(m, seuls, rel, code, niveau=True, portee="sans famille",
-                                   cle=lambda y: "niveau %d" % m["niveau"][y]) + "</div>")
-    fil = ('<a href="' + rel + code + '/index.html">' + esc(m["cours"][code]["meta"].get("titre", code)) + "</a> › arbre")
-    return page(m, titre="Arbre — " + code, rel=rel, fil=fil, corps="".join(c), js=js, mathjax=False)
+                 + liste_pastilles(m, seuls, rel, code, niveau=True, portee=tr("sans famille", lg),
+                                   cle=lambda y: tr("niveau %d", lg) % m["niveau"][y], langue=lg) + "</div>")
+    fil = ('<a href="' + rel + code + '/index.html">' + esc(m["cours"][code]["meta"].get("titre", code))
+           + "</a> › " + tr("arbre", lg))
+    return page(m, titre=tr("Arbre — %s", lg) % code, rel=rel, fil=fil, corps="".join(c), js=js, mathjax=False,
+                langue=lg)
 
 
 def page_notions(m, code):
@@ -1712,29 +2147,30 @@ def page_notions(m, code):
     C'est une destination, pas un passage : on y va quand on veut justement tout voir."""
     cs = m["cours"][code]
     rel = "../"
+    lg = langue_de(m, code)
     ids = sorted(cs["notions"], key=lambda i: (m["niveau"][i], nom_de(m, i).lower()))
     par_type = defaultdict(int)
     for i in ids:
         par_type[m["N"][i]["meta"]["type"]] += 1
-    c = ["<h1>Toutes les notions — " + esc(code) + "</h1>",
-         '<div class="meta"><span class="pill">' + str(len(ids)) + " notions</span>"
-         + "".join('<span class="pill">%d %s</span>' % (par_type[t], t)
+    c = ["<h1>" + tr("Toutes les notions — %s", lg) % esc(code) + "</h1>",
+         '<div class="meta"><span class="pill">' + tr("%d notions", lg) % len(ids) + "</span>"
+         + "".join('<span class="pill">%s</span>' % (tr("%d %s", lg) % (par_type[t], tr(t, lg)))
                    for t in ("principe", "abstraite", "notion") if par_type[t])
-         + '<a class="pill" href="' + rel + code + '/index.html">carte du cours</a>'
-         + '<a class="pill" href="' + rel + code + '/arbre.html">arbre des familles</a>'
-         + ('<a class="pill" href="' + rel + code + '/exercices.html">exercices</a>'
+         + '<a class="pill" href="' + rel + code + '/index.html">' + tr("carte du cours", lg) + "</a>"
+         + '<a class="pill" href="' + rel + code + '/arbre.html">' + tr("arbre des familles", lg) + "</a>"
+         + ('<a class="pill" href="' + rel + code + '/exercices.html">' + tr("exercices", lg) + "</a>"
             if cs["exercices"] else "") + "</div>",
          '<section class="sec"><div class="corps">'
          + bloc_liste(m, ids, rel, "toutes",
-                      "La seule page qui les contienne toutes, rangées de la plus élémentaire à "
-                      "la plus construite. Lue de haut en bas, elle ne vous fera jamais rencontrer "
-                      "une notion dont les prérequis ne sont pas déjà passés. Les cases sont les "
-                      "mêmes que dans les socles : cocher ici coche partout.")
+                      tr("La seule page qui les contienne toutes, rangées de la plus élémentaire à "
+                         "la plus construite. Lue de haut en bas, elle ne vous fera jamais rencontrer "
+                         "une notion dont les prérequis ne sont pas déjà passés. Les cases sont les "
+                         "mêmes que dans les socles : cocher ici coche partout.", lg), lg)
          + "</div></section>"]
     fil = ('<a href="' + rel + code + '/index.html">' + esc(cs["meta"].get("titre", code))
-           + "</a> › toutes les notions")
-    return page(m, titre="Toutes les notions — " + code, rel=rel, fil=fil,
-                corps="".join(c), js=JS_FICHE)
+           + "</a> › " + tr("toutes les notions", lg))
+    return page(m, titre=tr("Toutes les notions — %s", lg) % code, rel=rel, fil=fil,
+                corps="".join(c), js=js_traduit(JS_FICHE, TEXTES_JS_FICHE, lg), langue=lg)
 
 
 def page_exercices(m, code):
@@ -1743,6 +2179,7 @@ def page_exercices(m, code):
     vingt pages, trente fiches, et aucune porte d'entrée."""
     rel = "../"
     cs = m["cours"][code]
+    lg = langue_de(m, code)
     xs = sorted(cs["exercices"])
     if not xs:
         return None
@@ -1750,15 +2187,15 @@ def page_exercices(m, code):
     for x in xs:
         src = str(m["exercices"][x]["meta"].get("source", ""))
         g = re.search(r"\((§[\d.]+), « (.*) »\)", src)
-        grp[(g.group(1), g.group(2)) if g else ("", "sans section")].append(x)
-    c = ["<h1>Exercices — " + esc(code) + "</h1>",
-         '<div class="meta"><span class="pill">' + str(len(xs)) + " exercices</span>"
-         '<a class="pill" href="' + rel + code + '/index.html">carte du cours</a>'
-         '<a class="pill" href="' + rel + code + '/notions.html">toutes les notions</a></div>',
-         '<p class="note">Chaque exercice porte son énoncé, la solution officielle quand elle '
-         "existe, la résolution refaite ici, ce qu’il a révélé sur les fiches, et les écarts "
-         "relevés avec le cours. Les notions listées sous chaque exercice sont celles qu’il "
-         "met en jeu.</p>"]
+        grp[(g.group(1), g.group(2)) if g else ("", tr("sans section", lg))].append(x)
+    c = ["<h1>" + tr("Exercices — %s", lg) % esc(code) + "</h1>",
+         '<div class="meta"><span class="pill">' + tr("%d exercices", lg) % len(xs) + "</span>"
+         '<a class="pill" href="' + rel + code + '/index.html">' + tr("carte du cours", lg) + "</a>"
+         '<a class="pill" href="' + rel + code + '/notions.html">' + tr("toutes les notions", lg) + "</a></div>",
+         '<p class="note">' + tr("Chaque exercice porte son énoncé, la solution officielle quand elle "
+                                 "existe, la résolution refaite ici, ce qu’il a révélé sur les fiches, et les "
+                                 "écarts relevés avec le cours. Les notions listées sous chaque exercice sont "
+                                 "celles qu’il met en jeu.", lg) + "</p>"]
     for cle in sorted(grp):
         sec, tit = cle
         li = []
@@ -1769,32 +2206,35 @@ def page_exercices(m, code):
                       "<p>%s</p>%s</li>"
                       % (rel, code, xm["slug"], esc(x),
                          esc(re.sub(r" \(§.*", "", str(xm["meta"].get("source", "")))),
-                         liste_pastilles(m, nts, rel, code)))
+                         liste_pastilles(m, nts, rel, code, langue=lg)))
         c.append('<h2 class="ptag">' + esc((sec + "  " + tit) if sec else tit)
                  + " (" + str(len(grp[cle])) + ")</h2>")
         c.append('<ul class="cartes">' + "".join(li) + "</ul>")
     fil = ('<a href="' + rel + code + '/index.html">' + esc(cs["meta"].get("titre", code))
-           + "</a> › exercices")
-    return page(m, titre="Exercices — " + code, rel=rel, fil=fil, corps="".join(c))
+           + "</a> › " + tr("exercices", lg))
+    return page(m, titre=tr("Exercices — %s", lg) % code, rel=rel, fil=fil, corps="".join(c), langue=lg)
 
 
 def page_inventaire(m, code):
     rel = "../"
-    ctx = {"m": m, "rel": rel}
+    lg = langue_de(m, code)
+    ctx = {"m": m, "rel": rel, "langue": lg}
     els = m["cours"][code]["inventaire"]
     groupes = [("notion", "Élément qui est une notion"), ("absorbe", "Élément absorbé dans une notion"),
                ("exclu", "Élément exclu, avec sa raison"), ("a_venir", "Élément pas encore traité (dette)")]
-    c = ["<h1>Inventaire de la source — " + esc(code) + "</h1>",
-         '<p class="note"><strong>Cette page ne sert pas à apprendre.</strong> Elle sert à '
-         "vérifier que rien du poly n’a été oublié en route : chaque définition, théorème, équation "
-         "numérotée et section de la source y figure, avec ce qu’elle est devenue ici. Elle garantit "
-         "que rien d’inventorié n’est perdu — pas que l’inventaire lui-même est complet, ce que "
-         "seule une relecture du poly peut dire.</p>",
-         '<div class="meta"><span class="pill">' + str(len(els)) + " éléments</span>"
-         + "".join('<span class="pill">%s : %d</span>' % (k, sum(1 for e in els if k in e)) for k, _ in groupes)
-         + '<a class="pill" href="' + rel + code + '/index.html">carte du cours</a>'
-         + '<a class="pill" href="' + rel + code + '/notions.html">toutes les notions</a>'
-         + '<a class="pill" href="' + rel + code + '/arbre.html">arbre des familles</a>'
+    c = ["<h1>" + tr("Inventaire de la source — %s", lg) % esc(code) + "</h1>",
+         '<p class="note">'
+         + tr("<strong>Cette page ne sert pas à apprendre.</strong> Elle sert à "
+              "vérifier que rien du poly n’a été oublié en route : chaque définition, théorème, équation "
+              "numérotée et section de la source y figure, avec ce qu’elle est devenue ici. Elle garantit "
+              "que rien d’inventorié n’est perdu — pas que l’inventaire lui-même est complet, ce que "
+              "seule une relecture du poly peut dire.", lg) + "</p>",
+         '<div class="meta"><span class="pill">' + tr("%d éléments", lg) % len(els) + "</span>"
+         + "".join('<span class="pill">%s</span>' % (tr("%s : %d", lg) % (tr(k, lg), sum(1 for e in els if k in e)))
+                   for k, _ in groupes)
+         + '<a class="pill" href="' + rel + code + '/index.html">' + tr("carte du cours", lg) + "</a>"
+         + '<a class="pill" href="' + rel + code + '/notions.html">' + tr("toutes les notions", lg) + "</a>"
+         + '<a class="pill" href="' + rel + code + '/arbre.html">' + tr("arbre des familles", lg) + "</a>"
          + "</div>"]
     for k, lab in groupes:
         sel = [e for e in els if k in e]
@@ -1811,39 +2251,43 @@ def page_inventaire(m, code):
             rows.append("<tr><td><code>%s</code></td><td>%s</td><td>%s</td></tr>"
                         % (esc(str(e.get("ref", "?"))), enligne(str(e.get("intitule", "")), ctx), img))
         c.append('<details class="grp"%s><summary>%s — %d</summary>'
-                 "<table><thead><tr><th>réf.</th><th>intitulé</th><th>image</th></tr></thead>"
+                 "<table><thead><tr><th>%s</th><th>%s</th><th>%s</th></tr></thead>"
                  "<tbody>%s</tbody></table></details>"
-                 % (" open" if k == "a_venir" else "", esc(lab), len(sel), "".join(rows)))
+                 % (" open" if k == "a_venir" else "", esc(tr(lab, lg)), len(sel),
+                    tr("réf.", lg), tr("intitulé", lg), tr("image", lg), "".join(rows)))
     fil = ('<a href="' + rel + code + '/index.html">' + esc(m["cours"][code]["meta"].get("titre", code))
-           + "</a> › inventaire")
-    return page(m, titre="Inventaire — " + code, rel=rel, fil=fil, corps="".join(c))
+           + "</a> › " + tr("inventaire", lg))
+    return page(m, titre=tr("Inventaire — %s", lg) % code, rel=rel, fil=fil, corps="".join(c), langue=lg)
 
 
 def page_exercice(m, xid):
     x = m["exercices"][xid]
     code = x["cours"]
     rel = "../../"
-    ctx = {"m": m, "rel": rel}
+    lg = langue_de(m, code)
+    ctx = {"m": m, "rel": rel, "langue": lg}
     S = dict(x["sections"])
     c = ["<h1>" + esc(xid) + "</h1>",
-         '<div class="meta"><span class="pill">exercice</span><a class="pill" href="'
+         '<div class="meta"><span class="pill">' + tr("exercice", lg) + '</span><a class="pill" href="'
          + rel + code + '/index.html">' + esc(code) + "</a>"
          '<span class="pill">' + esc(str(x["meta"].get("source", ""))) + "</span>"
-         '<a class="pill" href="' + rel + code + '/exercices.html">tous les exercices</a>'
-         '<a class="pill" href="' + rel + code + '/notions.html">toutes les notions</a></div>']
+         '<a class="pill" href="' + rel + code + '/exercices.html">' + tr("tous les exercices", lg) + "</a>"
+         '<a class="pill" href="' + rel + code + '/notions.html">' + tr("toutes les notions", lg) + "</a></div>"]
     # Les clés sont explicites, pas dérivées du titre : elles voyagent d'une page à
     # l'autre (CLES_PLI), donc renommer une rubrique ne doit pas les changer.
     for t, k in (("Énoncé", None), ("Solution officielle", "soluoff"), ("Résolution", None),
                  ("Ce que l'exercice a révélé", "revele"), ("Contradiction avec la source", "contra")):
         if t in S and S[t].strip():
             c.append(sec(t, rendre(S[t], ctx), cle=k, ouvert=True,
-                         classe="lim" if t.startswith("Contradiction") else ""))
+                         classe="lim" if t.startswith("Contradiction") else "", langue=lg))
     nts = [i for i in (x["meta"].get("notions") or []) if isinstance(i, str)]
     if nts:
-        c.append(sec("Fiches touchées", liste_pastilles(m, nts, rel, code, niveau=True), cle="touchees", ouvert=True))
+        c.append(sec("Fiches touchées", liste_pastilles(m, nts, rel, code, niveau=True, langue=lg),
+                     cle="touchees", ouvert=True, langue=lg))
     fil = ('<a href="' + rel + code + '/index.html">' + esc(m["cours"][code]["meta"].get("titre", code))
            + "</a> › " + esc(xid))
-    return page(m, titre=xid, rel=rel, fil=fil, corps="".join(c), js=JS_FICHE)
+    return page(m, titre=xid, rel=rel, fil=fil, corps="".join(c),
+                js=js_traduit(JS_FICHE, TEXTES_JS_FICHE, lg), langue=lg)
 
 
 def page_rapport(m, r):
@@ -2181,8 +2625,10 @@ def main():
     else:
         m["mathjax_src"] = lambda rel: MATHJAX_CDN
 
-    m["js_commun"] = (JS_COMMUN.replace("__CLES__", json.dumps(CLES_PLI))
-                                .replace("__TAMPON__", tampon(m)))
+    # le script commun, une fois par langue : il porte la note des rubriques masquées
+    m["js_commun"] = {lg: js_traduit(JS_COMMUN.replace("__CLES__", json.dumps(CLES_PLI))
+                                              .replace("__TAMPON__", tampon(m)), TEXTES_JS_COMMUN, lg)
+                      for lg in ("fr", "en")}
 
     tailles = []
     ecrire(site / "search-index.js", index_recherche(m), tailles)

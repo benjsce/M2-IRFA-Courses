@@ -131,7 +131,12 @@ Une fiche par notion nouvelle, au format de SPEC-MODELE §2. Règles de rédacti
     à 6 % et 10 % de rendement, 10 % et 20 % de volatilité, taux sans risque 2 %. `dss` :
     une banque et ses 20 anciens clients en défaut — endettement, revenu, trois variables
     sans lien avec la perte, et la perte subie —, simulés par
-    `courses/dss/figures/surapprentissage.py`, qui en est le générateur de référence ;
+    `courses/dss/figures/surapprentissage.py`, qui en est le générateur de référence.
+    `ods` : quatre observations de deux variables, les lignes $(1,1)$, $(1,0)$, $(1,0)$,
+    $(0,1)$, de cibles $(1,0,0,1)$, dont la ridge à $\lambda=1$ est le système
+    $\begin{pmatrix}4&1\\1&3\end{pmatrix}w=(1,2)$ ; la fonction $f(x)=x^2-\cos x$ des
+    notes ($\mu=1$, $L=3$) ; le problème des slides, $n=10^5$, $p=10^6$, dix non-nuls par
+    ligne ; et les 100 iris du carnet 5 ;
   - **un exemple qui traverse le récit.** Les exemples des étapes d'un même parcours se
     prennent dans ce monde, pour que le lecteur voie les mêmes données passer d'une fiche
     à la suivante. Une fiche sans formule n'est pas tenue d'avoir un exemple, mais une

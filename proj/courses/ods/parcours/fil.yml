@@ -1,0 +1,51 @@
+# Écrit par build.py (SPEC-MODELE A17) : toutes les étapes du cours, dans l'ordre
+# de lecture. Le validateur exige que cette suite reste contenue, dans le même
+# ordre, dans celle des parcours actuels. Ne pas éditer à la main.
+scelle: '2026-09-26'
+fil:
+- ods/optimization-problem
+- ods/rosenbrock-function
+- ods/existence-on-a-compact
+- ods/coercive-function
+- ods/existence-under-coercivity
+- ods/ordinary-least-squares
+- ods/expected-risk
+- ods/empirical-risk
+- ods/structural-risk-minimization
+- ods/convex-set
+- ods/operations-on-convex-sets
+- ods/epigraph
+- ods/convex-function
+- ods/local-minima-are-global
+- ods/first-order-characterization
+- ods/first-order-optimality-condition
+- ods/strongly-convex-function
+- ods/quadratic-lower-bound
+- ods/l-smooth-function
+- ods/quadratic-upper-bound
+- ods/optimality-gap-bounds
+- ods/co-coercivity
+- ods/strengthened-co-coercivity
+- ods/second-order-taylor-expansion
+- ods/gradient-descent
+- ods/quadratic-form
+- ods/ridge-regression
+- ods/intercept
+- ods/singular-value-decomposition
+- ods/woodbury-identity
+- ods/dual-ridge
+- ods/sparse-matrix
+- ods/sparse-storage-format
+- ods/matrix-free-product
+- ods/conjugate-gradient
+- ods/conjugate-directions
+- ods/cg-finite-termination
+- ods/condition-number
+- ods/cg-convergence-rate
+- ods/conditioning-of-ridge
+- ods/warm-start
+- ods/regularization-path
+- ods/logistic-regression
+- ods/fletcher-reeves-formula
+- ods/nonlinear-conjugate-gradient
+- ods/polak-ribiere
