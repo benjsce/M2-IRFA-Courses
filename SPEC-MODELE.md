@@ -707,3 +707,47 @@ l'histoire telle qu'elle est arrivée jusqu'à lui. *Essayé sur `dup/parcours-r
   introduisaient dans leur lien un objet que l'histoire ne contenait pas.*
 - **Mêmes symboles que la fiche** (A12) : le lien écrit la formule avec les lettres de la
   « Forme » de sa fiche.
+
+### 8.6 L'histoire d'abord, les fiches ensuite
+
+Un parcours n'est pas une liste de fiches qu'on relie après coup : c'est une histoire à
+laquelle on accroche des fiches. Écrit dans l'autre sens — les fiches dans l'ordre du
+support, une transition qui résume chacune, une histoire ajoutée par-dessus —, il se lit
+comme une suite d'arrêts. *Constaté le 2026-09-26 sur fpp, dont les parcours avaient été
+découpés pour couvrir les 55 fiches dans l'ordre du poly, puis dotés d'histoires :
+« rien n'est logique », alors que ceux de dup, écrits d'emblée comme des récits, « tout
+s'agence bien ». Deux relectures phrase à phrase n'y avaient rien changé.*
+
+- **Écrire l'histoire d'abord, d'un seul tenant.** Avant de toucher au fichier, écrire en
+  prose continue l'histoire du parcours : un départ, puis la question que chaque réponse
+  fait naître, jusqu'à l'arrivée. Ensuite seulement, repérer à quel moment chaque fiche
+  sert, et découper. Si une fiche ne trouve pas de moment, elle va dans un autre parcours
+  ou `hors_parcours` (A16) — l'histoire ne se tord pas pour la faire passer.
+- **L'ordre des étapes est celui de l'histoire, pas celui du support.** Le support est une
+  référence, pas un plan. Quand les deux divergent, l'histoire gagne, dans la limite
+  d'A14 ; réordonner un fil déjà scellé se déclare comme refonte (A17).
+- **La question avant la réponse.** Une fiche qui dit *ce qu'on cherche* vient avant celle
+  qui le calcule. *Constaté : le prix à terme était calculé à l'étape 3 de
+  `fpp/parcours-terme`, et l'étape 5 expliquait seulement ensuite que l'inconnue était le
+  prix inscrit dans le contrat.*
+- **Chaque étape fait avancer.** Chaque réponse apporte quelque chose que les étapes
+  précédentes n'avaient pas, et ouvre la question de l'étape suivante. Trois étapes qui
+  répondent chacune un peu à la même question sont une seule étape de l'histoire : les
+  fiches en trop vont ailleurs, ou deviennent « à savoir avant ».
+- **Un seul point de vue.** L'histoire suit un personnage — l'acheteur, l'épargnant, la
+  banque — et le garde. Si une fiche est écrite d'un autre point de vue (le vendeur
+  quand l'histoire suit l'acheteur), la transition le dit : « le vendeur, lui, fait le
+  même montage ». *Constaté : la réplication statique « livre » l'action, du côté du
+  vendeur, dans une histoire où l'on veut l'acheter ; le lecteur ne savait pas d'où
+  venait la livraison.*
+- **Une seule voix.** La transition parle comme l'histoire : la question que le lecteur se
+  pose à cet instant, avec les objets de l'histoire, et non un résumé abstrait de la fiche
+  (« la réplication donne la réponse d'un coup, pour une famille entière de contrats »).
+- **Le test de lecture.** `python tools/recit.py <code> [<parcours>]` imprime le parcours
+  comme l'étudiant le lit : départ, transitions, suites, réponses, arrivée, sans
+  marqueurs. On le lit d'une traite, sans ouvrir aucune fiche. Chaque endroit où l'on
+  s'arrête — un mot inconnu, un nombre dont on ne voit pas l'origine, une question déjà
+  posée, un changement de personnage, une réponse qui arrive avant sa question — est à
+  reprendre. Aucun contrôle automatique ne remplace ce test : les mesures essayées
+  (citations répétées, étapes qui reviennent au départ) ne distinguaient pas fpp de dup.
+  Le rapport dit, parcours par parcours, que le test a été fait et ce qu'il a trouvé.

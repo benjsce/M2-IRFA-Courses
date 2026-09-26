@@ -46,6 +46,9 @@ Les cours ne sont pas le poste le plus lourd : les rapports et les scripts le so
 - `python tools/carte.py <code>` : le graphe du cours en une ligne par fiche, ses
   parcours, son inventaire, et une ligne par fiche de **tous les autres cours**. C'est cette
   dernière partie qui permet les liens entre cours sans relire ces cours.
+- `python tools/recit.py <code> [<parcours>]` : un parcours tel que l'étudiant le lit, d'un seul
+  tenant et sans marqueurs ; c'est le texte du test de lecture (SPEC-MODELE §8.6), à passer sur
+  tout parcours écrit ou modifié.
 - **Deux rapports seulement** : le dernier du cours, et ceux du dernier jour (la carte les
   nomme). Les questions ouvertes, la dette et les abstractions en attente y sont
   recopiées d'un rapport à l'autre ; les rapports plus anciens ne se relisent pas.

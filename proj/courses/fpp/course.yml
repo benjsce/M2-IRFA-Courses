@@ -18,3 +18,11 @@ conventions_par_defaut:
   taux: continûment composé, par annum
   unite_de_temps: année
   dividende_proportionnel: proportionnel à la valeur forward à la date de détachement (lecture cum)
+refonte_du_recit:
+- date: '2026-09-26'
+  raison: >-
+    Parcours réécrits l'histoire d'abord (SPEC-MODELE §8.6), à la demande de l'utilisateur :
+    « rien n'est logique ». Dans terme, la question (contrat-prime-nulle) passe avant la
+    réponse, et forward-action avant sa généralisation prix-a-terme ; dans options, la
+    formule de Black et Scholes avant la valeur temps qu'elle chiffre ; dans couverture, les
+    sensibilités avant l'équation aux dérivées partielles.

@@ -184,6 +184,10 @@ protocole, et la seule où modifier plusieurs fiches à la fois est légitime.
 
 ## Étape 4 bis — Le récit (SPEC-MODELE §8)
 
+Tout parcours écrit ou modifié passe le test de lecture (SPEC-MODELE §8.6) :
+`python tools/recit.py <code> <parcours>`, lu d'une traite ; le rapport dit ce qu'il a trouvé.
+Un parcours nouveau s'écrit l'histoire d'abord, les fiches ensuite.
+
 Chaque fiche nouvelle trouve sa place dans un parcours, ou reçoit une raison de ne pas en
 avoir (A16). Trois cas :
 

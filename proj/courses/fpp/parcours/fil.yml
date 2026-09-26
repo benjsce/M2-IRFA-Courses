@@ -1,7 +1,7 @@
 # Écrit par build.py (SPEC-MODELE A17) : toutes les étapes du cours, dans l'ordre
 # de lecture. Le validateur exige que cette suite reste contenue, dans le même
 # ordre, dans celle des parcours actuels. Ne pas éditer à la main.
-scelle: '2026-09-25'
+scelle: '2026-09-26'
 fil:
 - fpp/marche-financier
 - fpp/bilan
@@ -18,13 +18,13 @@ fil:
 - fpp/taux-zero-coupon
 - fpp/taux-forward
 - fpp/taux-de-change
+- fpp/contrat-prime-nulle
 - fpp/absence-arbitrage
 - fpp/replication
 - fpp/replication-statique
 - fpp/portage
-- fpp/contrat-prime-nulle
-- fpp/prix-a-terme
 - fpp/forward-action
+- fpp/prix-a-terme
 - fpp/forward-de-change
 - fpp/fra
 - fpp/compte-capitalise
@@ -42,13 +42,10 @@ fil:
 - fpp/call
 - fpp/put
 - fpp/parite-call-put
+- fpp/formule-black-scholes
 - fpp/valeur-intrinseque
 - fpp/valeur-temps
-- fpp/formule-black-scholes
 - fpp/modele-de-merton
-- fpp/edp-black-scholes
-- fpp/feynman-kac
-- fpp/equation-de-la-chaleur
 - fpp/couverture
 - fpp/sensibilite
 - fpp/delta
@@ -56,6 +53,9 @@ fil:
 - fpp/vega
 - fpp/theta
 - fpp/rho
+- fpp/edp-black-scholes
+- fpp/feynman-kac
+- fpp/equation-de-la-chaleur
 - fpp/strategie-optionnelle
 - fpp/produit-a-capital-protege
 - fpp/amelioration-de-rendement

@@ -6,7 +6,7 @@ source: poly, §2.3–§4.2
 ---
 
 ## Point de départ
-Une action vaut 100 aujourd'hui et le taux sans risque à un an est de 4 %. À quel prix faut-il s'engager aujourd'hui à l'acheter dans un an ? La réponse ne demande aucune prévision sur l'action. [ajout]
+Un investisseur veut acheter une action dans un an, à un prix convenu dès aujourd'hui avec un vendeur. L'action vaut 100 aujourd'hui, et placer ou emprunter de l'argent sans risque coûte 4 % par an. Quel prix convenir ? Faut-il, pour le fixer, deviner ce que vaudra l'action dans un an ? [ajout]
 
 ## À savoir avant
 - fpp/facteur-actualisation : c'est lui qui transporte le prix comptant jusqu'à l'échéance, dans chaque formule de prix à terme de ce parcours. [Prop. 2]
@@ -15,57 +15,57 @@ Une action vaut 100 aujourd'hui et le taux sans risque à un an est de 4 %. À q
 - fpp/taux-de-change : c'est le prix d'une devise pour un échange fait aujourd'hui ; le forward de change, raconté plus loin, en fixe un pour un échange futur. [§2.4]
 
 ## Étapes
-1. fpp/absence-arbitrage
-   La réponse repose sur un seul principe, qui interdit de gagner sans risque et sans mise. [§3.1]
-   Histoire : « La réponse ne demande aucune prévision sur l'action » — Elle ne demande qu'un principe : deux façons d'obtenir l'action dans un an qui donnent le même flux quoi qu'il arrive doivent coûter la même chose aujourd'hui. Sinon, on achèterait la moins chère en vendant l'autre, et l'on gagnerait sans risque ni mise. [ajout]
+1. fpp/contrat-prime-nulle
+   Avant de chercher ce prix, il faut savoir ce qu'on cherche : l'investisseur paie-t-il quelque chose en signant ? [§2.3, §3.1]
+   Histoire : « Quel prix convenir » — Rien ne se paie à la signature : l'investisseur s'engage à payer dans un an, le vendeur à lui remettre l'action ce jour-là. L'inconnue n'est donc pas le prix du contrat, qui ne coûte rien, mais le prix écrit dedans, noté $K$ : celui pour lequel aucun des deux ne fait une mauvaise affaire, c'est-à-dire pour lequel l'engagement vaut zéro aujourd'hui. [ajout]
 
-2. fpp/replication
-   Ce principe se met en œuvre par un geste unique : fabriquer le flux futur avec ce qu'on peut acheter aujourd'hui. [§3.1]
-   Histoire : « s'engager aujourd'hui à l'acheter dans un an » — Plutôt que de deviner ce que vaudra l'action dans un an, on fabrique le même engagement avec ce qui s'achète aujourd'hui, et l'on en lit le coût. [ajout]
+2. fpp/absence-arbitrage
+   Comment trouver ce prix sans rien savoir de l'avenir de l'action ? [§3.1]
+   Histoire : « Faut-il, pour le fixer, deviner ce que vaudra l'action dans un an » — Non. Un principe suffit : deux façons d'avoir l'action dans un an qui donnent exactement la même chose, quoi qu'il arrive, doivent coûter la même chose aujourd'hui. Sinon, on prendrait la moins chère en vendant l'autre, et l'on gagnerait sans risque et sans mise ; c'est ce que le marché ne laisse pas faire. [ajout]
 
-3. fpp/replication-statique
-   Pour livrer une action dans un an, la façon la plus simple est aussi la plus directe. [§3.1]
-   Histoire : « Une action vaut 100 aujourd'hui et le taux sans risque à un an est de 4 % » — Emprunter 100, acheter l'action et la garder un an : on détient l'action et l'on doit 100 plus les intérêts, $100/0{,}9608\approx104{,}08$, puisqu'à 4 % continu un euro dû dans un an vaut 0,9608 aujourd'hui. S'engager à l'acheter à ce prix revient exactement au même. [ajout]
+3. fpp/replication
+   Le contrat est une façon d'avoir l'action dans un an. Pour appliquer le principe, il en faut une seconde, dont on connaisse le coût. [§3.1]
+   Histoire : « acheter une action dans un an » — Cette seconde façon se fabrique avec ce qui s'achète aujourd'hui. Si ce montage donne exactement ce que donne le contrat, le principe de l'étape précédente dit que le contrat vaut ce que coûte le montage : il suffit de lire ce coût. [ajout]
 
-4. fpp/portage
-   Détenir l'action jusqu'à l'échéance n'est pas neutre : elle peut verser des dividendes pendant ce temps. [§3.2]
-   Suite : L'action verse, avant l'échéance, un dividende égal à 2 % de sa valeur. Combien d'actions faut-il acheter aujourd'hui pour en avoir exactement une dans un an ? [ajout]
-   Histoire : « Combien d'actions faut-il acheter aujourd'hui » — Réinvesti en actions, le dividende fait grossir la position d'environ 2 % : il suffit d'en acheter environ 2 % de moins, $1-0{,}02=0{,}98$, pour en avoir une dans un an. Ce 0,98 est le portage. [ajout]
+4. fpp/replication-statique
+   Quel montage, ici ? Le plus simple : acheter l'action tout de suite, et attendre. [§3.1]
+   Histoire : « L'action vaut 100 aujourd'hui, et placer ou emprunter de l'argent sans risque coûte 4 % par an » — L'investisseur emprunte 100, achète l'action et ne fait plus rien pendant un an. Au bout de l'année, il a l'action et doit rembourser 100 plus les intérêts : à 4 % continu, $100\,e^{0{,}04}=100/0{,}9608\approx104{,}08$. C'est exactement ce que donne le contrat, l'action contre un paiement dans un an, sans rien débourser aujourd'hui : le contrat doit donc fixer $K=104{,}08$. Le vendeur fait le même montage de son côté, il emprunte pour acheter l'action aujourd'hui et la *livre* dans un an contre $K$ ; c'est de son point de vue que la fiche le décrit. [ajout]
 
-5. fpp/contrat-prime-nulle
-   Le contrat qu'on cherche à évaluer ne coûte rien à la signature. Qu'est-ce qu'on cherche alors, si ce n'est pas un prix ? [§2.3, §3.1]
-   Histoire : « À quel prix faut-il s'engager » — S'engager ne coûte rien à la signature : ni l'acheteur ni le vendeur ne paie. Ce qu'on cherche n'est donc pas le prix du contrat, qui est nul, mais le prix $K$ inscrit dedans, celui qui le rend nul. [ajout]
+5. fpp/portage
+   Attendre un an avec l'action n'est pas toujours neutre : pendant ce temps, elle peut rapporter quelque chose. [§3.2]
+   Suite : Supposons que l'action verse, avant un an, un dividende égal à 2 % de sa valeur, que l'investisseur réinvestit en actions. Combien d'actions doit-il acheter aujourd'hui pour en avoir exactement une dans un an ? [ajout]
+   Histoire : « Combien d'actions doit-il acheter aujourd'hui » — Le dividende réinvesti fait grossir le nombre d'actions d'environ 2 % : il suffit d'en acheter 2 % de moins, $1-0{,}02=0{,}98$ action. Ce 0,98 est le portage. [ajout]
 
-6. fpp/prix-a-terme
-   La réplication et l'absence d'arbitrage donnent la réponse d'un coup, pour une famille entière de contrats. [Prop. 2, Prop. 3]
-   Histoire : « à l'acheter dans un an » — La réponse tient en une formule, $K=S_t\Phi/D$ : le prix comptant $S_t$, multiplié par le portage $\Phi$, et divisé par le facteur d'actualisation $D$, qui le transporte jusqu'à l'échéance. Sans dividende, $\Phi=1$ et $D=0{,}9608$ : $100\times1/0{,}9608\approx104{,}08$. [ajout]
+6. fpp/forward-action
+   Le montage coûte alors moins cher. Quel prix l'investisseur doit-il donc convenir ? [§3.1, §3.2]
+   Histoire : « un dividende égal à 2 % de sa valeur » — Il n'emprunte plus que de quoi acheter 0,98 action, soit 98 ; dans un an, il a une action et doit $98/0{,}9608\approx102{,}00$. Le prix à convenir baisse d'autant : 102,00 au lieu de 104,08. Quand ce qu'on achète à terme est une action, le cours note ce prix $F(t,T)$, ici $F(t,t+1)=102{,}00$. [ajout]
 
-7. fpp/forward-action
-   Premier membre de la famille, le cas de départ : une action livrée à terme. [§3.1, §3.2]
-   Histoire : « un dividende égal à 2 % de sa valeur » — Avec ce dividende, le prix à terme de l'action, ce $K$ que le cours note $F(t,T)$ pour une action, baisse : $F(t,t+1)=100\times0{,}98/0{,}9608\approx102{,}00$, contre 104,08 sans dividende. [ajout]
+7. fpp/prix-a-terme
+   Les deux calculs, avec et sans dividende, ont la même forme. Est-ce un hasard ? [Prop. 2, Prop. 3]
+   Histoire : « pour en avoir exactement une dans un an » — Non. Dans les deux cas, on paie aujourd'hui ce qu'il faut détenir pour avoir la chose dans un an, le prix $S_t$ multiplié par le portage $\Phi$, puis on transporte cette somme jusqu'à l'échéance en la divisant par le prix du zéro-coupon, noté $D$. D'où une seule formule, $K=S_t\Phi/D$ : sans dividende, $\Phi=1$ et $K=100/0{,}9608=104{,}08$ ; avec, $\Phi=0{,}98$ et $K=102{,}00$. Elle vaut pour tout ce qui se livre à terme : c'est le prix à terme. [ajout]
 
 8. fpp/forward-de-change
-   Le même raisonnement vaut quand ce qu'on livre est une devise. [§2.4]
-   Suite : Un exportateur recevra des dollars dans un an. Un euro vaut aujourd'hui 1,10 dollar, et le taux sans risque est de 2 % sur le dollar, soit un zéro-coupon à 0,9802. À quel taux de change peut-il s'engager dès aujourd'hui ? [ajout]
-   Histoire : « À quel taux de change peut-il s'engager » — Le taux de change du jour, 1,10, ne vaut que pour un échange fait aujourd'hui ; celui qui s'appliquera dans un an n'est pas connu. Un taux fixé dès aujourd'hui pour un échange dans un an s'appelle un forward de change, et il se trouve comme pour l'action : en fabriquant soi-même l'échange. Pour disposer d'un euro dans un an, on achète aujourd'hui le zéro-coupon en euros, 0,9608 euro, soit $1{,}10\times0{,}9608\approx1{,}0569$ dollar, qu'on emprunte. Dans un an, on reçoit l'euro et l'on rembourse l'emprunt en dollars : $1{,}0569/0{,}9802\approx1{,}0782$, puisqu'un dollar emprunté aujourd'hui se rembourse $1/0{,}9802$ dans un an. Un euro livré dans un an coûte donc 1,0782 dollar sans risque : c'est le taux qui ne fait ni gagner ni perdre, $K(t,t+1)\approx1{,}0782$ dollar par euro. [ajout]
+   Et si ce que l'investisseur veut recevoir dans un an n'est pas une action, mais une devise ? [§2.4]
+   Suite : L'investisseur recevra aussi des dollars dans un an, qu'il voudra changer en euros. Un euro vaut aujourd'hui 1,10 dollar, et le dollar se place à 2 % par an, soit un zéro-coupon en dollars à 0,9802. À quel taux de change peut-il s'engager dès aujourd'hui ? [ajout]
+   Histoire : « À quel taux de change peut-il s'engager dès aujourd'hui » — Par le même montage, l'euro prenant la place de l'action. Pour avoir un euro dans un an, il achète aujourd'hui le zéro-coupon en euros, 0,9608 euro, qu'il paie avec des dollars empruntés : $1{,}10\times0{,}9608\approx1{,}0569$ dollar. Dans un an, il reçoit l'euro et rembourse $1{,}0569/0{,}9802\approx1{,}0782$ dollar. Un euro livré dans un an coûte donc 1,0782 dollar sans risque : c'est le forward de change, $K(t,t+1)\approx1{,}0782$. Il diffère du taux du jour, 1,10, parce que l'euro et le dollar ne rapportent pas le même intérêt. [ajout]
 
 9. fpp/fra
-   Et quand ce qu'on fixe à l'avance est un taux d'emprunt. [§2.3, Déf. 7]
-   Suite : Une entreprise devra emprunter dans un an, pour un an ; le marché cote 0,9608 un euro payé dans un an et 0,9048 un euro payé dans deux ans. Quel taux peut-elle fixer dès aujourd'hui ? [ajout]
-   Histoire : « Quel taux peut-elle fixer dès aujourd'hui » — Le FRA, *forward rate agreement*, est le contrat qui le fixe : il engage à recevoir 1 dans un an et à rendre $e^{K}$ dans deux ans. Comme il ne coûte rien à la signature, ses deux flux valent autant aujourd'hui, $0{,}9608=0{,}9048\,e^{K}$, d'où $K=\ln(0{,}9608/0{,}9048)\approx6\,\%$. C'est le taux forward entre un et deux ans, que la courbe donnait déjà au parcours « Comparer des flux séparés par le temps ou la devise » : la courbe le fait lire, le FRA le fait obtenir. [ajout]
+   Et si ce qu'il veut fixer à l'avance est le taux d'un emprunt ? [§2.3, Déf. 7]
+   Suite : L'investisseur devra aussi emprunter un euro dans un an, pour un an. Le marché cote 0,9608 un euro payé dans un an, et 0,9048 un euro payé dans deux ans. Peut-il fixer dès aujourd'hui le taux de cet emprunt ? [ajout]
+   Histoire : « Peut-il fixer dès aujourd'hui le taux de cet emprunt » — Oui, par un contrat appelé FRA, *forward rate agreement* : il recevra 1 dans un an et rendra $e^{K}$ dans deux ans, $K$ étant le taux fixé aujourd'hui. Le contrat ne coûte rien à la signature, donc ses deux flux valent autant aujourd'hui : $0{,}9608=0{,}9048\,e^{K}$, d'où $K=\ln(0{,}9608/0{,}9048)\approx6\,\%$. C'est le taux forward du parcours « Comparer des flux séparés par le temps ou la devise » : la courbe le fait lire, le FRA le fait obtenir. [ajout]
 
 10. fpp/compte-capitalise
-    Le contrat à terme le plus échangé en bourse, le future, ne se règle pas en une fois à l'échéance : chaque jour, il verse à l'un ou à l'autre la variation de son prix. Ces règlements doivent être replacés, à des taux qu'on ne connaît pas encore. Comment transporter de la valeur dans ces conditions ? [§4.1, §4.2]
-    Suite : Revenons à l'action qui verse 2 % de dividende, mais sur un marché de futures : chaque règlement se place au taux du jour, qu'on ne connaît pas à l'avance. Comment transporter de l'argent jusqu'à l'échéance dans ces conditions ? [ajout]
-    Histoire : « qu'on ne connaît pas à l'avance » — On le place au jour le jour, en enchaînant les zéro-coupons courts, dont seul le premier est connu aujourd'hui : c'est le compte capitalisé. Un euro y devient $1/B(t,T)$ à l'échéance, avec $B(t,T)=\prod_kP(t_k,t_{k+1})$, le produit des prix de ces zéro-coupons. Pour voir l'enchaînement, prenons deux ans et des pas d'un an : si le taux vaut 4 % la première année puis 6 % la seconde, $B(t,t+2)=e^{-0{,}04}e^{-0{,}06}\approx0{,}9048$, et l'euro devient environ 1,105. [ajout]
+    Sur les marchés organisés, ces engagements s'échangent sous une autre forme, le *future* : au lieu de tout régler dans un an, les deux parties se versent chaque jour la variation de son prix. L'argent reçu ou payé en route doit alors être placé ou emprunté, à des taux qu'on ne connaît pas encore. [§4.2.2]
+    Suite : Pour voir ce que devient cet argent, prenons deux règlements seulement, un tous les six mois. Le premier semestre, l'argent se place à 4 % par an ; au second, à un taux qu'on ignore aujourd'hui, disons 6 %. Que devient un euro placé ainsi jusqu'à l'échéance ? [ajout]
+    Histoire : « Que devient un euro placé ainsi jusqu'à l'échéance » — On le place six mois, puis on replace le tout six mois : il devient $e^{0{,}02}\times e^{0{,}03}=e^{0{,}05}\approx1{,}0513$. Le facteur qui ramène de l'échéance à aujourd'hui est le produit des deux zéro-coupons de six mois, $B(t,t+1)=e^{-0{,}02}\,e^{-0{,}03}\approx0{,}9512$ : c'est le compte capitalisé. Seul le premier facteur est connu aujourd'hui ; le second ne le sera que dans six mois. [ajout]
 
 11. fpp/replication-dynamique
-    La réplication ne peut plus être posée une fois pour toutes : il faut la réajuster à chaque pas. [§4.2.2]
-    Histoire : « chaque règlement se place au taux du jour » — On veut qu'à chaque date la stratégie vaille le prix du future multiplié par ce qu'est devenu un euro placé au compte capitalisé depuis $t_0=t$ ; comme les règlements y sont replacés, le nombre de contrats doit grossir au même rythme : on en détient $1/B(t_0,t_{i+1})$ en $t_i$, nombre connu dès $t_i$ puisque seul le taux de la période qui commence s'y ajoute. Avec les taux de l'étape précédente, $1/0{,}9608\approx1{,}0408$ contrat la première année, puis $1/0{,}9048\approx1{,}1052$ la seconde ; à l'échéance, la stratégie vaut le prix de l'action multiplié par 1,105. [ajout]
+    Le montage de l'investisseur ne peut plus être posé une fois pour toutes : combien de futures doit-il détenir à chaque règlement ? [§4.2.2]
+    Histoire : « à un taux qu'on ignore aujourd'hui » — Chaque règlement reçu est replacé et grossit comme le compte capitalisé ; pour que la stratégie suive, le nombre de futures détenus doit grossir au même rythme. Au premier semestre, il en détient l'inverse du premier facteur, $1/e^{-0{,}02}\approx1{,}0202$ ; au second, l'inverse du compte capitalisé sur l'année, $1/0{,}9512\approx1{,}0513$. Chacun de ces nombres est connu au moment où il faut l'appliquer, puisque seul le taux du semestre qui commence y entre. La fiche l'écrit $1/B(t_0,t_{i+1})$ au règlement $t_i$, $t_0$ étant aujourd'hui. [ajout]
 
 12. fpp/prix-future
-    Le prix du contrat future s'en déduit. Coïncide-t-il avec le prix forward ? [§4.2]
-    Histoire : « Revenons à l'action qui verse 2 % de dividende, mais sur un marché de futures » — Tant que les taux sont connus d'avance, le prix du future à un an sur l'action est celui du forward : 102,00 (104,08 si elle ne versait rien). Il ne s'en écarte que lorsque les taux futurs sont eux-mêmes aléatoires. [ajout]
+    Le prix du future s'en déduit. Est-il le même que le prix convenu dans un contrat à terme ordinaire ? [§4.2]
+    Histoire : « disons 6 % » — Pas forcément. Si les taux étaient connus d'avance, 4 % toute l'année, le compte capitalisé serait le zéro-coupon, 0,9608, et le future sur l'action vaudrait exactement le prix à terme, 102,00. Il ne peut s'en écarter que parce que les taux à venir, comme ce 6 % qu'on ignore aujourd'hui, sont aléatoires. [ajout]
 
 ## Point d'arrivée
-Le prix d'un échange futur ne dépend d'aucune prévision : il est fixé par ce que coûte aujourd'hui sa réplication, statique pour un forward, dynamique pour un future. [ajout]
+Le prix d'un échange futur ne dépend d'aucune prévision : il est fixé par ce que coûte aujourd'hui sa réplication, statique pour un contrat à terme ordinaire, qu'on appelle un forward, dynamique pour un future. [ajout]
