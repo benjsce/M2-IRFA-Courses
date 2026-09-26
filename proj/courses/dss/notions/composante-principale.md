@@ -26,6 +26,7 @@ La première direction minimise aussi la somme des distances perpendiculaires au
 
 Quand beaucoup de variables sont corrélées, un petit nombre de composantes capte l'essentiel de leur variation commune. [slide 74]
 
+![Un nuage de deux variables corrélées, construit pour le dessin. La première composante suit la direction où les points s'étalent le plus, et les petits segments sont leurs distances perpendiculaires à elle ; la seconde, orthogonale, porte ce qui reste de variation.](figures/composante-principale.svg) [ajout]
 
 ## Le chemin jusqu'ici
 dss/apprentissage-supervise, dss/moindres-carres-ordinaires, puis dss/decomposition-en-valeurs-singulieres. [ajout]

@@ -32,6 +32,8 @@ L'arrêt précoce se place exactement entre les deux : on interrompt l'entraîne
 ## Exemple minimal
 L'erreur d'apprentissage continue de baisser alors que celle du jeu de réglage remonte : c'est ce point de retournement qui fixe l'arrêt. [slide 173]
 
+![Les deux erreurs au fil de l'entraînement, sans graduation puisque la source ne les chiffre pas. Celle de l'apprentissage baisse toujours ; celle du jeu de réglage baisse puis remonte, et l'arrêt se place à son minimum.](figures/arret-precoce.svg) [ajout]
+
 ## Geste de calcul type
 Suivre deux courbes, pas une : celle de l'apprentissage ne dira jamais quand s'arrêter. [slide 173]
 

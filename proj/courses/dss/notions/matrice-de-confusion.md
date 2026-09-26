@@ -32,6 +32,8 @@ Sans étiquette, il n'y a rien à croiser : la matrice confronte une vérité co
 ## Exemple minimal
 Sur 100 cas dont 10 positifs, un classifieur qui prédit toujours « négatif » a une exactitude de 0,90 et une sensibilité de 0. [ajout]
 
+![Les cent cas de l'exemple, un carré chacun ; les dix positifs réels sont colorés, et le classifieur les prédit tous négatifs. Divisé par tous les cas, le tableau donne une exactitude de 90 sur 100 ; divisé par la seule ligne des positifs réels, une sensibilité de 0 sur 10.](figures/matrice-de-confusion.svg) [ajout]
+
 ## Geste de calcul type
 Avant de lire un indicateur, repérer son dénominateur : $\mathrm{P}$ et $\mathrm{N}$ sont les marges de la vérité, $\mathrm{PP}$ et $\mathrm{PN}$ celles de la prédiction. C'est ce qui sépare la sensibilité de la précision. [slide 11]
 

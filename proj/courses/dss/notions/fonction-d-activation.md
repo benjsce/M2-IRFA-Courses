@@ -23,6 +23,7 @@ La sigmoïde est celle sur laquelle repose la rétropropagation du cours ; les a
 
 Le choix de l'intégration des entrées est traité au même endroit : sommées, sommées après élévation au carré, ou multipliées. [slide 178]
 
+![Le seuil du perceptron saute de 0 à 1 et n'a de pente nulle part ailleurs ; la sigmoïde passe continûment de 0 à 1 et se dérive partout, sa pente valant $o(1-o)$. C'est ce remplacement qui permet de dériver l'erreur.](figures/fonction-d-activation.svg) [ajout]
 
 ## Le chemin jusqu'ici
 Le socle est celui du perceptron : dss/apprentissage-supervise et dss/apprentissage-inductif mènent à dss/reseau-de-neurones-artificiel et à dss/fonction-discriminante-lineaire, dont dss/perceptron est la rencontre. [ajout]

@@ -39,6 +39,8 @@ La correction porte sur une quantité issue de l'ajustement lui-même, ce qui ex
 ## Exemple minimal
 Sur les 20 clients, avec $\hat\sigma^2=1{,}40$ estimé sur le modèle complet, $C_p$ vaut 1,40 pour le modèle à deux prédicteurs et 1,68 pour le modèle complet ; il est minimal au premier. [ajout]
 
+![Pour chaque taille de modèle sur les 20 clients, la barre grise est $\mathrm{RSS}/n$, qui baisse toujours, et la barre posée dessus la pénalité $2d\hat\sigma^2/n$, qui monte toujours. Leur somme est $C_p$ : 1,40 à deux prédicteurs, le minimum, et 1,68 pour le modèle complet.](figures/cp-de-mallows.svg) [ajout]
+
 ## Geste de calcul type
 Calculer $C_p$ pour chaque taille de modèle et retenir le plus petit : une petite valeur indique une erreur faible. [slide 40]
 

@@ -34,6 +34,8 @@ Chaque maillon restreint le suivant. Le réseau impose du numérique continu, la
 ## Exemple minimal
 La valeur 4 se code (0 1 0 0 0) en un parmi $N$, (1 1 1 1 0) en thermomètre, ou 0,4 si l'attribut est ordinal. [slide 191]
 
+![La valeur 4 sous les trois codages de l'exemple, une case par entrée du réseau : un parmi $N$ n'allume qu'une case, le thermomètre les allume jusqu'à la valeur, et la valeur réelle tient en une seule entrée remplie aux quatre dixièmes.](figures/codage-des-variables.svg) [ajout]
+
 ## Geste de calcul type
 Coder 1,6 comme un réel unique 0,16 plutôt que comme un binaire : la représentation binaire casse la continuité que le réseau exploite. [slide 193]
 

@@ -50,6 +50,8 @@ Ridge est l'addition d'un seul terme à la première, justifiée par le second. 
 ## Exemple minimal
 À $\lambda=0$ la solution est celle des moindres carrés ; quand $\lambda$ devient très grand, tous les coefficients standardisés sont proches de zéro, ce qui est le modèle nul. [slide 51]
 
+![Les coefficients standardisés des 20 clients quand $\lambda$ grandit, sur une échelle logarithmique. À gauche, ceux des moindres carrés ; à droite, tous tendent vers zéro sans l'atteindre. Les trois variables sans lien ne partent pas de zéro : sur 20 clients, le hasard leur donne un coefficient, que la pénalité réduit comme les autres.](figures/regression-ridge.svg) [ajout]
+
 ## Geste de calcul type
 Standardiser les prédicteurs, choisir une grille de $\lambda$, résoudre $(\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{y}$ pour chacun, puis trancher par validation croisée. [slide 52, slide 57, slide 68]
 

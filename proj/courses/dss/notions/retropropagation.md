@@ -55,5 +55,7 @@ Pour un nœud de sortie à $o_j=0{,}6$ et $t_j=1$, on a $d_j=0{,}6\times0{,}4\ti
 ## Geste de calcul type
 Calculer d'abord tous les $d$ de la couche de sortie, puis remonter couche par couche : un $d$ caché a besoin de tous les $d$ de la couche au-dessus. [slide 159]
 
+![Un petit réseau choisi pour le dessin. Les flèches droites portent les sorties vers l'avant ; les flèches courbes portent les erreurs vers l'arrière, d'abord le $d$ de la sortie, calculé sur l'écart à la cible, puis ceux des nœuds cachés, qui ont besoin de lui.](figures/retropropagation.svg) [ajout]
+
 ## Cesse d'être valide quand
 Le cours en liste les défauts : minimum local, peu plausible biologiquement, coûteux en temps d'entraînement, et surtout opaque — c'est une boîte noire dont on ne voit pas comment elle décide. [slide 200]

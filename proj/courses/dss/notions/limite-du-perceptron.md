@@ -33,5 +33,7 @@ Une limite se démontre sur l'objet qu'elle limite. La fonction discriminante li
 ## Exemple minimal
 Sur le OU exclusif, $(0,0)\mapsto 0$, $(0,1)\mapsto 1$, $(1,0)\mapsto 1$, $(1,1)\mapsto 0$ : les deux classes sont en diagonale et aucune droite ne les sépare. [slide 149]
 
+![Les quatre points des deux tables de vérité, sorties 1 pleines et sorties 0 creuses. Pour le OU, une droite sépare $(0,0)$ des trois autres ; pour le OU exclusif, aucune droite n'y parvient, et il en faut deux, celles de deux neurones, entre lesquelles tombent les sorties 1.](figures/limite-du-perceptron.svg) [ajout]
+
 ## Cesse d'être valide quand
 La limite porte sur un neurone unique, pas sur les réseaux : des réseaux multicouches plus complexes traitent des problèmes plus difficiles. [slide 150]

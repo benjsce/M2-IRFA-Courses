@@ -36,5 +36,7 @@ Avec $\eta=0{,}1$ et un gradient de $-2$, le poids augmente de 0,2. [ajout]
 ## Geste de calcul type
 Si l'erreur oscille au lieu de descendre, réduire le taux d'apprentissage avant de toucher à autre chose. [slide 186]
 
+![Une erreur quadratique choisie pour le dessin, et les pas de la règle $\Delta w=-\eta\,\partial E/\partial w$. Avec $\eta=0{,}1$ le poids glisse vers le minimum ; avec $\eta=0{,}9$ chaque pas franchit le minimum, et le poids oscille d'un bord à l'autre — c'est l'oscillation qu'on corrige en réduisant le taux.](figures/descente-de-gradient.svg) [ajout]
+
 ## Cesse d'être valide quand
 Le pas est fixe : trop grand il fait osciller, trop petit il fait stagner, et rien dans la méthode ne l'adapte. [slide 162, slide 186]

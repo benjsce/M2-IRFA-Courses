@@ -34,6 +34,7 @@ Un seul terme change par rapport à ridge, et il change tout : la pénalité $\e
 
 La raison est géométrique. Sous forme contrainte, la région du lasso est $\sum_j|\beta_j|\le s$, un losange à coins sur les axes ; celle de ridge est un disque. La solution est le premier point où une ellipse de RSS touche la région, et une ellipse touche un losange par un coin. [slide 65, slide 66]
 
+![La même ellipse de RSS face aux deux régions. Elle touche le disque de ridge en un point de son bord où aucun coefficient n'est nul, et le losange du lasso en un coin, sur l'axe, où $\beta_2=0$. L'ellipse est choisie pour le dessin ; les points de contact sont calculés.](figures/lasso.svg) [ajout]
 
 ## Le chemin jusqu'ici
 Le chemin passe par dss/apprentissage-supervise et dss/moindres-carres-ordinaires d'un côté, dss/erreur-de-test et dss/compromis-biais-variance de l'autre, qui se rejoignent dans dss/regression-ridge. [ajout]

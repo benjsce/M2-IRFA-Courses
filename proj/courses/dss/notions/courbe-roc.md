@@ -28,6 +28,7 @@ Faire varier le seuil retire du jugement le choix du seuil : ce qui reste mesure
 
 Le classifieur aléatoire est la diagonale, le classifieur parfait est le coin supérieur gauche. L'aire sous la courbe résume la position entre les deux, et le GINI la réétale sur $[-1,1]$ pour qu'un tirage au hasard vaille zéro. [slide 12]
 
+![Une courbe d'AUC 0,75, l'exemple, entre la diagonale du hasard et le coin du classifieur parfait ; l'aire grisée sous elle est l'AUC, et le GINI vaut $2\times0{,}75-1=0{,}50$. La forme de la courbe, celle de deux scores gaussiens de même écart type, est choisie pour le dessin.](figures/courbe-roc.svg) [ajout]
 
 ## Le chemin jusqu'ici
 dss/apprentissage-supervise donne l'étiquette, dss/matrice-de-confusion les quatre nombres. [ajout]

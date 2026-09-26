@@ -30,6 +30,7 @@ Le seuil est traité comme un poids parmi les autres, avec une entrée constante
 
 La correspondance avec le neurone biologique est terme à terme : les connexions d'entrée sont les dendrites, le nœud le corps cellulaire, la sortie l'axone, les poids les synapses. L'apprentissage se fait par changement des poids. [slide 138, slide 139]
 
+![Le calcul du neurone de gauche à droite : chaque entrée, dont la constante $x_0=1$ qui porte le seuil, est multipliée par son poids, les produits sont sommés, et la fonction seuil rend 0 ou 1.](figures/perceptron.svg) [ajout]
 
 ## Le chemin jusqu'ici
 Deux fils se rejoignent. dss/apprentissage-supervise donne dss/reseau-de-neurones-artificiel, la machine ; dss/apprentissage-inductif donne dss/fonction-discriminante-lineaire, la forme de ce qu'on apprend. [ajout]

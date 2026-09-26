@@ -32,6 +32,8 @@ C'est la voie directe : elle ne corrige pas l'erreur d'apprentissage, elle fabri
 ## Exemple minimal
 Les 20 clients coupés en 5 blocs de 4 : chaque modèle est ajusté 5 fois sur 16 clients et évalué sur les 4 restants ; l'erreur moyenne vaut 1,66 pour le modèle à deux prédicteurs et 2,22 pour le modèle complet. [ajout]
 
+![Les 20 clients en 5 blocs de 4 : à chaque tour, le modèle est ajusté sur les 16 clients gris et évalué sur les 4 du bloc coloré. Chaque client sert une fois, et une seule, à l'évaluation ; l'erreur retenue est la moyenne des cinq.](figures/validation-croisee.svg) [ajout]
+
 ## Geste de calcul type
 Tracer l'erreur estimée contre la taille du modèle, puis lire le minimum — et, si la courbe est plate, appliquer la règle de l'écart type plutôt que de prendre le point le plus bas. [slide 45]
 

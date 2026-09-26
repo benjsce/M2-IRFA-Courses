@@ -21,5 +21,7 @@ Le tirage avec remise a une conséquence qui servira plus loin : toutes les obse
 ## Exemple minimal
 Sur 100 observations, un tirage avec remise de 100 observations en laisse environ 37 de côté. [slide 102]
 
+![La part des observations laissées de côté par un tirage avec remise de $n$ parmi $n$, $(1-1/n)^n$. Elle tend vers $e^{-1}\approx0{,}37$, environ un tiers ; à $n=100$, 37 observations restent de côté.](figures/bootstrap.svg) [ajout]
+
 ## Cesse d'être valide quand
 Les échantillons tirés d'un même jeu ne sont pas indépendants entre eux — c'est ce qui limitera le gain du bagging. [slide 108]

@@ -22,6 +22,7 @@ La technique ne duplique pas les observations rares, elle en construit de nouvel
 
 Dans l'étude sur les biais, elle sert à rendre comparables des sous-échantillons de tailles très inégales avant de tester si une variable protégée est prédictible. [slide 227, slide 229]
 
+![Un nuage construit pour le dessin : beaucoup d'observations majoritaires, cinq rares. Chaque point synthétique, creux, est pris sur le segment qui joint une observation rare à l'une de ses voisines rares ; aucune n'est recopiée.](figures/smote.svg) [ajout]
 
 ## Le chemin jusqu'ici
 dss/apprentissage-supervise, dss/reseau-de-neurones-artificiel, puis dss/preparation-des-donnees. [ajout]

@@ -23,6 +23,7 @@ On prédit alors chaque observation avec les seuls arbres pour lesquels elle ét
 
 Le gain est de protocole : l'estimation vient gratuitement avec l'ajustement, il n'y a pas de découpage à organiser. [slide 102]
 
+![Six échantillons bootstrap parmi dix observations, tirés pour le dessin. Chaque case compte les tirages d'une observation pour un arbre, et un point marque une observation hors du sac. La colonne encadrée se lit comme la fiche le demande : cette observation est prédite par les seuls arbres dont elle était absente.](figures/erreur-out-of-bag.svg) [ajout]
 
 ## Le chemin jusqu'ici
 Deux fils. dss/bootstrap, dss/apprentissage-supervise, dss/erreur-de-test et dss/compromis-biais-variance mènent à dss/bagging ; dss/validation-croisee donne l'idée à laquelle on la compare. [ajout]

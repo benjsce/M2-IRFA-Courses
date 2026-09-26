@@ -32,6 +32,8 @@ Les deux sont nécessaires, pour des raisons différentes : à taille fixée la 
 ## Exemple minimal
 Avec les cinq prédicteurs des 20 clients, il faut ajuster 32 modèles. Le meilleur à un prédicteur est, par hasard, une variable sans lien avec la perte ; le meilleur à deux est le bon, l'endettement et le revenu. [ajout]
 
+![Les 32 modèles des 20 clients, chacun à sa taille et à sa RSS d'apprentissage ; la ligne relie le plus bas de chaque taille. Le meilleur à un prédicteur est une variable sans lien avec la perte, le meilleur à deux l'endettement et le revenu, et la ligne descend toujours : la RSS ne départage pas des tailles différentes.](figures/meilleur-sous-ensemble.svg) [ajout]
+
 ## Geste de calcul type
 Séparer les deux comparaisons : à taille fixée la RSS suffit, entre tailles différentes il faut un critère qui pénalise. Confondre les deux revient à toujours retenir le modèle complet. [slide 30, slide 37]
 

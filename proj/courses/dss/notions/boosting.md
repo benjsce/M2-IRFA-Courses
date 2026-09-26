@@ -41,6 +41,8 @@ Le cours le définit entièrement par contraste : pas de tirage bootstrap, des a
 ## Exemple minimal
 Avec $\lambda=0{,}01$ et des arbres à une seule coupure, chaque arbre ne corrige qu'un centième de ce qu'il aurait pu corriger. [slide 126]
 
+![Les 20 clients, la perte selon l'endettement seul, et la prédiction du boosting après 10, 100 et 1 000 arbres à une coupure, avec $\lambda=0{,}01$. Chaque arbre n'ajoute qu'un centième de sa correction : après 10 arbres la prédiction a à peine bougé, après 1 000 elle suit les points en escalier.](figures/boosting.svg) [ajout]
+
 ## Geste de calcul type
 Régler trois paramètres, et le premier par validation croisée : le nombre d'arbres $B$, le rétrécissement $\lambda$ — typiquement 0,01 ou 0,001 — et le nombre de coupures $d$, souvent 1. [slide 126]
 

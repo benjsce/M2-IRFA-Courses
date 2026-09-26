@@ -34,6 +34,8 @@ La fonction discriminante linéaire est la réponse la plus simple à cette ques
 ## Exemple minimal
 Avec $w_0=-1$, $w_1=1$ et $w_2=1$, la frontière est la droite $x_1+x_2=1$ et l'ordonnée à l'origine vaut $-w_0/w_2=1$. [slide 135]
 
+![La droite de l'exemple, $x_1+x_2=1$, qui coupe l'axe vertical en $-w_0/w_2=1$. D'un côté $f>0$ et le point va dans la classe A ; de l'autre $f<0$, classe B.](figures/fonction-discriminante-lineaire.svg) [ajout]
+
 ## Geste de calcul type
 Pour visualiser ce qu'un réseau a appris, tracer la frontière dans l'espace des attributs plutôt que de lire les poids : le cours y revient à chaque étape. [slide 146]
 

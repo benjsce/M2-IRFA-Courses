@@ -36,6 +36,8 @@ Le calcul ne sert qu'à lui : il dit pourquoi la moyenne d'arbres bootstrap ne r
 ## Exemple minimal
 Avec $\rho=0{,}5$, la variance de la moyenne ne descend jamais sous la moitié de celle d'un arbre isolé, quel que soit $B$. [ajout]
 
+![La variance de la moyenne de $B$ arbres, rapportée à $\sigma^2$. Pour des arbres indépendants elle tombe vers zéro ; pour $\rho=0{,}5$, l'exemple, elle ne descend jamais sous 0,5, le plancher $\rho\sigma^2$.](figures/variance-d-une-moyenne-correlee.svg) [ajout]
+
 ## Geste de calcul type
 Quand ajouter des arbres n'améliore plus rien, ne pas en ajouter davantage : c'est le plancher $\rho\sigma^2$ qui est atteint, et il faut agir sur la corrélation. [slide 109]
 
