@@ -32,6 +32,8 @@ Comparer un écart à la moyenne ne suffit pas : il faut le rapporter à la disp
 
 Pour une loi normale, environ 68 % des observations ont un score entre −1 et +1, environ 95 % entre −2 et +2, et un score au-delà de 3 en valeur absolue est très rare, ce qui en fait un détecteur d'anomalies. [p. 10]
 
+![La loi normale graduée en scores : la bande foncée contient environ 68 % des observations, la bande claire environ 95 %, et les verticales marquent le seuil de 3. Le rendement de l'exemple, $-4\,\%$ pour un écart type de 1 %, a un score de $-4$, hors du seuil.](figures/score-z.svg) [ajout]
+
 ## Exemple minimal
 Un rendement journalier de −4 %, dans un groupe de moyenne nulle et d'écart type 1 %, a un score de −4. [ajout]
 

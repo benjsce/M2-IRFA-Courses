@@ -37,6 +37,8 @@ Ne pas rejeter n'est pas prouver : la formulation correcte est « on ne rejette 
 ## Exemple minimal
 Au niveau de 5 %, une p-valeur de 0,03 conduit à rejeter l'hypothèse nulle, une p-valeur de 0,40 ne le permet pas. [ajout]
 
+![La p-valeur est l'aire de la queue au-delà de la statistique observée. La loi dessinée est celle du test de Jarque-Bera sous l'hypothèse nulle, $\chi^2(2)$, choisie pour l'illustration ; les p-valeurs 0,40 et 0,03 de l'exemple y correspondent aux statistiques 1,83 et 7,01, de part et d'autre du seuil 5,99 du niveau de 5 %.](figures/p-valeur.svg) [ajout]
+
 ## Geste de calcul type
 Comparer la p-valeur au niveau, jamais la statistique brute : `if p_value < 0.05:` on rejette, sinon on ne rejette pas. [Listing 2.1, p. 27]
 

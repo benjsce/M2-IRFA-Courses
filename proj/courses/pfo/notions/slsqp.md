@@ -47,6 +47,8 @@ La descente de gradient n'utilise qu'une approximation du premier ordre et prend
 ## Exemple minimal
 Pour minimiser $f(x)=(x-3)^2$ sous $x\ge0$ depuis $x_0=0$ avec $H_0=1$, le sous-problème propose le déplacement $d_0=6$ ; un pas $\alpha_0=\tfrac12$ mène à $x_1=3$, le minimum. [ajout]
 
+![Une itération de l'exemple. En pointillé, le modèle quadratique du sous-problème, construit en $x_0=0$ avec $H_0=1$ : deux fois plus plat que $f$, il atteint son minimum en $d_0=6$. Le pas $\alpha_0=\tfrac12$ ramène à $x_1=3$, le minimum de $f$.](figures/slsqp.svg) [ajout]
+
 ## Geste de calcul type
 En $x_0=0$, $\nabla f=2(0-3)=-6$ et la contrainte $x\ge0$ linéarisée devient $d\ge0$. Le sous-problème $\min_d\,-6d+\tfrac12d^2$ est minimal en $d_0=6$, qui la respecte. Avec la vraie courbure, $f''=2$, il aurait proposé $d_0=3$ : l'identité, deux fois trop plate ici, allonge le pas, et c'est la recherche linéaire qui le ramène. [ajout]
 

@@ -40,6 +40,8 @@ La variance demande une hypothèse de plus, celle de fpp/echelonnement-de-la-var
 ## Exemple minimal
 Un rendement espéré journalier de 0,04 % et une volatilité journalière de 1 % deviennent 10,08 % et 15,87 % par an. [ajout]
 
+![Sur $n$ séances, la moyenne de l'exemple croît comme $n$ et l'écart type comme $\sqrt n$ : à 252 séances, 10,08 % et 15,87 %. Multiplier l'écart type par 252 au lieu de sa racine le porterait à 252 %, hors du cadre.](figures/annualisation.svg) [ajout]
+
 ## Geste de calcul type
 $\mu_{\mathrm{annuel}}=252\times0{,}04\,\%=10{,}08\,\%$ ; $\sigma_{\mathrm{annuel}}=1\,\%\times\sqrt{252}=1\,\%\times15{,}87=15{,}87\,\%$. Multiplier l'écart type par 252 au lieu de sa racine le gonflerait près de seize fois. [ajout]
 

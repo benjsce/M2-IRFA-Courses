@@ -45,6 +45,8 @@ Pour la CVaR, la substitution ne suffit plus. pfo/valeur-a-risque-conditionnelle
 ## Exemple minimal
 Avec $\mu = 0{,}05\,\%$, $\sigma = 2\,\%$, une asymétrie de −0,5, un excès de kurtosis de 3 et un capital de 1 000 000, la VaR à 95 % passe de 32 397 en gaussien à 33 935 avec Cornish-Fisher, et la CVaR de 40 754 à 53 511. [ajout]
 
+![Les quantiles de la queue, de $u=0{,}0001$ à $u=0{,}05$, gaussiens et corrigés, pour les paramètres de l'exemple. La VaR se lit au bout de chaque courbe et bouge à peine ; la CVaR est la moyenne de toute la courbe, et la correction l'écarte surtout dans l'extrême queue, d'où le passage de $-4{,}08\,\%$ à $-5{,}35\,\%$.](figures/var-de-cornish-fisher.svg) [ajout]
+
 ## Geste de calcul type
 $z_{CF} = -1{,}7217$ au seuil de 5 %, donc $\mathrm{VaR} = -(0{,}0005 - 1{,}7217 \times 0{,}02) \times 10^6 = 33\,935$. La CVaR s'obtient en intégrant $q_u^{CF}$ sur la grille du listing, 1 000 points entre 0,0001 et 0,05. [ajout]
 

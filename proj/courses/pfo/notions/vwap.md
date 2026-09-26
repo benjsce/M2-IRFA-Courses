@@ -31,6 +31,8 @@ Les bases de données quotidiennes, comme Yahoo Finance, fournissent un prix de 
 ## Exemple minimal
 300 titres échangés à 100 et 100 titres échangés à 101 font un VWAP de 100,25. [ajout]
 
+![Les deux exécutions de l'exemple, chacune avec son volume. Le VWAP, 100,25, tombe près de la grosse exécution ; la moyenne simple des deux prix, 100,50, tombe au milieu, comme si les deux pesaient autant.](figures/vwap.svg) [ajout]
+
 ## Geste de calcul type
 Multiplier chaque prix par son volume, sommer, diviser par le volume total : $(100 \times 300 + 101 \times 100)/400 = 40\,100/400 = 100{,}25$. La moyenne simple des deux prix, 100,50, surpondère la petite exécution. [ajout]
 

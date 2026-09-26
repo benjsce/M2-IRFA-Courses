@@ -40,6 +40,8 @@ Le cours l'introduit pour capturer le regroupement de volatilité ; c'est le mod
 
 En Python, `.pow(2).ewm(alpha=alpha_param, adjust=False).mean()` applique la récurrence : `adjust=False` impose la formule récursive stricte, sans renormaliser les premiers poids. La volatilité annualisée est ensuite `np.sqrt(ewma_variance * 252)`. [§1.4.1, Listing 1.2]
 
+![Le poids de chaque rendement passé dans la variance du jour, $\alpha(1-\alpha)^{k-1}$ avec $\lambda=0{,}94$. Le rendement de la veille pèse 6 %, le poids diminue de moitié environ tous les onze jours, et les vingt derniers jours portent ensemble 71 % du total.](figures/ewma.svg) [ajout]
+
 ## Le chemin jusqu'ici
 pfo/regroupement-de-volatilite pose le problème : la volatilité change dans le temps, alors que fpp/volatilite la traite comme un nombre fixe. L'EWMA y répond en réestimant la variance chaque jour à partir des carrés de pfo/rendement-logarithmique, qui mesurent la dispersion autour de zéro. [ajout]
 

@@ -40,6 +40,8 @@ Le piège naît de la tentation de garder le second pour tout, parce qu'il est c
 ## Exemple minimal
 Un portefeuille placé pour moitié dans un actif qui fait +10 % et pour moitié dans un actif qui fait −10 % a un rendement nul, alors que la moyenne de leurs rendements logarithmiques vaut −0,50 %. [ajout]
 
+![La courbe $r=\ln(1+R)$ et la corde qui joint les deux actifs de l'exemple, à $+10\,\%$ et $-10\,\%$. Le portefeuille fait $R_p=0$, donc $r_p=0$, sur la courbe ; la moyenne des deux logarithmes, $-0{,}50\,\%$, est le milieu de la corde, sous la courbe. À gauche l'écart se voit à peine ; à droite, le voisinage de zéro est agrandi.](figures/piege-d-agregation.svg) [ajout]
+
 ## Geste de calcul type
 Agréger en arithmétique, puis passer au logarithme : $R_p = 0{,}5 \times 10\,\% + 0{,}5 \times (-10\,\%) = 0$, donc $r_p = \ln(1+R_p) = 0$. La moyenne pondérée $0{,}5 \times 0{,}0953 + 0{,}5 \times (-0{,}1054) = -0{,}0050$ est fausse. [ajout]
 

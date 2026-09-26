@@ -45,6 +45,8 @@ pfo/p-valeur ferme le raisonnement : la statistique n'a de sens que rapportée �
 ## Exemple minimal
 Sur 1 000 rendements d'asymétrie −0,5 et d'excès de kurtosis 3, $JB = 416{,}7$, très au-delà du seuil de 5,99 qui correspond au niveau de 5 %. [ajout]
 
+![Pour 1 000 rendements, les couples d'asymétrie et d'excès de kurtosis qui passent le test au niveau de 5 % forment la petite ellipse centrée sur la loi normale, où $JB<5{,}99$. L'exemple, $S=-0{,}5$ et $K_{\mathrm{ex}}=3$, est très loin dehors.](figures/test-de-jarque-bera.svg) [ajout]
+
 ## Geste de calcul type
 $JB = \dfrac{1000}{6}\left(0{,}25 + \dfrac{9}{4}\right) = 166{,}7 \times 2{,}5 = 416{,}7$. Pour une loi $\chi^2(2)$, la p-valeur vaut exactement $e^{-JB/2}$, ici de l'ordre de $10^{-91}$ : la normalité est rejetée. [ajout]
 

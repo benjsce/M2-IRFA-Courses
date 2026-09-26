@@ -44,6 +44,8 @@ Le test tient tout entier dans pfo/p-valeur une fois sa statistique définie. Ce
 ## Exemple minimal
 L'échantillon {3 %, −1 %, 2 %, 5 %, −2 %} a pour statistiques d'ordre $X_{(1)} = -2\,\%$, $X_{(2)} = -1\,\%$, $X_{(3)} = 2\,\%$, $X_{(4)} = 3\,\%$ et $X_{(5)} = 5\,\%$. [p. 27]
 
+![L'échantillon de l'exemple, rangé, face aux positions qu'occuperaient en moyenne cinq observations rangées d'une loi normale centrée réduite : $\pm1{,}163$, $\pm0{,}495$ et 0. Le test compare ces deux colonnes, et pour un échantillon normal les points s'aligneraient sur une droite. La droite pointillée est celle des moindres carrés, tracée pour guider l'œil.](figures/test-de-shapiro-wilk.svg) [ajout]
+
 ## Geste de calcul type
 `W, p_value = shapiro(returns)` sur les dix rendements du listing du cours rend $W = 0{,}948$ et une p-valeur de 0,65 : on ne rejette pas la normalité au niveau de 5 %. [ajout]
 

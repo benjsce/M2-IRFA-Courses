@@ -29,6 +29,8 @@ Dès qu'un actif sans risque existe, le ratio permet de comparer des portefeuill
 
 Il a une lecture géométrique : l'actif sans risque, de volatilité nulle, est le point $(0,R_f)$ du plan risque-rendement, et la pente de la droite qui le relie à un portefeuille $(\sigma_P,\mu_P)$ vaut $(\mu_P-R_f)/\sigma_P$. Le ratio de Sharpe d'un portefeuille est la pente de cette droite. [p. 40]
 
+![La lecture géométrique sur l'exemple : chaque ratio est la pente de la droite qui relie l'actif sans risque, au point (0 ; 2 %), au portefeuille. Les deux actifs sont sur la même droite, de pente 0,40 ; leur mélange à parts égales est sur une droite plus raide, de pente 0,54.](figures/ratio-de-sharpe.svg) [ajout]
+
 ## Le chemin jusqu'ici
 Le numérateur et le dénominateur sont les deux nombres de pfo/moments-du-portefeuille : le rendement espéré, dont l'écart à $R_f$ mesure ce qu'on gagne à prendre du risque, et la volatilité, qui mesure ce risque. [ajout]
 

@@ -39,6 +39,8 @@ Le quantile est le seuil qu'on retrouve dans tout le chapitre 2 : pfo/valeur-a-r
 ## Exemple minimal
 Le quantile d'ordre 5 % de la loi normale centrée réduite vaut −1,6449 ; pour des rendements normaux de moyenne 0,05 % et d'écart type 2 %, il vaut −3,24 %. [ajout]
 
+![Lire le quantile d'ordre 5 % des rendements de l'exemple : partir de 0,05 sur l'axe vertical, rejoindre la courbe de répartition, puis descendre sur l'axe des rendements. On lit $-3{,}24\,\%$.](figures/quantile.svg) [ajout]
+
 ## Geste de calcul type
 Sur un échantillon, trier et lire le rang voulu : sur 1 000 rendements, `np.percentile(r, 5)` interpole entre la 50e et la 51e plus petite valeur. Sur une loi connue, inverser la fonction de répartition : `stats.norm.ppf(0.05)` rend −1,6449, et $0{,}0005 - 1{,}6449 \times 0{,}02 = -3{,}24\,\%$. [ajout]
 

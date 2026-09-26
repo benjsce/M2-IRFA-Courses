@@ -22,6 +22,8 @@ Quand on optimise des actifs cotés dans des fuseaux horaires différents, Paris
 
 Le mécanisme est un décalage d'information. Une nouvelle tombée après la clôture de Tokyo se lit le jour même à New York et le lendemain seulement à Tokyo : les deux rendements d'une même date ne portent pas les mêmes nouvelles, et une partie de leur co-mouvement tombe sur deux dates différentes, que la corrélation du même jour ne voit pas. [ajout]
 
+![Le mécanisme en schéma, sans l'échelle des horaires réels. Une nouvelle tombe après la clôture de Tokyo : New York la cote le jour même, Tokyo le lendemain, et les deux rendements qu'elle fait bouger portent deux dates différentes.](figures/effet-epps.svg) [ajout]
+
 ## Le chemin jusqu'ici
 L'objet biaisé est pfo/matrice-de-correlation : l'effet Epps n'est pas une propriété des actifs mais de la façon dont on mesure leurs co-mouvements. [ajout]
 

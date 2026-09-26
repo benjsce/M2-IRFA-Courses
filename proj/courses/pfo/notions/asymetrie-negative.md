@@ -29,6 +29,8 @@ Deux actifs peuvent avoir même moyenne et même volatilité et des lois très d
 
 Combinée à un excès de kurtosis positif, elle décrit la situation que la gestion des risques redoute le plus : des pertes extrêmes à la fois plus asymétriques et plus fréquentes que ne le dit la loi normale. [éq. 2.12, p. 25]
 
+![Deux lois construites pour l'illustration, qui ne viennent pas du cours : à gauche $\pm1\,\%$ avec une chance sur deux, à droite $+\tfrac13\,\%$ avec probabilité 0,9 et $-3\,\%$ avec probabilité 0,1. Elles ont la même moyenne nulle et le même écart type de 1 % ; seule la seconde est asymétrique à gauche, et la volatilité ne le voit pas.](figures/asymetrie-negative.svg) [ajout]
+
 ## Le chemin jusqu'ici
 pfo/coefficient-d-asymetrie fournit le signe qui la définit ; l'asymétrie négative en est la lecture financière, du côté des pertes. [ajout]
 
