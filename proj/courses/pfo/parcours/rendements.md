@@ -28,16 +28,16 @@ Une action est affichée à 99,90 à l'achat et à 100,10 à la vente. Quel est 
 
 5. pfo/rendement-arithmetique
    Première façon de mesurer une variation : la plus intuitive, celle d'un pourcentage. Que se passe-t-il quand on enchaîne deux périodes ? [§1.2.1]
-   Histoire : « de combien a-t-elle monté » — Première réponse : +10 %, puis −10 %. Mais ces pourcentages ne s'additionnent pas : sur l'ensemble, la variation n'est pas nulle, elle vaut $1{,}1\times0{,}9-1=-1\,\%$. [ajout]
+   Histoire : « de combien a-t-elle monté » — Première réponse : +10 %, puis −10 %. Mais ces pourcentages ne s'additionnent pas, ils se composent en se multipliant : 100 devient $100\times1{,}1\times0{,}9=99$, si bien que sur l'ensemble la variation n'est pas nulle, elle vaut $99/100-1=-1\,\%$. [ajout]
 
 6. pfo/rendement-logarithmique
    La seconde façon règle ce problème d'enchaînement, et c'est elle que tous les listings du cours emploieront. [§1.2.1, p. 11]
-   Histoire : « Les deux questions ont plusieurs réponses » — Seconde réponse : $\ln(110/100)\approx+9{,}53\,\%$, puis $\ln(99/110)\approx-10{,}54\,\%$. Leur somme, $-1{,}01\,\%$, est exactement le rendement logarithmique sur l'ensemble, $\ln(99/100)$. [ajout]
+   Histoire : « Les deux questions ont plusieurs réponses » — Seconde réponse, le rendement logarithmique : le logarithme du rapport des deux prix, $\ln(110/100)\approx+9{,}53\,\%$, puis $\ln(99/110)\approx-10{,}54\,\%$. Le logarithme changeant le produit des rapports en somme, leur somme, $-1{,}01\,\%$, est exactement le rendement logarithmique sur l'ensemble, $\ln(99/100)$. [ajout]
 
 7. pfo/piege-d-agregation
    Mais ce qui s'enchaîne bien dans le temps s'agrège-t-il aussi bien entre les actifs d'un portefeuille ? [§1.2.2]
    Suite : Un portefeuille place la moitié de son capital dans cette action, qui fait +10 % sur la première période, et l'autre moitié dans une action qui fait −10 %. Quel est son rendement ? [ajout]
-   Histoire : « Quel est son rendement » — Arithmétiquement, $\tfrac12\times10\,\%+\tfrac12\times(-10\,\%)=0$ : le portefeuille n'a ni gagné ni perdu. La moyenne des rendements logarithmiques donne pourtant $-0{,}50\,\%$ : ils s'additionnent entre dates, pas entre actifs. [ajout]
+   Histoire : « Quel est son rendement » — Arithmétiquement, $\tfrac12\times10\,\%+\tfrac12\times(-10\,\%)=0$ : le portefeuille n'a ni gagné ni perdu. En rendements logarithmiques, +10 % et −10 % valent, comme à l'étape précédente, $+9{,}53\,\%$ et $-10{,}54\,\%$ ; leur moyenne donne pourtant $-0{,}50\,\%$ : ils s'additionnent entre dates, pas entre actifs. [ajout]
 
 ## Point d'arrivée
 Le prix est un choix, le rendement logarithmique est celui du cours, et il a un domaine d'emploi : il s'additionne entre dates, pas entre actifs. [ajout]

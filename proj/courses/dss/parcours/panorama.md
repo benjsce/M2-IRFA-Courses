@@ -57,16 +57,16 @@ Une banque dispose des dossiers de 20 anciens clients en défaut : leur endettem
 11. dss/matrice-de-confusion
     Pour juger un classifieur, il faut d'abord compter ses réussites et ses erreurs, en distinguant leurs sortes. [slide 10]
     Suite : La banque veut aussi décider, avant de prêter, si un demandeur fera défaut. Sur 100 dossiers passés, 10 ont fait défaut. Un modèle qui annonce toujours « pas de défaut » a raison 90 fois sur 100 : est-il bon ? [ajout]
-    Histoire : « est-il bon » — Non : il ne détecte aucun des 10 défauts. Le tableau des réussites et des erreurs le montre : 90 vrais négatifs, 10 faux négatifs, aucun vrai positif ; l'exactitude vaut 0,90, et la sensibilité 0. [ajout]
+    Histoire : « est-il bon » — Non : il ne détecte aucun des 10 défauts. Le tableau qui croise la réalité et la prédiction le montre : aucun vrai positif, défaut annoncé et survenu ; 10 faux négatifs, défauts manqués ; 90 vrais négatifs, bons clients reconnus ; aucune fausse alarme. L'exactitude, part des réponses justes sur les 100 dossiers, vaut 90/100 = 0,90 ; la sensibilité, part des 10 défauts qui sont détectés, vaut 0/10 = 0. [ajout]
 
 12. dss/courbe-roc
     Ces comptes dépendent du seuil de décision. Comment juger le classifieur sans en choisir un ? [slide 12]
     Suite : Un meilleur modèle donne à chaque demandeur une probabilité de défaut, et la banque choisit le seuil au-delà duquel elle refuse. Comment juger ce modèle sans choisir de seuil ? [ajout]
-    Histoire : « Comment juger ce modèle sans choisir de seuil » — On trace, pour tous les seuils, la part des défauts détectés contre la part des bons clients refusés : c'est la courbe ROC. L'aire sous la courbe la résume ; une aire de 0,75 donne un GINI de 0,50. [ajout]
+    Histoire : « Comment juger ce modèle sans choisir de seuil » — On trace, pour tous les seuils, la part des défauts détectés contre la part des bons clients refusés : c'est la courbe ROC. L'aire sous la courbe, l'AUC, la résume en un nombre : 0,5 pour un modèle qui tire au hasard, 1 pour un modèle qui sépare parfaitement. Le cours la réétale en $\text{GINI}=2\times\mathrm{AUC}-1$, pour que le hasard vaille 0 : une aire de 0,75, par exemple, donne un GINI de $2\times0{,}75-1=0{,}50$. [ajout]
 
 13. dss/scoring-de-credit
     L'application qui servira de fil au cours, jusqu'à l'article qui le conclut : accorder ou non un crédit. [slide 17]
-    Histoire : « si un demandeur fera défaut » — C'est le scoring de crédit, fil du cours jusqu'à sa fin. Sur le jeu de données du cours, la régression logistique atteint un GINI de 51,36, la forêt aléatoire 57,84. [ajout]
+    Histoire : « si un demandeur fera défaut » — C'est le scoring de crédit, fil du cours jusqu'à sa fin, jugé par le GINI qu'on vient de voir, que le cours exprime en pour cent. Sur le jeu de données du cours, deux modèles qu'il met en concurrence à la fin, la régression logistique et la forêt aléatoire, atteignent un GINI de 51,36 et de 57,84 : la seconde ordonne mieux les demandeurs selon leur risque. [ajout]
 
 ## Point d'arrivée
 Apprendre, dans ce cours, c'est surtout prédire une réponse à partir d'exemples étiquetés, et juger la prédiction sur ses erreurs. Le reste du cours propose des façons de le faire. [ajout]

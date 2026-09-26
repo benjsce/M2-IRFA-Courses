@@ -80,7 +80,7 @@ Aucune probabilité ne rend compte de ces deux choix à la fois. Ce parcours sui
 
 16. dup/ceu
     Schmeidler montre que cet axiome suffit : la préférence s'écrit comme une intégrale de Choquet. Et quand la capacité est convexe, le modèle se relit comme un maxmin : les deux voies se rejoignent. [L4 slide 60]
-    Histoire : « des poids qui ne s'ajoutent pas » — Les poids de l'histoire forment une capacité convexe. Juger par l'intégrale de Choquet revient alors à juger par le maxmin, sur l'ensemble des probabilités qui donnent à chaque événement au moins son poids : les deux voies se rejoignent. [ajout]
+    Histoire : « des poids qui ne s'ajoutent pas » — Les poids de l'histoire forment une capacité convexe : une réunion d'événements pèse au moins la somme de ses morceaux, comme le noir-ou-jaune, deux tiers contre un sixième plus un sixième. Juger par l'intégrale de Choquet revient alors à juger par le maxmin, sur l'ensemble des probabilités qui donnent à chaque événement au moins son poids : ici $\pi(R)=\tfrac13$ et $\pi(N)$ entre $\tfrac16$ et $\tfrac12$. L'acte qui paie 0, 50 ou 100 y vaut au pire 41,7, sous $\pi(N)=\tfrac12$, comme par l'intégrale : les deux voies se rejoignent. [ajout]
 
 17. dup/intervalle-de-non-echange
     Que fait cet agent face à un actif qu'il peut acheter ou vendre à découvert ? Son évaluation n'est pas la même dans les deux sens, parce que le pire état change avec le sens de la position. [L4 slide 62]

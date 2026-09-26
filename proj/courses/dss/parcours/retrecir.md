@@ -17,7 +17,7 @@ Sur les 20 clients, sélectionner des prédicteurs donne à chacun soit son coef
 ## Étapes
 1. dss/compromis-biais-variance
    L'idée qui rend possible tout ce parcours : un modèle volontairement moins exact peut prédire mieux. [slide 53]
-   Histoire : « limiter autrement ce que le modèle apprend » — Les moindres carrés sur les cinq prédicteurs sont sans biais, mais leurs coefficients bougent beaucoup d'un échantillon de 20 clients à l'autre. Les contraindre les écarte un peu des vrais coefficients et les rend plus stables : on y gagne quand la somme des deux erreurs baisse. [ajout]
+   Histoire : « limiter autrement ce que le modèle apprend » — Les moindres carrés sur les cinq prédicteurs sont sans biais, justes en moyenne sur tous les échantillons possibles, mais leurs coefficients bougent beaucoup d'un échantillon de 20 clients à l'autre : leur variance est forte. Les contraindre les écarte un peu des vrais coefficients, un biais, et les rend plus stables : on y gagne quand l'erreur de test, qui additionne le carré du biais, la variance et un bruit irréductible, baisse. [ajout]
 
 2. dss/regularisation
    Première famille : ajouter à l'ajustement une contrainte sur la taille des coefficients. [slide 46]
@@ -37,11 +37,11 @@ Sur les 20 clients, sélectionner des prédicteurs donne à chacun soit son coef
 
 6. dss/reduction-de-dimension
    Seconde famille : garder l'information de tous les prédicteurs, mais en fabriquer un plus petit nombre. [slide 71]
-   Histoire : « si la banque décrivait ses 20 clients par 30 prédicteurs » — Seconde voie : résumer ces 30 prédicteurs en quelques combinaisons, par exemple trois, et régresser la perte sur elles. Il n'y a plus que 4 coefficients à estimer au lieu de 31, ce que 20 clients permettent. [ajout]
+   Histoire : « si la banque décrivait ses 20 clients par 30 prédicteurs » — Seconde voie : résumer ces 30 prédicteurs en quelques combinaisons, par exemple trois, et régresser la perte sur elles. Il n'y a plus que 4 coefficients à estimer, constante comprise, au lieu de 31, ce que 20 clients permettent. [ajout]
 
 7. dss/decomposition-en-valeurs-singulieres
    Pour fabriquer ces nouveaux prédicteurs, il faut un outil d'algèbre linéaire. [slide 58]
-   Histoire : « les moindres carrés n'auraient même plus de solution unique » — Avec plus de prédicteurs que de clients, la matrice des prédicteurs a des directions sans aucune dispersion. Sa décomposition en valeurs singulières les met à nu : ridge rétrécit chaque direction d'un facteur $d_j^2/(d_j^2+\lambda)$, presque rien sur celles qui sont très dispersées, presque tout sur celles qui ne le sont pas. [ajout]
+   Histoire : « les moindres carrés n'auraient même plus de solution unique » — Avec plus de prédicteurs que de clients, la matrice des prédicteurs a des directions sans aucune dispersion, le long desquelles les données ne fixent aucun coefficient : d'où les solutions multiples. Sa décomposition en valeurs singulières les met à nu : elle donne à chaque direction $j$ un étirement $d_j$, qui mesure la dispersion des clients le long d'elle et vaut zéro sur ces directions-là. Ridge rétrécit chaque direction d'un facteur $d_j^2/(d_j^2+\lambda)$ : presque pas quand $d_j^2$ est grand devant $\lambda$, entièrement quand $d_j$ est nul. [ajout]
 
 8. dss/composante-principale
    Il désigne des directions privilégiées dans le nuage des prédicteurs. [slide 74]
@@ -61,7 +61,7 @@ Sur les 20 clients, sélectionner des prédicteurs donne à chacun soit son coef
 
 12. dss/malediction-de-la-dimension
     Dans ce régime, ajouter une variable a un coût, même quand on sait la contraindre. [slide 92]
-    Histoire : « Et si la banque décrivait ses 20 clients » — Même contraints, des prédicteurs sans lien avec la perte coûtent : sur les 20 clients, passer de deux à cinq prédicteurs faisait déjà monter l'erreur de test de 1,16 à 1,83. Une variable de plus ne paie que si elle est vraiment liée à la réponse. [ajout]
+    Histoire : « Et si la banque décrivait ses 20 clients » — Même contraints, des prédicteurs sans lien avec la perte coûtent : sur les 20 clients, passer de deux à cinq prédicteurs faisait monter l'erreur de test des moindres carrés de 1,16 à 1,83, et ni ridge ni le lasso, quelle que soit la force de leur contrainte, ne ramènent le modèle à cinq prédicteurs sous 1,8. Une variable de plus ne paie que si elle est vraiment liée à la réponse. [ajout]
 
 ## Point d'arrivée
 On peut garder toutes les variables et contraindre leurs coefficients, ou les résumer en quelques directions ; dans les deux cas, on échange un peu de biais contre beaucoup de variance. [slide 53]

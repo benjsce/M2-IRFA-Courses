@@ -23,7 +23,7 @@ Un investisseur hésite entre deux actifs : l'un rapporte 6 % par an avec une vo
 
 2. pfo/moments-du-portefeuille
    Pour comparer des répartitions, il faut chiffrer chacune : que rapporte-t-elle en moyenne, et combien fluctue-t-elle ? [§3.0.1]
-   Histoire : « ils ne sont pas corrélés » — À parts égales, le mélange rapporte $\tfrac12\times6+\tfrac12\times10=8\,\%$, et sa volatilité vaut $\sqrt{0{,}25\times0{,}01+0{,}25\times0{,}04}\approx11{,}18\,\%$ : moins que la moyenne des deux, 15 %, parce que les actifs ne bougent pas ensemble. [ajout]
+   Histoire : « ils ne sont pas corrélés » — À parts égales, le mélange rapporte la moyenne pondérée $\tfrac12\times6+\tfrac12\times10=8\,\%$. Sa variance est la somme des variances pondérées par le carré des poids, sans terme croisé puisque la corrélation est nulle : $0{,}5^2\times0{,}10^2+0{,}5^2\times0{,}20^2=0{,}0125$, d'où une volatilité de $\sqrt{0{,}0125}\approx11{,}18\,\%$ : moins que la moyenne des deux, 15 %, parce que les actifs ne bougent pas ensemble. [ajout]
 
 3. pfo/annualisation
    Les prix arrivent jour par jour, les objectifs se fixent sur un an. Comment passer de l'un à l'autre sans fausser le risque ? [§3.0.7]
@@ -36,7 +36,7 @@ Un investisseur hésite entre deux actifs : l'un rapporte 6 % par an avec une vo
 
 5. pfo/frontiere-efficiente
    Premier critère : se fixer un rendement et ne rien risquer de plus que nécessaire pour l'obtenir. Que dessinent ces choix quand la cible varie ? [§3.0.2]
-   Histoire : « l'un rapporte 6 % par an avec une volatilité de 10 % » — Pour chaque rendement visé, on cherche la répartition la moins risquée. La moins risquée de toutes place 80 % dans ce premier actif : 6,8 % de rendement pour 8,94 % de volatilité, moins que chacun des deux. Les autres cibles tracent une courbe à partir de ce point. [ajout]
+   Histoire : « l'un rapporte 6 % par an avec une volatilité de 10 % » — Pour chaque rendement visé, on cherche la répartition la moins risquée. La moins risquée de toutes, les actifs n'étant pas corrélés, répartit les poids en raison inverse des variances : $0{,}04/(0{,}01+0{,}04)=80\,\%$ dans ce premier actif, pour $0{,}8\times6+0{,}2\times10=6{,}8\,\%$ de rendement et $\sqrt{0{,}8^2\times0{,}01+0{,}2^2\times0{,}04}\approx8{,}94\,\%$ de volatilité, moins que chacun des deux. Les autres cibles tracent une courbe à partir de ce point. [ajout]
 
 6. pfo/ratio-de-sharpe
    Sur cette courbe, tous les points semblent défendables. Avec un placement sans risque à 2 %, comment dire lequel paie le mieux le risque pris ? [§3.0.3]
@@ -44,7 +44,7 @@ Un investisseur hésite entre deux actifs : l'un rapporte 6 % par an avec une vo
 
 7. pfo/portefeuille-tangent
    Second critère : chercher directement le portefeuille qui obtient le meilleur score. Où tombe-t-il par rapport à la courbe ? [p. 40, §3.0.4]
-   Histoire : « Combien mettre dans chacun » — Le mélange qui paie le mieux le risque place deux tiers dans le premier actif et un tiers dans le second : 7,33 % de rendement, 9,43 % de volatilité, un ratio de 0,566. C'est le point où la droite partie des 2 % touche la courbe. [ajout]
+   Histoire : « Combien mettre dans chacun » — Le mélange qui paie le mieux le risque donne à chaque actif, les deux n'étant pas corrélés, un poids proportionnel à son rendement au-delà des 2 % divisé par sa variance : $4/0{,}01=400$ contre $8/0{,}04=200$, soit deux tiers dans le premier actif et un tiers dans le second. Il rapporte 7,33 % pour 9,43 % de volatilité, soit 0,566 de rendement au-delà des 2 % par unité de volatilité. C'est le point où la droite partie des 2 % touche la courbe. [ajout]
 
 8. pfo/ligne-de-marche-des-capitaux
    Reste la question du départ : faut-il garder une part sans risque, et que devient alors le compromis ? [p. 41]

@@ -19,11 +19,11 @@ L'action vaut 100 et le zéro-coupon à un an 0,9608 : son prix à terme à un a
 
 2. fpp/mesure-risque-neutre
    Ces propriétés ont une conséquence inattendue : tout se calcule comme une moyenne, pourvu qu'on choisisse bien les poids, et le marché à terme les fixe. [Prop. 5, Prop. 6]
-   Histoire : « son prix à terme à un an vaut 104,08 » — Tout prix s'écrit comme une moyenne actualisée, $\Pi\big(g(S_T)\big)=P(t,T)\,\mathbb{E}^{\mathbb{Q}}\big[g(S_T)\big]$, sous des poids $\mathbb{Q}$ que le marché à terme contraint : sous eux, l'action vaut en moyenne 104,08 dans un an, quoi que chacun croie de sa dérive. [ajout]
+   Histoire : « son prix à terme à un an vaut 104,08 » — Tout prix s'écrit comme une moyenne actualisée, $\Pi\big(g(S_T)\big)=P(t,T)\,\mathbb{E}^{\mathbb{Q}}\big[g(S_T)\big]$ : le prix d'un flux $g(S_T)$ versé en $T$ est sa moyenne sous une probabilité $\mathbb{Q}$, dite risque-neutre, ramenée à aujourd'hui. Le marché à terme la contraint : sous elle, l'action vaut en moyenne 104,08 dans un an, quoi que chacun croie de son rendement espéré. [ajout]
 
 3. fpp/contrat-derive
    Tous les contrats de ce cours se valorisent alors par le même moteur ; seule change l'inconnue qu'on y cherche. [Prop. 6]
-   Histoire : « même non linéaire » — Un flux qui dépend de l'action, linéaire comme le forward ou non comme une option, se valorise par cette même moyenne. Seule change l'inconnue : un prix $K$ pour un contrat qui ne coûte rien à la signature, une prime pour un contrat qui se paie. [ajout]
+   Histoire : « même non linéaire » — Un flux qui dépend de l'action, linéaire comme le forward ou non comme une option, droit d'acheter à un prix fixé sans y être obligé, se valorise par cette même moyenne. Seule change l'inconnue : un prix $K$ pour un contrat qui ne coûte rien à la signature, une prime pour un contrat qui se paie. [ajout]
 
 4. fpp/transformee-de-laplace-gaussienne
    Pour calculer ces espérances en forme fermée, il faut un résultat technique sur les gaussiennes. [Th. 1]

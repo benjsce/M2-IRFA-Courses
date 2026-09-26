@@ -35,7 +35,7 @@ Ces violations d'Allais demandent d'affaiblir l'axiome d'indépendance. Une prem
 5. dup/aversion-a-la-deception
    Un modèle de la famille reçoit une interprétation psychologique précise : ce qui fait mal, c'est de tomber sous ce qu'on attendait de la loterie. [L3 slide 9]
    Suite : Le cours reprend le paradoxe avec des montants plus petits : 2 400 sûrs, ou 2 500 avec 33 % de chances, 2 400 avec 66 % et rien avec 1 % ; puis 2 500 avec 33 % de chances, ou 2 400 avec 34 %. Un agent qui souffre de tomber sous ce qu'il attendait de la loterie fait-il les choix observés ? [L3 slide 11]
-   Histoire : « Un agent qui souffre de tomber sous ce qu'il attendait » — Avec $u(x)=x$ et $\alpha=1$, la première paire vaut 2 400 pour le sûr et environ 2 385 pour le billet : il prend les 2 400. La seconde vaut environ 494 pour les 2 500 et 492 pour les 2 400 : il prend les 2 500. C'est exactement le motif observé. [L3 slide 11]
+   Histoire : « Un agent qui souffre de tomber sous ce qu'il attendait » — Dans ce modèle, la valeur d'un billet est une moyenne où chaque résultat qui tombe sous cette valeur même compte $1+\alpha$ fois. Avec $u(x)=x$ et $\alpha=1$, seul le rien déçoit et il compte double : le billet vaut $(0{,}33\times2500+0{,}66\times2400)/(0{,}33+0{,}66+2\times0{,}01)\approx2385$, moins que les 2 400 sûrs, et l'agent prend les 2 400. Dans la seconde paire, de même, $0{,}33\times2500/(0{,}33+2\times0{,}67)\approx494$ pour les 2 500 et $0{,}34\times2400/(0{,}34+2\times0{,}66)\approx492$ pour les 2 400 : il prend les 2 500. C'est exactement le motif observé. [L3 slide 11]
 
 6. dup/aversion-a-la-deception-generalisee
    Faut-il que la déception commence exactement à l'équivalent certain ? Le cours desserre ce seuil. [L3 slide 12]

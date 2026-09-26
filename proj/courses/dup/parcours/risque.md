@@ -49,7 +49,7 @@ Un pari rapporte 0 ou 100 avec une chance sur deux : il vaut 50 en moyenne. Pour
 10. dup/approximation-arrow-pratt
     Cette mesure et la prime se rejoignent pour les petits paris : on peut alors calculer la prime sans passer par l'utilité espérée. [L1 slide 32]
     Suite : Réduisons le pari : toujours avec 100 en poche, chacun gagne ou perd 10 à pile ou face. Les deux primes tombent à 0,25 et 0,50 environ. Pouvait-on les prévoir sans refaire le calcul de l'utilité espérée ? [ajout]
-    Histoire : « Pouvait-on les prévoir sans refaire le calcul » — Oui, pour un pari aussi petit : la moitié de sa variance, 100, fois l'aversion absolue donne $\tfrac12\times100\times\tfrac{1}{200}=0{,}25$ et $\tfrac12\times100\times\tfrac{1}{100}=0{,}50$, les deux primes de l'histoire. Sur le premier pari, qui va de 0 à 100, elle donnerait 12,5 au lieu de 25 : il est trop grand. [ajout]
+    Histoire : « Pouvait-on les prévoir sans refaire le calcul » — Oui, pour un pari aussi petit : gagner ou perdre 10 a pour variance $10^2=100$, et la moitié de cette variance fois l'aversion absolue à 100 donne $\tfrac12\times100\times\tfrac{1}{200}=0{,}25$ et $\tfrac12\times100\times\tfrac{1}{100}=0{,}50$, les deux primes de l'histoire. Le premier pari, lui, est trop grand : vu comme 50 plus ou moins 50, de variance 2 500, avec l'aversion $\tfrac{1}{100}$ que $\sqrt{x}$ a en 50, elle donnerait 12,5 au lieu de 25. [ajout]
 
 11. dup/aversion-relative
     Peut-on dire qu'une personne est plus averse qu'une autre sans rien calculer, en regardant seulement les paris qu'elle refuse ? [L1 slide 30]
@@ -71,11 +71,11 @@ Un pari rapporte 0 ou 100 avec une chance sur deux : il vaut 50 en moyenne. Pour
 15. dup/crra
     Second point : c'est l'aversion relative qui reste constante, ce qui permet de parler de la prime en pourcentage de la richesse. [L1 slide 35]
     Suite : Décuplons tout : 1000 en poche, 100 gagnés ou perdus à pile ou face. La prime du second agent passe d'environ 0,50 à environ 5. [ajout]
-    Histoire : « Décuplons tout » — Richesse et pari décuplés, la prime du second agent est décuplée aussi : elle reste un demi pour cent de sa richesse. C'est ce que cette forme garde constant, et $\sqrt{x}$ en fait aussi partie, avec $\gamma=\tfrac12$. [ajout]
+    Histoire : « Décuplons tout » — Richesse et pari décuplés, la prime du second agent est décuplée aussi : elle reste un demi pour cent de sa richesse. Ce qui ne bouge pas ici est l'aversion relative, l'aversion absolue multipliée par la richesse : $x\times\tfrac1x=1$ à toute richesse pour $\ln x$, et $x\times\tfrac{1}{2x}=\tfrac12$ pour $\sqrt{x}$, qui fait donc aussi partie de cette forme, avec $\gamma=\tfrac12$ pour valeur de cette constante. [ajout]
 
 16. dup/utilite-logarithmique
     Un cas particulier de cette forme revient partout dans le cours, parce que sa prime se calcule à la main. [L1 slide 35]
-    Histoire : « d'utilité $\ln x$ » — Le second agent a cette utilité, d'aversion relative 1 contre un demi pour le premier. Ses primes se calculent à la main : avec 100 en poche, son équivalent certain est $\sqrt{100\times200}\approx141{,}4$, d'où la prime de 8,6. [ajout]
+    Histoire : « d'utilité $\ln x$ » — Le second agent a cette utilité, d'aversion relative 1 contre un demi pour le premier. Ses primes se calculent à la main : avec 100 en poche, il finit avec 100 ou 200, et son utilité espérée $\tfrac12\ln100+\tfrac12\ln200$ est le logarithme de $\sqrt{100\times200}\approx141{,}4$, son équivalent certain ; la prime vaut donc $150-141{,}4\approx8{,}6$. [ajout]
 
 17. dup/cout-social-du-risque
     À quoi tout cela sert-il hors du laboratoire ? Le cours l'applique au risque sur la croissance d'une économie entière. [L1 slide 38]

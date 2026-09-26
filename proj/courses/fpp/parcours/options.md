@@ -18,7 +18,7 @@ Payer quelque chose aujourd'hui pour avoir le droit, et non l'obligation, d'ache
 ## Étapes
 1. fpp/payoff
    Pour parler d'un contrat, il faut d'abord dire ce qu'il verse, en fonction de ce qu'on observera. [Déf. 11]
-   Histoire : « L'engagement ferme d'acheter au prix à terme » — Pour décrire un contrat, on dit ce qu'il verse selon le prix de l'action dans un an : une fonction de $S_T$. L'engagement ferme verse $S_T-104{,}08$, positif ou négatif ; le droit du départ versera $(S_T-100)^+$, jamais négatif. [ajout]
+   Histoire : « L'engagement ferme d'acheter au prix à terme » — Pour décrire un contrat, on dit ce qu'il verse selon le prix $S_T$ de l'action dans un an : cette fonction de $S_T$ est son payoff. L'engagement ferme verse $S_T-104{,}08$, positif ou négatif ; le droit du départ versera $(S_T-100)^+$, c'est-à-dire $S_T-100$ si c'est positif et 0 sinon. [ajout]
 
 2. fpp/contrat-a-prime
    Le contrat du point de départ se paie à la signature. Qu'est-ce que cela change à ce qu'on cherche ? [§6]
@@ -39,7 +39,7 @@ Payer quelque chose aujourd'hui pour avoir le droit, et non l'obligation, d'ache
 
 6. fpp/parite-call-put
    Ces deux droits sont-ils indépendants l'un de l'autre ? L'absence d'arbitrage les lie, sans aucun modèle. [Prop. 7]
-   Histoire : « L'engagement ferme » — Détenir le call et vendre le put, tous deux de strike 100, revient à s'engager ferme à acheter à 100 : $(S_T-100)^+-(100-S_T)^+=S_T-100$. Sans aucun modèle, $C_t-P_t=100-100\times0{,}9608=3{,}92$. [ajout]
+   Histoire : « L'engagement ferme » — Détenir le call et vendre le put, tous deux de strike 100, revient à s'engager ferme à acheter à 100 : $(S_T-100)^+-(100-S_T)^+=S_T-100$. Cet engagement vaut aujourd'hui l'action moins 100 euros payés dans un an ; l'écart entre le prix $C_t$ du call et le prix $P_t$ du put vaut donc, sans aucun modèle, $C_t-P_t=100-100\times0{,}9608=3{,}92$. C'est la parité call-put. [ajout]
 
 7. fpp/valeur-intrinseque
    Pour comprendre ce que coûte le droit de choisir, on compare son prix à ce que vaudrait le contrat si rien n'était aléatoire. [Déf. 12]
@@ -48,7 +48,7 @@ Payer quelque chose aujourd'hui pour avoir le droit, et non l'obligation, d'ache
 8. fpp/valeur-temps
    L'écart entre les deux est ce que l'incertitude ajoute, et son signe dépend de la forme du paiement. [Déf. 13]
    Suite : Avec une volatilité de 20 %, ce call se vend 9,93. Pourquoi plus que 3,92 ? [ajout]
-   Histoire : « Pourquoi plus que 3,92 » — Parce que l'action peut finir loin de 104,08 : quand elle monte, le call en profite ; quand elle baisse, il ne perd rien au-delà de zéro. Ce paiement convexe vaut plus que sa valeur en la moyenne, et l'écart, $9{,}93-3{,}92\approx6{,}00$, est la valeur temps. [ajout]
+   Histoire : « Pourquoi plus que 3,92 » — Parce que l'action peut finir loin de 104,08 : quand elle monte, le call en profite ; quand elle baisse, il ne perd rien au-delà de zéro. Ce paiement convexe vaut plus que sa valeur en la moyenne, et l'écart, $9{,}93-3{,}92$, soit environ 6, est la valeur temps. [ajout]
 
 9. fpp/formule-black-scholes
    Sous le modèle de référence, tout cela se calcule en une formule fermée. [§6.4, §6.5]
@@ -57,7 +57,7 @@ Payer quelque chose aujourd'hui pour avoir le droit, et non l'obligation, d'ache
 10. fpp/modele-de-merton
    Le premier parcours laissait l'actionnaire d'une entreprise endettée avec une perte bornée en bas. Que vaut ce qu'il détient, et que coûte à l'entreprise le risque qu'elle fasse faillite ? [exos §2.1]
    Suite : Revenons à l'actionnaire d'une entreprise endettée, qui ne perd jamais plus que sa mise. Supposons la dette due dans un an, égale à 80 % de la valeur forward de l'entreprise, et une volatilité de l'actif de 20 %. Que vaut ce que détient l'actionnaire, et que coûte à l'entreprise le risque de faillite ? [ajout]
-   Histoire : « Que vaut ce que détient l'actionnaire » — Dans un an, il reçoit la valeur de l'entreprise moins la dette si elle est positive, rien sinon : c'est un call sur l'entreprise, de strike la dette. Avec un taux nul, ce call vaut 21,2 % de la valeur forward de l'entreprise, et le risque de faillite lui coûte un spread de crédit d'environ 149 points de base. [ajout]
+   Histoire : « Que vaut ce que détient l'actionnaire » — Dans un an, il reçoit la valeur de l'entreprise moins la dette si elle est positive, rien sinon : c'est un call sur l'entreprise, de strike la dette. Avec un taux nul, la formule de Black et Scholes donne à ce call 21,2 % de la valeur forward de l'entreprise ; la dette vaut donc le reste, 78,8 %, moins que les 80 % promis. Cet écart, exprimé en taux, est son spread de crédit, le supplément de rendement qui paie le risque de faillite : environ 149 points de base. [ajout]
 
 ## Point d'arrivée
 Le droit d'acheter vaut plus que l'engagement ferme au même prix, parce qu'il n'oblige à rien quand l'action baisse : l'écart entre les deux est exactement un put. [Prop. 7]

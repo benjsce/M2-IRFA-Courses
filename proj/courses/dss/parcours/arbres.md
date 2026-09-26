@@ -23,15 +23,15 @@ Tirer 20 clients avec remise parmi les 20 de la banque en laisse en moyenne 7 de
 
 2. dss/bootstrap
    Pour construire beaucoup d'arbres, il faut beaucoup d'échantillons, alors qu'on n'en a qu'un. [slide 99]
-   Histoire : « Tirer 20 clients avec remise parmi les 20 de la banque » — Faute d'autres clients, on fabrique de nouveaux échantillons en tirant avec remise : certains clients reviennent deux fois, d'autres manquent. En moyenne, $20\times0{,}95^{20}\approx7{,}2$ clients restent de côté. [ajout]
+   Histoire : « Tirer 20 clients avec remise parmi les 20 de la banque » — Faute d'autres clients, on fabrique de nouveaux échantillons en tirant avec remise : certains clients reviennent deux fois, d'autres manquent. À chacun des 20 tirages, un client donné a 19 chances sur 20, soit 0,95, de ne pas sortir ; il manque donc à tout l'échantillon avec la probabilité $0{,}95^{20}\approx0{,}36$, et en moyenne $20\times0{,}36\approx7{,}2$ clients restent de côté. [ajout]
 
 3. dss/bagging
    Avec ces échantillons, la première méthode d'ensemble va de soi. [slide 98]
-   Histoire : « chaque tirage donne un autre arbre » — On construit un arbre par tirage, et la perte prédite pour un nouveau client est la moyenne des pertes que prédisent tous les arbres, par exemple 500. [ajout]
+   Histoire : « chaque tirage donne un autre arbre » — On répète le tirage, disons 500 fois, et l'on construit un arbre par tirage ; la perte prédite pour un nouveau client est la moyenne des pertes que prédisent ces 500 arbres. C'est le bagging, de l'anglais bootstrap aggregating : agréger des arbres bâtis sur des tirages avec remise. [ajout]
 
 4. dss/erreur-out-of-bag
    Chaque arbre laisse de côté une partie des données. Peut-on s'en servir pour juger l'ensemble ? [slide 102]
-   Histoire : « à quoi servent les clients laissés de côté » — Chaque client est absent d'environ 36 % des tirages : on le prédit avec les seuls arbres qui ne l'ont pas vu, environ 180 sur 500, et l'on moyenne ces erreurs sur les 20 clients. On obtient une erreur de test sans avoir mis un seul client de côté. [ajout]
+   Histoire : « à quoi servent les clients laissés de côté » — Un client absent d'un tirage est dit « hors du sac », out of bag, pour l'arbre correspondant ; il l'est pour environ 36 % des tirages, la probabilité $0{,}95^{20}$ calculée plus haut. On le prédit avec ces seuls arbres qui ne l'ont pas vu, environ 180 sur 500, et l'on moyenne ces erreurs sur les 20 clients. On obtient une erreur de test sans avoir mis un seul client de côté. [ajout]
 
 5. dss/importance-des-variables
    L'ensemble prédit mieux qu'un arbre, mais on ne sait plus quelles variables comptent. [slide 104]
@@ -40,7 +40,7 @@ Tirer 20 clients avec remise parmi les 20 de la banque en laisse en moyenne 7 de
 
 6. dss/importance-par-impurete
    Première réponse : additionner ce que chaque coupure sur une variable a apporté. [slide 104, slide 105]
-   Histoire : « Quelles variables comptent » — Première mesure : additionner, pour chaque prédicteur, la baisse de la somme des carrés des erreurs obtenue à chaque coupure faite sur lui, et moyenner sur les 500 arbres. [ajout]
+   Histoire : « Quelles variables comptent » — Chaque arbre coupe les clients en deux groupes selon un seuil sur un prédicteur, et chaque coupure rend les groupes plus homogènes : elle fait baisser leur impureté, ici la somme des carrés des erreurs. Première mesure : additionner, pour chaque prédicteur, la baisse obtenue à chaque coupure faite sur lui, et moyenner sur les 500 arbres. [ajout]
 
 7. dss/importance-par-permutation
    Seconde réponse : brouiller une variable et regarder ce qu'on perd. [slide 106]
@@ -49,7 +49,7 @@ Tirer 20 clients avec remise parmi les 20 de la banque en laisse en moyenne 7 de
 8. dss/variance-d-une-moyenne-correlee
    Retour au bagging : moyenner des arbres réduit-il la variance autant qu'on l'espère ? [slide 108]
    Suite : Les arbres sont bâtis sur des tirages des mêmes 20 clients, et se ressemblent. Moyenner des arbres qui se ressemblent réduit-il la variance autant qu'on l'espère ? [ajout]
-   Histoire : « Moyenner des arbres qui se ressemblent réduit-il la variance » — Non : avec une corrélation $\rho$ entre arbres, la variance de la moyenne vaut $\rho\,\sigma^2+(1-\rho)\,\sigma^2/B$. À $\rho=0{,}5$, elle ne descend jamais sous la moitié de celle d'un arbre, même avec 500 arbres. [ajout]
+   Histoire : « Moyenner des arbres qui se ressemblent réduit-il la variance » — Non : si chaque arbre a une variance $\sigma^2$ et deux arbres une corrélation $\rho$, la moyenne de $B$ arbres a pour variance $\rho\,\sigma^2+(1-\rho)\,\sigma^2/B$. Le second terme s'efface quand $B$ grandit, pas le premier : à $\rho=0{,}5$, elle ne descend jamais sous la moitié de celle d'un arbre, même avec 500 arbres. [ajout]
 
 9. dss/foret-aleatoire
    Si les arbres se ressemblent trop, comment les forcer à différer ? [slide 110, slide 111]

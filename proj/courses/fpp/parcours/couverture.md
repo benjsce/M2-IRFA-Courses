@@ -36,7 +36,7 @@ Une banque vend un call à un an de strike 100 sur l'action à 100 : elle encais
 
 6. fpp/delta
    Le paramètre qui compte le plus est le cours de l'action : c'est lui qui dit combien d'actions détenir. [§8.2]
-   Histoire : « ne veut pas parier sur l'action » — Pour ne plus dépendre du cours, la banque achète $\delta=N(0{,}3)\approx0{,}618$ action par call vendu : si l'action monte d'un euro, le call vendu lui coûte environ 0,618 de plus, et les actions lui rapportent autant. [ajout]
+   Histoire : « ne veut pas parier sur l'action » — Le delta dit de combien le prix du call bouge quand l'action monte d'un euro ; la formule de Black et Scholes le donne, $\delta=N(d_1)$, où $N$ est la fonction de répartition gaussienne et $d_1=\big(\ln(100/100)+0{,}04+0{,}2^2/2\big)/0{,}2=0{,}3$, soit $\delta\approx0{,}618$. La banque achète donc 0,618 action par call vendu : si l'action monte d'un euro, le call vendu lui coûte environ 0,618 de plus, et les actions lui rapportent autant. [ajout]
 
 7. fpp/gamma
    Cette quantité d'actions ne reste pas juste longtemps. À quelle vitesse faut-il la corriger ? [§8.2]

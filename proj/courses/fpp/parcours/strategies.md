@@ -28,7 +28,7 @@ Avec un zéro-coupon à un an à 0,9608, il lui suffit de 96,08 pour garantir se
 3. fpp/amelioration-de-rendement
    Et du côté de celui qui vend ces briques, que gagne-t-on, et en échange de quoi ? [§9.3]
    Suite : De l'autre côté, un investisseur qui détient déjà l'action accepterait de renoncer à une partie de la hausse contre un revenu certain, touché aujourd'hui. Que peut-il vendre, et que gagne-t-il ? [ajout]
-   Histoire : « Que peut-il vendre, et que gagne-t-il » — Il vend le call à la monnaie et encaisse 9,93 tout de suite ; en échange, il abandonne toute la hausse au-delà de 100. La hausse que l'épargnant achète d'un côté, c'est ce vendeur qui la cède de l'autre. [ajout]
+   Histoire : « Que peut-il vendre, et que gagne-t-il » — Il vend le call à la monnaie, c'est-à-dire de strike égal au cours actuel, 100, et encaisse 9,93 tout de suite ; en échange, il abandonne toute la hausse au-delà de 100. La hausse que l'épargnant achète d'un côté, c'est ce vendeur qui la cède de l'autre. [ajout]
 
 ## Point d'arrivée
 Un produit structuré se lit comme une somme de briques ; son prix est la somme de leurs prix, et ce qui est protégé d'un côté est porté de l'autre. [§9.1, §9.3]

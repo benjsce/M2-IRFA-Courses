@@ -19,12 +19,12 @@ Une entreprise finance 100 d'actifs avec 30 de capitaux propres et 70 de dette. 
 
 3. fpp/levier
    Le bilan fait apparaître un rapport qui décide de tout ce qui suit : la part de l'actif financée par l'actionnaire. [§1.3]
-   Histoire : « Que gagne l'actionnaire, et que risque-t-il » — Tout ce que font les 100 d'actifs retombe sur les 30 de l'actionnaire, puisque la dette, elle, est due quoi qu'il arrive. Le levier vaut $100/30\approx3{,}33$ : c'est lui qui transforme les gains et les risques de l'actif en ceux de l'actionnaire. [ajout]
+   Histoire : « Que gagne l'actionnaire, et que risque-t-il » — Tout ce que font les 100 d'actifs retombe sur les 30 de l'actionnaire, puisque la dette, elle, est due quoi qu'il arrive. Le levier, rapport de l'actif aux capitaux propres, vaut $100/30\approx3{,}33$ : c'est lui qui transforme les gains et les risques de l'actif en ceux de l'actionnaire. [ajout]
 
 4. fpp/volatilite
    Pour dire ce que l'actionnaire risque, il faut une mesure de la dispersion des rendements. [Déf. 2]
    Suite : Le rendement des actifs varie d'une année à l'autre, avec un écart type de 6 %. De combien varie celui de l'actionnaire ? [ajout]
-   Histoire : « De combien varie celui de l'actionnaire » — Son rendement est celui de l'actif multiplié par le levier : sa volatilité vaut $3{,}33\times6\,\%=20\,\%$, plus de trois fois celle de l'actif. [ajout]
+   Histoire : « De combien varie celui de l'actionnaire » — Le coût de la dette, lui, ne bouge pas : chaque écart du rendement de l'actif arrive donc à l'actionnaire multiplié par le levier. Sa volatilité, l'écart type de son rendement, vaut $3{,}33\times6\,\%=20\,\%$, plus de trois fois celle de l'actif. [ajout]
 
 5. fpp/prime-de-risque
    Et pour dire ce qu'il gagne en échange, une mesure de ce que l'actif rapporte au-delà de son financement. [Déf. 2, §1.3]

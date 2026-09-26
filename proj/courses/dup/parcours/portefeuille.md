@@ -21,7 +21,7 @@ Un marché compte trois états, de probabilités 0,2, 0,3 et 0,5 ; le titre qui 
 
 2. dup/poids-de-decision
    Ce que pèse un état ne se lit plus sur sa probabilité, mais sur l'endroit où tombe son paiement dans le classement. [L4 slide 17]
-   Histoire : « il pondère les états par leur rang » — Avec la déformation du cours, si le premier état paie le moins et le troisième le plus, les poids valent 0,2560, 0,2013 et 0,5426 au lieu de 0,2, 0,3 et 0,5 : le pire et le meilleur état pèsent plus que leur probabilité, celui du milieu moins. [ajout]
+   Histoire : « il pondère les états par leur rang » — Si le premier état paie le moins et le troisième le plus, les probabilités cumulées valent 0,2, 0,5 et 1, et chaque état pèse le saut qu'y fait la déformation de la théorie cumulative des perspectives, $\varphi$ avec $\beta=0{,}7$ : $\varphi(0{,}2)=0{,}2560$, $\varphi(0{,}5)-\varphi(0{,}2)=0{,}2013$ et $1-\varphi(0{,}5)=0{,}5426$, au lieu de 0,2, 0,3 et 0,5. Le pire et le meilleur état pèsent plus que leur probabilité, celui du milieu moins. [ajout]
 
 3. dup/prix-par-unite-de-poids
    Qu'est-ce qui décide alors de l'allocation entre les états, à la place du prix rapporté à la probabilité ? [L4 slide 28]
@@ -30,7 +30,7 @@ Un marché compte trois états, de probabilités 0,2, 0,3 et 0,5 ; le titre qui 
 4. dup/regroupement-des-etats
    Que faire quand la solution ne respecte pas l'ordre qu'on avait supposé pour calculer les poids ? [L4 slide 31, L4 slide 33]
    Suite : Avec ces rapports, l'investisseur voudrait recevoir moins dans l'état du milieu que dans le premier, contre l'ordre supposé pour calculer les poids. Que faire ? [ajout]
-   Histoire : « contre l'ordre supposé pour calculer les poids » — On donne le même paiement aux deux états qui se disputent le rang, et l'on traite le bloc comme un seul résultat : les deux mauvais états reçoivent 0,437 chacun, et le meilleur 1,845. Cette solution vaut 1,0618, plus que les autres candidats, à 1,0405 et 1,0021. [ajout]
+   Histoire : « contre l'ordre supposé pour calculer les poids » — On donne le même paiement $a$ aux deux états qui se disputent le rang, et l'on traite le bloc comme un seul résultat : de probabilité 0,5, il coûte 0,6 et pèse $\varphi(0{,}5)\approx0{,}457$. Avec l'utilité du cours, $u(x)=x^{0{,}6}$, et le budget $0{,}6a+0{,}4b=1$, les deux mauvais états reçoivent 0,437 chacun, et le meilleur 1,845. Cette solution vaut 1,0618, plus que les meilleures solutions des autres ordres, à 1,0405 et 1,0021. [ajout]
 
 5. dup/assurance-de-portefeuille
    Ce qui en résulte ressemble à un produit que l'on connaît : un plancher de protection en bas, et plus de richesse dans le meilleur état. [L4 slide 32]

@@ -28,7 +28,7 @@ Un réseau qui a plus de poids que d'exemples peut faire de même : apprendre pa
 2. dss/garantie-pac
    Combien d'exemples faut-il pour espérer une bonne réponse, compte tenu de la taille du réseau ? [slide 168]
    Suite : La banque envisage un réseau à 20 entrées et 20 neurones cachés pour prédire la perte. Combien de clients lui faudrait-il pour l'entraîner ? [ajout]
-   Histoire : « Combien de clients lui faudrait-il pour l'entraîner » — Ce réseau compte 441 poids. La règle du cours, $m>W/\varepsilon$, demande pour une tolérance de 10 % plus de $441/0{,}1=4\,410$ exemples : les 20 clients de la banque en sont très loin. [ajout]
+   Histoire : « Combien de clients lui faudrait-il pour l'entraîner » — Ce réseau compte 441 poids : chacun des 20 neurones cachés reçoit les 20 entrées plus un poids de seuil, soit 420 poids, et la sortie reçoit les 20 neurones cachés plus un seuil, soit 21. La règle du cours, $m>W/\varepsilon$, demande un nombre d'exemples $m$ supérieur au nombre de poids $W$ divisé par la tolérance d'erreur $\varepsilon$ : pour 10 %, plus de $441/0{,}1=4\,410$ exemples. Les 20 clients de la banque en sont très loin. [ajout]
 
 3. dss/architecture-du-reseau
    Cette borne pèse sur un choix qu'on fait avant d'entraîner : la forme du réseau. [slide 176]
@@ -57,7 +57,7 @@ Un réseau qui a plus de poids que d'exemples peut faire de même : apprendre pa
 
 9. dss/codage-des-variables
    Il faut ensuite les traduire en nombres, et la traduction n'est pas neutre. [slide 191]
-   Histoire : « situation familiale » — Elle se code un parmi $N$, une entrée par valeur, pour n'imposer aucun ordre ; la tranche d'âge peut se coder en thermomètre, ou par un seul réel, qui respecte son ordre ; l'endettement, par un seul réel ramené entre 0 et 1. [ajout]
+   Histoire : « situation familiale » — Elle se code un parmi $N$ : $N$ entrées, une par valeur possible, dont seule celle de la valeur prise vaut 1, pour n'imposer aucun ordre ; la tranche d'âge peut se coder en thermomètre, une entrée par tranche, allumées jusqu'à la sienne, ou par un seul réel, deux codages qui respectent son ordre ; l'endettement, par un seul réel ramené entre 0 et 1. [ajout]
 
 10. dss/analyse-post-entrainement
     Le travail fini, reste une boîte de poids. Peut-on encore comprendre ce qu'elle a retenu ? [slide 194]

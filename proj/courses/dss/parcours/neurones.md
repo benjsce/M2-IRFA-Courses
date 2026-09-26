@@ -25,7 +25,7 @@ Le bloc sur les réseaux de neurones part d'un neurone unique et montre comment 
 3. dss/fonction-discriminante-lineaire
    La forme d'hypothèse la plus simple, pour deux classes : une frontière droite. [slide 134]
    Suite : Prenons d'abord un problème plus simple, le « ou » logique : $(0,0)$ dans une classe, les trois autres points dans l'autre. Une frontière droite peut-elle les séparer ? [ajout]
-   Histoire : « Une frontière droite peut-elle les séparer » — Oui : la droite $x_1+x_2=\tfrac12$ laisse $(0,0)$ d'un côté et les trois autres points de l'autre. C'est la forme d'hypothèse la plus simple pour deux classes. [ajout]
+   Histoire : « Une frontière droite peut-elle les séparer » — Oui : en notant $x_1$ et $x_2$ les deux coordonnées d'un point, la droite $x_1+x_2=\tfrac12$ laisse $(0,0)$ d'un côté et les trois autres points de l'autre. C'est la forme d'hypothèse la plus simple pour deux classes. [ajout]
 
 4. dss/perceptron
    Le premier neurone artificiel réalise exactement cette frontière. [slide 138, slide 139]
@@ -41,11 +41,11 @@ Le bloc sur les réseaux de neurones part d'un neurone unique et montre comment 
 
 7. dss/fonction-d-activation
    Pour aller plus loin, la sortie de chaque unité doit pouvoir être autre chose qu'un simple seuil. [slide 151]
-   Histoire : « comment en assembler plusieurs » — Pour que des neurones assemblés apprennent ensemble, la sortie de chacun doit être plus qu'un seuil sec : une fonction lisse, comme la sigmoïde $1/(1+e^{-a})$, qui varie un peu quand les poids varient un peu. [ajout]
+   Histoire : « comment en assembler plusieurs » — Pour que des neurones assemblés apprennent ensemble, la fonction qui donne la sortie de chacun, sa fonction d'activation, doit être plus qu'un seuil sec : une fonction lisse de la somme pondérée $a$ de ses entrées, comme la sigmoïde $1/(1+e^{-a})$, qui varie un peu quand les poids varient un peu. [ajout]
 
 8. dss/reseau-multicouche
    Avec ces unités, on peut empiler une couche intermédiaire, et la limite tombe. [slide 141, slide 151]
-   Histoire : « pour dépasser cette limite » — Une couche cachée de deux neurones suffit : l'un calcule le « ou », l'autre le « et », et la sortie répond 1 quand le premier dit oui et le second non. C'est exactement le « ou exclusif ». [ajout]
+   Histoire : « pour dépasser cette limite » — Une couche cachée de deux neurones, placée entre les entrées et la sortie, suffit : l'un calcule le « ou », l'autre le « et », et la sortie répond 1 quand le premier dit oui et le second non. C'est exactement le « ou exclusif ». [ajout]
 
 9. dss/apprentissage-profond
    Empiler davantage de couches donne l'apprentissage profond qu'annonçait l'introduction. [slide 8]
@@ -58,7 +58,7 @@ Le bloc sur les réseaux de neurones part d'un neurone unique et montre comment 
 
 11. dss/retropropagation
     Ce principe demande de savoir quelle part de l'erreur revient à chaque poids caché. [slide 153, slide 154]
-    Histoire : « Les poids de ce réseau à couche cachée » — Pour un poids de sortie, l'erreur se lit directement : si la sortie vaut 0,6 là où il fallait 1, $d_j=0{,}6\times0{,}4\times0{,}4=0{,}096$. Pour les poids cachés, on renvoie cette erreur vers l'arrière, chaque neurone caché en recevant une part proportionnelle à son poids vers la sortie. [ajout]
+    Histoire : « Les poids de ce réseau à couche cachée » — Pour un neurone de sortie, l'erreur à renvoyer est $d_j=o_j(1-o_j)(t_j-o_j)$ : l'écart entre la cible $t_j$ et la sortie $o_j$, multiplié par $o_j(1-o_j)$, la pente de la sigmoïde en ce point. Si la sortie vaut 0,6 là où il fallait 1, $d_j=0{,}6\times0{,}4\times0{,}4=0{,}096$. Pour les poids cachés, on renvoie cette erreur vers l'arrière, chaque neurone caché en recevant une part proportionnelle à son poids vers la sortie. [ajout]
 
 12. dss/descente-avec-inertie
     L'entraînement peut osciller ou ralentir ; une correction simple l'accélère. [slide 161]

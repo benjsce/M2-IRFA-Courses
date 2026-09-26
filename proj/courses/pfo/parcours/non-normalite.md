@@ -39,7 +39,7 @@ Le 19 octobre 1987, le Dow Jones perd 22,6 % en une séance. Sous une loi normal
 
 7. pfo/queues-epaisses
    Avec le second, un autre fait stylisé devient mesurable, celui des krachs trop fréquents. [p. 23]
-   Histoire : « un écart de plus de vingt écarts types » — Les écarts lointains arrivent bien plus souvent que la loi normale ne le dit : une loi de Laplace de même variance dépasse trois écarts types avec une probabilité de 1,4 %, contre 0,27 % pour la loi normale. C'est ce que la kurtosis mesure. [ajout]
+   Histoire : « un écart de plus de vingt écarts types » — Les écarts lointains arrivent bien plus souvent que la loi normale ne le dit. Une loi de Laplace, dont la densité décroît comme $e^{-|x|}$ et non comme $e^{-x^2/2}$, dépasse à variance égale trois écarts types avec une probabilité de 1,4 %, contre 0,27 % pour la loi normale ; sa kurtosis, qui mesure ce poids des queues, vaut 6 au lieu de 3. [ajout]
 
 8. pfo/p-valeur
    Mesurer un écart ne suffit pas : sur un échantillon fini, une asymétrie non nulle peut venir du hasard. Il faut une règle de décision. [p. 25]
@@ -53,7 +53,7 @@ Le 19 octobre 1987, le Dow Jones perd 22,6 % en une séance. Sous une loi normal
 10. pfo/test-de-jarque-bera
     Premier test : il réemploie directement les deux moments calculés aux étapes 4 et 5. [§2.3]
     Suite : Sur 1 000 rendements réels, on mesure une asymétrie de −0,5 et un excès de kurtosis de 3. La normalité tient-elle ? [ajout]
-    Histoire : « La normalité tient-elle » — Jarque-Bera combine les deux écarts : $JB=\tfrac{1000}{6}\big(0{,}25+\tfrac94\big)\approx416{,}7$, très au-delà du seuil de 5,99 qui correspond au niveau de 5 %. La normalité est rejetée. [ajout]
+    Histoire : « La normalité tient-elle » — Jarque-Bera combine les deux écarts à la loi normale, l'asymétrie $S$ et l'excès de kurtosis $K_{\mathrm{ex}}$, kurtosis moins les 3 de la loi normale, sur $T$ rendements : $JB=\tfrac{T}{6}\big(S^2+\tfrac{K_{\mathrm{ex}}^2}{4}\big)=\tfrac{1000}{6}\big((-0{,}5)^2+\tfrac{3^2}{4}\big)\approx416{,}7$. Si la loi était normale, $JB$ suivrait une loi du khi-deux à deux degrés de liberté, qui ne dépasse 5,99 qu'une fois sur vingt ; très au-delà, la normalité est rejetée. [ajout]
 
 11. pfo/test-de-shapiro-wilk
     Second test : il regarde l'échantillon trié tout entier, et peut rejeter là où le premier ne voit rien. [§2.4, p. 31]

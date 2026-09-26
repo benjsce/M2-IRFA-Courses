@@ -27,11 +27,11 @@ Deux placements ont la même moyenne de 50 : le pari $(0,\tfrac12;100,\tfrac12)$
 3. dup/diversification
    Avec deux actifs risqués, le résumé révèle quelque chose que les écarts types pris un à un ne montrent pas. [L1 slide 13]
    Suite : Prenons maintenant deux paris comme le premier, tirés chacun à pile ou face, indépendamment, et misons la moitié sur chacun. On reçoit 0, 50 ou 100, avec les probabilités $\tfrac14$, $\tfrac12$, $\tfrac14$. Ce mélange est-il moins risqué que chacun des deux ? [ajout]
-   Histoire : « Ce mélange est-il moins risqué que chacun des deux » — Son écart type vaut $50/\sqrt2\approx35{,}4$, au-dessous des 50 de chaque pari, et sa moyenne reste 50 : la covariance nulle entre les deux tirages l'abaisse, ce que les écarts types pris un à un ne montraient pas. [ajout]
+   Histoire : « Ce mélange est-il moins risqué que chacun des deux » — Le mélange s'écarte de 50 de 50 une fois sur deux et pas du tout sinon : sa variance, $\tfrac12\times50^2=1250$, est la moitié de celle d'un pari, et son écart type $50/\sqrt2\approx35{,}4$, au-dessous des 50 de chaque pari, pour une moyenne qui reste 50. Les deux tirages étant indépendants, leur covariance, qui mesure combien ils s'écartent ensemble de leur moyenne, est nulle : leurs écarts se compensent en partie, ce que les écarts types pris un à un ne montraient pas. [ajout]
 
 4. dup/utilite-quadratique
    Mais quand ces deux nombres suffisent-ils vraiment à classer des paris ? La réponse est très restrictive. [L1 slide 14]
-   Histoire : « Deux placements ont la même moyenne de 50 » — Pour qu'un agent classe ces deux paris par leurs seuls moyenne et écart type, il faut que son utilité soit de la forme $U(x)=\alpha x+\beta x^2$. Avec $\alpha=1$ et $\beta=-0{,}005$, le premier pari vaut 25 et le second environ 34,4 : il préfère celui d'écart type le plus faible. [ajout]
+   Histoire : « Deux placements ont la même moyenne de 50 » — Pour qu'un agent classe ces deux paris par leurs seuls moyenne et écart type, il faut que son utilité soit de la forme $U(x)=\alpha x+\beta x^2$. Avec $\alpha=1$ et $\beta=-0{,}005$, l'utilité espérée du premier pari est $\tfrac12U(0)+\tfrac12U(100)=\tfrac12\times50=25$, celle du second $\tfrac12U(25)+\tfrac12U(75)\approx\tfrac12(21{,}9+46{,}9)\approx34{,}4$ : il préfère celui d'écart type le plus faible. [ajout]
 
 5. dup/principe-d-unanimite
    Faute de résumé fiable, le cours change de méthode : n'appeler « meilleur » ou « plus risqué » que ce dont tous les agents d'une classe conviennent. [L1 slide 18]
@@ -66,16 +66,16 @@ Deux placements ont la même moyenne de 50 : le pari $(0,\tfrac12;100,\tfrac12)$
 
 12. dup/ordre-concave
     Une troisième part directement des préférences, et c'est elle qui justifie le mot « unanime ». [L1 slide 19]
-    Histoire : « La réponse la plus courante » — Elle désignait le bon pari, mais pour une mauvaise raison. Le premier est plus risqué parce que tout agent averse au risque préfère le second — avec $\sqrt{x}$, environ 6,83 contre 5 —, et non parce que son écart type est plus grand. [ajout]
+    Histoire : « La réponse la plus courante » — Elle désignait le bon pari, mais pour une mauvaise raison. Le premier est plus risqué parce que tout agent averse au risque préfère le second — avec $\sqrt{x}$, une utilité espérée de $\tfrac12\sqrt{25}+\tfrac12\sqrt{75}\approx6{,}83$ contre $\tfrac12\sqrt{0}+\tfrac12\sqrt{100}=5$ —, et non parce que son écart type est plus grand. [ajout]
 
 13. dup/condition-cdf-integree
     Il faut enfin un test que l'on puisse faire sur deux distributions données, sans chercher l'étalement ni le bruit. [L1 slide 22]
-    Histoire : « la même moyenne de 50 » — Sur les deux paris, l'écart des aires sous les fonctions de répartition monte jusqu'à 12,5 en 25, y reste jusqu'à 75, puis redescend à 0 en 100 : positif partout, nul au bout, parce que les moyennes sont égales. Le test confirme que le premier est plus risqué. [ajout]
+    Histoire : « la même moyenne de 50 » — Le test cumule, de 0 jusqu'à chaque montant, l'écart entre les chances des deux paris de ne pas dépasser ce montant, c'est-à-dire entre leurs fonctions de répartition. Jusqu'à 25, le premier a déjà une chance sur deux, celle du 0, et le second aucune : l'écart cumulé monte à $\tfrac12\times25=12{,}5$. De 25 à 75, les deux chances valent un demi et il ne bouge pas. Au-delà de 75, le second est sûr de ne pas dépasser et le premier ne l'est qu'à moitié : l'écart redescend, jusqu'à 0 en 100 parce que les moyennes sont égales. Positif partout, nul au bout : le test confirme que le premier est plus risqué. [ajout]
 
 14. dup/statique-comparative-risque-accru
     Reste la question pratique : un agent qui investit, assure ou épargne doit-il en faire moins quand son risque grandit en ce sens ? [L1 slide 26]
     Suite : Un agent place une part $a$ de sa richesse dans un placement risqué. Si ce placement devient plus risqué au sens du parcours, sans changer de moyenne, doit-il en placer moins ? [ajout]
-    Histoire : « doit-il en placer moins » — Pas forcément : ce n'est pas la concavité de son utilité qui décide, mais le signe de $U_{xxa}$. S'il est négatif, il en place moins ; s'il est positif, il en place plus. [ajout]
+    Histoire : « doit-il en placer moins » — Pas forcément : ce n'est pas la concavité de son utilité qui décide, mais la forme de ce que lui rapporte un peu plus de placement, $U_a$, en fonction du résultat $x$. Si ce gain marginal est concave en $x$, $U_{xxa}<0$, il en place moins ; s'il est convexe, $U_{xxa}>0$, il en place plus. [ajout]
 
 ## Point d'arrivée
 « Plus risqué » n'est pas « plus d'écart type » : c'est ce que tous les agents averses au risque rejettent, et Rothschild et Stiglitz montrent que plusieurs définitions concrètes en donnent la même chose. [L1 slide 23]

@@ -22,7 +22,7 @@ L'utilité espérée repose sur l'axiome d'indépendance, et ces deux choix, fai
 
 2. dup/effet-consequence-commune
    La plus célèbre, le paradoxe d'Allais, change une conséquence que les deux options partagent. [L1 slide 42]
-   Histoire : « 1 million avec 89 % » — Les deux paires ne diffèrent que par ce que leurs options ont en commun : 89 % de chances d'avoir 1 million dans la première, 89 % de chances de n'avoir rien dans la seconde. L'indépendance dit que changer cette part commune ne change pas le choix : préférer le million sûr impose $.11\,U(1)>.10\,U(5)+.01\,U(0)$, et préférer ensuite les 5 millions impose l'inverse. [ajout]
+   Histoire : « 1 million avec 89 % » — Les deux paires ne diffèrent que par ce que leurs options ont en commun : 89 % de chances d'avoir 1 million dans la première, 89 % de chances de n'avoir rien dans la seconde. L'indépendance dit que changer cette part commune ne change pas le choix. En utilité espérée, montants en millions, retirer des deux côtés la part commune, $.89\,U(1)$ puis $.89\,U(0)$, montre que préférer le million sûr impose $.11\,U(1)>.10\,U(5)+.01\,U(0)$, et que préférer ensuite les 5 millions impose l'inverse. [ajout]
 
 3. dup/effet-certitude
    Qu'est-ce qui fait basculer les sujets dans ce paradoxe ? Le passage du certain au presque certain pèse beaucoup plus qu'il ne devrait. [L1 slide 43]

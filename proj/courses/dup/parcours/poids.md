@@ -24,7 +24,7 @@ Une seconde famille de modèles laisse l'utilité des résultats tranquille et a
 2. dup/theorie-des-perspectives
    La version la plus connue ajoute un point de référence et lit les résultats comme des gains et des pertes. [L3 slide 20, L3 slide 21]
    Suite : Celui qui achète le billet 2 ne le vit pas en richesses finales : il gagne 98 une fois sur cent, et perd 2 le reste du temps. Comment un modèle tient-il compte de ce point de référence, le prix payé ? [ajout]
-   Histoire : « Comment un modèle tient-il compte de ce point de référence » — La théorie des perspectives code chaque résultat comme un gain ou une perte par rapport à ce point, et pondère chaque probabilité par $\pi$ : le billet vaut $\pi(0{,}01)v(98)+\pi(0{,}99)v(-2)$, avec $v(0)=0$. [ajout]
+   Histoire : « Comment un modèle tient-il compte de ce point de référence » — La théorie des perspectives code chaque résultat comme un gain ou une perte par rapport à ce point, lui donne une valeur $v$, nulle au point de référence, et pondère chaque probabilité par $\pi$ : le billet vaut $\pi(0{,}01)v(98)+\pi(0{,}99)v(-2)$. [ajout]
 
 3. dup/rdu
    Ce modèle a pourtant un défaut grave : il peut faire choisir un pari moins bon qu'un autre dans tous les cas. Comment le réparer ? [L3 slide 26]
@@ -33,7 +33,7 @@ Une seconde famille de modèles laisse l'utilité des résultats tranquille et a
 
 4. dup/cpt
    La théorie des perspectives peut alors être refaite sur cette base, séparément du côté des gains et du côté des pertes. [L3 slide 38]
-   Histoire : « il gagne 98 une fois sur cent, et perd 2 le reste du temps » — Refaite par le rang, la théorie des perspectives pondère séparément le côté des gains et celui des pertes. Avec la déformation du cours et $\beta=0{,}7$, la chance de gagner 98 compte pour environ 3,8 % au lieu de 1 % : c'est ce qui fait payer le billet plus que son espérance. [ajout]
+   Histoire : « il gagne 98 une fois sur cent, et perd 2 le reste du temps » — Refaite par le rang, la théorie des perspectives pondère séparément le côté des gains et celui des pertes, en déformant les probabilités cumulées par la fonction du cours, $\varphi(p)=p^\beta/\big(p^\beta+(1-p)^\beta\big)^{1/\beta}$, où $\beta$ règle l'écart à la diagonale. Avec $\beta=0{,}7$, la chance de gagner 98 compte pour $\varphi(0{,}01)\approx3{,}8\,\%$ au lieu de 1 % : c'est ce qui fait payer le billet plus que son espérance. [ajout]
 
 5. dup/pessimisme
    Quelle forme de déformation produit l'aversion au risque, même avec une utilité linéaire ? [L4 slide 14]
@@ -48,7 +48,7 @@ Une seconde famille de modèles laisse l'utilité des résultats tranquille et a
 7. dup/aversion-second-ordre
    Pour distinguer ces modèles de l'utilité espérée, le cours regarde comment la prime se comporte quand le pari devient très petit. [L2 slide 21, L2 slide 24]
    Suite : Réduisons le pari : gagner ou perdre 10 à pile ou face, avec une richesse de 100. Sous l'utilité espérée, que devient la prime quand le pari rapetisse ? [ajout]
-   Histoire : « que devient la prime quand le pari rapetisse » — Elle s'évanouit comme le carré de sa taille : avec $\rho=0{,}01$, elle vaut environ $\tfrac{0{,}01}{2}\times10^2=0{,}5$ pour un pari de ±10, et $0{,}005$ pour un pari de ±1. [ajout]
+   Histoire : « que devient la prime quand le pari rapetisse » — Elle s'évanouit comme le carré de sa taille. Pour un agent dont l'aversion absolue à 100 vaut $\rho=0{,}01$, comme l'agent d'utilité $\ln x$, elle vaut environ la moitié de $\rho$ fois la variance : $\tfrac{0{,}01}{2}\times10^2=0{,}5$ pour un pari de ±10, et $\tfrac{0{,}01}{2}\times1^2=0{,}005$ pour un pari de ±1 ; dix fois plus petit, le pari coûte cent fois moins. [ajout]
 
 8. dup/paradoxe-rabin
    Cette propriété a une conséquence que Rabin rend absurde à partir d'un choix d'apparence anodine. [L2 slide 25]
@@ -57,11 +57,11 @@ Une seconde famille de modèles laisse l'utilité des résultats tranquille et a
 
 9. dup/aversion-premier-ordre
    Les modèles de ce parcours y échappent parce que leur prime ne s'évanouit pas aussi vite. [L2 slide 21, L3 slide 41]
-   Histoire : « gagner ou perdre 10 à pile ou face » — Pour refuser ce pari sans l'absurde de Rabin, il faut une prime proportionnelle à sa taille, et non à son carré : avec $\lambda=2$ et $\gamma=0$, elle vaut un tiers de la taille, 3,33, contre 0,5 sous l'utilité espérée, et elle reste un tiers quand le pari rapetisse. [ajout]
+   Histoire : « gagner ou perdre 10 à pile ou face » — Pour refuser ce pari sans l'absurde de Rabin, il faut une prime proportionnelle à sa taille, et non à son carré. C'est le cas si une perte pèse $\lambda=2$ fois un gain de même taille, sans autre courbure, $\gamma=0$ : pour que l'agent accepte le pari, il faut y ajouter une somme $r$ telle que $\tfrac12(10+r)=\tfrac12\times2\times(10-r)$, soit $r=10/3\approx3{,}33$, un tiers de la taille, contre 0,5 sous l'utilité espérée ; et elle reste un tiers quand le pari rapetisse. [ajout]
 
 10. dup/aversion-aux-pertes
     D'où vient, dans la théorie des perspectives, cette prime qui ne s'évanouit pas ? D'une asymétrie au point de référence. [L3 slide 39]
-    Histoire : « perd 2 le reste du temps » — La prime qui ne s'évanouit pas vient d'un coude au point de référence : une perte pèse $\lambda$ fois un gain de même taille. Avec $\lambda=2$ et $\beta=1$, perdre 10 vaut $-20$ et gagner 10 vaut $+10$ : le pari de ±10 vaut $-5$ et il est refusé. [ajout]
+    Histoire : « perd 2 le reste du temps » — La prime qui ne s'évanouit pas vient d'un coude au point de référence : une perte pèse $\lambda$ fois un gain de même taille. Avec $\lambda=2$ et $\beta=1$, ici l'exposant de la fonction de valeur et non celui de la déformation, qui la laisse linéaire de chaque côté, la perte de 2 du billet vaut $-4$ ; perdre 10 vaut $-20$ et gagner 10 vaut $+10$, de sorte que le pari de ±10 vaut $\tfrac12\times10-\tfrac12\times20=-5$ : il est refusé. [ajout]
 
 ## Point d'arrivée
 Déformer les probabilités par le rang explique ce que l'utilité espérée ne peut pas expliquer, le refus des petits paris favorables, sans perdre la dominance. C'est ce modèle que le cours emporte vers le choix de portefeuille. [ajout]

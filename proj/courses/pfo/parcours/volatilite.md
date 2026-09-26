@@ -21,11 +21,11 @@ Les rendements sont propres. Il faut maintenant dire combien ils bougent et s'il
 2. pfo/ewma
    Comment estimer une volatilité qui change, sans attendre des années de données à chaque fois ? [§1.4]
    Suite : Hier, le premier actif a fait 2 %, deux fois son écart type habituel. Que faut-il croire de sa volatilité aujourd'hui ? [ajout]
-   Histoire : « Que faut-il croire de sa volatilité aujourd'hui » — L'EWMA mélange la variance de la veille et le carré du dernier rendement : avec $\lambda=0{,}94$, $0{,}94\times0{,}0001+0{,}06\times0{,}02^2=0{,}000118$, soit une volatilité d'environ 1,09 %. Elle monte, sans oublier le passé. [ajout]
+   Histoire : « Que faut-il croire de sa volatilité aujourd'hui » — L'EWMA, moyenne mobile à pondération exponentielle, mélange la variance de la veille, $0{,}01^2=0{,}0001$ pour 1 % par jour, et le carré du dernier rendement, en donnant au passé le poids $\lambda=0{,}94$ usuel pour des données journalières : $0{,}94\times0{,}0001+0{,}06\times0{,}02^2=0{,}000118$, soit une volatilité de $\sqrt{0{,}000118}\approx1{,}09\,\%$. Elle monte, sans oublier le passé. [ajout]
 
 3. pfo/matrice-de-covariance
    Passer d'un actif à plusieurs : il faut une variance pour chacun, et un terme pour chaque couple. [§1.5]
-   Histoire : « un actif varie de 1 % par jour, un autre de 2 % » — Pour les deux actifs ensemble, on range les variances et la covariance dans une matrice. Annualisée par 252 : $0{,}01^2\times252=0{,}0252$ et $0{,}02^2\times252=0{,}1008$ sur la diagonale, $0{,}5\times0{,}01\times0{,}02\times252=0{,}0252$ hors de la diagonale. [ajout]
+   Histoire : « un actif varie de 1 % par jour, un autre de 2 % » — Pour les deux actifs ensemble, on range dans une matrice les variances et la covariance, qui vaut la corrélation fois le produit des écarts types. Portées à l'année en multipliant par ses 252 séances : $0{,}01^2\times252=0{,}0252$ et $0{,}02^2\times252=0{,}1008$ sur la diagonale, $0{,}5\times0{,}01\times0{,}02\times252=0{,}0252$ hors de la diagonale. [ajout]
 
 4. pfo/matrice-de-correlation
    Ces termes croisés sont dans l'unité d'un rendement au carré, donc illisibles seuls. Comment les rendre comparables d'un couple à l'autre ? [§1.5, p. 17]
