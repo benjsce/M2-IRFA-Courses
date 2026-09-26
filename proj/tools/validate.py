@@ -134,6 +134,26 @@ def _mots(t):
 # Demandé par l'utilisateur le 2026-09-26 : « à chaque fiche, avoir un retour sur
 # l'histoire », parce qu'il faisait lui-même ce lien de tête, par des allers-retours.
 _HISTOIRE = re.compile(r"^\s*Histoire\s*:\s*(.*)$")
+# L'histoire avance avec le récit : une étape qui a besoin d'un élément nouveau — un second
+# agent, une richesse, un pari plus petit — l'ajoute par une ligne « Suite : ». Le point de
+# départ reste court et sans notion que le récit n'a pas encore introduite ; chaque fiche
+# montre l'histoire telle qu'elle est arrivée jusqu'à elle. Demandé par l'utilisateur le
+# 2026-09-26, après un essai où tout était dans le point de départ : « dès le point de
+# départ, l'histoire implique déjà des calculs, des termes qu'on n'a pas encore abordés ».
+_SUITE = re.compile(r"^\s*Suite\s*:\s*(.*)$")
+
+
+def lire_suites(sections):
+    """{numéro d'étape: [texte, …]} : ce que chaque étape ajoute à l'histoire."""
+    out, n = {}, None
+    for line in dict(sections).get("Étapes", "").splitlines():
+        mo = _ETAPE.match(line)
+        if mo:
+            n = int(mo.group(1)); continue
+        ms = _SUITE.match(line)
+        if ms and n is not None:
+            out.setdefault(n, []).append(ms.group(1).strip())
+    return out
 
 
 def lire_ancrages(sections):
@@ -172,7 +192,7 @@ def lire_parcours(path: Path):
         if mo:
             cur = [int(mo.group(1)), mo.group(2), []]
             etapes.append(cur)
-        elif cur is not None and line.strip() and not _HISTOIRE.match(line):
+        elif cur is not None and line.strip() and not _HISTOIRE.match(line) and not _SUITE.match(line):
             cur[2].append(line.strip())
     etapes = [(n, i, " ".join(t)) for n, i, t in etapes]
     avant, cur = [], None
@@ -802,8 +822,17 @@ def valider(root: Path, rap: Rapport):
                 # citations, et chaque citation prise mot pour mot dans le point de départ —
                 # sinon le gras ne tombe sur rien, et le lecteur cherche des mots absents.
                 anc = lire_ancrages(secs)
-                depart = S.get("Point de départ", "")
+                suites = lire_suites(secs)
+                for n, ls in sorted(suites.items()):
+                    if n not in {k for k, _, _ in etapes}:
+                        rap.e("A14", ou, f"ligne « Suite : » sous une étape {n} qui n'existe pas")
+                    if len(ls) > 1:
+                        rap.e("A14", ou, f"[étape {n}] deux lignes « Suite : » : une seule par étape")
                 for n, lignes in sorted(anc.items()):
+                    # On ne cite que l'histoire arrivée jusqu'ici : le départ et les suites des
+                    # étapes précédentes et de celle-ci, jamais d'une étape à venir.
+                    depart = "\n".join([S.get("Point de départ", "")]
+                                       + [t for k, ls in sorted(suites.items()) if k <= n for t in ls])
                     if n not in {k for k, _, _ in etapes}:
                         rap.e("A14", ou, f"ligne « Histoire : » sous une étape {n} qui n'existe pas")
                     if len(lignes) > 1:
@@ -812,7 +841,8 @@ def valider(root: Path, rap: Rapport):
                         for c in cits:
                             if not c or c not in depart:
                                 rap.e("A14", ou, f"[étape {n}] « {c} » n'est pas pris mot pour mot "
-                                                 "dans le point de départ : le citer tel quel")
+                                                 "dans le point de départ ni dans une suite déjà "
+                                                 "racontée : le citer tel quel")
                             elif c.count("$") % 2:
                                 rap.e("A14", ou, f"[étape {n}] « {c} » coupe une formule en deux : "
                                                  "citer la formule entière")
@@ -821,6 +851,7 @@ def valider(root: Path, rap: Rapport):
                 # A11 : chaque transition, chaque rôle, chaque paragraphe est tracé
                 morceaux = [(f"étape {n}", t) for n, _, t in etapes] + [(f"avant {i}", t) for i, t in avant]
                 morceaux += [(f"histoire {n}", lien) for n, ls in sorted(anc.items()) for _, lien in ls]
+                morceaux += [(f"suite {n}", t) for n, ls in sorted(suites.items()) for t in ls]
                 for t in ("Point de départ", "Point d'arrivée"):
                     morceaux += [(t, b) for b in blocs(S.get(t, ""))]
                 for lieu, txt in morceaux:

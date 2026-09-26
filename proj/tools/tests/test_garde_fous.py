@@ -260,6 +260,26 @@ def parcours_citation_coupe_formule(root):
     _histoire(root, "Histoire : « $x=1 » — Ce que la fiche en reprend. [p. 1]")
 
 
+def _suite_puis_cite(root, cite_a):
+    """Une suite ajoutée à l'étape 2, citée par l'étape cite_a."""
+    _parcours(root, ["milieu", "haut"], ["base"])
+    f = root / "courses" / "aa" / "parcours" / "essai.md"
+    t = f.read_text(encoding="utf-8").split("\n")
+    k = [j for j, l in enumerate(t) if l.startswith("2. aa/")][0]
+    t.insert(k + 1, "   Suite : Un second agent arrive. [p. 1]")
+    j = [i for i, l in enumerate(t) if l.startswith("%d. aa/" % cite_a)][0] + 2
+    t[j] = "   Histoire : « second agent » — Ce que la fiche en reprend. [p. 1]"
+    f.write_text("\n".join(t), encoding="utf-8", newline="\n")
+
+
+def parcours_cite_suite_future(root):
+    _suite_puis_cite(root, 1)
+
+
+def parcours_cite_suite_racontee(root):
+    _suite_puis_cite(root, 2)
+
+
 def parcours_histoire_sans_lien(root):
     _parcours(root, ["milieu", "haut"], ["base"])
     _histoire(root, "Histoire : « 100 » — [p. 1]")
@@ -515,6 +535,10 @@ def main():
         "pas pris mot pour mot", parcours_citation_absente)
     cas("citation qui coupe une formule → erreur",
         "coupe une formule", parcours_citation_coupe_formule)
+    cas("citation d'une suite qu'une étape suivante racontera → erreur",
+        "pas pris mot pour mot", parcours_cite_suite_future)
+    cas("citation d'une suite racontée à cette étape → silence",
+        "pas pris mot pour mot", parcours_cite_suite_racontee, doit_apparaitre=False)
     cas("ligne « Histoire : » sans phrase → erreur",
         "sans phrase de lien", parcours_histoire_sans_lien)
     cas("étape placée avant son prérequis → erreur",

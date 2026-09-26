@@ -106,14 +106,15 @@ def charger(root: Path):
         pdir = cdir / "parcours"
         m["cours"][code]["parcours"] = []
         if pdir.is_dir():
-            from validate import lire_parcours, lire_ancrages, copie_de_conflit
+            from validate import lire_parcours, lire_ancrages, lire_suites, copie_de_conflit
             for f in sorted(pdir.glob("*.md")):
                 if copie_de_conflit(f):
                     continue
                 fm, secs, etapes, avant = lire_parcours(f)
                 anc = {n: ls[0] for n, ls in lire_ancrages(secs).items()}
                 m["parcours"][fm["id"]] = dict(meta=fm, sections=secs, etapes=etapes,
-                                               avant=avant, ancrages=anc, cours=code, slug=f.stem)
+                                               avant=avant, ancrages=anc, cours=code, slug=f.stem,
+                                               suites={n: ls[0] for n, ls in lire_suites(secs).items()})
                 m["cours"][code]["parcours"].append(fm["id"])
             m["cours"][code]["parcours"].sort(key=lambda x: (m["parcours"][x]["meta"].get("ordre", 999), x))
     rdir = root / "rapports"
@@ -473,6 +474,7 @@ details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fa
 .parc-h strong{color:var(--fg)}
 .parc-l{font-family:var(--sans);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--acc);margin-right:.25rem}
 .parc-lien{margin-top:.35rem;font-size:.92em}
+.parc-suite{border-left:2px solid var(--acc);padding:.1rem 0 .1rem .6rem;margin:.35rem 0;color:var(--fg);background:var(--acc2)}
 .parc-nav{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--sans);font-size:.8rem;margin-top:.35rem}
 .parc-nav .suiv{margin-left:auto;text-align:right}
 .etapes{list-style:none;padding:0;margin:.6rem 0 1.2rem;counter-reset:e}
@@ -1302,6 +1304,27 @@ def histoire_en_gras(depart, citations):
     return depart
 
 
+def histoire_jusqua(pc, k, citations, ctx):
+    """L'histoire telle qu'elle est arrivée à l'étape k (numérotée depuis 1) : le point de
+    départ, puis ce que chaque étape déjà lue y a ajouté, puis la suite qu'ajoute celle-ci,
+    mise en avant. Les mots cités sont mis en gras là où ils apparaissent en premier."""
+    morceaux = [dict(pc["sections"]).get("Point de départ", "")]
+    morceaux += [pc["suites"][j] for j in sorted(pc["suites"]) if j < k]
+    ici = pc["suites"].get(k, "")
+    restantes = []
+    for c in citations:
+        for j, t in enumerate(morceaux):
+            if c in t:
+                morceaux[j] = histoire_en_gras(t, [c]); break
+        else:
+            restantes.append(c)
+    html = "".join(rendre(t, ctx, fiche=True) for t in morceaux)
+    if ici:
+        html += ('<div class="parc-suite">' + _prefixer(rendre(histoire_en_gras(ici, restantes), ctx, fiche=True),
+                 '<span class="parc-l">L’histoire continue</span> ') + "</div>")
+    return html
+
+
 def lien_histoire(lien, ctx, citations=()):
     """La phrase qui relie l'étape à l'histoire, précédée de son intitulé. Sur la page du
     parcours, l'histoire n'est pas rappelée à côté de l'étape : les mots cités la précèdent."""
@@ -1334,11 +1357,10 @@ def bandeaux_parcours(m, i, rel, ctx):
         # parcours pour se souvenir d'où il part. Puis ce que cette fiche en reprend, puis la
         # question qui mène ici depuis l'étape précédente.
         cits, lien = pc["ancrages"].get(k + 1, ([], ""))
-        depart = dict(pc["sections"]).get("Point de départ", "")
         out.append('<div class="parc"><div class="parc-t">'
                    + aide(rel, "parcours", "Parcours") + " " + lien_parcours(m, pid, rel, "e%d" % (k + 1))
                    + " · étape " + str(k + 1) + " sur " + str(len(et)) + "</div>"
-                   + '<div class="parc-h">' + rendre(histoire_en_gras(depart, cits), ctx, fiche=True) + "</div>"
+                   + '<div class="parc-h">' + histoire_jusqua(pc, k + 1, cits, ctx) + "</div>"
                    + (lien_histoire(lien, ctx) if lien else "")
                    + (_prefixer(rendre(et[k][2], ctx, fiche=True),
                                 '<span class="parc-l">Depuis l’étape précédente</span> ') if k else
@@ -1399,8 +1421,11 @@ def page_parcours(m, pid):
         cx, sx = x.split("/", 1)
         cc = rendre(dict(m["N"][x]["sections"]).get("Ce que c'est", ""), ctx, fiche=True)
         cits, lien = pc["ancrages"].get(k + 1, ([], ""))
-        c.append('<li id="e%d">%s<div class="arr%s"><a class="tit" href="%s%s/n/%s.html">%s</a>%s%s</div></li>'
-                 % (k + 1, rendre(trans, ctx, fiche=True), " is-ajout" if est_ajout(m, x) else "",
+        suite = pc["suites"].get(k + 1, "")
+        c.append('<li id="e%d">%s%s<div class="arr%s"><a class="tit" href="%s%s/n/%s.html">%s</a>%s%s</div></li>'
+                 % (k + 1, ('<div class="parc-suite">' + _prefixer(rendre(suite, ctx, fiche=True),
+                            '<span class="parc-l">L’histoire continue</span> ') + "</div>") if suite else "",
+                    rendre(trans, ctx, fiche=True), " is-ajout" if est_ajout(m, x) else "",
                     rel, cx, sx, esc(nom_de(m, x)), cc,
                     ('<div class="parc-lien">' + lien_histoire(lien, ctx, cits) + "</div>") if lien else ""))
     c.append("</ol>")
