@@ -94,10 +94,19 @@ class Figure:
               dx=0, dy=0, gras=False, fond=False):
         X, Y = self.px(x) + dx, self.py(y) + dy
         if fond:      # une étiquette posée sur un trait reste lisible
-            self._add('<text x="%s" y="%s" text-anchor="%s" font-size="%s" '
-                      'stroke="%s" stroke-width="3.2" stroke-linejoin="round" '
-                      'fill="none" font-family="ui-sans-serif,system-ui,sans-serif">%s</text>'
-                      % (_n(X), _n(Y), ancre, _n(taille), FOND, _exposants(s, taille)))
+            # Un rectangle de la couleur du fond, à la taille du texte, posé dessous : un
+            # filtre qui remplit la boîte du texte. L'ancien halo, un contour autour de
+            # chaque lettre, laissait passer le trait dans les espaces entre les mots
+            # (constaté le 2026-09-26 : « l'action-est-portée,-sans-aucun-geste »).
+            if not getattr(self, "_filtre_fond", False):
+                self._add('<defs><filter id="fond-etiquette" x="-0.03" y="-0.12" '
+                          'width="1.06" height="1.24"><feFlood style="flood-color:%s"/>'
+                          '</filter></defs>' % FOND)
+                self._filtre_fond = True
+            self._add('<text x="%s" y="%s" text-anchor="%s" font-size="%s" fill="none" '
+                      'filter="url(#fond-etiquette)" '
+                      'font-family="ui-sans-serif,system-ui,sans-serif">%s</text>'
+                      % (_n(X), _n(Y), ancre, _n(taille), _exposants(s, taille)))
         self._add('<text x="%s" y="%s" text-anchor="%s" font-size="%s" fill="%s"%s '
                   'font-family="ui-sans-serif,system-ui,sans-serif">%s</text>'
                   % (_n(X), _n(Y), ancre, _n(taille), couleur,

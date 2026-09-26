@@ -28,7 +28,7 @@ f4 = lambda v: ("%.4f" % v).replace(".", ",")
 f = Figure(xmin=0, xmax=25, ymin=1.0975, ymax=1.1072, w=600, h=340,
            marges=(62, 22, 44, 18),
            titre="Un même taux, 5 % par an pendant deux ans : chaque convention donne un autre montant")
-f.axes(xlab="nombre de fois où l'intérêt est versé en deux ans, n",
+f.axes(xlab="n : versements d'intérêt en deux ans",
        ylab="ce que devient 1 € au bout de deux ans",
        xticks=(1, 2, 4, 8, 12, 16, 20, 24), yticks=(fac(1), fac(2), fac(8), LIM),
        fmt=lambda t: "%d" % t, fmt_y=f4)

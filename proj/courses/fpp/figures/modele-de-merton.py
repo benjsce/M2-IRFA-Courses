@@ -34,7 +34,7 @@ def poly(pts, coul, op):
 
 f = Figure(xmin=0, xmax=SMAX + 4, ymin=0, ymax=SMAX + 8, w=480, h=400, marges=(54, 16, 40, 18),
            titre="Les fonds propres ont le payoff d'un call ; la dette perd sous D le payoff d'un put")
-f.axes(xlab="valeur de la firme ST", ylab="ce que reçoit chacun", xticks=(0, D, SMAX),
+f.axes(xlab="valeur de la firme en T", ylab="ce que reçoit chacun", xticks=(0, D, SMAX),
        yticks=(D, SMAX), fmt=lambda t: "D" if t == D else "%d" % t,
        fmt_y=lambda t: "D" if t == D else "%d" % t)
 
@@ -45,16 +45,16 @@ f.segment(0, D, D, D, couleur=AJOUT, epaisseur=1.6, pointilles="6 4")
 f.courbe([(0, 0), (SMAX, SMAX)], couleur=ENCRE, epaisseur=1.6)
 f.courbe([(0, 0), (D, D), (SMAX, D)], couleur=DOUX, epaisseur=2.2)
 f.segment(D, 0, D, D)
-f.texte(125, 40, "dette : min(ST, D)", couleur=ENCRE, ancre="middle", gras=True)
+f.texte(125, 40, "dette : min(S_{T}, D)", couleur=ENCRE, ancre="middle", gras=True)
 f.texte(138, 106, "fonds propres", couleur=ENCRE, ancre="middle", gras=True)
-f.texte(138, 106, "(ST − D)+", couleur=ENCRE, ancre="middle", dy=16)
+f.texte(138, 106, "(S_{T} − D)^{+}", couleur=ENCRE, ancre="middle", dy=16)
 f.texte(40, 14, "faillite", couleur=ENCRE, ancre="middle", gras=True)
 f.texte(40, 14, "la dette prend tout", couleur=ENCRE, ancre="middle", dy=15, taille=11)
 f.texte(4, D, "dette promise D, sans risque", couleur=AJOUT, taille=11.5, dy=-7)
 f.texte(24, 58, "ce que la dette perd", couleur=AJOUT, ancre="middle", gras=True, taille=12)
 f.texte(24, 58, "sous D : le put vendu", couleur=AJOUT, ancre="middle", taille=11.5, dy=15)
-f.texte(24, 58, "(D − ST)+", couleur=AJOUT, ancre="middle", taille=11.5, dy=30)
-f.texte(SMAX, SMAX, "ST : la firme", couleur=ENCRE, ancre="end", dx=-10, dy=0, taille=11.5,
+f.texte(24, 58, "(D − S_{T})^{+}", couleur=AJOUT, ancre="middle", taille=11.5, dy=30)
+f.texte(SMAX, SMAX, "S_{T} : la firme", couleur=ENCRE, ancre="end", dx=-10, dy=0, taille=11.5,
         fond=True)
 
 sys.stdout.write(f.svg())
