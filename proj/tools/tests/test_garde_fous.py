@@ -280,6 +280,11 @@ def parcours_cite_suite_racontee(root):
     _suite_puis_cite(root, 2)
 
 
+def parcours_etape_sans_histoire(root):
+    _parcours(root, ["milieu", "haut"], ["base"])
+    _histoire(root, "")
+
+
 def parcours_histoire_sans_lien(root):
     _parcours(root, ["milieu", "haut"], ["base"])
     _histoire(root, "Histoire : « 100 » — [p. 1]")
@@ -539,6 +544,8 @@ def main():
         "pas pris mot pour mot", parcours_cite_suite_future)
     cas("citation d'une suite racontée à cette étape → silence",
         "pas pris mot pour mot", parcours_cite_suite_racontee, doit_apparaitre=False)
+    cas("étape sans ligne « Histoire : » → comptée en dette",
+        "étapes sans ligne « Histoire : » (1)", parcours_etape_sans_histoire)
     cas("ligne « Histoire : » sans phrase → erreur",
         "sans phrase de lien", parcours_histoire_sans_lien)
     cas("étape placée avant son prérequis → erreur",

@@ -185,12 +185,16 @@ Chaque fiche nouvelle trouve sa place dans un parcours, ou reçoit une raison de
 avoir (A16). Trois cas :
 
 - **Elle prolonge un fil existant** : l'insérer comme étape à l'endroit où sa question se
-  pose, écrire sa transition, et **relire la transition de l'étape suivante**, qui menait
+  pose, écrire sa transition et sa ligne « Histoire : » — avec, si son lien doit introduire
+  un objet que l'histoire ne contient pas encore, une ligne « Suite : » (SPEC-MODELE §8.5) —,
+  et **relire la transition de l'étape suivante**, qui menait
   jusque-là à une autre fiche. C'est une modification de parcours : elle se déclare au
   rapport comme une modification de fiche, ancien texte → nouveau texte.
 - **Elle ouvre un fil nouveau** (un chapitre, une question que le cours n'avait pas
   posée) : écrire un parcours, lui donner son `ordre`, et vérifier qu'il ne suppose rien
-  qu'un parcours d'ordre supérieur raconte (A14).
+  qu'un parcours d'ordre supérieur raconte (A14). Son histoire s'écrit en deux passes
+  (SPEC-MODELE §8.5) : un départ qui ne suppose que la première étape et un lien par
+  étape, puis les suites là où un lien introduit ce que l'histoire ne contient pas.
 - **Elle est une digression** : la déclarer `hors_parcours` dans `course.yml`, avec sa
   raison.
 

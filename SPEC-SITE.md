@@ -114,8 +114,14 @@ Dans cet ordre, sans exception :
    niveau et la marque `ajout` sont eux-mêmes des liens vers la section d'`aide.html`
    qui les définit.
 1 bis. Bandeaux de parcours, **générés** : pour le parcours dont la fiche est une étape, le
-   titre, « étape k sur n », la transition qui mène ici, la fiche précédente et la
-   suivante ; pour les parcours qui la supposent connue, un seul encadré qui donne son rôle
+   titre et « étape k sur n » ; **l'histoire telle qu'elle est arrivée ici** — le point de
+   départ, les suites des étapes précédentes, puis celle de l'étape, mise en avant sous
+   « L'histoire continue » —, les mots cités par l'étape en gras à leur première
+   occurrence ; « Dans l'histoire » et la phrase de lien ; « Depuis l'étape précédente »
+   et la transition (sans intitulé à la première étape) ; la fiche précédente et la
+   suivante (SPEC-MODELE §8.5). *Demandé le 2026-09-26 : le lecteur faisait des
+   allers-retours vers le parcours « pour se rappeler quelle est l'histoire et voir où
+   la fiche s'inscrit ».* pour les parcours qui la supposent connue, un seul encadré qui donne son rôle
    dans chacun, replié dès qu'il y en a plusieurs, et dont l'entrée s'ouvre quand on arrive
    depuis ce parcours (ancre `#p-<slug>`). Un seul encadré et non un par parcours : la
    fiche `dup/utilite-esperee` en aurait porté cinq, empilés au-dessus de sa définition.
@@ -224,8 +230,9 @@ sait déjà du cours.
 
 Dans l'ordre : le titre ; le point de départ ; « à savoir avant de commencer », chaque fiche
 suivie de son rôle, avec un lien qui ouvre ce rôle sur la fiche ; le récit, une étape par
-item numéroté — la transition, puis la fiche et sa définition, **générée** depuis « Ce que
-c'est » ; le point d'arrivée. Le mot « parcours » n'est défini que dans `aide.html`.
+item numéroté — la suite de l'histoire s'il y en a une, la transition, puis la fiche et sa
+définition, **générée** depuis « Ce que c'est », et sous elle « Dans l'histoire » : les mots
+cités, entre guillemets et en gras, puis la phrase de lien ; le point d'arrivée. Le mot « parcours » n'est défini que dans `aide.html`.
 
 ### 3.3 L'arbre `<code>/arbre.html`
 

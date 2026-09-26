@@ -525,9 +525,12 @@ Une situation concrète, prise au monde numérique du cours, qui pose la questio
 ## Étapes
 1. dup/separation-gouts-croyances
    La question qui mène à cette fiche. [ajout]
+   Histoire : « mots du point de départ » — ce que la fiche en fait. [ajout]
 
 2. dup/utilite-esperee-subjective
    … [L1 slide 59]
+   Suite : ce que l'histoire ajoute ici, et la question que cela pose. [ajout]
+   Histoire : « la question que cela pose » — comment la fiche y répond. [ajout]
 
 ## Point d'arrivée
 Ce que le récit a établi, en une ou deux phrases. [ajout]
@@ -536,6 +539,12 @@ Ce que le récit a établi, en une ou deux phrases. [ajout]
 Quatre rubriques, dans cet ordre, et rien d'autre ; « À savoir avant » est omise si aucune
 étape ne suppose de fiche extérieure au parcours. Chaque phrase porte un marqueur (A11),
 dans la grammaire du cours.
+
+Sous chaque étape, après la transition, deux lignes qui ne sont pas des rubriques :
+**`Suite :`**, facultative, ce que l'histoire ajoute à cette étape ; **`Histoire :`**,
+obligatoire, les mots de l'histoire que la fiche traite, cités entre « », puis, après un
+tiret, la phrase qui dit ce que la fiche en fait. Sans citation, la phrase seule. Leurs
+règles sont A18 et §8.5.
 
 ### 8.3 Les axiomes du récit
 
@@ -572,6 +581,18 @@ l'erreur devient alors un avertissement, et le fil est scellé à nouveau. *Emp�
 lecteur qui a suivi le récit une semaine ne le retrouve plus la suivante. *Demandé par
 l'utilisateur le 2026-09-24 : « que l'histoire précédente soit toujours contenue, et
 qu'après on passe à d'autres histoires ».*
+
+**A18 — Ancrage dans l'histoire. [E pour la forme, W dette pour la couverture]**
+Chaque étape porte une ligne « Histoire : ». Toute citation y est prise **mot pour mot**
+dans le point de départ ou dans une suite racontée à cette étape ou avant — jamais dans
+une suite à venir — et ne coupe aucune formule. Une étape porte au plus une ligne
+« Suite : » et une ligne « Histoire : », et celle-ci a une phrase après ses citations.
+Une étape sans ligne « Histoire : » est un avertissement compté en dette (« étape sans
+lien à l'histoire »). *Empêche* : que le lecteur fasse de tête, par des allers-retours
+vers la page du parcours, le lien entre la fiche et la question qu'elle résout ; et qu'un
+mot mis en gras ne se trouve pas dans l'histoire qu'il a sous les yeux. *Demandé par
+l'utilisateur le 2026-09-26 : « j'essaye moi-même de ramener les fiches à l'histoire ;
+j'aimerais que ce soit fait automatiquement ».*
 
 ### 8.4 Écrire un parcours
 
@@ -613,3 +634,46 @@ qu'après on passe à d'autres histoires ».*
   la précédait, réordonner les parcours (A17).
 - **Viser la couverture, pas l'exhaustivité forcée.** Une digression qui couperait le fil
   se déclare `hors_parcours` avec sa raison ; elle n'a pas à entrer dans un récit.
+
+### 8.5 L'histoire qui avance
+
+Le point de départ pose l'histoire ; il ne la contient pas toute. Chaque fiche du parcours
+la rappelle en tête — le départ, les suites déjà racontées, puis celle de l'étape — avec en
+gras les mots qu'elle traite (SPEC-SITE §3.1). Ce que le lecteur voit sur une fiche est donc
+l'histoire telle qu'elle est arrivée jusqu'à lui. *Essayé sur `dup/parcours-risque` le
+2026-09-26, en trois versions ; la dernière, retenue : « c'est absolument parfait ».*
+
+- **Le point de départ ne suppose que la première étape.** Aucun terme, aucun calcul
+  qu'une étape suivante introduit. *Constaté le 2026-09-26 : un départ complété pour
+  couvrir toutes les étapes — second agent, richesse, primes calculées — a été rejeté :
+  « dès le point de départ, l'histoire implique déjà des calculs, des termes qu'on n'a
+  pas encore abordés ».*
+- **L'histoire avance par des suites, là où le récit en a besoin.** Quand le lien d'une
+  étape devrait introduire un objet absent de l'histoire — un second agent, une richesse,
+  un pari plus petit, une économie —, c'est une ligne « Suite : » à cette étape qui
+  l'introduit, jamais le départ. La suite reste dans le monde numérique du cours et ses
+  chiffres sont recalculés avant d'être écrits.
+- **Une suite pose une seule question : celle que la fiche de son étape résout.** Une
+  question qui appartient à l'étape suivante va dans la suite de celle-ci. *Constaté le
+  2026-09-26 : la suite de l'aversion absolue demandait « lequel craint le plus le risque,
+  et comment le prévoir sans refaire le calcul ? » ; la seconde question est celle de
+  l'approximation d'Arrow-Pratt, l'étape d'après.*
+- **Le gras tombe sur les mots de la question, pas sur un détail.** À l'aversion absolue,
+  « Lequel des deux craint le plus le risque », et non « un second agent, d'utilité
+  $\ln x$ ». Une étape sans citation dit pourquoi dans sa phrase — une règle de cohérence,
+  comme l'axiome d'indépendance, n'est pas un fait de l'histoire.
+- **L'histoire parle la langue du cours dès qu'elle l'a apprise.** Une notion racontée à
+  une étape antérieure se nomme : « la prime de risque du premier n'est plus que de 4,3 »,
+  et non « il n'abandonne plus que 4,3 », que ne comprend pas qui ne connaît pas le cours.
+  Une notion à venir ne se nomme pas.
+- **La phrase de lien relie la fiche aux données de l'histoire.** Quand la fiche pose une
+  formule, le lien dit pourquoi cette forme-là et l'évalue sur les nombres de l'histoire :
+  $A(x)=-U''(x)/U'(x)$, parce que $U''$ seule change quand on double $U$ ; $1/200$ et
+  $1/100$ pour les deux agents à 100. Le lien ne redit pas la transition : celle-ci vient
+  de l'étape précédente, le lien vient de l'histoire.
+- **Deux passes.** On écrit le départ et un lien par étape ; puis on relit les liens un à
+  un et, pour chacun qui introduit un objet absent, on écrit la suite à l'étape concernée.
+  *Mesuré le 2026-09-26 : au premier jet, 10 étapes sur 17 de `dup/parcours-risque`
+  introduisaient dans leur lien un objet que l'histoire ne contenait pas.*
+- **Mêmes symboles que la fiche** (A12) : le lien écrit la formule avec les lettres de la
+  « Forme » de sa fiche.

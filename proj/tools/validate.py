@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-validate.py — vérifie les axiomes A1–A13 de SPEC-MODELE.md sur courses/.
+validate.py — vérifie les axiomes A1–A18 de SPEC-MODELE.md sur courses/.
 
 Usage : python tools/validate.py [--root .] [--json]
 Sortie : liste des erreurs (E) et avertissements (W), dette, code de retour 1 si E.
@@ -848,6 +848,13 @@ def valider(root: Path, rap: Rapport):
                                                  "citer la formule entière")
                         if not MARKER.sub("", lien).strip():
                             rap.e("A14", ou, f"[étape {n}] « Histoire : » sans phrase de lien")
+                # A18 : chaque étape dit ce qu'elle reprend de l'histoire. Une ligne par
+                # parcours et non par étape : un parcours entier à écrire est une seule tâche.
+                sans = [k for k, _, _ in etapes if k not in anc]
+                if sans:
+                    rap.w("A18", ou, "étapes sans ligne « Histoire : » (" + ", ".join(map(str, sans))
+                                     + ") : dire ce que chaque fiche reprend de l'histoire")
+                    rap.dette["étape sans lien à l'histoire"] += len(sans)
                 # A11 : chaque transition, chaque rôle, chaque paragraphe est tracé
                 morceaux = [(f"étape {n}", t) for n, _, t in etapes] + [(f"avant {i}", t) for i, t in avant]
                 morceaux += [(f"histoire {n}", lien) for n, ls in sorted(anc.items()) for _, lien in ls]

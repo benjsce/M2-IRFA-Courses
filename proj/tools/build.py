@@ -1922,7 +1922,12 @@ def page_aide(m):
          "en haut de chaque fiche.</p>"
          "<p>Un parcours ne demande jamais de lire une fiche avant ce qu’elle suppose. Ce qu’il "
          "suppose sans le raconter est listé au début, avec pour chaque fiche le rôle qu’elle "
-         "joue dans cette histoire ; ce rôle s’affiche aussi en tête de la fiche elle-même.</p>",
+         "joue dans cette histoire ; ce rôle s’affiche aussi en tête de la fiche elle-même.</p>"
+         "<p>Chaque parcours part d’une histoire, un cas chiffré, qui avance avec lui : une "
+         "étape peut y ajouter un élément, un second agent ou un pari plus petit, sous "
+         "« L’histoire continue ». En tête de chaque fiche du parcours, l’histoire est rappelée "
+         "telle qu’elle est arrivée jusque-là, et les mots que la fiche traite y sont en gras ; "
+         "« Dans l’histoire » dit ce que la fiche en fait.</p>",
          '<h2 id="ajouts">Ce qui vient du cours, et ce qui a été ajouté</h2>',
          "<p>Chaque phrase tirée du cours porte sa référence, « §3.2 ». Ce qui n’y est pas mais a "
          "été ajouté pour que la fiche tienne debout porte la marque <em>ajout</em>.</p>",
