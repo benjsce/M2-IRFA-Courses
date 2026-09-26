@@ -28,6 +28,8 @@ La responsabilité limitée est ce qui l'arrête en bas : les capitaux propres n
 ## Exemple minimal
 Avec un levier de 3,33, une chute de l’actif de 30 % suffit à effacer les capitaux propres. [ajout]
 
+![Le rendement des capitaux propres selon celui de l'actif, avec le levier de l'exemple. La droite de pente 3,33 atteint $-100\,\%$ quand l'actif perd 30 % ; en dessous, l'actionnaire ne perd pas plus que sa mise, et le pointillé est la perte qu'il aurait subie sans la responsabilité limitée.](figures/responsabilite-limitee.svg) [ajout]
+
 ## Geste de calcul type
 Le seuil de faillite est l’inverse du levier : $\pi_A=-1/l$. Plus le levier est grand, plus la marge est mince. [§1.4]
 

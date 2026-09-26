@@ -27,6 +27,8 @@ C’est une fonction de plusieurs observables : valeur finale, maximum, minimum,
 
 Les payoffs élémentaires se combinent : call spread, option digitale, straddle s’obtiennent par sommes et différences de calls et de puts. [§9.1]
 
+![Un call et un put de même strike s'additionnent en straddle. Le payoff somme n'a qu'un point de rupture, au strike, et il faut une option de chaque côté pour le répliquer.](figures/payoff.svg) [ajout]
+
 ## Exemple minimal
 Un call de strike 100 sur un sous-jacent qui finit à 104,08 paie 4,08. [ajout]
 

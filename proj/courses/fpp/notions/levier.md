@@ -33,6 +33,8 @@ Le levier n'ajoute aucune hypothèse : c'est un rapport entre deux termes de cet
 ## Exemple minimal
 Un actif de 100 sur 30 de capitaux propres : $l=3{,}33$. [ajout]
 
+![Le bilan de l'exemple avant et après une baisse de 10 % de l'actif, choisie pour le dessin. La dette ne bouge pas, et toute la perte tombe sur les capitaux propres, qui passent de 30 à 20 : $-33\,\%$, soit $l$ fois $-10\,\%$.](figures/levier.svg) [ajout]
+
 ## Geste de calcul type
 Pour lire l’effet du levier, écrire l’excès de rendement des capitaux propres sur la dette comme $l$ fois l’excès de rendement de l’actif sur la dette — c’est une identité, pas une hypothèse. [§1.3]
 

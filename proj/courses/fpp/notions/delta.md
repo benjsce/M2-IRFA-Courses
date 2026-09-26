@@ -40,6 +40,8 @@ C'est pourquoi ce socle est long sans être difficile : presque tout sert à éc
 ## Exemple minimal
 Pour le call à la monnaie de l’exemple courant : $\delta=N(0{,}3)=0{,}618$, soit 0,618 action à vendre par call acheté. [ajout]
 
+![Le prix du call de l'exemple selon le sous-jacent, et sa tangente en 100, de pente 0,618. Au voisinage de 100, le call se comporte comme 0,618 action, ce qui est la couverture ; plus loin, la courbe s'écarte de la tangente.](figures/delta.svg) [ajout]
+
 ## Geste de calcul type
 Lire $N(d_1)$. Il tend vers 0 très en dehors de la monnaie et vers 1 très en dedans : le delta est aussi, sous $\mathbb{Q}$, la probabilité approchée d’exercer. [§8.2]
 

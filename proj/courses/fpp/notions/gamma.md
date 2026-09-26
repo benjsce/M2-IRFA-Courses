@@ -42,6 +42,8 @@ Ce qui distingue les grecques entre elles, c'est la variable dérivée, pas le c
 ## Exemple minimal
 Passer le sous-jacent de 100 à 101 fait passer le delta de 0,618 à 0,637 : le gamma vaut environ 0,019. [ajout]
 
+![Le delta du call de l'exemple selon le sous-jacent, à un an et à un mois de l'échéance, cet horizon étant choisi pour le dessin. Le gamma est la pente de ces courbes : 0,019 en 100 à un an, bien plus fort près du strike à un mois.](figures/gamma.svg) [ajout]
+
 ## Geste de calcul type
 Un gamma élevé signale qu’une couverture en delta se dégradera vite ; c’est ce qui rend la couverture coûteuse près de la monnaie et près de l’échéance. [§8.2]
 

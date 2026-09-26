@@ -29,6 +29,8 @@ Une fois le prix d'un échéancier écrit comme fonction du taux, la sensibilit�
 ## Exemple minimal
 Un zéro-coupon à 5 ans perd 5 % de sa valeur quand le taux monte de 100 points de base. [ajout]
 
+![Une hausse de taux de 100 points de base, lue sur un échéancier : chaque zéro-coupon perd sa maturité en pour cent. Le titre à cinq ans est celui de l'exemple ; ceux à un, deux et dix ans sont ajoutés pour le dessin.](figures/duration.svg) [ajout]
+
 ## Geste de calcul type
 Multiplier la maturité par la variation de taux : un zéro-coupon à cinq ans perd 5 % pour cent points de base. Sur un titre à flux multiples, le calcul se fait flux par flux, comme dans l’exemple du bullet bond. [Déf. 5, Ex. 1]
 

@@ -88,10 +88,24 @@ cours (A12, à déclarer, pas à résoudre seul).
 
 ## Les figures
 
-Tu peux ajouter une figure à une fiche quand un dessin montre en une fois ce que la prose
-dit en trois phrases — une courbe et sa corde, deux erreurs qui se croisent, un payoff
-brisé. Tu n'as pas à demander la permission ; tu la déclares au rapport comme toute
+Tu ajoutes une figure à une fiche **chaque fois** qu'un dessin peut clarifier la notion :
+quand il montre en une fois ce que la prose dit en trois phrases — une courbe et sa corde,
+deux erreurs qui se croisent, un payoff brisé. Ce n'est pas une faculté dont on use
+rarement ; c'est un devoir dès que la rubrique demande au lecteur de tenir deux objets en
+tête. Tu n'as pas à demander la permission ; tu la déclares au rapport comme toute
 modification de fiche.
+
+**Pas n'importe quel dessin : le plus parlant.** Avant de tracer, tu écris en une phrase
+ce que la figure doit faire voir, puis tu choisis la forme qui le montre le plus
+directement, quitte à l'inventer. Une courbe ou des barres ne sont que deux formes parmi
+d'autres, et souvent pas les meilleures : un échéancier où les flux montent ou descendent
+et reviennent en $t$ par une flèche courbe dit l'actualisation mieux qu'une courbe de
+taux ; trois payoffs posés côte à côte avec « − » et « = » disent une parité mieux qu'un
+seul cadre où les traits se recouvrent ; un escalier dont l'aire est l'intégrale dit
+Choquet mieux que sa formule ; deux bilans avant et après un choc disent le levier. Le bon
+dessin est celui qu'on refait de tête à l'examen. *Demandé par l'utilisateur le
+2026-09-26 : « il faut vraiment que tu crées les graphiques les plus parlants, ceux qui
+simplifient le plus la compréhension ».*
 
 Tu la calcules en Python, sans dépendance, avec `tools/figure.py` : le script vit dans
 `courses/<code>/figures/<slug>.py`, sa sortie SVG à côté, et le validateur rejoue le

@@ -37,5 +37,7 @@ Une prime d’actif de 3 % avec un levier de 3,33 donne une prime sur capitaux p
 ## Geste de calcul type
 Multiplier la prime de l’actif par le levier ; la même multiplication vaut pour l’écart type, donc le rapport prime sur volatilité est inchangé par le levier. [§1.3]
 
+![L'actif de l'exemple, à 6 % de volatilité et 3 % de prime, et ses capitaux propres, à 20 % et 10 %. Le levier multiplie les deux coordonnées par 3,33 : le point glisse sur une droite issue de l'origine, et le rapport de la prime à la volatilité reste 0,5.](figures/prime-de-risque.svg) [ajout]
+
 ## Cesse d'être valide quand
 La linéarité suppose la dette sans risque ; dès que la dette peut faire défaut, la relation cesse d’être exacte. [§1.4]

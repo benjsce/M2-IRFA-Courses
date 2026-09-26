@@ -235,7 +235,7 @@ parce que `refs_pattern` refusera la forme nue.
 
 ### 2.4 Les figures
 
-Une rubrique peut porter une figure, quand un dessin montre en une fois ce que la prose
+Une rubrique porte une figure chaque fois qu'un dessin montre en une fois ce que la prose
 dit en trois phrases. Elle s'écrit comme un bloc à part, avec sa légende et son marqueur :
 
 ```markdown
@@ -261,6 +261,27 @@ Quatre règles, et elles ne se négocient pas.
 
 `tools/figure.py` porte les primitives de tracé — repère, courbe, point, mesure d'un écart,
 axes — et n'a besoin de rien d'autre que la bibliothèque standard.
+
+**Choisir la forme.** Les quatre règles disent ce qu'une figure a le droit de montrer ; elles
+ne disent pas laquelle dessiner. La forme se choisit sur ce que la figure doit faire voir,
+écrit d'abord en une phrase, et c'est la forme qui le montre le plus directement qui
+l'emporte, même si elle n'a encore servi nulle part. Quelques formes déjà éprouvées :
+
+- l'**échéancier** — un axe du temps, des flux qui montent quand on les reçoit et
+  descendent quand on les paie, une flèche courbe qui les ramène en $t$ — pour tout ce qui
+  s'actualise, se capitalise ou se réplique (`fpp/facteur-actualisation`) ;
+- la **planche** — deux ou trois cadres côte à côte reliés par « + », « − », « = » ou « → »
+  — pour une identité ou un avant/après, là où un cadre unique superposerait les traits
+  (`fpp/parite-call-put`) ;
+- l'**aire** — une intégrale ou une somme pondérée lue comme une surface
+  (`dup/integrale-de-choquet`) ;
+- la **corde et la courbe** pour une inégalité de Jensen, la **tangente** pour une
+  sensibilité, la **répartition** pour un ordre stochastique.
+
+Une courbe ou des barres ne s'imposent pas par défaut : elles se choisissent quand ce
+qu'elles montrent est ce qu'il faut voir. *Demandé par l'utilisateur le 2026-09-26, après
+les figures de dup et de pfo : « pas n'importe quel graphique ; il faut faire un graphique
+qui met en évidence au mieux ce que l'on cherche à montrer ».*
 
 ## 3. Les axiomes de structure
 

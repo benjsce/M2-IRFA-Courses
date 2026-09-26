@@ -36,6 +36,8 @@ $P(0,1)=0{,}9608$ et $P(0,2)=0{,}9048$ : $F(0,1,2)=6\%$. [ajout]
 ## Geste de calcul type
 Le forward est un rapport de zéro-coupons : $\ln(0{,}9608/0{,}9048)=6\,\%$ sur $[1,2]$. Vérifier par la moyenne pondérée du cours : $5\%\times2=4\%\times1+6\%\times1$. [§2.3]
 
+![La vérification du geste, lue en aires : 4 % sur la première année et 6 % sur la seconde font la même aire que 5 % sur deux ans. Le forward est le taux qui complète l'aire du taux court jusqu'à celle du taux long.](figures/taux-forward.svg) [ajout]
+
 ## Cesse d'être valide quand
 Verrouillable seulement si l’on peut prêter et emprunter aux deux maturités. [ajout]
 

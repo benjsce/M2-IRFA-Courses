@@ -32,6 +32,8 @@ C'est un socle de définition par différence : la valeur temps est ce qui reste
 ## Exemple minimal
 Le call à la monnaie vaut 9,93 pour une valeur intrinsèque de 3,92 : la valeur temps est 6,00. [ajout]
 
+![Le prix du call de l'exemple selon le sous-jacent, par la formule de Black et Scholes, et sa valeur intrinsèque, le payoff évalué en la moyenne. L'écart est la valeur temps : 6,00 à la monnaie, positive partout parce que le payoff est convexe.](figures/valeur-temps.svg) [ajout]
+
 ## Geste de calcul type
 Retrancher la valeur intrinsèque du prix. Ce qui reste mesure ce que le marché paie pour l’incertitude, et s’annule à l’échéance. [Déf. 13]
 

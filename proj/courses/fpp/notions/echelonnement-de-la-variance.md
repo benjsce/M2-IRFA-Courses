@@ -29,6 +29,8 @@ Le pas suivant est une hypothèse, pas un calcul : si les accroissements sont in
 ## Exemple minimal
 Une volatilité annuelle de 20 % donne $20\sqrt{0{,}25}=10\,\%$ à trois mois. [ajout]
 
+![L'écart type de l'exemple selon l'horizon : le cône plein est $\pm20\,\%\sqrt t$, qui vaut 10 % à trois mois ; le pointillé est la règle interdite, $\pm20\,\%\,t$, qui donnerait 5 %.](figures/echelonnement-de-la-variance.svg) [ajout]
+
 ## Geste de calcul type
 Pour changer d’horizon, multiplier la volatilité par la racine du rapport des durées — jamais par le rapport lui-même. [§5.3]
 

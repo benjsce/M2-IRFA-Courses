@@ -43,6 +43,8 @@ Le modèle est le choix minimal qui referme les trois : une diffusion log-normal
 ## Exemple minimal
 Avec $S_0=100$, $r=4\%$ et un an : $\mathbb{E}^{\mathbb{Q}}(S_1)=104{,}08$, quelle que soit $\sigma$. [ajout]
 
+![Pour deux volatilités choisies pour le dessin, 20 % et 40 %, la bande où tombent 90 % des trajectoires à chaque date. Les bandes s'écartent très différemment ; la moyenne sous $\mathbb{Q}$ est la même courbe, qui arrive à 104,08.](figures/modele-black-scholes.svg) [ajout]
+
 ## Geste de calcul type
 Écrire $S_T$ sous forme exponentielle, reconnaître une gaussienne à l’exposant, puis appliquer la transformée de Laplace : c’est le chemin le plus court vers toute espérance sous $\mathbb{Q}$. [§5.4, Th. 1]
 

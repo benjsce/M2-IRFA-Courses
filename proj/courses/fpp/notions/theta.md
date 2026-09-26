@@ -40,6 +40,8 @@ Ce qui distingue les grecques entre elles, c'est la variable dérivée, pas le c
 ## Exemple minimal
 Le call à la monnaie de l’exemple courant porte 6,00 de valeur temps, qui s’annule entièrement à l’échéance. [ajout]
 
+![Le call à la monnaie de l'exemple, sous-jacent tenu à 100, à mesure que le temps passe. Les 6,00 de valeur temps fondent jusqu'à zéro à l'échéance, et de plus en plus vite à la fin ; la pente de la courbe du prix est le theta.](figures/theta.svg) [ajout]
+
 ## Geste de calcul type
 Le theta est le loyer du gamma : ce qu’on paie chaque jour pour détenir de la convexité. [ajout]
 

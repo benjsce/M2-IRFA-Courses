@@ -101,11 +101,13 @@ Une fiche par notion nouvelle, au format de SPEC-MODELE §2. Règles de rédacti
   pas. La contrainte mord surtout quand on rédige en série, où la même tournure revient
   d'une fiche à l'autre sans qu'on s'en aperçoive. Relire une fiche au hasard, à froid,
   comme si c'était la seule page ouverte.
-- **Une figure quand elle fait gagner trois phrases**, et jamais autrement (SPEC-MODELE
-  §2.4). Elle se décide à la relecture, pas à l'écriture : on écrit la rubrique, on la
-  relit, et si elle demande au lecteur de tenir deux courbes en tête, on la dessine. Le
-  script va dans `courses/<code>/figures/`, la sortie SVG à côté, et le validateur vérifie
-  que l'une reste la sortie de l'autre.
+- **Une figure chaque fois qu'elle fait gagner trois phrases**, et jamais autrement
+  (SPEC-MODELE §2.4). Elle se décide à la relecture, pas à l'écriture : on écrit la
+  rubrique, on la relit, et si elle demande au lecteur de tenir deux objets en tête, on la
+  dessine. On écrit d'abord en une phrase ce qu'elle doit faire voir, puis on choisit la
+  forme la plus parlante — échéancier, planche, aire, tangente, et d'autres encore —
+  plutôt qu'une courbe par défaut. Le script va dans `courses/<code>/figures/`, la sortie
+  SVG à côté, et le validateur vérifie que l'une reste la sortie de l'autre.
 - **« Cesse d'être valide quand » est obligatoire**, et c'est la rubrique la plus utile.
   Si la source ne dit rien, écrire « la source ne fixe pas de limite [§x] » — c'est une
   information — et ouvrir une question dans le rapport.

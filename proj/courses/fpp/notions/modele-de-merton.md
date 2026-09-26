@@ -34,6 +34,8 @@ Ce reste est le payoff d'un call sur la valeur de la firme, de strike la dette, 
 
 L'identité du bilan force les créanciers à détenir le complément, $S_T-(S_T-D)^+$. La parité call-put le réécrit : détenir la dette risquée, c'est détenir la dette sans risque et avoir vendu un put aux actionnaires, $D^r=De^{-rT}-P(T,F_T)$. Le spread est le prix de ce put, réexprimé en taux. [exo. 16]
 
+![La valeur finale de la firme partagée entre créanciers et actionnaires, avec une dette de 80 pour une firme de valeur forward 100. La bande du bas est la dette, qui reçoit au plus $D$ ; celle du haut, les fonds propres, a le payoff d'un call de strike $D$ ; leur somme est la diagonale, le bilan. Sous $D$, la faillite.](figures/modele-de-merton.svg) [ajout]
+
 ## Le chemin jusqu'ici
 Trois fils du cours se rejoignent ici, et aucun outil nouveau ne s'y ajoute : le modèle reconnaît dans un bilan des contrats déjà connus. [ajout]
 

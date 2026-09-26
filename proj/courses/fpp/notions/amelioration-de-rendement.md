@@ -32,5 +32,7 @@ Vendre le call à la monnaie de l’exemple courant encaisse 9,93, au prix de to
 ## Geste de calcul type
 Retrancher le payoff vendu du portefeuille existant : le gain est plafonné là où le strike se situe, et la prime encaissée décale le point mort. [ajout]
 
+![L'action détenue moins le call vendu, de strike 100 : le profil détenu est plafonné au strike. La prime encaissée, 9,93, est reçue en $t$ et n'apparaît pas sur ces payoffs à l'échéance.](figures/amelioration-de-rendement.svg) [ajout]
+
 ## Cesse d'être valide quand
 La prime encaissée est le prix exact du risque cédé : ce n’est un rendement supplémentaire qu’en moyenne sous $\mathbb{Q}$, et jamais un repas gratuit. [ajout]
