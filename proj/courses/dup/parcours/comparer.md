@@ -54,7 +54,7 @@ Deux placements ont la même moyenne de 50 : le pari $(0,\tfrac12;100,\tfrac12)$
 
 9. dup/accroissement-de-risque
    Seconde classe : tous les agents averses au risque. Ce sur quoi ils s'accordent définit enfin ce qu'est « plus risqué » à moyenne égale. [L1 slide 18]
-   Histoire : « Lequel est le plus risqué » — À moyenne égale, le cours répond désormais : le premier pari est plus risqué que le second si tous les agents averses au risque préfèrent le second. [ajout]
+   Histoire : « Lequel est le plus risqué » — Voici enfin la réponse du cours, à moyenne égale : le premier pari est plus risqué que le second si tous les agents averses au risque préfèrent le second. [ajout]
 
 10. dup/etalement-preservant-la-moyenne
     Comment fabrique-t-on un pari plus risqué à partir d'un autre ? La façon la plus concrète est de déplacer de la probabilité. [L1 slide 21]
