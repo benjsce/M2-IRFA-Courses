@@ -6,9 +6,7 @@ source: slides 203–237
 ---
 
 ## Point de départ
-Sur 1 000 demandes de crédit, 30 finissent en défaut : un modèle qui prédit toujours « pas de défaut » a raison dans 97 % des cas, et ne détecte aucun défaut. [ajout]
-
-Le cours se termine sur deux articles qui mettent ses méthodes à l'épreuve : l'un compare tous les modèles sur un même problème de crédit, l'autre montre ce qu'ils apprennent quand les données sont biaisées. [slide 204, slide 218]
+La banque sait maintenant apprendre à prévoir le défaut de plusieurs façons : modèles linéaires contraints, forêts d'arbres, boosting, réseaux de neurones. Le cours les met toutes en concurrence sur un même jeu de crédit, 12 544 entreprises du périmètre européen décrites par 343 variables, dont on sait si elles ont fait défaut. Laquelle choisir ? [slide 204, slide 205]
 
 ## À savoir avant
 - dss/scoring-de-credit : c'est le problème sur lequel les modèles sont comparés. [slide 204]
@@ -22,16 +20,17 @@ Le cours se termine sur deux articles qui mettent ses méthodes à l'épreuve : 
 
 ## Étapes
 1. dss/comparaison-de-modeles
-   Sur un même jeu de risque de crédit, quel modèle du cours fait le mieux ? [slide 204, slide 205]
-   Histoire : « l'un compare tous les modèles sur un même problème de crédit » — C'est le jeu du scoring de crédit : la forêt aléatoire y atteint un GINI de 57,84 contre 51,36 pour la régression logistique, soit 6,48 points de mieux, et le séparateur à vaste marge, ou SVM, qui sépare les deux classes par la frontière la plus éloignée des exemples de chacune, tombe à 28,38, soit 22,98 points de moins que la régression logistique. [ajout]
+   Tous sont jugés à la même mesure : le GINI, lu sur leurs courbes ROC superposées. [slide 204, slide 205]
+   Histoire : « Laquelle choisir » — Pas celle qu'on attend. La forêt aléatoire l'emporte avec 57,84, contre 51,36 pour la régression logistique, le modèle classique qui change une combinaison linéaire des variables en probabilité de défaut : 6,48 points de mieux. Mais le boosting tombe à 44,16, l'apprentissage profond à 44,92, et le séparateur à vaste marge, ou SVM, qui sépare les deux classes par la frontière la plus éloignée des exemples de chacune, à 28,38, soit 22,98 points sous la régression logistique. Plusieurs méthodes réputées avancées font moins bien que le modèle classique. [ajout]
 
 2. dss/smote
-   Dans les données de crédit, les défauts sont rares. Comment apprendre une classe presque absente ? [slide 229]
-   Histoire : « 30 finissent en défaut » — Avec 30 défauts pour 970 bons dossiers, un modèle apprend surtout à dire « pas de défaut ». SMOTE fabrique de nouveaux défauts, synthétiques, à partir de ceux qui existent, pour rééquilibrer les classes avant l'apprentissage. [ajout]
+   Bien classer les demandeurs ne dit pas ce qu'un modèle a appris d'autre que le risque. Le cours se termine sur une seconde étude qui le cherche, et bute d'abord sur une difficulté de données. [slide 229]
+   Suite : Elle veut savoir si les autres variables d'un client permettent de prédire son genre, ce qu'un modèle de crédit pourrait alors apprendre sans qu'on le lui donne. Mais les groupes à comparer sont de tailles très inégales : comment apprendre une classe bien plus rare que l'autre ? [slide 227, ajout]
+   Histoire : « comment apprendre une classe bien plus rare que l'autre » — Entraîné tel quel, un classifieur apprend surtout à prédire la classe nombreuse. SMOTE rééquilibre le jeu avant l'apprentissage en fabriquant, dans la classe rare, des observations synthétiques, chacune prise entre une observation rare et l'une de ses voisines rares ; aucune n'est recopiée, c'est ce qui le sépare d'un simple sur-échantillonnage. [slide 229, ajout]
 
 3. dss/biais-societal
-   Même bien entraîné, un modèle apprend ce que ses données contiennent, y compris ce qu'on ne voudrait pas qu'il reproduise. [slide 218]
-   Histoire : « ce qu'ils apprennent quand les données sont biaisées » — Si les défauts passés reflètent un traitement inégal selon le genre, un modèle entraîné sans la variable de genre peut le reproduire : d'autres variables en portent l'information, au point qu'on peut prédire le genre du client à partir d'elles. [ajout]
+   Les groupes rendus comparables, le genre du client se lit-il dans ses autres variables ? [slide 218]
+   Histoire : « si les autres variables d'un client permettent de prédire son genre » — Oui : on peut prédire le genre à partir d'elles, si bien qu'un modèle entraîné sans la variable de genre peut reproduire le traitement inégal selon le genre que reflètent les défauts passés. Le cours en conclut que l'apprentissage fait prospérer les biais sociaux en répliquant les motifs qu'il apprend, et qu'un biais social devient sociétal quand il devient la norme. [slide 218, slide 233, slide 235, ajout]
 
 ## Point d'arrivée
 Un modèle se juge sur des données réelles et contre les autres modèles ; et bien prédire n'est pas tout, puisqu'il reproduit fidèlement les biais de ce qu'il apprend. [ajout]

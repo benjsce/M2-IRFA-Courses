@@ -31,3 +31,9 @@ conventions_par_defaut:
   alpha_des_risques: >-
     dans les listings, α = 0,05 est la probabilité de dépassement (niveau de confiance
     95 %) ; la Définition 2.5.1 l'appelle « niveau de confiance » — voir le rapport
+refonte_du_recit:
+- date: '2026-09-26'
+  raison: >-
+    Parcours relus au test de lecture de SPEC-MODELE §8.6, à la demande de l'utilisateur :
+    l'ordre des étapes suit désormais l'histoire, et non l'ordre du support, là où les deux
+    divergeaient (détail au rapport du jour).

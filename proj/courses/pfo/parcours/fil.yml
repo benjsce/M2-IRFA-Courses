@@ -1,7 +1,7 @@
 # Écrit par build.py (SPEC-MODELE A17) : toutes les étapes du cours, dans l'ordre
 # de lecture. Le validateur exige que cette suite reste contenue, dans le même
 # ordre, dans celle des parcours actuels. Ne pas éditer à la main.
-scelle: '2026-09-25'
+scelle: '2026-09-26'
 fil:
 - pfo/fourchette-bid-ask
 - pfo/prix-milieu
@@ -14,18 +14,18 @@ fil:
 - pfo/score-z
 - pfo/filtre-z-score-glissant
 - pfo/pipeline-d-ingestion
-- pfo/regroupement-de-volatilite
-- pfo/ewma
 - pfo/matrice-de-covariance
 - pfo/matrice-de-correlation
+- pfo/regroupement-de-volatilite
+- pfo/ewma
 - pfo/effet-epps
 - pfo/norme-de-frobenius
 - pfo/marches-non-gaussiens
 - pfo/fait-stylise
 - pfo/moment-standardise
 - pfo/coefficient-d-asymetrie
-- pfo/kurtosis
 - pfo/asymetrie-negative
+- pfo/kurtosis
 - pfo/queues-epaisses
 - pfo/p-valeur
 - pfo/test-de-normalite

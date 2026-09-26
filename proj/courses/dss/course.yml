@@ -18,3 +18,9 @@ conventions_par_defaut:
     numérotées, donc la slide est la seule unité de référence
   langue_source: >-
     anglais ; les noms de fiches sont en français, le terme anglais est porté en alias
+refonte_du_recit:
+- date: '2026-09-26'
+  raison: >-
+    Parcours relus au test de lecture de SPEC-MODELE §8.6, à la demande de l'utilisateur :
+    l'ordre des étapes suit désormais l'histoire, et non l'ordre du support, là où les deux
+    divergeaient (détail au rapport du jour).

@@ -14,21 +14,21 @@ Un portefeuille de 1 000 000 affiche des rendements journaliers de moyenne 0,05 
 
 ## Étapes
 1. pfo/quantile
-   Toutes les mesures de ce parcours reposent sur un même objet, que le poly emploie partout sans jamais le définir. [ajout]
-   Histoire : « Combien peut-il perdre en une mauvaise journée » — Une « mauvaise journée » doit se chiffrer : une des 5 % pires, par exemple. Le rendement qui sépare ces 5 % du reste est un quantile. Pour une loi normale, il se trouve toujours à 1,6449 écarts types sous la moyenne, valeur que donne la table de la loi normale ; pour des rendements de moyenne 0,05 % et d'écart type 2 %, il vaut $0{,}05\,\%-1{,}6449\times2\,\%\approx-3{,}24\,\%$. [ajout]
+   Avant de chiffrer, il faut dire ce qu'est une mauvaise journée. [ajout]
+   Histoire : « Combien peut-il perdre en une mauvaise journée » — Une mauvaise journée doit se chiffrer : une des 5 % pires, par exemple, soit une journée sur vingt. Le rendement qui sépare ces 5 % du reste est le quantile à 5 % de la loi des rendements. La moyenne et l'écart type ne suffisent pas à le situer : il dépend de toute la forme de la loi, et c'est lui qu'il va falloir trouver. [ajout]
 
 2. pfo/valeur-a-risque
    La réglementation pose une question précise : quelle perte ne sera dépassée qu'une fois sur vingt ? [§2.5]
-   Histoire : « Un portefeuille de 1 000 000 » — Rapporté au capital, ce quantile, $-3{,}2397\,\%$ avant arrondi, devient une perte : si ses rendements étaient normaux, le portefeuille ne perdrait plus de $0{,}032397\times1\,000\,000\approx32\,397$ qu'une journée sur vingt. C'est sa valeur à risque, ou VaR, à 95 % sur un jour. [ajout]
+   Histoire : « Un portefeuille de 1 000 000 » — Rapporté au capital, ce quantile devient une perte : la valeur à risque, ou VaR, à 95 % sur un jour, est la perte que le portefeuille ne dépasse qu'une journée sur vingt. Si le quantile valait −3 %, par exemple, elle serait de $0{,}03\times1\,000\,000=30\,000$. [ajout]
 
 3. pfo/valeur-a-risque-conditionnelle
    Ce seuil ne dit rien de ce qui se passe au-delà : deux portefeuilles de même VaR peuvent perdre très différemment les mauvais jours. [p. 32]
    Suite : Et les jours où la perte dépasse ce seuil, combien perd-il en moyenne ? [ajout]
-   Histoire : « combien perd-il en moyenne » — C'est la CVaR, ou valeur à risque conditionnelle, la perte moyenne sur les 5 % de jours les pires. Si les rendements étaient normaux, la moyenne de ces pires rendements se trouverait à $\varphi(1{,}645)/0{,}05\approx2{,}063$ écarts types sous la moyenne, $\varphi$ étant la densité de la loi normale, plus loin que le seuil à 1,645 : $0{,}05\,\%-2{,}063\times2\,\%\approx-4{,}08\,\%$, soit une perte de 40 754, bien au-delà des 32 397 du seuil. [ajout]
+   Histoire : « combien perd-il en moyenne » — C'est la CVaR, ou valeur à risque conditionnelle : la perte moyenne sur les 5 % de jours les pires, toujours au moins égale à la VaR. Elle ne dépend plus seulement du quantile, mais de toute la queue de la loi au-delà. [ajout]
 
 4. pfo/modele-de-risque
    Pour chiffrer l'une et l'autre, il faut supposer quelque chose de la loi des rendements. Le cours compare trois hypothèses. [p. 32, Listing 2.2]
-   Histoire : « avec une asymétrie de −0,5 et un excès de kurtosis de 3 » — Ces deux chiffres disent que la loi n'est pas normale : les montants précédents dépendent de l'hypothèse faite sur elle. Le cours compare trois hypothèses : aucune, la loi normale, et une loi normale corrigée. [ajout]
+   Histoire : « avec une asymétrie de −0,5 et un excès de kurtosis de 3 » — Ces deux chiffres disent que la loi n'est pas normale ; or la VaR et la CVaR dépendent de la loi entière, pas seulement de sa moyenne et de son écart type. Le cours compare donc trois hypothèses : aucune, la loi normale, et une loi normale corrigée. [ajout]
 
 5. pfo/var-historique
    Première hypothèse : n'en faire aucune, et lire directement les rendements passés. [Listing 2.2]
@@ -37,15 +37,15 @@ Un portefeuille de 1 000 000 affiche des rendements journaliers de moyenne 0,05 
 
 6. pfo/var-gaussienne
    Deuxième hypothèse, la plus simple à calculer : celle que le parcours précédent vient de réfuter. [Listing 2.2]
-   Histoire : « de moyenne 0,05 % et d'écart type 2 % » — Deuxième hypothèse : ne garder que ces deux nombres et supposer la loi normale. On retrouve la VaR de 32 397 et la CVaR de 40 754 ; mais l'asymétrie et la kurtosis du portefeuille disent que cette hypothèse est fausse. [ajout]
+   Histoire : « de moyenne 0,05 % et d'écart type 2 % » — On ne garde que ces deux nombres et l'on suppose la loi normale. Son quantile à 5 % est toujours à 1,6449 écarts types sous la moyenne, valeur que donne la table : $0{,}05\,\%-1{,}6449\times2\,\%\approx-3{,}24\,\%$, soit une VaR de 32 397. La moyenne des 5 % pires jours est plus loin : pour une loi normale, elle se trouve à $\varphi(1{,}6449)/0{,}05\approx2{,}063$ écarts types sous la moyenne, $\varphi$ étant la densité de la loi normale ; cette formule fermée vient de ce que la dérivée de $\varphi$ en $x$ vaut $-x\varphi(x)$. D'où $0{,}05\,\%-2{,}063\times2\,\%\approx-4{,}08\,\%$ et une CVaR de 40 754. Mais l'asymétrie et la kurtosis du portefeuille disent que cette hypothèse est fausse. [ajout]
 
 7. pfo/developpement-de-cornish-fisher
    Plutôt que d'abandonner le calcul gaussien, peut-on corriger son quantile avec les deux moments du parcours précédent ? [p. 34]
-   Histoire : « une asymétrie de −0,5 » — Le quantile gaussien, $z_\alpha=-1{,}645$, se corrige avec l'asymétrie $S=-0{,}5$ et l'excès de kurtosis $K=3$ : $q_\alpha\approx z_\alpha+\tfrac{S}{6}(z_\alpha^2-1)+\tfrac{K}{24}(z_\alpha^3-3z_\alpha)-\tfrac{S^2}{36}(2z_\alpha^3-5z_\alpha)$. L'asymétrie négative le pousse vers les pertes de $-0{,}142$ ; à ce seuil, la kurtosis le ramène de $+0{,}061$ et le dernier terme de $+0{,}005$ : il arrive à $-1{,}7217$. [ajout]
+   Histoire : « une asymétrie de −0,5 » — Le quantile gaussien, $z_\alpha=-1{,}645$, se corrige avec l'asymétrie $S=-0{,}5$ et l'excès de kurtosis $K=3$ : $q_\alpha\approx z_\alpha+\tfrac{S}{6}(z_\alpha^2-1)+\tfrac{K}{24}(z_\alpha^3-3z_\alpha)-\tfrac{S^2}{36}(2z_\alpha^3-5z_\alpha)$. L'asymétrie négative le pousse vers les pertes de $-0{,}142$. La kurtosis, elle, le ramène de $+0{,}061$ : une loi à queues épaisses a aussi des flancs plus minces que la loi normale, et à 1,645 écarts types on est encore sur le flanc ; son terme, $z_\alpha^3-3z_\alpha$, ne change de signe qu'à $\sqrt3\approx1{,}73$ écarts types. Avec le dernier terme, $+0{,}005$, le quantile arrive à $-1{,}7217$. [ajout]
 
 8. pfo/var-de-cornish-fisher
    Comment ce quantile corrigé devient-il un montant de perte ? Pour la VaR, c'est immédiat ; pour la CVaR, qui moyenne toute la queue, il faut davantage. [§2.5.1, Listing 2.2]
-   Histoire : « un excès de kurtosis de 3 » — Avec le quantile corrigé, la VaR passe de 32 397 à $-(0{,}05\,\%-1{,}7217\times2\,\%)\times1\,000\,000\approx33\,935$. La CVaR, qui moyenne toute la queue, doit corriger chacun de ses quantiles avant d'en faire la moyenne, et bouge bien davantage, de 40 754 à 53 511, en moyennant comme le calcul du cours les niveaux de 0,01 % à 5 %, sans la toute extrémité de la queue qui ajouterait environ 430 : plus d'environ 1,73 écart type sous la moyenne, le terme de kurtosis change de signe et pousse fort vers les pertes. [ajout]
+   Histoire : « un excès de kurtosis de 3 » — Avec le quantile corrigé, la VaR passe de 32 397 à $-(0{,}05\,\%-1{,}7217\times2\,\%)\times1\,000\,000\approx33\,935$. La CVaR, elle, corrige chacun des quantiles de la queue, du niveau 5 % jusqu'au niveau 0,01 %, puis en fait la moyenne. Or au-delà de 1,73 écarts types, le terme de kurtosis change de signe et pousse fort vers les pertes : la CVaR passe de 40 754 à 53 511. Aller jusqu'au tout bout de la queue ajouterait encore environ 430. [ajout]
 
 ## Point d'arrivée
 Sur l'exemple de départ, la VaR à 95 % passe de 32 397 en gaussien à 33 935 avec Cornish-Fisher, et la CVaR de 40 754 à 53 511 : la correction pèse surtout sur ce qui se passe au-delà du seuil. [ajout]

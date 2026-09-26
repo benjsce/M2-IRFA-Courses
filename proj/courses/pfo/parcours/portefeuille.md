@@ -19,14 +19,14 @@ Un investisseur hésite entre deux actifs : l'un rapporte 6 % par an avec une vo
 ## Étapes
 1. pfo/paradigme-de-markowitz
    Faut-il choisir le meilleur des deux actifs, ou regarder ce que chacun change à l'ensemble ? [§3.0.1]
-   Histoire : « hésite entre deux actifs » — Pris seul, le second rapporte plus et le premier risque moins ; au-delà des 2 % sans risque, chacun rapporte d'ailleurs 0,40 par unité de volatilité. La question n'est pas lequel choisir, mais ce que chacun apporte au mélange. [ajout]
+   Histoire : « hésite entre deux actifs » — Pris seul, le second rapporte plus et le premier risque moins : aucun des deux ne l'emporte sur l'autre sur les deux tableaux. La question n'est pas lequel choisir, mais ce que chacun apporte au mélange. [ajout]
 
 2. pfo/moments-du-portefeuille
    Pour comparer des répartitions, il faut chiffrer chacune : que rapporte-t-elle en moyenne, et combien fluctue-t-elle ? [§3.0.1]
    Histoire : « ils ne sont pas corrélés » — À parts égales, le mélange rapporte la moyenne pondérée $\tfrac12\times6+\tfrac12\times10=8\,\%$. Sa variance est la somme des variances pondérées par le carré des poids, sans terme croisé puisque la corrélation est nulle : $0{,}5^2\times0{,}10^2+0{,}5^2\times0{,}20^2=0{,}0125$, d'où une volatilité de $\sqrt{0{,}0125}\approx11{,}18\,\%$ : moins que la moyenne des deux, 15 %, parce que les actifs ne bougent pas ensemble. [ajout]
 
 3. pfo/annualisation
-   Les prix arrivent jour par jour, les objectifs se fixent sur un an. Comment passer de l'un à l'autre sans fausser le risque ? [§3.0.7]
+   Les prix arrivent jour par jour, les objectifs se fixent sur un an, et passer de l'un à l'autre ne doit pas fausser le risque. [§3.0.7]
    Suite : Ces chiffres annuels, l'investisseur ne les observe pas : ses données sont des rendements journaliers, par exemple, pour le second actif, de moyenne 0,0397 % et d'écart type 1,26 %. Comment les porter à l'année ? [ajout]
    Histoire : « Comment les porter à l'année » — La moyenne et la variance se multiplient par les 252 séances de l'année, l'écart type par leur racine : $252\times0{,}0397\,\%\approx10\,\%$ et $1{,}26\,\%\times\sqrt{252}\approx20\,\%$ par an, les chiffres du départ ; à l'inverse, $10\,\%/252$ et $20\,\%/\sqrt{252}$ redonnent les chiffres journaliers. [ajout]
 
@@ -51,11 +51,11 @@ Un investisseur hésite entre deux actifs : l'un rapporte 6 % par an avec une vo
    Histoire : « et faut-il garder une part sans risque » — Oui, s'il veut moins de risque que ce portefeuille : il le dose avec le placement sans risque, le long d'une droite de pente 0,566. Moitié chacun donne 4,67 % de rendement pour 4,71 % de volatilité. [ajout]
 
 9. pfo/slsqp
-   Avec deux actifs, tout se fait à la main. Avec des dizaines et des bornes sur chaque poids, comment l'ordinateur trouve-t-il la solution ? [§3.0.6]
+   Avec deux actifs, tout se fait à la main. Avec des dizaines, et des bornes sur chaque poids, plus aucune formule ne donne la solution. [§3.0.6]
    Suite : L'investisseur élargit son choix à des dizaines d'actifs, avec une borne sur chaque poids. Comment l'ordinateur trouve-t-il alors la meilleure répartition ? [ajout]
    Histoire : « Comment l'ordinateur trouve-t-il alors la meilleure répartition » — Il part d'une répartition, remplace le problème par une version quadratique aux contraintes linéarisées, avance dans la direction qu'elle indique, et recommence. Pour minimiser $(x-3)^2$ avec $x\ge0$ depuis 0, un seul pas mène au minimum. [ajout]
 
 ## Point d'arrivée
 L'investisseur ne choisit pas un actif mais un mélange : deux tiers dans le premier, un tiers dans le second, le portefeuille dont le rendement excédentaire par unité de risque est le plus élevé. Il règle ensuite son risque en dosant ce mélange avec le placement sans risque, le long d'une droite de pente constante. [ajout]
 
-Tout repose sur des rendements espérés et des covariances estimés : le récit s'arrête là où commence la question de leur stabilité, que pose l'exercice 3. [p. 54]
+Tout repose sur des rendements espérés et des covariances estimés, et le récit s'arrête là où commence la question de leur stabilité : si ces estimations bougent, la répartition bouge-t-elle avec elles ? [p. 54]

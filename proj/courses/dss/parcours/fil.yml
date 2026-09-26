@@ -1,22 +1,24 @@
 # Écrit par build.py (SPEC-MODELE A17) : toutes les étapes du cours, dans l'ordre
 # de lecture. Le validateur exige que cette suite reste contenue, dans le même
 # ordre, dans celle des parcours actuels. Ne pas éditer à la main.
-scelle: '2026-09-24'
+scelle: '2026-09-26'
 fil:
+- dss/fouille-de-donnees
 - dss/correlation-fallacieuse
 - dss/science-des-donnees
-- dss/fouille-de-donnees
 - dss/apprentissage-automatique
 - dss/intelligence-artificielle
 - dss/apprentissage-supervise
 - dss/apprentissage-non-supervise
 - dss/apprentissage-par-renforcement
-- dss/domaine-d-application
-- dss/interpretabilite
+- dss/scoring-de-credit
 - dss/matrice-de-confusion
 - dss/courbe-roc
-- dss/scoring-de-credit
+- dss/domaine-d-application
+- dss/interpretabilite
 - dss/moindres-carres-ordinaires
+- dss/selection-de-variables
+- dss/selection-de-sous-ensemble
 - dss/erreur-de-test
 - dss/surapprentissage
 - dss/critere-penalise
@@ -25,8 +27,6 @@ fil:
 - dss/bic
 - dss/r2-ajuste
 - dss/validation-croisee
-- dss/selection-de-variables
-- dss/selection-de-sous-ensemble
 - dss/meilleur-sous-ensemble
 - dss/selection-pas-a-pas
 - dss/selection-ascendante
@@ -47,11 +47,11 @@ fil:
 - dss/bootstrap
 - dss/bagging
 - dss/erreur-out-of-bag
+- dss/variance-d-une-moyenne-correlee
+- dss/foret-aleatoire
 - dss/importance-des-variables
 - dss/importance-par-impurete
 - dss/importance-par-permutation
-- dss/variance-d-une-moyenne-correlee
-- dss/foret-aleatoire
 - dss/boosting
 - dss/reseau-de-neurones-artificiel
 - dss/apprentissage-inductif
@@ -61,20 +61,20 @@ fil:
 - dss/limite-du-perceptron
 - dss/fonction-d-activation
 - dss/reseau-multicouche
-- dss/apprentissage-profond
 - dss/descente-de-gradient
 - dss/retropropagation
 - dss/descente-avec-inertie
 - dss/apprentissage-en-ligne-ou-par-lot
+- dss/apprentissage-profond
 - dss/generalisation
 - dss/garantie-pac
 - dss/architecture-du-reseau
-- dss/arret-precoce
-- dss/decroissance-des-poids
-- dss/protocole-d-entrainement
 - dss/preparation-des-donnees
 - dss/type-de-donnee
 - dss/codage-des-variables
+- dss/arret-precoce
+- dss/decroissance-des-poids
+- dss/protocole-d-entrainement
 - dss/analyse-post-entrainement
 - dss/comparaison-de-modeles
 - dss/smote

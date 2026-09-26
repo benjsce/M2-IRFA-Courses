@@ -35,27 +35,27 @@ Tirer 20 clients avec remise parmi les 20 de la banque en laisse en moyenne 7 de
    Chaque arbre laisse de côté une partie des données. Peut-on s'en servir pour juger l'ensemble ? [slide 102]
    Histoire : « à quoi servent les clients laissés de côté » — Un client absent d'un tirage est dit « hors du sac », out of bag, pour l'arbre correspondant ; il l'est pour environ 36 % des tirages, la probabilité $0{,}95^{20}$ calculée plus haut. On le prédit avec ces seuls arbres qui ne l'ont pas vu, environ 180 sur 500, et l'on moyenne ces erreurs sur les 20 clients. On obtient une erreur de test sans avoir mis un seul client de côté. [ajout]
 
-5. dss/importance-des-variables
-   L'ensemble prédit mieux qu'un arbre, mais on ne sait plus quelles variables comptent. [slide 104]
-   Suite : Cinq cents arbres ne se lisent pas comme une régression. Quelles variables comptent dans la perte qu'ils prédisent ? [ajout]
-   Histoire : « Quelles variables comptent dans la perte qu'ils prédisent » — On attribue à chaque prédicteur une part du travail de l'ensemble. Si l'ensemble a bien appris, l'endettement et le revenu en reçoivent l'essentiel, et les trois variables sans lien presque rien. [ajout]
-
-6. dss/importance-par-impurete
-   Première réponse : additionner ce que chaque coupure sur une variable a apporté. [slide 104, slide 105]
-   Histoire : « Quelles variables comptent » — Chaque arbre coupe les clients en deux groupes selon un seuil sur un prédicteur, et chaque coupure rend les groupes plus homogènes : elle fait baisser leur impureté, ici la somme des carrés des erreurs. Première mesure : additionner, pour chaque prédicteur, la baisse obtenue à chaque coupure faite sur lui, et moyenner sur les 500 arbres. [ajout]
-
-7. dss/importance-par-permutation
-   Seconde réponse : brouiller une variable et regarder ce qu'on perd. [slide 106]
-   Histoire : « Cinq cents arbres ne se lisent pas comme une régression » — Seconde mesure : mélanger au hasard la colonne d'un prédicteur entre les clients hors du sac, et regarder de combien la prédiction se dégrade. Une variable sans lien avec la perte, même si elle a servi à couper, ne coûte rien quand on la brouille. [ajout]
-
-8. dss/variance-d-une-moyenne-correlee
-   Retour au bagging : moyenner des arbres réduit-il la variance autant qu'on l'espère ? [slide 108]
+5. dss/variance-d-une-moyenne-correlee
+   Les 500 arbres ne sont pas indépendants les uns des autres. Est-ce grave ? [slide 108]
    Suite : Les arbres sont bâtis sur des tirages des mêmes 20 clients, et se ressemblent. Moyenner des arbres qui se ressemblent réduit-il la variance autant qu'on l'espère ? [ajout]
    Histoire : « Moyenner des arbres qui se ressemblent réduit-il la variance » — Non : si chaque arbre a une variance $\sigma^2$ et deux arbres une corrélation $\rho$, la moyenne de $B$ arbres a pour variance $\rho\,\sigma^2+(1-\rho)\,\sigma^2/B$. Le second terme s'efface quand $B$ grandit, pas le premier : à $\rho=0{,}5$, elle ne descend jamais sous la moitié de celle d'un arbre, même avec 500 arbres. [ajout]
 
-9. dss/foret-aleatoire
+6. dss/foret-aleatoire
    Si les arbres se ressemblent trop, comment les forcer à différer ? [slide 110, slide 111]
    Histoire : « Comment faire pour que ces arbres n'apprennent pas tous la même chose » — À chaque coupure, on ne laisse candidats que quelques prédicteurs tirés au hasard, par exemple 2 des 5 : trois fois sur cinq, le prédicteur le plus fort n'est pas candidat, et les arbres cessent de se ressembler. [ajout]
+
+7. dss/importance-des-variables
+   La forêt prédit mieux qu'un arbre, mais on ne sait plus quelles variables comptent. [slide 104]
+   Suite : Cinq cents arbres ne se lisent pas comme une régression. Quelles variables comptent dans la perte qu'ils prédisent ? [ajout]
+   Histoire : « Quelles variables comptent dans la perte qu'ils prédisent » — On attribue à chaque prédicteur une part du travail de la forêt. Si elle a bien appris, l'endettement et le revenu en reçoivent l'essentiel, et les trois variables sans lien presque rien. [ajout]
+
+8. dss/importance-par-impurete
+   Première réponse : additionner ce que chaque coupure sur une variable a apporté. [slide 104, slide 105]
+   Histoire : « Quelles variables comptent » — Chaque arbre coupe les clients en deux groupes selon un seuil sur un prédicteur, et chaque coupure rend les groupes plus homogènes : elle fait baisser leur impureté, ici la somme des carrés des erreurs. Première mesure : additionner, pour chaque prédicteur, la baisse obtenue à chaque coupure faite sur lui, et moyenner sur les 500 arbres. [ajout]
+
+9. dss/importance-par-permutation
+   Seconde réponse : brouiller une variable et regarder ce qu'on perd. [slide 106]
+   Histoire : « Cinq cents arbres ne se lisent pas comme une régression » — Seconde mesure : mélanger au hasard la colonne d'un prédicteur entre les clients hors du sac, et regarder de combien la prédiction se dégrade. Une variable sans lien avec la perte, même si elle a servi à couper, ne coûte rien quand on la brouille. [ajout]
 
 10. dss/boosting
     Une tout autre façon d'assembler des arbres : non plus en parallèle, mais les uns après les autres. [slide 122]

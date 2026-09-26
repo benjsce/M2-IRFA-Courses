@@ -6,7 +6,7 @@ source: poly, §1.1–§1.2
 ---
 
 ## Point de départ
-Une action est affichée à 99,90 à l'achat et à 100,10 à la vente. Quel est son prix ? Et quand ce prix passe de 100 à 110 puis à 99, de combien a-t-elle monté ? Les deux questions ont plusieurs réponses, et le chapitre 1 commence par les trier. [ajout]
+Une action est affichée à 99,90 à l'achat et à 100,10 à la vente. Quel est son prix ? Et quand ce prix passe de 100 à 110 puis à 99, de combien a-t-elle monté ? Les deux questions ont plusieurs réponses. [ajout]
 
 ## Étapes
 1. pfo/fourchette-bid-ask
@@ -15,23 +15,23 @@ Une action est affichée à 99,90 à l'achat et à 100,10 à la vente. Quel est 
 
 2. pfo/prix-milieu
    Un modèle, lui, veut un seul nombre. Comment passer des deux prix affichés à un prix unique ? [§1.1.1]
-   Histoire : « Quel est son prix ? » — Un modèle veut un seul nombre. On retient le milieu de la fourchette, $(99{,}90+100{,}10)/2=100{,}00$. [ajout]
+   Histoire : « Quel est son prix ? » — On retient le milieu de la fourchette, $(99{,}90+100{,}10)/2=100{,}00$, à égale distance du prix auquel on peut vendre et de celui auquel on peut acheter. [ajout]
 
 3. pfo/vwap
-   Pour un gros ordre, ni le prix affiché ni la clôture ne disent ce qu'on a vraiment payé : il faut tenir compte des quantités échangées. [§1.1.2]
+   Le prix milieu sert au modèle. Celui qui achète vraiment, et en quantité, a un autre souci : ses propres achats font bouger le prix, et ni le prix affiché ni le prix milieu ne disent ce qu'il a payé. Il faut tenir compte des quantités échangées. [§1.1.2]
    Suite : Un fonds achète 400 titres dans la journée : 300 à 100, puis 100 à 101, le prix ayant monté sous l'effet de ses propres achats. Quel prix a-t-il payé ? [ajout]
    Histoire : « Quel prix a-t-il payé » — Ni 100 ni 101 : chaque exécution pèse pour son volume, $(300\times100+100\times101)/400=100{,}25$. [ajout]
 
 4. pfo/passage-aux-rendements
-   Une fois le prix choisi, le cours cesse de le modéliser directement, pour une raison statistique. [§1.2]
-   Histoire : « quand ce prix passe de 100 à 110 puis à 99 » — Le cours ne modélise pas ces prix eux-mêmes, qui n'ont pas de niveau stable dans le temps, mais leurs variations d'une période à l'autre, dont la loi, elle, reste stable. [ajout]
+   Une fois le prix choisi, que faut-il modéliser : le prix lui-même, ou ses variations ? [§1.2]
+   Histoire : « quand ce prix passe de 100 à 110 puis à 99 » — Ses variations. Ces prix n'ont pas de niveau stable dans le temps ; leurs variations d'une période à l'autre, elles, suivent une loi qui reste stable, et c'est elles qu'on modélise. [ajout]
 
 5. pfo/rendement-arithmetique
    Première façon de mesurer une variation : la plus intuitive, celle d'un pourcentage. Que se passe-t-il quand on enchaîne deux périodes ? [§1.2.1]
    Histoire : « de combien a-t-elle monté » — Première réponse : +10 %, puis −10 %. Mais ces pourcentages ne s'additionnent pas, ils se composent en se multipliant : 100 devient $100\times1{,}1\times0{,}9=99$, si bien que sur l'ensemble la variation n'est pas nulle, elle vaut $99/100-1=-1\,\%$. [ajout]
 
 6. pfo/rendement-logarithmique
-   La seconde façon règle ce problème d'enchaînement, et c'est elle que tous les listings du cours emploieront. [§1.2.1, p. 11]
+   Existe-t-il une mesure qui s'enchaîne en s'additionnant ? La seconde façon règle ce problème, et c'est elle qu'on emploiera dans toute la suite. [§1.2.1, p. 11]
    Histoire : « Les deux questions ont plusieurs réponses » — Seconde réponse, le rendement logarithmique : le logarithme du rapport des deux prix, $\ln(110/100)\approx+9{,}53\,\%$, puis $\ln(99/110)\approx-10{,}54\,\%$. Le logarithme changeant le produit des rapports en somme, leur somme, $-1{,}01\,\%$, est exactement le rendement logarithmique sur l'ensemble, $\ln(99/100)$. [ajout]
 
 7. pfo/piege-d-agregation
