@@ -31,7 +31,7 @@ Ce qui est **connu** : le prix comptant et le zéro-coupon. Ce qu'on **cherche**
 
 La base est le coût de ce portage ; elle se referme à l'échéance, où le prix forward et le prix comptant se confondent. Le poly en déduit que le prix forward varie comme l'action moins le zéro-coupon, $dF_t/F_t=dS_t/S_t-dP_t/P_t$, soit en moyenne $(\mu-r)\,dt$. [Déf. 8, §3.1]
 
-![Le prix forward de l'action à un an, recalculé à mesure que l'échéance approche, si l'action restait à 100 : la base, 4,08 au départ, se referme jusqu'à 0.](figures/prix-forward.svg) [ajout]
+![L'action vaut 100 aujourd'hui. Livrée dans un an, elle se paie 100 divisé par le zéro-coupon à un an, 0,9608, soit 104,08 ; livrée dans deux ans, 100 divisé par 0,9048, soit 110,52. Ce qui dépasse 100 est la base, le coût du portage : 4,08 à un an, 10,52 à deux ans.](figures/prix-forward.svg) [ajout]
 
 ## Le chemin jusqu'ici
 fpp/cash-and-carry produit ce prix : c'est le coût certain d'une action livrée par portage. Ce coût est un emprunt remboursé en $T$, évalué par fpp/zero-coupon ; fpp/absence-d-arbitrage en fait le seul prix possible ; fpp/capitalisation l'écrit en taux continu, $S_t\,e^{R(t,T)(T-t)}$. [ajout]
