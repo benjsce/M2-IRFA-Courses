@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
 r"""
-regression-ridge.svg — les coefficients standardisés des 20 clients, quand λ grandit.
+regression-ridge.svg — le critère de ridge, dessiné comme la somme que la Forme écrit.
 
-Les cinq prédicteurs sont standardisés, comme le demande la fiche, et la perte centrée. Pour
-chaque $\lambda$, $(\mathbf X^T\mathbf X+\lambda\mathbf I)^{-1}\mathbf X^T\mathbf y$. À gauche,
-$\lambda$ presque nul : les coefficients des moindres carrés. À droite, $\lambda$ très grand :
-tous tendent vers zéro, sans qu'aucun ne l'atteigne. Les coefficients ne rétrécissent pas
-tous au même rythme : celui de x3, la variable sans lien que le hasard a liée à la perte,
-commence par grandir (0,245 à λ=0,01, 0,338 à λ=5), rejoint celui de l'endettement vers
-λ=20 et le dépasse à λ=100 (0,111 contre 0,102). L'axe des λ est posé en bas du cadre, et
-un trait pâle marque zéro, le modèle nul.
+Pour qu'un seul coefficient se voie, l'endettement seul, standardisé, face à la perte
+centrée des 20 clients : RSS(β) = Σ (yᵢ − β zᵢ)² est une parabole de sommet β̂ls, la
+pénalité λβ² une parabole de sommet 0, et leur somme, le critère de ridge, une parabole de
+sommet β̂ridge = Σ zᵢyᵢ / (Σ zᵢ² + λ), entre les deux : c'est, à une dimension,
+(XᵀX + λI)⁻¹Xᵀy. Σ zᵢ² vaut 20 puisque z est standardisé ; le dessin prend λ = 20, pour que
+le glissement se voie : le coefficient est divisé par deux, 20 / (20 + 20). Chaque cadre a
+sa propre échelle verticale, sans graduation ; les abscisses sont communes.
 
 Usage : python courses/dss/figures/regression-ridge.py > regression-ridge.svg
 Dépendance : aucune.
@@ -85,27 +84,42 @@ def ridge(lam):
     return resoudre(A, b)
 
 
-LMIN, LMAX = -2.0, 4.0                      # log10 de lambda
-grille = [LMIN + (LMAX - LMIN) * k / 120 for k in range(121)]
-chemins = [ridge(10 ** g) for g in grille]
-NOMS = ("x1 endettement", "x2 revenu")
-COUL = (ACCENT, AJOUT, DOUX, DOUX, DOUX)
+LAM = 20.0
+z = [r[0] for r in Z]                       # l'endettement, standardisé
+Szz = sum(v * v for v in z)                 # vaut 20 : z est standardisé sur les 20 clients
+Szy = sum(v * y for v, y in zip(z, Yc))
+Syy = sum(y * y for y in Yc)
+b_ls, b_r = Szy / Szz, Szy / (Szz + LAM)
+RSS = lambda b: Syy - 2 * b * Szy + b * b * Szz
+PEN = lambda b: LAM * b * b
+CRI = lambda b: RSS(b) + PEN(b)
+B0, B1 = -0.25, 1.1
 
-f = Figure(xmin=LMIN, xmax=LMAX + 1.3, ymin=-1.0, ymax=1.0, w=560, h=330,
-           titre="Quand λ devient très grand, tous les coefficients tendent vers zéro, sans l'atteindre")
-f.axes(xlab="λ, échelle logarithmique", ylab="coefficient standardisé",
-       xticks=(-2, 0, 2, 4), yticks=(-0.8, -0.4, 0, 0.4, 0.8),
-       fmt=lambda t: {-2: "0,01", 0: "1", 2: "100", 4: "10 000"}[t],
-       fmt_y=lambda t: ("%g" % t).replace(".", ","), croix=(LMIN, -1.0))
-f.segment(LMIN, 0, LMAX, 0, couleur=PALE, epaisseur=1.0, pointilles=None)
-for j in range(5):
-    f.courbe([(g, c[j]) for g, c in zip(grille, chemins)], couleur=COUL[j],
-             epaisseur=2.4 if j < 2 else 1.4)
-for j in range(2):
-    f.texte(LMIN, chemins[0][j], NOMS[j], couleur=COUL[j], dx=6,
-            dy=18 if chemins[0][j] > 0 else 16, taille=11.5, gras=True, fond=True)
-f.texte(LMIN, chemins[0][2], "x3, x4, x5 : sans lien", couleur=DOUX, dx=6, dy=-8, taille=11,
-        fond=True)
-f.texte(LMAX, 0, "le modèle nul", couleur=ENCRE, dx=6, dy=-8, taille=11.5)
 
-sys.stdout.write(f.svg())
+def cadre(g, couleur, nom, formule, sommet, lab):
+    bas = min(g(B0 + (B1 - B0) * k / 100) for k in range(101))
+    haut = max(g(B0), g(B1))
+    y0 = bas - 0.25 * (haut - bas)
+    f = Figure(xmin=B0, xmax=B1, ymin=y0, ymax=haut + 0.35 * (haut - bas), w=210, h=262,
+               marges=(10, 30, 70, 8))
+    f.axes(xticks=(0,), fmt=lambda t: "0", croix=(B0, y0))
+    YMAX = f.ymax
+    f.fonction(g, B0, B1, couleur=couleur, epaisseur=2.4)
+    f.segment(b_ls, y0, b_ls, g(b_ls), couleur=PALE)
+    f.point(sommet, g(sommet), couleur=couleur)
+    f.texte(sommet, g(sommet), lab, couleur=couleur, ancre="middle", dy=-10, gras=True, taille=12)
+    f.texte((B0 + B1) / 2, YMAX, nom, ancre="middle", dy=-12, couleur=couleur, gras=True, taille=12.5)
+    f.texte((B0 + B1) / 2, y0, formule, ancre="middle", dy=36, couleur=couleur, taille=12)
+    if sommet == b_r:
+        f.texte((B0 + B1) / 2, y0, "β̂ridge = Σ zᵢyᵢ / (Σ zᵢ² + λ)", ancre="middle", dy=56,
+                couleur=ENCRE, taille=12)
+    return f
+
+
+pl = Planche([
+    cadre(RSS, AJOUT, "l'erreur", "RSS(β) = Σ (yᵢ − β zᵢ)²", b_ls, "β̂ls"),
+    cadre(PEN, DOUX, "la pénalité", "λ β²", 0.0, "0"),
+    cadre(CRI, ACCENT, "le critère de ridge", "RSS(β) + λ β²", b_r, "β̂ridge"),
+], signes=("+", "="), ecart=28,
+    titre="Le critère de ridge est l'erreur plus la pénalité ; son minimum glisse de β̂ls vers 0")
+sys.stdout.write(pl.svg())

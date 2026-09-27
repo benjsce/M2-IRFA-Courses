@@ -53,7 +53,7 @@ La raison de la modifier vient de dss/compromis-biais-variance : l'erreur que me
 ## Exemple minimal
 Sur les 20 clients, prédicteurs standardisés : à $\lambda$ presque nul, l'endettement et le revenu ont leurs coefficients des moindres carrés, 0,86 et −0,80 ; à $\lambda=10$, 0,40 et −0,40 ; à $\lambda=10\,000$, tous les coefficients valent moins de 0,002. [ajout]
 
-![Les coefficients standardisés des 20 clients quand $\lambda$ grandit, sur une échelle logarithmique. À gauche, ceux des moindres carrés ; à droite, tous tendent vers zéro, le modèle nul, sans l'atteindre. Ils ne rétrécissent pas au même rythme : celui de x3, la variable sans lien que le hasard a liée à la perte, grandit d'abord, puis rejoint celui de l'endettement.](figures/regression-ridge.svg) [ajout]
+![Le critère de ridge dessiné comme la somme que la Forme écrit, pour l'endettement seul des 20 clients, standardisé. L'erreur RSS(β) a son minimum en $\hat\beta^{\text{ls}}$ ; la pénalité $\lambda\beta^2$, en 0 ; leur somme, le critère, entre les deux, en $\hat\beta^{\text{ridge}}=\sum z_iy_i/(\sum z_i^2+\lambda)$ : à une dimension, $(\mathbf X^T\mathbf X+\lambda\mathbf I)^{-1}\mathbf X^T\mathbf y$. Le dessin prend $\lambda=20$, pour que le glissement se voie : le coefficient est divisé par deux. Chaque cadre a sa propre échelle verticale.](figures/regression-ridge.svg) [ajout]
 
 ## Geste de calcul type
 Standardiser les prédicteurs, choisir une grille de $\lambda$, résoudre $(\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{y}$ pour chacun, puis trancher par validation croisée. [slide 52, slide 57, slide 68]

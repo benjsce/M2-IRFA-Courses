@@ -34,7 +34,7 @@ Avec des écarts types de 1 et de 3, les scores valent $(15-13)/1=2$ et $(13-10)
 
 Pour une loi normale, environ 68 % des observations ont un score entre −1 et +1, environ 95 % entre −2 et +2, et un score au-delà de 3 en valeur absolue est très rare, ce qui en fait un détecteur d'anomalies. [p. 10]
 
-![La loi normale graduée en scores : la bande foncée, de −1 à +1, contient environ 68 % des observations ; avec la bande claire, de −2 à +2, on atteint environ 95 %. Les verticales marquent le seuil de 3. Le rendement de l'exemple, $-4\,\%$ pour un écart type de 1 %, a un score de $-4$, hors du seuil.](figures/score-z.svg) [ajout]
+![La loi normale graduée en scores : la bande foncée, de −1 à +1, contient environ 68 % des observations ; avec la bande claire, de −2 à +2, on atteint environ 95 %. Les verticales marquent le seuil de 3. Sous l'axe des scores, celui des rendements, gradué en μ, μ ± 2σ, μ ± 4σ : un rendement x tombe au score Z = (x − μ) / σ. Celui de l'exemple, $-4\,\%$ pour une moyenne nulle et un écart type de 1 %, a un score de $-4$, hors du seuil.](figures/score-z.svg) [ajout]
 
 ## Exemple minimal
 Un rendement journalier de −4 %, dans un groupe de moyenne nulle et d'écart type 1 %, a un score de −4. [ajout]

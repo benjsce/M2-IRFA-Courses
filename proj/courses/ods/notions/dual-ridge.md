@@ -34,7 +34,7 @@ Apply both sides to $y$. On the four observations, $n=4$ and $p=2$: the primal s
 $$(X^\top X+\lambda I_p)^{-1}X^\top y=X^\top(XX^\top+\lambda I_n)^{-1}y$$ [slide 11]
 
 ## Ce qui la définit
-![Memory in float64, on a logarithmic scale, for n = 100 000 samples and p = 1 000 000 features with ten non-zeros per row. The sparse matrix X takes 12 MB. The dual matrix XXᵀ takes 80 GB, X stored dense 800 GB, and the primal matrix XᵀX 8 TB — all three beyond a laptop's 16 GB.](figures/dual-ridge.svg) [slide 12]
+![The two formulas of the ridge weights as products of matrices drawn at scale, for n = 100 000 samples and p = 1 000 000 features. The primal inverts the p × p matrix XᵀX + λIₚ, 8 TB in float64; the dual inverts the n × n matrix XXᵀ + λIₙ, ten times narrower, 80 GB. Both give the same p weights: ŵ = (XᵀX + λIₚ)⁻¹Xᵀy = Xᵀ(XXᵀ + λIₙ)⁻¹y. Neither fits in a laptop's 16 GB.](figures/dual-ridge.svg) [slide 12]
 
 With $n=10^5$ samples and $p=10^6$ features, the dual is a hundred times smaller than the primal — and still out of reach. $X^\top X$ is dense in general even when $X$ is sparse, so the primal normal equations cannot even be stored, let alone solved; and the SVD is not an option either. [slide 12]
 
