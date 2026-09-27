@@ -18,7 +18,8 @@ Le 19 octobre 1987, le Dow Jones perd 22,6 % en une séance. Sous une loi normal
 
 2. pfo/fait-stylise
    En quoi, précisément, les rendements réels s'écartent-ils de la loi normale ? Mandelbrot et Fama en ont dressé la liste. [§2.1.1]
-   Histoire : « Le 19 octobre 1987 » — Ce krach n'est pas isolé : les rendements réels ont des pertes extrêmes trop fréquentes, des baisses plus violentes que les hausses, des périodes agitées qui se suivent. Ce sont des régularités qu'on retrouve d'un marché à l'autre, et que la loi normale ne reproduit pas. [ajout]
+   Suite : Ce krach est-il un accident, ou le signe de régularités qu'on retrouve sur tous les marchés ? [ajout]
+   Histoire : « régularités qu'on retrouve sur tous les marchés » — Ce krach n'est pas isolé : les rendements réels ont des pertes extrêmes trop fréquentes, des baisses plus violentes que les hausses, des périodes agitées qui se suivent. Ce sont des régularités qu'on retrouve d'un marché à l'autre, et que la loi normale ne reproduit pas. [ajout]
 
 3. pfo/moment-standardise
    Pour passer du constat à la mesure, il faut aller au-delà de la moyenne et de la variance. [§2.1.2]
@@ -27,15 +28,18 @@ Le 19 octobre 1987, le Dow Jones perd 22,6 % en une séance. Sous une loi normal
 
 4. pfo/coefficient-d-asymetrie
    Premier outil : une puissance impaire, qui garde le signe des écarts et voit donc de quel côté penche la loi. [§2.1.2, p. 21]
-   Histoire : « un jour de krach à −10 % » — Élevé au cube, l'écart réduit garde son signe : le −10 %, très loin sous la moyenne, pèse lourd et négatif. La série a un coefficient d'asymétrie de −1,37 ; sans ce jour, elle est symétrique et le coefficient est nul. [ajout]
+   Suite : De quel côté penche cette série ? [ajout]
+   Histoire : « De quel côté penche cette série » — Élevé au cube, l'écart réduit garde son signe : le −10 %, très loin sous la moyenne, pèse lourd et négatif. La série a un coefficient d'asymétrie de −1,37 ; sans ce jour, elle est symétrique et le coefficient est nul. [ajout]
 
 5. pfo/asymetrie-negative
    Ce signe négatif est-il un accident de la petite série, ou un trait des marchés ? [§2.1.1, p. 21]
-   Histoire : « le Dow Jones perd 22,6 % » — Un trait des marchés, et le premier fait stylisé qui devienne un chiffre : sur les actions, les baisses sont plus brutales que les hausses, et les krachs sont des baisses. La queue des pertes est plus longue que celle des gains, ce que la volatilité ne voit pas et que le signe du coefficient d'asymétrie lit aussitôt. [ajout]
+   Suite : La petite série penche du côté des pertes. Les actions penchent-elles toutes de ce côté ? [ajout]
+   Histoire : « Les actions penchent-elles toutes de ce côté » — Oui, c'est un trait des marchés, et le premier fait stylisé qui devienne un chiffre : sur les actions, les baisses sont plus brutales que les hausses, et les krachs sont des baisses. La queue des pertes est plus longue que celle des gains, ce que la volatilité ne voit pas et que le signe du coefficient d'asymétrie lit aussitôt. [ajout]
 
 6. pfo/kurtosis
    Le signe ne dit pas tout : le krach est aussi un écart trop lointain, dans quelque sens qu'il aille. Second outil : une puissance paire et élevée, qui efface le signe et grossit démesurément les écarts lointains. [§2.1.2, p. 22]
-   Histoire : « ce que ce krach a d'anormal » — Ce que ce krach a d'anormal, c'est aussi sa distance : à la puissance quatre, le signe s'efface et les écarts lointains dominent. La kurtosis de la série vaut environ 3,49, au-dessus des 3 d'une loi normale ; sans le jour de krach, elle ne vaudrait que 1,7. [ajout]
+   Suite : Le krach est aussi très loin de la moyenne, quel que soit le sens. Comment mesurer le poids de ces écarts lointains ? [ajout]
+   Histoire : « Comment mesurer le poids de ces écarts lointains » — À la puissance quatre, le signe s'efface et les écarts lointains dominent : c'est la kurtosis. Celle de la série vaut environ 3,49, au-dessus des 3 d'une loi normale ; sans le jour de krach, elle ne vaudrait que 1,7. [ajout]
 
 7. pfo/queues-epaisses
    Une kurtosis au-dessus de 3, à quoi cela ressemble-t-il sur la loi elle-même ? [p. 23]
@@ -49,7 +53,8 @@ Le 19 octobre 1987, le Dow Jones perd 22,6 % en une séance. Sous une loi normal
 
 9. pfo/test-de-normalite
    Trois chances sur cent, est-ce assez peu pour abandonner la loi normale ? La réponse se fixe avant de regarder les données : l'hypothèse éprouvée, et le seuil. [éq. 2.13, éq. 2.14]
-   Histoire : « même si la loi était normale » — L'hypothèse éprouvée est $H_0:X\sim\mathcal{N}(\mu,\sigma^2)$, rejetée quand la p-valeur passe sous 5 %. Avec 0,03, ce test, qui ne regarde que l'asymétrie, la rejette : le seul krach y suffit. Au-dessus de 5 %, on aurait seulement dit qu'on ne la rejette pas, jamais que la loi est normale. [ajout]
+   Suite : Trois chances sur cent : faut-il alors rejeter la loi normale ? [ajout]
+   Histoire : « faut-il alors rejeter la loi normale » — L'hypothèse éprouvée est $H_0:X\sim\mathcal{N}(\mu,\sigma^2)$, rejetée quand la p-valeur passe sous 5 %. Avec 0,03, ce test, qui ne regarde que l'asymétrie, la rejette : le seul krach y suffit. Au-dessus de 5 %, on aurait seulement dit qu'on ne la rejette pas, jamais que la loi est normale. [ajout]
 
 10. pfo/test-de-jarque-bera
     Ce calcul ne regardait que l'asymétrie, et il a fallu simuler sa loi. Un test usuel juge les deux écarts à la fois, avec une loi connue d'avance. [§2.3]

@@ -18,7 +18,8 @@ On télécharge quatre ans de prix pour Apple, le CAC 40, le Nikkei et le Bitcoi
 
 2. pfo/score-z
    Second défaut, plus difficile : repérer une valeur aberrante demande de dire à partir de quand un écart est anormal. [§1.3.2, p. 9]
-   Histoire : « des sauts qui ne sont pas des mouvements de marché mais des erreurs » — Pour dire qu'un saut est anormal, on le mesure en écarts types à partir de la moyenne, ce qu'on appelle son score z : un rendement de −4 % pour un actif de moyenne nulle et d'écart type 1 % a un score z de −4, il est à 4 écarts types sous sa moyenne, ce qui arrive rarement. [ajout]
+   Suite : À partir de quand un saut est-il trop grand pour être un mouvement de marché ? [ajout]
+   Histoire : « À partir de quand un saut est-il trop grand pour être un mouvement de marché » — Pour dire qu'un saut est anormal, on le mesure en écarts types à partir de la moyenne, ce qu'on appelle son score z : un rendement de −4 % pour un actif de moyenne nulle et d'écart type 1 % a un score z de −4, il est à 4 écarts types sous sa moyenne, ce qui arrive rarement. [ajout]
 
 3. pfo/filtre-z-score-glissant
    Appliqué aux rendements, l'outil doit suivre le marché : une moyenne et une dispersion calculées sur toute la série jugeraient mal les périodes agitées. [§1.3.2]
@@ -27,7 +28,8 @@ On télécharge quatre ans de prix pour Apple, le CAC 40, le Nikkei et le Bitcoi
 
 4. pfo/pipeline-d-ingestion
    Il reste à enchaîner ces opérations, et l'ordre dans lequel on les fait n'est pas indifférent. [Listing 1.1]
-   Histoire : « Tout modèle construit dessus en héritera » — La chaîne du cours télécharge les prix, comble les trous, calcule les rendements logarithmiques, puis filtre les sauts. L'ordre compte : combler avant de calculer, sinon chaque jour férié coupe la série ; filtrer après, parce que le filtre regarde les rendements et non les prix. [ajout]
+   Suite : Combler les trous, calculer les rendements, filtrer les sauts : dans quel ordre enchaîner ces opérations ? [ajout]
+   Histoire : « dans quel ordre enchaîner ces opérations » — La chaîne du cours télécharge les prix, comble les trous, calcule les rendements logarithmiques, puis filtre les sauts. L'ordre compte : combler avant de calculer, sinon chaque jour férié coupe la série ; filtrer après, parce que le filtre regarde les rendements et non les prix. [ajout]
 
 ## Point d'arrivée
 Le cours sort de ce nettoyage une série de rendements sans trou ni saut aberrant, celle que les parcours suivants utiliseront. Le filtre a un prix : un vrai krach peut être effacé comme une erreur. [ajout]

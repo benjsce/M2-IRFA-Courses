@@ -28,7 +28,8 @@ Un portefeuille de 1 000 000 affiche des rendements journaliers de moyenne 0,05 
 
 4. pfo/modele-de-risque
    Pour chiffrer l'une et l'autre, il faut supposer quelque chose de la loi des rendements. Le cours compare trois hypothèses. [p. 32, Listing 2.2]
-   Histoire : « avec une asymétrie de −0,5 et un excès de kurtosis de 3 » — Ces deux chiffres disent que la loi n'est pas normale ; or la VaR et la CVaR dépendent de la loi entière, pas seulement de sa moyenne et de son écart type. Le cours compare donc trois hypothèses : aucune, la loi normale, et une loi normale corrigée. [ajout]
+   Suite : Pour chiffrer la VaR et la CVaR, que faut-il supposer de la loi de ses rendements ? [ajout]
+   Histoire : « que faut-il supposer de la loi de ses rendements » — Une loi entière, puisque la VaR et la CVaR en dépendent, pas seulement de sa moyenne et de son écart type ; et l'asymétrie de −0,5 et l'excès de kurtosis de 3 disent qu'elle n'est pas normale. Chaque hypothèse donne un modèle de risque ; le cours en compare trois : aucune, la loi normale, et une loi normale corrigée. [ajout]
 
 5. pfo/var-historique
    Première hypothèse : n'en faire aucune, et lire directement les rendements passés. [Listing 2.2]
@@ -37,15 +38,18 @@ Un portefeuille de 1 000 000 affiche des rendements journaliers de moyenne 0,05 
 
 6. pfo/var-gaussienne
    Deuxième hypothèse, la plus simple à calculer : celle que le parcours précédent vient de réfuter. [Listing 2.2]
-   Histoire : « de moyenne 0,05 % et d'écart type 2 % » — On ne garde que ces deux nombres et l'on suppose la loi normale. Son quantile à 5 % est toujours à 1,6449 écarts types sous la moyenne, valeur que donne la table : $0{,}05\,\%-1{,}6449\times2\,\%\approx-3{,}24\,\%$, soit une VaR de 32 397. La moyenne des 5 % pires jours est plus loin : pour une loi normale, elle se trouve à $\varphi(1{,}6449)/0{,}05\approx2{,}063$ écarts types sous la moyenne, $\varphi$ étant la densité de la loi normale ; cette formule fermée vient de ce que la dérivée de $\varphi$ en $x$ vaut $-x\varphi(x)$. D'où $0{,}05\,\%-2{,}063\times2\,\%\approx-4{,}08\,\%$ et une CVaR de 40 754. Mais l'asymétrie et la kurtosis du portefeuille disent que cette hypothèse est fausse. [ajout]
+   Suite : Et si l'on supposait la loi normale, de moyenne 0,05 % et d'écart type 2 % ? [ajout]
+   Histoire : « Et si l'on supposait la loi normale » — On ne garde que ces deux nombres et l'on suppose la loi normale. Son quantile à 5 % est toujours à 1,6449 écarts types sous la moyenne, valeur que donne la table : $0{,}05\,\%-1{,}6449\times2\,\%\approx-3{,}24\,\%$, soit une VaR de 32 397. La moyenne des 5 % pires jours est plus loin : pour une loi normale, elle se trouve à $\varphi(1{,}6449)/0{,}05\approx2{,}063$ écarts types sous la moyenne, $\varphi$ étant la densité de la loi normale ; cette formule fermée vient de ce que la dérivée de $\varphi$ en $x$ vaut $-x\varphi(x)$. D'où $0{,}05\,\%-2{,}063\times2\,\%\approx-4{,}08\,\%$ et une CVaR de 40 754. Mais l'asymétrie et la kurtosis du portefeuille disent que cette hypothèse est fausse. [ajout]
 
 7. pfo/developpement-de-cornish-fisher
    Plutôt que d'abandonner le calcul gaussien, peut-on corriger son quantile avec les deux moments du parcours précédent ? [p. 34]
-   Histoire : « une asymétrie de −0,5 » — Le quantile gaussien, $z_\alpha=-1{,}645$, se corrige avec l'asymétrie $S=-0{,}5$ et l'excès de kurtosis $K=3$ : $q_\alpha\approx z_\alpha+\tfrac{S}{6}(z_\alpha^2-1)+\tfrac{K}{24}(z_\alpha^3-3z_\alpha)-\tfrac{S^2}{36}(2z_\alpha^3-5z_\alpha)$. L'asymétrie négative le pousse vers les pertes de $-0{,}142$. La kurtosis, elle, le ramène de $+0{,}061$ : une loi à queues épaisses a aussi des flancs plus minces que la loi normale, et à 1,645 écarts types on est encore sur le flanc ; son terme, $z_\alpha^3-3z_\alpha$, ne change de signe qu'à $\sqrt3\approx1{,}73$ écarts types. Avec le dernier terme, $+0{,}005$, le quantile arrive à $-1{,}7217$. [ajout]
+   Suite : La loi n'est pas normale : peut-on corriger son quantile par l'asymétrie et l'excès de kurtosis ? [ajout]
+   Histoire : « peut-on corriger son quantile » — Le quantile gaussien, $z_\alpha=-1{,}645$, se corrige avec l'asymétrie $S=-0{,}5$ et l'excès de kurtosis $K=3$ : $q_\alpha\approx z_\alpha+\tfrac{S}{6}(z_\alpha^2-1)+\tfrac{K}{24}(z_\alpha^3-3z_\alpha)-\tfrac{S^2}{36}(2z_\alpha^3-5z_\alpha)$. L'asymétrie négative le pousse vers les pertes de $-0{,}142$. La kurtosis, elle, le ramène de $+0{,}061$ : une loi à queues épaisses a aussi des flancs plus minces que la loi normale, et à 1,645 écarts types on est encore sur le flanc ; son terme, $z_\alpha^3-3z_\alpha$, ne change de signe qu'à $\sqrt3\approx1{,}73$ écarts types. Avec le dernier terme, $+0{,}005$, le quantile arrive à $-1{,}7217$. [ajout]
 
 8. pfo/var-de-cornish-fisher
    Comment ce quantile corrigé devient-il un montant de perte ? Pour la VaR, c'est immédiat ; pour la CVaR, qui moyenne toute la queue, il faut davantage. [§2.5.1, Listing 2.2]
-   Histoire : « un excès de kurtosis de 3 » — Avec le quantile corrigé, la VaR passe de 32 397 à $-(0{,}05\,\%-1{,}7217\times2\,\%)\times1\,000\,000\approx33\,935$. La CVaR, elle, corrige chacun des quantiles de la queue, du niveau 5 % jusqu'au niveau 0,01 %, puis en fait la moyenne. Or au-delà de 1,73 écarts types, le terme de kurtosis change de signe et pousse fort vers les pertes : la CVaR passe de 40 754 à 53 511. Aller jusqu'au tout bout de la queue ajouterait encore environ 430. [ajout]
+   Suite : Que deviennent alors la VaR et la CVaR ? [ajout]
+   Histoire : « Que deviennent alors la VaR et la CVaR » — Avec le quantile corrigé, la VaR passe de 32 397 à $-(0{,}05\,\%-1{,}7217\times2\,\%)\times1\,000\,000\approx33\,935$. La CVaR, elle, corrige chacun des quantiles de la queue, du niveau 5 % jusqu'au niveau 0,01 %, puis en fait la moyenne. Or au-delà de 1,73 écarts types, le terme de kurtosis change de signe et pousse fort vers les pertes : la CVaR passe de 40 754 à 53 511. Aller jusqu'au tout bout de la queue ajouterait encore environ 430. [ajout]
 
 ## Point d'arrivée
 Sur l'exemple de départ, la VaR à 95 % passe de 32 397 en gaussien à 33 935 avec Cornish-Fisher, et la CVaR de 40 754 à 53 511 : la correction pèse surtout sur ce qui se passe au-delà du seuil. [ajout]
