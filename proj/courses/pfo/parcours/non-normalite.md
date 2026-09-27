@@ -17,7 +17,7 @@ Le 19 octobre 1987, le Dow Jones perd 22,6 % en une séance. Sous une loi normal
    Histoire : « qui n'aurait jamais dû arriver » — Sous une loi normale, une baisse de plus de vingt écarts types a une probabilité de l'ordre de $10^{-89}$ ; elle est pourtant arrivée. Ce n'est donc pas le marché qui s'est trompé, c'est la loi : les rendements réels ne sont pas gaussiens, et un modèle qui le suppose sous-estime les pertes extrêmes. [ajout]
 
 2. pfo/fait-stylise
-   En quoi, précisément, les rendements réels s'écartent-ils de la loi normale ? Mandelbrot et Fama en ont dressé la liste. [§2.1.1]
+   Mandelbrot et Fama ont dressé la liste des écarts des rendements réels à la loi normale. [§2.1.1]
    Suite : Ce krach est-il un accident, ou le signe de régularités qu'on retrouve sur tous les marchés ? [ajout]
    Histoire : « régularités qu'on retrouve sur tous les marchés » — Ce krach n'est pas isolé : les rendements réels ont des pertes extrêmes trop fréquentes, des baisses plus violentes que les hausses, des périodes agitées qui se suivent. Ce sont des régularités qu'on retrouve d'un marché à l'autre, et que la loi normale ne reproduit pas. [ajout]
 
@@ -32,7 +32,7 @@ Le 19 octobre 1987, le Dow Jones perd 22,6 % en une séance. Sous une loi normal
    Histoire : « De quel côté penche cette série » — Élevé au cube, l'écart réduit garde son signe : le −10 %, très loin sous la moyenne, pèse lourd et négatif. La série a un coefficient d'asymétrie de −1,37 ; sans ce jour, elle est symétrique et le coefficient est nul. [ajout]
 
 5. pfo/asymetrie-negative
-   Ce signe négatif est-il un accident de la petite série, ou un trait des marchés ? [§2.1.1, p. 21]
+   Le signe du coefficient vient d'une série de six rendements. [§2.1.1, p. 21]
    Suite : La petite série penche du côté des pertes. Les actions penchent-elles toutes de ce côté ? [ajout]
    Histoire : « Les actions penchent-elles toutes de ce côté » — Oui, c'est un trait des marchés, et le premier fait stylisé qui devienne un chiffre : sur les actions, les baisses sont plus brutales que les hausses, et les krachs sont des baisses. La queue des pertes est plus longue que celle des gains, ce que la volatilité ne voit pas et que le signe du coefficient d'asymétrie lit aussitôt. [ajout]
 
@@ -42,7 +42,7 @@ Le 19 octobre 1987, le Dow Jones perd 22,6 % en une séance. Sous une loi normal
    Histoire : « Comment mesurer le poids de ces écarts lointains » — À la puissance quatre, le signe s'efface et les écarts lointains dominent : c'est la kurtosis. Celle de la série vaut environ 3,49, au-dessus des 3 d'une loi normale ; sans le jour de krach, elle ne vaudrait que 1,7. [ajout]
 
 7. pfo/queues-epaisses
-   Une kurtosis au-dessus de 3, à quoi cela ressemble-t-il sur la loi elle-même ? [p. 23]
+   Une kurtosis au-dessus de 3 est un nombre ; reste à voir ce qu'elle change à la loi elle-même. [p. 23]
    Suite : Comparons à la loi normale une loi de Laplace de même moyenne et de même variance, dont la densité décroît comme $e^{-|x|}$ et non comme $e^{-x^2/2}$ ; sa kurtosis vaut 6. Combien de fois plus souvent s'écarte-t-elle de plus de trois écarts types ? [ajout]
    Histoire : « Combien de fois plus souvent s'écarte-t-elle de plus de trois écarts types » — Plus de cinq fois : elle dépasse trois écarts types avec une probabilité de 1,4 %, contre 0,27 % pour la loi normale. C'est ce qu'on appelle des queues épaisses, et c'est le second fait stylisé devenu mesurable : les écarts lointains, comme celui de 1987, arrivent bien plus souvent que la loi normale ne le dit. [ajout]
 
@@ -52,7 +52,7 @@ Le 19 octobre 1987, le Dow Jones perd 22,6 % en une séance. Sous une loi normal
    Histoire : « peut-elle venir du seul hasard » — Pour le savoir, on suppose la loi normale et l'on calcule la probabilité d'obtenir un écart au moins aussi grand : c'est la p-valeur. En tirant un très grand nombre de séries de six rendements normaux, une asymétrie d'au moins 1,37, dans un sens ou dans l'autre, n'apparaît qu'environ trois fois sur cent : la p-valeur vaut à peu près 0,03. Le hasard l'explique mal, sans l'exclure. [ajout]
 
 9. pfo/test-de-normalite
-   Trois chances sur cent, est-ce assez peu pour abandonner la loi normale ? La réponse se fixe avant de regarder les données : l'hypothèse éprouvée, et le seuil. [éq. 2.13, éq. 2.14]
+   La réponse se fixe avant de regarder les données : l'hypothèse éprouvée, et le seuil. [éq. 2.13, éq. 2.14]
    Suite : Trois chances sur cent : faut-il alors rejeter la loi normale ? [ajout]
    Histoire : « faut-il alors rejeter la loi normale » — L'hypothèse éprouvée est $H_0:X\sim\mathcal{N}(\mu,\sigma^2)$, rejetée quand la p-valeur passe sous 5 %. Avec 0,03, ce test, qui ne regarde que l'asymétrie, la rejette : le seul krach y suffit. Au-dessus de 5 %, on aurait seulement dit qu'on ne la rejette pas, jamais que la loi est normale. [ajout]
 
@@ -62,7 +62,7 @@ Le 19 octobre 1987, le Dow Jones perd 22,6 % en une séance. Sous une loi normal
     Histoire : « La normalité tient-elle » — Jarque-Bera combine les deux écarts à la loi normale, l'asymétrie $S$ et l'excès de kurtosis $K_{\mathrm{ex}}$, sur $T$ rendements : $JB=\tfrac{T}{6}\big(S^2+\tfrac{K_{\mathrm{ex}}^2}{4}\big)=\tfrac{1000}{6}\big((-0{,}5)^2+\tfrac{3^2}{4}\big)\approx416{,}7$. Si la loi était normale, $JB$ suivrait une loi du khi-deux à deux degrés de liberté, qui ne dépasse 5,99 qu'une fois sur vingt ; très au-delà, la normalité est rejetée. [ajout]
 
 11. pfo/test-de-shapiro-wilk
-    Jarque-Bera ne regarde que ces deux nombres. Une série peut-elle avoir l'asymétrie et la kurtosis d'une loi normale sans en suivre la loi ? [§2.4, p. 31]
+    Jarque-Bera ne regarde que l'asymétrie et la kurtosis. [§2.4, p. 31]
     Suite : Prenons un titre peu échangé, dont le cours ne bouge que d'un cran : sur trente jours, cinq baisses de 1 %, vingt jours sans changement, cinq hausses de 1 %. Son asymétrie est nulle et sa kurtosis vaut exactement 3. Faut-il en conclure que la loi est normale ? [ajout]
     Histoire : « Faut-il en conclure que la loi est normale » — Jarque-Bera ne voit rien : $JB=0$, p-valeur 1. Shapiro-Wilk compare l'échantillon trié aux positions qu'y occuperaient trente observations normales, et y voit trois paliers là où la loi normale mettrait une pente régulière : $W\approx0{,}75$, p-valeur bien en dessous de 1 %, la normalité est rejetée. [ajout]
 

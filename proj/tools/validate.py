@@ -933,6 +933,17 @@ def valider(root: Path, rap: Rapport):
                                          f"« {c} » : une question n'a qu'une réponse, chaque étape "
                                          "cite les mots dont sa notion est la réponse")
                         rap.dette["citation reprise par deux étapes"] += len(set(ns)) - 1
+                # Une question par étape (SPEC-MODELE §8.4) : quand la suite pose la question
+                # de la fiche, la transition n'en pose pas une seconde. Demandé par
+                # l'utilisateur le 2026-09-27 ; mesuré : 66 étapes sur 121 à suite le faisaient.
+                trans = {k: t for k, _, t in etapes}
+                for n, ls in sorted(suites.items()):
+                    tr = MARKER.sub("", trans.get(n, "")).strip()
+                    if "?" in tr and any("?" in MARKER.sub("", t) for t in ls):
+                        rap.w("A14", ou, f"[étape {n}] la transition et la suite posent chacune une "
+                                         "question : la suite pose celle de la fiche, la transition "
+                                         "devient une phrase de liaison")
+                        rap.dette["deux questions à une étape"] += 1
                 for n, ls in sorted(suites.items()):
                     cits = [c for cs, _ in anc.get(n, []) for c in cs]
                     if cits and not any(c in t for c in cits for t in ls):

@@ -18,7 +18,7 @@ Dans un an, une entreprise devra emprunter pour un an. Aujourd'hui, les taux zé
    Histoire : « fixer » — Dans un an, l'entreprise empruntera au taux du moment, $R(T,S)$, et en paiera les intérêts dans deux ans. Le FRA lui verse à cette date les intérêts à ce même taux et lui fait payer en échange ceux d'un taux $K$ écrit aujourd'hui : les intérêts variables se compensent, il ne lui reste à payer que ceux au taux $K$. L'échange fixe son emprunt dès la signature. [ajout]
 
 2. fpp/absence-d-arbitrage
-   Signer ne coûte rien ; qu'est-ce qui empêche alors d'écrire au contrat n'importe quel taux ? [Prop. 5]
+   Signer ne coûte rien, et pourtant le taux écrit au contrat n'est pas libre. [Prop. 5]
    Suite : Signer le FRA ne coûte rien. Qu'est-ce qui empêche d'y écrire n'importe quel taux ? [ajout]
    Histoire : « Qu'est-ce qui empêche d'y écrire n'importe quel taux » — L'absence d'arbitrage. Acheter aujourd'hui le zéro-coupon à un an et vendre celui à deux ans reproduit l'emprunt futur, à un taux connu dès maintenant ; un taux $K$ qui s'en écarterait offrirait un gain certain sans mise, et c'est ce que le principe interdit. [ajout]
 
@@ -37,7 +37,7 @@ Dans un an, une entreprise devra emprunter pour un an. Aujourd'hui, les taux zé
    Histoire : « un euro vaut 1,10 dollar » — Dans la convention du poly, l'euro est la devise locale et $X_t=1{,}10$ ; changé aujourd'hui, le million de dollars ferait 909 091 euros. [ajout]
 
 6. fpp/change-a-terme
-   Peut-on, comme pour le taux, fixer aujourd'hui le change d'un échange futur ? [§2.4]
+   Comme le taux d'un emprunt futur, le change d'un échange futur peut se fixer aujourd'hui. [§2.4]
    Suite : Le taux du dollar à un an est de 5 %. À quel change convertir dès aujourd'hui le million de dollars qui arrivera dans un an ? [ajout]
    Histoire : « À quel change convertir dès aujourd'hui » — À $K=1{,}10\times0{,}9608/0{,}9512\approx1{,}1111$ dollar par euro : le million deviendra 900 045 euros, un peu moins qu'au comptant, parce que le dollar rapporte plus d'intérêts que l'euro. [ajout]
 

@@ -384,6 +384,23 @@ def parcours_suite_non_citee(root):
     f.write_text("\n".join(t), encoding="utf-8", newline="\n")
 
 
+def _suite_question(root, transition):
+    _parcours(root, ["milieu", "haut"], ["base"])
+    f = root / "courses" / "aa" / "parcours" / "essai.md"
+    f.write_text(f.read_text(encoding="utf-8").replace(
+        "2. aa/haut\n   La question qui y mène. [p. 1]\n   Histoire : « On part »",
+        "2. aa/haut\n   %s [p. 1]\n   Suite : Que vaut 7 ? [p. 1]\n   Histoire : « Que vaut 7 »" % transition),
+        encoding="utf-8", newline="\n")
+
+
+def parcours_deux_questions(root):
+    _suite_question(root, "Et ensuite ?")
+
+
+def parcours_une_question(root):
+    _suite_question(root, "Il reste une inconnue.")
+
+
 def parcours_cite_suite_future(root):
     _suite_puis_cite(root, 1)
 
@@ -729,6 +746,10 @@ def main():
         "a une suite qu'elle ne cite pas", parcours_suite_non_citee)
     cas("suite citée par son étape → silence",
         "a une suite qu'elle ne cite pas", parcours_cite_suite_racontee, doit_apparaitre=False)
+    cas("transition et suite posent chacune une question → comptée en dette",
+        "posent chacune une question", parcours_deux_questions)
+    cas("suite qui pose la question, transition de liaison → silence",
+        "posent chacune une question", parcours_une_question, doit_apparaitre=False)
     cas("étape sans ligne « Histoire : » → comptée en dette",
         "étapes sans ligne « Histoire : » (1)", parcours_etape_sans_histoire)
     cas("ligne « Histoire : » sans phrase → erreur",

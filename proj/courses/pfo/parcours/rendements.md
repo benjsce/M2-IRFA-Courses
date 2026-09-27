@@ -23,7 +23,7 @@ Une action est affichée à deux prix : 99,90 pour qui la vend, 100,10 pour qui 
    Histoire : « Quel prix a-t-il payé » — Ni 100 ni 101 : chaque exécution pèse pour son volume, $(300\times100+100\times101)/400=100{,}25$. [ajout]
 
 4. pfo/passage-aux-rendements
-   Une fois le prix choisi, que faut-il modéliser : le prix lui-même, ou ses variations ? [§1.2]
+   Le prix est choisi ; reste à savoir ce qu'on en modélise. [§1.2]
    Suite : Pour modéliser cette action, faut-il décrire ses prix, ou leurs variations ? [ajout]
    Histoire : « faut-il décrire ses prix, ou leurs variations » — Ses variations. Le niveau ne se répète pas : 100, puis 110, puis 99, et rien ne le ramène à une valeur fixe. Les écarts en prix non plus, puisqu'ils grandissent avec le niveau : +10, puis −11. Rapportée au prix de la veille, en revanche, chaque variation garde la même allure d'une période à l'autre, et c'est elle qu'on modélise. [ajout]
 
@@ -32,12 +32,12 @@ Une action est affichée à deux prix : 99,90 pour qui la vend, 100,10 pour qui 
    Histoire : « de combien a-t-elle monté » — Première réponse : +10 %, puis −10 %. Mais ces pourcentages ne s'additionnent pas, ils se composent en se multipliant : 100 devient $100\times1{,}1\times0{,}9=99$, si bien que sur l'ensemble la variation n'est pas nulle, elle vaut $99/100-1=-1\,\%$. [ajout]
 
 6. pfo/rendement-logarithmique
-   Existe-t-il une mesure qui s'enchaîne en s'additionnant ? La seconde façon règle ce problème, et c'est elle qu'on emploiera dans toute la suite. [§1.2.1, p. 11]
+   Les pourcentages se composent en se multipliant, ce qui complique chaque enchaînement de périodes. Une seconde façon de mesurer règle ce problème, et c'est elle qu'on emploiera dans toute la suite. [§1.2.1, p. 11]
    Suite : Sur les deux périodes, +10 % puis −10 % ne font pas 0 %. Existe-t-il une mesure de la variation qui s'additionne d'une période à l'autre ? [ajout]
    Histoire : « une mesure de la variation qui s'additionne d'une période à l'autre » — Oui, le rendement logarithmique, seconde réponse à la question du départ : le logarithme du rapport des deux prix, $\ln(110/100)\approx+9{,}53\,\%$, puis $\ln(99/110)\approx-10{,}54\,\%$. Le logarithme changeant le produit des rapports en somme, leur somme, $-1{,}01\,\%$, est exactement le rendement logarithmique sur l'ensemble, $\ln(99/100)$. [ajout]
 
 7. pfo/piege-d-agregation
-   Mais ce qui s'enchaîne bien dans le temps s'agrège-t-il aussi bien entre les actifs d'un portefeuille ? [§1.2.2]
+   Ce qui s'enchaîne bien dans le temps doit aussi s'agréger entre les actifs d'un portefeuille. [§1.2.2]
    Suite : Un portefeuille place la moitié de son capital dans cette action, qui fait +10 % sur la première période, et l'autre moitié dans une action qui fait −10 %. Son rendement est-il la moyenne de ceux des deux actions ? [ajout]
    Histoire : « Son rendement est-il la moyenne de ceux des deux actions » — En rendements arithmétiques, oui : $\tfrac12\times10\,\%+\tfrac12\times(-10\,\%)=0$, et le portefeuille n'a ni gagné ni perdu. En rendements logarithmiques, non : +10 % et −10 % valent, comme à l'étape précédente, $+9{,}53\,\%$ et $-10{,}54\,\%$, dont la moyenne, $-0{,}50\,\%$, annonce une perte qui n'a pas eu lieu. C'est le piège d'agrégation : les rendements logarithmiques s'additionnent entre dates, pas entre actifs. [ajout]
 

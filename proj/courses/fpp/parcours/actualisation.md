@@ -24,22 +24,22 @@ Un épargnant place 1 euro à 5 % par an pendant deux ans. Une banque lui promet
    Histoire : « comparer ces prix au 5 % de sa banque » — $R=-\ln0{,}9048/2=5\,\%$ à deux ans, $-\ln0{,}9608=4\,\%$ à un an : sur deux ans, le marché paie les 5 % de sa banque, mais en capitalisation continue ; sur un an, il paie moins. [ajout]
 
 4. fpp/courbe-des-taux
-   Que dit l'ensemble de ces taux, rangés par échéance ? [Déf. 6]
+   Chaque échéance a maintenant son taux, lu dans le prix de son zéro-coupon. [Déf. 6]
    Suite : Chaque échéance a ainsi son taux. Comment les voir tous d'un coup ? [ajout]
    Histoire : « Comment les voir tous d'un coup » — En les portant en fonction de l'échéance : 4 % à un an et 5 % à deux ans sont deux points de la courbe des taux, ici croissante : immobiliser son argent plus longtemps rapporte davantage par an. [ajout]
 
 5. fpp/valeur-actuelle-nette
-   Un titre qui paie à plusieurs dates vaut-il la somme de ses paiements ? [Déf. 4]
+   Un titre peut aussi payer à plusieurs dates, chacune avec son propre prix. [Déf. 4]
    Suite : On propose à l'épargnant un titre qui paie 5 dans un an et 105 dans deux ans. Combien le payer ? [ajout]
    Histoire : « Combien le payer » — Chaque paiement au prix de son zéro-coupon, puis la somme : $5\times0{,}9608+105\times0{,}9048=4{,}80+95{,}01=99{,}81$. [ajout]
 
 6. fpp/obligation-in-fine
-   Pourquoi le prix d'une obligation s'écarte-t-il de ce qu'elle rembourse ? [Ex. 1]
+   Un tel titre a un nom et une forme courante sur le marché. [Ex. 1]
    Suite : Ce titre est une obligation : un coupon de 5 % par an, un capital de 100 rendu à la fin. Si le marché était à 4 % actuariel pour toutes les durées, elle vaudrait 101,89. Pourquoi plus que ce qu'elle rembourse ? [ajout]
    Histoire : « un coupon de 5 % par an, un capital de 100 rendu à la fin » — C'est une obligation in fine. Son coupon, 5 %, paie davantage que le marché, 4 % : elle vaut plus que ce qu'elle rembourse, au-dessus du pair, $B(5\,\%,4\,\%)=1{,}0189$ pour 1 de nominal. [ajout]
 
 7. fpp/duration
-   De combien un prix bouge-t-il quand le taux bouge un peu ? [Déf. 5]
+   Reste à savoir ce que devient un prix quand le taux bouge un peu. [Déf. 5]
    Suite : Le lendemain, le taux à deux ans monte d'un point de base. Combien perd le zéro-coupon à deux ans ? [ajout]
    Histoire : « Combien perd le zéro-coupon à deux ans » — Environ $2\times0{,}9048\times0{,}0001\approx0{,}00018$, soit 0,02 % de son prix : deux fois la hausse du taux, parce qu'il reste deux ans jusqu'au paiement. [ajout]
 

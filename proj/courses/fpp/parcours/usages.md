@@ -21,12 +21,12 @@ Un épargnant dispose de 100 pour un an. Il ne veut pas risquer de perdre son ca
    Histoire : « Il ne veut pas risquer de perdre son capital, mais aimerait profiter de la hausse de l'action » — Un zéro-coupon de 96,08 lui rend 100 à coup sûr ; les 3,92 qui restent achètent 0,395 call : il touchera 39,5 % de la hausse. [ajout]
 
 2. fpp/combinaison-d-options
-   L'épargnant regarde ce que d'autres font avec des options : peut-on parier sur l'ampleur d'un mouvement sans parier sur son sens ? [§9.1]
+   L'épargnant regarde ce que d'autres font avec des options. [§9.1]
    Suite : Son voisin n'a aucune idée du sens dans lequel l'action va bouger, mais il est sûr qu'elle bougera beaucoup. Quel placement lui rapporte, que l'action monte ou baisse ? [ajout]
    Histoire : « Quel placement lui rapporte, que l'action monte ou baisse » — Il achète un straddle, un call et un put de strike 100 : 15,93 en tout, pour recevoir $|S_T-100|$ dans un an. [ajout]
 
 3. fpp/modele-de-merton
-   Que valent des actions dont la perte s'arrête à zéro, et à quel taux l'entreprise emprunte-t-elle ? [exo. 16]
+   Les actions d'une entreprise endettée ne perdent jamais plus que leur mise, comme au premier parcours. [exo. 16]
    Suite : L'épargnant hésite à acheter plutôt les actions de l'entreprise du premier parcours : 100 d'actifs, une dette de 80 à rembourser dans un an, et des actifs dont la volatilité serait de 20 %. Que valent aujourd'hui ces actions ? [ajout]
    Histoire : « Que valent aujourd'hui ces actions » — Ces actions sont un call sur les actifs, de strike 80 : elles valent 23,91. La dette vaut donc 76,09, et l'entreprise emprunte avec un spread de crédit de 1,01 %. [ajout]
 

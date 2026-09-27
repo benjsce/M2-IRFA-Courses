@@ -22,7 +22,7 @@ Un investisseur hésite entre deux actifs : l'un rapporte 6 % par an avec une vo
    Histoire : « hésite entre deux actifs » — Pris seul, le second rapporte plus et le premier risque moins : aucun des deux ne l'emporte sur l'autre sur les deux tableaux. La question n'est pas lequel choisir, mais ce que chacun apporte au mélange. [ajout]
 
 2. pfo/moments-du-portefeuille
-   Pour comparer des répartitions, il faut chiffrer chacune : que rapporte-t-elle en moyenne, et combien fluctue-t-elle ? [§3.0.1]
+   Pour comparer des répartitions, il faut chiffrer chacune. [§3.0.1]
    Suite : Que rapporte, et combien fluctue, un mélange des deux ? [ajout]
    Histoire : « Que rapporte, et combien fluctue, un mélange des deux » — À parts égales, le mélange rapporte la moyenne pondérée $\tfrac12\times6+\tfrac12\times10=8\,\%$. Sa variance est la somme des variances pondérées par le carré des poids, sans terme croisé puisque la corrélation est nulle : $0{,}5^2\times0{,}10^2+0{,}5^2\times0{,}20^2=0{,}0125$, d'où une volatilité de $\sqrt{0{,}0125}\approx11{,}18\,\%$ : moins que la moyenne des deux, 15 %, parce que les actifs ne bougent pas ensemble. [ajout]
 
@@ -32,17 +32,17 @@ Un investisseur hésite entre deux actifs : l'un rapporte 6 % par an avec une vo
    Histoire : « Comment les porter à l'année » — La moyenne et la variance se multiplient par les 252 séances de l'année, l'écart type par leur racine : $252\times0{,}0397\,\%\approx10\,\%$ et $1{,}26\,\%\times\sqrt{252}\approx20\,\%$ par an, les chiffres du départ ; à l'inverse, $10\,\%/252$ et $20\,\%/\sqrt{252}$ redonnent les chiffres journaliers. [ajout]
 
 4. pfo/optimisation-de-portefeuille
-   On sait désormais noter une répartition. Comment chercher la meilleure, et meilleure selon quel critère ? [p. 38]
+   On sait désormais noter une répartition ; reste à choisir, et selon quel critère. [p. 38]
    Suite : Chaque répartition a maintenant son rendement et sa volatilité. Comment choisir entre elles ? [ajout]
    Histoire : « Comment choisir entre elles » — En résolvant un problème d'optimisation : choisir le vecteur de poids $W$, positifs et de somme 1. À parts égales, 8 % pour 11,18 % de volatilité ; tout dans le premier actif, 6 % pour 10 % : aucun choix ne gagne sur les deux tableaux, et choisir revient à résoudre un problème qui arbitre entre $W^T\mu$ et $\sqrt{W^T\boldsymbol{\Sigma}W}$. [ajout]
 
 5. pfo/frontiere-efficiente
-   Premier critère : se fixer un rendement et ne rien risquer de plus que nécessaire pour l'obtenir. Que dessinent ces choix quand la cible varie ? [§3.0.2]
+   Premier critère : se fixer un rendement et ne rien risquer de plus que nécessaire pour l'obtenir. [§3.0.2]
    Suite : Pour chaque rendement visé, quelle répartition risque le moins ? [ajout]
    Histoire : « Pour chaque rendement visé, quelle répartition risque le moins » — Ces répartitions forment la frontière efficiente. La moins risquée de toutes, les actifs n'étant pas corrélés, répartit les poids en raison inverse des variances : $0{,}04/(0{,}01+0{,}04)=80\,\%$ dans ce premier actif, pour $0{,}8\times6+0{,}2\times10=6{,}8\,\%$ de rendement et $\sqrt{0{,}8^2\times0{,}01+0{,}2^2\times0{,}04}\approx8{,}94\,\%$ de volatilité, moins que chacun des deux. Les autres cibles tracent une courbe à partir de ce point. [ajout]
 
 6. pfo/ratio-de-sharpe
-   Sur cette courbe, tous les points semblent défendables. Avec un placement sans risque à 2 %, comment dire lequel paie le mieux le risque pris ? [§3.0.3]
+   Sur cette courbe, tous les points semblent défendables, et un placement sans risque rapporte 2 %. [§3.0.3]
    Suite : Au-delà des 2 % du placement sans risque, combien rapporte chaque point de volatilité ? [ajout]
    Histoire : « combien rapporte chaque point de volatilité » — Au-delà de ces 2 %, chaque actif rapporte 0,40 par unité de volatilité, $(6-2)/10$ et $(10-2)/20$. Le mélange à parts égales atteint $(8-2)/11{,}18\approx0{,}54$ : il paie mieux le risque que chacun des deux. [ajout]
 

@@ -694,6 +694,14 @@ j'aimerais que ce soit fait automatiquement ».*
   de la moitié, avertissement compté en dette. *Mesuré le 2026-09-24 : les transitions qui
   fonctionnent en reprennent au plus 36 %, les paraphrases 56 % et plus ; le contrôle en a
   attrapé 15 sur les 84 de dup, toutes réécrites.*
+- **Une question par étape.** Quand l'étape a une suite qui pose une question, c'est elle
+  qui la pose : la transition devient une phrase de liaison, sans point d'interrogation,
+  qui dit d'où l'on vient ou ce qui manque encore. Le validateur signale une étape dont la
+  transition et la suite se terminent toutes deux en question (avertissement compté en
+  dette). *Demandé par l'utilisateur le 2026-09-27. Mesuré le même jour : sur les étapes à
+  suite, 30 sur 40 en fpp, 17 sur 32 en pfo, 9 sur 16 en dss, 1 sur 3 en ods et 9 sur 30 en
+  dup posaient deux questions ; « il faut supposer quelque chose de la loi des
+  rendements » suivi de « que faut-il supposer de la loi de ses rendements ? ».*
 - **Le rôle dit ce que la fiche fait ici**, pas ce qu'elle est. « Elle porte l'aversion au
   risque. Ici elle ne change jamais : toute l'histoire se joue du côté de la croyance »,
   et non « la fonction qui traduit un résultat en utilité ».

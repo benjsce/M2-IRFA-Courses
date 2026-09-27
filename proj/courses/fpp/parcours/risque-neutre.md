@@ -25,17 +25,17 @@ Une banque doit coter un contrat qui paiera dans un an l'excédent de l'action s
    Histoire : « verse en continu un dividende de 2 % par an » — Son prix forward à un an est plus bas : $100\,e^{0,04-0,02}=102{,}02$. [ajout]
 
 3. fpp/tendance-risque-neutre
-   À quel rythme ces titres doivent-ils croître en moyenne dans les calculs de la banque ? [§5.2]
+   La probabilité risque-neutre fixe le rythme moyen de chaque titre, dividende compris. [§5.2]
    Suite : Dans les calculs de la banque, à quel rythme ces deux titres croissent-ils en moyenne ? [ajout]
    Histoire : « à quel rythme ces deux titres croissent-ils en moyenne » — Au taux sans risque diminué de ce qu'ils versent, quelle que soit l'attente des analystes : sous $\mathbb Q$, l'action croît au taux $\mu=r=4\,\%$, et le titre à dividende à $\mu=r-d=2\,\%$. Les 8 % n'entrent pas dans le prix. [ajout]
 
 4. fpp/echelonnement-de-la-variance
-   Comment passer de la dispersion sur un an à la dispersion sur une autre durée ? [§5.3]
+   La moyenne ne suffit pas : il faut aussi la dispersion, et pas seulement sur un an. [§5.3]
    Suite : Il faut aussi savoir de combien l'action peut s'écarter de sa moyenne : sa volatilité est de 20 % par an. Le contrat dure un an ; un contrat voisin dure trois mois. De combien l'action peut-elle s'écarter sur trois mois ? [ajout]
    Histoire : « De combien l'action peut-elle s'écarter sur trois mois » — Sur trois mois, l'écart type du log-rendement vaut $20\,\%\times\sqrt{0{,}25}=10\,\%$ : la moitié de celui d'un an, et non le quart. [ajout]
 
 5. fpp/transformee-de-laplace-gaussienne
-   Si le logarithme du prix a une moyenne donnée, quelle est la moyenne du prix lui-même ? [Th. 1]
+   Il reste à relier la moyenne du prix à celle de son logarithme. [Th. 1]
    Suite : La banque écrit le prix de l'action dans un an sous la forme $100\,e^{Y}$, avec $Y$ gaussien d'écart type 20 %. Que vaut alors, en moyenne, $e^{Y}$ ? [ajout]
    Histoire : « Que vaut alors, en moyenne, $e^{Y}$ » — La moyenne de $e^{Y}$ dépasse $e^{E(Y)}$ du facteur $e^{0,2^2/2}=e^{0,02}$ : pour que la moyenne du prix soit $100\,e^{0,04}$, il faut donner à $Y$ la moyenne $0{,}04-0{,}02=0{,}02$. [ajout]
 

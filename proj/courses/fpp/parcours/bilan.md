@@ -14,32 +14,32 @@ Une entreprise a besoin de 100 pour acheter ses actifs. Ses actionnaires apporte
    Histoire : « les emprunter à ceux qui ont de l'argent à placer » — Ils viennent d'épargnants, gérants d'actifs ou assureurs, que le marché met en face de l'entreprise ; en échange, ils reçoivent un titre, une obligation qu'ils pourront revendre. [ajout]
 
 2. fpp/bilan
-   Comment écrire, à une date donnée, ce que l'entreprise possède et ce qu'elle doit ? [§1.2]
+   L'argent réuni, l'entreprise achète ses actifs ; il reste à tenir ses comptes. [§1.2]
    Suite : Une fois ses actifs achetés, que possède l'entreprise, et à qui le doit-elle ? [ajout]
    Histoire : « que possède l'entreprise, et à qui le doit-elle » — D'un côté 100 d'actifs, de l'autre 20 de capitaux propres et 80 de dette : $100=20+80$. Les capitaux propres sont ce qui reste aux actionnaires une fois la dette comptée. [ajout]
 
 3. fpp/levier
-   Qui profite d'un gain des actifs quand la dette ne bouge pas, et dans quelle proportion ? [§1.3]
+   La dette, elle, ne bouge pas quand les actifs gagnent ou perdent. [§1.3]
    Suite : Au bout d'un an, les actifs valent 110 ; la dette, elle, vaut toujours 80. Les actifs ont gagné 10 %, les capitaux propres 50 % : qu'est-ce qui multiplie ainsi le gain des actionnaires ? [ajout]
    Histoire : « qu'est-ce qui multiplie ainsi le gain des actionnaires » — Le levier, $l_t=100/20=5$ : chaque euro des actionnaires porte cinq euros d'actifs. Les capitaux propres passent donc de 20 à 30, $+50\,\%$ pour $+10\,\%$ d'actifs, cinq fois plus. [ajout]
 
 4. fpp/prime-de-risque
-   Un rendement de 6 % dit-il ce que l'actif apporte vraiment, quand on l'a financé à 4 % ? [Déf. 2]
+   Un gain d'une année ne dit pas ce que les actifs rapportent d'ordinaire, ni ce que coûte leur financement. [Déf. 2]
    Suite : En réalité, les actifs rapportent 6 % par an en moyenne, et la dette coûte 4 %. Que rapportent vraiment les actifs, une fois leur financement payé ? [ajout]
    Histoire : « Que rapportent vraiment les actifs, une fois leur financement payé » — Deux points par an : la prime de risque des actifs vaut $\pi_A=6\,\%-4\,\%=2\,\%$. [ajout]
 
 5. fpp/volatilite
-   Une moyenne ne dit rien des bonnes et des mauvaises années ; quel nombre mesure leur écart habituel ? [Déf. 2]
+   Une moyenne ne dit rien des bonnes et des mauvaises années. [Déf. 2]
    Suite : Mais 6 % n'est qu'une moyenne : certaines années les actifs rapportent 10 %, d'autres 2 %. Comment dire de combien ils s'écartent d'ordinaire ? [ajout]
    Histoire : « de combien ils s'écartent d'ordinaire » — D'environ 4 points autour de 6 % : la volatilité des actifs vaut 4 %. [ajout]
 
 6. fpp/effet-de-levier
-   Le levier multipliait un gain d'une année ; que fait-il de la moyenne et de la dispersion ? [§1.3]
+   Le levier multipliait le gain d'une année ; reste la moyenne et la dispersion. [§1.3]
    Suite : Pour les actionnaires, que deviennent cette prime de 2 % et cet écart de 4 points ? [ajout]
    Histoire : « que deviennent cette prime de 2 % et cet écart de 4 points » — Ils sont multipliés tous deux par le levier de 5 : les actionnaires ont une prime espérée de 10 % et une volatilité de 20 %. [ajout]
 
 7. fpp/responsabilite-limitee
-   Une baisse des actifs, multipliée par 5, peut-elle faire perdre aux actionnaires plus que leur mise ? [§1.4]
+   Multipliée par 5, une baisse des actifs pèse lourd sur une mise de 20. [§1.4]
    Suite : Une mauvaise année, les actifs tombent à 75. La dette vaut 80 : les actionnaires doivent-ils payer la différence ? [ajout]
    Histoire : « les actionnaires doivent-ils payer la différence » — Non : leurs capitaux propres s'arrêtent à 0, et les créanciers ne récupèrent que 75. Il suffisait d'une baisse des actifs de $1/l_t=20\,\%$ pour effacer les capitaux propres. [ajout]
 

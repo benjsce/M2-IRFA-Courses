@@ -27,7 +27,7 @@ Un investisseur veut acheter dans un an une action qui cote aujourd'hui 100. Le 
    Histoire : « un dividende de 2 % de sa valeur forward » — Le vendeur, qui porte l'action, le touche : 2,04 dans six mois, 2,08 une fois placés jusqu'à l'échéance. Le prix de livraison tombe à 102,00. [ajout]
 
 4. fpp/prix-a-terme
-   Le taux forward, le change à terme, le prix forward : trois réponses, ou un seul geste ? [§2, §3]
+   Le prix forward de l'action n'est pas le premier prix fixé d'avance que rencontre l'investisseur. [§2, §3]
    Suite : L'investisseur se souvient des contrats du parcours précédent : le FRA à 6 %, le change à 1,1111. Ces deux nombres et le prix de livraison de l'action sortent-ils du même calcul ? [ajout]
    Histoire : « sortent-ils du même calcul » — Pour l'action, $K$ payé dans un an vaut aujourd'hui $K\times0{,}9608$ et l'action reçue vaut 100 : les égaler, parce que le contrat ne coûte rien, redonne le prix forward, 104,08. Le FRA à 6 % et le change à 1,1111 sortaient du même geste, chaque jambe ramenée en t par le zéro-coupon de sa devise. [ajout]
 

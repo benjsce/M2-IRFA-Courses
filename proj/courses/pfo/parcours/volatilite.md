@@ -27,17 +27,17 @@ Les rendements sont propres. Il faut maintenant dire combien ils bougent et s'il
    Histoire : « l'une dans le temps » — Ce 1 % par jour, rangé dans la matrice, n'est qu'une moyenne sur la période : l'actif varie moins en temps calme, bien plus en crise, et les journées agitées se suivent. Un seul nombre fixe ne décrit pas cette alternance. [ajout]
 
 4. pfo/ewma
-   Comment estimer une volatilité qui change, sans attendre des années de données à chaque fois ? [§1.4]
+   Une volatilité qui change doit s'estimer sans attendre des années de données à chaque fois. [§1.4]
    Suite : Hier, le premier actif a fait 2 %, deux fois son écart type habituel. Que faut-il croire de sa volatilité aujourd'hui ? [ajout]
    Histoire : « Que faut-il croire de sa volatilité aujourd'hui » — L'EWMA, moyenne mobile à pondération exponentielle, mélange la variance de la veille, $0{,}01^2=0{,}0001$ pour 1 % par jour, et le carré du dernier rendement, en donnant au passé le poids $\lambda=0{,}94$ usuel pour des données journalières : $0{,}94\times0{,}0001+0{,}06\times0{,}02^2=0{,}000118$, soit une volatilité de $\sqrt{0{,}000118}\approx1{,}09\,\%$. Elle monte, sans oublier le passé : ce jour-là, c'est 1,09 % et non 1 % qu'il faudrait mettre dans la matrice. [ajout]
 
 5. pfo/effet-epps
-   Seconde difficulté : Tokyo ferme avant que Paris ouvre. Une corrélation calculée jour par jour sur ces places est-elle fiable ? [§1.3.1, ajout]
+   Seconde difficulté : Tokyo ferme avant que Paris ouvre. [§1.3.1, ajout]
    Suite : Supposons que le premier actif cote à Tokyo et le second à Paris. Calculée sur leurs rendements journaliers, leur corrélation ne sort qu'à 0,4 ; sur leurs rendements hebdomadaires, à 0,5. Pourquoi la corrélation journalière sort-elle plus basse ? [ajout]
    Histoire : « Pourquoi la corrélation journalière sort-elle plus basse » — Une nouvelle tombée l'après-midi à Paris ne touche Tokyo que le lendemain : les deux rendements d'un même jour ne portent pas les mêmes nouvelles, et la corrélation journalière tombe sous sa vraie valeur. C'est l'effet Epps. Sur une semaine, ce décalage d'un jour ne pèse presque plus : c'est 0,5 qu'il faut croire. [ajout]
 
 6. pfo/norme-de-frobenius
-   Les deux fréquences donnent donc deux matrices de covariance différentes pour les mêmes actifs. De combien diffèrent-elles, en un seul nombre ? [§1.6, §1.6.1]
+   Les deux fréquences donnent donc deux matrices de covariance différentes pour les mêmes actifs. [§1.6, §1.6.1]
    Suite : Portées à l'année, par 252 pour l'une et par 52 pour l'autre, les deux estimations ont les mêmes variances ; seul le terme croisé change : $0{,}4\times0{,}01\times0{,}02\times252=0{,}02016$ en journalier, contre 0,0252 en hebdomadaire. Quelle distance sépare les deux matrices ? [ajout]
    Histoire : « Quelle distance sépare les deux matrices » — On additionne les carrés de tous les écarts terme à terme, le terme croisé comptant deux fois puisqu'il figure deux fois dans la matrice, et l'on prend la racine. Seul l'écart du terme croisé, $0{,}0252-0{,}02016=0{,}00504$, n'est pas nul : $\sqrt{2\times0{,}00504^2}\approx0{,}0071$. Toute la distance vient ici de l'effet Epps, qui ôte un cinquième au terme croisé. [ajout]
 

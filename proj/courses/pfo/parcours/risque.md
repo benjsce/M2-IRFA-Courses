@@ -42,12 +42,12 @@ Un portefeuille de 1 000 000 affiche des rendements journaliers de moyenne 0,05 
    Histoire : « Et si l'on supposait la loi normale » — On ne garde que ces deux nombres et l'on suppose la loi normale. Son quantile à 5 % est toujours à 1,6449 écarts types sous la moyenne, valeur que donne la table : $0{,}05\,\%-1{,}6449\times2\,\%\approx-3{,}24\,\%$, soit une VaR de 32 397. La moyenne des 5 % pires jours est plus loin : pour une loi normale, elle se trouve à $\varphi(1{,}6449)/0{,}05\approx2{,}063$ écarts types sous la moyenne, $\varphi$ étant la densité de la loi normale ; cette formule fermée vient de ce que la dérivée de $\varphi$ en $x$ vaut $-x\varphi(x)$. D'où $0{,}05\,\%-2{,}063\times2\,\%\approx-4{,}08\,\%$ et une CVaR de 40 754. Mais l'asymétrie et la kurtosis du portefeuille disent que cette hypothèse est fausse. [ajout]
 
 7. pfo/developpement-de-cornish-fisher
-   Plutôt que d'abandonner le calcul gaussien, peut-on corriger son quantile avec les deux moments du parcours précédent ? [p. 34]
+   Plutôt que d'abandonner le calcul gaussien, on peut le corriger avec les deux moments du parcours précédent. [p. 34]
    Suite : La loi n'est pas normale : peut-on corriger son quantile par l'asymétrie et l'excès de kurtosis ? [ajout]
    Histoire : « peut-on corriger son quantile » — Le quantile gaussien, $z_\alpha=-1{,}645$, se corrige avec l'asymétrie $S=-0{,}5$ et l'excès de kurtosis $K=3$ : $q_\alpha\approx z_\alpha+\tfrac{S}{6}(z_\alpha^2-1)+\tfrac{K}{24}(z_\alpha^3-3z_\alpha)-\tfrac{S^2}{36}(2z_\alpha^3-5z_\alpha)$. L'asymétrie négative le pousse vers les pertes de $-0{,}142$. La kurtosis, elle, le ramène de $+0{,}061$ : une loi à queues épaisses a aussi des flancs plus minces que la loi normale, et à 1,645 écarts types on est encore sur le flanc ; son terme, $z_\alpha^3-3z_\alpha$, ne change de signe qu'à $\sqrt3\approx1{,}73$ écarts types. Avec le dernier terme, $+0{,}005$, le quantile arrive à $-1{,}7217$. [ajout]
 
 8. pfo/var-de-cornish-fisher
-   Comment ce quantile corrigé devient-il un montant de perte ? Pour la VaR, c'est immédiat ; pour la CVaR, qui moyenne toute la queue, il faut davantage. [§2.5.1, Listing 2.2]
+   Le quantile corrigé doit encore devenir un montant de perte. Pour la VaR, c'est immédiat ; pour la CVaR, qui moyenne toute la queue, il faut davantage. [§2.5.1, Listing 2.2]
    Suite : Que deviennent alors la VaR et la CVaR ? [ajout]
    Histoire : « Que deviennent alors la VaR et la CVaR » — Avec le quantile corrigé, la VaR passe de 32 397 à $-(0{,}05\,\%-1{,}7217\times2\,\%)\times1\,000\,000\approx33\,935$. La CVaR, elle, corrige chacun des quantiles de la queue, du niveau 5 % jusqu'au niveau 0,01 %, puis en fait la moyenne. Or au-delà de 1,73 écarts types, le terme de kurtosis change de signe et pousse fort vers les pertes : la CVaR passe de 40 754 à 53 511. Aller jusqu'au tout bout de la queue ajouterait encore environ 430. [ajout]
 
