@@ -235,6 +235,16 @@ class Planche:
         self.titre = titre
 
     def svg(self):
+        w, h, corps = self.contenu()
+        t = ("<title>%s</title>" % _echap(self.titre)) if self.titre else ""
+        return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %d %d" '
+                'width="100%%" height="auto" role="img" '
+                'style="color:%s;max-width:%dpx;height:auto">%s%s</svg>\n'
+                % (w, h, ENCRE, w, t, corps))
+
+    def contenu(self):
+        """Largeur, hauteur et tracé de la planche, sans l'enveloppe SVG : ce qu'une
+        `Colonne` empile."""
         h = max(f.h for f in self.figures)
         w = sum(f.w for f in self.figures) + self.ecart * (len(self.figures) - 1)
         morceaux, x = [], 0
@@ -248,11 +258,41 @@ class Planche:
                                     % (_n(x - self.ecart / 2), _n(h / 2 + 7), DOUX, _echap(signe)))
             morceaux.append('<g transform="translate(%s 0)">%s</g>' % (_n(x), "".join(f.corps)))
             x += f.w + self.ecart
+        return w, h, "".join(morceaux)
+
+
+class Colonne:
+    """Des planches empilées, chacune sous son intitulé.
+
+    Une Forme qui écrit deux identités côte à côte — le straddle et le call spread — se
+    lit mieux en deux lignes qu'en une planche de six cadres : chaque ligne est une
+    identité, et le lecteur la refait de gauche à droite.
+    """
+
+    def __init__(self, planches, intitules=(), ecart=18, titre=""):
+        self.planches = list(planches)
+        self.intitules = list(intitules)
+        self.ecart = ecart
+        self.titre = titre
+
+    def svg(self):
+        blocs, w, y = [], 0, 0
+        for k, p in enumerate(self.planches):
+            pw, ph, corps = p.contenu()
+            if k < len(self.intitules) and self.intitules[k]:
+                y += 22
+                blocs.append('<text x="4" y="%s" font-size="14" font-weight="600" fill="%s" '
+                             'font-family="ui-sans-serif,system-ui,sans-serif">%s</text>'
+                             % (_n(y - 6), ENCRE, _exposants(self.intitules[k], 14)))
+            blocs.append('<g transform="translate(0 %s)">%s</g>' % (_n(y), corps))
+            y += ph + self.ecart
+            w = max(w, pw)
+        h = y - self.ecart
         t = ("<title>%s</title>" % _echap(self.titre)) if self.titre else ""
         return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %d %d" '
                 'width="100%%" height="auto" role="img" '
                 'style="color:%s;max-width:%dpx;height:auto">%s%s</svg>\n'
-                % (w, h, ENCRE, w, t, "".join(morceaux)))
+                % (w, h, ENCRE, w, t, "".join(blocs)))
 
 
 def _exposants(s, taille):

@@ -30,7 +30,7 @@ Le poly compare deux positions : acheter l'action à terme au prix $K$, et la po
 
 Ce résultat est **certain**, et on l'obtient sans rien débourser aujourd'hui. S'il n'était pas nul, on le répéterait à volonté : il est donc nul, et $K=S_t/P(t,T)$. Celui qui vend l'action à terme fait exactement ce montage : il livre en $T$ l'action qu'il a achetée et portée. [§3.1, ajout]
 
-![Le portage vu du vendeur à terme. En t, il emprunte S_t et achète l'action : rien ne sort de sa poche. En T, il livre l'action, reçoit K et rembourse S_t / P(t,T) ; son résultat, K − S_t / P(t,T), est connu dès t. Certain et obtenu sans mise, il doit être nul : K = S_t / P(t,T).](figures/cash-and-carry.svg) [ajout]
+![En haut, le vendeur à terme : en t, il emprunte S_t et achète l'action ; en T, il livre l'action contre K et rembourse S_t / P(t,T). Ses deux jambes, vente à terme + (K − S_T) et action portée à crédit + (S_T − S_t / P(t,T)), font K − S_t / P(t,T). En bas, l'acheteur fait le montage inverse : achat à terme + (S_T − K), action portée à crédit en sens inverse − (S_T − S_t / P(t,T)) ; leur somme est la Forme, S_t / P(t,T) − K. Dans les deux cas S_T s'annule : le résultat est certain et sans mise, donc nul, et K = S_t / P(t,T).](figures/cash-and-carry.svg) [ajout]
 
 ## Le chemin jusqu'ici
 fpp/zero-coupon donne le coût de l'emprunt : emprunter $S_t$ jusqu'en $T$, c'est vendre $S_t/P(t,T)$ zéro-coupons, donc rembourser $S_t/P(t,T)$. fpp/absence-d-arbitrage interdit qu'un résultat certain obtenu sans mise soit autre chose que nul, et fixe ainsi $K$. fpp/capitalisation rappelle ce que coûte le temps qui passe entre l'achat et la livraison. [ajout]

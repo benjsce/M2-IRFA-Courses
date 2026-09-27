@@ -38,7 +38,7 @@ $$B(r^*,r)=\frac{r^*}{r}\Big(1-\frac{1}{(1+r)^n}\Big)+\frac{1}{(1+r)^n}$$ [éq. 
 ## Ce qui la définit
 On connaît le coupon, le taux du marché et la durée ; on cherche le prix. Il se lit d'abord en comparant les deux taux : si le coupon paie plus que le marché, $r^*>r$, l'obligation vaut plus que son nominal, elle est « au-dessus du pair » ; si $r^*<r$, en dessous ; si $r^*=r$, au pair, $B=1$. [Ex. 1]
 
-![Le prix B(r*, r) d'une obligation de coupon r* en fonction du taux du marché r : il vaut 1 exactement quand r = r*, plus quand r < r* (au-dessus du pair), moins quand r > r* (en dessous).](figures/obligation-in-fine.svg) [ajout]
+![Un coupon r* à chaque date 1, 2, …, n et le capital 1 à la dernière. Chaque flux revient en 0 multiplié par le facteur de sa date, 1/(1 + r)^i ; leur somme est le prix, B(r*, r) = r* × (1/(1 + r) + … + 1/(1 + r)^n) + 1/(1 + r)^n. Les coupons forment une somme géométrique, d'où la seconde écriture, r*/r × (1 − 1/(1 + r)^n) + 1/(1 + r)^n.](figures/obligation-in-fine.svg) [ajout]
 
 ## Le chemin jusqu'ici
 fpp/valeur-actuelle-nette fait du prix la somme des flux actualisés ; l'obligation in fine est le cas où les flux sont des coupons égaux puis le capital. Chaque flux est un paquet de fpp/zero-coupon, et l'actualisation se fait ici avec la convention actuarielle de fpp/capitalisation, $(1+r)^{-i}$, à un taux unique pour toutes les dates. [ajout]

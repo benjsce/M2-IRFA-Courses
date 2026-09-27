@@ -251,7 +251,7 @@ dit en trois phrases. Elle s'écrit comme un bloc à part, avec sa légende et s
 ![La corde passe sous la courbe : c'est toute l'inégalité.](figures/aversion-au-risque.svg) [ajout]
 ```
 
-Quatre règles, et elles ne se négocient pas.
+Cinq règles, et elles ne se négocient pas.
 
 1. **La figure ne montre que ce que sa fiche dit.** Elle illustre, elle n'ajoute pas. Une
    figure qui introduit un objet dont la fiche ne parle pas appartient à une autre fiche.
@@ -267,11 +267,23 @@ Quatre règles, et elles ne se négocient pas.
    `var(--mut)`, `var(--acc)`. Le fond reste vide. C'est ce qui fait qu'une figure suit le
    thème clair ou sombre au lieu de disparaître dans l'un des deux ; une image matricielle,
    même à fond transparent, garderait son encre noire.
+5. **Quand c'est possible, la figure fait retrouver la Forme.** Lue d'un bout à l'autre,
+   elle mène à la formule écrite dans « Forme », avec ses termes et dans son sens, et non
+   seulement au résultat qu'on en tire. En fpp, presque toute Forme est une égalité de flux
+   ou de prix, et c'est toujours possible : chaque terme a sa jambe ou sa flèche, marquée
+   par le terme de la Forme qu'elle porte, et ce qui est écrit sous la figure est la Forme
+   elle-même. Ailleurs, quand la Forme ne se dessine pas — un théorème d'existence, une
+   définition abstraite —, la figure montre ce qu'elle peut et la légende dit quel terme de
+   la Forme elle fait voir. `python tools/figures.py <code>` met chaque Forme en face de la
+   légende de sa figure, pour la relecture ; le validateur ne peut pas juger qu'un dessin
+   mène à une formule. *Demandé par l'utilisateur le 2026-09-27, sur `fpp/cash-and-carry` :
+   la figure menait à $K=S_t/P(t,T)$, pas à la formule de la Forme ; « quand c'est
+   possible, il faut que ça soit comme cela, dans toutes les matières ».*
 
 `tools/figure.py` porte les primitives de tracé — repère, courbe, point, mesure d'un écart,
 axes — et n'a besoin de rien d'autre que la bibliothèque standard.
 
-**Choisir la forme.** Les quatre règles disent ce qu'une figure a le droit de montrer ; elles
+**Choisir la forme.** Les cinq règles disent ce qu'une figure a le droit de montrer ; elles
 ne disent pas laquelle dessiner. La forme se choisit sur ce que la figure doit faire voir,
 écrit d'abord en une phrase, et c'est la forme qui le montre le plus directement qui
 l'emporte, même si elle n'a encore servi nulle part. Quelques formes déjà éprouvées :

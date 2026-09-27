@@ -110,7 +110,14 @@ Tu la calcules en Python, sans dépendance, avec `tools/figure.py` : le script v
 `courses/<code>/figures/<slug>.py`, sa sortie SVG à côté, et le validateur rejoue le
 script pour vérifier qu'ils s'accordent. Aucune couleur en dur — les traits nomment les
 variables CSS du site, et la figure suit alors le thème clair ou sombre. Le détail des
-quatre règles est en SPEC-MODELE §2.4.
+cinq règles est en SPEC-MODELE §2.4.
+
+**Et quand c'est possible, le dessin fait retrouver la Forme.** Le lecteur doit pouvoir
+reconstruire, en lisant la figure, la formule écrite dans « Forme » — ses termes, dans son
+sens —, pas seulement le résultat qu'on en tire. En fpp, c'est toujours possible : chaque
+terme a sa jambe, et ce qui est écrit sous la figure est la Forme. *Demandé par
+l'utilisateur le 2026-09-27, pour toutes les matières.* Le détail est en SPEC-MODELE §2.4,
+règle 5.
 
 Ce qui reste interdit : une figure qui montre autre chose que ce que dit sa fiche. Un
 dessin est une assertion ; il porte un marqueur comme les autres, et il n'introduit aucun

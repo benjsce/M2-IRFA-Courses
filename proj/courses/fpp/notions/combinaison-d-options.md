@@ -35,7 +35,7 @@ Ce qui est **connu** : la forme de paiement qu'on veut. Ce qu'on **cherche** : l
 
 Chaque forme exprime une vue : le straddle gagne si l'action bouge beaucoup, dans un sens ou dans l'autre, et c'est donc un pari sur la volatilité. Le poly range aussi sous les usages des options l'amélioration du rendement : vendre des calls sur une action détenue, ou vendre des puts, pour encaisser une prime en renonçant à une partie de la hausse ou en acceptant d'acheter plus bas. [exo. 15, §9.3]
 
-![Quatre payoffs construits avec des options : l'écart de calls (S − K₁)⁺ − (S − K₂)⁺, plafonné ; le straddle |S − K| ; le strangle (K₁ − S)⁺ + (S − K₂)⁺, en V à fond plat ; le papillon (S − K₁)⁺ − 2(S − K₂)⁺ + (S − K₃)⁺, qui ne paie qu'autour de K₂.](figures/combinaison-d-options.svg) [§9.1, exo. 15, ajout]
+![Deux identités lues comme des sommes de payoffs. En haut, le call (S_T − K)⁺ plus le put (K − S_T)⁺ de même strike font le straddle |S_T − K|. En bas, le call de strike K₁ moins le call de strike K₂ font le call spread (S_T − K₁)⁺ − (S_T − K₂)⁺, qui monte de K₁ à K₂ puis plafonne.](figures/combinaison-d-options.svg) [§9.1, exo. 15, ajout]
 
 ## Le chemin jusqu'ici
 fpp/option fournit les briques, calls et puts ; fpp/payoff dit qu'un paiement se décrit par sa forme, et qu'une somme de positions a pour payoff la somme de leurs payoffs. [ajout]
