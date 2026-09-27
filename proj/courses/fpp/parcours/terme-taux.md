@@ -15,7 +15,7 @@ Dans un an, une entreprise devra emprunter pour un an. Aujourd'hui, les taux zé
 ## Étapes
 1. fpp/fra
    Quel contrat permettrait de connaître aujourd'hui le taux d'un emprunt qu'on ne fera que dans un an ? [Déf. 7]
-   Histoire : « L'entreprise peut-elle fixer dès aujourd'hui le taux de cet emprunt » — Oui, en signant un FRA : dans deux ans, elle paiera l'intérêt à un taux $K$ écrit aujourd'hui et recevra l'intérêt au taux qu'on observera dans un an. [ajout]
+   Histoire : « fixer » — Dans un an, l'entreprise empruntera au taux du moment, $R(T,S)$, et en paiera les intérêts dans deux ans. Le FRA lui verse à cette date les intérêts à ce même taux et lui fait payer en échange ceux d'un taux $K$ écrit aujourd'hui : les intérêts variables se compensent, il ne lui reste à payer que ceux au taux $K$. L'échange fixe son emprunt dès la signature. [ajout]
 
 2. fpp/absence-d-arbitrage
    Signer ne coûte rien ; qu'est-ce qui empêche alors d'écrire au contrat n'importe quel taux ? [Prop. 5]
@@ -23,7 +23,7 @@ Dans un an, une entreprise devra emprunter pour un an. Aujourd'hui, les taux zé
 
 3. fpp/taux-forward
    Quel taux fixe rend donc le contrat gratuit, avec la courbe du jour ? [§2.3]
-   Histoire : « 4 % à un an et 5 % à deux ans » — Sur deux ans, les intérêts continus totalisent 10 points, dont 4 pour la première année : la seconde doit porter les 6 qui restent. L'entreprise fixe son emprunt à $K=6\,\%$. [ajout]
+   Histoire : « le taux de cet emprunt » — Avec 4 % à un an et 5 % à deux ans : sur deux ans, les intérêts continus totalisent 10 points, dont 4 pour la première année : la seconde doit porter les 6 qui restent. L'entreprise fixe son emprunt à $K=6\,\%$. [ajout]
 
 4. fpp/taux-forward-instantane
    Et si la période garantie se réduisait à un instant ? [§2.3]
