@@ -116,8 +116,10 @@ cinq règles est en SPEC-MODELE §2.4.
 reconstruire, en lisant la figure, la formule écrite dans « Forme » — ses termes, dans son
 sens —, pas seulement le résultat qu'on en tire. En fpp, c'est toujours possible : chaque
 terme a sa jambe, et ce qui est écrit sous la figure est la Forme. *Demandé par
-l'utilisateur le 2026-09-27, pour toutes les matières.* Le détail est en SPEC-MODELE §2.4,
-règle 5.
+l'utilisateur le 2026-09-27, pour toutes les matières.* La méthode — un terme, un objet
+étiqueté ; une opération, un geste ; la Forme écrite dessous ; le test de la fiche couverte
+— et le répertoire des gestes sont en SPEC-MODELE §2.4, règle 5. En fpp, aucune valeur
+numérique dans les figures.
 
 Ce qui reste interdit : une figure qui montre autre chose que ce que dit sa fiche. Un
 dessin est une assertion ; il porte un marqueur comme les autres, et il n'introduit aucun

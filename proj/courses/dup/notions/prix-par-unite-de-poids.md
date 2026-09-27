@@ -35,7 +35,7 @@ dup/portefeuille-rdu apporte l'autre moitié : un budget, des prix d'état et un
 ## Exemple minimal
 Sur le marché du cours, $q=(0{,}3;0{,}3;0{,}4)$ et $\pi=(0{,}2560;0{,}2013;0{,}5426)$ donnent $q_s/\pi_s=(1{,}17;1{,}49;0{,}74)$, là où $q_s/p_s$ valait $(1{,}5;1;0{,}8)$. [L4 slide 29, L4 slide 30]
 
-![Les deux rapports de l'exemple, état par état. Le premier état est le plus cher par unité de probabilité, le deuxième l'est par unité de poids : les deux rapports ne classent pas les états dans le même ordre.](figures/prix-par-unite-de-poids.svg) [ajout]
+![L'utilité marginale du cours, $u'(x)=0{,}6\,x^{-0{,}4}$, et les trois états de l'exemple, avec un budget de 1 qui fixe $\eta\approx0{,}639$. Pour chaque état, on part de la hauteur $\eta\,q_s/\pi_s$, on rejoint la courbe, et l'on descend sur l'axe des richesses : $x_s=(u')^{-1}(\eta\,q_s/\pi_s)$, soit 0,58, 0,32 et 1,83. Le rapport le plus haut, celui de l'état 2, donne la richesse la plus basse.](figures/prix-par-unite-de-poids.svg) [ajout]
 
 ## Geste de calcul type
 Diviser chaque prix d'état par le poids de décision de son rang, classer les états par ce rapport croissant, et lire l'ordre des richesses que ce classement impose. [L4 slide 28]

@@ -280,6 +280,43 @@ Cinq règles, et elles ne se négocient pas.
    la figure menait à $K=S_t/P(t,T)$, pas à la formule de la Forme ; « quand c'est
    possible, il faut que ça soit comme cela, dans toutes les matières ».*
 
+**Faire retrouver la Forme : la méthode.** Une figure est faite ainsi, dans toutes les
+matières, dès que la Forme se dessine.
+
+1. **Partir de la Forme écrite**, et en dresser la liste des termes et des opérations
+   qui les relient. La figure se conçoit à partir de cette liste, pas de l'exemple.
+2. **Un terme, un objet visible** — une jambe, une barre, une flèche, un cadre, un
+   segment mesuré —, étiqueté par le terme exact de la Forme, dans ses symboles (A12) :
+   « + (S_T − K) », « π(q) v(y) », « βσ² », jamais une description à sa place.
+3. **Une opération, un geste**, pris dans ce répertoire ou inventé sur son modèle :
+
+   | dans la Forme | sur le dessin | exemples |
+   |---|---|---|
+   | une somme ou une différence de termes | une planche « + », « − », « = », ou des jambes de couleurs distinctes sommées sous un échéancier | `fpp/cash-and-carry`, `fpp/combinaison-d-options`, `dss/regression-ridge` |
+   | un facteur qui transporte un montant | une flèche courbe qui porte le facteur | `fpp/obligation-in-fine`, `fpp/probabilite-risque-neutre` |
+   | une somme pondérée | l'aire de barres dont la largeur est le poids | `dup/rdu`, `dup/integrale-de-choquet`, `dup/theorie-des-perspectives` |
+   | une fonction réciproque, un changement d'échelle | une lecture sur une courbe ou entre deux axes : de la hauteur à l'abscisse | `dup/prix-par-unite-de-poids`, `pfo/quantile`, `pfo/score-z` |
+   | l'écart entre deux expressions | une mesure verticale étiquetée par le terme qui fait l'écart | `dup/utilite-quadratique`, `fpp/valeur-temps` |
+   | une dérivée | la pente d'une tangente | `fpp/delta`, `fpp/duration` |
+   | une égalité de deux chemins | deux montages connus aujourd'hui qui mènent au même endroit | `fpp/prix-forward`, `fpp/taux-forward` |
+   | une identité de matrices | les matrices en rectangles à l'échelle de leurs dimensions | `ods/dual-ridge` |
+
+4. **La Forme écrite sous la figure**, mot pour mot, là où le lecteur arrive ; et la
+   légende la reprend, pour que la page la lise aussi à qui ne voit pas le dessin.
+5. **Le test** : couvrir la fiche, lire la figure seule, et réécrire la Forme. Si elle ne
+   sort pas du dessin, avec ses termes et dans son sens, la figure est à refaire. Une
+   figure se vérifie rendue en image avant d'être gardée.
+
+En fpp, les figures ne portent **aucune valeur numérique tirée d'un exemple**, ni dans le
+dessin ni dans les graduations : seulement les symboles du cours, les chiffres restant dans
+le texte des fiches. Les constantes des formules — le 1 que paie un zéro-coupon, le ½ de
+σ²/2 — et les indices restent. *Demandé par l'utilisateur le 2026-09-27 : « pour ce cours de FPP, sur les
+graphiques, je ne veux pas les chiffres numériques. Je veux les formules ». Les autres
+cours gardent les nombres de leur exemple, qui rendent la lecture concrète.* *La méthode
+est demandée par l'utilisateur le même jour, après les figures refaites de fpp, pfo, dss,
+ods et dup : « il va falloir que tu précises dans ta spec que les graphiques doivent être
+faits ainsi ».*
+
 `tools/figure.py` porte les primitives de tracé — repère, courbe, point, mesure d'un écart,
 axes — et n'a besoin de rien d'autre que la bibliothèque standard.
 

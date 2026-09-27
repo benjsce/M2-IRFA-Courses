@@ -7,6 +7,10 @@ vaut 25. Le dessin ajoute ce que la fiche met en garde : la parabole culmine au 
 satiété $-\alpha/2\beta=100$, et au-delà l'utilité décroît. Le pari du cours touche
 exactement ce sommet par son bon résultat, ce qui se voit.
 
+La Forme se lit à la verticale de la moyenne μ = 50 : la courbe y vaut U(μ) = αμ + βμ²,
+37,5, et le milieu de la corde, l'utilité espérée, est plus bas de βσ², avec σ² = 2 500 :
+E[U] = U(μ) + βσ² = αμ + β(μ² + σ²) = 25.
+
 Usage : python courses/dup/figures/utilite-quadratique.py > utilite-quadratique.svg
 Dépendance : aucune.
 """
@@ -21,7 +25,7 @@ U = lambda x: ALPHA * x + BETA * x * x
 SAT = -ALPHA / (2 * BETA)                     # 100
 EU = 0.5 * U(0) + 0.5 * U(100)                # 25
 
-f = Figure(xmin=0, xmax=165, ymin=0, ymax=60, w=560, h=330,
+f = Figure(xmin=0, xmax=165, ymin=0, ymax=60, w=560, h=340,
            titre="La parabole culmine à 100 ; au-delà, plus de richesse fait baisser l'utilité")
 f.axes(xlab="richesse x", ylab="U", xticks=(0, 50, 100, 150), yticks=(25, 50),
        fmt=lambda t: str(int(t)))
@@ -35,8 +39,15 @@ f.point(SAT, U(SAT), couleur=AJOUT)
 f.texte(SAT, U(SAT), "satiété : −α/2β = 100", couleur=AJOUT, ancre="middle", dy=-10,
         gras=True, fond=True)
 
-f.point(50, EU, couleur=ENCRE)
-f.texte(50, EU, "le pari vaut 25", couleur=ENCRE, dx=8, dy=16, gras=True, fond=True)
+MU, VAR = 50.0, 2500.0
+f.segment(MU, 0, MU, U(MU))
+f.point(MU, U(MU), couleur=ACCENT)
+f.texte(MU, U(MU), "U(μ) = αμ + βμ² = 37,5", couleur=ACCENT, ancre="end", dx=-8, dy=-6,
+        gras=True, fond=True, taille=12)
+f.mesure(MU, EU, U(MU), couleur=AJOUT, etiquette="βσ² = −0,005 × 2 500 = −12,5")
+f.point(MU, EU, couleur=ENCRE)
+f.texte(MU, EU, "E[U] = 25", couleur=ENCRE, ancre="end", dx=-8, dy=16, gras=True, fond=True)
+f.texte(82, 6, "E[U] = αμ + β(μ² + σ²)", couleur=ENCRE, ancre="middle", gras=True, taille=13)
 f.texte(150, U(150), "U décroît", couleur=AJOUT, ancre="end", dx=-6, dy=-8, taille=11.5,
         fond=True)
 

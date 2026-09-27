@@ -63,7 +63,7 @@ Les deux objets libres ne portent pas la même chose : la courbure de $u$ mesure
 | la forme de $\varphi$ | concave | pessimiste, et le poids marginal décroît avec le rang |
 [L3 slide 32, L4 slide 14]
 
-![Les mêmes trois courbures, à gauche sur $u$ et à droite sur $\varphi$. À gauche seule la courbure compte, puisque $u$ n’est définie qu’à une transformation affine près ; à droite la diagonale sépare le pessimisme de l’optimisme, et une $\varphi$ concave passe nécessairement au-dessus.](figures/rdu.svg) [ajout]
+![À gauche, la déformation du cours, $\varphi$ avec $\beta=0{,}7$, sur les probabilités cumulées d'une loterie de trois résultats rangés, de probabilités 0,2, 0,3 et 0,5 : les sauts de $\varphi$ entre les cumuls sont les poids, $\pi_1=\varphi(p_1)$, $\pi_2=\varphi(p_1+p_2)-\varphi(p_1)$, $\pi_3=1-\varphi(p_1+p_2)$, soit 0,26, 0,20 et 0,54. À droite, chaque résultat est une barre de largeur $\pi_i$ et de hauteur $u(x_i)$ : leur aire est $U(P)=\sum\pi_iu(x_i)$.](figures/rdu.svg) [ajout]
 
 ## Cesse d'être valide quand
 Résout les paradoxes d’Allais et, avec un $\varphi$ bien choisi, celui de Rabin — mais le risque de fond ramène ce dernier, sauf à invoquer un cadrage étroit. [L3 slide 34, L3 slide 36, L3 slide 37]

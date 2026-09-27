@@ -33,7 +33,7 @@ Markowitz le premier propose de définir l’utilité sur les écarts à la rich
 
 L’aversion aux paris symétriques impose $v(x)<-v(-x)$ : la courbe est plus raide du côté des pertes. Une concavité marquée autour de zéro — un coude — explique les paradoxes d’échelle. [L3 slide 22]
 
-![La courbe de valeur et, en pointillé, sa branche des pertes rabattue dans le quadrant des gains. Elle passe partout au-dessus : c’est toute l’inégalité. La courbe n’est pas graduée, la fiche ne donnant aucune échelle pour $v$.](figures/theorie-des-perspectives.svg) [ajout]
+![Un pari symétrique, gagner ou perdre le même écart à pile ou face. À gauche, la fonction de valeur $v$, plus raide du côté des pertes, lit $v(x)$ et $v(y)$ ; au milieu, la fonction de poids $\pi$ lit $\pi(p)=\pi(q)$ ; à droite, chaque branche est un rectangle de largeur $\pi$ et de hauteur $v$, et $V=\pi(p)v(x)+\pi(q)v(y)$ est leur aire signée, négative parce que la perte pèse plus que le gain. Rien n'est gradué : la fiche ne donne d'échelle ni pour $v$ ni pour $\pi$.](figures/theorie-des-perspectives.svg) [ajout]
 
 ## Le chemin jusqu'ici
 dup/loterie et dup/fonction-utilite se combinent en dup/utilite-esperee, dont dup/cadrage montre les limites. [ajout]
