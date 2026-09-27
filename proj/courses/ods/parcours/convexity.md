@@ -17,24 +17,28 @@ Our four observations now call for the penalized problem: minimize $\tfrac12\|Ax
    Histoire : « over the weights $x$ in the plane » — The plane of weights is convex: the segment between two admissible weights is admissible, so the method can always move straight from one candidate towards another. [ajout]
 
 2. ods/operations-on-convex-sets
-   Checking segments one by one is tedious: can a convex set be recognized from the way it is built? [Prop. 2.1]
-   Histoire : « the weights » — The plane of weights is built, not checked: it is the product $\mathbb{R}\times\mathbb{R}$ of two intervals, hence convex, and the predictions $Ax$ that these weights produce, its image by an affine map, form a convex set of $\mathbb{R}^4$ as well. [ajout]
+   Checking segments one by one is tedious. [Prop. 2.1]
+   Suite : Can a convex set be recognized from the way it is built? [ajout]
+   Histoire : « Can a convex set be recognized from the way it is built » — The plane of weights is built, not checked: it is the product $\mathbb{R}\times\mathbb{R}$ of two intervals, hence convex, and the predictions $Ax$ that these weights produce, its image by an affine map, form a convex set of $\mathbb{R}^4$ as well. [ajout]
 
 3. ods/epigraph
-   How does a function, rather than a set, get a shape? [§2.2.1]
-   Histoire : « walks downhill » — The epigraph of the objective is everything on or above its graph, a bowl standing over the plane of weights; the walk happens on the floor of that bowl. [ajout]
+   Convexity has been defined for sets. [§2.2.1]
+   Suite : The method walks on the objective, not on a set. How does a function get a shape? [ajout]
+   Histoire : « How does a function get a shape » — The epigraph of the objective is everything on or above its graph, a bowl standing over the plane of weights; the walk happens on the floor of that bowl. [ajout]
 
 4. ods/convex-function
-   When is that floor free of bumps? [Def. 2.3]
-   Histoire : « the penalized problem » — When the epigraph is a convex set: every chord lies above the graph. Both terms of the objective are squared norms of affine maps, each convex, and their sum is convex too. [ajout]
+   The epigraph gives the objective a shape. [Def. 2.3]
+   Suite : When is the floor of that bowl free of bumps? [ajout]
+   Histoire : « When is the floor of that bowl free of bumps » — When the epigraph is a convex set: every chord lies above the graph. Both terms of the objective are squared norms of affine maps, each convex, and their sum is convex too. [ajout]
 
 5. ods/local-minima-are-global
    Does convexity answer our question about the stopping point? [Th. 2.1]
    Histoire : « Can it stop at a point that is not the best one » — No: for a convex function on a closed convex set, every local minimizer is global. A point where no small step lowers the objective is the best point. [ajout]
 
 6. ods/first-order-characterization
-   The chords need pairs of points, and the method only sees where it stands: can one point say something about all the others? [Prop. 2.2]
-   Histoire : « walks downhill » — At its start, $x=(0,0)$, the method reads a value, $1$, and a slope, the gradient $(-1,-2)$. For a convex objective these two readings bound every other weight: the objective is at least $1-x_1-2x_2$ everywhere in the plane. [ajout]
+   The chords need pairs of points. [Prop. 2.2]
+   Suite : The method only sees where it stands. Can one point say something about all the others? [ajout]
+   Histoire : « Can one point say something about all the others » — At its start, $x=(0,0)$, the method reads a value, $1$, and a slope, the gradient $(-1,-2)$. For a convex objective these two readings bound every other weight: the objective is at least $1-x_1-2x_2$ everywhere in the plane. [ajout]
 
 7. ods/first-order-optimality-condition
    So where exactly does the walk stop? [p. 9]

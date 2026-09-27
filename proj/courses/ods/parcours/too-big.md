@@ -23,28 +23,33 @@ The same penalized least squares, now on a real problem: $n=100\,000$ observatio
    Histoire : « The same penalized least squares » — In the slides' notation — $X$ for the data, $y$ for the targets, $w$ for the weights and an intercept $b$ — the problem is ridge regression. Without intercept its system is $(X^\top X+\lambda I_p)w=X^\top y$, with a million unknowns. [ajout]
 
 3. ods/intercept
-   The intercept is not penalized: how is it dealt with? [slide 6]
-   Histoire : « whose rows each hold ten non-zero entries » — Centering the data would give it by $\hat{b}=\bar{y}-\overline{X}^\top\hat{w}$, but subtracting the column means fills in every zero. With a sparse matrix one adds a column of ones instead, and barely penalizes its coefficient. [ajout]
+   A real model needs one more weight. [slide 6]
+   Suite : Besides the weights, a real model needs an intercept, which is not penalized. How is it computed? [ajout]
+   Histoire : « an intercept, which is not penalized » — Centering the data would give it by $\hat{b}=\bar{y}-\overline{X}^\top\hat{w}$, but subtracting the column means fills in every zero. With a sparse matrix one adds a column of ones instead, and barely penalizes its coefficient. [ajout]
 
 4. ods/singular-value-decomposition
-   Could a factorization of the data give the weights at once? [slide 8]
-   Histoire : « Can we write it down and solve it » — With $M=U\Sigma V^\top$ for $M$ the data matrix, ridge shrinks each singular direction by $\sigma_i^2/(\sigma_i^2+\lambda)$, $\sigma_i$ being the singular values, and the weights are explicit. But computing the SVD of a $10^5\times10^6$ matrix is out of reach. [ajout]
+   The system is linear, but huge. [slide 8]
+   Suite : Could a factorization of the data give the weights at once? [ajout]
+   Histoire : « a factorization of the data » — With $M=U\Sigma V^\top$ for $M$ the data matrix, ridge shrinks each singular direction by $\sigma_i^2/(\sigma_i^2+\lambda)$, $\sigma_i$ being the singular values, and the weights are explicit. But computing the SVD of a $10^5\times10^6$ matrix is out of reach. [ajout]
 
 5. ods/woodbury-identity
-   The system is $p\times p$, but there are ten times fewer observations than features: can the inverse be moved to the smaller side? [slide 10]
-   Histoire : « $n=100\,000$ observations and $p=1\,000\,000$ features » — The matrix inversion lemma rewrites $(A+UCV)^{-1}$ with a $k\times k$ inverse; with $A=\lambda I_p$, $U=X^\top$, $C=I_n$ and $V=X$, the $p\times p$ inverse becomes an $n\times n$ one. [ajout]
+   The SVD is out of reach. [slide 10]
+   Suite : There are ten times fewer observations than features. Can the inverse be moved to the smaller side? [ajout]
+   Histoire : « Can the inverse be moved to the smaller side » — The matrix inversion lemma rewrites $(A+UCV)^{-1}$ with a $k\times k$ inverse; with $A=\lambda I_p$, $U=X^\top$, $C=I_n$ and $V=X$, the $p\times p$ inverse becomes an $n\times n$ one. [ajout]
 
 6. ods/dual-ridge
-   What does the smaller system look like, and does it fit in memory? [slide 11]
-   Histoire : « Can we write it down » — $\hat{w}=X^\top(XX^\top+\lambda I_n)^{-1}y$ needs an $n\times n$ matrix: 80 GB in float64. The primal $X^\top X$ would take 8 TB. Neither fits. [ajout]
+   The inverse can move to the $n\times n$ side. [slide 11]
+   Suite : What does the smaller system look like, and does it fit in memory? [ajout]
+   Histoire : « What does the smaller system look like » — $\hat{w}=X^\top(XX^\top+\lambda I_n)^{-1}y$ needs an $n\times n$ matrix: 80 GB in float64. The primal $X^\top X$ would take 8 TB. Neither fits. [ajout]
 
 7. ods/sparse-matrix
    Is the data itself too big? [slide 12]
    Histoire : « ten non-zero entries » — No: a million non-zeros, stored with their positions, take about 12 MB. The problem is not the data but the matrices built from it. [ajout]
 
 8. ods/sparse-storage-format
-   How should those non-zeros be laid out in memory to compute with them? [nb. 3]
-   Histoire : « stored in a matrix whose rows each hold ten non-zero entries » — Row by row, since each row holds its ten non-zeros together: the CSR format keeps the million values, their million column indices, and the $100\,001$ positions where the rows start. The product $Xw$ then reads each row's ten entries once, about two million operations. [ajout]
+   The data itself fits in memory. [nb. 3]
+   Suite : How should those non-zeros be laid out in memory to compute with them? [ajout]
+   Histoire : « laid out in memory » — Row by row, since each row holds its ten non-zeros together: the CSR format keeps the million values, their million column indices, and the $100\,001$ positions where the rows start. The product $Xw$ then reads each row's ten entries once, about two million operations. [ajout]
 
 9. ods/matrix-free-product
    If the matrix of the system cannot be stored, what can still be done with it? [slide 13]
