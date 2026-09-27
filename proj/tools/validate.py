@@ -884,6 +884,15 @@ def valider(root: Path, rap: Rapport):
                         rap.e("A14", ou, f"ligne « Suite : » sous une étape {n} qui n'existe pas")
                     if len(ls) > 1:
                         rap.e("A14", ou, f"[étape {n}] deux lignes « Suite : » : une seule par étape")
+                    # Le départ pose la question de la première fiche ; l'histoire ne continue
+                    # que lorsqu'une fiche répond à une question qu'elle ne pose pas encore.
+                    # Demandé par l'utilisateur le 2026-09-27, sur fpp/parcours-options : « on
+                    # ne peut pas commencer une histoire et parler d'une notion qui nécessite de
+                    # continuer l'histoire dès le début ». Mesuré le même jour : 1 parcours sur
+                    # 34 le faisait, celui qu'on venait de modifier.
+                    if n == 1 and ls:
+                        rap.e("A14", ou, "[étape 1] ligne « Suite : » : le point de départ doit poser "
+                                         "lui-même la question de la première fiche")
                 for n, lignes in sorted(anc.items()):
                     # On ne cite que l'histoire arrivée jusqu'ici : le départ et les suites des
                     # étapes précédentes et de celle-ci, jamais d'une étape à venir.

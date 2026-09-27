@@ -354,6 +354,16 @@ def _suite_puis_cite(root, cite_a):
     f.write_text("\n".join(t), encoding="utf-8", newline="\n")
 
 
+def parcours_suite_a_l_etape_1(root):
+    """Une suite dès la première étape : le départ ne pose pas la question de sa fiche."""
+    _parcours(root, ["milieu", "haut"], ["base"])
+    f = root / "courses" / "aa" / "parcours" / "essai.md"
+    f.write_text(f.read_text(encoding="utf-8").replace(
+        "1. aa/milieu\n   La question qui y mène. [p. 1]",
+        "1. aa/milieu\n   La question qui y mène. [p. 1]\n   Suite : Un second agent arrive. [p. 1]"),
+        encoding="utf-8", newline="\n")
+
+
 def parcours_cite_suite_future(root):
     _suite_puis_cite(root, 1)
 
@@ -687,6 +697,10 @@ def main():
         "pas pris mot pour mot", parcours_cite_suite_future)
     cas("citation d'une suite racontée à cette étape → silence",
         "pas pris mot pour mot", parcours_cite_suite_racontee, doit_apparaitre=False)
+    cas("suite dès la première étape → erreur",
+        "[étape 1] ligne « Suite : »", parcours_suite_a_l_etape_1)
+    cas("suite à la deuxième étape → silence",
+        "[étape 1] ligne « Suite : »", parcours_cite_suite_racontee, doit_apparaitre=False)
     cas("étape sans ligne « Histoire : » → comptée en dette",
         "étapes sans ligne « Histoire : » (1)", parcours_etape_sans_histoire)
     cas("ligne « Histoire : » sans phrase → erreur",

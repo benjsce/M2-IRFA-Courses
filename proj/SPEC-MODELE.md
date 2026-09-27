@@ -726,25 +726,42 @@ l'histoire telle qu'elle est arrivée jusqu'à lui. *Essayé sur `dup/parcours-r
   qu'une étape suivante introduit. *Constaté le 2026-09-26 : un départ complété pour
   couvrir toutes les étapes — second agent, richesse, primes calculées — a été rejeté :
   « dès le point de départ, l'histoire implique déjà des calculs, des termes qu'on n'a
-  pas encore abordés ».*
+  pas encore abordés ».* Il pose en revanche **la question de la première fiche** : l'étape 1
+  n'a jamais de ligne « Suite : » (A14, vérifié). *Demandé par l'utilisateur le
+  2026-09-27 : « on ne peut pas commencer une histoire et parler d'une notion qui nécessite
+  de continuer l'histoire dès le début ». Mesuré le même jour : 1 parcours sur 34 le
+  faisait, celui des options de fpp, qu'on venait de modifier.*
 - **L'histoire avance par des suites, là où le récit en a besoin.** Quand le lien d'une
   étape devrait introduire un objet absent de l'histoire — un second agent, une richesse,
   un pari plus petit, une économie —, c'est une ligne « Suite : » à cette étape qui
   l'introduit, jamais le départ. La suite reste dans le monde numérique du cours et ses
-  chiffres sont recalculés avant d'être écrits.
+  chiffres sont recalculés avant d'être écrits. Réciproquement, une fiche qui répond à une
+  question que l'histoire pose déjà n'a pas de suite : l'histoire ne continue que lorsque la
+  fiche lui apporte quelque chose de nouveau.
 - **Une suite pose une seule question : celle que la fiche de son étape résout.** Une
   question qui appartient à l'étape suivante va dans la suite de celle-ci. *Constaté le
   2026-09-26 : la suite de l'aversion absolue demandait « lequel craint le plus le risque,
   et comment le prévoir sans refaire le calcul ? » ; la seconde question est celle de
   l'approximation d'Arrow-Pratt, l'étape d'après.*
-- **Le gras tombe sur les mots de la question, pas sur un détail.** À l'aversion absolue,
+- **Le gras tombe sur la notion de la fiche telle que l'histoire la nomme.** Test : mettre
+  la définition de la fiche en face des mots en gras ; ils doivent désigner la même chose.
+  Dans le parcours des options de fpp, « s'assurer le droit, mais pas l'obligation » est
+  l'option ; « un montant qui dépend de ce cours » est le payoff ; « Combien doit-il payer
+  ce droit », le prix que donne la formule de Black et Scholes. « le droit, mais pas
+  l'obligation » n'est pas le payoff, qui est un montant : quand l'histoire n'a pas de mots
+  pour la notion, c'est l'histoire qu'on complète, par le départ si c'est la première
+  étape, par une suite sinon, jamais par une citation approchée. À l'aversion absolue,
   « Lequel des deux craint le plus le risque », et non « un second agent, d'utilité
   $\ln x$ ». Une étape sans citation dit pourquoi dans sa phrase — une règle de cohérence,
-  comme l'axiome d'indépendance, n'est pas un fait de l'histoire.
-- **Une question résolue par plusieurs étapes se partage.** Chaque étape ne cite que la
-  part qu'elle résout : « L'entreprise peut-elle fixer dès aujourd'hui le taux de cet
-  emprunt » se répartit en « fixer » pour le FRA et « le taux de cet emprunt » pour le taux
-  forward. Le gras tombe à la première occurrence de la citation ; une citation courte se
+  comme l'axiome d'indépendance, n'est pas un fait de l'histoire. *Demandé par
+  l'utilisateur le 2026-09-27 : « quand tu parles de payoff, dans l'histoire, le payoff, ce
+  n'est pas le droit, mais l'obligation […] Le payoff, c'est un montant ». Remplace la
+  règle du même jour, « le gras tombe sur les mots de la question », qui mettait en gras la
+  question que la fiche aide à résoudre au lieu de la notion elle-même.*
+- **Plusieurs étapes, plusieurs objets.** Une phrase de l'histoire qui contient les objets de
+  plusieurs fiches se partage : chaque étape ne cite que le sien. « L'entreprise peut-elle
+  fixer dès aujourd'hui le taux de cet emprunt » se répartit en « fixer » pour le FRA, le
+  contrat qui fixe, et « le taux de cet emprunt » pour le taux forward. Le gras tombe à la première occurrence de la citation ; une citation courte se
   vérifie sur la page rendue, pour qu'elle ne s'accroche pas à un autre passage. *Constaté
   le 2026-09-27 sur `fpp/parcours-terme-taux` : la question entière allait au FRA, et le
   taux forward, faute de mots à lui, avait mis en gras ses données, « 4 % à un an et 5 %

@@ -6,7 +6,7 @@ source: §6
 ---
 
 ## Point de départ
-Un investisseur veut s'assurer le droit, mais pas l'obligation, d'acheter dans un an à 100 l'action qui vaut aujourd'hui 100. Combien doit-il payer ce droit ? [ajout]
+Un investisseur veut s'assurer le droit, mais pas l'obligation, d'acheter dans un an à 100 l'action qui vaut aujourd'hui 100. Dans un an, l'action vaudra peut-être 120, peut-être 80, et le droit lui rapportera un montant qui dépend de ce cours. Combien doit-il payer ce droit ? [ajout]
 
 ## À savoir avant
 - fpp/zero-coupon : il actualise le prix d'achat de 100 payé dans un an, ce qui relie le droit d'acheter au droit de vendre. [Déf. 3]
@@ -17,20 +17,21 @@ Un investisseur veut s'assurer le droit, mais pas l'obligation, d'acheter dans u
 ## Étapes
 1. fpp/payoff
    Avant de lui donner un prix, que paie exactement ce droit dans un an, selon ce que vaudra l'action ? [Déf. 11]
-   Histoire : « le droit, mais pas l'obligation » — Il paie $(S_T-100)^+$ : 20 si l'action finit à 120, rien si elle finit à 80, jamais un montant négatif, puisque l'investisseur n'achète que si cela l'arrange. [ajout]
+   Histoire : « un montant qui dépend de ce cours » — C'est le payoff du droit, $(S_T-100)^+$ : 20 si l'action finit à 120, rien si elle finit à 80, jamais un montant négatif, puisque l'investisseur n'achète que si cela l'arrange. [ajout]
 
 2. fpp/option
    Comment s'appelle ce contrat, et qu'a-t-il de différent d'un achat à terme ? [Déf. 9]
-   Histoire : « d'acheter dans un an à 100 » — C'est un call européen de strike 100 et de maturité un an ; à la différence d'un contrat à terme, il se paie à la signature. [ajout]
+   Histoire : « s'assurer le droit, mais pas l'obligation » — Un droit sans obligation, c'est une option ; celui d'acheter à 100 dans un an est un call européen de strike 100 et de maturité un an. À la différence d'un contrat à terme, qui oblige, il se paie à la signature. [ajout]
 
 3. fpp/parite-call-put
    Si quelqu'un veut au contraire le droit de vendre au même prix, les deux droits sont-ils liés par une relation que personne ne peut contester ? [Prop. 7]
-   Suite : Un autre investisseur veut, lui, le droit de vendre l'action à 100 dans un an. [ajout]
-   Histoire : « le droit de vendre l'action à 100 dans un an » — Le call moins ce put vaut l'action moins le strike actualisé, $100-100\times0{,}9608=3{,}92$, quel que soit le modèle. [ajout]
+   Suite : Un autre investisseur veut, lui, le droit de vendre l'action à 100 dans un an. Une banque achète le premier droit et vend le second : que détient-elle ? [ajout]
+   Histoire : « achète le premier droit et vend le second » — Un achat à terme à 100 : si l'action finit au-dessus de 100, elle exerce son call ; en dessous, on exerce contre elle le put qu'elle a vendu. Dans les deux cas, elle achète l'action à 100 dans un an. Le call moins le put vaut donc l'action moins le strike actualisé, $100-100\times0{,}9608=3{,}92$, quel que soit le modèle. [ajout]
 
 4. fpp/valeur-intrinseque
    Si l'avenir était certain, combien vaudrait le droit d'acheter ? [Déf. 12]
-   Histoire : « à 100 l'action qui vaut aujourd'hui 100 » — Pas zéro, bien que le strike égale le prix du jour : dans un monde sans aléa, l'action vaudrait à coup sûr son prix forward, 104,08 ; le droit paierait 4,08 dans un an, soit 3,92 aujourd'hui. [ajout]
+   Suite : Supposons un instant que l'action finisse à coup sûr à son prix forward, 104,08. Que vaudrait alors le droit aujourd'hui ? [ajout]
+   Histoire : « Que vaudrait alors le droit aujourd'hui » — Il paierait 4,08 dans un an, puisqu'on achèterait à 100 une action valant 104,08, soit $4{,}08\times0{,}9608=3{,}92$ aujourd'hui : c'est sa valeur intrinsèque. Elle n'est pas nulle, bien que le strike égale le prix du jour, parce que le strike se compare au prix forward. [ajout]
 
 5. fpp/formule-black-scholes
    Quand l'action peut monter ou baisser, quel prix exact ? [§6.4]
@@ -39,7 +40,8 @@ Un investisseur veut s'assurer le droit, mais pas l'obligation, d'acheter dans u
 
 6. fpp/valeur-temps
    D'où vient l'écart entre ce prix et ce que vaudrait le droit sans aléa ? [Déf. 13]
-   Histoire : « mais pas l'obligation » — Ne pas être obligé d'acheter vaut 6,00 : sur les 9,93 du droit, 3,92 sont sa valeur intrinsèque, ce que vaut aujourd'hui l'obligation d'acheter à 100, et les 6,00 restants sa valeur temps, positive parce que le droit profite des hausses sans subir les baisses. [ajout]
+   Suite : L'investisseur paie 9,93, et non les 3,92 d'un avenir certain. Que paie-t-il en plus ? [ajout]
+   Histoire : « Que paie-t-il en plus » — 6,00, l'écart entre 9,93 et 3,92 avant arrondi : la valeur temps du droit. Il la paie parce que l'action ne finira pas à coup sûr à 104,08 : plus haut, il gagne davantage ; plus bas, il n'exerce pas. Le droit profite des hausses sans subir les baisses, et cet aléa vaut quelque chose. [ajout]
 
 7. fpp/option-americaine
    Pouvoir exercer avant l'échéance vaut-il un supplément ? [Déf. 10]
@@ -48,8 +50,8 @@ Un investisseur veut s'assurer le droit, mais pas l'obligation, d'acheter dans u
 
 8. fpp/formule-de-black
    Faut-il une nouvelle formule pour chaque sous-jacent ? [§6.5]
-   Suite : L'investisseur cherche enfin le même droit sur un contrat future dont le prix est 104,08. [ajout]
-   Histoire : « un contrat future dont le prix est 104,08 » — Non : avec le prix à terme $F=104{,}08$ et le zéro-coupon, la formule de Black redonne 9,93 ; le taux est passé dans $F$. [ajout]
+   Suite : L'investisseur cherche enfin le même droit sur un contrat future dont le prix est 104,08. Peut-il le calculer avec le seul prix de ce future et le zéro-coupon ? [ajout]
+   Histoire : « avec le seul prix de ce future et le zéro-coupon » — Oui : avec le prix à terme $F=104{,}08$ et le zéro-coupon, la formule de Black redonne 9,93 ; le taux est passé dans $F$. [ajout]
 
 ## Point d'arrivée
 Le droit d'acheter l'action à 100 dans un an vaut 9,93 : 3,92 de valeur intrinsèque, 6,00 de valeur temps. Écrite sur le prix à terme, la même formule vaut pour tout sous-jacent. [ajout]
