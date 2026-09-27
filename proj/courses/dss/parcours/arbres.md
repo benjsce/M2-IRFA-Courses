@@ -36,7 +36,7 @@ Tirer 20 clients avec remise parmi les 20 de la banque en laisse en moyenne 7 de
    Histoire : « à quoi servent les clients laissés de côté » — Un client absent d'un tirage est dit « hors du sac », out of bag, pour l'arbre correspondant ; il l'est pour environ 36 % des tirages, la probabilité $0{,}95^{20}$ calculée plus haut. On le prédit avec ces seuls arbres qui ne l'ont pas vu, environ 180 sur 500, et l'on moyenne ces erreurs sur les 20 clients. On obtient une erreur de test sans avoir mis un seul client de côté. [ajout]
 
 5. dss/variance-d-une-moyenne-correlee
-   Les 500 arbres ne sont pas indépendants les uns des autres. Est-ce grave ? [slide 108]
+   Les 500 arbres ne sont pas indépendants les uns des autres. [slide 108]
    Suite : Les arbres sont bâtis sur des tirages des mêmes 20 clients, et se ressemblent. Moyenner des arbres qui se ressemblent réduit-il la variance autant qu'on l'espère ? [ajout]
    Histoire : « Moyenner des arbres qui se ressemblent réduit-il la variance » — Non : si chaque arbre a une variance $\sigma^2$ et deux arbres une corrélation $\rho$, la moyenne de $B$ arbres a pour variance $\rho\,\sigma^2+(1-\rho)\,\sigma^2/B$. Le second terme s'efface quand $B$ grandit, pas le premier : à $\rho=0{,}5$, elle ne descend jamais sous la moitié de celle d'un arbre, même avec 500 arbres. [ajout]
 
@@ -50,12 +50,14 @@ Tirer 20 clients avec remise parmi les 20 de la banque en laisse en moyenne 7 de
    Histoire : « Quelles variables comptent dans la perte qu'ils prédisent » — On attribue à chaque prédicteur une part du travail de la forêt. On espère que l'endettement et le revenu en reçoivent l'essentiel, et les trois variables sans lien presque rien ; sur les 20 clients, les deux mesures qui suivent diront si c'est le cas. [ajout]
 
 8. dss/importance-par-impurete
-   Première réponse : additionner ce que chaque coupure sur une variable a apporté. [slide 104, slide 105]
-   Histoire : « Quelles variables comptent » — Chaque arbre coupe les clients en deux groupes selon un seuil sur un prédicteur, et chaque coupure rend les groupes plus homogènes : elle fait baisser leur impureté, ici la somme des carrés des erreurs. Première mesure : additionner, pour chaque prédicteur, la baisse obtenue à chaque coupure faite sur lui, sur les 500 arbres. Sur les 20 clients, l'endettement en reçoit environ 21 % et le revenu 16 % ; les trois variables sans lien, plus de 60 % à elles trois, et la plus liée à la perte par hasard, 27 %, davantage que l'endettement. Des arbres poussés jusqu'au bout coupent aussi sur le bruit, et chaque coupure compte. [ajout]
+   Deux mesures répondent. [slide 104, slide 105]
+   Suite : Première mesure : additionner ce que chaque coupure sur une variable a fait gagner. Que donne-t-elle ? [ajout]
+   Histoire : « additionner ce que chaque coupure sur une variable a fait gagner » — Chaque arbre coupe les clients en deux groupes selon un seuil sur un prédicteur, et chaque coupure rend les groupes plus homogènes : elle fait baisser leur impureté, ici la somme des carrés des erreurs. Première mesure : additionner, pour chaque prédicteur, la baisse obtenue à chaque coupure faite sur lui, sur les 500 arbres. Sur les 20 clients, l'endettement en reçoit environ 21 % et le revenu 16 % ; les trois variables sans lien, plus de 60 % à elles trois, et la plus liée à la perte par hasard, 27 %, davantage que l'endettement. Des arbres poussés jusqu'au bout coupent aussi sur le bruit, et chaque coupure compte. [ajout]
 
 9. dss/importance-par-permutation
-   Seconde réponse : brouiller une variable et regarder ce qu'on perd. [slide 106]
-   Histoire : « Cinq cents arbres ne se lisent pas comme une régression » — Seconde mesure : mélanger au hasard la colonne d'un prédicteur entre les clients, et regarder de combien l'erreur hors du sac se dégrade. Une variable qui a servi à couper sans rien apprendre ne coûte presque rien quand on la brouille : c'est le cas de deux des trois variables sans lien. Sur les 20 clients, arbre par arbre comme le fait le cours, brouiller l'endettement fait monter l'erreur de 0,31 ; brouiller la variable liée par hasard, autant ; les deux autres, de 0,09 et de rien ; le revenu, dont l'effet est réel mais plus faible, de rien non plus. La permutation classe mieux que l'impureté, mais, comme la régression, elle ne peut pas distinguer une coïncidence d'un lien sur si peu de clients. [ajout]
+   L'impureté compte aussi les coupures faites sur le bruit. [slide 106]
+   Suite : Seconde mesure : que perd la forêt quand on brouille une variable ? [ajout]
+   Histoire : « que perd la forêt quand on brouille une variable » — Seconde mesure : mélanger au hasard la colonne d'un prédicteur entre les clients, et regarder de combien l'erreur hors du sac se dégrade. Une variable qui a servi à couper sans rien apprendre ne coûte presque rien quand on la brouille : c'est le cas de deux des trois variables sans lien. Sur les 20 clients, arbre par arbre comme le fait le cours, brouiller l'endettement fait monter l'erreur de 0,31 ; brouiller la variable liée par hasard, autant ; les deux autres, de 0,09 et de rien ; le revenu, dont l'effet est réel mais plus faible, de rien non plus. La permutation classe mieux que l'impureté, mais, comme la régression, elle ne peut pas distinguer une coïncidence d'un lien sur si peu de clients. [ajout]
 
 10. dss/boosting
     Une tout autre façon d'assembler des arbres : non plus en parallèle, mais les uns après les autres. [slide 122]

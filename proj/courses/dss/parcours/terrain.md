@@ -30,7 +30,7 @@ La banque sait maintenant apprendre à prévoir le défaut de plusieurs façons 
 
 3. dss/biais-societal
    Les groupes rendus comparables, le genre du client se lit-il dans ses autres variables ? [slide 218]
-   Histoire : « si les autres variables d'un client permettent de prédire son genre » — Oui : on peut prédire le genre à partir d'elles, si bien qu'un modèle entraîné sans la variable de genre peut reproduire le traitement inégal selon le genre que reflètent les défauts passés. Le cours en conclut que l'apprentissage fait prospérer les biais sociaux en répliquant les motifs qu'il apprend, et qu'un biais social devient sociétal quand il devient la norme. [slide 218, slide 233, slide 235, ajout]
+   Histoire : « ce qu'un modèle de crédit pourrait alors apprendre sans qu'on le lui donne » — Oui : on peut prédire le genre à partir d'elles, si bien qu'un modèle entraîné sans la variable de genre peut reproduire le traitement inégal selon le genre que reflètent les défauts passés. Le cours en conclut que l'apprentissage fait prospérer les biais sociaux en répliquant les motifs qu'il apprend, et qu'un biais social devient sociétal quand il devient la norme. [slide 218, slide 233, slide 235, ajout]
 
 ## Point d'arrivée
 Un modèle se juge sur des données réelles et contre les autres modèles ; et bien prédire n'est pas tout, puisqu'il reproduit fidèlement les biais de ce qu'il apprend. [ajout]
