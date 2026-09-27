@@ -28,7 +28,7 @@ $$F(t,T)=\frac{S_t}{P(t,T)}\Big(1-\sum_i d_i\Big)\qquad\text{ou, pour des montan
 $T_i$ est la date du $i$-ième dividende, avant $T$. $d_i$ est une fraction : le dividende versé en $T_i$ vaut $d_i$ fois la valeur forward de l'action à cette date, $S_t/P(t,T_i)$. Ce ne sont ni les $d_1$, $d_2$ de la formule de Black et Scholes, ni le taux de dividende continu $d$. [§3.2, éq. 5, §5.2.1]
 
 ## Retrouver la formule
-![Le portage de l'action avec un dividende en T₁, égal à d₁ S_t / P(t,T₁). Placé jusqu'en T, il vaut d₁ S_t / P(t,T) et rembourse d'autant l'emprunt S_t / P(t,T) : le prix forward tombe à S_t / P(t,T) × (1 − d₁).](figures/dividendes-intermediaires.svg) [ajout]
+![Le cash-and-carry du vendeur à terme quand l'action verse en T₁ un dividende d₁ S_t / P(t,T₁). En t, il achète l'action S_t mais emprunte en deux fois : d₁ S_t jusqu'à T₁ seulement, que le dividende rembourse exactement, et (1 − d₁) S_t jusqu'à T. En T₁, dividende reçu et emprunt court remboursé s'annulent. En T, ses jambes se somment comme au cash-and-carry, avec un emprunt plus petit : vente à terme + (F − S_T), action portée à crédit + (S_T − (1 − d₁) S_t / P(t,T)), somme F − (1 − d₁) S_t / P(t,T), certaine et sans mise, donc nulle : F(t,T) = S_t / P(t,T) × (1 − d₁). Placer le dividende jusqu'en T, comme dans le texte, mène au même prix.](figures/dividendes-intermediaires.svg) [ajout]
 
 Sans dividende, porter l'action un an coûte 104,08. [§3.1]
 
