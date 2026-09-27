@@ -35,7 +35,7 @@ Le 19 octobre 1987, le Dow Jones perd 22,6 % en une séance. Sous une loi normal
 
 6. pfo/kurtosis
    Le signe ne dit pas tout : le krach est aussi un écart trop lointain, dans quelque sens qu'il aille. Second outil : une puissance paire et élevée, qui efface le signe et grossit démesurément les écarts lointains. [§2.1.2, p. 22]
-   Histoire : « Prenons une petite série de rendements » — À la puissance quatre, le signe s'efface et les écarts lointains dominent : la kurtosis de la série vaut environ 3,49, au-dessus des 3 d'une loi normale. Sans le jour de krach, elle ne vaudrait que 1,7. [ajout]
+   Histoire : « ce que ce krach a d'anormal » — Ce que ce krach a d'anormal, c'est aussi sa distance : à la puissance quatre, le signe s'efface et les écarts lointains dominent. La kurtosis de la série vaut environ 3,49, au-dessus des 3 d'une loi normale ; sans le jour de krach, elle ne vaudrait que 1,7. [ajout]
 
 7. pfo/queues-epaisses
    Une kurtosis au-dessus de 3, à quoi cela ressemble-t-il sur la loi elle-même ? [p. 23]

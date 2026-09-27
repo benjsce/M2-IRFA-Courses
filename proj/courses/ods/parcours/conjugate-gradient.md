@@ -47,7 +47,7 @@ The ridge system of the large problem has a million unknowns; its matrix is neve
 
 8. ods/regularization-path
    In which order should the grid be solved? [slide 30]
-   Histoire : « a whole grid of values » — From the largest $\lambda$, where $\kappa$ is close to $1$ and $0$ is already a good start, down to the smallest, each solution starting the next. [ajout]
+   Histoire : « a whole grid of values » — Start at the large end: at $\lambda=100$ the four observations give $\kappa\approx1.02$ and a solution, about $(0.01,0.02)$, so close to $0$ that starting from the origin costs almost nothing. Then go down the grid, each solution starting the next: $(\tfrac2{19},\tfrac9{19})$, found at $\lambda=2$, starts the solve at $\lambda=1$. [ajout]
 
 ## Point d'arrivée
 Conjugate gradient solves the ridge system with one product per iteration and about $\sqrt\kappa$ iterations; the penalty sets $\kappa$, and a path over $\lambda$ is solved from the easy end with warm starts. [ajout]

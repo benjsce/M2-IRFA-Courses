@@ -24,7 +24,7 @@ Une action est affichée à deux prix : 99,90 pour qui la vend, 100,10 pour qui 
 
 4. pfo/passage-aux-rendements
    Une fois le prix choisi, que faut-il modéliser : le prix lui-même, ou ses variations ? [§1.2]
-   Histoire : « quand ce prix passe de 100 à 110 puis à 99 » — Ses variations. Ces prix n'ont pas de niveau stable dans le temps ; leurs variations d'une période à l'autre, elles, suivent une loi qui reste stable, et c'est elles qu'on modélise. [ajout]
+   Histoire : « quand ce prix passe de 100 à 110 puis à 99 » — Ses variations. Le niveau ne se répète pas : 100, puis 110, puis 99, et rien ne le ramène à une valeur fixe. Les écarts en prix non plus, puisqu'ils grandissent avec le niveau : +10, puis −11. Rapportée au prix de la veille, en revanche, chaque variation garde la même allure d'une période à l'autre, et c'est elle qu'on modélise. [ajout]
 
 5. pfo/rendement-arithmetique
    Première façon de mesurer une variation : la plus intuitive, celle d'un pourcentage. Que se passe-t-il quand on enchaîne deux périodes ? [§1.2.1]

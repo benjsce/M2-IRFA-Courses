@@ -16,7 +16,7 @@ On part d'un neurone unique. Que sait-il faire seul, et comment en assembler plu
 ## Étapes
 1. dss/reseau-de-neurones-artificiel
    D'où vient l'idée : calculer avec beaucoup d'unités simples reliées entre elles, comme un cerveau. [slide 129]
-   Histoire : « part d'un neurone unique » — L'idée vient du cerveau : beaucoup d'unités simples, chacune calculant peu, reliées par des connexions pondérées. Ce que sait le réseau tient tout entier dans ces poids. [ajout]
+   Histoire : « part d'un neurone unique » — Le neurone unique dont on part est l'unité simple de cette idée, imitée du cerveau : il reçoit les deux coordonnées d'un point par des connexions pondérées et en tire une réponse. Un réseau relie beaucoup de ces unités, et tout ce qu'il saura des quatre points tiendra dans les poids de leurs connexions, qu'il lui faudra apprendre. [ajout]
 
 2. dss/apprentissage-inductif
    Qu'est-ce qu'un tel réseau cherche, au juste, quand on lui montre des exemples ? [slide 133]
@@ -67,7 +67,7 @@ On part d'un neurone unique. Que sait-il faire seul, et comment en assembler plu
 
 13. dss/apprentissage-profond
     Et si l'on empilait davantage de couches cachées ? [slide 8]
-    Histoire : « en assembler plusieurs » — Empiler davantage de couches cachées, chacune combinant les sorties de la précédente, donne l'apprentissage profond : des caractéristiques de plus en plus élaborées, extraites couche après couche. La rétropropagation les entraîne de la même façon, en renvoyant l'erreur d'une couche à la précédente. [ajout]
+    Histoire : « en assembler plusieurs » — Pour le « ou exclusif », une seule couche cachée suffisait : ses deux neurones construisaient le « ou » et le « et », et la sortie en tirait la réponse. Empiler davantage de couches cachées, chacune combinant ce que construit la précédente, c'est l'apprentissage profond : des caractéristiques de plus en plus élaborées, que les couches extraient elles-mêmes au lieu de les recevoir. La rétropropagation les entraîne comme le réseau des quatre points, en renvoyant l'erreur d'une couche à la précédente. [ajout]
 
 ## Point d'arrivée
 Un seul neurone trace une frontière droite ; plusieurs couches d'unités non linéaires tracent n'importe quelle frontière, et la rétropropagation sait les entraîner. [ajout]

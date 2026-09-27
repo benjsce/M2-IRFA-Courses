@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="fr" data-rel="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rapport 2026-09-27-pfo · notions</title>
+<script>
+/* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
+   localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
+   cases « déjà su » ne peuvent donc pas traverser les pages par là. Ils voyagent dans
+   le fragment de l'URL, que tous les liens internes portent ; localStorage ne sert plus
+   que de mémoire locale, pour la page qu'on rouvre sans fragment.
+   Ce script s'exécute avant le rendu : sinon le thème clignote à chaque page. */
+(function(){
+var H={},h=(location.hash||'').replace(/^#/,'');
+h.split('~').forEach(function(p){var i=p.indexOf(':');if(i>0)H[p.slice(0,i)]=p.slice(i+1)});
+window.ETAT_URL=H;
+function loc(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+var t=H.t?(H.t==='d'?'dark':'light'):loc('notions.theme','');
+if(t)document.documentElement.setAttribute('data-theme',t);
+var a=(H.a!==undefined)?H.a:loc('notions.ajouts','1');
+if(a==='0')document.documentElement.classList.add('sans-ajouts');
+})();
+</script>
+<style>
+:root{
+  --bg:#fbfaf7; --bg2:#f3f0ea; --fg:#1b1a17; --mut:#6c675d; --fai:#8e887c;
+  --li:#e0dbd1; --li2:#cdc6b8; --card:#ffffff; --acc:#8a4f23; --acc2:#f3e7dc;
+  --ajo:#6d5a8c; --ajo2:#efe9f5; --lim:#9a3a2e; --ok:#3f6b46; --faute:#a8631a;
+  --r:8px; --w:min(72rem,100%);
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}}
+:root[data-theme="dark"]{
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}
+.fig{margin:.9rem 0;padding:.5rem .2rem .2rem;text-align:center}
+/* « > svg » et non « svg » : MathJax pose son propre <svg> dans la légende, et
+   une règle non ancrée en faisait un bloc qui coupait la phrase en trois. */
+.fig > svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig figcaption{margin-top:.35rem;font-family:var(--sans);font-size:.82rem;
+  color:var(--mut);text-align:center;line-height:1.45}
+@media print{.fig{break-inside:avoid}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
+  font-size:17px;line-height:1.62;overflow-wrap:break-word}
+a{color:var(--acc);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-style:dotted}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+.wrap{width:var(--w);margin:0 auto;padding:0 1rem}
+
+/* ---- barre du haut ---- */
+header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
+  border-bottom:1px solid var(--li);font-family:var(--sans)}
+.topin{width:var(--w);margin:0 auto;padding:.45rem 1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.brand{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--fg);letter-spacing:.02em}
+.fil{color:var(--mut);font-size:.82rem;flex:1 1 8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fil a{color:var(--mut)}
+.btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
+  border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+a.btn{text-decoration:none}
+.btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
+.rech{position:relative;flex:0 1 16rem;min-width:9rem}
+.rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
+  border:1px solid var(--li2);border-radius:var(--r);background:var(--card);color:var(--fg)}
+.res{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--li2);
+  border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.14);max-height:60vh;overflow:auto;padding:.2rem;margin:0;
+  list-style:none;display:none;z-index:50;min-width:18rem}
+.res.on{display:block}
+.res li a{display:block;padding:.3rem .45rem;border-radius:6px;text-decoration:none;color:var(--fg);font-size:.86rem}
+.res li a:hover,.res li.sel a{background:var(--acc2)}
+.res .sub{color:var(--mut);font-size:.76rem;font-family:var(--sans)}
+.res .vide{padding:.4rem .5rem;color:var(--mut);font-size:.84rem}
+
+main{padding:1.4rem 0 4rem}
+h1{font-size:1.75rem;line-height:1.24;margin:.2rem 0 .3rem}
+h2{font-size:1.06rem;font-family:var(--sans);font-weight:600;letter-spacing:.01em;margin:0}
+h3{font-size:.95rem;font-family:var(--sans);margin:1.2rem 0 .3rem}
+p{margin:.55rem 0}
+.ptag{font-family:var(--sans);font-size:.74rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .5rem}
+
+/* ---- métadonnées de fiche ---- */
+.meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;font-family:var(--sans);font-size:.75rem;color:var(--mut);margin:.4rem 0 1.1rem}
+.pill{border:1px solid var(--li2);border-radius:99px;padding:.06rem .5rem;background:var(--card);white-space:nowrap}
+.pill.ajout{color:var(--ajo);border-color:var(--ajo);background:var(--ajo2)}
+.pill.typ{background:var(--acc2);border-color:var(--acc)}
+.sym{font-family:var(--serif);font-size:1rem;color:var(--fg)}
+
+/* ---- sections ---- */
+.sec{border-top:1px solid var(--li);padding:.85rem 0}
+.sec.vide{display:none}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.45rem;padding:.1rem 0}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"›";color:var(--fai);font-family:var(--sans);display:inline-block;
+  transition:transform .12s ease;transform:rotate(0deg);width:.7em}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fai);font-weight:400}
+.corps{padding-top:.25rem}
+.gen{border-left:2px solid var(--li2);padding-left:.7rem}
+.chemin{border-left:3px solid var(--acc);background:var(--bg2);border-radius:0 var(--r) var(--r) 0;
+  padding:.5rem .8rem;margin:.2rem 0 .7rem}
+.chemin p{margin:.35rem 0;font-size:.95rem}
+.chemin p:first-child{margin-top:0}
+.chemin p:last-child{margin-bottom:0}
+.note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
+.parc{border:1px solid var(--li);border-left:3px solid var(--acc);border-radius:0 var(--r) var(--r) 0;
+  background:var(--bg2);padding:.5rem .8rem;margin:.6rem 0;font-size:.93rem}
+.parc-t{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin-bottom:.15rem}
+.parc p{margin:.2rem 0}
+.parc-h{border-left:2px solid var(--li);padding:.1rem 0 .1rem .6rem;margin:.3rem 0 .45rem;color:var(--mut)}
+.parc-h strong{color:var(--fg)}
+.parc-l{font-family:var(--sans);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--acc);margin-right:.25rem}
+.parc-lien{margin-top:.35rem;font-size:.92em}
+.parc-suite{border-left:2px solid var(--acc);padding:.1rem 0 .1rem .6rem;margin:.35rem 0;color:var(--fg);background:var(--acc2)}
+.parc-nav{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--sans);font-size:.8rem;margin-top:.35rem}
+.parc-nav .suiv{margin-left:auto;text-align:right}
+.etapes{list-style:none;padding:0;margin:.6rem 0 1.2rem;counter-reset:e}
+.etapes>li{counter-increment:e;position:relative;padding:0 0 1rem 1.7rem;border-left:2px solid var(--li);margin-left:.9rem}
+.etapes>li:last-child{border-left-color:transparent}
+.etapes>li::before{content:counter(e);position:absolute;left:-.95rem;top:0;width:1.75rem;height:1.75rem;
+  border-radius:99px;background:var(--card);border:1px solid var(--acc);color:var(--acc);
+  font-family:var(--sans);font-size:.78rem;display:flex;align-items:center;justify-content:center}
+.etapes>li>p{margin:.1rem 0 .35rem}
+.etapes .arr{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.45rem .75rem}
+.etapes .arr a.tit{font-weight:600;text-decoration:none}
+.etapes .arr p{margin:.15rem 0;font-size:.88rem;color:var(--mut)}
+.avant{list-style:none;padding:0;margin:.4rem 0 1rem}
+.avant>li{margin:.5rem 0}
+.avant>li p{margin:.1rem 0 0;font-size:.95rem}
+.avant a.tit{font-weight:600;text-decoration:none}
+.avant span.tit.venir{font-weight:600;color:var(--fai);cursor:default}
+.roles{list-style:none;padding:0;margin:.2rem 0 0}
+.roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
+.roles>li.cible{background:var(--acc2)}
+details.parc>summary{cursor:pointer}
+.sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
+.sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
+.sec.faute>summary h2{color:var(--faute)}
+.faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
+  margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.faute-b strong{color:var(--faute)}
+.sec.lim>summary h2{color:var(--lim)}
+.sec.lim>h2{color:var(--lim)}
+
+/* ---- marqueurs de traçabilité ---- */
+.marq{font-family:var(--sans);font-size:.7rem;color:var(--fai);white-space:nowrap;vertical-align:.12em}
+.marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
+.marqligne{margin:.15rem 0 0}
+html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
+.bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
+  color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
+
+/* ---- pastilles ---- */
+.pasts{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0;padding:0;list-style:none}
+.past{display:inline-block;font-family:var(--sans);font-size:.82rem;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--li2);border-radius:99px;padding:.12rem .6rem}
+.past:hover{border-color:var(--acc);color:var(--acc)}
+.past .cc{color:var(--fai);font-size:.74rem}
+.past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
+.past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
+.past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
+
+/* ---- socle ---- */
+.socle{list-style:none;padding:0;margin:.3rem 0}
+.socle li{display:flex;gap:.5rem;align-items:baseline;padding:.12rem 0;font-size:.92rem}
+.socle input{margin:0;accent-color:var(--ok)}
+.socle li.su a{color:var(--fai);text-decoration:line-through}
+.compteur{font-family:var(--sans);font-size:.78rem;color:var(--mut)}
+.grp{margin:.5rem 0}
+.grp>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--mut)}
+
+table{border-collapse:collapse;margin:.5rem 0;font-size:.9rem;display:block;overflow-x:auto;max-width:100%}
+th,td{border:1px solid var(--li);padding:.25rem .55rem;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-family:var(--sans);font-size:.78rem;font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+  background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
+ul{padding-left:1.1rem}
+hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
+
+/* ---- cartes d'accueil / carte du cours ---- */
+.cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
+.carte{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.65rem .8rem}
+.carte h3{margin:0 0 .2rem}
+.carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
+.carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
+.dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.vise{animation:vise 1.6s ease}
+@keyframes vise{from{background:var(--acc2)}to{background:transparent}}
+
+/* ---- orientation : ce qui s'adresse au lecteur qui arrive ---- */
+.entree{border:1px solid var(--li2);border-left:3px solid var(--acc);border-radius:var(--r);
+  padding:.7rem .9rem;margin:.8rem 0 1.4rem;background:var(--card)}
+.entree p{margin:.3rem 0;font-size:.92rem}
+.entree .quoi{font-size:1.02rem}
+.entree ul{margin:.5rem 0 .2rem;padding-left:1.1rem;font-family:var(--sans);font-size:.88rem}
+.entree li{margin:.2rem 0}
+.chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
+.chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
+.aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
+/* L'en-tête est collant : une ancre visée ne doit pas passer dessous. Mesuré :
+   il fait 48 px sur une ligne, 85 px quand il se replie en deux (écran étroit). */
+[id]{scroll-margin-top:6rem}
+.aide p,.aide ul,.aide table{max-width:42rem}
+.dette ul{margin:.3rem 0 0}
+footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
+
+/* ---- arbre ---- */
+.barre{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+.barre.plier{justify-content:flex-end;margin:.2rem 0 -.2rem}
+#scene{position:relative;border:1px solid var(--li);border-radius:var(--r);background:var(--bg2);
+  height:min(74vh,720px);overflow:hidden;touch-action:none;cursor:grab}
+#scene.drag{cursor:grabbing}
+#pan{position:absolute;transform-origin:0 0;top:0;left:0}
+#aretes{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+#aretes path{fill:none;stroke:var(--li2);stroke-width:1.5}
+.noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
+  padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
+.noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
+.noeud .nm{font-weight:600}
+.noeud .nm a{text-decoration:none;color:var(--fg)}
+.noeud .nm a:hover{color:var(--acc)}
+.noeud .pa{color:var(--mut);font-size:.72rem;display:block;margin-top:.1rem}
+.noeud .pli{font:inherit;font-size:.72rem;background:none;border:1px solid var(--li2);border-radius:4px;
+  color:var(--mut);cursor:pointer;padding:0 .3rem;margin-right:.25rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.4rem}
+  .rech{flex:1 1 100%;order:9}
+  #scene{height:66vh}
+}
+@media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="brand" href="../index.html">notions</a><span class="fil">rapport d’ingestion › 2026-09-27-pfo</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><article class="rapport"><h1>Rapport — pfo — 2026-09-27</h1><h2>Matériau traité</h2><p>Aucun matériau nouveau. Relecture des liens d'histoire des parcours.</p><p>SPEC-MODELE §8.5 reçoit deux règles, demandées par l'utilisateur le 2026-09-27 après la
+correction du FRA dans <code>fpp/parcours-terme-taux</code> (rapport <code>2026-09-27-fpp-5.md</code>) :</p><ul><li><strong>le lien fait jouer la fiche dans l'histoire ; il ne la décrit pas</strong> (R1) : une phrase qui</li><li>pourrait s'écrire sans l'histoire, en changeant seulement les dates ou les noms, redit la</li><li>définition ;</li><li><strong>une question résolue par plusieurs étapes se partage</strong> (R2) : chaque étape ne cite que sa</li><li>part ; le gras ne tombe pas sur une donnée quand la question a des mots pour l'étape.</li></ul><p>Tous les parcours de dss, fpp, ods et pfo ont été relus contre ces deux règles, étape par
+étape ; dup en est exclu à la demande de l'utilisateur (« dup est un cours dont les histoires
+sont vraiment très compréhensibles pour moi ; évite de les modifier »). Chaque proposition a
+été vérifiée avant d'être appliquée : citation prise mot pour mot et présente une seule fois
+dans l'histoire arrivée à l'étape (donc gras au bon endroit), nombres recalculés, symboles de
+la fiche. Seules les lignes « Histoire : » changent ; aucune fiche n'est modifiée.</p><h2>Parcours modifiés</h2><p><strong><code>courses/pfo/parcours/rendements.md</code>, étape 4. <a href="../pfo/n/passage-aux-rendements.html">Passage aux rendements</a> (R1).</strong></p><ul><li>Ancien : Histoire : « quand ce prix passe de 100 à 110 puis à 99 » — Ses variations. Ces prix n'ont pas de niveau stable dans le temps ; leurs variations d'une période à l'autre, elles, suivent une loi qui reste stable, et c'est elles qu'on modélise. [ajout]</li><li>Nouveau : Histoire : « quand ce prix passe de 100 à 110 puis à 99 » — Ses variations. Le niveau ne se répète pas : 100, puis 110, puis 99, et rien ne le ramène à une valeur fixe. Les écarts en prix non plus, puisqu'ils grandissent avec le niveau : +10, puis −11. Rapportée au prix de la veille, en revanche, chaque variation garde la même allure d'une période à l'autre, et c'est elle qu'on modélise. [ajout]</li><li>Raison : L'ancien lien énonce la stationnarité sans toucher aux prix 100, 110, 99 qu'il cite ; il s'écrirait sans l'histoire.</li></ul><p><strong><code>courses/pfo/parcours/volatilite.md</code>, étape 1. <a href="../pfo/n/matrice-de-covariance.html">Matrice de variance-covariance</a> (R2).</strong></p><ul><li>Ancien : Histoire : « un actif varie de 1 % par jour, un autre de 2 % » — On range dans une matrice les variances et la covariance, qui vaut la corrélation fois le produit des écarts types. Portées à l'année en multipliant par ses 252 séances : $0{,}01^2\times252=0{,}0252$ et $0{,}02^2\times252=0{,}1008$ sur la diagonale, $0{,}5\times0{,}01\times0{,}02\times252=0{,}0252$ hors de la diagonale. [ajout]</li><li>Nouveau : Histoire : « combien ils bougent » — On range dans une matrice les variances et la covariance, qui vaut la corrélation fois le produit des écarts types. Portées à l'année en multipliant par ses 252 séances : $0{,}01^2\times252=0{,}0252$ et $0{,}02^2\times252=0{,}1008$ sur la diagonale, $0{,}5\times0{,}01\times0{,}02\times252=0{,}0252$ hors de la diagonale. [ajout]</li><li>Raison : La matrice répond à « combien ils bougent » (ses variances), mots que le départ lui offre, alors que le gras tombait sur les données « 1 % par jour, 2 % » ; le lien est inchangé.</li></ul><p><strong><code>courses/pfo/parcours/volatilite.md</code>, étape 3. <a href="../pfo/n/regroupement-de-volatilite.html">Regroupement de volatilité</a> (R2).</strong></p><ul><li>Ancien : Histoire : « combien ils bougent » — Ce 1 % par jour, rangé dans la matrice, n'est qu'une moyenne sur la période : l'actif varie moins en temps calme, bien plus en crise, et les journées agitées se suivent. Un seul nombre fixe ne décrit pas cette alternance. [ajout]</li><li>Nouveau : Histoire : « l'une dans le temps » — Ce 1 % par jour, rangé dans la matrice, n'est qu'une moyenne sur la période : l'actif varie moins en temps calme, bien plus en crise, et les journées agitées se suivent. Un seul nombre fixe ne décrit pas cette alternance. [ajout]</li><li>Raison : « combien ils bougent » est la part de la matrice de covariance (étape 1) ; le départ a des mots propres à cette difficulté, « l'une dans le temps » ; le lien est inchangé.</li></ul><p><strong><code>courses/pfo/parcours/risque.md</code>, étape 1. <a href="../pfo/n/quantile.html">Quantile</a> (R2).</strong></p><ul><li>Ancien : Histoire : « Combien peut-il perdre en une mauvaise journée » — Une mauvaise journée doit se chiffrer : une des 5 % pires, par exemple, soit une journée sur vingt. Le rendement qui sépare ces 5 % du reste est le quantile à 5 % de la loi des rendements. La moyenne et l'écart type ne suffisent pas à le situer : il dépend de toute la forme de la loi, et c'est lui qu'il va falloir trouver. [ajout]</li><li>Nouveau : Histoire : « en une mauvaise journée » — Une mauvaise journée doit se chiffrer : une des 5 % pires, par exemple, soit une journée sur vingt. Le rendement qui sépare ces 5 % du reste est le quantile à 5 % de la loi des rendements. La moyenne et l'écart type ne suffisent pas à le situer : il dépend de toute la forme de la loi, et c'est lui qu'il va falloir trouver. [ajout]</li><li>Raison : La question « Combien peut-il perdre en une mauvaise journée » est résolue par deux étapes : le quantile ne résout que « en une mauvaise journée », comme le dit déjà son lien ; lien inchangé.</li></ul><p><strong><code>courses/pfo/parcours/risque.md</code>, étape 2. <a href="../pfo/n/valeur-a-risque.html">Valeur à risque</a> (R2).</strong></p><ul><li>Ancien : Histoire : « Un portefeuille de 1 000 000 » — Rapporté au capital, ce quantile devient une perte : la valeur à risque, ou VaR, à 95 % sur un jour, est la perte que le portefeuille ne dépasse qu'une journée sur vingt. Si le quantile valait −3,24 %, par exemple, elle serait de $0{,}0324\times1\,000\,000=32\,400$. [ajout]</li><li>Nouveau : Histoire : « Combien peut-il perdre » — Rapporté au capital, ce quantile devient une perte : la valeur à risque, ou VaR, à 95 % sur un jour, est la perte que le portefeuille ne dépasse qu'une journée sur vingt. Si le quantile valait −3,24 %, par exemple, elle serait de $0{,}0324\times1\,000\,000=32\,400$. [ajout]</li><li>Raison : Faute de mots à elle, la VaR mettait en gras une donnée, « Un portefeuille de 1 000 000 », alors que « Combien peut-il perdre » est sa part de la question ; lien inchangé.</li></ul><p><strong><code>courses/pfo/parcours/risque.md</code>, étape 3. <a href="../pfo/n/valeur-a-risque-conditionnelle.html">Valeur à risque conditionnelle</a> (R1).</strong></p><ul><li>Ancien : Histoire : « combien perd-il en moyenne » — C'est la CVaR, ou valeur à risque conditionnelle : la perte moyenne sur les 5 % de jours les pires, toujours au moins égale à la VaR. Elle ne dépend plus seulement du quantile, mais de toute la queue de la loi au-delà. [ajout]</li><li>Nouveau : Histoire : « combien perd-il en moyenne » — Au-delà du seuil de 32 400 de l'exemple, la VaR ne dit plus rien : le portefeuille y perd plus, sans qu'on sache de combien. La CVaR répond en faisant la moyenne des pertes de ces jours-là, les 5 % les pires : si le rendement y valait en moyenne −4,08 %, elle serait de $0{,}0408\times1\,000\,000=40\,800$, plus que la VaR. Elle dépend donc de toute la queue de la loi, pas du seul quantile. [ajout]</li><li>Raison : L'ancien lien récite la définition de la CVaR sans le portefeuille ni ses montants ; le nouveau la chiffre sur le même exemple hypothétique que la VaR à l'étape précédente.</li></ul><p><strong><code>courses/pfo/parcours/non-normalite.md</code>, étape 6. <a href="../pfo/n/kurtosis.html">Kurtosis</a> (R2).</strong></p><ul><li>Ancien : Histoire : « Prenons une petite série de rendements » — À la puissance quatre, le signe s'efface et les écarts lointains dominent : la kurtosis de la série vaut environ 3,49, au-dessus des 3 d'une loi normale. Sans le jour de krach, elle ne vaudrait que 1,7. [ajout]</li><li>Nouveau : Histoire : « ce que ce krach a d'anormal » — Ce que ce krach a d'anormal, c'est aussi sa distance : à la puissance quatre, le signe s'efface et les écarts lointains dominent. La kurtosis de la série vaut environ 3,49, au-dessus des 3 d'une loi normale ; sans le jour de krach, elle ne vaudrait que 1,7. [ajout]</li><li>Raison : Le gras tombait sur un détail, « Prenons une petite série de rendements », alors que la question de la suite, « ce que ce krach a d'anormal », a des mots pour cette étape ; chiffres inchangés et revérifiés (3,486 et 1,70).</li></ul><p><strong><code>courses/pfo/parcours/portefeuille.md</code>, étape 4. <a href="../pfo/n/optimisation-de-portefeuille.html">Optimisation de portefeuille</a> (R1+R2).</strong></p><ul><li>Ancien : Histoire : « Combien mettre dans chacun » — Chaque répartition se note désormais par son rendement et sa volatilité. Choisir revient à résoudre un problème : trouver les poids, positifs et de somme 1, qui arbitrent au mieux entre les deux. [ajout]</li><li>Nouveau : Histoire : « Combien mettre » — Combien mettre, c'est choisir le vecteur de poids $W$, positifs et de somme 1. À parts égales, 8 % pour 11,18 % de volatilité ; tout dans le premier actif, 6 % pour 10 % : aucun choix ne gagne sur les deux tableaux, et choisir revient à résoudre un problème qui arbitre entre $W^T\mu$ et $\sqrt{W^T\boldsymbol{\Sigma}W}$. [ajout]</li><li>Raison : L'ancien lien décrit le problème sans les deux actifs, et cite la même question entière que le portefeuille tangent (étape 7), qui y répond ; ici n'est posée que sa part, « Combien mettre ».</li></ul><p><strong><code>courses/pfo/parcours/portefeuille.md</code>, étape 9. <a href="../pfo/n/slsqp.html">Méthode SLSQP</a> (R1).</strong></p><ul><li>Ancien : Histoire : « Comment l'ordinateur trouve-t-il alors la meilleure répartition » — Il part d'une répartition, remplace le problème par une version quadratique aux contraintes linéarisées, avance dans la direction qu'elle indique, et recommence. Pour minimiser $(x-3)^2$ avec $x\ge0$ depuis 0, un seul pas mène au minimum. [ajout]</li><li>Nouveau : Histoire : « Comment l'ordinateur trouve-t-il alors la meilleure répartition » — Il part d'une répartition, à parts égales par exemple entre ces dizaines d'actifs. Autour d'elle, il remplace le ratio de Sharpe à rendre maximal par une approximation quadratique en les poids, garde la somme 1 et la borne sur chaque poids, résout ce problème approché et déplace les poids dans le sens indiqué. Il recommence depuis la nouvelle répartition, jusqu'à ce qu'aucun déplacement n'améliore plus le ratio. [ajout]</li><li>Raison : L'ancien lien redit la définition puis joue un exemple, $(x-3)^2$, étranger à l'histoire ; le nouveau fait tourner la méthode sur les poids et le ratio de Sharpe de l'investisseur.</li></ul><p>Aucune fiche modifiée. Figures, inventaire, notations, abstractions : rien.</p><h2>Abstractions en attente (recopié du rapport <code>2026-09-26-pfo-4.md</code>)</h2><p>pfo : portefeuille de variance minimale globale ; estimateur de volatilité ; mesure de
+risque. dss : fonction d'activation ; indicateur de matrice de confusion. dup : dominance
+stochastique ; mesure de risque.</p><h2>Dette (recopié du rapport <code>2026-09-26-pfo-4.md</code>)</h2><p>Aucune : le validateur finit sans avertissement.</p><h2>Contradictions source (recopié du rapport <code>2026-09-26-pfo-4.md</code>)</h2><ul><li><strong>dss — slides 131 et 154</strong> : la rétropropagation est datée de 1985 dans la chronologie</li><li>(slide 131), « redécouverte en 1986 » à la slide 154. Les fiches <code>retropropagation</code> et</li><li><code>reseau-de-neurones-artificiel</code> disent les deux.</li><li><strong>dss — slide 192</strong> : les normalisations (division par la norme, la somme, la variance)</li><li>y sont présentées comme une décorrélation ; diviser par un nombre ne change aucune</li><li>corrélation. La fiche <code>codage-des-variables</code> le corrige en <code>[ajout]</code>.</li><li><strong>dss — slide 191</strong> : les deux codages de 4 ne lisent pas les cases dans le même sens ;</li><li>recopiés tels quels, avec une phrase qui le dit.</li><li><strong>pfo — p. 16</strong> : la formule EWMA et le code pandas diffèrent d'un jour (la ligne $t$</li><li>inclut déjà $r_t^2$) ; la fiche <code>ewma</code> le signale.</li><li><strong>fpp — poly §7.2.2, éq. 20</strong> : l'équation de la chaleur annoncée omet le terme</li><li>$-\tfrac12\sigma^2\,\partial C/\partial x$ que crée le passage au logarithme ; il ne</li><li>disparaît qu'avec un décalage supplémentaire $x-\tfrac12\sigma^2(T-t)$. Vérifié par</li><li>l'opérateur et numériquement par l'agent T4 (résidu 1,33 pour l'éq. 20, 3·10⁻⁸ pour la</li><li>forme corrigée). La fiche <code>fpp/equation-de-la-chaleur</code> garde la référence et le dit.</li><li><strong>fpp — livre d'exercices, exo. 16</strong> : « l ∈ [0,1] », mais la table de la question (c)</li><li>prend l = 2 et l = 4.</li><li><strong>fpp — §4.2.2</strong> : la ligne générale « at date $t_i$ go long $1/B(t_0,t_i)$ » contredit les étapes 1 et 2 écrites en toutes lettres ($1/P(0,1)$ en $t_0$, $1/(P(0,1)P(1,2))$ en $t_1$) et l'équation de richesse, qui exigent $1/B(t_0,t_{i+1})$. La fiche suit les étapes explicites. À signaler à l'enseignant.</li><li><strong>fpp — §2.3</strong> : « $P(t,S)=(1+(S-T)L(t,S))^{-1}$ » ; la durée du taux linéaire vu en</li><li>$t$ est $S-t$, et $T$ n'est pas défini à cet endroit. Coquille probable ; la fiche</li><li>écrit $S-t$.</li></ul><h2>Questions pour l'utilisateur (recopié du rapport <code>2026-09-26-pfo-4.md</code>)</h2><p>Nouvelles, issues de cette session :</p><ul><li><code>fpp/contrat-derive</code> s'affiche « cas de absence-arbitrage », ce qui se lit mal pour un</li><li>étudiant (agent R2). *Recommandation : le laisser tant qu'on ne revoit pas les</li><li>abstractions de fpp.*</li><li><code>fpp/replication-dynamique</code> raisonne par années (4 % puis 6 %, comme</li><li><code>fpp/compte-capitalise</code>), l'étape 11 du parcours <code>terme</code> par semestres. Les deux sont</li><li>justes ; l'exemple ne traverse pas d'une page à l'autre. <em>Recommandation : laisser.</em></li><li>Symboles employés et définis dans le texte, désormais au registre : $r_a$, $D_i$, $n_i$,</li><li>$n$, $g$, $k$ (rattaché), $\Pi_t$ ; collisions déclarées : $X_t$, $F$, $f$, $\delta$,</li><li>$P(T,F_T)$, $n$ (dss), $g$ (pfo).</li></ul><p>Reste ouvert après la seconde relecture :</p><p><strong>fpp</strong></p><ul><li><strong>Contradiction dans la source, poly §4.2.2</strong> : la ligne générale « at date $t_i$ go long $1/B(t_0,t_i)$ » ne s'accorde ni avec les étapes 1 et 2 du poly, ni avec son équation de richesse, qui exige $1/B(t_0,t_{i+1})$. Recommandation : le signaler à l'enseignant. La fiche suit les étapes explicites et l'équation, qui sont justes.</li><li><code>terme</code>, étapes 10 et 11 : l'exemple du compte capitalisé est sur deux ans, alors que l'action du parcours est à un an. C'est désormais dit dans le texte (« prenons deux ans et des pas d'un an »). Pour un seul fil numérique, il faudrait un contrat future à deux ans, et donc changer les chiffres de l'étape 12. Recommandation : laisser ainsi.</li><li><code>bilan</code>, point d'arrivée : le mot « option » y arrive avant d'être défini. C'est une annonce du cours, laissée telle quelle. Recommandation : la garder.</li><li>Les « À savoir avant » de <code>terme</code> renvoient à « un contrat raconté plus loin » sans numéro d'étape, pour ne pas écrire un nombre calculé. L'opérateur voudra peut-être les harmoniser avec sa réécriture des étapes 8 et 9.</li></ul><p><strong>dss</strong></p><ul><li><code>dss/parcours-panorama</code>, étape 13 : la forêt aléatoire y est nommée avant d'être racontée (parcours <code>arbres</code>). J'ai seulement ajouté « que le cours construit plus loin ». Recommandation : laisser ainsi, car le GINI est le fil du cours.</li><li>Les GINI 51,36 / 57,84 / 28,38 portent <code>[ajout]</code>. Les slides 207 à 213 sont des images, et pdftotext n'en rend que les titres : je n'ai pas pu vérifier l'endroit exact. Recommandation : lire ces slides et remplacer le marqueur si les chiffres y figurent.</li><li>L'arbre de décision reste défini dans le parcours, sans fiche (question 18 du rapport précédent). Recommandation inchangée : attendre que le cours le développe.</li></ul><p><strong>dup</strong></p><ul><li>comparer, étape 14 (<code>dup/statique-comparative-risque-accru</code>) : le texte du parcours ne s'appuie pas sur l'exemple ln(1+ax) de la fiche, donc rien ne s'arrête dans le parcours lui-même. Mais la Suite pose exactement le cadre de cet exemple (une part a placée, un résultat x). L'étudiant qui ouvre la fiche depuis cette étape tombe sur un a optimal qui n'existe pas (U_a &gt; 0 partout) : c'est là que se trouve le point d'arrêt. Recommandation : trancher la question 21 déjà posée (un paiement qui peut être négatif, par exemple un rendement en excès). Fiche non touchée.</li><li>Collision de notation que le récit rend visible : dans poids, β désigne le paramètre de φ à l'étape 4 et l'exposant de la fonction de valeur à l'étape 10 (déjà signalé, question 6). Et γ = 0 (étape 9) et β = 1 (étape 10) disent tous deux « linéaire », dans deux paramétrisations du cours. Le texte le dit maintenant à chaque fois, mais un seul symbole serait plus clair. Recommandation : laisser comme dans le cours (A12) et garder la précision en mots.</li><li>portefeuille, étape 2 : on y applique la φ de la théorie cumulative des perspectives, sous sa forme de Tversky-Kahneman, aux chances cumulées depuis le pire état, comme en RDU, alors que L3 slide 38 l'applique « décumulée » aux gains. Le calcul est juste pour le modèle RDU du parcours, et la phrase le dit maintenant, mais ce choix est un <code>[ajout]</code> qui mêle les deux modèles. Recommandation : le garder, puisqu'il est déclaré en toutes lettres.</li></ul><p><strong>pfo</strong></p><ul><li>pfo/parcours-portefeuille, « À savoir avant » : <code>pfo/piege-d-agregation</code> dit que la moyenne pondérée n'est exacte qu'en rendements arithmétiques, alors que <code>pfo/rendement-logarithmique</code> dit que les données du récit sont logarithmiques. C'est la contradiction de la source déjà listée (question 23, $W^T\mu$ sur rendements logarithmiques) ; non tranchée ici. Recommandation : la trancher avec l'enseignant, puis ajouter une demi-phrase à l'un des deux rôles.</li><li>pfo/parcours-risque, point d'arrivée : garde 53 511 sans la précision de grille, donnée une fois à l'étape 8 ; recommandation : laisser tel quel.</li><li>Petits points non corrigés, jugés sans arrêt réel : « la clôture » (rendements, transition 3) sans définition ; « l'étude de cas » (volatilité, transition 6) sans renvoi ; 1,6449 et 1,645 employés tour à tour dans le parcours risque.</li></ul><p>Points de la première relecture, traités cette fois :</p><p><strong>fpp</strong></p><ul><li>Étape 3 de <code>bilan</code>, transition : réécrite dans le sens du levier (« combien d'euros d'actif reposent sur chaque euro mis par l'actionnaire »).</li><li>Étape 6 de <code>flux</code>, transition : « un mouvement de la courbe » devient « une hausse des taux d'intérêt ». L'histoire répond maintenant aussi pour le placement, qui perd entre 1 et 2 %.</li><li>Étape 10 de <code>terme</code> : le future est défini dans la transition. La Suite dit « l'action qui verse 2 % de dividende », et la citation de l'étape 12 suit ce changement.</li><li>Point de fond <code>fpp/replication-dynamique</code> : voir « Fiche modifiée ». L'histoire de l'étape 11 de <code>terme</code> est corrigée dans le même sens : 1,0408 puis 1,1052 contrats, valeur finale égale à l'action fois 1,105.</li><li>Séparation nombre / contrat hors des étapes réservées : les deux lignes « À savoir avant » de <code>terme</code> qui définissaient le taux forward et le taux de change par leur contrat (« le taux que le FRA fixe », « la grandeur que le forward de change fixe ») disent maintenant « un nombre lu dans la courbe » et « le prix d'une devise pour un échange fait aujourd'hui ». Ailleurs dans <code>flux</code> et <code>terme</code>, « taux forward » ne désigne plus que le nombre lu dans la courbe.</li></ul><h2></h2><p><strong>dss</strong></p><ul><li><code>dss/parcours-arbres</code>, point de départ : l'arbre de décision est défini en une phrase, dans un premier paragraphe du départ (questions à seuil sur les prédicteurs, puis perte moyenne des anciens clients qui ont répondu de même). Marqueur <code>[ajout]</code>, car la slide 97 ne le définit pas. Aucune fiche créée ; les citations des étapes 1 à 9 restent intactes.</li><li><code>dss/parcours-neurones</code>, étape 10 : le gradient est défini dans la ligne « Histoire : » par la phrase de la slide 160 (taux auquel l'erreur change quand chaque poids change), avec le marqueur <code>[slide 160, ajout]</code>.</li><li><code>dss/parcours-selection</code>, étape 1 : la citation devient « une régression sur les deux premiers », prise mot pour mot dans le départ. La ligne donne aussi la RSS du modèle à cinq (19,59, erreur 0,98), ce qui montre d'où vient le chiffre repris à l'étape 5.</li><li>Régression logistique et SVM : une demi-phrase à leur première apparition. Pour la régression logistique, à <code>panorama</code> étape 13 (elle change une combinaison linéaire des variables en probabilité de défaut). Pour le séparateur à vaste marge, à <code>terrain</code> étape 1 (la frontière la plus éloignée des exemples de chacune des deux classes). Marqueur <code>[ajout]</code> : la source ne fait que les nommer (slides 206, 207, 211).</li><li>Calculs revérifiés en Python sur le monde des 20 clients (graine 78, <code>courses/dss/figures/meilleur-sous-ensemble.py</code>) : RSS 22,43 et 19,59 ; σ̂² = 1,40 ; chemin ascendant bruit, bruit, revenu, endettement, avec un Cp minimal au pas 4 et une erreur de test de 1,77 ; chemin descendant jusqu'à l'endettement et au revenu (Cp 1,40) ; 2^40 ≈ 1,10 × 10^12. Aucune faute.</li></ul><p><strong>dup</strong></p><ul><li>poids, étape 2 : la Suite dit « achète le billet au prix de 2, plus que son espérance » ; aucune citation ne reprenait « le billet 2 » (les étapes 4 et 10 citent « il gagne 98… » et « perd 2 le reste du temps », inchangés), donc aucune citation à mettre à jour.</li><li>poids, étape 6 : la déformation de L4 slide 34 (vérifiée par pdftotext) est donnée, avec le calcul de 14,250 et 14,875 refait en python3. Marqueur passé de <code>[ajout]</code> à <code>[L4 slide 34, ajout]</code>, l'arithmétique intermédiaire restant un ajout.</li><li>poids, étape 8 : 945, 1 680 et 1 575 vérifiés sur L2 slide 27. Marqueur passé à <code>[L2 slide 27, ajout]</code>, la dernière phrase étant une interprétation.</li><li>ambiguite, étape 17 : l'agent est maintenant nommé : c'est celui des poids non additifs (« cet agent » de la transition, qui suit l'étape 16). Prix recalculés : 16,7 à l'achat, 50 à la vente, par le maxmin sur π(N) ∈ [1/6, 1/2] et par l'intégrale de Choquet. La citation de l'Histoire a été mise à jour.</li><li>portefeuille, étape 6 : l'utilité u(W) = −e^{−W} de L4 slide 63 (vérifiée) et son aversion absolue de 1 sont dites, et le calcul écrit 10/(1×400). Les étapes 7 et 8 restent cohérentes (5/400 ; p = 106).</li></ul><p><strong>pfo</strong></p><ul><li>portefeuille étape 3 : chiffres journaliers remplacés par ceux du second actif (0,0397 % et 1,26 %, recalculés), propagés dans l'histoire qui retombe sur 10 % et 20 % par an et dit d'où viennent les chiffres journaliers.</li><li>nettoyage étape 2 : l'histoire nomme le score z (« a un score z de −4 »). L'étape 3 garde sa formulation en écarts types, désormais cohérente avec ce nom.</li><li>non-normalite étape 10 : « excès de kurtosis » défini dans la Suite elle-même (kurtosis de 6, 3 de plus que la loi normale) ; la redite retirée de l'histoire. Le point de départ de pfo/parcours-risque, qui emploie le même terme, vient après ce parcours.</li><li>risque étape 8 : une demi-phrase dit que 53 511 moyenne les niveaux de 0,01 % à 5 %, comme le calcul du cours, et que la toute extrémité de la queue ajouterait environ 430 (53 941 sur la queue entière, vérifié en python3).</li></ul><p>Questions antérieures (les signalements de la première relecture sont traités plus haut) :</p><p>1. <strong>dss — source, slide 174</strong> : d'après le rédacteur, qui a lu l'image de la slide, les
+   deux étiquettes sous la formule de décroissance des poids sont inversées (« $w_{ij}$ =
+   weight-cost parameter », « $\lambda$ is decayed… »). La fiche suit le sens voulu. *À
+   vérifier sur la slide ; si c'est confirmé, le noter en contradiction de la source.*
+2. <strong>dss — deux graphies du même poids</strong> : le registre écrit $\phi_{mj}$ (slide 72), la Forme
+   des moindres carrés partiels $\hat\varphi_{mj}$ comme la slide 90. *Recommandation :
+   déclarer la variante au registre, sans rien renommer.*
+3. <strong>fpp — §7.1</strong> : le poly appelle $T$ « time to maturity », une durée, alors que la
+   condition terminale $C(T,x)$ en fait la date d'échéance. La rubrique écrit « échéance ».
+   <em>Recommandation : le porter en contradiction interne de la source.</em>
+4. <strong>fpp — §7.2.2</strong> : $C$ et $x$ sont réemployés après les changements de variables pour
+   d'autres objets (valeur forward, logarithme du forward) ; la rubrique le dit, en
+   <code>[ajout]</code>. <em>Recommandation : laisser ainsi.</em>
+5. <strong>fpp — §1.4</strong> : $\pi_E$ et $\pi_A$ sans tilde, lettre de l'espérance, pour des
+   variations réalisées. <em>Recommandation : laisser la rubrique dire la différence.</em>
+6. <strong>dup — collision interne de $\beta$</strong> : paramètre de la pondération de CPT (L3 slide
+   38) et exposant de la fonction de valeur à la slide suivante. *Recommandation : la
+   déclarer au registre de dup, dans une session sur les notations.*
+7. ~~dss — un second tirage pour illustrer le rétrécissement ?~~ **Tranché le
+   2026-09-26 (dss-3)** : la mesure a donné tort à la recommandation (120 tirages, gain
+   moyen nul de ridge dans ce monde) ; le tirage est gardé, et les fiches le disent.
+8. En fin de parcours, le rappel accumule le départ et toutes les suites : sur
+   <code>dup/parcours-comparer</code>, six suites à la dernière étape. *Recommandation : le garder
+   ainsi ; replier les suites antérieures si l'utilisateur le trouve encombrant.*
+9. ~~dss — les exemples des fiches de « rétrécir » restent sur les données Credit~~ :
+   <strong>traité</strong> (dss-3), ils sont passés aux 20 clients.
+10. ~~Les autres fiches de dss sans exemple~~ : <strong>traité</strong> (dss-3), exemples chiffrés sur
+   les 20 clients là où la fiche détermine une quantité.
+11. pfo — garder les arêtes vers dup (<code>depend_de: [fpp, dup]</code>) ? Recommandation : oui.
+12. pfo — une fiche à part pour le portefeuille de variance minimale globale ?
+   Recommandation : non tant qu'aucun chapitre ne le développe.
+13. pfo — calculer les parties A et B de l'exercice 3 sur données réelles ?
+14. fpp — corriger la note de collision de $l$ et la section « Contradiction » de
+    <code>fpp/ex-16</code> (le spread est fini en $l=1$) ? Recommandation : oui.
+15. fpp — le domaine de $l$ dans l'exercice 16 : à demander à l'enseignant.
+16. fpp — la convention $X_t$ : garder la collision déclarée.
+17. dss — les trois emplois de $\lambda$ : à demander à l'enseignant.
+18. dss — des fiches pour l'arbre de décision, la régression logistique, le SVM ? Attendre
+    un support.
+19. dup — un relevé des symboles LaTeX du corps absents du registre (avertissement), dans
+    une session dédiée au validateur.
+20. dup — <code>dup/maxmin-eu</code> reste la plus longue fiche du dépôt.
+21. ~~dup — exemple de <code>dup/statique-comparative-risque-accru</code>~~ : <strong>traité</strong> dans cette session (voir Fiches modifiées).
+22. dup — la forme paramétrique de la courbe de la figure de pondération est un choix,
+    non un énoncé : laisser ainsi.
+23. pfo — contradictions de la source à confirmer auprès de l'enseignant : chapitre 2
+    (signe de l'éq. 2.25, α « niveau de confiance » Déf. 2.5.1, $F$ normale p. 34,
+    kurtosis p. 23, $K=3$ Table 2.1, légende Fig. 2.2) et chapitre 3 (légende Fig. 3.1,
+    $R_t$ logarithmique au §3.0.7, $W^T\mu$ sur rendements logarithmiques, vérification
+    de l'exercice 2).
+24. pfo — CVaR de Cornish-Fisher : garder 53 511, valeur du listing (grille tronquée à
+    0,0001), ou écrire aussi la valeur de l'intégrale complète, environ 53 940, dans
+    « Cesse d'être valide quand » ? *Recommandation : ajouter une phrase à cette rubrique,
+    qui dise que le chiffre dépend de la borne basse de la grille.*</p><p>Nouvelles, issues de la session pfo-4 / dss-3 :</p><p>25. dss — <code>dss/decomposition-en-valeurs-singulieres</code> emploie ridge (sa Forme écrit
+    $\hat\beta^{\text{ridge}}$, comme les slides 58 à 60) sans l'avoir dans son socle.
+    Ajouter l'arête ferait entrer ridge, l'erreur de test et le compromis biais-variance
+    dans le socle de <code>composante-principale</code>, qui n'en a pas besoin (mesuré : 4 fiches
+    touchées). *Recommandation : laisser sans l'arête ; si l'on veut la rigueur,
+    déplacer la relecture de ridge dans <code>regression-ridge</code> et garder la décomposition
+    pure — mais c'est réorganiser, donc à décider par l'utilisateur.*
+26. dss — la slide 6 donne aussi l'alias <code>weak A.I.</code> à l'apprentissage automatique ;
+    l'ajouter crée un alias en double (contrôlé). <em>Recommandation : non.</em>
+27. pfo — une note au registre disant que $q_\alpha$ (développement de Cornish-Fisher) et
+    $z_{CF}$ (VaR de Cornish-Fisher) désignent le même objet ? *Recommandation : oui,
+    dans une session sur les notations.*
+28. dss — le parcours <code>arbres</code>, étape 9, cite maintenant les importances par permutation
+    arbre par arbre (0,31) ; la variable x4 y coûte de 0,04 à 0,14 selon la graine de la
+    forêt. <em>Recommandation : laisser, la fiche et le parcours disent le même chiffre.</em></p><h2>Validation</h2><p>```
+python3 tools/validate.py → 307 notions · 0 erreur(s) · 24 avertissement(s)
+python3 tools/tests/test_garde_fous.py → tous les garde-fous se déclenchent
+python3 tools/build.py → site régénéré
+```</p></article></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../aide.html">comment lire ce site</a> · <a href="../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../search-index.js"></script>
+<script>
+var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+        s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- l'état qui traverse les pages ----------------------------------------
+   Voir le commentaire de l'en-tête : en file://, seul le fragment traverse.
+   Forme du fragment :  #t:d~a:0~p:1-0--1...~s:<tampon>.<bits>~v:<ancre>
+     t  thème      d | l            (absent : celui du système)
+     a  ajouts     0                (absent : montrés)
+     p  pliage     un caractère par clé de CLES_PLI : 1 ouvert, 0 fermé, - inconnu
+     s  déjà su    un bit par notion, six bits par caractère, précédé d'un tampon
+     v  ancre      l'élément vers lequel défiler à l'arrivée
+   Le tampon est calculé sur la liste des identifiants : dès qu'une notion entre dans
+   le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
+   cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
+var ETAT=(function(){
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='a71e',
+    A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
+var pli={},su={};
+if(typeof H.p==='string'){
+  for(var i=0;i<CLES.length&&i<H.p.length;i++){var c=H.p.charAt(i);
+    if(c==='0'||c==='1')pli[CLES[i]]=(c==='1');}
+}else{
+  CLES.forEach(function(k){var v=LS.g('notions.pli.'+k,null);if(v!==null)pli[k]=(v==='1')});
+}
+function decode(t){var o={},q=t.indexOf('.');
+  if(q<0||t.slice(0,q)!==TAMPON)return o;
+  var b=t.slice(q+1);
+  for(var i=0;i<b.length;i++){var v=A64.indexOf(b.charAt(i));if(v<0)continue;
+    for(var j=0;j<6;j++){if(v&(1<<j)){var k=i*6+j;if(k<IDS.length)o[IDS[k]]=1}}}
+  return o;}
+function encode(){var o='';
+  for(var i=0;i<IDS.length;i+=6){var v=0;
+    for(var j=0;j<6;j++){if(su[IDS[i+j]])v|=1<<j}
+    o+=A64.charAt(v);}
+  return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
+if(typeof H.s==='string'){su=decode(H.s)}
+else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
+function frag(ancre,noeud){var p=[];
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t)p.push('t:'+(t==='dark'?'d':'l'));
+  if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
+  var q='';CLES.forEach(function(k){q+=(pli[k]===undefined?'-':(pli[k]?'1':'0'))});
+  if(/[01]/.test(q))p.push('p:'+q);
+  var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
+  if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
+  return p.length?'#'+p.join('~'):'';}
+function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
+function propager(){var f=frag();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';if(!interne(h))return;
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
+  /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
+     Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
+  try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
+  try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}}
+return{pli:function(k){return pli[k]===undefined?null:pli[k]},
+       setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
+       su:function(id){return !!su[id]},
+       setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
+       lien:function(u,v,n){return u+frag(v,n)},
+       ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
+       propager:propager};
+})();
+function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
+  var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
+  b.textContent=on?'masquer les ajouts':'ajouts masqués';}
+  document.querySelectorAll('.sec').forEach(function(s){
+    var c=s.querySelector('.corps');if(!c)return;var n=0;
+    c.querySelectorAll(':scope>*').forEach(function(el){
+      if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
+      if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
+      n++;});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='Cette rubrique existe, mais tout son contenu est un ajout : le filtre le masque. Elle reste visible pour que vous ne concluiez pas qu’elle est vide.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
+  if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var bt=document.getElementById('btheme');
+  if(bt)bt.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    var nx=(cur||sys)==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);
+    ETAT.propager();});
+  var ba=document.getElementById('bajout');
+  if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);ETAT.propager();});
+  majAjouts(!document.documentElement.classList.contains('sans-ajouts'));
+  /* les liens de la page portent l'état ; une ancre demandée est ouverte et visée */
+  ETAT.propager();
+  var an=ETAT.ancre();
+  if(an){var el=document.getElementById(an);
+    if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView();el.classList.add('vise')}}
+  /* --- recherche instantanée (règle 9) --- */
+  var inp=document.getElementById('q'),res=document.getElementById('qres');
+  if(!inp||!res||!window.SEARCH_INDEX)return;
+  var REL=document.documentElement.getAttribute('data-rel')||'';
+  var sel=-1,items=[];
+  function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+  function cherche(q){
+    var n=norm(q);if(!n)return [];
+    var out=[];
+    SEARCH_INDEX.forEach(function(e){
+      var sc=-1,ch=e.h||[];
+      for(var i=0;i<ch.length;i++){var p=norm(ch[i]).indexOf(n);
+        if(p===0){sc=Math.max(sc,3-(i>0?1:0))}else if(p>0){sc=Math.max(sc,1)}}
+      if(sc>=0)out.push([sc,e]);});
+    out.sort(function(a,b){return b[0]-a[0]||a[1].n.localeCompare(b[1].n)});
+    return out.slice(0,9).map(function(x){return x[1]});}
+  function rendre(){
+    items=cherche(inp.value);sel=-1;res.innerHTML='';
+    if(!inp.value){res.classList.remove('on');return}
+    if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
+    items.forEach(function(e,i){
+      var li=document.createElement('li');
+      var a=document.createElement('a');a.href=ETAT.lien(REL+e.u);a.id='qr'+i;
+      a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
+      li.appendChild(a);res.appendChild(li);});
+    res.classList.add('on');}
+  function bouge(d){if(!items.length)return;sel=(sel+d+items.length)%items.length;
+    Array.prototype.forEach.call(res.children,function(li,i){li.classList.toggle('sel',i===sel)});
+    inp.setAttribute('aria-activedescendant','qr'+sel);}
+  inp.addEventListener('input',rendre);
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();bouge(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();bouge(-1)}
+    else if(e.key==='Enter'){var a=res.querySelector(sel>=0?'li.sel a':'li a');if(a){e.preventDefault();location.href=a.href}}
+    else if(e.key==='Escape'){inp.value='';res.classList.remove('on')}});
+  document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
+  document.addEventListener('keydown',function(e){
+    if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
+});
+</script>
+</body>
+</html>

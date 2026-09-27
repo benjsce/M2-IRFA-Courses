@@ -44,7 +44,7 @@ The same penalized least squares, now on a real problem: $n=100\,000$ observatio
 
 8. ods/sparse-storage-format
    How should those non-zeros be laid out in memory to compute with them? [nb. 3]
-   Histoire : « stored in a matrix whose rows each hold ten non-zero entries » — Row by row, in the CSR format: the values, their columns, and where each row starts. A product with a vector then touches each non-zero once. [ajout]
+   Histoire : « stored in a matrix whose rows each hold ten non-zero entries » — Row by row, since each row holds its ten non-zeros together: the CSR format keeps the million values, their million column indices, and the $100\,001$ positions where the rows start. The product $Xw$ then reads each row's ten entries once, about two million operations. [ajout]
 
 9. ods/matrix-free-product
    If the matrix of the system cannot be stored, what can still be done with it? [slide 13]

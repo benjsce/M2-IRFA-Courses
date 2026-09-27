@@ -26,7 +26,7 @@ La banque sait maintenant apprendre à prévoir le défaut de plusieurs façons 
 2. dss/smote
    Bien classer les demandeurs ne dit pas ce qu'un modèle a appris d'autre que le risque. Le cours se termine sur une seconde étude qui le cherche, et bute d'abord sur une difficulté de données. [slide 229]
    Suite : Elle veut savoir si les autres variables d'un client permettent de prédire son genre, ce qu'un modèle de crédit pourrait alors apprendre sans qu'on le lui donne. Mais les groupes à comparer sont de tailles très inégales : comment apprendre une classe bien plus rare que l'autre ? [slide 227, ajout]
-   Histoire : « comment apprendre une classe bien plus rare que l'autre » — Entraîné tel quel, un classifieur apprend surtout à prédire la classe nombreuse. SMOTE rééquilibre le jeu avant l'apprentissage en fabriquant, dans la classe rare, des observations synthétiques, chacune prise entre une observation rare et l'une de ses voisines rares ; aucune n'est recopiée, c'est ce qui le sépare d'un simple sur-échantillonnage. [slide 229, ajout]
+   Histoire : « comment apprendre une classe bien plus rare que l'autre » — Entraîné tel quel sur ces groupes inégaux, un classifieur apprendrait surtout à répondre le genre le plus nombreux, sans rien lire dans les autres variables. SMOTE complète d'abord le groupe rare : chaque client synthétique est pris entre un client de ce groupe et l'un de ses voisins du même groupe, sur le segment qui les joint ; aucun n'est recopié, c'est ce qui le sépare d'un simple sur-échantillonnage, et les deux genres se comparent à nombre égal. [slide 229, ajout]
 
 3. dss/biais-societal
    Les groupes rendus comparables, le genre du client se lit-il dans ses autres variables ? [slide 218]

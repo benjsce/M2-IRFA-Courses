@@ -60,7 +60,7 @@ Tirer 20 clients avec remise parmi les 20 de la banque en laisse en moyenne 7 de
 10. dss/boosting
     Une tout autre façon d'assembler des arbres : non plus en parallèle, mais les uns après les autres. [slide 122]
     Suite : Et si, au lieu de construire les arbres indépendamment, chacun corrigeait ce que les précédents ont manqué ? [ajout]
-    Histoire : « chacun corrigeait ce que les précédents ont manqué » — Le boosting ajuste chaque petit arbre sur les pertes que l'ensemble prédit encore mal, les résidus, et n'en ajoute qu'une fraction $\lambda$, par exemple un centième : l'ensemble apprend lentement, arbre après arbre. [ajout]
+    Histoire : « chacun corrigeait ce que les précédents ont manqué » — Le premier petit arbre, à une seule coupure, est ajusté sur les pertes des 20 clients, et l'on n'en ajoute qu'une fraction $\lambda$, un centième ; ce qu'il laisse, le résidu de chaque client, devient la cible de l'arbre suivant, et ainsi de suite. Chaque arbre corrige ce que les précédents ont manqué, un centième à la fois : pour une perte moyenne de 3,60, la prédiction moyenne ne vaut que 0,34 après 10 arbres, 2,28 après 100, et n'atteint 3,60 qu'après 1 000. [ajout]
 
 ## Point d'arrivée
 Un arbre seul est instable ; beaucoup d'arbres, rendus différents par le rééchantillonnage, le hasard des coupures ou la correction successive des erreurs, prédisent bien, au prix d'une lecture moins directe. [ajout]

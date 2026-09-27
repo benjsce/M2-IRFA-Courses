@@ -16,7 +16,7 @@ Les rendements sont propres. Il faut maintenant dire combien ils bougent et s'il
 ## Étapes
 1. pfo/matrice-de-covariance
    Comment ranger ces chiffres pour les deux actifs ensemble ? Il faut une variance pour chacun, et un terme pour le couple. [§1.5]
-   Histoire : « un actif varie de 1 % par jour, un autre de 2 % » — On range dans une matrice les variances et la covariance, qui vaut la corrélation fois le produit des écarts types. Portées à l'année en multipliant par ses 252 séances : $0{,}01^2\times252=0{,}0252$ et $0{,}02^2\times252=0{,}1008$ sur la diagonale, $0{,}5\times0{,}01\times0{,}02\times252=0{,}0252$ hors de la diagonale. [ajout]
+   Histoire : « combien ils bougent » — On range dans une matrice les variances et la covariance, qui vaut la corrélation fois le produit des écarts types. Portées à l'année en multipliant par ses 252 séances : $0{,}01^2\times252=0{,}0252$ et $0{,}02^2\times252=0{,}1008$ sur la diagonale, $0{,}5\times0{,}01\times0{,}02\times252=0{,}0252$ hors de la diagonale. [ajout]
 
 2. pfo/matrice-de-correlation
    Ces termes croisés sont dans l'unité d'un rendement au carré, donc illisibles seuls. Comment les rendre comparables d'un couple à l'autre ? [§1.5, p. 17]
@@ -24,7 +24,7 @@ Les rendements sont propres. Il faut maintenant dire combien ils bougent et s'il
 
 3. pfo/regroupement-de-volatilite
    Première difficulté : la dispersion des rendements ne reste pas au même niveau d'une semaine à l'autre. [§1.4]
-   Histoire : « combien ils bougent » — Ce 1 % par jour, rangé dans la matrice, n'est qu'une moyenne sur la période : l'actif varie moins en temps calme, bien plus en crise, et les journées agitées se suivent. Un seul nombre fixe ne décrit pas cette alternance. [ajout]
+   Histoire : « l'une dans le temps » — Ce 1 % par jour, rangé dans la matrice, n'est qu'une moyenne sur la période : l'actif varie moins en temps calme, bien plus en crise, et les journées agitées se suivent. Un seul nombre fixe ne décrit pas cette alternance. [ajout]
 
 4. pfo/ewma
    Comment estimer une volatilité qui change, sans attendre des années de données à chaque fois ? [§1.4]

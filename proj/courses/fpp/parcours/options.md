@@ -30,16 +30,16 @@ Un investisseur veut s'assurer le droit, mais pas l'obligation, d'acheter dans u
 
 4. fpp/valeur-intrinseque
    Si l'avenir était certain, combien vaudrait le droit d'acheter ? [Déf. 12]
-   Histoire : « Combien doit-il payer ce droit » — Dans un monde sans aléa, l'action vaudrait à coup sûr son prix forward, 104,08 : le droit paierait 4,08 dans un an, soit 3,92 aujourd'hui. [ajout]
+   Histoire : « à 100 l'action qui vaut aujourd'hui 100 » — Pas zéro, bien que le strike égale le prix du jour : dans un monde sans aléa, l'action vaudrait à coup sûr son prix forward, 104,08 ; le droit paierait 4,08 dans un an, soit 3,92 aujourd'hui. [ajout]
 
 5. fpp/formule-black-scholes
    Quand l'action peut monter ou baisser, quel prix exact ? [§6.4]
    Suite : La volatilité de l'action est de 20 % par an, et le taux de 4 %. [ajout]
-   Histoire : « La volatilité de l'action est de 20 % par an » — $d_1=0{,}30$ et $d_2=0{,}10$ ; le droit vaut $C=100\,N(0{,}30)-96{,}08\,N(0{,}10)=61{,}79-51{,}87=9{,}93$. [ajout]
+   Histoire : « Combien doit-il payer ce droit » — Avec 20 % de volatilité et 4 % de taux, $d_1=0{,}30$ et $d_2=0{,}10$ ; le droit vaut $C=100\,N(0{,}30)-96{,}08\,N(0{,}10)=61{,}79-51{,}87=9{,}93$. [ajout]
 
 6. fpp/valeur-temps
    D'où vient l'écart entre ce prix et ce que vaudrait le droit sans aléa ? [Déf. 13]
-   Histoire : « Combien doit-il payer ce droit » — 9,93, dont 3,92 de valeur intrinsèque et 6,00 de valeur temps : ce que vaut l'aléa, positif parce que le paiement est convexe. [ajout]
+   Histoire : « mais pas l'obligation » — Ne pas être obligé d'acheter vaut 6,00 : sur les 9,93 du droit, 3,92 sont sa valeur intrinsèque, ce que vaut aujourd'hui l'obligation d'acheter à 100, et les 6,00 restants sa valeur temps, positive parce que le droit profite des hausses sans subir les baisses. [ajout]
 
 7. fpp/option-americaine
    Pouvoir exercer avant l'échéance vaut-il un supplément ? [Déf. 10]

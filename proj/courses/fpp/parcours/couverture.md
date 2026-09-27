@@ -15,7 +15,7 @@ Une banque a vendu 100 calls de strike 100 à un an sur l'action qui vaut 100, a
 ## Étapes
 1. fpp/couverture
    Que faut-il détenir à côté de ce qu'on a vendu pour que les deux variations s'annulent ? [§8]
-   Histoire : « Comment se protéger sans renoncer à la vente » — En détenant des actions : quand l'action monte, leur gain compense la perte sur les calls vendus. [ajout]
+   Histoire : « Comment se protéger » — En détenant des actions : quand l'action monte, leur gain compense la perte sur les calls vendus. [ajout]
 
 2. fpp/delta
    Combien d'actions exactement ? [§8.2]
@@ -23,7 +23,7 @@ Une banque a vendu 100 calls de strike 100 à un an sur l'action qui vaut 100, a
 
 3. fpp/grecque
    Le prix de l'action est-il le seul risque de la banque ? [§8.2]
-   Histoire : « Si l'action monte, elle perd » — L'action n'est qu'un des paramètres du prix du call ; la volatilité, le temps et le taux le font bouger aussi, et chacun a sa dérivée. [ajout]
+   Histoire : « Si l'action monte, elle perd » — Pas seulement : vendeuse de 100 calls, la banque perd aussi si le marché anticipe une volatilité plus forte ou si le taux monte, et gagne à chaque jour qui passe. Chacun de ces risques se mesure, comme celui de l'action par le delta, par une dérivée du prix du call. [ajout]
 
 4. fpp/gamma
    Les actions achetées la veille suffisent-elles encore quand l'action a bougé ? [§8.2]
@@ -52,7 +52,7 @@ Une banque a vendu 100 calls de strike 100 à un an sur l'action qui vaut 100, a
 
 9. fpp/edp-black-scholes
    Couverte à chaque instant, la position porte-t-elle encore un risque, et que doit-elle rapporter ? [§7.1]
-   Histoire : « Comment se protéger sans renoncer à la vente » — Couverte en continu, la position n'a plus de bruit : elle doit rapporter le taux sans risque, et le prix du call vérifie une équation : son thêta, $-5{,}89$, plus $rS\delta=2{,}47$, plus le terme de courbure $\tfrac12\sigma^2S^2\gamma=3{,}81$, donne $0{,}40=4\,\%\times9{,}93$. [ajout]
+   Histoire : « sans renoncer à la vente » — La banque garde ses calls vendus ; couverte en continu, sa position n'a plus de bruit : elle doit rapporter le taux sans risque, et le prix du call vérifie une équation : son thêta, $-5{,}89$, plus $rS\delta=2{,}47$, plus le terme de courbure $\tfrac12\sigma^2S^2\gamma=3{,}81$, donne $0{,}40=4\,\%\times9{,}93$. [ajout]
 
 10. fpp/feynman-kac
     Cette équation redonne-t-elle le prix de 9,93, obtenu jusqu'ici par une espérance ? [§7.2]

@@ -32,7 +32,7 @@ Un investisseur hésite entre deux actifs : l'un rapporte 6 % par an avec une vo
 
 4. pfo/optimisation-de-portefeuille
    On sait désormais noter une répartition. Comment chercher la meilleure, et meilleure selon quel critère ? [p. 38]
-   Histoire : « Combien mettre dans chacun » — Chaque répartition se note désormais par son rendement et sa volatilité. Choisir revient à résoudre un problème : trouver les poids, positifs et de somme 1, qui arbitrent au mieux entre les deux. [ajout]
+   Histoire : « Combien mettre » — Combien mettre, c'est choisir le vecteur de poids $W$, positifs et de somme 1. À parts égales, 8 % pour 11,18 % de volatilité ; tout dans le premier actif, 6 % pour 10 % : aucun choix ne gagne sur les deux tableaux, et choisir revient à résoudre un problème qui arbitre entre $W^T\mu$ et $\sqrt{W^T\boldsymbol{\Sigma}W}$. [ajout]
 
 5. pfo/frontiere-efficiente
    Premier critère : se fixer un rendement et ne rien risquer de plus que nécessaire pour l'obtenir. Que dessinent ces choix quand la cible varie ? [§3.0.2]
@@ -53,7 +53,7 @@ Un investisseur hésite entre deux actifs : l'un rapporte 6 % par an avec une vo
 9. pfo/slsqp
    Avec deux actifs, tout se fait à la main. Avec des dizaines, et des bornes sur chaque poids, plus aucune formule ne donne la solution. [§3.0.6]
    Suite : L'investisseur élargit son choix à des dizaines d'actifs, avec une borne sur chaque poids. Comment l'ordinateur trouve-t-il alors la meilleure répartition ? [ajout]
-   Histoire : « Comment l'ordinateur trouve-t-il alors la meilleure répartition » — Il part d'une répartition, remplace le problème par une version quadratique aux contraintes linéarisées, avance dans la direction qu'elle indique, et recommence. Pour minimiser $(x-3)^2$ avec $x\ge0$ depuis 0, un seul pas mène au minimum. [ajout]
+   Histoire : « Comment l'ordinateur trouve-t-il alors la meilleure répartition » — Il part d'une répartition, à parts égales par exemple entre ces dizaines d'actifs. Autour d'elle, il remplace le ratio de Sharpe à rendre maximal par une approximation quadratique en les poids, garde la somme 1 et la borne sur chaque poids, résout ce problème approché et déplace les poids dans le sens indiqué. Il recommence depuis la nouvelle répartition, jusqu'à ce qu'aucun déplacement n'améliore plus le ratio. [ajout]
 
 ## Point d'arrivée
 L'investisseur ne choisit pas un actif mais un mélange : deux tiers dans le premier, un tiers dans le second, le portefeuille dont le rendement excédentaire par unité de risque est le plus élevé. Il règle ensuite son risque en dosant ce mélange avec le placement sans risque, le long d'une droite de pente constante. [ajout]

@@ -24,7 +24,7 @@ One hundred iris flowers of two species, setosa and versicolor, each described b
 
 3. ods/nonlinear-conjugate-gradient
    And from the step? [slide 28]
-   Histoire : « and in its step » — A line search along the direction replaces the formula. With the gradient recomputed at each point, the method runs on any smooth function — at the price of finite termination. [ajout]
+   Histoire : « and in its step » — On the flowers no matrix gives the step: from the current weights, $\beta_k$ is found by trying steps along the direction and keeping the one that lowers the logistic loss most, and the gradient is recomputed at the new weights. Values and gradients of the loss are then enough — but with three weights, the method no longer surely stops after three iterations. [ajout]
 
 4. ods/polak-ribiere
    Which coefficient does the solver of the notebook use, and what does it do on the flowers? [slide 28, nb. 5]

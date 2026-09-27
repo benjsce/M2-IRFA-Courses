@@ -49,7 +49,7 @@ Un réseau qui a plus de poids que d'exemples peut faire de même : apprendre pa
 
 7. dss/arret-precoce
    Les entrées fixées, reste l'entraînement lui-même : à quel moment s'arrêter ? [slide 173]
-   Histoire : « apprendre par cœur ses exemples d'entraînement » — Pendant l'entraînement, l'erreur sur les exemples d'apprentissage baisse toujours. On suit aussi celle d'un jeu mis de côté, et l'on s'arrête quand elle se met à remonter, avant que le réseau n'apprenne par cœur. [ajout]
+   Histoire : « apprendre par cœur ses exemples d'entraînement » — Sur les clients qui servent à l'entraîner, l'erreur du réseau baisse à chaque passage, et baisserait jusqu'à ce qu'il ait appris leurs pertes par cœur. On met donc quelques clients de côté et l'on suit aussi leur erreur : elle baisse d'abord, puis remonte quand le réseau se met à apprendre ce qui n'appartient qu'aux autres. C'est à ce minimum qu'on arrête l'entraînement, avant qu'il n'apprenne par cœur. [ajout]
 
 8. dss/decroissance-des-poids
    Plutôt que d'arrêter, on peut aussi empêcher les poids inutiles de grossir. [slide 174]

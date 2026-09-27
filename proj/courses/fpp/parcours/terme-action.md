@@ -19,7 +19,7 @@ Un investisseur veut acheter dans un an une action qui cote aujourd'hui 100. Le 
 
 2. fpp/prix-forward
    Du côté de l'acheteur, quel prix de livraison est alors le seul possible ? [Déf. 8]
-   Histoire : « une action qui cote aujourd'hui 100 » — $F(t,T)=100/0{,}9608=104{,}08$ ; l'écart de 4,08 avec le prix d'aujourd'hui, la base, est le coût du portage. [ajout]
+   Histoire : « un prix de livraison » — Un seul, ce que coûte au vendeur le cash-and-carry : $F(t,T)=100/0{,}9608=104{,}08$ ; l'écart de 4,08 avec le prix d'aujourd'hui, la base, est le coût du portage. [ajout]
 
 3. fpp/dividendes-intermediaires
    Qui touche un dividende versé avant la livraison, et que devient le prix ? [§3.2]
@@ -29,7 +29,7 @@ Un investisseur veut acheter dans un an une action qui cote aujourd'hui 100. Le 
 4. fpp/prix-a-terme
    Le taux forward, le change à terme, le prix forward : trois réponses, ou un seul geste ? [§2, §3]
    Suite : L'investisseur se souvient des contrats du parcours précédent : le FRA à 6 %, le change à 1,1111. [ajout]
-   Histoire : « le FRA à 6 %, le change à 1,1111 » — Les trois prix se trouvent de la même façon : écrire les deux jambes, les ramener en t par le zéro-coupon de leur devise, les égaler parce que le contrat est gratuit. [ajout]
+   Histoire : « le FRA à 6 %, le change à 1,1111 » — Pour l'action, $K$ payé dans un an vaut aujourd'hui $K\times0{,}9608$ et l'action reçue vaut 100 : les égaler, parce que le contrat ne coûte rien, redonne le prix forward, 104,08. Le FRA à 6 % et le change à 1,1111 sortaient du même geste, chaque jambe ramenée en t par le zéro-coupon de sa devise. [ajout]
 
 5. fpp/contrat-future
    Qu'est-ce qui change quand le contrat se règle tous les jours plutôt qu'une fois ? [§4.1]

@@ -18,7 +18,7 @@ Our four observations now call for the penalized problem: minimize $\tfrac12\|Ax
 
 2. ods/operations-on-convex-sets
    Checking segments one by one is tedious: can a convex set be recognized from the way it is built? [Prop. 2.1]
-   Histoire : « the weights » — If the weights had to be nonnegative and sum to one, the admissible set would be an intersection of half-spaces with a hyperplane, convex without checking a single segment. [ajout]
+   Histoire : « the weights » — The plane of weights is built, not checked: it is the product $\mathbb{R}\times\mathbb{R}$ of two intervals, hence convex, and the predictions $Ax$ that these weights produce, its image by an affine map, form a convex set of $\mathbb{R}^4$ as well. [ajout]
 
 3. ods/epigraph
    How does a function, rather than a set, get a shape? [§2.2.1]
@@ -34,7 +34,7 @@ Our four observations now call for the penalized problem: minimize $\tfrac12\|Ax
 
 6. ods/first-order-characterization
    The chords need pairs of points, and the method only sees where it stands: can one point say something about all the others? [Prop. 2.2]
-   Histoire : « walks downhill » — The method reads the slope under its feet. For a convex function that local information is a global bound: the graph lies above the tangent plane at the current point, everywhere. [ajout]
+   Histoire : « walks downhill » — At its start, $x=(0,0)$, the method reads a value, $1$, and a slope, the gradient $(-1,-2)$. For a convex objective these two readings bound every other weight: the objective is at least $1-x_1-2x_2$ everywhere in the plane. [ajout]
 
 7. ods/first-order-optimality-condition
    So where exactly does the walk stop? [p. 9]

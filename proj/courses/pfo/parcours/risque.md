@@ -15,16 +15,16 @@ Un portefeuille de 1 000 000 affiche des rendements journaliers de moyenne 0,05 
 ## Étapes
 1. pfo/quantile
    Avant de chiffrer, il faut dire ce qu'est une mauvaise journée. [ajout]
-   Histoire : « Combien peut-il perdre en une mauvaise journée » — Une mauvaise journée doit se chiffrer : une des 5 % pires, par exemple, soit une journée sur vingt. Le rendement qui sépare ces 5 % du reste est le quantile à 5 % de la loi des rendements. La moyenne et l'écart type ne suffisent pas à le situer : il dépend de toute la forme de la loi, et c'est lui qu'il va falloir trouver. [ajout]
+   Histoire : « en une mauvaise journée » — Une mauvaise journée doit se chiffrer : une des 5 % pires, par exemple, soit une journée sur vingt. Le rendement qui sépare ces 5 % du reste est le quantile à 5 % de la loi des rendements. La moyenne et l'écart type ne suffisent pas à le situer : il dépend de toute la forme de la loi, et c'est lui qu'il va falloir trouver. [ajout]
 
 2. pfo/valeur-a-risque
    La réglementation pose une question précise : quelle perte ne sera dépassée qu'une fois sur vingt ? [§2.5]
-   Histoire : « Un portefeuille de 1 000 000 » — Rapporté au capital, ce quantile devient une perte : la valeur à risque, ou VaR, à 95 % sur un jour, est la perte que le portefeuille ne dépasse qu'une journée sur vingt. Si le quantile valait −3,24 %, par exemple, elle serait de $0{,}0324\times1\,000\,000=32\,400$. [ajout]
+   Histoire : « Combien peut-il perdre » — Rapporté au capital, ce quantile devient une perte : la valeur à risque, ou VaR, à 95 % sur un jour, est la perte que le portefeuille ne dépasse qu'une journée sur vingt. Si le quantile valait −3,24 %, par exemple, elle serait de $0{,}0324\times1\,000\,000=32\,400$. [ajout]
 
 3. pfo/valeur-a-risque-conditionnelle
    Ce seuil ne dit rien de ce qui se passe au-delà : deux portefeuilles de même VaR peuvent perdre très différemment les mauvais jours. [p. 32]
    Suite : Et les jours où la perte dépasse ce seuil, combien perd-il en moyenne ? [ajout]
-   Histoire : « combien perd-il en moyenne » — C'est la CVaR, ou valeur à risque conditionnelle : la perte moyenne sur les 5 % de jours les pires, toujours au moins égale à la VaR. Elle ne dépend plus seulement du quantile, mais de toute la queue de la loi au-delà. [ajout]
+   Histoire : « combien perd-il en moyenne » — Au-delà du seuil de 32 400 de l'exemple, la VaR ne dit plus rien : le portefeuille y perd plus, sans qu'on sache de combien. La CVaR répond en faisant la moyenne des pertes de ces jours-là, les 5 % les pires : si le rendement y valait en moyenne −4,08 %, elle serait de $0{,}0408\times1\,000\,000=40\,800$, plus que la VaR. Elle dépend donc de toute la queue de la loi, pas du seul quantile. [ajout]
 
 4. pfo/modele-de-risque
    Pour chiffrer l'une et l'autre, il faut supposer quelque chose de la loi des rendements. Le cours compare trois hypothèses. [p. 32, Listing 2.2]

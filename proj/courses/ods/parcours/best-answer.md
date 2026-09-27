@@ -11,7 +11,7 @@ We have four observations of two features, the rows $(1,1)$, $(1,0)$, $(1,0)$ an
 ## Étapes
 1. ods/optimization-problem
    Before looking for the weights, we must say what "best" means, and among which candidates we look. [§1]
-   Histoire : « Is there a best choice of weights » — Written as a problem, the candidates form the domain $\Omega=\mathbb{R}^2$, the distance to the targets is the objective $f$, and a best choice is a minimizer $x^\star$, a point where $f$ reaches its infimum. The infimum always exists; whether a point reaches it is the whole question. [ajout]
+   Histoire : « a best choice of weights » — Written as a problem, the candidates form the domain $\Omega=\mathbb{R}^2$, the distance to the targets is the objective $f$, and a best choice is a minimizer $x^\star$, a point where $f$ reaches its infimum. The infimum always exists; whether a point reaches it is the whole question. [ajout]
 
 2. ods/rosenbrock-function
    Can we take it for granted that such a point exists, and that there is only one? [§1.1.1]

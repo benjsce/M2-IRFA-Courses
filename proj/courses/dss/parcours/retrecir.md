@@ -21,7 +21,7 @@ Sur les 20 clients, sélectionner des prédicteurs donne à chacun soit son coef
 
 2. dss/regularisation
    Première façon de limiter ce qu'il apprend : contraindre la taille de ses coefficients. [slide 46]
-   Histoire : « Peut-on garder tous les prédicteurs » — On les garde tous, et l'on ajoute à la somme des carrés des erreurs une pénalité sur la taille des coefficients : plus elle pèse, plus ils sont tirés vers zéro, sans qu'aucun soit écarté d'avance. [ajout]
+   Histoire : « Peut-on garder tous les prédicteurs » — Oui : les cinq prédicteurs restent tous dans le modèle, et c'est la taille de leurs coefficients qu'on limite. À la somme des carrés des erreurs sur les 20 clients, on ajoute une pénalité qui grandit avec les coefficients : un coefficient ne s'éloigne de zéro que s'il fait baisser l'erreur plus qu'il n'alourdit la pénalité. Plus elle pèse, plus tous sont tirés vers zéro, sans qu'il faille décider d'avance, comme la sélection ascendante, lesquels jeter. [ajout]
 
 3. dss/regression-ridge
    La contrainte la plus simple porte sur la somme de leurs carrés. [slide 48]

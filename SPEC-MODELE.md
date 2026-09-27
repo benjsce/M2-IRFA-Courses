@@ -741,6 +741,14 @@ l'histoire telle qu'elle est arrivée jusqu'à lui. *Essayé sur `dup/parcours-r
   « Lequel des deux craint le plus le risque », et non « un second agent, d'utilité
   $\ln x$ ». Une étape sans citation dit pourquoi dans sa phrase — une règle de cohérence,
   comme l'axiome d'indépendance, n'est pas un fait de l'histoire.
+- **Une question résolue par plusieurs étapes se partage.** Chaque étape ne cite que la
+  part qu'elle résout : « L'entreprise peut-elle fixer dès aujourd'hui le taux de cet
+  emprunt » se répartit en « fixer » pour le FRA et « le taux de cet emprunt » pour le taux
+  forward. Le gras tombe à la première occurrence de la citation ; une citation courte se
+  vérifie sur la page rendue, pour qu'elle ne s'accroche pas à un autre passage. *Constaté
+  le 2026-09-27 sur `fpp/parcours-terme-taux` : la question entière allait au FRA, et le
+  taux forward, faute de mots à lui, avait mis en gras ses données, « 4 % à un an et 5 %
+  à deux ans ».*
 - **L'histoire parle la langue du cours dès qu'elle l'a apprise.** Une notion racontée à
   une étape antérieure se nomme : « la prime de risque du premier n'est plus que de 4,3 »,
   et non « il n'abandonne plus que 4,3 », que ne comprend pas qui ne connaît pas le cours.
@@ -750,8 +758,21 @@ l'histoire telle qu'elle est arrivée jusqu'à lui. *Essayé sur `dup/parcours-r
   $A(x)=-U''(x)/U'(x)$, parce que $U''$ seule change quand on double $U$ ; $1/200$ et
   $1/100$ pour les deux agents à 100. Le lien ne redit pas la transition : celle-ci vient
   de l'étape précédente, le lien vient de l'histoire.
+- **Le lien fait jouer la fiche dans l'histoire ; il ne la décrit pas.** Il montre comment
+  la fiche répond à la question citée, avec les objets de l'histoire. Test : une phrase
+  qui pourrait s'écrire sans l'histoire, en changeant seulement les dates ou les noms,
+  redit la définition. Pour le FRA, « elle paiera l'intérêt à un taux $K$ écrit
+  aujourd'hui et recevra l'intérêt au taux observé dans un an » décrit le contrat ; « elle
+  empruntera au taux du moment ; le FRA lui verse ces intérêts et lui fait payer ceux à
+  $K$ : les intérêts variables se compensent, il ne lui reste que $K$ » dit pourquoi le
+  taux est fixé. *Demandé par l'utilisateur le 2026-09-27 : « dans l'histoire, on dit :
+  est-ce qu'on peut fixer dès aujourd'hui le taux de cet emprunt ? On ne parle pas de payer
+  quoi que ce soit ». Mesuré : l'ancien lien ne reprenait que 17 % des mots de « Ce que
+  c'est » ; aucun comptage de mots ne l'attrape, seule la relecture.*
 - **Deux passes.** On écrit le départ et un lien par étape ; puis on relit les liens un à
-  un et, pour chacun qui introduit un objet absent, on écrit la suite à l'étape concernée.
+  un et, pour chacun qui introduit un objet absent, on écrit la suite à l'étape concernée ;
+  pour chacun aussi, on vérifie qu'il répond à ce qu'il cite, et que ses citations sont sa
+  part de la question.
   *Mesuré le 2026-09-26 : au premier jet, 10 étapes sur 17 de `dup/parcours-risque`
   introduisaient dans leur lien un objet que l'histoire ne contenait pas.*
 - **Mêmes symboles que la fiche** (A12) : le lien écrit la formule avec les lettres de la
