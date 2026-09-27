@@ -34,7 +34,7 @@ Les rendements sont propres. Il faut maintenant dire combien ils bougent et s'il
 5. pfo/effet-epps
    Seconde difficulté : Tokyo ferme avant que Paris ouvre. [§1.3.1, ajout]
    Suite : Supposons que le premier actif cote à Tokyo et le second à Paris. Calculée sur leurs rendements journaliers, leur corrélation ne sort qu'à 0,4 ; sur leurs rendements hebdomadaires, à 0,5. Pourquoi la corrélation journalière sort-elle plus basse ? [ajout]
-   Histoire : « Pourquoi la corrélation journalière sort-elle plus basse » — Une nouvelle tombée l'après-midi à Paris ne touche Tokyo que le lendemain : les deux rendements d'un même jour ne portent pas les mêmes nouvelles, et la corrélation journalière tombe sous sa vraie valeur. C'est l'effet Epps. Sur une semaine, ce décalage d'un jour ne pèse presque plus : c'est 0,5 qu'il faut croire. [ajout]
+   Histoire : « l'autre entre les places » « Pourquoi la corrélation journalière sort-elle plus basse » — Une nouvelle tombée l'après-midi à Paris ne touche Tokyo que le lendemain : les deux rendements d'un même jour ne portent pas les mêmes nouvelles, et la corrélation journalière tombe sous sa vraie valeur. C'est l'effet Epps. Sur une semaine, ce décalage d'un jour ne pèse presque plus : c'est 0,5 qu'il faut croire. [ajout]
 
 6. pfo/norme-de-frobenius
    Les deux fréquences donnent donc deux matrices de covariance différentes pour les mêmes actifs. [§1.6, §1.6.1]
