@@ -52,8 +52,9 @@ Un pari rapporte 0 ou 100 avec une chance sur deux : il vaut 50 en moyenne. Pour
     Histoire : « Pouvait-on les prévoir sans refaire le calcul » — Oui, pour un pari aussi petit : gagner ou perdre 10 a pour variance $10^2=100$, et la moitié de cette variance fois l'aversion absolue à 100 donne $\tfrac12\times100\times\tfrac{1}{200}=0{,}25$ et $\tfrac12\times100\times\tfrac{1}{100}=0{,}50$, les deux primes de l'histoire. Le premier pari, lui, est trop grand : vu comme 50 plus ou moins 50, de variance 2 500, avec l'aversion $\tfrac{1}{100}$ que $\sqrt{x}$ a en 50, elle donnerait 12,5 au lieu de 25. [ajout]
 
 11. dup/aversion-relative
-    Peut-on dire qu'une personne est plus averse qu'une autre sans rien calculer, en regardant seulement les paris qu'elle refuse ? [L1 slide 30]
-    Histoire : « Lequel des deux craint le plus le risque » — Le second agent a la prime la plus forte, sur le grand pari comme sur le petit. Le cours veut pouvoir dire qu'il est plus averse en regardant seulement ses choix : il refuse tout pari qui laisse le premier indifférent. [ajout]
+    Les primes comparent les deux agents pari par pari. [L1 slide 30]
+    Suite : Peut-on dire que le second est plus averse sans rien calculer, en regardant seulement les paris qu'il refuse ? [ajout]
+    Histoire : « en regardant seulement les paris qu'il refuse » — Le second agent a la prime la plus forte, sur le grand pari comme sur le petit. Le cours veut pouvoir dire qu'il est plus averse en regardant seulement ses choix : il refuse tout pari qui laisse le premier indifférent. [ajout]
 
 12. dup/dara
     Comment l'aversion devrait-elle évoluer quand on s'enrichit ? Le cours retient une hypothèse que presque tout le monde accepte. [L1 slide 34]
@@ -78,7 +79,7 @@ Un pari rapporte 0 ou 100 avec une chance sur deux : il vaut 50 en moyenne. Pour
     Histoire : « d'utilité $\ln x$ » — Le second agent a cette utilité, d'aversion relative 1 contre un demi pour le premier. Ses primes se calculent à la main : avec 100 en poche, il finit avec 100 ou 200, et son utilité espérée $\tfrac12\ln100+\tfrac12\ln200$ est le logarithme de $\sqrt{100\times200}\approx141{,}4$, son équivalent certain ; la prime vaut donc $150-141{,}4\approx8{,}6$. [ajout]
 
 17. dup/cout-social-du-risque
-    À quoi tout cela sert-il hors du laboratoire ? Le cours l'applique au risque sur la croissance d'une économie entière. [L1 slide 38]
+    Le cours applique tout cela hors du laboratoire. [L1 slide 38]
     Suite : Et si le pari n'était plus un jeu, mais la croissance d'une économie entière ? [ajout]
     Histoire : « la croissance d'une économie entière » — Le pari porte alors sur la croissance du PIB par tête, et la prime se mesure en points de croissance qu'une population céderait pour la rendre sûre. [ajout]
 

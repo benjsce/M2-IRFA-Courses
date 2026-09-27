@@ -46,8 +46,9 @@ Aucune probabilité ne rend compte de ces deux choix à la fois. Ce parcours sui
    Histoire : « Ce mélange de deux paris est-il encore un pari au sens de Savage » — Non : chez Savage, un acte donne un résultat par couleur. Ici, si la boule est noire, on gagne sur pile seulement : le résultat est lui-même une loterie. Le cadre d'Anscombe et Aumann donne à chaque couleur une loterie, et permet ainsi de mélanger deux actes couleur par couleur. [ajout]
 
 8. dup/independance-restreinte
-   Les deux voies ne jettent pas l'indépendance : elles la gardent, en restreignant seulement les mélanges auxquels elle s'applique. [L4 slide 45, L4 slide 59]
-   Histoire : « sur pile, il parie sur le noir ; sur face, sur le jaune » — Ce mélange efface l'ambiguïté : quand la boule n'est pas rouge, on gagne une fois sur deux, quelle que soit la composition. Pour admettre les choix de l'urne sans jeter l'indépendance, les deux voies la gardent, mais seulement pour des mélanges qui ne peuvent pas couvrir ainsi l'ambiguïté. [ajout]
+   Dans ce cadre, un mélange de deux paris peut couvrir l'ambiguïté. [L4 slide 45, L4 slide 59]
+   Suite : Pour admettre les choix de l'urne, faut-il jeter l'axiome d'indépendance ? [ajout]
+   Histoire : « faut-il jeter l'axiome d'indépendance » — Non. Le mélange du noir et du jaune efface l'ambiguïté : quand la boule n'est pas rouge, on gagne une fois sur deux, quelle que soit la composition. Les deux voies gardent donc l'indépendance, mais seulement pour des mélanges qui ne peuvent pas couvrir ainsi l'ambiguïté. [ajout]
 
 9. dup/ensemble-de-priors
    Première voie : la croyance devient un ensemble de probabilités plausibles, sans qu'aucune soit jugée plus crédible que les autres. [L4 slide 40]
@@ -75,15 +76,16 @@ Aucune probabilité ne rend compte de ces deux choix à la fois. Ce parcours sui
     Histoire : « Comment le juger avec des poids qui ne s'ajoutent pas » — On range les couleurs du pire au meilleur, et chaque marche se paie au poids de l'événement où on la franchit : on a au moins 50 sur le noir-ou-jaune, de poids $\tfrac23$, et 50 de plus sur le jaune, de poids $\tfrac16$. L'acte vaut $\tfrac23\times50+\tfrac16\times50\approx41{,}7$. [ajout]
 
 15. dup/independance-comonotone
-    L'axiome correspondant n'exige l'indépendance qu'entre actes qui ne se couvrent pas l'un l'autre, là où elle ne coûte rien. [L4 slide 59]
-    Histoire : « parier sur le rouge plutôt que sur le noir » — Le pari sur le rouge et le pari sur le noir classent les couleurs en sens opposés : l'un préfère la boule rouge, l'autre la noire, et les mélanger couvre une part de l'ambiguïté. L'axiome ne leur impose rien ; il n'exige l'indépendance qu'entre actes qui classent toujours les couleurs dans le même ordre. [ajout]
+    La seconde voie a elle aussi son axiome. [L4 slide 59]
+    Suite : Entre quels actes l'indépendance peut-elle encore être exigée sans rien coûter ? [ajout]
+    Histoire : « Entre quels actes l'indépendance peut-elle encore être exigée » — Entre actes qui classent toujours les couleurs dans le même ordre, et qui ne se couvrent donc pas l'un l'autre. Le pari sur le rouge et le pari sur le noir classent les couleurs en sens opposés : les mélanger couvre une part de l'ambiguïté, et l'axiome ne leur impose rien. [ajout]
 
 16. dup/ceu
     Schmeidler montre que cet axiome suffit : la préférence s'écrit comme une intégrale de Choquet. Et quand la capacité est convexe, le modèle se relit comme un maxmin : les deux voies se rejoignent. [L4 slide 60]
     Histoire : « des poids qui ne s'ajoutent pas » — Les poids de l'histoire forment une capacité convexe : une réunion d'événements pèse au moins la somme de ses morceaux, comme le noir-ou-jaune, deux tiers contre un sixième plus un sixième. Juger par l'intégrale de Choquet revient alors à juger par le maxmin, sur l'ensemble des probabilités qui donnent à chaque événement au moins son poids : ici $\pi(R)=\tfrac13$ et $\pi(N)$ entre $\tfrac16$ et $\tfrac12$. L'acte qui paie 0, 50 ou 100 y vaut au pire 41,7, sous $\pi(N)=\tfrac12$, comme par l'intégrale : les deux voies se rejoignent. [ajout]
 
 17. dup/intervalle-de-non-echange
-    Que fait cet agent face à un actif qu'il peut acheter ou vendre à découvert ? Son évaluation n'est pas la même dans les deux sens, parce que le pire état change avec le sens de la position. [L4 slide 62]
+    Face à un actif qu'on peut acheter ou vendre à découvert, cet agent n'évalue pas les deux sens de la même façon, parce que le pire état change avec le sens de la position. [L4 slide 62]
     Suite : Un marché permet d'acheter, ou de vendre à découvert, au prix $p$, un titre qui paie 100 si la boule est noire et rien sinon. À quel prix l'agent aux poids qui ne s'ajoutent pas, celui qui donne un sixième au noir, l'achète-t-il, et à quel prix le vend-il ? [ajout]
     Histoire : « À quel prix l'agent aux poids qui ne s'ajoutent pas, celui qui donne un sixième au noir, l'achète-t-il » — Il juge comme un maxmin sur les compositions où $\pi(N)$ va de $\tfrac16$ à $\tfrac12$. Acheté, le titre est jugé sous la composition la pire pour l'acheteur, $\pi(N)=\tfrac16$ : il vaut environ 16,7. Vendu, il est jugé sous la pire pour le vendeur, $\pi(N)=\tfrac12$, où il paie une fois sur deux : il coûte 50. Entre 16,7 et 50, l'agent n'achète ni ne vend. [ajout]
 

@@ -27,7 +27,7 @@ Une seconde famille de modèles laisse l'utilité des résultats tranquille et a
    Histoire : « Comment un modèle tient-il compte de ce point de référence » — La théorie des perspectives code chaque résultat comme un gain ou une perte par rapport à ce point, lui donne une valeur $v$, nulle au point de référence, et pondère chaque probabilité par $\pi$ : le billet vaut $\pi(0{,}01)v(98)+\pi(0{,}99)v(-2)$. [ajout]
 
 3. dup/rdu
-   Ce modèle a pourtant un défaut grave : il peut faire choisir un pari moins bon qu'un autre dans tous les cas. Comment le réparer ? [L3 slide 26]
+   Ce modèle a pourtant un défaut grave : il peut faire choisir un pari moins bon qu'un autre dans tous les cas. [L3 slide 26]
    Suite : Coupons le gain du billet en deux : 100 avec 0,5 % de chances, 99 avec 0,5 %, rien sinon. Ce nouveau billet est moins bon que le premier dans tous les cas. Un modèle qui pondère chaque probabilité séparément le juge-t-il ainsi ? [ajout]
    Histoire : « Un modèle qui pondère chaque probabilité séparément le juge-t-il ainsi » — Pas forcément : si les petites probabilités sont surpondérées, deux fois $\pi(0{,}005)$ peut dépasser nettement $\pi(0{,}01)$, et le billet coupé en deux valoir plus que l'autre. La pondération par le rang déforme la fonction de répartition plutôt que chaque probabilité : les deux chances de gain comptent alors ensemble autant que l'unique chance du premier billet, et la dominance est préservée. [ajout]
 
@@ -36,7 +36,7 @@ Une seconde famille de modèles laisse l'utilité des résultats tranquille et a
    Histoire : « il gagne 98 une fois sur cent, et perd 2 le reste du temps » — Refaite par le rang, la théorie des perspectives pondère séparément le côté des gains et celui des pertes ; du côté des gains, les chances se cumulent depuis le meilleur résultat, la chance d'avoir au moins ce gain, et se déforment par la fonction du cours, $\varphi(p)=p^\beta/\big(p^\beta+(1-p)^\beta\big)^{1/\beta}$, où $\beta$ règle l'écart à la diagonale. Avec $\beta=0{,}7$, la chance de gagner 98 compte pour $\varphi(0{,}01)\approx3{,}8\,\%$ au lieu de 1 % : c'est ce qui fait payer le billet plus que son espérance. [L3 slide 38, ajout]
 
 5. dup/pessimisme
-   Quelle forme de déformation produit l'aversion au risque, même avec une utilité linéaire ? [L4 slide 14]
+   Reste à voir ce que la déformation des probabilités fait au risque, même avec une utilité linéaire. [L4 slide 14]
    Suite : Revenons au pari à pile ou face qui rapporte 0 ou 100, et jugeons-le avec une utilité linéaire. Peut-on le refuser contre sa moyenne, 50, sans aucune courbure de l'utilité ? [ajout]
    Histoire : « sans aucune courbure de l'utilité » — Oui, si la déformation charge le mauvais résultat. Revenue à la pondération par le rang, elle s'applique aux chances cumulées depuis le pire résultat : avec $\varphi(t)=\sqrt t$, le 0 compte pour $\varphi(0{,}5)\approx0{,}707$ au lieu d'une chance sur deux, et le pari vaut $100\times(1-0{,}707)\approx29{,}3$, moins que 50. [ajout]
 

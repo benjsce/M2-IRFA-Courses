@@ -28,7 +28,7 @@ Un marché compte trois états, de probabilités 0,2, 0,3 et 0,5 ; le titre qui 
    Histoire : « coûte 0,3, 0,3 et 0,4 » — Rapportés aux probabilités, ces prix valent 1,5, 1 et 0,8 ; rapportés aux poids, 1,17, 1,49 et 0,74. C'est ce second rapport qui décide de l'allocation : l'état du milieu devient le plus cher. [ajout]
 
 4. dup/regroupement-des-etats
-   Que faire quand la solution ne respecte pas l'ordre qu'on avait supposé pour calculer les poids ? [L4 slide 31, L4 slide 33]
+   La solution peut ne pas respecter l'ordre qu'on avait supposé pour calculer les poids. [L4 slide 31, L4 slide 33]
    Suite : Avec ces rapports, l'investisseur voudrait recevoir moins dans l'état du milieu que dans le premier, contre l'ordre supposé pour calculer les poids. Que faire ? [ajout]
    Histoire : « contre l'ordre supposé pour calculer les poids » — On donne le même paiement $a$ aux deux états qui se disputent le rang, et l'on traite le bloc comme un seul résultat : de probabilité 0,5, il coûte 0,6 et pèse $\varphi(0{,}5)\approx0{,}457$. Avec l'utilité du cours, $u(x)=x^{0{,}6}$, et le budget $0{,}6a+0{,}4b=1$, les deux mauvais états reçoivent 0,437 chacun, et le meilleur 1,845. Cette solution vaut 1,0618, plus que les meilleures solutions des autres ordres, à 1,0405 et 1,0021. [ajout]
 
@@ -42,12 +42,12 @@ Un marché compte trois états, de probabilités 0,2, 0,3 et 0,5 ; le titre qui 
    Histoire : « Combien en achète un investisseur qui connaît cette loi » — Avec l'utilité exponentielle du cours, $u(W)=-e^{-W}$, dont l'aversion absolue vaut 1 à toute richesse, son équivalent certain se calcule à la main, et la position optimale est l'écart entre la moyenne et le prix, divisé par la variance fois cette aversion : $10/(1\times400)=0{,}025$. [L4 slide 63, ajout]
 
 7. dup/demande-sous-ambiguite
-   Que devient cette demande quand l'investisseur ne connaît la moyenne du paiement qu'à un intervalle près ? [L4 slide 64, L4 slide 65]
+   Jusqu'ici, l'investisseur connaît la loi du paiement. [L4 slide 64, L4 slide 65]
    Suite : Un second investisseur ne connaît la moyenne du paiement qu'à 5 près : entre 105 et 115. Combien achète-t-il ? [ajout]
-   Histoire : « ne connaît la moyenne du paiement qu'à 5 près » — Il juge un achat sous la moyenne la plus basse, 105, et une vente sous la plus haute, 115. Au prix 100, il achète $5/400=0{,}0125$, deux fois moins que le premier ; entre 105 et 115, il ne fait rien. [ajout]
+   Histoire : « Combien achète-t-il » — Il juge un achat sous la moyenne la plus basse, 105, et une vente sous la plus haute, 115. Au prix 100, il achète $5/400=0{,}0125$, deux fois moins que le premier ; entre 105 et 115, il ne fait rien. [ajout]
 
 8. dup/equilibre-sous-ambiguite
-   Si le marché réunit des investisseurs des deux sortes, quel prix l'équilibre ? [L4 slide 66]
+   Reste le prix que fixe le marché. [L4 slide 66]
    Suite : Le marché réunit pour moitié des investisseurs de chaque sorte, et chacun doit en moyenne absorber 0,005 unité de l'actif. À quel prix le marché s'équilibre-t-il ? [ajout]
    Histoire : « À quel prix le marché s'équilibre-t-il » — Si les ambigus ne détiennent rien, les autres, qui sont la moitié du marché, doivent tout absorber : $\tfrac12(110-p)/400=0{,}005$ donne $p=106$. Ce prix est compris entre 105 et 115 : les ambigus restent bien à l'écart, et 106 est le prix d'équilibre. [ajout]
 

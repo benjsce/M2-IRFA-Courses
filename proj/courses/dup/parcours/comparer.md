@@ -48,7 +48,7 @@ Deux placements ont la même moyenne de 50 : le pari $(0,\tfrac12;100,\tfrac12)$
    Histoire : « Lequel choisit-il » — Aucun : $50-50=0$ pour le premier, $100-100=0$ pour le nouveau, il les déclare équivalents. Or le nouveau paie autant sur face et le double sur pile : il domine le premier au premier ordre, et tout agent qui préfère plus à moins le prend. [ajout]
 
 8. dup/entropie
-   Et si l'on mesurait l'incertitude sans regarder l'agent du tout ? L'entropie essaie, et montre ce qu'on perd. [L1 slide 17]
+   On peut aussi mesurer l'incertitude sans regarder l'agent du tout ; l'entropie essaie, et montre ce qu'on perd. [L1 slide 17]
    Suite : Un dernier pari rapporte 49 ou 51 à pile ou face. Peut-on dire qu'il est moins incertain que le premier sans rien savoir de l'agent ? [ajout]
    Histoire : « sans rien savoir de l'agent » — L'entropie essaie, en ne regardant que les probabilités. Elle vaut $\log 2$ pour les deux paris, qui ont chacun deux résultats à une chance sur deux : elle ne voit aucune différence entre 49 ou 51 et 0 ou 100. [ajout]
 
@@ -73,7 +73,7 @@ Deux placements ont la même moyenne de 50 : le pari $(0,\tfrac12;100,\tfrac12)$
     Histoire : « la même moyenne de 50 » — Le test cumule, de 0 jusqu'à chaque montant, l'écart entre les chances des deux paris de ne pas dépasser ce montant, c'est-à-dire entre leurs fonctions de répartition. Jusqu'à 25, le premier a déjà une chance sur deux, celle du 0, et le second aucune : l'écart cumulé monte à $\tfrac12\times25=12{,}5$. De 25 à 75, les deux chances valent un demi et il ne bouge pas. Au-delà de 75, le second est sûr de ne pas dépasser et le premier ne l'est qu'à moitié : l'écart redescend, jusqu'à 0 en 100 parce que les moyennes sont égales. Positif partout, nul au bout : le test confirme que le premier est plus risqué. [ajout]
 
 14. dup/statique-comparative-risque-accru
-    Reste la question pratique : un agent qui investit, assure ou épargne doit-il en faire moins quand son risque grandit en ce sens ? [L1 slide 26]
+    Reste la question pratique, pour un agent qui investit, assure ou épargne quand son risque grandit en ce sens. [L1 slide 26]
     Suite : Un agent place une part $a$ de sa richesse dans un placement risqué dont le résultat est $x$ ; notons $U(x,a)$ son utilité quand il a placé $a$ et que le placement rend $x$. Si ce placement devient plus risqué au sens du parcours, sans changer de moyenne, doit-il en placer moins ? [ajout]
     Histoire : « doit-il en placer moins » — Pas forcément : ce n'est pas la concavité de son utilité qui décide, mais la forme de ce que lui rapporte un peu plus de placement, $U_a$, la dérivée de $U$ en $a$, en fonction du résultat $x$. Si ce gain marginal est concave en $x$, c'est-à-dire si sa dérivée seconde en $x$, $U_{xxa}$, est négative, il en place moins ; s'il est convexe, $U_{xxa}>0$, il en place plus. [ajout]
 
