@@ -48,7 +48,8 @@ Les cours ne sont pas le poste le plus lourd : les rapports et les scripts le so
   dernière partie qui permet les liens entre cours sans relire ces cours.
 - `python tools/recit.py <code> [<parcours>]` : un parcours tel que l'étudiant le lit, d'un seul
   tenant et sans marqueurs ; c'est le texte du test de lecture (SPEC-MODELE §8.6), à passer sur
-  tout parcours écrit ou modifié.
+  tout parcours écrit ou modifié. Avec `--questions`, chaque étape en une ligne, « mots en gras »
+  ? → titre de la fiche : la réponse doit être la notion (SPEC-MODELE §8.5).
 - **Deux rapports seulement** : le dernier du cours, et ceux du dernier jour (la carte les
   nomme). Les questions ouvertes, la dette et les abstractions en attente y sont
   recopiées d'un rapport à l'autre ; les rapports plus anciens ne se relisent pas.

@@ -293,9 +293,11 @@ def _parcours(root, etapes, avant, slug="essai", ordre=1, fiches=True):
     if avant:
         txt += ["## À savoir avant"] + ["- aa/%s : son rôle ici. [p. 1]" % x for x in avant] + [""]
     txt += ["## Étapes"]
+    # Chaque étape cite ses propres mots du départ : une question n'a qu'une réponse (A18).
+    mots = ["100", "On part", "part de", "de 100", "On"]
     for k, x in enumerate(etapes, 1):
         txt += ["%d. aa/%s" % (k, x), "   La question qui y mène. [p. 1]",
-                "   Histoire : « 100 » — Ce que la fiche en reprend. [p. 1]", ""]
+                "   Histoire : « %s » — Ce que la fiche en reprend. [p. 1]" % mots[k - 1], ""]
     txt += ["## Point d'arrivée", "On arrive là. [p. 1]"]
     (d / (slug + ".md")).write_text("\n".join(txt) + "\n", encoding="utf-8", newline="\n")
 
@@ -362,6 +364,24 @@ def parcours_suite_a_l_etape_1(root):
         "1. aa/milieu\n   La question qui y mène. [p. 1]",
         "1. aa/milieu\n   La question qui y mène. [p. 1]\n   Suite : Un second agent arrive. [p. 1]"),
         encoding="utf-8", newline="\n")
+
+
+def parcours_citation_partagee(root):
+    """Deux étapes citent les mêmes mots : deux réponses à une seule question."""
+    _parcours(root, ["milieu", "haut"], ["base"])
+    f = root / "courses" / "aa" / "parcours" / "essai.md"
+    f.write_text(f.read_text(encoding="utf-8").replace("Histoire : « On part »", "Histoire : « 100 »"),
+                 encoding="utf-8", newline="\n")
+
+
+def parcours_suite_non_citee(root):
+    """Une suite que son étape ne cite pas : elle ne pose pas la question de la fiche."""
+    _parcours(root, ["milieu", "haut"], ["base"])
+    f = root / "courses" / "aa" / "parcours" / "essai.md"
+    t = f.read_text(encoding="utf-8").split("\n")
+    k = [j for j, l in enumerate(t) if l.startswith("2. aa/")][0]
+    t.insert(k + 2, "   Suite : Un second agent arrive. [p. 1]")
+    f.write_text("\n".join(t), encoding="utf-8", newline="\n")
 
 
 def parcours_cite_suite_future(root):
@@ -701,6 +721,14 @@ def main():
         "[étape 1] ligne « Suite : »", parcours_suite_a_l_etape_1)
     cas("suite à la deuxième étape → silence",
         "[étape 1] ligne « Suite : »", parcours_cite_suite_racontee, doit_apparaitre=False)
+    cas("deux étapes citent les mêmes mots → comptée en dette",
+        "citent toutes « 100 »", parcours_citation_partagee)
+    cas("chaque étape cite ses propres mots → silence",
+        "citent toutes", parcours_ok, doit_apparaitre=False)
+    cas("suite que son étape ne cite pas → comptée en dette",
+        "a une suite qu'elle ne cite pas", parcours_suite_non_citee)
+    cas("suite citée par son étape → silence",
+        "a une suite qu'elle ne cite pas", parcours_cite_suite_racontee, doit_apparaitre=False)
     cas("étape sans ligne « Histoire : » → comptée en dette",
         "étapes sans ligne « Histoire : » (1)", parcours_etape_sans_histoire)
     cas("ligne « Histoire : » sans phrase → erreur",

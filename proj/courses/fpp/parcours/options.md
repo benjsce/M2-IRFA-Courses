@@ -6,7 +6,7 @@ source: §6
 ---
 
 ## Point de départ
-Un investisseur veut s'assurer le droit, mais pas l'obligation, d'acheter dans un an à 100 l'action qui vaut aujourd'hui 100. Dans un an, l'action vaudra peut-être 120, peut-être 80, et le droit lui rapportera un montant qui dépend de ce cours. Combien doit-il payer ce droit ? [ajout]
+Un investisseur veut s'assurer le droit, mais pas l'obligation, d'acheter dans un an à 100 l'action qui vaut aujourd'hui 100. Dans un an, l'action vaudra peut-être 120, peut-être 80, et le droit lui rapportera un montant qui dépend de ce cours. La volatilité de l'action est de 20 % par an, et le taux de 4 %. Combien doit-il payer ce droit ? [ajout]
 
 ## À savoir avant
 - fpp/zero-coupon : il actualise le prix d'achat de 100 payé dans un an, ce qui relie le droit d'acheter au droit de vendre. [Déf. 3]
@@ -35,7 +35,6 @@ Un investisseur veut s'assurer le droit, mais pas l'obligation, d'acheter dans u
 
 5. fpp/formule-black-scholes
    Quand l'action peut monter ou baisser, quel prix exact ? [§6.4]
-   Suite : La volatilité de l'action est de 20 % par an, et le taux de 4 %. [ajout]
    Histoire : « Combien doit-il payer ce droit » — Avec 20 % de volatilité et 4 % de taux, $d_1=0{,}30$ et $d_2=0{,}10$ ; le droit vaut $C=100\,N(0{,}30)-96{,}08\,N(0{,}10)=61{,}79-51{,}87=9{,}93$. [ajout]
 
 6. fpp/valeur-temps

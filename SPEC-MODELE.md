@@ -667,7 +667,10 @@ dans le point de départ ou dans une suite racontée à cette étape ou avant �
 une suite à venir — et ne coupe aucune formule. Une étape porte au plus une ligne
 « Suite : » et une ligne « Histoire : », et celle-ci a une phrase après ses citations.
 Une étape sans ligne « Histoire : » est un avertissement compté en dette (« étape sans
-lien à l'histoire »). *Empêche* : que le lecteur fasse de tête, par des allers-retours
+lien à l'histoire »). La réponse aux mots cités est la notion de la fiche (§8.5) : deux
+étapes qui citent les mêmes mots, ou une étape qui ne cite pas sa propre suite, sont des
+avertissements comptés en dette ; une suite à l'étape 1 est une erreur, le départ posant
+la question de la première fiche. *Empêche* : que le lecteur fasse de tête, par des allers-retours
 vers la page du parcours, le lien entre la fiche et la question qu'elle résout ; et qu'un
 mot mis en gras ne se trouve pas dans l'histoire qu'il a sous les yeux. *Demandé par
 l'utilisateur le 2026-09-26 : « j'essaye moi-même de ramener les fiches à l'histoire ;
@@ -743,9 +746,16 @@ l'histoire telle qu'elle est arrivée jusqu'à lui. *Essayé sur `dup/parcours-r
   2026-09-26 : la suite de l'aversion absolue demandait « lequel craint le plus le risque,
   et comment le prévoir sans refaire le calcul ? » ; la seconde question est celle de
   l'approximation d'Arrow-Pratt, l'étape d'après.*
-- **Le gras tombe sur la notion de la fiche telle que l'histoire la nomme.** Test : mettre
-  la définition de la fiche en face des mots en gras ; ils doivent désigner la même chose.
-  Dans le parcours des options de fpp, « s'assurer le droit, mais pas l'obligation » est
+- **La réponse aux mots en gras est la notion de la fiche.** Les mots en gras posent une
+  question, explicite (« Combien doit-il payer ce droit ») ou implicite (« s'assurer le
+  droit, mais pas l'obligation » : qu'est-ce que c'est ?) ; la réponse à cette question est
+  la notion de la fiche, son titre. Test : lire « mots en gras ? → titre de la fiche » ;
+  `python tools/recit.py --questions <code>` imprime ce tableau pour tout un cours.
+  Deux conséquences sont vérifiées (A18) : deux étapes ne citent pas les mêmes mots, puisqu'une
+  question n'a qu'une réponse ; et l'étape qui a une suite la cite, puisque la suite n'existe
+  que pour poser la question de sa fiche. *Formulé par l'utilisateur le 2026-09-27 : « la
+  solution ou la réponse à la question, qu'elle soit explicite ou implicite, du mot en gras,
+  c'est le titre de la fiche ».* Dans le parcours des options de fpp, « s'assurer le droit, mais pas l'obligation » est
   l'option ; « un montant qui dépend de ce cours » est le payoff ; « Combien doit-il payer
   ce droit », le prix que donne la formule de Black et Scholes. « le droit, mais pas
   l'obligation » n'est pas le payoff, qui est un montant : quand l'histoire n'a pas de mots

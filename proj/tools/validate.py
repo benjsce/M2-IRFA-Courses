@@ -913,6 +913,32 @@ def valider(root: Path, rap: Rapport):
                                                  "citer la formule entière")
                         if not MARKER.sub("", lien).strip():
                             rap.e("A14", ou, f"[étape {n}] « Histoire : » sans phrase de lien")
+                # A18, la notion en réponse (SPEC-MODELE §8.5) : les mots en gras posent une
+                # question, explicite ou implicite, dont la notion de la fiche est la réponse.
+                # Le sens ne se vérifie pas ici (tools/recit.py --questions le met sous les
+                # yeux) ; deux de ses conséquences se vérifient. Une question n'a qu'une
+                # réponse : deux étapes ne citent pas les mêmes mots. Et une suite n'existe
+                # que pour poser la question de sa fiche : l'étape qui en a une la cite.
+                # Demandé par l'utilisateur le 2026-09-27. Mesuré le même jour : 38 étapes
+                # partageaient une citation (dss 15, dup 6, ods 17), 1 suite n'était pas
+                # citée par son étape (fpp).
+                vues = {}
+                for n, lignes in sorted(anc.items()):
+                    for cits, _ in lignes:
+                        for c in cits:
+                            vues.setdefault(c, []).append(n)
+                for c, ns in sorted(vues.items(), key=lambda kv: kv[1]):
+                    if len(set(ns)) > 1:
+                        rap.w("A18", ou, f"[étapes {', '.join(map(str, sorted(set(ns))))}] citent toutes "
+                                         f"« {c} » : une question n'a qu'une réponse, chaque étape "
+                                         "cite les mots dont sa notion est la réponse")
+                        rap.dette["citation reprise par deux étapes"] += len(set(ns)) - 1
+                for n, ls in sorted(suites.items()):
+                    cits = [c for cs, _ in anc.get(n, []) for c in cs]
+                    if cits and not any(c in t for c in cits for t in ls):
+                        rap.w("A18", ou, f"[étape {n}] a une suite qu'elle ne cite pas : la suite pose "
+                                         "la question dont la fiche est la réponse ; sinon, pas de suite")
+                        rap.dette["suite que son étape ne cite pas"] += 1
                 # A18 : chaque étape dit ce qu'elle reprend de l'histoire. Une ligne par
                 # parcours et non par étape : un parcours entier à écrire est une seule tâche.
                 sans = [k for k, _, _ in etapes if k not in anc]

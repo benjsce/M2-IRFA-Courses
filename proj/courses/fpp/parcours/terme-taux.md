@@ -19,7 +19,8 @@ Dans un an, une entreprise devra emprunter pour un an. Aujourd'hui, les taux zé
 
 2. fpp/absence-d-arbitrage
    Signer ne coûte rien ; qu'est-ce qui empêche alors d'écrire au contrat n'importe quel taux ? [Prop. 5]
-   Histoire : Acheter aujourd'hui le zéro-coupon à un an et vendre celui à deux ans reproduit l'emprunt futur, à un taux connu dès maintenant ; un taux $K$ qui s'en écarterait offrirait un gain certain sans mise, et c'est ce que le principe interdit. [ajout]
+   Suite : Signer le FRA ne coûte rien. Qu'est-ce qui empêche d'y écrire n'importe quel taux ? [ajout]
+   Histoire : « Qu'est-ce qui empêche d'y écrire n'importe quel taux » — L'absence d'arbitrage. Acheter aujourd'hui le zéro-coupon à un an et vendre celui à deux ans reproduit l'emprunt futur, à un taux connu dès maintenant ; un taux $K$ qui s'en écarterait offrirait un gain certain sans mise, et c'est ce que le principe interdit. [ajout]
 
 3. fpp/taux-forward
    Quel taux fixe rend donc le contrat gratuit, avec la courbe du jour ? [§2.3]

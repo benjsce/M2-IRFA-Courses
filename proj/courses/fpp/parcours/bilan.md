@@ -6,21 +6,22 @@ source: §1.1 à §1.4
 ---
 
 ## Point de départ
-Une entreprise a besoin de 100 pour acheter ses actifs. Ses actionnaires apportent 20 ; les 80 qui manquent, elle les emprunte. Ce parcours suit ce que cet emprunt change pour les actionnaires. [ajout]
+Une entreprise a besoin de 100 pour acheter ses actifs. Ses actionnaires apportent 20 ; les 80 qui manquent, elle doit les emprunter à ceux qui ont de l'argent à placer. Ce parcours suit ce que cet emprunt change pour les actionnaires. [ajout]
 
 ## Étapes
 1. fpp/marche-financier
    D'où viennent les 80 que l'entreprise emprunte, et qui accepte de les lui prêter ? [§1.1]
-   Histoire : « les 80 qui manquent, elle les emprunte » — Ils viennent d'épargnants, gérants d'actifs ou assureurs, que le marché met en face de l'entreprise ; en échange, ils reçoivent un titre, une obligation qu'ils pourront revendre. [ajout]
+   Histoire : « les emprunter à ceux qui ont de l'argent à placer » — Ils viennent d'épargnants, gérants d'actifs ou assureurs, que le marché met en face de l'entreprise ; en échange, ils reçoivent un titre, une obligation qu'ils pourront revendre. [ajout]
 
 2. fpp/bilan
    Comment écrire, à une date donnée, ce que l'entreprise possède et ce qu'elle doit ? [§1.2]
-   Histoire : « Ses actionnaires apportent 20 » — D'un côté 100 d'actifs, de l'autre 20 de capitaux propres et 80 de dette : $100=20+80$. Les capitaux propres sont ce qui reste aux actionnaires une fois la dette comptée. [ajout]
+   Suite : Une fois ses actifs achetés, que possède l'entreprise, et à qui le doit-elle ? [ajout]
+   Histoire : « que possède l'entreprise, et à qui le doit-elle » — D'un côté 100 d'actifs, de l'autre 20 de capitaux propres et 80 de dette : $100=20+80$. Les capitaux propres sont ce qui reste aux actionnaires une fois la dette comptée. [ajout]
 
 3. fpp/levier
    Qui profite d'un gain des actifs quand la dette ne bouge pas, et dans quelle proportion ? [§1.3]
-   Suite : Au bout d'un an, les actifs valent 110 ; la dette, elle, vaut toujours 80. De combien les actionnaires se sont-ils enrichis ? [ajout]
-   Histoire : « De combien les actionnaires se sont-ils enrichis » — Les capitaux propres passent de 20 à 30 : $+50\,\%$ pour $+10\,\%$ d'actifs, cinq fois plus, parce que chaque euro des actionnaires porte $l_t=100/20=5$ euros d'actifs. [ajout]
+   Suite : Au bout d'un an, les actifs valent 110 ; la dette, elle, vaut toujours 80. Les actifs ont gagné 10 %, les capitaux propres 50 % : qu'est-ce qui multiplie ainsi le gain des actionnaires ? [ajout]
+   Histoire : « qu'est-ce qui multiplie ainsi le gain des actionnaires » — Le levier, $l_t=100/20=5$ : chaque euro des actionnaires porte cinq euros d'actifs. Les capitaux propres passent donc de 20 à 30, $+50\,\%$ pour $+10\,\%$ d'actifs, cinq fois plus. [ajout]
 
 4. fpp/prime-de-risque
    Un rendement de 6 % dit-il ce que l'actif apporte vraiment, quand on l'a financé à 4 % ? [Déf. 2]

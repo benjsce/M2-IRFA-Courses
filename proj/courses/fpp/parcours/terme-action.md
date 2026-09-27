@@ -15,7 +15,7 @@ Un investisseur veut acheter dans un an une action qui cote aujourd'hui 100. Le 
 ## Étapes
 1. fpp/cash-and-carry
    Comment le vendeur peut-il être sûr d'avoir l'action à livrer dans un an, et à quel coût ? [§3.1]
-   Histoire : « lequel peut-il proposer sans perdre » — Le vendeur, lui, emprunte 100, achète l'action et la garde : dans un an, il livre l'action et doit 104,08. Tout prix au-dessus lui rapporterait un gain certain, tout prix en dessous une perte certaine. [ajout]
+   Histoire : « sans perdre » — Le vendeur, lui, emprunte 100, achète l'action et la garde : dans un an, il livre l'action et doit 104,08. Tout prix au-dessus lui rapporterait un gain certain, tout prix en dessous une perte certaine. [ajout]
 
 2. fpp/prix-forward
    Du côté de l'acheteur, quel prix de livraison est alors le seul possible ? [Déf. 8]
@@ -28,8 +28,8 @@ Un investisseur veut acheter dans un an une action qui cote aujourd'hui 100. Le 
 
 4. fpp/prix-a-terme
    Le taux forward, le change à terme, le prix forward : trois réponses, ou un seul geste ? [§2, §3]
-   Suite : L'investisseur se souvient des contrats du parcours précédent : le FRA à 6 %, le change à 1,1111. [ajout]
-   Histoire : « le FRA à 6 %, le change à 1,1111 » — Pour l'action, $K$ payé dans un an vaut aujourd'hui $K\times0{,}9608$ et l'action reçue vaut 100 : les égaler, parce que le contrat ne coûte rien, redonne le prix forward, 104,08. Le FRA à 6 % et le change à 1,1111 sortaient du même geste, chaque jambe ramenée en t par le zéro-coupon de sa devise. [ajout]
+   Suite : L'investisseur se souvient des contrats du parcours précédent : le FRA à 6 %, le change à 1,1111. Ces deux nombres et le prix de livraison de l'action sortent-ils du même calcul ? [ajout]
+   Histoire : « sortent-ils du même calcul » — Pour l'action, $K$ payé dans un an vaut aujourd'hui $K\times0{,}9608$ et l'action reçue vaut 100 : les égaler, parce que le contrat ne coûte rien, redonne le prix forward, 104,08. Le FRA à 6 % et le change à 1,1111 sortaient du même geste, chaque jambe ramenée en t par le zéro-coupon de sa devise. [ajout]
 
 5. fpp/contrat-future
    Qu'est-ce qui change quand le contrat se règle tous les jours plutôt qu'une fois ? [§4.1]
@@ -39,7 +39,7 @@ Un investisseur veut acheter dans un an une action qui cote aujourd'hui 100. Le 
 6. fpp/compte-capitalise
    Que devient une somme replacée période après période, quand on ne connaît que le taux de la première ? [§4.2.2]
    Suite : Chaque flux reçu doit être replacé jusqu'à l'échéance, aux taux courts qui seront ceux de chaque jour. [ajout]
-   Histoire : « aux taux courts qui seront ceux de chaque jour » — Le facteur de ce replacement est le produit des zéro-coupons courts successifs : seul celui du premier jour est connu aujourd'hui. [ajout]
+   Histoire : « replacé jusqu'à l'échéance, aux taux courts qui seront ceux de chaque jour » — Le facteur de ce replacement est le produit des zéro-coupons courts successifs : seul celui du premier jour est connu aujourd'hui. [ajout]
 
 7. fpp/prix-future
    Le prix future est-il alors le même que le prix forward ? [Prop. 3]

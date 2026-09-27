@@ -11,7 +11,7 @@ Un épargnant place 1 euro à 5 % par an pendant deux ans. Une banque lui promet
 ## Étapes
 1. fpp/capitalisation
    Un taux annoncé suffit-il à dire ce que devient une somme placée ? [§2.1]
-   Histoire : « Laquelle se trompe » — Aucune : la première verse les intérêts une fois, la seconde deux fois. Capitalisé en continu, l'euro deviendrait $e^{0,1}\approx1{,}1052$ ; c'est la convention que le cours retient. [ajout]
+   Histoire : « place 1 euro à 5 % par an pendant deux ans » — Ce qu'il devient dépend du facteur de capitalisation, donc de la fréquence des intérêts : versés une fois au bout de deux ans, l'euro devient 1,10 ; versés chaque année, 1,1025. Aucune banque ne se trompe. Capitalisé en continu, l'euro deviendrait $e^{0,1}\approx1{,}1052$ ; c'est la convention que le cours retient. [ajout]
 
 2. fpp/zero-coupon
    Quand chaque échéance a son propre prix, que vaut aujourd'hui un euro promis à une date donnée ? [Déf. 3]
@@ -25,7 +25,8 @@ Un épargnant place 1 euro à 5 % par an pendant deux ans. Une banque lui promet
 
 4. fpp/courbe-des-taux
    Que dit l'ensemble de ces taux, rangés par échéance ? [Déf. 6]
-   Histoire : Les deux taux trouvés, 4 % à un an et 5 % à deux ans, sont deux points d'une même courbe, croissante : immobiliser son argent plus longtemps rapporte davantage par an. [ajout]
+   Suite : Chaque échéance a ainsi son taux. Comment les voir tous d'un coup ? [ajout]
+   Histoire : « Comment les voir tous d'un coup » — En les portant en fonction de l'échéance : 4 % à un an et 5 % à deux ans sont deux points de la courbe des taux, ici croissante : immobiliser son argent plus longtemps rapporte davantage par an. [ajout]
 
 5. fpp/valeur-actuelle-nette
    Un titre qui paie à plusieurs dates vaut-il la somme de ses paiements ? [Déf. 4]
@@ -35,7 +36,7 @@ Un épargnant place 1 euro à 5 % par an pendant deux ans. Une banque lui promet
 6. fpp/obligation-in-fine
    Pourquoi le prix d'une obligation s'écarte-t-il de ce qu'elle rembourse ? [Ex. 1]
    Suite : Ce titre est une obligation : un coupon de 5 % par an, un capital de 100 rendu à la fin. Si le marché était à 4 % actuariel pour toutes les durées, elle vaudrait 101,89. Pourquoi plus que ce qu'elle rembourse ? [ajout]
-   Histoire : « Pourquoi plus que ce qu'elle rembourse » — Son coupon, 5 %, paie davantage que le marché, 4 % : elle est au-dessus du pair, $B(5\,\%,4\,\%)=1{,}0189$ pour 1 de nominal. [ajout]
+   Histoire : « un coupon de 5 % par an, un capital de 100 rendu à la fin » — C'est une obligation in fine. Son coupon, 5 %, paie davantage que le marché, 4 % : elle vaut plus que ce qu'elle rembourse, au-dessus du pair, $B(5\,\%,4\,\%)=1{,}0189$ pour 1 de nominal. [ajout]
 
 7. fpp/duration
    De combien un prix bouge-t-il quand le taux bouge un peu ? [Déf. 5]
