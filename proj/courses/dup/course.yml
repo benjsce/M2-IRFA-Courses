@@ -15,11 +15,14 @@ sources:
 - id: lec4
   fichier: sources/lec4.pdf
   type: slides, cours 4 (67 slides)
-refs_pattern: ^(L[1234] slide \d+|L[1234] éq\. \d+)$
+- id: lec5
+  fichier: sources/lec5.pdf
+  type: slides, cours 5 (52 slides numérotées ; 53 pages)
+refs_pattern: ^(L[12345] slide \d+|L[12345] éq\. \d+)$
 depend_de: []
 conventions_par_defaut:
   reference: >-
-    quatre sources de slides : toute référence est préfixée du cours (L1, L2, L3, L4)
+    cinq sources de slides : toute référence est préfixée du cours (L1 à L5)
     et porte le numéro imprimé sur la slide, pas le numéro de page du PDF
   recouvrement: >-
     L2 slides 2 à 15 reprennent L1 slides 42 à 54, et L4 slides 2 à 34 reprennent L3

@@ -249,6 +249,106 @@ symboles:
   notion: dup/equilibre-sous-ambiguite
   ref: L4 slide 67
   sens: prix qui prévaudrait si les investisseurs ambigus s'abstenaient
+- symbole: $u_t$
+  notion: dup/utilite-actualisee
+  ref: L5 slide 6
+  sens: utilité instantanée de la période t, par exemple $u(x_t)$
+- symbole: $\delta$
+  notion: dup/actualisation-exponentielle
+  ref: L5 slide 6
+  sens: facteur d'actualisation d'une période à la suivante — voir la collision
+- symbole: $D(t)$
+  notion: dup/utilite-actualisee
+  ref: L5 slide 10
+  sens: fonction d'actualisation, poids en période 0 d'une unité d'utilité reçue en t, $D(0)=1$
+- symbole: $\beta$
+  notion: dup/actualisation-quasi-hyperbolique
+  ref: L5 slide 13
+  sens: facteur de biais pour le présent, qui frappe toute période future — voir la collision
+- symbole: $\alpha$
+  notion: dup/actualisation-hyperbolique
+  ref: L5 slide 15
+  sens: paramètre de l'actualisation hyperbolique — voir la collision
+- symbole: $\gamma$
+  notion: dup/actualisation-hyperbolique
+  ref: L5 slide 15
+  sens: paramètre de l'actualisation hyperbolique — voir la collision
+- symbole: $(x,t)$
+  notion: dup/stationnarite
+  ref: L5 slide 17
+  sens: gain daté, le résultat x reçu à la date t
+- symbole: $\succsim_0$
+  notion: dup/stationnarite
+  ref: L5 slide 17
+  sens: préférence de la période 0 entre gains datés
+- symbole: $\succsim_\tau$
+  notion: dup/invariance-temporelle
+  ref: L5 slide 20
+  sens: préférence de la période τ entre gains datés
+- symbole: $c_t$
+  notion: dup/engagement-complet
+  ref: L5 slide 25
+  sens: consommation de la période t — voir la collision de $c$
+- symbole: $w_t$
+  notion: dup/engagement-complet
+  ref: L5 slide 25
+  sens: richesse au début de la période t
+- symbole: $R$
+  notion: dup/engagement-complet
+  ref: L5 slide 25
+  sens: rendement brut de l'épargne, $1+r$ — voir la collision
+- symbole: $V(w)$
+  notion: dup/euler-sans-engagement
+  ref: L5 slide 28
+  sens: valeur de continuation, ce que vaut une richesse pour le moi qui la transmet
+- symbole: $c_2(w_2)$
+  notion: dup/euler-sans-engagement
+  ref: L5 slide 27
+  sens: fonction de consommation du moi de la période 2
+- symbole: $c(w)$
+  notion: dup/relation-d-euler-hyperbolique
+  ref: L5 slide 37
+  sens: fonction de consommation stationnaire
+- symbole: $y_t$
+  notion: dup/relation-d-euler-hyperbolique
+  ref: L5 slide 37
+  sens: revenu du travail de la période t
+- symbole: $W(w)$
+  notion: dup/relation-d-euler-hyperbolique
+  ref: L5 slide 38
+  sens: valeur que le moi de t+1 lui-même attribue à sa richesse, distincte de $V$
+- symbole: $x_t$
+  notion: dup/actif-illiquide
+  ref: L5 slide 43
+  sens: actif liquide choisi en t — voir la collision de $x$
+- symbole: $z_t$
+  notion: dup/actif-illiquide
+  ref: L5 slide 43
+  sens: actif illiquide choisi en t
+- symbole: $T$
+  notion: dup/jeu-des-moi-successifs
+  ref: L5 slide 43
+  sens: nombre de périodes, donc de moi — voir la collision
+- symbole: $U_t$
+  notion: dup/jeu-des-moi-successifs
+  ref: L5 slide 45
+  sens: utilité intertemporelle du moi de la période t
+- symbole: $MRS^t_{t,t+1}$
+  notion: dup/jeu-des-moi-successifs
+  ref: L5 slide 45
+  sens: taux marginal de substitution entre t et t+1, vu par le moi de t
+- symbole: $\bar\alpha$
+  notion: dup/conditions-d-equilibre-de-laibson
+  ref: L5 slide 48
+  sens: la plus forte utilité marginale future actualisée, $\max_{\tau>t}(\delta R)^{\tau-t}u'(c_\tau)$
+- symbole: $\bar y$
+  notion: dup/conditions-d-equilibre-de-laibson
+  ref: L5 slide 49
+  sens: revenu de la période, haut quand il varie
+- symbole: $\underline y$
+  notion: dup/conditions-d-equilibre-de-laibson
+  ref: L5 slide 50
+  sens: revenu bas des périodes paires
 collisions:
 - symbole: $F$
   ici: ensemble des actes (L1 slide 2)
@@ -277,7 +377,9 @@ collisions:
 - symbole: $\alpha$
   ici: coefficient de l'utilité quadratique (L1 slide 14)
   ailleurs:
-    dup: poids de mélange des loteries (L1 slide 5), pénalité de déception (L3 slide 10)
+    dup: >-
+      poids de mélange des loteries (L1 slide 5), pénalité de déception (L3 slide 10),
+      paramètre de l'actualisation hyperbolique (L5 slide 15)
   note: collision interne à la source
 - symbole: $P$
   ici: une loterie (L1 slide 2)
@@ -304,6 +406,7 @@ collisions:
   ici: aversion relative constante de CRRA (L1 slide 35)
   ailleurs:
     fpp: sensibilité du delta au sous-jacent, la grecque gamma (§8.2)
+    dup: paramètre de l'actualisation hyperbolique, sans rapport avec l'aversion relative (L5 slide 15)
 - symbole: $\lambda$
   ici: coefficient d'aversion aux pertes (L3 slide 39)
   ailleurs:
@@ -319,7 +422,8 @@ collisions:
   ailleurs:
     dup: >-
       exposant de la pondération cumulative et de l'utilité averse aux pertes
-      (L3 slide 38, L4 slide 22, L4 slide 23)
+      (L3 slide 38, L4 slide 22, L4 slide 23) ; facteur de biais pour le présent de
+      l'actualisation quasi-hyperbolique (L5 slide 13)
   note: >-
     collision interne à la source, que deux fiches employaient déjà sans qu'elle soit
     écrite
@@ -338,4 +442,46 @@ collisions:
   note: >-
     collision interne à la source, et la plus proche à l'œil : les dernières slides font
     voisiner $p$ le prix et $p_s$ la probabilité de l'état
+- symbole: $c$
+  ici: équivalent certain (L1 slide 9)
+  ailleurs:
+    dup: >-
+      la consommation, $c_t$, $c_2(w_2)$ et $c(w)$ au cours 5 (L5 slide 25, L5 slide 37)
+  note: >-
+    collision interne à la source : au cours 5, la lettre ne désigne plus jamais un
+    équivalent certain
+- symbole: $\delta$
+  ici: facteur d'actualisation par période (L5 slide 6)
+  ailleurs:
+    dup: la loterie de Dirac $\delta_x$, qui donne x à coup sûr (L2 slide 15)
+    fpp: le delta d'une option, sa dérivée par rapport au sous-jacent (§7.1)
+    pfo: la correction de Cornish-Fisher du quantile normal (p. 34)
+  note: >-
+    collision entre cours, et de lettre seulement dans la source : en dup, $\delta$ est
+    un facteur compris entre 0 et 1, jamais une dérivée
+- symbole: $R$
+  ici: rendement brut de l'épargne, $1+r$, constant (L5 slide 25)
+  ailleurs:
+    fpp: le taux zéro-coupon, $R(t,T)$, et le taux forward, $R^f(t,T)$ (§2.3)
+    pfo: le rendement arithmétique d'une sous-période, $R_t$, et d'un portefeuille, $R_p$ (éq. 1.4)
+  note: >-
+    collision entre cours : en dup, $R$ est un facteur brut, 1,1 pour 10 %, et non un taux
+- symbole: $T$
+  ici: nombre de périodes du modèle, donc de moi successifs (L5 slide 43)
+  ailleurs:
+    pfo: nombre d'observations ; nombre de sous-périodes (§2.3, éq. 1.4)
+  note: collision entre cours, sans danger de confusion
+- symbole: $V(w)$
+  ici: valeur de continuation d'une richesse (L5 slide 28)
+  ailleurs:
+    dup: la fonctionnelle d'utilité espérée, $V_{EU}$ (L1 slide 3)
+    fpp: valeur du portefeuille option plus actions de Black et Scholes, $V$ (§7.1)
+    pfo: matrice de covariance des statistiques d'ordre, $V$ (p. 28)
+  note: collision de lettre entre cours et dans la source
+- symbole: $x_t$
+  ici: actif liquide choisi en t (L5 slide 43)
+  ailleurs:
+    dup: >-
+      un résultat, et au cours 5 le gain d'un gain daté $(x,t)$ (L1 slide 2, L5 slide 17)
+  note: collision interne à la source, dans le même cours 5
 homonymes: []

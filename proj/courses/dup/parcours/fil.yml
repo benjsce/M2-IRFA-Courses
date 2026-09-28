@@ -1,7 +1,7 @@
 # Écrit par build.py (SPEC-MODELE A17) : toutes les étapes du cours, dans l'ordre
 # de lecture. Le validateur exige que cette suite reste contenue, dans le même
 # ordre, dans celle des parcours actuels. Ne pas éditer à la main.
-scelle: '2026-09-24'
+scelle: '2026-09-28'
 fil:
 - dup/loterie
 - dup/fonction-utilite
@@ -87,3 +87,20 @@ fil:
 - dup/demande-cara-normale
 - dup/demande-sous-ambiguite
 - dup/equilibre-sous-ambiguite
+- dup/actualisation-exponentielle
+- dup/inversion-des-preferences-dans-le-temps
+- dup/utilite-actualisee
+- dup/biais-pour-le-present
+- dup/actualisation-quasi-hyperbolique
+- dup/actualisation-hyperbolique
+- dup/stationnarite
+- dup/invariance-temporelle
+- dup/coherence-dynamique
+- dup/sophistication
+- dup/engagement-complet
+- dup/euler-sans-engagement
+- dup/valeur-de-continuation-non-concave
+- dup/relation-d-euler-hyperbolique
+- dup/actif-illiquide
+- dup/jeu-des-moi-successifs
+- dup/conditions-d-equilibre-de-laibson
