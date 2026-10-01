@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="fr" data-rel="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vecteur gaussien · notions</title>
+<script>
+/* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
+   localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
+   cases « déjà su » ne peuvent donc pas traverser les pages par là. Ils voyagent dans
+   le fragment de l'URL, que tous les liens internes portent ; localStorage ne sert plus
+   que de mémoire locale, pour la page qu'on rouvre sans fragment.
+   Ce script s'exécute avant le rendu : sinon le thème clignote à chaque page. */
+(function(){
+var H={},h=(location.hash||'').replace(/^#/,'');
+h.split('~').forEach(function(p){var i=p.indexOf(':');if(i>0)H[p.slice(0,i)]=p.slice(i+1)});
+window.ETAT_URL=H;
+function loc(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+var t=H.t?(H.t==='d'?'dark':'light'):loc('notions.theme','');
+if(t)document.documentElement.setAttribute('data-theme',t);
+var a=(H.a!==undefined)?H.a:loc('notions.ajouts','1');
+if(a==='0')document.documentElement.classList.add('sans-ajouts');
+})();
+</script>
+<style>
+:root{
+  --bg:#fbfaf7; --bg2:#f3f0ea; --fg:#1b1a17; --mut:#6c675d; --fai:#8e887c;
+  --li:#e0dbd1; --li2:#cdc6b8; --card:#ffffff; --acc:#8a4f23; --acc2:#f3e7dc;
+  --ajo:#6d5a8c; --ajo2:#efe9f5; --lim:#9a3a2e; --ok:#3f6b46; --faute:#a8631a;
+  --r:8px; --w:min(72rem,100%);
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}}
+:root[data-theme="dark"]{
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}
+.fig{margin:.9rem 0;padding:.5rem .2rem .2rem;text-align:center}
+/* « > svg » et non « svg » : MathJax pose son propre <svg> dans la légende, et
+   une règle non ancrée en faisait un bloc qui coupait la phrase en trois. */
+.fig > svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig figcaption{margin-top:.35rem;font-family:var(--sans);font-size:.82rem;
+  color:var(--mut);text-align:center;line-height:1.45}
+@media print{.fig{break-inside:avoid}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
+  font-size:17px;line-height:1.62;overflow-wrap:break-word}
+a{color:var(--acc);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-style:dotted}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+.wrap{width:var(--w);margin:0 auto;padding:0 1rem}
+
+/* ---- barre du haut ---- */
+header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
+  border-bottom:1px solid var(--li);font-family:var(--sans)}
+.topin{width:var(--w);margin:0 auto;padding:.45rem 1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.brand{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--fg);letter-spacing:.02em}
+.fil{color:var(--mut);font-size:.82rem;flex:1 1 8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fil a{color:var(--mut)}
+.btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
+  border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+a.btn{text-decoration:none}
+.btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
+.rech{position:relative;flex:0 1 16rem;min-width:9rem}
+.rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
+  border:1px solid var(--li2);border-radius:var(--r);background:var(--card);color:var(--fg)}
+.res{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--li2);
+  border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.14);max-height:60vh;overflow:auto;padding:.2rem;margin:0;
+  list-style:none;display:none;z-index:50;min-width:18rem}
+.res.on{display:block}
+.res li a{display:block;padding:.3rem .45rem;border-radius:6px;text-decoration:none;color:var(--fg);font-size:.86rem}
+.res li a:hover,.res li.sel a{background:var(--acc2)}
+.res .sub{color:var(--mut);font-size:.76rem;font-family:var(--sans)}
+.res .vide{padding:.4rem .5rem;color:var(--mut);font-size:.84rem}
+
+main{padding:1.4rem 0 4rem}
+h1{font-size:1.75rem;line-height:1.24;margin:.2rem 0 .3rem}
+h2{font-size:1.06rem;font-family:var(--sans);font-weight:600;letter-spacing:.01em;margin:0}
+h3{font-size:.95rem;font-family:var(--sans);margin:1.2rem 0 .3rem}
+p{margin:.55rem 0}
+.ptag{font-family:var(--sans);font-size:.74rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .5rem}
+
+/* ---- métadonnées de fiche ---- */
+.meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;font-family:var(--sans);font-size:.75rem;color:var(--mut);margin:.4rem 0 1.1rem}
+.pill{border:1px solid var(--li2);border-radius:99px;padding:.06rem .5rem;background:var(--card);white-space:nowrap}
+.pill.ajout{color:var(--ajo);border-color:var(--ajo);background:var(--ajo2)}
+.pill.typ{background:var(--acc2);border-color:var(--acc)}
+.sym{font-family:var(--serif);font-size:1rem;color:var(--fg)}
+
+/* ---- sections ---- */
+.sec{border-top:1px solid var(--li);padding:.85rem 0}
+.sec.vide{display:none}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.45rem;padding:.1rem 0}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"›";color:var(--fai);font-family:var(--sans);display:inline-block;
+  transition:transform .12s ease;transform:rotate(0deg);width:.7em}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fai);font-weight:400}
+.corps{padding-top:.25rem}
+.gen{border-left:2px solid var(--li2);padding-left:.7rem}
+.chemin{border-left:3px solid var(--acc);background:var(--bg2);border-radius:0 var(--r) var(--r) 0;
+  padding:.5rem .8rem;margin:.2rem 0 .7rem}
+.chemin p{margin:.35rem 0;font-size:.95rem}
+.chemin p:first-child{margin-top:0}
+.chemin p:last-child{margin-bottom:0}
+.note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
+.parc{border:1px solid var(--li);border-left:3px solid var(--acc);border-radius:0 var(--r) var(--r) 0;
+  background:var(--bg2);padding:.5rem .8rem;margin:.6rem 0;font-size:.93rem}
+.parc-t{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin-bottom:.15rem}
+.parc p{margin:.2rem 0}
+.parc-h{border-left:2px solid var(--li);padding:.1rem 0 .1rem .6rem;margin:.3rem 0 .45rem;color:var(--mut)}
+.parc-h strong{color:var(--fg)}
+.parc-l{font-family:var(--sans);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--acc);margin-right:.25rem}
+.parc-lien{margin-top:.35rem;font-size:.92em}
+.parc-suite{border-left:2px solid var(--acc);padding:.1rem 0 .1rem .6rem;margin:.35rem 0;color:var(--fg);background:var(--acc2)}
+.parc-nav{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--sans);font-size:.8rem;margin-top:.35rem}
+.parc-nav .suiv{margin-left:auto;text-align:right}
+.etapes{list-style:none;padding:0;margin:.6rem 0 1.2rem;counter-reset:e}
+.etapes>li{counter-increment:e;position:relative;padding:0 0 1rem 1.7rem;border-left:2px solid var(--li);margin-left:.9rem}
+.etapes>li:last-child{border-left-color:transparent}
+.etapes>li::before{content:counter(e);position:absolute;left:-.95rem;top:0;width:1.75rem;height:1.75rem;
+  border-radius:99px;background:var(--card);border:1px solid var(--acc);color:var(--acc);
+  font-family:var(--sans);font-size:.78rem;display:flex;align-items:center;justify-content:center}
+.etapes>li>p{margin:.1rem 0 .35rem}
+.etapes .arr{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.45rem .75rem}
+.etapes .arr a.tit{font-weight:600;text-decoration:none}
+.etapes .arr p{margin:.15rem 0;font-size:.88rem;color:var(--mut)}
+.avant{list-style:none;padding:0;margin:.4rem 0 1rem}
+.avant>li{margin:.5rem 0}
+.avant>li p{margin:.1rem 0 0;font-size:.95rem}
+.avant a.tit{font-weight:600;text-decoration:none}
+.avant span.tit.venir{font-weight:600;color:var(--fai);cursor:default}
+.roles{list-style:none;padding:0;margin:.2rem 0 0}
+.roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
+.roles>li.cible{background:var(--acc2)}
+details.parc>summary{cursor:pointer}
+.sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
+.sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
+.sec.faute>summary h2{color:var(--faute)}
+.faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
+  margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.faute-b strong{color:var(--faute)}
+.sec.lim>summary h2{color:var(--lim)}
+.sec.lim>h2{color:var(--lim)}
+
+/* ---- marqueurs de traçabilité ---- */
+.marq{font-family:var(--sans);font-size:.7rem;color:var(--fai);white-space:nowrap;vertical-align:.12em}
+.marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
+.marqligne{margin:.15rem 0 0}
+html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
+.bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
+  color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
+
+/* ---- pastilles ---- */
+.pasts{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0;padding:0;list-style:none}
+.past{display:inline-block;font-family:var(--sans);font-size:.82rem;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--li2);border-radius:99px;padding:.12rem .6rem}
+.past:hover{border-color:var(--acc);color:var(--acc)}
+.past .cc{color:var(--fai);font-size:.74rem}
+.past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
+.past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
+.past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
+
+/* ---- socle ---- */
+.socle{list-style:none;padding:0;margin:.3rem 0}
+.socle li{display:flex;gap:.5rem;align-items:baseline;padding:.12rem 0;font-size:.92rem}
+.socle input{margin:0;accent-color:var(--ok)}
+.socle li.su a{color:var(--fai);text-decoration:line-through}
+.compteur{font-family:var(--sans);font-size:.78rem;color:var(--mut)}
+.grp{margin:.5rem 0}
+.grp>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--mut)}
+
+table{border-collapse:collapse;margin:.5rem 0;font-size:.9rem;display:block;overflow-x:auto;max-width:100%}
+th,td{border:1px solid var(--li);padding:.25rem .55rem;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-family:var(--sans);font-size:.78rem;font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+  background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
+ul{padding-left:1.1rem}
+hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
+
+/* ---- cartes d'accueil / carte du cours ---- */
+.cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
+.carte{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.65rem .8rem}
+.carte h3{margin:0 0 .2rem}
+.carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
+.carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
+.dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.vise{animation:vise 1.6s ease}
+@keyframes vise{from{background:var(--acc2)}to{background:transparent}}
+
+/* ---- orientation : ce qui s'adresse au lecteur qui arrive ---- */
+.entree{border:1px solid var(--li2);border-left:3px solid var(--acc);border-radius:var(--r);
+  padding:.7rem .9rem;margin:.8rem 0 1.4rem;background:var(--card)}
+.entree p{margin:.3rem 0;font-size:.92rem}
+.entree .quoi{font-size:1.02rem}
+.entree ul{margin:.5rem 0 .2rem;padding-left:1.1rem;font-family:var(--sans);font-size:.88rem}
+.entree li{margin:.2rem 0}
+.chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
+.chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
+.aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
+/* L'en-tête est collant : une ancre visée ne doit pas passer dessous. Mesuré :
+   il fait 48 px sur une ligne, 85 px quand il se replie en deux (écran étroit). */
+[id]{scroll-margin-top:6rem}
+.aide p,.aide ul,.aide table{max-width:42rem}
+.dette ul{margin:.3rem 0 0}
+footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
+
+/* ---- arbre ---- */
+.barre{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+.barre.plier{justify-content:flex-end;margin:.2rem 0 -.2rem}
+#scene{position:relative;border:1px solid var(--li);border-radius:var(--r);background:var(--bg2);
+  height:min(74vh,720px);overflow:hidden;touch-action:none;cursor:grab}
+#scene.drag{cursor:grabbing}
+#pan{position:absolute;transform-origin:0 0;top:0;left:0}
+#aretes{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+#aretes path{fill:none;stroke:var(--li2);stroke-width:1.5}
+.noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
+  padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
+.noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
+.noeud .nm{font-weight:600}
+.noeud .nm a{text-decoration:none;color:var(--fg)}
+.noeud .nm a:hover{color:var(--acc)}
+.noeud .pa{color:var(--mut);font-size:.72rem;display:block;margin-top:.1rem}
+.noeud .pli{font:inherit;font-size:.72rem;background:none;border:1px solid var(--li2);border-radius:4px;
+  color:var(--mut);cursor:pointer;padding:0 .3rem;margin-right:.25rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.4rem}
+  .rech{flex:1 1 100%;order:9}
+  #scene{height:66vh}
+}
+@media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="brand" href="../../index.html">notions</a><span class="fil"><a href="../../cs/index.html">Stochastic Calculus</a> › Vecteur gaussien</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><h1>Vecteur gaussien</h1><div class="meta"><span class="pill sym">$\langle x,X\rangle$</span><a class="pill typ" href="../../aide.html" data-v="types" title="un objet du cours, celui qu’on manipule">notion</a><a class="pill" href="../../cs/index.html">cs</a><a class="pill" href="../../aide.html" data-v="niveau" title="ordre de lecture : nombre de notions à traverser, au plus long, pour arriver jusqu’à celle-ci. Niveau 0 = ne dépend d’aucune autre.">niveau 0</a><a class="pill" href="../../cs/arbre.html" data-noeud="cs/vecteur-gaussien" title="cette notion n’est rangée sous aucune famille">arbre du cours</a><span class="pill">Déf. 0.3.1</span><span class="pill">§0.3 slide 2</span></div><p class="note">aussi : Gaussian vector, vecteur aléatoire gaussien</p><div class="parc"><div class="parc-t"><a href="../../aide.html" data-v="parcours">Parcours</a> <a href="../../cs/parcours/gaussien.html#e1">« Deux gaussiennes liées »</a> · étape 1 sur 4</div><div class="parc-h"><p>On tire deux variables indépendantes $G_1$ et $G_2$ de loi $\mathcal N(0,1)$, et l'on fabrique $X_1=G_1$ et $X_2=1+\tfrac12G_1+\tfrac{\sqrt3}{2}G_2$. Chacune est une variable gaussienne, comme somme d'une constante et de gaussiennes indépendantes. Mais <strong>le couple $(X_1,X_2)$ est-il gaussien</strong>, lui aussi ? <span class="marq" title="référence à la source">[§0.3 slide 2, ajout]</span></p></div><p><span class="parc-l">Dans l’histoire</span> Oui : toute combinaison $x_1X_1+x_2X_2=x_2+\big(x_1+\tfrac12x_2\big)G_1+\tfrac{\sqrt3}{2}x_2G_2$ est une constante plus une combinaison de deux gaussiennes indépendantes, donc une gaussienne. Il aurait suffi d'une seule combinaison non gaussienne pour répondre non. <span class="marq" title="référence à la source">[Déf. 0.3.1, ajout]</span></p><p>Pour un couple, « gaussien » ne peut pas vouloir dire seulement que chaque variable l'est. <span class="marq" title="référence à la source">[Déf. 0.3.1]</span></p><div class="parc-nav"><span class="prec">début du parcours</span><a class="suiv" href="../../cs/n/loi-gaussienne-multivariee.html">Loi gaussienne multivariée →</a></div></div><div class="barre plier"><button class="btn" type="button" id="tout-plier">tout déplier</button></div><section class="sec " data-oblig="1"><h2>Ce que c'est</h2><div class="corps"><p>Un vecteur aléatoire dont toutes les combinaisons linéaires des composantes sont des variables gaussiennes, et pas seulement chaque composante prise seule. <span class="marq" title="référence à la source">[Déf. 0.3.1]</span></p></div></section><section class="sec " data-oblig="1"><h2>Forme</h2><div class="corps"><p>$$X=(X_1,\dots,X_n)\ \text{est gaussien}\iff\text{pour tout }x\in\mathbb R^n,\ \ \langle x,X\rangle=x_1X_1+\dots+x_nX_n\ \text{est une variable gaussienne}$$ <span class="marq" title="référence à la source">[Déf. 0.3.1]</span></p></div></section><section class="sec "><h2>Ce que les symboles modélisent</h2><div class="corps"><p>$\langle x,X\rangle$ est le produit scalaire d'un vecteur fixe $x$ et du vecteur aléatoire $X$ : une variable aléatoire réelle, la somme des composantes pondérées par $x_1,\dots,x_n$. Le vecteur $x$ n'a rien d'aléatoire ; c'est lui qu'on fait parcourir tout $\mathbb R^n$. <span class="marq" title="référence à la source">[Déf. 0.3.1]</span></p></div></section><section class="sec " data-oblig="1"><h2>Ce qui la définit</h2><div class="corps"><p>La définition demande beaucoup : une infinité de combinaisons, une par $x$. Les composantes elles-mêmes en font partie — $x=(1,0,\dots,0)$ donne $X_1$ —, donc chacune est gaussienne, mais la réciproque est fausse. <span class="marq" title="référence à la source">[Déf. 0.3.1, ajout]</span></p><p class="is-ajout">Le contre-exemple tient en deux variables. $X$ suit une $\mathcal N(0,1)$, et $\varepsilon$, indépendant de $X$, vaut $1$ ou $-1$ avec probabilité ½ chacun. Alors $\varepsilon X$ suit encore une $\mathcal N(0,1)$, par symétrie ; mais $X+\varepsilon X$ vaut $0$ dès que $\varepsilon=-1$, donc avec probabilité ½, et $2X$ sinon. Une variable qui a une masse en un point sans y être constante n'est pas gaussienne : le couple $(X,\varepsilon X)$ n'est pas un vecteur gaussien. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><figure class="fig is-ajout"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 604 522" width="100%" height="auto" role="img" style="color:var(--fg);max-width:604px;height:auto"><title>Le couple du cours est gaussien ; (X, εX) ne l'est pas, sa somme a une masse en 0</title><text x="4" y="16" font-size="14" font-weight="600" fill="var(--fg)" font-family="ui-sans-serif,system-ui,sans-serif">Deux couples aux composantes de loi gaussienne</text><g transform="translate(0 22)"><g transform="translate(0 0)"><path d="M155 14 L155 188 M30 128.19 L280 128.19" fill="none" stroke="var(--mut)" stroke-width="1.2"/><path d="M76.88 128.19 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="76.88" y="145.19" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">−2</text><path d="M155 128.19 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="155" y="145.19" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0</text><path d="M233.12 128.19 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="233.12" y="145.19" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">2</text><path d="M155 182.56 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="147" y="186.56" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">−2</text><path d="M155 128.19 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="147" y="132.19" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0</text><path d="M155 73.81 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="147" y="77.81" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">2</text><path d="M155 19.44 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="147" y="23.44" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">4</text><text x="280" y="161.19" text-anchor="end" font-size="12" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">X₁</text><text x="111" y="8" text-anchor="start" font-size="12" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">X₂</text><path d="M194.06 87.41 L194.01 86.19 L193.85 85.02 L193.58 83.89 L193.21 82.81 L192.73 81.78 L192.15 80.8 L191.47 79.87 L190.69 79 L189.8 78.2 L188.83 77.45 L187.76 76.78 L186.6 76.16 L185.36 75.62 L184.03 75.14 L182.62 74.74 L181.14 74.41 L179.58 74.15 L177.96 73.96 L176.27 73.85 L174.53 73.81 L172.73 73.85 L170.89 73.96 L169 74.15 L167.07 74.41 L165.11 74.74 L163.12 75.14 L161.11 75.62 L159.08 76.16 L157.04 76.78 L155 77.45 L152.96 78.2 L150.92 79 L148.89 79.87 L146.88 80.8 L144.89 81.78 L142.93 82.81 L141 83.89 L139.11 85.02 L137.27 86.19 L135.47 87.41 L133.73 88.66 L132.04 89.94 L130.42 91.26 L128.86 92.6 L127.38 93.96 L125.97 95.35 L124.64 96.75 L123.4 98.16 L122.24 99.58 L121.17 101 L120.2 102.42 L119.31 103.84 L118.53 105.25 L117.85 106.65 L117.27 108.04 L116.79 109.4 L116.42 110.74 L116.15 112.06 L115.99 113.34 L115.94 114.59 L115.99 115.81 L116.15 116.98 L116.42 118.11 L116.79 119.19 L117.27 120.22 L117.85 121.2 L118.53 122.13 L119.31 123 L120.2 123.8 L121.17 124.55 L122.24 125.22 L123.4 125.84 L124.64 126.38 L125.97 126.86 L127.38 127.26 L128.86 127.59 L130.42 127.85 L132.04 128.04 L133.73 128.15 L135.47 128.19 L137.27 128.15 L139.11 128.04 L141 127.85 L142.93 127.59 L144.89 127.26 L146.88 126.86 L148.89 126.38 L150.92 125.84 L152.96 125.22 L155 124.55 L157.04 123.8 L159.08 123 L161.11 122.13 L163.12 121.2 L165.11 120.22 L167.07 119.19 L169 118.11 L170.89 116.98 L172.73 115.81 L174.53 114.59 L176.27 113.34 L177.96 112.06 L179.58 110.74 L181.14 109.4 L182.62 108.04 L184.03 106.65 L185.36 105.25 L186.6 103.84 L187.76 102.42 L188.83 101 L189.8 99.58 L190.69 98.16 L191.47 96.75 L192.15 95.35 L192.73 93.96 L193.21 92.6 L193.58 91.26 L193.85 89.94 L194.01 88.66 L194.06 87.41" fill="none" stroke="var(--acc)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M233.12 73.81 L233.02 71.39 L232.7 69.04 L232.16 66.78 L231.42 64.62 L230.46 62.55 L229.3 60.59 L227.94 58.74 L226.37 57.01 L224.61 55.4 L222.66 53.91 L220.52 52.55 L218.2 51.33 L215.71 50.24 L213.06 49.29 L210.24 48.48 L207.28 47.81 L204.17 47.29 L200.92 46.92 L197.55 46.7 L194.06 46.62 L190.47 46.7 L186.78 46.92 L183 47.29 L179.14 47.81 L175.22 48.48 L171.24 49.29 L167.22 50.24 L163.17 51.33 L159.09 52.55 L155 53.91 L150.91 55.4 L146.83 57.01 L142.78 58.74 L138.76 60.59 L134.78 62.55 L130.86 64.62 L127 66.78 L123.22 69.04 L119.53 71.39 L115.94 73.81 L112.45 76.31 L109.08 78.88 L105.83 81.51 L102.72 84.2 L99.76 86.93 L96.94 89.69 L94.29 92.49 L91.8 95.32 L89.48 98.15 L87.34 101 L85.39 103.85 L83.63 106.68 L82.06 109.51 L80.7 112.31 L79.54 115.07 L78.58 117.8 L77.84 120.49 L77.3 123.12 L76.98 125.69 L76.88 128.19 L76.98 130.61 L77.3 132.96 L77.84 135.22 L78.58 137.38 L79.54 139.45 L80.7 141.41 L82.06 143.26 L83.63 144.99 L85.39 146.6 L87.34 148.09 L89.48 149.45 L91.8 150.67 L94.29 151.76 L96.94 152.71 L99.76 153.52 L102.72 154.19 L105.83 154.71 L109.08 155.08 L112.45 155.3 L115.94 155.38 L119.53 155.3 L123.22 155.08 L127 154.71 L130.86 154.19 L134.78 153.52 L138.76 152.71 L142.78 151.76 L146.83 150.67 L150.91 149.45 L155 148.09 L159.09 146.6 L163.17 144.99 L167.22 143.26 L171.24 141.41 L175.22 139.45 L179.14 137.38 L183 135.22 L186.78 132.96 L190.47 130.61 L194.06 128.19 L197.55 125.69 L200.92 123.12 L204.17 120.49 L207.28 117.8 L210.24 115.07 L213.06 112.31 L215.71 109.51 L218.2 106.68 L220.52 103.85 L222.66 101 L224.61 98.15 L226.37 95.32 L227.94 92.49 L229.3 89.69 L230.46 86.93 L231.42 84.2 L232.16 81.51 L232.7 78.88 L233.02 76.31 L233.12 73.81" fill="none" stroke="var(--acc)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="155" cy="101" r="3.6" fill="var(--acc)"/><text x="164.77" y="22.16" text-anchor="start" font-size="12.5" fill="var(--fg)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">le couple du cours</text></g><g transform="translate(314 0)"><path d="M141.11 14 L141.11 188 M30 101 L280 101" fill="none" stroke="var(--mut)" stroke-width="1.2"/><path d="M71.67 101 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="71.67" y="118" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">−2</text><path d="M141.11 101 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="141.11" y="118" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0</text><path d="M210.56 101 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="210.56" y="118" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">2</text><path d="M141.11 155.38 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="133.11" y="159.38" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">−2</text><path d="M141.11 101 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="133.11" y="105" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0</text><path d="M141.11 46.62 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="133.11" y="50.62" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">2</text><text x="280" y="134" text-anchor="end" font-size="12" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">X</text><text x="97.11" y="8" text-anchor="start" font-size="12" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">εX</text><path d="M57.78 166.25 L224.44 35.75" fill="none" stroke="var(--ajo)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M57.78 35.75 L224.44 166.25" fill="none" stroke="var(--ajo)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><text x="36.94" y="20.8" text-anchor="start" font-size="12.5" fill="var(--fg)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">(X, εX)</text><text x="230.44" y="39.75" text-anchor="start" font-size="12.5" fill="var(--ajo)" font-family="ui-sans-serif,system-ui,sans-serif">ε = 1</text><text x="230.44" y="170.25" text-anchor="start" font-size="12.5" fill="var(--ajo)" font-family="ui-sans-serif,system-ui,sans-serif">ε = −1</text></g></g><text x="4" y="286" font-size="14" font-weight="600" fill="var(--fg)" font-family="ui-sans-serif,system-ui,sans-serif">La combinaison ⟨x,X⟩ pour x = (1, 1) : la somme des composantes</text><g transform="translate(0 292)"><g transform="translate(0 0)"><path d="M30 14 L30 188 M30 188 L280 188" fill="none" stroke="var(--mut)" stroke-width="1.2"/><path d="M50.83 188 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="50.83" y="205" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">−4</text><path d="M134.17 188 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="134.17" y="205" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0</text><path d="M155 188 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="155" y="205" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">1</text><path d="M217.5 188 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="217.5" y="205" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">4</text><text x="280" y="221" text-anchor="end" font-size="12" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">X₁ + X₂</text><path d="M30 187.63 L31.25 187.59 L32.5 187.53 L33.75 187.48 L35 187.41 L36.25 187.34 L37.5 187.26 L38.75 187.17 L40 187.08 L41.25 186.97 L42.5 186.85 L43.75 186.72 L45 186.58 L46.25 186.42 L47.5 186.24 L48.75 186.06 L50 185.85 L51.25 185.62 L52.5 185.37 L53.75 185.1 L55 184.81 L56.25 184.49 L57.5 184.14 L58.75 183.77 L60 183.36 L61.25 182.92 L62.5 182.45 L63.75 181.93 L65 181.38 L66.25 180.79 L67.5 180.15 L68.75 179.47 L70 178.74 L71.25 177.96 L72.5 177.12 L73.75 176.23 L75 175.29 L76.25 174.28 L77.5 173.21 L78.75 172.08 L80 170.88 L81.25 169.61 L82.5 168.28 L83.75 166.87 L85 165.39 L86.25 163.83 L87.5 162.2 L88.75 160.48 L90 158.7 L91.25 156.83 L92.5 154.88 L93.75 152.85 L95 150.75 L96.25 148.56 L97.5 146.3 L98.75 143.96 L100 141.54 L101.25 139.05 L102.5 136.49 L103.75 133.86 L105 131.17 L106.25 128.41 L107.5 125.59 L108.75 122.72 L110 119.79 L111.25 116.82 L112.5 113.82 L113.75 110.77 L115 107.7 L116.25 104.61 L117.5 101.5 L118.75 98.38 L120 95.27 L121.25 92.15 L122.5 89.06 L123.75 85.98 L125 82.94 L126.25 79.93 L127.5 76.98 L128.75 74.07 L130 71.24 L131.25 68.47 L132.5 65.79 L133.75 63.2 L135 60.7 L136.25 58.31 L137.5 56.03 L138.75 53.88 L140 51.85 L141.25 49.96 L142.5 48.21 L143.75 46.61 L145 45.16 L146.25 43.87 L147.5 42.74 L148.75 41.78 L150 40.98 L151.25 40.36 L152.5 39.92 L153.75 39.65 L155 39.57 L156.25 39.65 L157.5 39.92 L158.75 40.36 L160 40.98 L161.25 41.78 L162.5 42.74 L163.75 43.87 L165 45.16 L166.25 46.61 L167.5 48.21 L168.75 49.96 L170 51.85 L171.25 53.88 L172.5 56.03 L173.75 58.31 L175 60.7 L176.25 63.2 L177.5 65.79 L178.75 68.47 L180 71.24 L181.25 74.07 L182.5 76.98 L183.75 79.93 L185 82.94 L186.25 85.98 L187.5 89.06 L188.75 92.15 L190 95.27 L191.25 98.38 L192.5 101.5 L193.75 104.61 L195 107.7 L196.25 110.77 L197.5 113.82 L198.75 116.82 L200 119.79 L201.25 122.72 L202.5 125.59 L203.75 128.41 L205 131.17 L206.25 133.86 L207.5 136.49 L208.75 139.05 L210 141.54 L211.25 143.96 L212.5 146.3 L213.75 148.56 L215 150.75 L216.25 152.85 L217.5 154.88 L218.75 156.83 L220 158.7 L221.25 160.48 L222.5 162.2 L223.75 163.83 L225 165.39 L226.25 166.87 L227.5 168.28 L228.75 169.61 L230 170.88 L231.25 172.08 L232.5 173.21 L233.75 174.28 L235 175.29 L236.25 176.23 L237.5 177.12 L238.75 177.96 L240 178.74 L241.25 179.47 L242.5 180.15 L243.75 180.79 L245 181.38 L246.25 181.93 L247.5 182.45 L248.75 182.92 L250 183.36 L251.25 183.77 L252.5 184.14 L253.75 184.49 L255 184.81 L256.25 185.1 L257.5 185.37 L258.75 185.62 L260 185.85 L261.25 186.06 L262.5 186.24 L263.75 186.42 L265 186.58 L266.25 186.72 L267.5 186.85 L268.75 186.97 L270 187.08 L271.25 187.17 L272.5 187.26 L273.75 187.34 L275 187.41 L276.25 187.48 L277.5 187.53 L278.75 187.59 L280 187.63" fill="none" stroke="var(--acc)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M155 188 L155 39.57" fill="none" stroke="var(--li2)" stroke-width="1.2" stroke-dasharray="4 3" stroke-linecap="round" stroke-linejoin="round"/><text x="34.17" y="30.11" text-anchor="start" font-size="12.5" fill="var(--acc)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">N(1, 3) : gaussienne</text></g><g transform="translate(314 0)"><path d="M30 14 L30 188 M30 188 L280 188" fill="none" stroke="var(--mut)" stroke-width="1.2"/><path d="M71.67 188 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="71.67" y="205" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">−4</text><path d="M155 188 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="155" y="205" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0</text><path d="M238.33 188 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="238.33" y="205" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">4</text><text x="280" y="221" text-anchor="end" font-size="12" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">X + εX</text><path d="M30 187.29 L31.25 187.22 L32.5 187.15 L33.75 187.07 L35 186.98 L36.25 186.89 L37.5 186.79 L38.75 186.69 L40 186.57 L41.25 186.45 L42.5 186.32 L43.75 186.18 L45 186.03 L46.25 185.87 L47.5 185.7 L48.75 185.51 L50 185.31 L51.25 185.1 L52.5 184.88 L53.75 184.64 L55 184.39 L56.25 184.12 L57.5 183.84 L58.75 183.54 L60 183.22 L61.25 182.89 L62.5 182.53 L63.75 182.16 L65 181.76 L66.25 181.35 L67.5 180.91 L68.75 180.46 L70 179.98 L71.25 179.47 L72.5 178.95 L73.75 178.4 L75 177.82 L76.25 177.23 L77.5 176.6 L78.75 175.95 L80 175.28 L81.25 174.58 L82.5 173.86 L83.75 173.1 L85 172.33 L86.25 171.52 L87.5 170.7 L88.75 169.84 L90 168.96 L91.25 168.06 L92.5 167.13 L93.75 166.18 L95 165.21 L96.25 164.21 L97.5 163.2 L98.75 162.16 L100 161.1 L101.25 160.03 L102.5 158.94 L103.75 157.83 L105 156.71 L106.25 155.58 L107.5 154.44 L108.75 153.29 L110 152.13 L111.25 150.96 L112.5 149.8 L113.75 148.63 L115 147.46 L116.25 146.29 L117.5 145.13 L118.75 143.98 L120 142.83 L121.25 141.7 L122.5 140.58 L123.75 139.48 L125 138.4 L126.25 137.34 L127.5 136.31 L128.75 135.3 L130 134.31 L131.25 133.36 L132.5 132.45 L133.75 131.56 L135 130.72 L136.25 129.92 L137.5 129.15 L138.75 128.43 L140 127.76 L141.25 127.13 L142.5 126.55 L143.75 126.03 L145 125.55 L146.25 125.13 L147.5 124.76 L148.75 124.44 L150 124.19 L151.25 123.99 L152.5 123.84 L153.75 123.75 L155 123.73 L156.25 123.75 L157.5 123.84 L158.75 123.99 L160 124.19 L161.25 124.44 L162.5 124.76 L163.75 125.13 L165 125.55 L166.25 126.03 L167.5 126.55 L168.75 127.13 L170 127.76 L171.25 128.43 L172.5 129.15 L173.75 129.92 L175 130.72 L176.25 131.56 L177.5 132.45 L178.75 133.36 L180 134.31 L181.25 135.3 L182.5 136.31 L183.75 137.34 L185 138.4 L186.25 139.48 L187.5 140.58 L188.75 141.7 L190 142.83 L191.25 143.98 L192.5 145.13 L193.75 146.29 L195 147.46 L196.25 148.63 L197.5 149.8 L198.75 150.96 L200 152.13 L201.25 153.29 L202.5 154.44 L203.75 155.58 L205 156.71 L206.25 157.83 L207.5 158.94 L208.75 160.03 L210 161.1 L211.25 162.16 L212.5 163.2 L213.75 164.21 L215 165.21 L216.25 166.18 L217.5 167.13 L218.75 168.06 L220 168.96 L221.25 169.84 L222.5 170.7 L223.75 171.52 L225 172.33 L226.25 173.1 L227.5 173.86 L228.75 174.58 L230 175.28 L231.25 175.95 L232.5 176.6 L233.75 177.23 L235 177.82 L236.25 178.4 L237.5 178.95 L238.75 179.47 L240 179.98 L241.25 180.46 L242.5 180.91 L243.75 181.35 L245 181.76 L246.25 182.16 L247.5 182.53 L248.75 182.89 L250 183.22 L251.25 183.54 L252.5 183.84 L253.75 184.12 L255 184.39 L256.25 184.64 L257.5 184.88 L258.75 185.1 L260 185.31 L261.25 185.51 L262.5 185.7 L263.75 185.87 L265 186.03 L266.25 186.18 L267.5 186.32 L268.75 186.45 L270 186.57 L271.25 186.69 L272.5 186.79 L273.75 186.89 L275 186.98 L276.25 187.07 L277.5 187.15 L278.75 187.22 L280 187.29" fill="none" stroke="var(--ajo)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M155 188 L155 49.44" fill="none" stroke="var(--ajo)" stroke-width="3" stroke-linecap="round"/><path d="M155 49.44 L151 57.44 L159 57.44 Z" fill="var(--ajo)"/><text x="163" y="53.44" text-anchor="start" font-size="12.5" fill="var(--ajo)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">masse ½ en 0</text><text x="217.5" y="142.89" text-anchor="start" font-size="12.5" fill="var(--ajo)" font-family="ui-sans-serif,system-ui,sans-serif">½ N(0, 4)</text><text x="34.17" y="30.11" text-anchor="start" font-size="12.5" fill="var(--ajo)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">pas gaussienne</text></g></g></svg><figcaption>En haut, deux couples dont chaque composante suit une loi gaussienne : le couple du cours, aux lignes de niveau elliptiques, et (X, εX), qui vit sur les deux diagonales. En bas, la loi de la combinaison x = (1, 1), la somme des composantes. Pour le couple du cours, une N(1, 3) : gaussienne. Pour (X, εX), une masse ½ en 0 et une demi-cloche ½ N(0, 4) : pas gaussienne, et le couple n'est pas un vecteur gaussien. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></figcaption></figure><p>Dans l'autre sens, le cas le plus simple : des variables gaussiennes indépendantes forment toujours un vecteur gaussien. <span class="marq" title="référence à la source">[§0.3 slide 2]</span></p></div></section><details class="sec gen" data-k="sert"><summary><h2>Sert ensuite à</h2><span class="cnt">1</span></summary><div class="corps"><p class="note">Ce que cette notion permet d’aborder juste après. Seulement l’étape suivante, pas toute la suite : une notion très en amont ouvrirait sinon la moitié du cours.</p><p class="compteur" data-cpt="aval"></p><ul class="socle"><li><input type="checkbox" data-su="cs/loi-gaussienne-multivariee" aria-label="déjà su : Loi gaussienne multivariée"><a href="../../cs/n/loi-gaussienne-multivariee.html">Loi gaussienne multivariée</a> <span class="marq">niveau 1</span></li></ul></div></details><details class="sec " data-k="exemple" data-oblig="1"><summary><h2>Exemple minimal</h2></summary><div class="corps"><p class="is-ajout">Avec $G_1$ et $G_2$ indépendantes de loi $\mathcal N(0,1)$, le couple $(X_1,X_2)=\big(G_1,\ 1+\tfrac12G_1+\tfrac{\sqrt3}{2}G_2\big)$ est gaussien ; sa somme $X_1+X_2$ suit une $\mathcal N(1,3)$. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div></details><details class="sec " data-k="geste" data-oblig="1"><summary><h2>Geste de calcul type</h2></summary><div class="corps"><p>Pour montrer qu'un vecteur est gaussien, l'écrire comme $m+AG$, avec $G$ un vecteur de gaussiennes indépendantes : $\langle x,m+AG\rangle=\langle x,m\rangle+\langle A^{t}x,G\rangle$ est une constante plus une combinaison de gaussiennes indépendantes, donc une gaussienne. Pour montrer qu'il ne l'est pas, exhiber une seule combinaison qui ne l'est pas, comme $X+\varepsilon X$ et sa masse en $0$. <span class="marq" title="référence à la source">[Exercice 0.3.2, §0.3 slide 2, ajout]</span></p></div></details><details class="sec lim" data-k="limite" data-oblig="1"><summary><h2>Cesse d'être valide quand</h2></summary><div class="corps"><p>La définition compte une constante comme une gaussienne de variance nulle : sans cette convention, $x=0$ donnerait la variable nulle, et aucun vecteur ne serait gaussien. Les slides ne le disent pas ; la Prop. 0.3.2 le suppose, puisqu'elle admet le cas où une combinaison est constante. <span class="marq" title="référence à la source">[Prop. 0.3.2, ajout]</span></p><p class="is-ajout">Des composantes gaussiennes, même deux à deux non corrélées, ne suffisent pas : c'est le couple $(X,\varepsilon X)$, de covariance $E[\varepsilon X^2]=E[\varepsilon]\,E[X^2]=0$. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div></details></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../../aide.html">comment lire ce site</a> · <a href="../../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../../search-index.js"></script>
+<script>
+var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+        s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- l'état qui traverse les pages ----------------------------------------
+   Voir le commentaire de l'en-tête : en file://, seul le fragment traverse.
+   Forme du fragment :  #t:d~a:0~p:1-0--1...~s:<tampon>.<bits>~v:<ancre>
+     t  thème      d | l            (absent : celui du système)
+     a  ajouts     0                (absent : montrés)
+     p  pliage     un caractère par clé de CLES_PLI : 1 ouvert, 0 fermé, - inconnu
+     s  déjà su    un bit par notion, six bits par caractère, précédé d'un tampon
+     v  ancre      l'élément vers lequel défiler à l'arrivée
+   Le tampon est calculé sur la liste des identifiants : dès qu'une notion entre dans
+   le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
+   cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
+var ETAT=(function(){
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='9150',
+    A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
+var pli={},su={};
+if(typeof H.p==='string'){
+  for(var i=0;i<CLES.length&&i<H.p.length;i++){var c=H.p.charAt(i);
+    if(c==='0'||c==='1')pli[CLES[i]]=(c==='1');}
+}else{
+  CLES.forEach(function(k){var v=LS.g('notions.pli.'+k,null);if(v!==null)pli[k]=(v==='1')});
+}
+function decode(t){var o={},q=t.indexOf('.');
+  if(q<0||t.slice(0,q)!==TAMPON)return o;
+  var b=t.slice(q+1);
+  for(var i=0;i<b.length;i++){var v=A64.indexOf(b.charAt(i));if(v<0)continue;
+    for(var j=0;j<6;j++){if(v&(1<<j)){var k=i*6+j;if(k<IDS.length)o[IDS[k]]=1}}}
+  return o;}
+function encode(){var o='';
+  for(var i=0;i<IDS.length;i+=6){var v=0;
+    for(var j=0;j<6;j++){if(su[IDS[i+j]])v|=1<<j}
+    o+=A64.charAt(v);}
+  return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
+if(typeof H.s==='string'){su=decode(H.s)}
+else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
+function frag(ancre,noeud){var p=[];
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t)p.push('t:'+(t==='dark'?'d':'l'));
+  if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
+  var q='';CLES.forEach(function(k){q+=(pli[k]===undefined?'-':(pli[k]?'1':'0'))});
+  if(/[01]/.test(q))p.push('p:'+q);
+  var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
+  if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
+  return p.length?'#'+p.join('~'):'';}
+function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
+function propager(){var f=frag();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';if(!interne(h))return;
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
+  /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
+     Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
+  try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
+  try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}}
+return{pli:function(k){return pli[k]===undefined?null:pli[k]},
+       setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
+       su:function(id){return !!su[id]},
+       setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
+       lien:function(u,v,n){return u+frag(v,n)},
+       ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
+       propager:propager};
+})();
+function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
+  var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
+  b.textContent=on?'masquer les ajouts':'ajouts masqués';}
+  document.querySelectorAll('.sec').forEach(function(s){
+    var c=s.querySelector('.corps');if(!c)return;var n=0;
+    c.querySelectorAll(':scope>*').forEach(function(el){
+      if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
+      if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
+      n++;});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='Cette rubrique existe, mais tout son contenu est un ajout : le filtre le masque. Elle reste visible pour que vous ne concluiez pas qu’elle est vide.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
+  if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var bt=document.getElementById('btheme');
+  if(bt)bt.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    var nx=(cur||sys)==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);
+    ETAT.propager();});
+  var ba=document.getElementById('bajout');
+  if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);ETAT.propager();});
+  majAjouts(!document.documentElement.classList.contains('sans-ajouts'));
+  /* les liens de la page portent l'état ; une ancre demandée est ouverte et visée */
+  ETAT.propager();
+  var an=ETAT.ancre();
+  if(an){var el=document.getElementById(an);
+    if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView();el.classList.add('vise')}}
+  /* --- recherche instantanée (règle 9) --- */
+  var inp=document.getElementById('q'),res=document.getElementById('qres');
+  if(!inp||!res||!window.SEARCH_INDEX)return;
+  var REL=document.documentElement.getAttribute('data-rel')||'';
+  var sel=-1,items=[];
+  function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+  function cherche(q){
+    var n=norm(q);if(!n)return [];
+    var out=[];
+    SEARCH_INDEX.forEach(function(e){
+      var sc=-1,ch=e.h||[];
+      for(var i=0;i<ch.length;i++){var p=norm(ch[i]).indexOf(n);
+        if(p===0){sc=Math.max(sc,3-(i>0?1:0))}else if(p>0){sc=Math.max(sc,1)}}
+      if(sc>=0)out.push([sc,e]);});
+    out.sort(function(a,b){return b[0]-a[0]||a[1].n.localeCompare(b[1].n)});
+    return out.slice(0,9).map(function(x){return x[1]});}
+  function rendre(){
+    items=cherche(inp.value);sel=-1;res.innerHTML='';
+    if(!inp.value){res.classList.remove('on');return}
+    if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
+    items.forEach(function(e,i){
+      var li=document.createElement('li');
+      var a=document.createElement('a');a.href=ETAT.lien(REL+e.u);a.id='qr'+i;
+      a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
+      li.appendChild(a);res.appendChild(li);});
+    res.classList.add('on');}
+  function bouge(d){if(!items.length)return;sel=(sel+d+items.length)%items.length;
+    Array.prototype.forEach.call(res.children,function(li,i){li.classList.toggle('sel',i===sel)});
+    inp.setAttribute('aria-activedescendant','qr'+sel);}
+  inp.addEventListener('input',rendre);
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();bouge(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();bouge(-1)}
+    else if(e.key==='Enter'){var a=res.querySelector(sel>=0?'li.sel a':'li a');if(a){e.preventDefault();location.href=a.href}}
+    else if(e.key==='Escape'){inp.value='';res.classList.remove('on')}});
+  document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
+  document.addEventListener('keydown',function(e){
+    if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  /* pliage mémorisé par rubrique (règle 5), et transporté d'une page à l'autre */
+  var secs=document.querySelectorAll('details.sec[data-k]'),bp=document.getElementById('tout-plier');
+  function libelle(){
+    if(!bp)return;var ferme=false;
+    secs.forEach(function(d){if(!d.open)ferme=true});
+    bp.textContent=ferme?'tout déplier':'tout replier';bp.setAttribute('data-v',ferme?'1':'0');}
+  secs.forEach(function(d){
+    var k=d.getAttribute('data-k'),v=ETAT.pli(k);
+    if(v!==null)d.open=v;
+    d.addEventListener('toggle',function(){ETAT.setPli(k,d.open);libelle()});});
+  /* tout à la fois : ouvrir tout s'il reste une rubrique fermée, sinon tout refermer */
+  if(bp){if(!secs.length)bp.parentNode.style.display='none';
+    libelle();
+    bp.addEventListener('click',function(){
+      var v=bp.getAttribute('data-v')==='1';
+      secs.forEach(function(d){d.open=v});libelle();});}
+  /* amont et aval : même état « déjà su », un compteur par liste (règle 7) */
+  function compte(){
+    document.querySelectorAll('.sec').forEach(function(s){
+      var cpt=s.querySelector('[data-cpt]');if(!cpt)return;
+      var l=s.querySelectorAll('input[data-su]'),k=0;
+      l.forEach(function(c){if(c.checked)k++});
+      cpt.textContent=l.length+' notion'+(l.length>1?'s':'')+', '+(l.length-k)+' à voir';});}
+  document.querySelectorAll('input[data-su]').forEach(function(c){
+    var id=c.getAttribute('data-su');c.checked=ETAT.su(id);
+    c.closest('li').classList.toggle('su',c.checked);
+    c.addEventListener('change',function(){
+      ETAT.setSu(id,c.checked);
+      document.querySelectorAll('input[data-su="'+id+'"]').forEach(function(o){
+        o.checked=c.checked;o.closest('li').classList.toggle('su',c.checked);});
+      compte();});});
+  compte();
+});
+</script>
+</body>
+</html>

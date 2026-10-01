@@ -1,0 +1,32 @@
+# Écrit par build.py (SPEC-MODELE A17) : toutes les étapes du cours, dans l'ordre
+# de lecture. Le validateur exige que cette suite reste contenue, dans le même
+# ordre, dans celle des parcours actuels. Ne pas éditer à la main.
+scelle: '2026-10-01'
+fil:
+- cs/vecteur-gaussien
+- cs/loi-gaussienne-multivariee
+- cs/densite-gaussienne
+- cs/independance-gaussienne
+- cs/esperance-conditionnelle
+- cs/esperance-conditionnelle-sachant-une-variable
+- cs/proprietes-heritees-de-l-esperance
+- cs/sortir-ce-qui-est-connu
+- cs/role-de-l-independance
+- cs/lemme-de-gel
+- cs/propriete-de-la-tour
+- cs/esperance-conditionnelle-gaussienne
+- cs/processus-stochastique
+- cs/processus-de-meme-loi
+- cs/version-d-un-processus
+- cs/processus-continu
+- cs/processus-indistinguables
+- cs/filtration
+- cs/processus-adapte
+- cs/filtration-naturelle
+- cs/filtration-complete
+- cs/processus-mesurable
+- cs/espace-l2-des-processus
+- cs/processus-progressivement-mesurable
+- cs/processus-elementaire
+- cs/espace-l2-progressif
+- cs/densite-des-processus-elementaires

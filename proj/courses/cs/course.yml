@@ -1,0 +1,33 @@
+code: cs
+titre: Stochastic Calculus
+enseignant: Christophe Chorro
+annee: 2026-2027
+sources:
+- id: slides
+  fichier: sources/slides-calcul-sto-2026-2027.pdf
+  type: >-
+    slides du cours (99 pages) ; traitées le 2026-10-01 jusqu'à « Properties of the BM »
+    exclu : vecteurs gaussiens, espérance conditionnelle, processus stochastiques
+# Une seule source, des slides en plusieurs chapitres. Chaque chapitre recommence la
+# numérotation de ses slides (« 2 / 5 », « 2 / 7 », « 2 / 12 ») et de ses équations
+# (« (1) ») ; ses énoncés portent un numéro à trois places dont les deux premières sont
+# celles du chapitre : [0.3.1] pour les vecteurs gaussiens, [0.4.x] pour l'espérance
+# conditionnelle, [0.5.x] pour les processus, [1.3.x] pour le mouvement brownien. Le
+# chapitre se cite donc par ces deux places : §0.3, §0.4, §0.5.
+# Un même numéro sert à plusieurs sortes d'énoncés (Definition [0.3.1], Proposition
+# [0.3.1], Corollary [0.3.1], Exercise [0.3.1]) : la sorte fait partie de la référence.
+# Un énoncé numéroté se cite par sa sorte et son numéro — Déf., Prop., Cor., Rem.
+# (« Remarque »), Th., Exercice —, et l'une de ses parties par sa lettre : Prop. 0.4.2 c).
+# Ce qui ne porte pas de numéro (un exemple, une « Rk », un exercice sans numéro) se cite
+# par le chapitre et le numéro imprimé en pied de slide : §0.5 slide 4. Une équation, par
+# le chapitre et son numéro : §0.5 éq. 1.
+refs_pattern: ^(§\d+\.\d+( slide \d+| éq\. \d+)?|(Déf|Prop|Cor|Rem|Th)\. \d+\.\d+\.\d+( [a-g]\))?|Exercice \d+\.\d+\.\d+)$
+depend_de: []
+conventions_par_defaut:
+  langue_source: >-
+    anglais ; les noms de fiches sont en français, le terme anglais est porté en alias
+  espace: >-
+    un espace probabilisé (Ω, 𝒜, P) fixé ; les égalités entre variables aléatoires sont
+    presque sûres (P-p.s.) sauf mention contraire
+  filtrations: >-
+    toute filtration est supposée complète (Rem. 0.5.3)

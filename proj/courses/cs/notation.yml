@@ -1,0 +1,164 @@
+# Registre des notations de cs (SPEC-MODELE A12).
+# Les slides réemploient trois lettres pour deux objets chacune, et le registre garde
+# une entrée par sens, rattachée à la fiche qui l'emploie :
+# - $E$ est l'espérance (E[X|𝒢]) et l'espace où un processus prend ses valeurs (Déf. 0.5.1) ;
+# - $\psi$ est la fonction convexe de Jensen (Prop. 0.4.1 g)) et la fonction gelée de la
+#   Prop. 0.4.3 ;
+# - $T$ est l'ensemble des indices d'un processus (Déf. 0.5.1) et l'horizon de [0, T]
+#   (Déf. 0.5.6, 0.5.7).
+# $\Phi_X$, la fonction caractéristique (Prop. 0.3.1), et $\Phi$, la fonction de deux
+# variables de la Prop. 0.4.3, sont deux objets sans rapport sous la même lettre.
+symboles:
+- symbole: $\langle x,X\rangle$
+  notion: cs/vecteur-gaussien
+  ref: Déf. 0.3.1
+  sens: combinaison linéaire x₁X₁ + … + xₙXₙ des composantes du vecteur X
+- symbole: $\Phi_X$
+  notion: cs/loi-gaussienne-multivariee
+  ref: Prop. 0.3.1
+  sens: fonction caractéristique du vecteur X, x ↦ E[e^{i⟨x,X⟩}]
+- symbole: $m$
+  notion: cs/loi-gaussienne-multivariee
+  ref: Prop. 0.3.1
+  sens: vecteur des moyennes (E[X₁], …, E[Xₙ])
+- symbole: $\Sigma$
+  notion: cs/loi-gaussienne-multivariee
+  ref: Prop. 0.3.1
+  sens: matrice des covariances [cov(Xᵢ, Xⱼ)]
+- symbole: $\mathcal N(m,\Sigma)$
+  notion: cs/loi-gaussienne-multivariee
+  ref: Prop. 0.3.1
+  sens: loi gaussienne de moyenne m et de matrice de covariance Σ
+- symbole: $\perp$
+  notion: cs/independance-gaussienne
+  ref: Cor. 0.3.1
+  sens: indépendance de deux variables, ou d'une variable et d'une tribu
+- symbole: $E[X|\mathcal G]$
+  notion: cs/esperance-conditionnelle
+  ref: Déf. 0.4.1
+  sens: espérance conditionnelle de X sachant la tribu 𝒢
+- symbole: $\mathcal G$
+  notion: cs/esperance-conditionnelle
+  ref: Déf. 0.4.1
+  sens: sous-tribu de 𝒜, l'information sur laquelle on conditionne
+- symbole: $E[X|Y]$
+  notion: cs/esperance-conditionnelle-sachant-une-variable
+  ref: Déf. 0.4.2
+  sens: espérance conditionnelle de X sachant la variable Y
+- symbole: $\sigma(Y)$
+  notion: cs/esperance-conditionnelle-sachant-une-variable
+  ref: Déf. 0.4.2
+  sens: tribu engendrée par Y, l'information que Y apporte
+- symbole: $\psi$
+  notion: cs/proprietes-heritees-de-l-esperance
+  ref: Prop. 0.4.1 g)
+  sens: fonction convexe de l'inégalité de Jensen
+- symbole: $\mathcal G'$
+  notion: cs/propriete-de-la-tour
+  ref: Prop. 0.4.2 e)
+  sens: sous-tribu plus petite que 𝒢, une information plus pauvre
+- symbole: $\Phi$
+  notion: cs/lemme-de-gel
+  ref: Prop. 0.4.3
+  sens: fonction borélienne de deux variables, appliquée à (X, Y)
+- symbole: $\psi$
+  notion: cs/lemme-de-gel
+  ref: Prop. 0.4.3
+  sens: fonction gelée, ψ(y) = E[Φ(X, y)]
+- symbole: $(a,b_1,\dots,b_n)$
+  notion: cs/esperance-conditionnelle-gaussienne
+  ref: Prop. 0.4.4
+  sens: constante et coefficients de la régression de Z sur X₁, …, Xₙ
+- symbole: $(X_t)_{t\in T}$
+  notion: cs/processus-stochastique
+  ref: Déf. 0.5.1
+  sens: processus stochastique indexé par T
+- symbole: $T$
+  notion: cs/processus-stochastique
+  ref: Déf. 0.5.1
+  sens: ensemble des indices de temps, une partie de ℝ₊
+- symbole: $E$
+  notion: cs/processus-stochastique
+  ref: Déf. 0.5.1
+  sens: espace des valeurs d'un processus, ici ℝ
+- symbole: $\underset{\mathcal D}{=}$
+  notion: cs/processus-de-meme-loi
+  ref: Déf. 0.5.2
+  sens: égalité en loi
+- symbole: $T$
+  notion: cs/processus-mesurable
+  ref: Déf. 0.5.6
+  sens: date finale, l'horizon de l'intervalle [0, T]
+- symbole: $\mathcal B([0,T])\otimes\mathcal A$
+  notion: cs/processus-mesurable
+  ref: Déf. 0.5.6
+  sens: tribu produit du temps et de l'aléa
+- symbole: $L^2(\Omega\times[0,T])$
+  notion: cs/espace-l2-des-processus
+  ref: Déf. 0.5.7
+  sens: processus mesurables de carré intégrable en temps et en aléa
+- symbole: $(\mathcal F_t)_{t\in\mathbb R_+}$
+  notion: cs/filtration
+  ref: Déf. 0.5.8
+  sens: filtration, l'information disponible à chaque date
+- symbole: $\mathcal N$
+  notion: cs/filtration-complete
+  ref: Déf. 0.5.8
+  sens: ensemble des parties négligeables de Ω
+- symbole: $\mathcal F_t^X$
+  notion: cs/filtration-naturelle
+  ref: Rem. 0.5.4
+  sens: filtration naturelle de X, σ(X_s ; 0 ≤ s ≤ t)
+- symbole: $\mathcal E([0,T]\times\Omega)$
+  notion: cs/processus-elementaire
+  ref: §0.5 slide 11
+  sens: ensemble des processus élémentaires
+- symbole: $F_{t_i}$
+  notion: cs/processus-elementaire
+  ref: §0.5 éq. 1
+  sens: valeur du processus élémentaire sur [tᵢ, tᵢ₊₁[, connue en tᵢ
+- symbole: $L^2_{prog}(\Omega\times[0,T])$
+  notion: cs/espace-l2-progressif
+  ref: Déf. 0.5.11
+  sens: processus progressivement mesurables de carré intégrable
+collisions:
+- symbole: $E$
+  ici: >-
+    l'espace des valeurs d'un processus (Déf. 0.5.1), et partout ailleurs l'espérance,
+    E[X|𝒢] ; collision interne à la source
+  ailleurs:
+    dss: erreur sur un motif dans la rétropropagation (slide 155)
+- symbole: $T$
+  ici: >-
+    ensemble des indices d'un processus (Déf. 0.5.1), et date finale de [0, T]
+    (Déf. 0.5.6) ; collision interne à la source
+  ailleurs:
+    dup: nombre de périodes, donc de moi successifs (L5 slide 43)
+    pfo: nombre d'observations ; nombre de sous-périodes (§2.3, éq. 1.4)
+  note: collision entre cours sans danger de confusion ; dans cs, la date finale est la lecture courante
+- symbole: $\Sigma$
+  ici: matrice de covariance d'un vecteur gaussien (Prop. 0.3.1)
+  ailleurs:
+    ods: >-
+      matrice de covariance des rendements dans l'exemple du portefeuille (§1.1.4), et
+      matrice diagonale des valeurs singulières (slide 8)
+    pfo: >-
+      matrice de covariance des rendements, en gras, $\boldsymbol{\Sigma}$ (§1.5) — même
+      objet, estimé sur données, sous une graphie voisine
+  note: >-
+    le Σ de pfo est l'estimateur empirique, sur des rendements, de la matrice que cs
+    définit pour un vecteur aléatoire ; aucune arête n'est posée entre les deux fiches
+- symbole: $m$
+  ici: vecteur des moyennes d'un vecteur gaussien (Prop. 0.3.1)
+  ailleurs:
+    dss: nombre de prédicteurs tirés à chaque coupure d'une forêt aléatoire (slide 113)
+- symbole: $\psi$
+  ici: >-
+    la fonction convexe de Jensen (Prop. 0.4.1 g)) et la fonction gelée de la Prop. 0.4.3 ;
+    collision interne à la source, deux entrées au registre
+  ailleurs: {}
+- symbole: $\Phi$
+  ici: >-
+    fonction de deux variables de la Prop. 0.4.3 ; ne pas confondre avec $\Phi_X$, la
+    fonction caractéristique de la Prop. 0.3.1
+  ailleurs: {}
