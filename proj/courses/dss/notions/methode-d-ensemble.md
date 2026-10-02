@@ -4,6 +4,7 @@ nom: Méthode d'ensemble
 type: principe
 statut: source
 construite_a_partir_de:
+- dss/arbre-de-decision
 - dss/compromis-biais-variance
 alias:
 - ensemble methods
@@ -23,7 +24,7 @@ La question qui organise tout le chapitre est posée telle quelle par le cours :
 
 
 ## Le chemin jusqu'ici
-dss/compromis-biais-variance fournit la raison de construire plusieurs arbres : l'erreur que mesure dss/erreur-de-test contient la variance du modèle, et un arbre ajusté sur les couples observés de dss/apprentissage-supervise en a beaucoup. [ajout]
+dss/arbre-de-decision est la brique : un modèle qui s'ajuste en un instant, mais dont les questions changent dès qu'on change quelques clients. dss/compromis-biais-variance fournit la raison de construire plusieurs arbres : l'erreur que mesure dss/erreur-de-test contient la variance du modèle, et un arbre ajusté sur les couples observés de dss/apprentissage-supervise en a beaucoup. [ajout]
 
 C'est l'argument de la moyenne. Construire les arbres en séquence, chacun corrigeant ce que les précédents n'expliquent pas, est l'autre façon de les combiner, et elle n'en relève pas. [ajout]
 
