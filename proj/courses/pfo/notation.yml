@@ -339,6 +339,174 @@ symboles:
   notion: pfo/annualisation
   ref: §3.0.7
   sens: écart type annualisé
+- symbole: $w_i^M$
+  notion: pfo/portefeuille-de-marche
+  ref: p. 57
+  sens: poids de l'actif i dans le portefeuille de marché
+- symbole: $P_i$
+  notion: pfo/portefeuille-de-marche
+  ref: p. 57
+  sens: prix d'une action de l'entreprise i
+- symbole: $N_i$
+  notion: pfo/portefeuille-de-marche
+  ref: p. 57
+  sens: nombre total d'actions de l'entreprise i en circulation
+- symbole: $\mathrm{Capitalisation}_i$
+  notion: pfo/portefeuille-de-marche
+  ref: p. 57
+  sens: capitalisation boursière de l'entreprise i, P_i × N_i
+- symbole: $w^M$
+  notion: pfo/medaf
+  ref: p. 58
+  sens: vecteur des poids du portefeuille de marché
+- symbole: $w^T$
+  notion: pfo/medaf
+  ref: p. 58
+  sens: vecteur des poids du portefeuille tangent ; égal à w^M sous le MEDAF
+- symbole: $E(R_i)$
+  notion: pfo/medaf
+  ref: §4.2.1
+  sens: rendement espéré de l'actif risqué i
+- symbole: $E(R_m)$
+  notion: pfo/medaf
+  ref: §4.2.1
+  sens: rendement espéré du portefeuille de marché
+- symbole: $\beta_i$
+  notion: pfo/beta
+  ref: §4.2.1
+  sens: bêta de l'actif i, Cov(R_i, R_m)/Var(R_m)
+- symbole: $R_m$
+  notion: pfo/beta
+  ref: §4.2.1
+  sens: rendement du portefeuille de marché
+- symbole: $R_{i,t}$
+  notion: pfo/regression-du-medaf
+  ref: p. 59
+  sens: rendement de l'actif i à la date t
+- symbole: $R_{f,t}$
+  notion: pfo/regression-du-medaf
+  ref: p. 59
+  sens: rendement de l'actif sans risque à la date t
+- symbole: $R_{m,t}$
+  notion: pfo/regression-du-medaf
+  ref: p. 59
+  sens: rendement du marché à la date t
+- symbole: $\epsilon_{i,t}$
+  notion: pfo/regression-du-medaf
+  ref: p. 59
+  sens: terme d'erreur, risque propre à l'entreprise i
+- symbole: $Y_t$
+  notion: pfo/regression-du-medaf
+  ref: p. 62
+  sens: variable expliquée d'une régression à la date t
+- symbole: $\hat Y_t$
+  notion: pfo/regression-du-medaf
+  ref: p. 62
+  sens: valeur prédite par la régression
+- symbole: $\epsilon_t$
+  notion: pfo/regression-du-medaf
+  ref: p. 62
+  sens: résidu, Y_t − Ŷ_t
+- symbole: $\alpha_i$
+  notion: pfo/alpha-de-jensen
+  ref: p. 59
+  sens: alpha de Jensen, constante de la régression du MEDAF
+- symbole: $t$
+  notion: pfo/statistique-t
+  ref: p. 63
+  sens: statistique t d'un coefficient estimé
+- symbole: $\hat\theta$
+  notion: pfo/statistique-t
+  ref: p. 63
+  sens: coefficient estimé
+- symbole: $SE(\hat\theta)$
+  notion: pfo/statistique-t
+  ref: p. 63
+  sens: erreur type du coefficient estimé
+- symbole: $R^2$
+  notion: pfo/coefficient-de-determination
+  ref: p. 63
+  sens: coefficient de détermination, part de variabilité expliquée
+- symbole: $\bar Y$
+  notion: pfo/coefficient-de-determination
+  ref: p. 63
+  sens: moyenne de la variable expliquée
+- symbole: $s_i$
+  notion: pfo/modele-de-fama-french
+  ref: §4.2.2
+  sens: exposition de l'actif i au facteur SMB
+- symbole: $h_i$
+  notion: pfo/modele-de-fama-french
+  ref: §4.2.2
+  sens: exposition de l'actif i au facteur HML
+- symbole: $SMB$
+  notion: pfo/facteur-smb
+  ref: p. 59
+  sens: rendement des petites capitalisations moins celui des grandes
+- symbole: $R_{\mathrm{Small}}$
+  notion: pfo/facteur-smb
+  ref: p. 59
+  sens: rendement d'un portefeuille de petites capitalisations
+- symbole: $R_{\mathrm{Big}}$
+  notion: pfo/facteur-smb
+  ref: p. 59
+  sens: rendement d'un portefeuille de grandes capitalisations
+- symbole: $HML$
+  notion: pfo/facteur-hml
+  ref: p. 60
+  sens: rendement des entreprises à book-to-market élevé moins faible
+- symbole: $R_{\mathrm{High\,B/M}}$
+  notion: pfo/facteur-hml
+  ref: p. 60
+  sens: rendement d'un portefeuille à book-to-market élevé
+- symbole: $R_{\mathrm{Low\,B/M}}$
+  notion: pfo/facteur-hml
+  ref: p. 60
+  sens: rendement d'un portefeuille à book-to-market faible
+- symbole: $\lambda_k$
+  notion: pfo/analyse-en-composantes-principales
+  ref: p. 60
+  sens: k-ième valeur propre de la covariance, variance de la composante k
+- symbole: $V_k$
+  notion: pfo/analyse-en-composantes-principales
+  ref: p. 60
+  sens: k-ième vecteur propre de la covariance
+- symbole: $PC_k$
+  notion: pfo/facteur-statistique
+  ref: p. 60
+  sens: k-ième composante principale, V_k^T R
+- symbole: $PC_{k,t}$
+  notion: pfo/facteur-statistique
+  ref: p. 64
+  sens: valeur de la composante k à la date t
+- symbole: $v_{ik}$
+  notion: pfo/facteur-statistique
+  ref: p. 61
+  sens: loading de l'actif i dans la composante k
+- symbole: $R$
+  notion: pfo/facteur-statistique
+  ref: p. 60
+  sens: vecteur des rendements des actifs
+- symbole: $\beta_{ik}$
+  notion: pfo/modele-factoriel
+  ref: p. 62
+  sens: exposition de l'actif i au facteur k
+- symbole: $\varepsilon_{i,t}$
+  notion: pfo/modele-factoriel
+  ref: p. 62
+  sens: part du rendement de l'actif i que les facteurs n'expliquent pas
+- symbole: $K$
+  notion: pfo/modele-factoriel
+  ref: p. 61
+  sens: nombre de facteurs retenus, K ≪ N
+- symbole: $N$
+  notion: pfo/modele-factoriel
+  ref: p. 61
+  sens: nombre d'actifs observés
+- symbole: $F_{k,t}$
+  notion: pfo/modele-factoriel
+  ajout: true
+  sens: valeur du facteur k à la date t, quel que soit le facteur
 collisions:
 - symbole: $S_t$
   ici: fourchette acheteur-vendeur (éq. 1.1)
@@ -418,3 +586,14 @@ collisions:
   ici: fonction objectif d'un problème d'optimisation (éq. 3.1)
   ailleurs:
     dup: un acte, application des états vers les résultats (L1 slide 2)
+- symbole: $N$
+  ici: nombre d'actifs observés (p. 61)
+  ailleurs:
+    fpp: fonction de répartition de la loi normale centrée réduite
+homonymes:
+- nom: PCA
+  entre: [dss/composante-principale, pfo/analyse-en-composantes-principales]
+  note: >-
+    le même sigle pour la même méthode, sur deux objets : dans dss, les prédicteurs d'une
+    régression, centrés ; dans pfo, les rendements d'un panier d'actifs, par leur matrice de
+    covariance. Les deux fiches existent parce que chaque cours les écrit dans ses symboles

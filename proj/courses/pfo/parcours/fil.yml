@@ -1,7 +1,7 @@
 # Écrit par build.py (SPEC-MODELE A17) : toutes les étapes du cours, dans l'ordre
 # de lecture. Le validateur exige que cette suite reste contenue, dans le même
 # ordre, dans celle des parcours actuels. Ne pas éditer à la main.
-scelle: '2026-09-26'
+scelle: '2026-10-09'
 fil:
 - pfo/fourchette-bid-ask
 - pfo/prix-milieu
@@ -48,3 +48,18 @@ fil:
 - pfo/portefeuille-tangent
 - pfo/ligne-de-marche-des-capitaux
 - pfo/slsqp
+- pfo/portefeuille-de-marche
+- pfo/beta
+- pfo/medaf
+- pfo/regression-du-medaf
+- pfo/alpha-de-jensen
+- pfo/statistique-t
+- pfo/coefficient-de-determination
+- pfo/modele-factoriel
+- pfo/facteur-de-risque
+- pfo/facteur-smb
+- pfo/facteur-hml
+- pfo/modele-de-fama-french
+- pfo/analyse-en-composantes-principales
+- pfo/facteur-statistique
+- pfo/modele-factoriel-statistique

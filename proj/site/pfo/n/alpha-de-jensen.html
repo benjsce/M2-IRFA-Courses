@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="fr" data-rel="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Alpha de Jensen · notions</title>
+<script>
+/* Mesuré le 2026-09-20 : ouvert en file://, Firefox donne à CHAQUE page son propre
+   localStorage — un dossier de stockage par fiche visitée. Le thème, le pliage et les
+   cases « déjà su » ne peuvent donc pas traverser les pages par là. Ils voyagent dans
+   le fragment de l'URL, que tous les liens internes portent ; localStorage ne sert plus
+   que de mémoire locale, pour la page qu'on rouvre sans fragment.
+   Ce script s'exécute avant le rendu : sinon le thème clignote à chaque page. */
+(function(){
+var H={},h=(location.hash||'').replace(/^#/,'');
+h.split('~').forEach(function(p){var i=p.indexOf(':');if(i>0)H[p.slice(0,i)]=p.slice(i+1)});
+window.ETAT_URL=H;
+function loc(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+var t=H.t?(H.t==='d'?'dark':'light'):loc('notions.theme','');
+if(t)document.documentElement.setAttribute('data-theme',t);
+var a=(H.a!==undefined)?H.a:loc('notions.ajouts','1');
+if(a==='0')document.documentElement.classList.add('sans-ajouts');
+})();
+</script>
+<style>
+:root{
+  --bg:#fbfaf7; --bg2:#f3f0ea; --fg:#1b1a17; --mut:#6c675d; --fai:#8e887c;
+  --li:#e0dbd1; --li2:#cdc6b8; --card:#ffffff; --acc:#8a4f23; --acc2:#f3e7dc;
+  --ajo:#6d5a8c; --ajo2:#efe9f5; --lim:#9a3a2e; --ok:#3f6b46; --faute:#a8631a;
+  --r:8px; --w:min(72rem,100%);
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}}
+:root[data-theme="dark"]{
+  --bg:#16161a; --bg2:#1e1e23; --fg:#e9e6e0; --mut:#a49e94; --fai:#837d73;
+  --li:#32323a; --li2:#45454f; --card:#1c1c21; --acc:#e0a078; --acc2:#332720;
+  --ajo:#b6a2d6; --ajo2:#2a2333; --lim:#e08d80; --ok:#8fbf98; --faute:#e2a457;
+}
+.fig{margin:.9rem 0;padding:.5rem .2rem .2rem;text-align:center}
+/* « > svg » et non « svg » : MathJax pose son propre <svg> dans la légende, et
+   une règle non ancrée en faisait un bloc qui coupait la phrase en trois. */
+.fig > svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig figcaption{margin-top:.35rem;font-family:var(--sans);font-size:.82rem;
+  color:var(--mut);text-align:center;line-height:1.45}
+@media print{.fig{break-inside:avoid}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
+  font-size:17px;line-height:1.62;overflow-wrap:break-word}
+a{color:var(--acc);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-style:dotted}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+.wrap{width:var(--w);margin:0 auto;padding:0 1rem}
+
+/* ---- barre du haut ---- */
+header.top{position:sticky;top:0;z-index:40;background:var(--bg2);
+  border-bottom:1px solid var(--li);font-family:var(--sans)}
+.topin{width:var(--w);margin:0 auto;padding:.45rem 1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.brand{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--fg);letter-spacing:.02em}
+.fil{color:var(--mut);font-size:.82rem;flex:1 1 8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fil a{color:var(--mut)}
+.btn{font:inherit;font-size:.78rem;font-family:var(--sans);background:var(--card);color:var(--fg);
+  border:1px solid var(--li2);border-radius:var(--r);padding:.2rem .55rem;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+a.btn{text-decoration:none}
+.btn[aria-pressed="true"]{background:var(--acc2);border-color:var(--acc);color:var(--fg)}
+.rech{position:relative;flex:0 1 16rem;min-width:9rem}
+.rech input{width:100%;font:inherit;font-size:.84rem;font-family:var(--sans);padding:.25rem .5rem;
+  border:1px solid var(--li2);border-radius:var(--r);background:var(--card);color:var(--fg)}
+.res{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--li2);
+  border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.14);max-height:60vh;overflow:auto;padding:.2rem;margin:0;
+  list-style:none;display:none;z-index:50;min-width:18rem}
+.res.on{display:block}
+.res li a{display:block;padding:.3rem .45rem;border-radius:6px;text-decoration:none;color:var(--fg);font-size:.86rem}
+.res li a:hover,.res li.sel a{background:var(--acc2)}
+.res .sub{color:var(--mut);font-size:.76rem;font-family:var(--sans)}
+.res .vide{padding:.4rem .5rem;color:var(--mut);font-size:.84rem}
+
+main{padding:1.4rem 0 4rem}
+h1{font-size:1.75rem;line-height:1.24;margin:.2rem 0 .3rem}
+h2{font-size:1.06rem;font-family:var(--sans);font-weight:600;letter-spacing:.01em;margin:0}
+h3{font-size:.95rem;font-family:var(--sans);margin:1.2rem 0 .3rem}
+p{margin:.55rem 0}
+.ptag{font-family:var(--sans);font-size:.74rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .5rem}
+
+/* ---- métadonnées de fiche ---- */
+.meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;font-family:var(--sans);font-size:.75rem;color:var(--mut);margin:.4rem 0 1.1rem}
+.pill{border:1px solid var(--li2);border-radius:99px;padding:.06rem .5rem;background:var(--card);white-space:nowrap}
+.pill.ajout{color:var(--ajo);border-color:var(--ajo);background:var(--ajo2)}
+.pill.typ{background:var(--acc2);border-color:var(--acc)}
+.sym{font-family:var(--serif);font-size:1rem;color:var(--fg)}
+
+/* ---- sections ---- */
+.sec{border-top:1px solid var(--li);padding:.85rem 0}
+.sec.vide{display:none}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.45rem;padding:.1rem 0}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"›";color:var(--fai);font-family:var(--sans);display:inline-block;
+  transition:transform .12s ease;transform:rotate(0deg);width:.7em}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec>summary .cnt{font-family:var(--sans);font-size:.74rem;color:var(--fai);font-weight:400}
+.corps{padding-top:.25rem}
+.gen{border-left:2px solid var(--li2);padding-left:.7rem}
+.chemin{border-left:3px solid var(--acc);background:var(--bg2);border-radius:0 var(--r) var(--r) 0;
+  padding:.5rem .8rem;margin:.2rem 0 .7rem}
+.chemin p{margin:.35rem 0;font-size:.95rem}
+.chemin p:first-child{margin-top:0}
+.chemin p:last-child{margin-bottom:0}
+.note{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin:.2rem 0 .4rem}
+.parc{border:1px solid var(--li);border-left:3px solid var(--acc);border-radius:0 var(--r) var(--r) 0;
+  background:var(--bg2);padding:.5rem .8rem;margin:.6rem 0;font-size:.93rem}
+.parc-t{font-family:var(--sans);font-size:.76rem;color:var(--mut);margin-bottom:.15rem}
+.parc p{margin:.2rem 0}
+.parc-h{border-left:2px solid var(--li);padding:.1rem 0 .1rem .6rem;margin:.3rem 0 .45rem;color:var(--mut)}
+.parc-h strong{color:var(--fg)}
+.parc-l{font-family:var(--sans);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--acc);margin-right:.25rem}
+.parc-lien{margin-top:.35rem;font-size:.92em}
+.parc-suite{border-left:2px solid var(--acc);padding:.1rem 0 .1rem .6rem;margin:.35rem 0;color:var(--fg);background:var(--acc2)}
+.parc-nav{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--sans);font-size:.8rem;margin-top:.35rem}
+.parc-nav .suiv{margin-left:auto;text-align:right}
+.etapes{list-style:none;padding:0;margin:.6rem 0 1.2rem;counter-reset:e}
+.etapes>li{counter-increment:e;position:relative;padding:0 0 1rem 1.7rem;border-left:2px solid var(--li);margin-left:.9rem}
+.etapes>li:last-child{border-left-color:transparent}
+.etapes>li::before{content:counter(e);position:absolute;left:-.95rem;top:0;width:1.75rem;height:1.75rem;
+  border-radius:99px;background:var(--card);border:1px solid var(--acc);color:var(--acc);
+  font-family:var(--sans);font-size:.78rem;display:flex;align-items:center;justify-content:center}
+.etapes>li>p{margin:.1rem 0 .35rem}
+.etapes .arr{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.45rem .75rem}
+.etapes .arr a.tit{font-weight:600;text-decoration:none}
+.etapes .arr p{margin:.15rem 0;font-size:.88rem;color:var(--mut)}
+.avant{list-style:none;padding:0;margin:.4rem 0 1rem}
+.avant>li{margin:.5rem 0}
+.avant>li p{margin:.1rem 0 0;font-size:.95rem}
+.avant a.tit{font-weight:600;text-decoration:none}
+.avant span.tit.venir{font-weight:600;color:var(--fai);cursor:default}
+.roles{list-style:none;padding:0;margin:.2rem 0 0}
+.roles>li{margin:.3rem 0;padding:.1rem .3rem;border-radius:4px}
+.roles>li.cible{background:var(--acc2)}
+details.parc>summary{cursor:pointer}
+.sec.lim{border-left:3px solid var(--lim);padding-left:.7rem;background:linear-gradient(90deg,var(--acc2),transparent 60%)}
+.sec.faute{border-left:3px solid var(--faute);padding-left:.7rem}
+.sec.abs{border-left:3px solid var(--ajo);padding-left:.7rem}
+.note.avert{color:var(--ajo);font-weight:600}
+.sec.faute>summary h2{color:var(--faute)}
+.faute-b{border:1px solid var(--faute);border-left-width:3px;border-radius:var(--r);padding:.5rem .7rem;
+  margin:.4rem 0;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.faute-b strong{color:var(--faute)}
+.sec.lim>summary h2{color:var(--lim)}
+.sec.lim>h2{color:var(--lim)}
+
+/* ---- marqueurs de traçabilité ---- */
+.marq{font-family:var(--sans);font-size:.7rem;color:var(--fai);white-space:nowrap;vertical-align:.12em}
+.marq-ajout{color:var(--ajo);background:var(--ajo2);border:1px solid var(--ajo);border-radius:99px;padding:0 .35rem}
+.marqligne{margin:.15rem 0 0}
+html.sans-ajouts .is-ajout{display:none!important}
+.masq{font-family:var(--sans);font-size:.78rem;color:var(--ajo);background:var(--ajo2);border:1px dashed var(--ajo);border-radius:var(--r);padding:.3rem .5rem;margin:.3rem 0}
+.sec.estmasq>summary h2,.sec.estmasq>h2{opacity:.65}
+.bandeau{font-family:var(--sans);font-size:.8rem;border:1px dashed var(--ajo);background:var(--ajo2);
+  color:var(--fg);border-radius:var(--r);padding:.4rem .6rem;margin:.6rem 0}
+
+/* ---- pastilles ---- */
+.pasts{display:flex;flex-wrap:wrap;gap:.35rem;margin:.35rem 0;padding:0;list-style:none}
+.past{display:inline-block;font-family:var(--sans);font-size:.82rem;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--li2);border-radius:99px;padding:.12rem .6rem}
+.past:hover{border-color:var(--acc);color:var(--acc)}
+.past .cc{color:var(--fai);font-size:.74rem}
+.past.ajout{border-color:var(--ajo);color:var(--ajo)}
+.past.cible{border-color:var(--acc);border-width:2px;background:var(--acc2)}
+.past.venir{border-style:dashed;color:var(--fai);text-decoration:line-through;cursor:default}
+.past .nv{color:var(--fai);font-size:.7rem;margin-left:.25rem}
+
+/* ---- socle ---- */
+.socle{list-style:none;padding:0;margin:.3rem 0}
+.socle li{display:flex;gap:.5rem;align-items:baseline;padding:.12rem 0;font-size:.92rem}
+.socle input{margin:0;accent-color:var(--ok)}
+.socle li.su a{color:var(--fai);text-decoration:line-through}
+.compteur{font-family:var(--sans);font-size:.78rem;color:var(--mut)}
+.grp{margin:.5rem 0}
+.grp>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--mut)}
+
+table{border-collapse:collapse;margin:.5rem 0;font-size:.9rem;display:block;overflow-x:auto;max-width:100%}
+th,td{border:1px solid var(--li);padding:.25rem .55rem;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-family:var(--sans);font-size:.78rem;font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+  background:var(--bg2);border:1px solid var(--li);border-radius:4px;padding:0 .25em}
+ul{padding-left:1.1rem}
+hr{border:0;border-top:1px solid var(--li);margin:1.4rem 0}
+
+/* ---- cartes d'accueil / carte du cours ---- */
+.cartes{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));padding:0;list-style:none;margin:.6rem 0}
+.carte{background:var(--card);border:1px solid var(--li);border-radius:var(--r);padding:.65rem .8rem}
+.carte h3{margin:0 0 .2rem}
+.carte p{margin:.2rem 0;font-size:.88rem;color:var(--mut)}
+.carte a.tit{text-decoration:none;font-size:1.02rem;font-weight:600}
+.dette{border:1px solid var(--li2);border-radius:var(--r);padding:.6rem .8rem;background:var(--bg2);font-family:var(--sans);font-size:.85rem}
+.vise{animation:vise 1.6s ease}
+@keyframes vise{from{background:var(--acc2)}to{background:transparent}}
+
+/* ---- orientation : ce qui s'adresse au lecteur qui arrive ---- */
+.entree{border:1px solid var(--li2);border-left:3px solid var(--acc);border-radius:var(--r);
+  padding:.7rem .9rem;margin:.8rem 0 1.4rem;background:var(--card)}
+.entree p{margin:.3rem 0;font-size:.92rem}
+.entree .quoi{font-size:1.02rem}
+.entree ul{margin:.5rem 0 .2rem;padding-left:1.1rem;font-family:var(--sans);font-size:.88rem}
+.entree li{margin:.2rem 0}
+.chantier{margin-top:2.8rem;border-top:1px solid var(--li);padding-top:.6rem}
+.chantier>summary{cursor:pointer;font-family:var(--sans);font-size:.8rem;color:var(--fai)}
+.aide h2{margin:1.8rem 0 .2rem;font-size:1.05rem}
+/* L'en-tête est collant : une ancre visée ne doit pas passer dessous. Mesuré :
+   il fait 48 px sur une ligne, 85 px quand il se replie en deux (écran étroit). */
+[id]{scroll-margin-top:6rem}
+.aide p,.aide ul,.aide table{max-width:42rem}
+.dette ul{margin:.3rem 0 0}
+footer{border-top:1px solid var(--li);color:var(--mut);font-family:var(--sans);font-size:.76rem;padding:1rem 0 2rem}
+
+/* ---- arbre ---- */
+.barre{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+.barre.plier{justify-content:flex-end;margin:.2rem 0 -.2rem}
+#scene{position:relative;border:1px solid var(--li);border-radius:var(--r);background:var(--bg2);
+  height:min(74vh,720px);overflow:hidden;touch-action:none;cursor:grab}
+#scene.drag{cursor:grabbing}
+#pan{position:absolute;transform-origin:0 0;top:0;left:0}
+#aretes{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+#aretes path{fill:none;stroke:var(--li2);stroke-width:1.5}
+.noeud{position:absolute;background:var(--card);border:1px solid var(--li2);border-radius:var(--r);
+  padding:.35rem .5rem;font-family:var(--sans);font-size:.8rem;line-height:1.3}
+.noeud.aj{border-color:var(--ajo)}
+.noeud.cible{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 4px var(--acc2)}
+.noeud .nm{font-weight:600}
+.noeud .nm a{text-decoration:none;color:var(--fg)}
+.noeud .nm a:hover{color:var(--acc)}
+.noeud .pa{color:var(--mut);font-size:.72rem;display:block;margin-top:.1rem}
+.noeud .pli{font:inherit;font-size:.72rem;background:none;border:1px solid var(--li2);border-radius:4px;
+  color:var(--mut);cursor:pointer;padding:0 .3rem;margin-right:.25rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.4rem}
+  .rech{flex:1 1 100%;order:9}
+  #scene{height:66vh}
+}
+@media print{header.top,.barre,.btn{display:none}details.sec{display:block}details.sec>summary{font-weight:700}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"]],displayMath:[["$$","$$"]],processEscapes:true},svg:{fontCache:"global"},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="top"><div class="topin"><a class="brand" href="../../index.html">notions</a><span class="fil"><a href="../../pfo/index.html">Python for Finance and Optimisation</a> › Alpha de Jensen</span><div class="rech"><label class="sr" for="q" hidden>chercher</label><input id="q" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qres" placeholder="chercher  ( / )"><ul class="res" id="qres" role="listbox"></ul></div><a class="btn" href="../../aide.html">comment lire</a><button class="btn" id="bajout" aria-pressed="false">masquer les ajouts</button><button class="btn" id="btheme" title="thème clair / sombre">thème</button></div></header>
+<main><div class="wrap"><h1>Alpha de Jensen</h1><div class="meta"><span class="pill sym">$\alpha_i$</span><a class="pill typ" href="../../aide.html" data-v="types" title="un objet du cours, celui qu’on manipule">notion</a><a class="pill" href="../../pfo/index.html">pfo</a><a class="pill" href="../../aide.html" data-v="niveau" title="ordre de lecture : nombre de notions à traverser, au plus long, pour arriver jusqu’à celle-ci. Niveau 0 = ne dépend d’aucune autre.">niveau 8</a><a class="pill" href="../../pfo/arbre.html" data-noeud="pfo/alpha-de-jensen" title="cette notion n’est rangée sous aucune famille">arbre du cours</a><span class="pill">p. 59</span><span class="pill">p. 69</span><span class="pill">p. 76</span></div><p class="note">aussi : Jensen's alpha, alpha, rendement anormal, abnormal excess return</p><div class="parc"><div class="parc-t"><a href="../../aide.html" data-v="parcours">Parcours</a> <a href="../../pfo/parcours/medaf.html#e5">« Le rendement d'un actif est-il justifié par son risque ? »</a> · étape 5 sur 7</div><div class="parc-h"><p class="is-ajout">L'investisseur du récit précédent a retenu deux tiers dans le premier actif, qui rapporte 6 % avec une volatilité de 10 %, et un tiers dans le second, qui rapporte 10 % avec une volatilité de 20 %. Sur son marché, seuls ces deux actifs sont cotés : le premier compte 2 milliards d'actions à 10 €, le second 500 millions d'actions à 20 €. Il se demande ce que donnerait une règle qui ne calcule rien : détenir tout le marché, chaque actif dans la proportion où il existe. Combien mettrait-il alors dans chacun ? <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p class="is-ajout">Le second actif est bien plus volatil que le premier. Quand le marché monte de 1 %, de combien monte-t-il en moyenne ? <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p class="is-ajout">Il rapporte 10 %, quatre points de plus que le premier. Ce surcroît est-il justifié par le risque qu'il fait porter ? <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p class="is-ajout">Or l'investisseur n'a que soixante mois de rendements des deux actifs. Comment en tirer le bêta du second ? <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><div class="parc-suite"><p class="is-ajout"><span class="parc-l">L’histoire continue</span> Sur ces soixante mois, le second actif a rapporté en moyenne 0,94 % par mois au-delà du taux sans risque, alors que son bêta ne lui en valait que 0,35 %. <strong>De combien a-t-il battu ce que le marché lui promettait</strong> ? <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div></div><p class="is-ajout"><span class="parc-l">Dans l’histoire</span> De $0{,}938-1{,}556\times0{,}224=0{,}59\,\%$ par mois, environ 7 % par an : c'est la hauteur de la droite en zéro, ce que l'actif a gagné au-delà de son exposition au marché. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p><span class="parc-l">Depuis l’étape précédente</span> Le MEDAF prédit une droite qui passe par zéro ; celle des données passe au-dessus. <span class="marq" title="référence à la source">[p. 59]</span></p><div class="parc-nav"><a class="prec" href="../../pfo/n/regression-du-medaf.html">← Régression du MEDAF</a><a class="suiv" href="../../pfo/n/statistique-t.html">Statistique t →</a></div></div><div class="barre plier"><button class="btn" type="button" id="tout-plier">tout déplier</button></div><section class="sec " data-oblig="1"><h2>Ce que c'est</h2><div class="corps"><p>La constante de la régression du MEDAF : ce qu'un actif a rapporté en moyenne au-delà de ce que son exposition au marché lui vaut. <span class="marq" title="référence à la source">[p. 59, p. 76]</span></p></div></section><section class="sec " data-oblig="1"><h2>Forme</h2><div class="corps"><p class="is-ajout">$$\hat\alpha_i=\overline{R_{i}-R_{f}}-\hat\beta_i\ \overline{R_{m}-R_{f}}$$ <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div></section><section class="sec "><h2>Ce que les symboles modélisent</h2><div class="corps"><p>$\alpha_i$ est la constante de la régression du MEDAF ; $\hat\alpha_i$, avec son chapeau, est sa valeur estimée sur l'échantillon, qu'on distingue de la vraie, inconnue. Les barres désignent des moyennes sur les dates de l'échantillon : $\overline{R_i-R_f}$ est le rendement moyen de l'actif au-delà du taux sans risque, $\overline{R_m-R_f}$ celui du marché, et $\hat\beta_i$ la pente estimée. L'alpha est un rendement, à la fréquence des données : journalier, mensuel. <span class="marq" title="référence à la source">[p. 59, ajout]</span></p><p class="is-ajout">Ce n'est aucun des $\alpha$ des chapitres précédents, ni le lissage EWMA, ni le niveau d'un test, ni le seuil de la VaR, ni la part placée dans le portefeuille tangent. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div></section><section class="sec " data-oblig="1"><h2>Ce qui la définit</h2><div class="corps"><p><strong>Connus</strong> : le rendement moyen de l'actif et celui du marché, au-delà du taux sans risque, et le bêta estimé. <strong>Cherché</strong> : ce que l'actif a gagné de plus, ou de moins, que ce que le marché seul explique. La droite des moindres carrés passe par le point moyen ; sa hauteur en zéro est donc la moyenne de l'actif moins le bêta fois la moyenne du marché. <span class="marq" title="référence à la source">[p. 59, ajout]</span></p><figure class="fig is-ajout"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 380" width="100%" height="auto" role="img" style="color:var(--fg);max-width:560px;height:auto"><title>Au-dessus de ce que son bêta lui vaut, de α̂</title><path d="M54 16 L54 360 M54 287.58 L542 287.58" fill="none" stroke="var(--mut)" stroke-width="1.2"/><path d="M54 287.58 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="54" y="304.58" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0</text><path d="M286.38 287.58 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="286.38" y="304.58" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">1</text><path d="M416.51 287.58 l0 4" stroke="var(--mut)" stroke-width="1.2"/><text x="416.51" y="304.58" text-anchor="middle" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">1,56</text><path d="M54 287.58 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="46" y="291.58" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0</text><path d="M54 237.79 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="46" y="241.79" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0,22</text><path d="M54 208.37 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="46" y="212.37" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0,35</text><path d="M54 74.84 l-4 0" stroke="var(--mut)" stroke-width="1.2"/><text x="46" y="78.84" text-anchor="end" font-size="11.5" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">0,94</text><text x="542" y="320.58" text-anchor="end" font-size="12" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">bêta</text><text x="10" y="10" text-anchor="start" font-size="12" fill="var(--mut)" font-family="ui-sans-serif,system-ui,sans-serif">rendement moyen au-delà du taux sans risque, % par mois</text><path d="M54 287.58 L56.9 286.94 L59.81 286.31 L62.71 285.68 L65.62 285.04 L68.52 284.41 L71.43 283.77 L74.33 283.14 L77.24 282.51 L80.14 281.87 L83.05 281.24 L85.95 280.6 L88.86 279.97 L91.76 279.34 L94.67 278.7 L97.57 278.07 L100.48 277.43 L103.38 276.8 L106.29 276.17 L109.19 275.53 L112.1 274.9 L115 274.26 L117.9 273.63 L120.81 272.99 L123.71 272.36 L126.62 271.73 L129.52 271.09 L132.43 270.46 L135.33 269.82 L138.24 269.19 L141.14 268.56 L144.05 267.92 L146.95 267.29 L149.86 266.65 L152.76 266.02 L155.67 265.39 L158.57 264.75 L161.48 264.12 L164.38 263.48 L167.29 262.85 L170.19 262.21 L173.1 261.58 L176 260.95 L178.9 260.31 L181.81 259.68 L184.71 259.04 L187.62 258.41 L190.52 257.78 L193.43 257.14 L196.33 256.51 L199.24 255.87 L202.14 255.24 L205.05 254.61 L207.95 253.97 L210.86 253.34 L213.76 252.7 L216.67 252.07 L219.57 251.43 L222.48 250.8 L225.38 250.17 L228.29 249.53 L231.19 248.9 L234.1 248.26 L237 247.63 L239.9 247 L242.81 246.36 L245.71 245.73 L248.62 245.09 L251.52 244.46 L254.43 243.83 L257.33 243.19 L260.24 242.56 L263.14 241.92 L266.05 241.29 L268.95 240.65 L271.86 240.02 L274.76 239.39 L277.67 238.75 L280.57 238.12 L283.48 237.48 L286.38 236.85 L289.29 236.22 L292.19 235.58 L295.1 234.95 L298 234.31 L300.9 233.68 L303.81 233.05 L306.71 232.41 L309.62 231.78 L312.52 231.14 L315.43 230.51 L318.33 229.88 L321.24 229.24 L324.14 228.61 L327.05 227.97 L329.95 227.34 L332.86 226.7 L335.76 226.07 L338.67 225.44 L341.57 224.8 L344.48 224.17 L347.38 223.53 L350.29 222.9 L353.19 222.27 L356.1 221.63 L359 221 L361.9 220.36 L364.81 219.73 L367.71 219.1 L370.62 218.46 L373.52 217.83 L376.43 217.19 L379.33 216.56 L382.24 215.92 L385.14 215.29 L388.05 214.66 L390.95 214.02 L393.86 213.39 L396.76 212.75 L399.67 212.12 L402.57 211.49 L405.48 210.85 L408.38 210.22 L411.29 209.58 L414.19 208.95 L417.1 208.32 L420 207.68 L422.9 207.05 L425.81 206.41 L428.71 205.78 L431.62 205.14 L434.52 204.51 L437.43 203.88 L440.33 203.24 L443.24 202.61 L446.14 201.97 L449.05 201.34 L451.95 200.71 L454.86 200.07 L457.76 199.44 L460.67 198.8 L463.57 198.17 L466.48 197.54 L469.38 196.9 L472.29 196.27 L475.19 195.63 L478.1 195 L481 194.37 L483.9 193.73 L486.81 193.1 L489.71 192.46 L492.62 191.83 L495.52 191.19 L498.43 190.56 L501.33 189.93 L504.24 189.29 L507.14 188.66 L510.05 188.02 L512.95 187.39 L515.86 186.76 L518.76 186.12" fill="none" stroke="var(--acc)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><defs><filter id="fond-etiquette" x="-0.03" y="-0.12" width="1.06" height="1.24"><feFlood style="flood-color:var(--card)"/></filter></defs><text x="495.52" y="183.19" text-anchor="end" font-size="11.5" fill="none" filter="url(#fond-etiquette)" font-family="ui-sans-serif,system-ui,sans-serif">β × moyenne du marché</text><text x="495.52" y="183.19" text-anchor="end" font-size="11.5" fill="var(--acc)" font-family="ui-sans-serif,system-ui,sans-serif">β × moyenne du marché</text><circle cx="286.38" cy="236.85" r="4" fill="var(--acc)"/><text x="292.38" y="252.85" text-anchor="start" font-size="11.5" fill="var(--acc)" font-family="ui-sans-serif,system-ui,sans-serif">marché</text><path d="M415.5 287.58 L415.5 75.25" fill="none" stroke="var(--li2)" stroke-width="1" stroke-dasharray="4 3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="415.5" cy="208.66" r="3.4" fill="var(--acc)"/><circle cx="415.5" cy="75.25" r="4.4" fill="var(--fg)"/><text x="423.5" y="79.25" text-anchor="start" font-size="12.5" fill="var(--fg)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">actif 2 : 0,94 %</text><path d="M415.5 208.66 L415.5 75.25 M415.5 208.66 l-4 0 M415.5 75.25 l-4 0" stroke="var(--ajo)" stroke-width="1.4" fill="none" stroke-linecap="round"/><text x="408.5" y="145.96" text-anchor="end" font-size="12" fill="none" filter="url(#fond-etiquette)" font-family="ui-sans-serif,system-ui,sans-serif">α̂ = 0,59 %</text><text x="408.5" y="145.96" text-anchor="end" font-size="12" fill="var(--ajo)" font-family="ui-sans-serif,system-ui,sans-serif">α̂ = 0,59 %</text><text x="298" y="350" text-anchor="middle" font-size="13.5" fill="var(--fg)" font-weight="600" font-family="ui-sans-serif,system-ui,sans-serif">α̂<tspan dy="3.38" font-size="9.72">2</tspan><tspan dy="-3.38"> = moy(R</tspan><tspan dy="3.38" font-size="9.72">2,t</tspan><tspan dy="-3.38"> − R</tspan><tspan dy="3.38" font-size="9.72">f,t</tspan><tspan dy="-3.38">) − β̂</tspan><tspan dy="3.38" font-size="9.72">2</tspan><tspan dy="-3.38"> × moy(R</tspan><tspan dy="3.38" font-size="9.72">m,t</tspan><tspan dy="-3.38"> − R</tspan><tspan dy="3.38" font-size="9.72">f,t</tspan><tspan dy="-3.38">)</tspan></text></svg><figcaption>Dans le plan bêta – rendement moyen au-delà du taux sans risque, la droite issue de zéro qui passe par le marché, au bêta 1 et à 0,22 % par mois, donne ce que chaque bêta explique. Le second actif, au bêta estimé 1,56, aurait dû faire 0,35 % ; il a fait 0,94 %. L'écart vertical est α̂ = 0,59 % par mois. Dessous, la Forme : α̂_2 = moyenne de R_2,t − R_f,t, moins β̂_2 fois moyenne de R_m,t − R_f,t. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></figcaption></figure><p>Le cours le lit comme une performance anormale : un alpha positif et statistiquement significatif signale un gérant habile ou une anomalie de marché exploitable. Si le MEDAF est juste, l'alpha est nul. <span class="marq" title="référence à la source">[p. 59]</span></p></div></section><details class="sec " data-k="construite"><summary><h2>Construite à partir de</h2><span class="cnt">1 prérequis direct</span></summary><div class="corps"><ul class="pasts"><li><a class="past" href="../../pfo/n/regression-du-medaf.html">Régression du MEDAF<span class="nv">n7</span></a></li></ul><p class="note">Seulement ce dont cette fiche dépend directement. Le socle, juste en dessous, reprend ces notions-ci et y ajoute tout ce dont elles dépendent à leur tour.</p></div></details><details class="sec gen" data-k="socle"><summary><h2>Socle complet</h2><span class="cnt">19 prérequis en tout</span></summary><div class="corps"><div class="chemin"><p class="is-ajout">L'alpha n'existe qu'à travers <a href="../../pfo/n/regression-du-medaf.html">Régression du MEDAF</a>, qui ajuste par <a href="../../dss/n/moindres-carres-ordinaires.html">Moindres carrés ordinaires</a> une droite à des couples de rendements, à la manière de <a href="../../dss/n/apprentissage-supervise.html">Apprentissage supervisé</a> : il en est la constante. La pente, elle, estime <a href="../../pfo/n/beta.html">Bêta</a>, et la droite que dessine la figure, celle d'un alpha nul, est la prédiction de <a href="../../pfo/n/medaf.html">MEDAF</a>. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p class="is-ajout">Cette prédiction prend pour référence <a href="../../pfo/n/portefeuille-de-marche.html">Portefeuille de marché</a>, que le MEDAF identifie à <a href="../../pfo/n/portefeuille-tangent.html">Portefeuille tangent</a>, choisi sur <a href="../../pfo/n/frontiere-efficiente.html">Frontière efficiente</a> par <a href="../../pfo/n/ratio-de-sharpe.html">Ratio de Sharpe</a>. Les moyennes et les risques qu'on y compare viennent de <a href="../../pfo/n/moments-du-portefeuille.html">Rendement espéré et variance d'un portefeuille</a> et de <a href="../../pfo/n/matrice-de-covariance.html">Matrice de variance-covariance</a>, où <a href="../../fpp/n/volatilite.html">Volatilité</a> fournit la diagonale et <a href="../../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance</a> le passage d'une fréquence à l'autre. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p><p class="is-ajout">Les rendements de portefeuille s'y agrègent comme <a href="../../pfo/n/piege-d-agregation.html">Piège d'agrégation</a> le permet en <a href="../../pfo/n/rendement-arithmetique.html">Rendement arithmétique</a> et non en <a href="../../pfo/n/rendement-logarithmique.html">Rendement logarithmique</a>. Et si l'alpha compte, c'est que <a href="../../dup/n/diversification.html">Diversification</a> efface le risque propre d'un actif : <a href="../../dup/n/moyenne-variance.html">Analyse moyenne-variance</a>, en réduisant chaque <a href="../../dup/n/loterie.html">Loterie</a> à deux nombres, laisse alors le rendement moyen comme seule chose à comparer à son risque de marché. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div><p class="note">Tout ce qu’il faut avoir lu avant cette fiche, du plus élémentaire au plus construit. <strong>La liste est complète</strong> : la lire suffit, aucune de ces notions n’en appelle une autre qui manquerait ici. Cocher une case la barre sur toutes les pages. (<a href="../../aide.html" data-v="socle">en savoir plus</a>)</p><p class="compteur" data-cpt="socle"></p><details class="grp" open><summary>niveau 0 (5)</summary><ul class="socle"><li><input type="checkbox" data-su="dss/apprentissage-supervise" aria-label="déjà su : Apprentissage supervisé"><a href="../../dss/n/apprentissage-supervise.html">Apprentissage supervisé</a></li><li><input type="checkbox" data-su="dup/loterie" aria-label="déjà su : Loterie"><a href="../../dup/n/loterie.html">Loterie</a></li><li><input type="checkbox" data-su="pfo/rendement-arithmetique" aria-label="déjà su : Rendement arithmétique"><a href="../../pfo/n/rendement-arithmetique.html">Rendement arithmétique</a></li><li><input type="checkbox" data-su="pfo/rendement-logarithmique" aria-label="déjà su : Rendement logarithmique"><a href="../../pfo/n/rendement-logarithmique.html">Rendement logarithmique</a></li><li><input type="checkbox" data-su="fpp/volatilite" aria-label="déjà su : Volatilité"><a href="../../fpp/n/volatilite.html">Volatilité</a></li></ul></details><details class="grp" open><summary>niveau 1 (4)</summary><ul class="socle"><li><input type="checkbox" data-su="dup/moyenne-variance" aria-label="déjà su : Analyse moyenne-variance"><a href="../../dup/n/moyenne-variance.html">Analyse moyenne-variance</a></li><li><input type="checkbox" data-su="dss/moindres-carres-ordinaires" aria-label="déjà su : Moindres carrés ordinaires"><a href="../../dss/n/moindres-carres-ordinaires.html">Moindres carrés ordinaires</a></li><li><input type="checkbox" data-su="pfo/piege-d-agregation" aria-label="déjà su : Piège d'agrégation"><a href="../../pfo/n/piege-d-agregation.html">Piège d'agrégation</a></li><li><input type="checkbox" data-su="fpp/echelonnement-de-la-variance" aria-label="déjà su : Échelonnement de la variance"><a href="../../fpp/n/echelonnement-de-la-variance.html">Échelonnement de la variance</a></li></ul></details><details class="grp" open><summary>niveau 2 (3)</summary><ul class="socle"><li><input type="checkbox" data-su="dup/diversification" aria-label="déjà su : Diversification"><a href="../../dup/n/diversification.html">Diversification</a></li><li><input type="checkbox" data-su="pfo/matrice-de-covariance" aria-label="déjà su : Matrice de variance-covariance"><a href="../../pfo/n/matrice-de-covariance.html">Matrice de variance-covariance</a></li><li><input type="checkbox" data-su="pfo/portefeuille-de-marche" aria-label="déjà su : Portefeuille de marché"><a href="../../pfo/n/portefeuille-de-marche.html">Portefeuille de marché</a></li></ul></details><details class="grp" open><summary>niveau 3 (2)</summary><ul class="socle"><li><input type="checkbox" data-su="pfo/beta" aria-label="déjà su : Bêta"><a href="../../pfo/n/beta.html">Bêta</a></li><li><input type="checkbox" data-su="pfo/moments-du-portefeuille" aria-label="déjà su : Rendement espéré et variance d'un portefeuille"><a href="../../pfo/n/moments-du-portefeuille.html">Rendement espéré et variance d'un portefeuille</a></li></ul></details><details class="grp" open><summary>niveau 4 (2)</summary><ul class="socle"><li><input type="checkbox" data-su="pfo/frontiere-efficiente" aria-label="déjà su : Frontière efficiente"><a href="../../pfo/n/frontiere-efficiente.html">Frontière efficiente</a></li><li><input type="checkbox" data-su="pfo/ratio-de-sharpe" aria-label="déjà su : Ratio de Sharpe"><a href="../../pfo/n/ratio-de-sharpe.html">Ratio de Sharpe</a></li></ul></details><details class="grp" open><summary>niveau 5 (1)</summary><ul class="socle"><li><input type="checkbox" data-su="pfo/portefeuille-tangent" aria-label="déjà su : Portefeuille tangent"><a href="../../pfo/n/portefeuille-tangent.html">Portefeuille tangent</a></li></ul></details><details class="grp" open><summary>niveau 6 (1)</summary><ul class="socle"><li><input type="checkbox" data-su="pfo/medaf" aria-label="déjà su : MEDAF"><a href="../../pfo/n/medaf.html">MEDAF</a></li></ul></details><details class="grp" open><summary>niveau 7 (1)</summary><ul class="socle"><li><input type="checkbox" data-su="pfo/regression-du-medaf" aria-label="déjà su : Régression du MEDAF"><a href="../../pfo/n/regression-du-medaf.html">Régression du MEDAF</a></li></ul></details></div></details><details class="sec " data-k="exemple" data-oblig="1"><summary><h2>Exemple minimal</h2></summary><div class="corps"><p class="is-ajout">Sur les 60 mois simulés du second actif, le marché a fait en moyenne 0,22 % par mois au-delà du taux sans risque et l'actif 0,94 % ; avec $\hat\beta_2=1{,}56$, l'alpha vaut 0,59 % par mois, environ 7,1 % par an. <span class="marq marq-ajout" title="ajouté : cette phrase ne vient pas du cours">ajout</span></p></div></details><details class="sec " data-k="geste" data-oblig="1"><summary><h2>Geste de calcul type</h2></summary><div class="corps"><p>$\hat\alpha_2=0{,}938-1{,}556\times0{,}224=0{,}938-0{,}349=0{,}59\,\%$ par mois. L'annualisation du cours est linéaire : $0{,}59\times12\approx7{,}1\,\%$ ; sur des données journalières, le script multiplie par 252. <span class="marq" title="référence à la source">[p. 69, ajout]</span></p></div></details><details class="sec lim" data-k="limite" data-oblig="1"><summary><h2>Cesse d'être valide quand</h2></summary><div class="corps"><p>Un alpha non nul dans l'échantillon n'est pas pour autant différent de zéro : ici, le vrai alpha est nul, et le hasard de soixante mois en fait 7 % par an. Il ne se lit qu'avec sa statistique t, et le cours exige qu'il soit statistiquement significatif. <span class="marq" title="référence à la source">[p. 76, p. 59, ajout]</span></p><p>L'alpha est mesuré contre un modèle : celui du MEDAF n'est pas celui de Fama et French. Un actif peut avoir un alpha dans le premier et aucun dans le second, si ses autres expositions expliquent ce que le marché seul n'expliquait pas. <span class="marq" title="référence à la source">[§4.2.2, ajout]</span></p></div></details><details class="sec " data-k="origine"><summary><h2>Origine</h2></summary><div class="corps"><ul><li>exercice <a href="../../pfo/exercices/ex-05.html">pfo/ex-05</a> : un vrai alpha de 0,16 % par mois, estimé à 0,157 %, ne se distingue pas de zéro sur 60 mois, avec une p-valeur de 0,52 <span class="marq" title="référence à la source">[p. 73, ajout]</span></li></ul></div></details></div></main>
+<footer><div class="wrap">Base de notions M2 IRFA · une notion par page · <a href="../../aide.html">comment lire ce site</a> · <a href="../../aide.html" data-v="fabrication">comment il est fait</a></div></footer>
+<script src="../../search-index.js"></script>
+<script>
+var LS={g:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},
+        s:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- l'état qui traverse les pages ----------------------------------------
+   Voir le commentaire de l'en-tête : en file://, seul le fragment traverse.
+   Forme du fragment :  #t:d~a:0~p:1-0--1...~s:<tampon>.<bits>~v:<ancre>
+     t  thème      d | l            (absent : celui du système)
+     a  ajouts     0                (absent : montrés)
+     p  pliage     un caractère par clé de CLES_PLI : 1 ouvert, 0 fermé, - inconnu
+     s  déjà su    un bit par notion, six bits par caractère, précédé d'un tampon
+     v  ancre      l'élément vers lequel défiler à l'arrivée
+   Le tampon est calculé sur la liste des identifiants : dès qu'une notion entre dans
+   le dépôt il change, et un lien copié la semaine d'avant perd ses cases au lieu de
+   cocher les mauvaises fiches. Perdre est récupérable, mentir ne l'est pas. */
+var ETAT=(function(){
+var CLES=["param", "pourquoi", "casde", "construite", "socle", "sert", "exemple", "geste", "libre", "limite", "membres", "origine", "soluoff", "revele", "contra", "touchees", "retrouver"],TAMPON='0bd5',
+    A64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+var H=window.ETAT_URL||{},IDS=window.ETAT_IDS||[];
+var pli={},su={};
+if(typeof H.p==='string'){
+  for(var i=0;i<CLES.length&&i<H.p.length;i++){var c=H.p.charAt(i);
+    if(c==='0'||c==='1')pli[CLES[i]]=(c==='1');}
+}else{
+  CLES.forEach(function(k){var v=LS.g('notions.pli.'+k,null);if(v!==null)pli[k]=(v==='1')});
+}
+function decode(t){var o={},q=t.indexOf('.');
+  if(q<0||t.slice(0,q)!==TAMPON)return o;
+  var b=t.slice(q+1);
+  for(var i=0;i<b.length;i++){var v=A64.indexOf(b.charAt(i));if(v<0)continue;
+    for(var j=0;j<6;j++){if(v&(1<<j)){var k=i*6+j;if(k<IDS.length)o[IDS[k]]=1}}}
+  return o;}
+function encode(){var o='';
+  for(var i=0;i<IDS.length;i+=6){var v=0;
+    for(var j=0;j<6;j++){if(su[IDS[i+j]])v|=1<<j}
+    o+=A64.charAt(v);}
+  return o.replace(/A+$/,'');}          /* les zéros de queue ne portent rien */
+if(typeof H.s==='string'){su=decode(H.s)}
+else{try{su=JSON.parse(localStorage.getItem('notions.su')||'{}')||{}}catch(e){su={}}}
+function frag(ancre,noeud){var p=[];
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t)p.push('t:'+(t==='dark'?'d':'l'));
+  if(document.documentElement.classList.contains('sans-ajouts'))p.push('a:0');
+  var q='';CLES.forEach(function(k){q+=(pli[k]===undefined?'-':(pli[k]?'1':'0'))});
+  if(/[01]/.test(q))p.push('p:'+q);
+  var b=encode();if(b)p.push('s:'+TAMPON+'.'+b);
+  if(ancre)p.push('v:'+ancre);
+  if(noeud)p.push('n:'+noeud);
+  return p.length?'#'+p.join('~'):'';}
+function interne(h){return h&&!/^[a-z][a-z0-9+.-]*:/i.test(h)&&h.indexOf('.html')>=0}
+function propager(){var f=frag();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||'';if(!interne(h))return;
+    var v=a.getAttribute('data-v'),nd=a.getAttribute('data-noeud');
+    a.setAttribute('href',h.split('#')[0]+((v||nd)?frag(v,nd):f));});
+  /* garder l'adresse à jour : recharger ou copier le lien conserve l'état. En file://
+     Firefox peut refuser (origine unique) : on s'en passe, les liens suffisent. */
+  try{history.replaceState(null,'',location.href.split('#')[0]+f)}catch(e){}
+  try{localStorage.setItem('notions.su',JSON.stringify(su))}catch(e){}}
+return{pli:function(k){return pli[k]===undefined?null:pli[k]},
+       setPli:function(k,v){pli[k]=v;LS.s('notions.pli.'+k,v?'1':'0');propager()},
+       su:function(id){return !!su[id]},
+       setSu:function(id,v){if(v)su[id]=1;else delete su[id];propager()},
+       lien:function(u,v,n){return u+frag(v,n)},
+       ancre:function(){return H.v||''},
+       noeud:function(){return H.n||''},
+       propager:propager};
+})();
+function majAjouts(on){var h=document.documentElement;h.classList.toggle('sans-ajouts',!on);
+  var b=document.getElementById('bajout');if(b){b.setAttribute('aria-pressed',on?'false':'true');
+  b.textContent=on?'masquer les ajouts':'ajouts masqués';}
+  document.querySelectorAll('.sec').forEach(function(s){
+    var c=s.querySelector('.corps');if(!c)return;var n=0;
+    c.querySelectorAll(':scope>*').forEach(function(el){
+      if(el.classList.contains('is-ajout'))return;
+      if(el.classList.contains('note'))return;          /* commentaire du générateur */
+      if(el.tagName==='UL'){var v=0;el.querySelectorAll(':scope>li').forEach(function(li){if(!li.classList.contains('is-ajout'))v++});if(!v)return;}
+      n++;});
+    var vide=!on&&n===0, oblig=s.hasAttribute('data-oblig');
+    s.classList.toggle('vide',vide&&!oblig);
+    var msg=c.querySelector('.masq');
+    if(vide&&oblig){
+      if(!msg){msg=document.createElement('p');msg.className='masq';
+        msg.textContent='Cette rubrique existe, mais tout son contenu est un ajout : le filtre le masque. Elle reste visible pour que vous ne concluiez pas qu’elle est vide.';
+        c.appendChild(msg);}
+      s.classList.add('estmasq');
+    } else {if(msg)msg.remove();s.classList.remove('estmasq');}});
+  if(window.ARBRE&&window.ARBRE.redessiner)window.ARBRE.redessiner();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var bt=document.getElementById('btheme');
+  if(bt)bt.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sys=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    var nx=(cur||sys)==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nx);LS.s('notions.theme',nx);
+    ETAT.propager();});
+  var ba=document.getElementById('bajout');
+  if(ba)ba.addEventListener('click',function(){var on=document.documentElement.classList.contains('sans-ajouts');
+    LS.s('notions.ajouts',on?'1':'0');majAjouts(on);ETAT.propager();});
+  majAjouts(!document.documentElement.classList.contains('sans-ajouts'));
+  /* les liens de la page portent l'état ; une ancre demandée est ouverte et visée */
+  ETAT.propager();
+  var an=ETAT.ancre();
+  if(an){var el=document.getElementById(an);
+    if(el){if(el.tagName==='DETAILS')el.open=true;el.scrollIntoView();el.classList.add('vise')}}
+  /* --- recherche instantanée (règle 9) --- */
+  var inp=document.getElementById('q'),res=document.getElementById('qres');
+  if(!inp||!res||!window.SEARCH_INDEX)return;
+  var REL=document.documentElement.getAttribute('data-rel')||'';
+  var sel=-1,items=[];
+  function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+  function cherche(q){
+    var n=norm(q);if(!n)return [];
+    var out=[];
+    SEARCH_INDEX.forEach(function(e){
+      var sc=-1,ch=e.h||[];
+      for(var i=0;i<ch.length;i++){var p=norm(ch[i]).indexOf(n);
+        if(p===0){sc=Math.max(sc,3-(i>0?1:0))}else if(p>0){sc=Math.max(sc,1)}}
+      if(sc>=0)out.push([sc,e]);});
+    out.sort(function(a,b){return b[0]-a[0]||a[1].n.localeCompare(b[1].n)});
+    return out.slice(0,9).map(function(x){return x[1]});}
+  function rendre(){
+    items=cherche(inp.value);sel=-1;res.innerHTML='';
+    if(!inp.value){res.classList.remove('on');return}
+    if(!items.length){res.innerHTML='<li class="vide">rien</li>';res.classList.add('on');return}
+    items.forEach(function(e,i){
+      var li=document.createElement('li');
+      var a=document.createElement('a');a.href=ETAT.lien(REL+e.u);a.id='qr'+i;
+      a.innerHTML='<span>'+e.n+'</span> <span class="sub">'+e.s+'</span>';
+      li.appendChild(a);res.appendChild(li);});
+    res.classList.add('on');}
+  function bouge(d){if(!items.length)return;sel=(sel+d+items.length)%items.length;
+    Array.prototype.forEach.call(res.children,function(li,i){li.classList.toggle('sel',i===sel)});
+    inp.setAttribute('aria-activedescendant','qr'+sel);}
+  inp.addEventListener('input',rendre);
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();bouge(1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();bouge(-1)}
+    else if(e.key==='Enter'){var a=res.querySelector(sel>=0?'li.sel a':'li a');if(a){e.preventDefault();location.href=a.href}}
+    else if(e.key==='Escape'){inp.value='';res.classList.remove('on')}});
+  document.addEventListener('click',function(e){if(!res.contains(e.target)&&e.target!==inp)res.classList.remove('on')});
+  document.addEventListener('keydown',function(e){
+    if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==inp){e.preventDefault();inp.focus();inp.select()}});
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  /* pliage mémorisé par rubrique (règle 5), et transporté d'une page à l'autre */
+  var secs=document.querySelectorAll('details.sec[data-k]'),bp=document.getElementById('tout-plier');
+  function libelle(){
+    if(!bp)return;var ferme=false;
+    secs.forEach(function(d){if(!d.open)ferme=true});
+    bp.textContent=ferme?'tout déplier':'tout replier';bp.setAttribute('data-v',ferme?'1':'0');}
+  secs.forEach(function(d){
+    var k=d.getAttribute('data-k'),v=ETAT.pli(k);
+    if(v!==null)d.open=v;
+    d.addEventListener('toggle',function(){ETAT.setPli(k,d.open);libelle()});});
+  /* tout à la fois : ouvrir tout s'il reste une rubrique fermée, sinon tout refermer */
+  if(bp){if(!secs.length)bp.parentNode.style.display='none';
+    libelle();
+    bp.addEventListener('click',function(){
+      var v=bp.getAttribute('data-v')==='1';
+      secs.forEach(function(d){d.open=v});libelle();});}
+  /* amont et aval : même état « déjà su », un compteur par liste (règle 7) */
+  function compte(){
+    document.querySelectorAll('.sec').forEach(function(s){
+      var cpt=s.querySelector('[data-cpt]');if(!cpt)return;
+      var l=s.querySelectorAll('input[data-su]'),k=0;
+      l.forEach(function(c){if(c.checked)k++});
+      cpt.textContent=l.length+' notion'+(l.length>1?'s':'')+', '+(l.length-k)+' à voir';});}
+  document.querySelectorAll('input[data-su]').forEach(function(c){
+    var id=c.getAttribute('data-su');c.checked=ETAT.su(id);
+    c.closest('li').classList.toggle('su',c.checked);
+    c.addEventListener('change',function(){
+      ETAT.setSu(id,c.checked);
+      document.querySelectorAll('input[data-su="'+id+'"]').forEach(function(o){
+        o.checked=c.checked;o.closest('li').classList.toggle('su',c.checked);});
+      compte();});});
+  compte();
+});
+</script>
+</body>
+</html>

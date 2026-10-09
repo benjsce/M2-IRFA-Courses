@@ -4,8 +4,8 @@ enseignant: Mohamed Mrad
 annee: 2026-2027
 sources:
 - id: poly
-  fichier: sources/Chapter_1_2_3.pdf
-  type: notes de cours (chapitres 1 à 3, 56 pages)
+  fichier: sources/Chapter_1_2_3_4.pdf
+  type: notes de cours (chapitres 1 à 4, 88 pages)
 # Une seule source : la référence est nue (SPEC-MODELE §2.3). Le poly numérote ses
 # sections, ses équations, ses listings, ses figures et sa table par chapitre (1.x, 2.x),
 # et porte une seule définition numérotée (Définition 2.5.1). Les intertitres non
@@ -15,12 +15,17 @@ sources:
 # remplace la précédente : les chapitres 1 et 2 y sont identiques, aux mêmes pages à
 # partir de la page 7 ; seule l'introduction générale glisse de la page 4 à la page 5.
 # Le chapitre 3 ne numérote ni ses listings ni ses exercices : ils se citent par la page.
+# Le chapitre 4 est arrivé le 2026-10-09 dans une nouvelle version du même poly, qui
+# remplace la précédente : les pages 1 à 56 y sont identiques, page de titre et sommaire
+# mis à part. Le chapitre 4 ne numérote ni ses équations, ni ses listings, ni ses
+# exercices : ils se citent par la page, ses intertitres par leur section ou leur page.
 # Si un chapitre arrivait un jour dans un fichier séparé, ses pages pourraient se
 # recouvrir avec celles-ci : ce jour-là, préfixer `p.` par la source.
 refs_pattern: ^(§\d+(\.\d+)*|éq\. \d+\.\d+|Déf\. \d+\.\d+\.\d+|Listing \d+\.\d+|Fig\. \d+\.\d+|Table \d+\.\d+|p\. \d+)$
 depend_de:
 - fpp
 - dup
+- dss
 conventions_par_defaut:
   langue_source: >-
     anglais ; les noms de fiches sont en français, le terme anglais est porté en alias
